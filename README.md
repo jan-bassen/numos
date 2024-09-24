@@ -24,7 +24,7 @@ This includes the following packages/apps:
 - `web`: a Next.js site including the homepage and docs
 - `studio`: a Next.js app for creating and managing dynamic and interactive digital assets
 - `core`: an AWS cdk app for deploying the backend
-- `@repo/typescript-config`: a shared tsconfig used throughout the monorepo
+- `@repo/typescript`: a shared tsconfig used throughout the monorepo
 - `@repo/ui`: A React component library based on shadcn/ui
 - `@repo/icons`: An icon library based on PikaIcons and Lucide
 

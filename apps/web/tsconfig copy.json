@@ -11,6 +11,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-   "app/reset-password"  ],
+    "app/reset-password"
+  ],
   "exclude": ["node_modules"]
 }

@@ -50,6 +50,7 @@
     "@radix-ui/react-tooltip": "^1.0.6",
     "@react-email/components": "^0.0.23",
     "@repo/ui": "workspace:*",
+    "@repo/typescript": "workspace:*",
     "@supabase/ssr": "^0.0.10",
     "@supabase/storage-js": "^2.5.5",
     "@supabase/supabase-js": "^2.39.8",
@@ -130,7 +131,7 @@
   "devDependencies": {
     "@biomejs/biome": "1.8.3",
     "@clerk/types": "^3.58.0",
-    "@repo/typescript-config": "workspace:*",
+    "@repo/typescript": "workspace:*",
     "@types/color": "^3.0.6",
     "@types/google-map-react": "^2.1.10",
     "@types/intersects": "^2.7.5",
