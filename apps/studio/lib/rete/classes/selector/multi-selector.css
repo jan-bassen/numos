@@ -1,0 +1,21 @@
+#lasso {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+  }
+  
+#lasso polygon {
+    stroke: hsl(var(--border));
+    stroke-dasharray: 6 3;
+    stroke-width: 2;
+    fill: hsl(var(--muted)/ 0.2);
+    z-index: 5;
+}
+
+@media screen and (max-width: 768px) {
+  #lasso {
+    display: none;
+  }
+}
+  

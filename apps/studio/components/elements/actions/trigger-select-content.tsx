@@ -1,0 +1,32 @@
+import {
+  SelectContent,
+  type SelectContentProps,
+  SelectItem,
+} from '@repo/ui/components/ui/select'
+import { triggerOptions } from './action-schema'
+
+export function TriggerSelectContent(props: SelectContentProps) {
+  return (
+    <SelectContent className="min-w-44" scrollable>
+      {triggerOptions.map((option, index) => {
+        return (
+          <SelectItem
+            key={`key-${option.value}`}
+            value={option.value}
+            className="flex-col items-start justify-center py-2 pl-9"
+          >
+            <h3 className="flex items-center gap-2 pb-0.5 font-semibold">
+              {option.icons?.stroke({
+                className: 'size-4',
+              })}
+              {option.label}
+            </h3>
+            <p className="text-ellipsis text-xs text-muted-foreground">
+              {option.description}
+            </p>
+          </SelectItem>
+        )
+      })}
+    </SelectContent>
+  )
+}
