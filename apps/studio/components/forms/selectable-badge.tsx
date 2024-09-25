@@ -6,7 +6,7 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from '@repo/ui/components/ui/dropdown-menu'
-import { PiChevronBigDownStroke } from '@/lib/icons'
+import { PiChevronBigDownStroke } from '@repo/ui/icons/pika'
 import { cn } from '@/lib/utils'
 import type { ReactNode } from 'react'
 

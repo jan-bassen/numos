@@ -5,7 +5,7 @@ import {
   PiGitFork02Stroke,
   PiMathStroke,
   PiSettings02Stroke,
-} from '@/lib/icons'
+} from '@repo/ui/icons/pika'
 import {
   type NodeDefinitions,
   type EditorConfig,

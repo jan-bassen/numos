@@ -29,8 +29,7 @@ import {
   PiAutomationStroke,
   PiDeleteDustbin02Stroke,
   PiPencilEditBoxStroke,
-  PiPencilEditStroke,
-} from '@/lib/icons'
+} from '@repo/ui/icons/pika'
 import type { Action } from '@/types/database.types'
 import { deleteAction } from '@/lib/supabase/db/actions'
 import { toast } from 'sonner'

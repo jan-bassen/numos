@@ -28,7 +28,7 @@ import {
 } from '@/lib/supabase/db/collections'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { PiChevronBigLeftStroke } from '@/lib/icons'
+import { PiChevronBigLeftStroke } from '@repo/ui/icons/pika'
 import { buttonVariants } from '@repo/ui/components/ui/button'
 import { collectionSchema } from './collection-schema'
 

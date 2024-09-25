@@ -2,14 +2,12 @@
 
 import { cn } from '@/lib/utils'
 import {
-  PiAnnotationCancelStroke,
   PiAnnotationDefaultStroke,
   PiCopyDefaultStroke,
   PiDeleteDustbin02Stroke,
   PiInformationCircleStroke,
   PiThreeByTwoDotsVertical,
-} from '@/lib/icons'
-import Image from 'next/image'
+} from '@repo/ui/icons/pika'
 import {
   ContextMenu,
   ContextMenuContent,
@@ -17,7 +15,6 @@ import {
   ContextMenuTrigger,
 } from '@repo/ui/components/ui/context-menu'
 import type { Props } from '@/types/nodes.types'
-import { SocketType } from '@/types/database.types'
 import {
   Dialog,
   DialogContent,
@@ -29,7 +26,6 @@ import {
 import Input from './input'
 import Control from './control'
 import Output from './output'
-import { Input as InputComponent } from '@repo/ui/components/ui/input'
 import { useEffect, useRef, useState } from 'react'
 import { Textarea } from '@repo/ui/components/ui/textarea'
 import { Drag } from 'rete-react-plugin'

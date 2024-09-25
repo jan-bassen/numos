@@ -15,19 +15,10 @@ import {
 import { Input } from '@repo/ui/components/ui/input'
 import { Button, buttonVariants } from '@repo/ui/components/ui/button'
 import { toast } from 'sonner'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { Card } from '@repo/ui/components/ui/card'
 import Logo from '@repo/ui/components/brand/logo'
-import {
-  PiAlertTriangleStroke,
-  PiCrossCross,
-  PiGithubSolid,
-  PiGithubStroke,
-  PiTwitterSolid,
-  PiWalletDefaultSolid,
-  PiXComStroke,
-} from '@/lib/icons'
-import { Separator } from '@repo/ui/components/ui/separator'
+import { PiAlertTriangleStroke, PiCrossCross } from '@repo/ui/icons/pika'
 import Link from 'next/link'
 import { createSupabaseClient } from '@/lib/supabase/client'
 import { getURL } from '@/lib/supabase/client-utils'

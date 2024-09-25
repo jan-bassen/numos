@@ -1,23 +1,17 @@
 import { datatypeSchema } from '@/components/datatypes/schemas'
-import type { TabSelectOption } from '@/components/forms/tab-select'
 import {
   PiCalendarFilledStroke,
   PiLinkChainHorizontalStroke,
   PiNftBoltMintStroke,
   PiTimerDefaultStroke,
-} from '@/lib/icons'
-import {
-  dataTypeKeys,
-  parameterDataTypeKeys,
-  valueDataTypeKeys,
-} from '@/lib/supabase/constants/datatypes'
-import {
-  type DataTypeMap,
-  DataTypeValue,
-  type IntervalUnit,
-  type NotatedDataTypeValue,
-  type TriggerType,
-  type ValueDataType,
+} from '@repo/ui/icons/pika'
+import { valueDataTypeKeys } from '@/lib/supabase/constants/datatypes'
+import type {
+  DataTypeMap,
+  IntervalUnit,
+  NotatedDataTypeValue,
+  TriggerType,
+  ValueDataType,
 } from '@/types/database.types'
 import type { SelectOptions } from '@/types/nodes.types'
 import { Interval } from 'luxon'

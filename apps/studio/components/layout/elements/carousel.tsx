@@ -6,13 +6,11 @@ import {
   CarouselContent,
   CarouselItem,
   CarouselNext,
-  CarouselPrevious,
 } from '@repo/ui/components/ui/carousel'
 import { type ReactNode, useEffect, useState } from 'react'
 import { useMediaQuery } from '@/lib/hooks/media-query'
 import { cn } from '@/lib/utils'
-import { PiSwipeRightHandStroke } from '@/lib/icons'
-import { set } from 'lodash'
+import { PiSwipeRightHandStroke } from '@repo/ui/icons/pika'
 
 export default function Carousel({
   elements,

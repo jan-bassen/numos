@@ -51,7 +51,8 @@
         "useOptionalChain": { "level": "warn", "fix": "unsafe" }
       },
       "a11y": {
-        "useAriaPropsForRole": { "level": "warn" }
+        "useAriaPropsForRole": { "level": "warn" },
+        "noSvgWithoutTitle": { "level": "warn" }
       }
     }
   },

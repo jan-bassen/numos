@@ -8,7 +8,8 @@
     "./tailwind.config": "./tailwind.config.ts",
     "./lib/*": "./src/lib/*.ts",
     "./hooks/*": "./src/hooks/*.ts",
-    "./components/*": "./src/components/*.tsx"
+    "./components/*": "./src/components/*.tsx",
+    "./icons/*": "./src/icons/*.tsx"
   },
   "scripts": {
     "ui": "pnpm dlx shadcn@latest"
@@ -17,7 +18,7 @@
     "react": "^18"
   },
   "devDependencies": {
-    "@repo/typescript": "workspace:*",
+    "@repo/tsconfig": "workspace:*",
     "@turbo/gen": "^1.12.4",
     "@types/node": "^20.14.11",
     "@types/react": "^18.3.3",

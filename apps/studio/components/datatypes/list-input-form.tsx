@@ -16,7 +16,7 @@ import {
   FormItem,
   FormMessage,
 } from '@repo/ui/components/ui/form'
-import { PiCrossCross, PiThreeByTwoDotsVertical } from '@/lib/icons'
+import { PiCrossCross, PiThreeByTwoDotsVertical } from '@repo/ui/icons/pika'
 import { cn } from '@/lib/utils'
 import { dataTypes } from '@/lib/supabase/constants/datatypes'
 import GenericInput from './generic-input'

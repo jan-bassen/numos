@@ -6,13 +6,11 @@ import Main from '@/components/layout/pages/main'
 import Page from '@/components/layout/pages/page'
 import { iconClassesStroke } from '@/components/nav/navbar-links'
 import SecondaryNavbar from '@/components/nav/secondary-navbar'
-import { Button, buttonVariants } from '@repo/ui/components/ui/button'
-import { PiAddAddStroke, PiAutomationStroke } from '@/lib/icons'
+import { Button } from '@repo/ui/components/ui/button'
+import { PiAddAddStroke, PiAutomationStroke } from '@repo/ui/icons/pika'
 import { getAllActions } from '@/lib/supabase/db/actions'
 import { getExtendedCollectionFromSlug } from '@/lib/supabase/db/collections'
-import { cn } from '@/lib/utils'
 import type { NavItem } from '@/types/database.types'
-import Link from 'next/link'
 
 export default async function ActionsPage({
   params,

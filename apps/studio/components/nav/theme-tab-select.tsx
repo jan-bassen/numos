@@ -1,15 +1,8 @@
 'use client'
 
 import { useTheme } from 'next-themes'
-import { MdLightMode, MdDarkMode } from 'react-icons/md'
 import { useState, useEffect } from 'react'
-import { Button } from '@repo/ui/components/uibutton'
-import { Monitor, MoonStar, Sun } from 'lucide-react'
-import {
-  DropdownMenuRadioItem,
-  DropdownMenuRadioGroup,
-} from '@repo/ui/components/uidropdown-menu'
-import { Tabs, TabsList, TabsTrigger } from '@repo/ui/components/uitabs'
+import { Tabs, TabsList, TabsTrigger } from '@repo/ui/components/ui/tabs'
 import { cn } from '@/lib/utils'
 import {
   PiMonitor01Solid,
@@ -18,7 +11,7 @@ import {
   PiMoonStroke,
   PiSunSolid,
   PiSunStroke,
-} from '@/lib/icons'
+} from '@repo/ui/icons/pika'
 
 export function ThemeTabSelect() {
   const [mounted, setMounted] = useState(false)

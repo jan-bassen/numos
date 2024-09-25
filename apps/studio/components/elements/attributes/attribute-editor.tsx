@@ -20,7 +20,7 @@ import {
   PiCrossCross,
   PiDeleteDustbin01Stroke,
   PiRefreshStroke,
-} from '@/lib/icons'
+} from '@repo/ui/icons/pika'
 import type { z } from 'zod'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'

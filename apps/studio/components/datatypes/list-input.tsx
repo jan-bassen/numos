@@ -9,7 +9,7 @@ import type {
 } from '@/types/database.types'
 import { Plus } from 'lucide-react'
 import { Button } from '@repo/ui/components/ui/button'
-import { PiCrossCross, PiThreeByTwoDotsVertical } from '@/lib/icons'
+import { PiCrossCross, PiThreeByTwoDotsVertical } from '@repo/ui/icons/pika'
 import { cn } from '@/lib/utils'
 import { dataTypes } from '@/lib/supabase/constants/datatypes'
 import GenericInput from './generic-input'

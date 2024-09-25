@@ -5,7 +5,7 @@ import {
   PiBugStroke,
   PiChevronBigLeftStroke,
   PiRefreshStroke,
-} from '@/lib/icons'
+} from '@/icons/pika'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
 

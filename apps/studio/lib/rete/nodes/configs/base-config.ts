@@ -5,7 +5,7 @@ import {
   PiMathStroke,
   PiNftDefaultStroke,
   PiPencilScaleCrossStroke,
-} from '@/lib/icons'
+} from '@repo/ui/icons/pika'
 import type { EditorContext } from '@/types/nodes.types'
 
 export const baseConfig = (context: EditorContext) => {

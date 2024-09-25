@@ -3,7 +3,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@repo/ui/components/ui/accordion'
-import type { LayerTree, LegacyResolvedFolder } from '@/types/database.types'
+import type { LayerTree } from '@/types/database.types'
 import {
   PiChevronBigRightStroke,
   PiDeleteDustbin02Stroke,
@@ -11,7 +11,7 @@ import {
   PiFolderPlusStroke,
   PiInputFieldStroke,
   PiPhotoImageArrowUpStroke,
-} from '@/lib/icons'
+} from '@repo/ui/icons/pika'
 import LayerFolderView from './layer-folder-view'
 import {
   type Dispatch,

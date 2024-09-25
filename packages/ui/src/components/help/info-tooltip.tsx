@@ -1,6 +1,6 @@
 'use client'
 
-import { PiArrowRightStroke, PiInformationCircleSolid } from '@/lib/icons'
+import { PiArrowRightStroke, PiInformationCircleSolid } from '@/icons/pika'
 import {
   Popover,
   PopoverContent,

@@ -3,7 +3,7 @@
 import { Button } from '@repo/ui/components/ui/button'
 import { Input } from '@repo/ui/components/ui/input'
 import { Textarea } from '@repo/ui/components/ui/textarea'
-import { PiCheckTickCircleBrokenStroke } from '@/lib/icons'
+import { PiCheckTickCircleBrokenStroke } from '@repo/ui/icons/pika'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'

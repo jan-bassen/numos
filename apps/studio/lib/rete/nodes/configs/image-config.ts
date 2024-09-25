@@ -4,7 +4,7 @@ import type {
   EditorContext,
   NodeType,
 } from '@/types/nodes.types'
-import { PiPhotoImageDefaultStroke } from '@/lib/icons'
+import { PiPhotoImageDefaultStroke } from '@repo/ui/icons/pika'
 import { type ImageNodeType, imageNodes } from '../definitions/image-nodes'
 import { type DataNodeType, dataNodes } from '../definitions/data-nodes'
 import { type MathNodeType, mathNodes } from '../definitions/math-nodes'

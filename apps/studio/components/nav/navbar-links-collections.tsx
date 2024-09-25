@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { buttonVariants } from '@repo/ui/components/uibutton'
+import { buttonVariants } from '@repo/ui/components/ui/button'
 import { cn } from '@/lib/utils'
 import type { Collection } from '@/types/database.types'
 import Image from 'next/image'
@@ -8,7 +8,7 @@ import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@repo/ui/components/uitooltip'
+} from '@repo/ui/components/ui/tooltip'
 
 export const iconClassesStroke = 'h-4 w-4 md:h-5 md:w-5 my-auto'
 export const iconClassesSolid = 'h-4 w-4 md:h-5 md:w-5 my-auto'

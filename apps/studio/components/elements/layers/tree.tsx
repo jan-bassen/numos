@@ -1,11 +1,6 @@
 'use client'
 
-import type {
-  Collection,
-  LayerTree,
-  LegacyLayerTree,
-  ReturnInfo,
-} from '@/types/database.types'
+import type { Collection, LayerTree } from '@/types/database.types'
 import { type DragEvent, useEffect, useRef, useState } from 'react'
 import Header from '@/components/layout/pages/header'
 import { Button, buttonVariants } from '@repo/ui/components/ui/button'
@@ -13,7 +8,7 @@ import {
   PiFolderPlusStroke,
   PiPhotoImageArrowUpSolid,
   PiPhotoImageArrowUpStroke,
-} from '@/lib/icons'
+} from '@repo/ui/icons/pika'
 import { cn } from '@/lib/utils'
 import { handleFileUpload } from './upload'
 import LayerFolderView from './layer-folder-view'

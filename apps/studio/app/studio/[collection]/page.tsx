@@ -3,24 +3,17 @@ import { NewActionDialog } from '@/components/elements/actions/new-action-dialog
 import AttributeCard from '@/components/elements/attributes/attribute-card'
 import { NewAttributeDialog } from '@/components/elements/attributes/new-attribute-dialog'
 import CardRow from '@/components/layout/elements/card-row'
-import QuickLinks from '@/components/layout/elements/quick-links'
 import Segment from '@/components/layout/elements/segment'
 import Header from '@/components/layout/pages/header'
 import Main from '@/components/layout/pages/main'
 import type { BadgeVariant } from '@repo/ui/components/ui/badge'
 import { buttonVariants } from '@repo/ui/components/ui/button'
-import {
-  PiLayerThreeStroke,
-  PiPhotoImageDefaultStroke,
-  PiSettings02Stroke,
-  PiShieldCheckStroke,
-} from '@/lib/icons'
+import { PiSettings02Stroke } from '@repo/ui/icons/pika'
 import { getLatestActions } from '@/lib/supabase/db/actions'
 import { getLatestAttributes } from '@/lib/supabase/db/attributes'
 import { getExtendedCollectionFromSlug } from '@/lib/supabase/db/collections'
 import { SupabaseImage } from '@/lib/supabase/storage/supabaseImage'
 import { cn } from '@/lib/utils'
-import Image from 'next/image'
 import Link from 'next/link'
 
 export default async function Collection({

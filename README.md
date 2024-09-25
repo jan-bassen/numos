@@ -2,14 +2,14 @@
 
 This is the main monorepo for Numos.
 
-## Using this example
+## Building the stack
 
 Start the entire stack with:
 
 ```sh
 turbo build
 ```
-Test the studio with:
+Test just the studio with:
 
 ```sh
 turbo dev --filter=studio
@@ -24,9 +24,9 @@ This includes the following packages/apps:
 - `web`: a Next.js site including the homepage and docs
 - `studio`: a Next.js app for creating and managing dynamic and interactive digital assets
 - `core`: an AWS cdk app for deploying the backend
-- `@repo/typescript`: a shared tsconfig used throughout the monorepo
-- `@repo/ui`: A React component library based on shadcn/ui
-- `@repo/icons`: An icon library based on PikaIcons and Lucide
+- `@repo/tsconfig`: a shared tsconfig used throughout the monorepo
+- `@repo/ui`: a React component library based on shadcn/ui including icons and tailwind config
+- `@repo/engine`: the core engine for simulating and running node graphs
 
 ### Main Utilities
 

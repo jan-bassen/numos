@@ -1,7 +1,6 @@
 'use client'
 
-import { PiPencilEditSolid, PiUserEditSolid } from '@/lib/icons'
-import { createSupabaseClient } from '@/lib/supabase/client'
+import { PiPencilEditSolid } from '@repo/ui/icons/pika'
 import { SupabaseImage } from '@/lib/supabase/storage/supabaseImage'
 import { uploadAvatar } from '@/lib/supabase/storage/uploaders'
 import { cn } from '@/lib/utils'

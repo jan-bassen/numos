@@ -17,7 +17,7 @@ import {
   PiAutomationStroke,
   PiCrossCross,
   PiDeleteDustbin01Stroke,
-} from '@/lib/icons'
+} from '@repo/ui/icons/pika'
 import type { z } from 'zod'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -65,7 +65,6 @@ import { toast } from 'sonner'
 import { dataTypes } from '@/lib/supabase/constants/datatypes'
 import { listOptionMap, listOptions } from '../attributes/attribute-schema'
 import { removeActionParameterFromLocalForm } from './utils'
-import StringInput from '@/components/datatypes/inputs/string-input'
 import CronInput from './cron-input'
 
 export default function ActionEditor({

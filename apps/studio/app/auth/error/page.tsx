@@ -1,5 +1,5 @@
 import { buttonVariants } from '@repo/ui/components/ui/button'
-import { PiBugStroke, PiChevronBigLeftStroke } from '@/lib/icons'
+import { PiBugStroke, PiChevronBigLeftStroke } from '@repo/ui/icons/pika'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
 

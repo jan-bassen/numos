@@ -1,5 +1,5 @@
 import { Input } from '@repo/ui/components/ui/input'
-import { PiFolderPlusSolid } from '@/lib/icons'
+import { PiFolderPlusSolid } from '@repo/ui/icons/pika'
 import { insertFolder } from '@/lib/supabase/db/layers'
 import type { InsertFolder } from '@/types/database.types'
 import { use, useEffect, useRef, useState } from 'react'

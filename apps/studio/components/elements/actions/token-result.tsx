@@ -9,12 +9,10 @@ import {
 import {
   PiBarchartDefaultSolid,
   PiChevronBigRightStroke,
-  PiNftDefaultSolid,
   PiNftDefaultStroke,
   PiTagSolid,
-  PiTagStroke,
   PiTerminalConsoleSquareStroke,
-} from '@/lib/icons'
+} from '@repo/ui/icons/pika'
 import type { SimulatedTokenStateResult } from '@/types/database.types'
 import { isEqual } from 'lodash'
 import { useState } from 'react'

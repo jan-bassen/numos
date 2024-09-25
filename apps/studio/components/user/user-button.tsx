@@ -19,7 +19,7 @@ import {
   PiSparkleAi01Stroke,
   PiSparkleAi02Stroke,
   PiUserUser02Stroke,
-} from '@/lib/icons'
+} from '@repo/ui/icons/pika'
 import { createSupabaseClient } from '@/lib/supabase/client'
 import type { User } from '@supabase/supabase-js'
 import {

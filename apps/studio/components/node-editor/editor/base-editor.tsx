@@ -28,7 +28,7 @@ import {
   PiSettings02Stroke,
   PiSidebarMenuStroke,
   PiSwipeDefaultStroke,
-} from '@/lib/icons'
+} from '@repo/ui/icons/pika'
 import type { GraphErrorData, SimulationCheck } from '@/lib/errors'
 import { useEditor } from '@/lib/rete/use-editor'
 import { cn } from '@/lib/utils'

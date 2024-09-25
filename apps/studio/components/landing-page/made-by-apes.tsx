@@ -1,6 +1,6 @@
 import Headline from '@/components/landing-page/headline'
 import DoubleImage from './double-image'
-import { PiLinkedinSolid, PiXComStroke } from '@/lib/icons'
+import { PiLinkedinSolid, PiXComStroke } from '@repo/ui/icons/pika'
 import Link from 'next/link'
 
 const people = [

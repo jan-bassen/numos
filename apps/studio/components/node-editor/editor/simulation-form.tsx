@@ -38,7 +38,7 @@ import {
   PiLinkChainHorizontalStroke,
   PiRefreshStroke,
   PiTagStroke,
-} from '@/lib/icons'
+} from '@repo/ui/icons/pika'
 import { Alert, AlertDescription } from '@repo/ui/components/ui/alert'
 import {
   Dialog,

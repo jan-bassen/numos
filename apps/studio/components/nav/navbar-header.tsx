@@ -1,7 +1,7 @@
 import type { NewItemDialogProps } from '@/types/props.types'
-import { Separator } from '@repo/ui/components/uiseparator'
-import { Button } from '@repo/ui/components/uibutton'
-import { PiAddAddStroke } from '@/lib/icons'
+import { Separator } from '@repo/ui/components/ui/separator'
+import { Button } from '@repo/ui/components/ui/button'
+import { PiAddAddStroke } from '@repo/ui/icons/pika'
 import Link from 'next/link'
 
 export default function NavbarHeader({

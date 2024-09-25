@@ -1,30 +1,13 @@
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from '@repo/ui/components/ui/dropdown-menu'
 import { cn } from '@/lib/utils'
 import { SupabaseImage } from '@/lib/supabase/storage/supabaseImage'
 import type { ImageInputProps } from '../generic-input'
 import { useRef, useState } from 'react'
 import { Drag } from 'rete-react-plugin'
-import type {
-  LayerTree,
-  ResolvedFolder,
-  ResolvedLayer,
-} from '@/types/database.types'
-import {
-  PiChevronBigRightStroke,
-  PiFolderDefaultSolid,
-  PiHomeDefaultSolid,
-} from '@/lib/icons'
+import { PiFolderDefaultSolid, PiHomeDefaultSolid } from '@repo/ui/icons/pika'
 import { Button } from '@repo/ui/components/ui/button'
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
   DialogTrigger,
 } from '@repo/ui/components/ui/dialog'
 import Breadcrumbs from '@/components/nav/breadcrumbs'

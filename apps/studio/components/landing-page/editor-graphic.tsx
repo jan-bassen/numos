@@ -1,14 +1,8 @@
 'use client'
 
-import {
-  PiDoubleChevronRightStroke,
-  PiMedicalCrossStroke,
-  PiPointerCursorClickStroke,
-  PiScaleStroke,
-  PiTrendlineUpStroke,
-} from '@/lib/icons'
+import { PiMedicalCrossStroke } from '@repo/ui/icons/pika'
 import { motion as m, useScroll, useTransform } from 'framer-motion'
-import { Droplets, Pipette } from 'lucide-react'
+import { Pipette } from 'lucide-react'
 import { useRef } from 'react'
 
 type Position = {

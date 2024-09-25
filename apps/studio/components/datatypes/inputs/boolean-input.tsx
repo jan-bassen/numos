@@ -7,7 +7,7 @@ import {
   PiCheckTickSquareStroke,
   PiCrossCrossSquare,
   PiSquareDotStroke,
-} from '@/lib/icons'
+} from '@repo/ui/icons/pika'
 import { TabSelect } from '@/components/forms/tab-select'
 import { Button } from '@repo/ui/components/ui/button'
 

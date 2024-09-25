@@ -17,7 +17,7 @@ import {
   PiMoonStroke,
   PiSunSolid,
   PiSunStroke,
-} from '@/lib/icons'
+} from '@repo/ui/icons/pika'
 
 export function ThemeToggle() {
   const [mounted, setMounted] = useState(false)

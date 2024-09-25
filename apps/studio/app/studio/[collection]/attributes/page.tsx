@@ -9,7 +9,7 @@ import {
 import {
   type ExtendedAttribute,
   columns,
-} from '../../../../components/elements/attributes/attribute-columns'
+} from '@/components/elements/attributes/attribute-columns'
 import {
   Tabs,
   TabsContent,
@@ -20,8 +20,8 @@ import {
   PiAddAddStroke,
   PiGridDashboard02Stroke,
   PiGridTableStroke,
-} from '@/lib/icons'
-import AttributeGrid from '../../../../components/elements/attributes/attribute-grid'
+} from '@repo/ui/icons/pika'
+import AttributeGrid from '@/components/elements/attributes/attribute-grid'
 import { Button } from '@repo/ui/components/ui/button'
 import PageTopBar from '@/components/layout/pages/page-top-bar'
 import Page from '@/components/layout/pages/page'

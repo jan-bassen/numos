@@ -5,8 +5,7 @@ import {
   CardDescription,
   CardHeader,
 } from '@repo/ui/components/ui/card'
-import { PiNftDefaultDuoSolid, PiNftDefaultStroke } from '@/lib/icons'
-import { cn } from '@/lib/utils'
+import { PiNftDefaultStroke } from '@repo/ui/icons/pika'
 import {
   Droplets,
   Flower,

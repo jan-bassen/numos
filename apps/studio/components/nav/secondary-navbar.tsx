@@ -4,8 +4,8 @@ import Link from 'next/link'
 import type { NavItem } from '@/types/database.types'
 import NavbarHeader from './navbar-header'
 import type { NewItemDialogProps } from '@/types/props.types'
-import { PiAddAddStroke } from '@/lib/icons'
-import { Separator } from '@repo/ui/components/uiseparator'
+import { PiAddAddStroke } from '@repo/ui/icons/pika'
+import { Separator } from '@repo/ui/components/ui/separator'
 
 export const seondaryNavbarIconClasses = 'h-4 w-4 my-auto hidden md:block'
 

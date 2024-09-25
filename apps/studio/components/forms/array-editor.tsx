@@ -1,6 +1,6 @@
 import { Button } from '@repo/ui/components/ui/button'
 import { Input } from '@repo/ui/components/ui/input'
-import { PiAddAddStroke, PiMinusMinus } from '@/lib/icons'
+import { PiAddAddStroke, PiMinusMinus } from '@repo/ui/icons/pika'
 import type { DataType } from '@/types/database.types'
 import { useState } from 'react'
 

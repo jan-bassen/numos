@@ -13,7 +13,7 @@ import {
   PiListDefaultStroke,
   PiSquareDotStroke,
   PiTokenStroke,
-} from '@/lib/icons'
+} from '@repo/ui/icons/pika'
 import { dataTypeKeys } from '@/lib/supabase/constants/datatypes'
 import type {
   Attribute,

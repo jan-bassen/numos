@@ -11,7 +11,7 @@ import {
   PiPencilEditStroke,
   PiSquareDotStroke,
   PiSwapHalfarrowVerticalStroke,
-} from '@/lib/icons'
+} from '@repo/ui/icons/pika'
 import Link from 'next/link'
 import {
   DropdownMenu,

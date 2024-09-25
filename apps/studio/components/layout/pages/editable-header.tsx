@@ -18,11 +18,10 @@ import {
   PiCrossCrossSquare,
   PiPencilEditSolid,
   PiPencilEditStroke,
-} from '@/lib/icons'
+} from '@repo/ui/icons/pika'
 import Header from './header'
 import Link from 'next/link'
 import { useMediaQuery } from '@/lib/hooks/media-query'
-import { useDropzone } from 'react-dropzone'
 import { SupabaseImage } from '@/lib/supabase/storage/supabaseImage'
 import {
   type StorageLocation,

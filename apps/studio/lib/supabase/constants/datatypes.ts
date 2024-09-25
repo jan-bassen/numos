@@ -23,11 +23,8 @@ import {
   PiSquareDotStroke,
   PiWalletDefaultSolid,
   PiWalletDefaultStroke,
-} from '../../icons'
-import type {
-  DataType,
-  DataTypeDefinition,
-} from '../../../types/database.types'
+} from '@repo/ui/icons/pika'
+import type { DataType, DataTypeDefinition } from '@/types/database.types'
 
 export const valueDataTypeKeys = [
   'generic',

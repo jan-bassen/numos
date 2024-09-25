@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import {
   PiAwardMedalStroke,
@@ -10,34 +10,34 @@ import {
   PiNftDefaultSolid,
   PiTicketTokenOneStroke,
   PiVisionProStroke,
-} from "@/lib/icons";
+} from '@repo/ui/icons/pika'
 import {
-  MotionValue,
+  type MotionValue,
   motion as m,
   useScroll,
   useSpring,
   useTransform,
-} from "framer-motion";
-import { ReactNode, useRef } from "react";
+} from 'framer-motion'
+import { type ReactNode, useRef } from 'react'
 
-type Direction = number | "auto";
+type Direction = number | 'auto'
 
 type ScrollDivProps = {
-  children: ReactNode;
-  rotation: MotionValue<number>;
-  left?: Direction;
-  right?: Direction;
-  top?: Direction;
-  bottom?: Direction;
-};
+  children: ReactNode
+  rotation: MotionValue<number>
+  left?: Direction
+  right?: Direction
+  top?: Direction
+  bottom?: Direction
+}
 
 function ScrollDiv({
   children,
   rotation,
-  left = "auto",
-  right = "auto",
-  top = "auto",
-  bottom = "auto",
+  left = 'auto',
+  right = 'auto',
+  top = 'auto',
+  bottom = 'auto',
 }: ScrollDivProps) {
   return (
     <m.div
@@ -52,31 +52,31 @@ function ScrollDiv({
     >
       {children}
     </m.div>
-  );
+  )
 }
 
 export default function OrbitGraphic() {
-  const ref = useRef(null);
-  const { scrollY } = useScroll({ target: ref });
+  const ref = useRef(null)
+  const { scrollY } = useScroll({ target: ref })
 
-  const outerScroll = useTransform(() => scrollY.get() / 30);
-  const reversedOuterScroll = useTransform(() => scrollY.get() / -30);
-  const outerRotation = useSpring(outerScroll, { stiffness: 90, damping: 40 });
+  const outerScroll = useTransform(() => scrollY.get() / 30)
+  const reversedOuterScroll = useTransform(() => scrollY.get() / -30)
+  const outerRotation = useSpring(outerScroll, { stiffness: 90, damping: 40 })
   const reversedOuterRotation = useSpring(reversedOuterScroll, {
     stiffness: 90,
     damping: 40,
-  });
+  })
 
-  const middleScroll = useTransform(() => scrollY.get() / 40);
-  const reversedMiddleScroll = useTransform(() => scrollY.get() / -40);
+  const middleScroll = useTransform(() => scrollY.get() / 40)
+  const reversedMiddleScroll = useTransform(() => scrollY.get() / -40)
   const middleRotation = useSpring(middleScroll, {
     stiffness: 90,
     damping: 40,
-  });
+  })
   const reversedMiddleRotation = useSpring(reversedMiddleScroll, {
     stiffness: 90,
     damping: 40,
-  });
+  })
 
   return (
     <div className="relative -mb-12 h-80 w-full scale-75 sm:scale-90 md:mb-auto md:h-96 md:scale-100">
@@ -87,7 +87,7 @@ export default function OrbitGraphic() {
         <m.div
           style={{
             rotate: outerRotation,
-            position: "absolute",
+            position: 'absolute',
           }}
           className="absolute size-80 rounded-full border border-border"
         >
@@ -107,10 +107,10 @@ export default function OrbitGraphic() {
         <m.div
           style={{
             rotate: middleRotation,
-            left: "50%",
-            top: "50%",
-            translateX: "-120px",
-            translateY: "-120px",
+            left: '50%',
+            top: '50%',
+            translateX: '-120px',
+            translateY: '-120px',
           }}
           className="absolute size-60 rounded-full border border-border"
         >
@@ -127,10 +127,10 @@ export default function OrbitGraphic() {
         <m.div
           style={{
             rotate: outerRotation,
-            left: "50%",
-            top: "50%",
-            translateX: "-80px",
-            translateY: "-80px",
+            left: '50%',
+            top: '50%',
+            translateX: '-80px',
+            translateY: '-80px',
           }}
           className="absolute size-40 rounded-full border border-border"
         >
@@ -142,5 +142,5 @@ export default function OrbitGraphic() {
         <PiNftDefaultSolid className="relative left-1/2 top-1/2 size-12 -translate-x-6 -translate-y-6" />
       </div>
     </div>
-  );
+  )
 }

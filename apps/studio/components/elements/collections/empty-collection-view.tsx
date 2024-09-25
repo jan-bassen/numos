@@ -1,11 +1,11 @@
-import { PiDiamondComponentStroke } from "@/lib/icons";
+import { PiDiamondComponentStroke } from '@repo/ui/icons/pika'
 
 export default function EmptyCollectionsView({
   children,
   className,
 }: {
-  children?: React.ReactNode;
-  className?: string;
+  children?: React.ReactNode
+  className?: string
 }) {
   return (
     <div className="flex min-h-52 gap-5">
@@ -21,5 +21,5 @@ export default function EmptyCollectionsView({
         {children}
       </div>
     </div>
-  );
+  )
 }

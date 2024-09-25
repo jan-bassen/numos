@@ -1,7 +1,10 @@
 'use client'
 
 import { Button, buttonVariants } from '@repo/ui/components/ui/button'
-import { PiChevronBigLeftStroke, PiChevronLeftStroke } from '@/lib/icons'
+import {
+  PiChevronBigLeftStroke,
+  PiChevronLeftStroke,
+} from '@repo/ui/icons/pika'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'

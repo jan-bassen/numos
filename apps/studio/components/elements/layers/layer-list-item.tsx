@@ -1,4 +1,3 @@
-import { H2 } from '@/components/layout/pages/headings'
 import { Button } from '@repo/ui/components/ui/button'
 import {
   ContextMenu,
@@ -20,7 +19,7 @@ import {
   PiInputFieldStroke,
   PiPhotoImageDefaultContrast,
   PiPhotoImageDefaultStroke,
-} from '@/lib/icons'
+} from '@repo/ui/icons/pika'
 import { deleteLayer, updateLayer } from '@/lib/supabase/db/layers'
 import { SupabaseImage } from '@/lib/supabase/storage/supabaseImage'
 import type {

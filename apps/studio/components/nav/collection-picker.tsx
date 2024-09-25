@@ -1,23 +1,22 @@
 'use client'
 
-import { Button, buttonVariants } from '@repo/ui/components/uibutton'
+import { Button, buttonVariants } from '@repo/ui/components/ui/button'
 import type { Collection } from '@/types/database.types'
 import Link from 'next/link'
-import Image from 'next/image'
 import { cn } from '@/lib/utils'
-import { PiChevronSortVerticalStroke } from '@/lib/icons'
+import { PiChevronSortVerticalStroke } from '@repo/ui/icons/pika'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@repo/ui/components/uidropdown-menu'
+} from '@repo/ui/components/ui/dropdown-menu'
 import { SupabaseImage } from '@/lib/supabase/storage/supabaseImage'
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@repo/ui/components/uitooltip'
+} from '@repo/ui/components/ui/tooltip'
 
 export default function CollectionPicker({
   collections,

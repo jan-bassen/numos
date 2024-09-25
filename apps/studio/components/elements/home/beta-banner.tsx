@@ -1,4 +1,4 @@
-import { PiHeartSupportSolid } from '@/lib/icons'
+import { PiHeartSupportSolid } from '@repo/ui/icons/pika'
 import {
   Alert,
   AlertDescription,

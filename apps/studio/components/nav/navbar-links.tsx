@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { Button, buttonVariants } from '@repo/ui/components/uibutton'
+import { Button, buttonVariants } from '@repo/ui/components/ui/button'
 import { cn } from '@/lib/utils'
 import { useSelectedLayoutSegment } from 'next/navigation'
 import {
@@ -10,7 +10,7 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@repo/ui/components/uidropdown-menu'
+} from '@repo/ui/components/ui/dropdown-menu'
 import {
   PiPhotoImageDefaultStroke,
   PiPhotoImageDefaultSolid,
@@ -23,8 +23,7 @@ import {
   PiAutomationSolid,
   PiSettings02Stroke,
   PiSettings02Solid,
-} from '@/lib/icons'
-import { links } from '../landing-page/nav/nav-links'
+} from '@repo/ui/icons/pika'
 
 export const iconClassesStroke = 'h-4 w-4 md:h-5 md:w-5 my-auto'
 export const iconClassesSolid = 'h-4 w-4 md:h-5 md:w-5 my-auto'

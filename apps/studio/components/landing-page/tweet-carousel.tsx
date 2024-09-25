@@ -5,7 +5,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@repo/ui/components/ui/carousel'
-import { PiSwipeRightHandStroke } from '@/lib/icons'
+import { PiSwipeRightHandStroke } from '@repo/ui/icons/pika'
 import { Tweet } from 'react-tweet'
 
 const tweets = [

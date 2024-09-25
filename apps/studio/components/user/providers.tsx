@@ -5,7 +5,7 @@ import {
   PiEnvelopeDefaultStroke,
   PiGithubStroke,
   PiXComStroke,
-} from '@/lib/icons'
+} from '@repo/ui/icons/pika'
 import { createSupabaseClient } from '@/lib/supabase/client'
 import type { Provider, UserIdentity } from '@supabase/supabase-js'
 import { useRouter } from 'next/navigation'

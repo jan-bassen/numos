@@ -19,7 +19,7 @@ import {
   AlertDialog,
   AlertDialogTrigger,
 } from '@repo/ui/components/ui/alert-dialog'
-import { PiAddAddStroke, PiDeleteDustbin01Stroke } from '@/lib/icons'
+import { PiAddAddStroke, PiDeleteDustbin01Stroke } from '@repo/ui/icons/pika'
 import InputDeleteDialogContent from '@repo/ui/components/dialogs/input-delete-dialog'
 import { SupabaseImage } from '@/lib/supabase/storage/supabaseImage'
 import { forwardRef } from 'react'

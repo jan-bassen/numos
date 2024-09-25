@@ -20,7 +20,7 @@ import Logo from '@repo/ui/components/brand/logo'
 import Link from 'next/link'
 import { handleReturnInfo } from '@/lib/utils'
 import { toast } from 'sonner'
-import { PiAlertTriangleStroke, PiCrossCross } from '@/lib/icons'
+import { PiAlertTriangleStroke, PiCrossCross } from '@repo/ui/icons/pika'
 
 const passwordSchema = z
   .object({

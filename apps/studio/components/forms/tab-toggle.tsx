@@ -1,5 +1,5 @@
 import { Tabs, TabsList, TabsTrigger } from '@repo/ui/components/ui/tabs'
-import { PiCheckTickCircleBrokenStroke } from '@/lib/icons'
+import { PiCheckTickCircleBrokenStroke } from '@repo/ui/icons/pika'
 import { cn } from '@/lib/utils'
 import type { ChangeEvent } from 'react'
 
