@@ -7,7 +7,7 @@ import {
   DropdownMenuTrigger,
 } from '@repo/ui/components/ui/dropdown-menu'
 import { PiChevronBigDownStroke } from '@repo/ui/icons/pika'
-import { cn } from '@/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 import type { ReactNode } from 'react'
 
 export default function SelectableBadge({

@@ -11,20 +11,15 @@ import StringInput from '@/components/datatypes/inputs/string-input'
 import WeatherInput from '@/components/datatypes/inputs/weather-input'
 import type { InputProps } from '@repo/ui/components/ui/input'
 import type { TextareaProps } from '@repo/ui/components/ui/textarea'
-import {
-  type ValueSettings,
-  type Color,
-  DataType,
-  type DataTypeValue,
-  type Direction,
-  type Location,
-  type WeatherCode,
-  type LegacyResolvedLayer,
-  type LegacyLayerTree,
-  type ResolvedLayer,
-  type LayerTree,
+import type {
+  Color,
+  DataTypeValue,
+  Direction,
+  Location,
+  WeatherCode,
+  LayerTree,
 } from '@/types/database.types'
-import type * as SelectPrimitives from '@radix-ui/react-select'
+import type * as SelectPrimitives from '@repo/ui/components/ui/select'
 import type {
   ChangeEvent,
   ComponentPropsWithoutRef,
@@ -33,6 +28,7 @@ import type {
 import { ImageInput } from '@/components/datatypes/inputs/image-input'
 import DirectionInput from '@/components/datatypes/inputs/direction-input'
 import type { SelectOptions } from '@/types/nodes.types'
+import type { ValueSettings } from '@repo/engine/src/types/value-types'
 
 export type GenericInputExtra = {
   id?: string
@@ -70,7 +66,7 @@ export type BooleanInputProps = GenericInputExtra & {
 }
 
 export type EnumInputProps = Omit<
-  ComponentPropsWithoutRef<typeof SelectPrimitives.Root>,
+  ComponentPropsWithoutRef<typeof SelectPrimitives.Select>,
   'value'
 > &
   GenericInputExtra & {

@@ -17,6 +17,7 @@ import type { SelectOptions } from '@/types/nodes.types'
 import { Interval } from 'luxon'
 import { z } from 'zod'
 import cron from 'cron-validate'
+import type { ValueType } from '@repo/engine/src/types/value-types'
 
 export const actionTypes: Record<
   TriggerType,
@@ -293,7 +294,7 @@ export function getDefaultTriggerSettings(type: TriggerType): ActionTrigger {
   }
 }
 
-export type Parameter = { type: ValueDataType; key: string; list: boolean }
+export type Parameter = { type: ValueType; key: string; list: boolean }
 export type ParameterState = Record<string, NotatedDataTypeValue>
 
 export const getParametersSchema = (params: Parameter[], optional?: boolean) =>

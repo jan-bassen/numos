@@ -11,7 +11,7 @@ import type { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ReactNode, useEffect, useState } from 'react'
-import { cn, handleReturnInfo } from '@/lib/utils'
+import { cn, handleReturnInfo } from '@repo/ui/lib/utils'
 import {
   Form,
   FormControl,

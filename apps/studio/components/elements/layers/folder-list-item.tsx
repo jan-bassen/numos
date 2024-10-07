@@ -22,8 +22,8 @@ import {
 } from 'react'
 import { useRef } from 'react'
 import { handleFileUpload } from './upload'
-import { ContextMenu } from '@radix-ui/react-context-menu'
 import {
+  ContextMenu,
   ContextMenuContent,
   ContextMenuGroup,
   ContextMenuItem,
@@ -50,7 +50,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@repo/ui/components/ui/alert-dialog'
-import { cn, handleReturnInfo } from '@/lib/utils'
+import { cn, handleReturnInfo } from '@repo/ui/lib/utils'
 import { imageAcceptString } from './file-types'
 
 export default function FolderListItem({

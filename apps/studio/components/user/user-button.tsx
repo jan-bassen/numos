@@ -12,23 +12,16 @@ import Link from 'next/link'
 import { Button } from '@repo/ui/components/ui/button'
 import { ThemeTabSelect } from '../nav/theme-tab-select'
 import {
-  PiFocusTargetStroke,
   PiHomeAltStroke,
-  PiHomeDefaultStroke,
   PiLogOutRightStroke,
-  PiSparkleAi01Stroke,
   PiSparkleAi02Stroke,
   PiUserUser02Stroke,
 } from '@repo/ui/icons/pika'
 import { createSupabaseClient } from '@/lib/supabase/client'
 import type { User } from '@supabase/supabase-js'
-import {
-  usePathname,
-  useRouter,
-  useSelectedLayoutSegments,
-} from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import type { Profile } from '@/types/database.types'
-import { cn } from '@/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 import { Avatar } from './avatar'
 
 export default function UserButton({
@@ -110,12 +103,12 @@ export default function UserButton({
         <DropdownMenuGroup>
           <DropdownMenuItem asChild>
             {isStudio ? (
-              <Link href="/" className="flex h-9 gap-1.5">
+              <Link href="https://numos.xyz" className="flex h-9 gap-1.5">
                 <PiHomeAltStroke className="my-auto h-4 w-4" />
                 Homepage
               </Link>
             ) : (
-              <Link href="/studio" className="flex h-9 gap-1.5">
+              <Link href="/collections" className="flex h-9 gap-1.5">
                 <PiSparkleAi02Stroke className="my-auto h-4 w-4" />
                 Studio
               </Link>

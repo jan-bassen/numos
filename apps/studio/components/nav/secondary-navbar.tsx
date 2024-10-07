@@ -1,5 +1,5 @@
 import { Button, buttonVariants } from '@repo/ui/components/ui/button'
-import { cn } from '@/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 import Link from 'next/link'
 import type { NavItem } from '@/types/database.types'
 import NavbarHeader from './navbar-header'
@@ -45,7 +45,7 @@ export default function SecondaryNavbar({
         <div className="hidden w-full space-y-5 px-4 pt-6 md:block">
           <div className="flex items-center justify-between">
             <Link
-              href={`/studio/${collectionSlug}/${type}`}
+              href={`/collections/${collectionSlug}/${type}`}
               className="flex items-center justify-start pl-2 font-medium text-xl hover:underline"
             >
               {title}
@@ -72,7 +72,7 @@ export default function SecondaryNavbar({
           {items.map((item) => (
             <Link
               key={item.slug}
-              href={`/studio/${collectionSlug}/${type}/${item.slug}`}
+              href={`/collections/${collectionSlug}/${type}/${item.slug}`}
               className={cn(
                 buttonVariants({ variant: 'ghost' }),
                 'flex h-8 justify-start gap-3 px-2 align-middle text-foreground md:h-9 md:px-4 md:text-muted-foreground',

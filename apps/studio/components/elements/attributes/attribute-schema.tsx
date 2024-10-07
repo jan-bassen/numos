@@ -22,9 +22,9 @@ import type {
   DataTypeValue,
   SchemaMap,
   DataTypeValueMap,
-  ValueSettings,
 } from '@/types/database.types'
 import { z } from 'zod'
+import type { ValueSettings } from '@repo/engine/src/types/value-types'
 
 export const displayOptions: TabSelectOption[] = [
   {

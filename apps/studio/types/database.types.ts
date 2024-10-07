@@ -12,6 +12,7 @@ import type { MergeDeep } from 'type-fest'
 import type { Database as DatabaseGenerated } from './database-generated.types'
 import type { ActionTrigger } from '@/components/elements/actions/action-schema'
 import { Option } from '@hubspot/api-client/lib/codegen/automation/actions'
+import type { ValueSettings } from '@repo/engine/src/types/value-types'
 
 // Type overrides for specific columns:
 export type Database = MergeDeep<
@@ -177,45 +178,6 @@ export type ImageGraph = {
 export type ExtendedCollection = Omit<Collection, 'editable_version'> & {
   editable_version: Version
 }
-
-export type BaseSettings = {
-  default?: DataTypeValue | Array<DataTypeValue>
-}
-export type NumberSettings = {
-  type: 'number'
-  max?: number
-  min?: number
-  step?: number
-} & BaseSettings
-
-export type StringSettings = {
-  type: 'string'
-  max_length?: number
-  min_length?: number
-} & BaseSettings
-
-export type EnumSettings = {
-  type: 'enum'
-  options: SelectOptions
-} & BaseSettings
-
-export type GenericSettings = {
-  type: Omit<DataType, 'enum' | 'string' | 'number'>
-} & BaseSettings
-
-export type ValueSettings =
-  | NumberSettings
-  | StringSettings
-  | EnumSettings
-  | GenericSettings
-
-export type ValueSettingsType<DT extends DataType> = DT extends 'number'
-  ? NumberSettings
-  : DT extends 'string'
-    ? StringSettings
-    : DT extends 'enum'
-      ? EnumSettings
-      : GenericSettings
 
 export type DatatypeObjectValue<
   DTV extends DataTypeValue,

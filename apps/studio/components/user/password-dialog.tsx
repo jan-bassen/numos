@@ -12,7 +12,7 @@ import {
 import { Input } from '@repo/ui/components/ui/input'
 import { Button } from '@repo/ui/components/ui/button'
 import { toast } from 'sonner'
-import { handleReturnInfo } from '@/lib/utils'
+import { handleReturnInfo } from '@repo/ui/lib/utils'
 import { changePassword } from '@/lib/supabase/auth'
 import {
   DialogContent,

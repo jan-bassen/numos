@@ -1,5 +1,5 @@
 import type { EnumInputProps } from '../generic-input'
-import { cn } from '@/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 import {
   Select,
   SelectContent,
@@ -39,16 +39,14 @@ export default function EnumInput({
   }
 
   const options =
-    settings && 'options' in settings && settings?.options?.length > 0
-      ? settings.options
-      : staticoptions || []
+    settings && 'options' in settings ? settings.options : staticoptions || []
 
-  if (value && !options.find((option) => option.value === value)) {
+  if (value && !options?.find((option) => option.value === value)) {
     onValueChange?.(null)
     onChange?.(null)
   }
 
-  const labelMap = options.reduce((acc: { [key: string]: string }, option) => {
+  const labelMap = options?.reduce((acc: { [key: string]: string }, option) => {
     acc[option.value] = option.label || option.value
     return acc
   }, {})
@@ -79,12 +77,12 @@ export default function EnumInput({
           onBlur={_onBlur}
         >
           <p className="w-full text-left">
-            {value && labelMap[value] ? labelMap[value] : placeholder}
+            {value && labelMap?.[value] ? labelMap[value] : placeholder}
           </p>
         </SelectTrigger>
         <SelectContent className={cn('min-h-8')}>
           <SelectGroup>
-            {options.map((option, index) => {
+            {options?.map((option, index) => {
               if (typeof option === 'string') {
                 return <SelectOptionItem option={option} key={option} />
               }

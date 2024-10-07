@@ -1,7 +1,7 @@
-import { ReactNode } from "react";
-import { H2 } from "../pages/headings";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
+import type { ReactNode } from 'react'
+import { H2 } from '../pages/headings'
+import Link from 'next/link'
+import { cn } from '@repo/ui/lib/utils'
 
 export default function Segment({
   children,
@@ -10,14 +10,14 @@ export default function Segment({
   className,
   containerClassName,
 }: {
-  children?: ReactNode;
-  title: string;
-  link?: string;
-  className?: string;
-  containerClassName?: string;
+  children?: ReactNode
+  title: string
+  link?: string
+  className?: string
+  containerClassName?: string
 }) {
   return (
-    <div className={cn("space-y-2", containerClassName)}>
+    <div className={cn('space-y-2', containerClassName)}>
       {link ? (
         <Link
           href={link}
@@ -30,5 +30,5 @@ export default function Segment({
       )}
       <div className={className}>{children}</div>
     </div>
-  );
+  )
 }

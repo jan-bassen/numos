@@ -1,6 +1,6 @@
 import type { Control as ControlClass } from '@/lib/rete/classes/control'
 import { BaseControl } from './base-control'
-import { cn } from '@/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 import type { RenderEmit } from 'rete-react-plugin'
 import type { Schemes } from '@/types/nodes.types'
 import { FloatingLabel } from '@repo/ui/components/ui/floating-label'

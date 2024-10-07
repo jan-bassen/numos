@@ -8,6 +8,7 @@ module.exports = {
     "./components/**/*.{ts,tsx}",
     "./app/**/*.{ts,tsx}",
     "./lib/**/*.{ts,tsx}",
+    '../../packages/ui/src/**/*.{js,ts,jsx,tsx}',
   ], 
   safelist: [
     "pointer-events-none",

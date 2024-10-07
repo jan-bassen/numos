@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 import { type FocusEvent, useRef } from 'react'
 import { Textarea } from '@repo/ui/components/ui/textarea'
 import type { StringInputProps } from '../generic-input'

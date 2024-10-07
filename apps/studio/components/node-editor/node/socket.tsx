@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 import { ClassicPreset, type NodeId } from 'rete'
 import type { Side } from 'rete-connection-plugin'
 import { Presets, type ReactArea2D } from 'rete-react-plugin'

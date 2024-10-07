@@ -18,7 +18,7 @@ import { useRouter } from 'next/navigation'
 import { Card } from '@repo/ui/components/ui/card'
 import Logo from '@repo/ui/components/brand/logo'
 import Link from 'next/link'
-import { handleReturnInfo } from '@/lib/utils'
+import { handleReturnInfo } from '@repo/ui/lib/utils'
 import { toast } from 'sonner'
 import { PiAlertTriangleStroke, PiCrossCross } from '@repo/ui/icons/pika'
 

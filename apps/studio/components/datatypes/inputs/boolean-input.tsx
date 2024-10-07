@@ -1,7 +1,7 @@
 import type { BooleanInputProps } from '../generic-input'
 import { Switch } from '@repo/ui/components/ui/switch'
 import { type FocusEvent, useRef } from 'react'
-import { cn } from '@/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 import { Drag } from 'rete-react-plugin'
 import {
   PiCheckTickSquareStroke,

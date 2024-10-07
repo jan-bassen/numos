@@ -1,6 +1,6 @@
 'use client'
 
-import { useMediaQuery } from '@/hooks/media-query'
+import { useMediaQuery } from '@repo/ui/hooks/media-query'
 import { Button } from '@repo/ui/components/ui/button'
 import {
   Dialog,

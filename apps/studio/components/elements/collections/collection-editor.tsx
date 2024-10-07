@@ -21,7 +21,7 @@ import EditableHeader, {
 } from '../../layout/pages/editable-header'
 import FormSegment from '../../forms/form-segment'
 import { Input } from '@repo/ui/components/ui/input'
-import { cn, handleReturnInfo } from '@/lib/utils'
+import { cn, handleReturnInfo } from '@repo/ui/lib/utils'
 import {
   updateCollection,
   updateCollectionImage,
@@ -66,7 +66,7 @@ export default function CollectionEditor({
     handleReturnInfo(res, () => {
       setLocked(true)
       if (values.slug !== collection.slug) {
-        router.push(`/studio/${values.slug}/settings`)
+        router.push(`/collections/${values.slug}/settings`)
       }
     })
   }
@@ -111,7 +111,7 @@ export default function CollectionEditor({
         >
           {locked && (
             <Link
-              href={`/studio/${collection.slug}`}
+              href={`/collections/${collection.slug}`}
               className={cn(
                 buttonVariants({ variant: 'outline' }),
                 'w-fit gap-1.5 pl-2.5',

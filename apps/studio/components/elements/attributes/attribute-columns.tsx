@@ -31,10 +31,13 @@ import {
   attributeScopeOptions,
 } from './attribute-schema'
 import { dataTypes } from '@/lib/supabase/constants/datatypes'
-import { Tooltip } from '@radix-ui/react-tooltip'
-import { TooltipContent, TooltipTrigger } from '@repo/ui/components/ui/tooltip'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@repo/ui/components/ui/tooltip'
 import { removeAttributeFromLocalForm } from './utils'
-import { handleReturnInfo } from '@/lib/utils'
+import { handleReturnInfo } from '@repo/ui/lib/utils'
 import { useRouter } from 'next/navigation'
 import DeleteDialogContent from '@repo/ui/components/dialogs/delete-dialog'
 
@@ -89,7 +92,7 @@ export const columns: ColumnDef<ExtendedAttribute>[] = [
           <TooltipTrigger asChild>
             <Link
               className="line-clamp-1 w-full text-ellipsis pl-2 font-bold text-base hover:underline"
-              href={`/studio/${row.getValue(
+              href={`/collections/${row.getValue(
                 'collection_slug',
               )}/attributes/${row.getValue('slug')}`}
             >
@@ -194,7 +197,7 @@ export const columns: ColumnDef<ExtendedAttribute>[] = [
               <DropdownMenuItem asChild>
                 <Link
                   className="flex items-center gap-1.5"
-                  href={`/studio/${attribute.collection_slug}/attributes/${attribute.slug}`}
+                  href={`/collections/${attribute.collection_slug}/attributes/${attribute.slug}`}
                 >
                   <PiPencilEditStroke className="size-4" />
                   Edit
@@ -222,7 +225,9 @@ export const columns: ColumnDef<ExtendedAttribute>[] = [
                   attribute.collection_slug,
                   attribute.slug,
                 )
-                router.push(`/studio/${attribute.collection_slug}/attributes`)
+                router.push(
+                  `/collections/${attribute.collection_slug}/attributes`,
+                )
               })
             }}
           />

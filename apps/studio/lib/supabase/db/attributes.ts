@@ -1,12 +1,10 @@
 'use server'
 
-import {
-  type Attribute,
-  ValueSettings,
-  DataType,
-  type InsertAttribute,
-  type ReturnInfo,
-  type UpdateAttribute,
+import type {
+  Attribute,
+  InsertAttribute,
+  ReturnInfo,
+  UpdateAttribute,
 } from '@/types/database.types'
 import { FetchError } from '@/lib/errors'
 import { revalidatePath } from 'next/cache'

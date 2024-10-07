@@ -1,6 +1,6 @@
 import type { SelectOption } from '@/types/nodes.types'
 import { SelectItem } from '@repo/ui/components/ui/select'
-import { cn } from '@/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 
 export default function SelectOptionItem(props: { option: SelectOption }) {
   const option = props.option

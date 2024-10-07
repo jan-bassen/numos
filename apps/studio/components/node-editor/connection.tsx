@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 import type { SocketType } from '@/types/database.types'
 import { type Position, Presets } from 'rete-react-plugin'
 

@@ -2,7 +2,6 @@ import type { GraphErrorData } from '@/lib/errors'
 import {
   type ControlDefinition,
   type DynamicControlsDefinition,
-  type EnumSocketDefinition,
   type NodeContext,
   type NodeDefinition,
   type SavedControl,
@@ -131,10 +130,6 @@ export class Node extends NodePreset {
     savedInputs?: SavedInputMap,
   ) => {
     const staticInputs = this.resolveInputsDefinition(definition, savedInputs)
-    if (this.definition.type === 'compare') {
-      console.log(staticInputs)
-      console.log(savedInputs)
-    }
     for (const input of staticInputs) {
       this.addInput(
         input.key,
@@ -190,14 +185,17 @@ export class Node extends NodePreset {
           oldControl &&
           (oldControl.value.type === control.type || control.type === 'generic')
         ) {
-          if (control.type === 'enum') {
-            const def = control as EnumSocketDefinition
+          if (
+            control.type === 'enum' &&
+            control.settings &&
+            'options' in control.settings
+          ) {
             this.removeControl(control.key)
             this.addControl(
               control.key,
               new Control(this, control, oldSavedControl),
             )
-            def.options.map((option) => {
+            control.settings.options?.map((option) => {
               if (oldControl.value.value === option.value) {
                 const newControl = this.getControl(control.key)
                 newControl.setValue(option.value)
@@ -339,12 +337,20 @@ export class Node extends NodePreset {
         if (!currentOutput) continue
         let differentOptions = false
         if (
+          //TODO: Clean up these checks
           currentOutput?.socket.type === 'enum' &&
-          outputDef.type === 'enum'
+          outputDef.type === 'enum' &&
+          currentOutput.socket.definition.settings &&
+          'options' in currentOutput.socket.definition.settings &&
+          outputDef.settings &&
+          'options' in outputDef.settings
         ) {
-          const oldDef = currentOutput.socket.definition as EnumSocketDefinition
-          const newDef = outputDef as EnumSocketDefinition
-          if (!isEqual(oldDef.options, newDef.options)) {
+          if (
+            !isEqual(
+              currentOutput.socket.definition.settings.options,
+              outputDef.settings.options,
+            )
+          ) {
             differentOptions = true
           }
         }

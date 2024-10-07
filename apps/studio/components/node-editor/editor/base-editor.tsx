@@ -31,7 +31,7 @@ import {
 } from '@repo/ui/icons/pika'
 import type { GraphErrorData, SimulationCheck } from '@/lib/errors'
 import { useEditor } from '@/lib/rete/use-editor'
-import { cn } from '@/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 import type {
   AutoSaveFunctions,
   Editor,

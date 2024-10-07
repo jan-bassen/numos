@@ -4,7 +4,7 @@ import type { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { type ReactNode, useState } from 'react'
-import { handleReturnInfo, slugify } from '@/lib/utils'
+import { handleReturnInfo } from '@repo/ui/lib/utils'
 import { toast } from 'sonner'
 import { Input } from '@repo/ui/components/ui/input'
 import { useRouter } from 'next/navigation'
@@ -25,6 +25,7 @@ import {
   StagedForm,
 } from '@/components/forms/staged-form'
 import { FormControl, FormItem, FormMessage } from '@repo/ui/components/ui/form'
+import { slugify } from '@/lib/utils'
 
 export function NewCollectionDialog({ button }: { button: ReactNode }) {
   const [dialogOpen, setDialogOpen] = useState(false)

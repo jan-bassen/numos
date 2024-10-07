@@ -1,13 +1,13 @@
-import { cn } from "@/lib/utils";
+import { cn } from '@repo/ui/lib/utils'
 
 export default function SpeechbubbleTick({
   className,
   pathClassName,
   rectClassName,
 }: {
-  className?: string;
-  pathClassName?: string;
-  rectClassName?: string;
+  className?: string
+  pathClassName?: string
+  rectClassName?: string
 }) {
   return (
     <svg
@@ -26,5 +26,5 @@ export default function SpeechbubbleTick({
       </g>
       <rect x="0" y="0" width="24" height="1" className={cn(rectClassName)} />
     </svg>
-  );
+  )
 }

@@ -3,14 +3,12 @@
 import type {
   DatatypeObjectValue,
   DataTypeValue,
-  NotatedDataTypeValue,
   NotatedListDataTypeValue,
-  ValueSettings,
 } from '@/types/database.types'
 import { Plus } from 'lucide-react'
 import { Button } from '@repo/ui/components/ui/button'
 import { PiCrossCross, PiThreeByTwoDotsVertical } from '@repo/ui/icons/pika'
-import { cn } from '@/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 import { dataTypes } from '@/lib/supabase/constants/datatypes'
 import GenericInput from './generic-input'
 import { DndContext } from '@dnd-kit/core'
@@ -23,6 +21,7 @@ import {
 import { CSS } from '@dnd-kit/utilities'
 import { type ChangeEvent, useMemo } from 'react'
 import type { ZodIssue } from 'zod'
+import type { ValueSettings } from '@repo/engine/src/types/value-types'
 
 export type ListInputProps = {
   value: NotatedListDataTypeValue<true, true>

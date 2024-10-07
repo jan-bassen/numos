@@ -1,7 +1,7 @@
-import { Attribute } from "@/types/database.types";
-import AttributeCard from "./attribute-card";
-import { cn } from "@/lib/utils";
-import { NewAttributeDialog } from "./new-attribute-dialog";
+import type { Attribute } from '@/types/database.types'
+import AttributeCard from './attribute-card'
+import { cn } from '@repo/ui/lib/utils'
+import { NewAttributeDialog } from './new-attribute-dialog'
 
 export default function AttributeGrid({
   attributes,
@@ -9,13 +9,13 @@ export default function AttributeGrid({
   versionId,
   className,
 }: {
-  attributes: Attribute[];
-  collectionSlug: string;
-  versionId: string;
-  className?: string;
+  attributes: Attribute[]
+  collectionSlug: string
+  versionId: string
+  className?: string
 }) {
   return (
-    <ul className={cn("grid gap-2 lg:grid-cols-2 xl:grid-cols-3", className)}>
+    <ul className={cn('grid gap-2 lg:grid-cols-2 xl:grid-cols-3', className)}>
       {attributes.map((attribute) => {
         return (
           <AttributeCard
@@ -23,7 +23,7 @@ export default function AttributeGrid({
             attribute={attribute}
             collectionSlug={collectionSlug}
           />
-        );
+        )
       })}
       <NewAttributeDialog
         button={<AttributeCard key="new" collectionSlug={collectionSlug} />}
@@ -31,5 +31,5 @@ export default function AttributeGrid({
         collectionSlug={collectionSlug}
       />
     </ul>
-  );
+  )
 }

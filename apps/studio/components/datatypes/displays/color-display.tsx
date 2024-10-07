@@ -1,7 +1,10 @@
-import { Tooltip, TooltipTrigger } from '@repo/ui/components/ui/tooltip'
-import { cn } from '@/lib/utils'
-import { type Color, NotatedColorValue } from '@/types/database.types'
-import { TooltipContent } from '@radix-ui/react-tooltip'
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from '@repo/ui/components/ui/tooltip'
+import { cn } from '@repo/ui/lib/utils'
+import type { Color } from '@/types/database.types'
 import type { GenericDisplayProps } from '../generic-display'
 
 export type ColorDisplayProps = Omit<GenericDisplayProps, 'value'> & {

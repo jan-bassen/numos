@@ -8,7 +8,7 @@ import FolderListItem from './folder-list-item'
 import LayerListItem from './layer-list-item'
 import NewFolderListItem from './new-folder-list-item'
 import { Accordion } from '@repo/ui/components/ui/accordion'
-import { cn } from '@/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 import type { FolderState, TreeContext } from './tree'
 import {
   type Dispatch,

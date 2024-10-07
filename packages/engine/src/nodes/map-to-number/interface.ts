@@ -1,0 +1,34 @@
+import type {
+  NodeComponentType,
+  NodeInterface,
+} from '@repo/engine/types/node-types.ts'
+import type { ValueType } from '@repo/engine/types/value-types.ts'
+
+export interface MapToNumberNode extends NodeInterface<'data'> {
+  type: 'map-to-number'
+  category: 'data'
+  inputs: {
+    number: {
+      type: 'number'
+      list: false
+    }
+    [key: string]: {
+      type: ValueType
+      list: false
+    }
+  }
+  controls: {
+    breakpoints: {
+      type: 'number'
+      list: true
+    }
+    mode: {
+      type: 'enum'
+      list: false
+      options: ['up', 'down']
+    }
+  }
+  outputs: {
+    output: NodeComponentType
+  }
+}

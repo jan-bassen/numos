@@ -9,7 +9,7 @@ import {
   PiPhotoImageArrowUpSolid,
   PiPhotoImageArrowUpStroke,
 } from '@repo/ui/icons/pika'
-import { cn } from '@/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 import { handleFileUpload } from './upload'
 import LayerFolderView from './layer-folder-view'
 import {

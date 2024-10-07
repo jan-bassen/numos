@@ -1,4 +1,3 @@
-import type { ValueSettings, ValueDataType } from '@/types/database.types'
 import { useHotkeys } from 'react-hotkeys-hook'
 import {
   Form,
@@ -13,7 +12,7 @@ import GenericInput from '@/components/datatypes/generic-input'
 import { type Path, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { cn } from '@/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 import { useParams } from 'next/navigation'
 import {
   getDefaultValuesFromAttributes,
@@ -55,6 +54,10 @@ import NumberInput from '@/components/datatypes/inputs/number-input'
 import { useEffect, useState } from 'react'
 import ListFormInput from '@/components/datatypes/list-input-form'
 import { toast } from 'sonner'
+import type {
+  ValueSettings,
+  ValueType,
+} from '@repo/engine/src/types/value-types'
 
 export default function SimulationForm({
   action,
@@ -369,7 +372,7 @@ export default function SimulationForm({
                   return null
                 const settings = attribute.settings as ValueSettings | null
                 const props = {
-                  datatype: attribute.type as ValueDataType,
+                  datatype: attribute.type as ValueType,
                   settings: settings || undefined,
                 }
                 if (attribute.list) {
@@ -385,7 +388,7 @@ export default function SimulationForm({
                       <div className="flex h-4 items-center justify-between gap-2 pr-1">
                         <FormLabel>
                           <Link
-                            href={`/studio/${collection}/attributes/${attribute.slug}`}
+                            href={`/collections/${collection}/attributes/${attribute.slug}`}
                             className="py-1 hover:underline"
                           >
                             {attribute.name}
@@ -448,7 +451,7 @@ export default function SimulationForm({
                             <div className="flex h-4 items-center justify-between gap-2 pr-1">
                               <FormLabel>
                                 <Link
-                                  href={`/studio/${collection}/attributes/${attribute.slug}`}
+                                  href={`/collections/${collection}/attributes/${attribute.slug}`}
                                   className="py-1 hover:underline"
                                 >
                                   {attribute.name}
@@ -500,7 +503,7 @@ export default function SimulationForm({
                 {hasParams &&
                   trigger?.settings.params.map((parameter) => {
                     const props = {
-                      datatype: parameter.type as ValueDataType,
+                      datatype: parameter.type as ValueType,
                       settings: undefined,
                     }
                     if (parameter.list) {

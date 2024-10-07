@@ -22,7 +22,7 @@ import {
   TableRow,
 } from '@repo/ui/components/ui/table'
 import { useState } from 'react'
-import { cn } from '@/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 
 export type DataTableOptions = {
   sorting?: SortingState

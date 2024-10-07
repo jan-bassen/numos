@@ -6,7 +6,7 @@ import {
   type ButtonProps,
   buttonVariants,
 } from '@repo/ui/components/ui/button'
-import { cn, handleReturnInfo } from '@/lib/utils'
+import { cn, handleReturnInfo } from '@repo/ui/lib/utils'
 import {
   ContextMenu,
   ContextMenuContent,
@@ -56,7 +56,7 @@ const AttributeCard = forwardRef<HTMLButtonElement, AttributeCardProps>(
         </Button>
       )
     }
-    const href = `/studio/${collectionSlug}/attributes/${attribute.slug}`
+    const href = `/collections/${collectionSlug}/attributes/${attribute.slug}`
     return (
       <AlertDialog>
         <ContextMenu>
@@ -111,7 +111,7 @@ const AttributeCard = forwardRef<HTMLButtonElement, AttributeCardProps>(
             )
             handleReturnInfo(res, () => {
               removeAttributeFromLocalForm(collectionSlug, attribute.slug)
-              router.push(`/studio/${collectionSlug}/attributes`)
+              router.push(`/collections/${collectionSlug}/attributes`)
             })
           }}
         />

@@ -1,9 +1,12 @@
 'use client'
 
-import { Tooltip, TooltipTrigger } from '@repo/ui/components/ui/tooltip'
-import { cn } from '@/lib/utils'
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from '@repo/ui/components/ui/tooltip'
+import { cn } from '@repo/ui/lib/utils'
 import type { Location } from '@/types/database.types'
-import { TooltipContent } from '@radix-ui/react-tooltip'
 import { useState } from 'react'
 import { fromLatLng } from 'react-geocode'
 import { getAddressFromGeocoder } from '../utils'

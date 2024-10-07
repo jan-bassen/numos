@@ -1,12 +1,6 @@
-import { type ClassValue, clsx } from 'clsx'
-import { twMerge } from 'tailwind-merge'
 import type { ReturnInfo } from '../types/database.types'
 import { toast } from 'sonner'
 import baseSlugify from 'slugify'
-
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
-}
 
 export function handleReturnInfo(
   res: ReturnInfo,
@@ -36,15 +30,4 @@ export function slugify(text: string) {
     replacement: '-',
     strict: true,
   })
-}
-
-export function getHost() {
-  let url =
-    process?.env?.VERCEL_URL ??
-    process?.env?.NEXT_PUBLIC_VERCEL_URL ??
-    process?.env?.NEXT_PUBLIC_SITE_URL ??
-    'http://localhost:3000/'
-  url = url.includes('http') ? url : `https://${url}`
-  url = url.charAt(url.length - 1) === '/' ? url : `${url}/`
-  return url
 }

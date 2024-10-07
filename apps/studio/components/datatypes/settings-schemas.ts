@@ -1,12 +1,4 @@
 import { type ZodType, z } from 'zod'
-import type {
-  ValueSettings,
-  BaseSettings,
-  DataType,
-  EnumSettings,
-  NumberSettings,
-  StringSettings,
-} from '../../types/database.types'
 import {
   addressSchema,
   booleanSchema,
@@ -21,6 +13,14 @@ import {
   stringSchema,
   weatherSchema,
 } from './schemas'
+import type {
+  BaseSettings,
+  DataType,
+  EnumSettings,
+  NumberSettings,
+  StringSettings,
+  ValueSettings,
+} from '@repo/engine/src/types/value-types'
 
 export const getEnumSettingsSchema = (list: boolean): ZodType => {
   const defaultValue = list
@@ -171,11 +171,11 @@ export function getStringSettingsValidation(settings: StringSettings) {
 }
 
 export function getEnumSettingsValidation(settings: EnumSettings) {
-  const options = settings?.options.map((option) => {
+  const options = settings?.options?.map((option) => {
     return option.value
   })
   return z.string().refine((data) => {
-    if (options.includes(data)) {
+    if (options?.includes(data)) {
       return data
     }
     return { message: 'Invalid option' }

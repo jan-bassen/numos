@@ -20,7 +20,7 @@ import { updateProfile, updateProfileImage } from '@/lib/supabase/db/profile'
 import EditableHeader, {
   EditableHeaderImage,
 } from '../layout/pages/editable-header'
-import { handleReturnInfo } from '@/lib/utils'
+import { handleReturnInfo } from '@repo/ui/lib/utils'
 import { toast } from 'sonner'
 import { Dialog } from '@repo/ui/components/ui/dialog'
 import PasswordDialogContent from './password-dialog'

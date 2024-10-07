@@ -11,7 +11,7 @@ import DateTimeDisplay from './displays/datetime-display'
 import WeatherDisplay from './displays/weather-display'
 import DirectionDisplay from './displays/direction-display'
 import ImageDisplay from './displays/image-display'
-import { cn } from '@/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 import { dataTypes } from '@/lib/supabase/constants/datatypes'
 import { Button } from '@repo/ui/components/ui/button'
 import {

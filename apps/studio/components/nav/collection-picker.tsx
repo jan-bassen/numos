@@ -3,7 +3,7 @@
 import { Button, buttonVariants } from '@repo/ui/components/ui/button'
 import type { Collection } from '@/types/database.types'
 import Link from 'next/link'
-import { cn } from '@/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 import { PiChevronSortVerticalStroke } from '@repo/ui/icons/pika'
 import {
   DropdownMenu,
@@ -33,7 +33,7 @@ export default function CollectionPicker({
     <DropdownMenu modal={true}>
       <div className={cn('flex grow-0 md:w-full', className)}>
         <Link
-          href={`/studio/${currentCollection?.slug}`}
+          href={`/collections/${currentCollection?.slug}`}
           className={cn(
             buttonVariants({ variant: 'ghost' }),
             'flex gap-3 p-0 md:h-11 md:gap-2',
@@ -92,7 +92,7 @@ export default function CollectionPicker({
         {collections.map((collection) => (
           <DropdownMenuItem key={collection.slug} asChild>
             <Link
-              href={`/studio/${collection.slug}`}
+              href={`/collections/${collection.slug}`}
               key={collection.id}
               className="flex h-9 shrink-0 gap-2 font-medium"
             >

@@ -30,13 +30,15 @@ import {
   FormMessage,
   ManualFormMessage,
 } from '@repo/ui/components/ui/form'
-import { cn, handleReturnInfo, slugify } from '@/lib/utils'
+import { cn, handleReturnInfo } from '@repo/ui/lib/utils'
 import EditableHeader from '../../layout/pages/editable-header'
 import { useRouter } from 'next/navigation'
 import { Button, buttonVariants } from '@repo/ui/components/ui/button'
 import DeleteDialogContent from '@repo/ui/components/dialogs/delete-dialog'
-import { AlertDialogTrigger } from '@radix-ui/react-alert-dialog'
-import { AlertDialog } from '@repo/ui/components/ui/alert-dialog'
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+} from '@repo/ui/components/ui/alert-dialog'
 import {
   type ActionTrigger,
   actionSchema,
@@ -66,6 +68,7 @@ import { dataTypes } from '@/lib/supabase/constants/datatypes'
 import { listOptionMap, listOptions } from '../attributes/attribute-schema'
 import { removeActionParameterFromLocalForm } from './utils'
 import CronInput from './cron-input'
+import slugify from 'slugify'
 
 export default function ActionEditor({
   action,
@@ -134,7 +137,7 @@ export default function ActionEditor({
       res,
       () => {
         if (oldSlug !== slug)
-          router.push(`/studio/${collectionSlug}/actions/${slug}`)
+          router.push(`/collections/${collectionSlug}/actions/${slug}`)
         setLocked(true)
       },
       () => {},
@@ -150,7 +153,7 @@ export default function ActionEditor({
 
   function onReset() {
     if (!action) {
-      router.push(`/studio/${collectionSlug}/actions`)
+      router.push(`/collections/${collectionSlug}/actions`)
     }
   }
 
@@ -195,7 +198,7 @@ export default function ActionEditor({
                 description="Define what the action does when triggered."
               >
                 <Link
-                  href={`/studio/${collectionSlug}/actions/${action.slug}/logic`}
+                  href={`/collections/${collectionSlug}/actions/${action.slug}/logic`}
                   className={cn(
                     buttonVariants({ variant: 'outline' }),
                     'relative flex min-h-28 w-fulitems-center max-w-[35rem] justify-center gap-2 overflow-hidden',

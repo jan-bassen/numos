@@ -5,8 +5,8 @@ import {
   PiBugStroke,
   PiChevronBigLeftStroke,
   PiRefreshStroke,
-} from '@/icons/pika'
-import { cn } from '@/lib/utils'
+} from '@repo/ui/icons/pika'
+import { cn } from '@repo/ui/lib/utils'
 import Link from 'next/link'
 
 export default function GeneralError(props: {

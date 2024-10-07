@@ -27,7 +27,7 @@ import {
 import { Button } from '@repo/ui/components/ui/button'
 import { Input } from '@repo/ui/components/ui/input'
 import Link from 'next/link'
-import { cn } from '@/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 
 const tokenSchema = z.object({
   email: z.string().email(),

@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 import CollectionPicker from './collection-picker'
 import type { Collection, Profile } from '@/types/database.types'
 import UserButton from '../user/user-button'
@@ -33,7 +33,7 @@ export default function MobileNavbar({
       >
         <div className="flex w-fit items-center justify-start 2sx:gap-0.5 xs:gap-1.5">
           <Link
-            href="/studio"
+            href="/collections"
             className={cn('shrink-0', !collection && '2xs:flex hidden')}
           >
             <Logo className="size-8 shrink-0" />

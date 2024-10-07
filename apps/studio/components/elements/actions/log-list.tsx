@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 
 export default function LogsList({ logs }: { logs: string[] }) {
   const lastIndex = logs.length - 1

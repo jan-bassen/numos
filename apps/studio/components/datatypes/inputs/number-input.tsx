@@ -1,5 +1,5 @@
 import { Input } from '@repo/ui/components/ui/input'
-import { cn } from '@/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 import { type FocusEvent, useRef } from 'react'
 import type { NumberInputProps } from '../generic-input'
 import { Drag } from 'rete-react-plugin'

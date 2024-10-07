@@ -1,0 +1,30 @@
+import type { NodeInterface } from '@repo/engine/types/node-types.ts'
+
+export interface ImageMirrorNode extends NodeInterface<'data'> {
+  type: 'image-mirror'
+  category: 'data'
+  inputs: {
+    image: {
+      type: 'buffer'
+      list: false
+    }
+  }
+  controls: {
+    mode: {
+      type: 'enum'
+      list: false
+      settings: {
+        options: [
+          { value: 'horizontal'; label: 'Horizontal' },
+          { value: 'vertical'; label: 'Vertical' },
+        ]
+      }
+    }
+  }
+  outputs: {
+    output: {
+      type: 'buffer'
+      list: false
+    }
+  }
+}

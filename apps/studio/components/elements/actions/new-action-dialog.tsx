@@ -5,7 +5,7 @@ import type { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
-import { handleReturnInfo, slugify } from '@/lib/utils'
+import { handleReturnInfo } from '@repo/ui/lib/utils'
 import {
   FormControl,
   FormField,
@@ -38,7 +38,7 @@ import {
   SelectTrigger,
 } from '@repo/ui/components/ui/select'
 import { TriggerSelectContent } from './trigger-select-content'
-import { fi } from 'date-fns/locale'
+import { slugify } from '@/lib/utils'
 
 export function NewActionDialog({
   button,

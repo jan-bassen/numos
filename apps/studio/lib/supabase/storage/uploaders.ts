@@ -3,7 +3,7 @@
 import type { ReturnInfo } from '@/types/database.types'
 import { createSupabaseClient } from '../client'
 import { toast } from 'sonner'
-import { handleReturnInfo } from '@/lib/utils'
+import { handleReturnInfo } from '@repo/ui/lib/utils'
 
 export async function uploadAvatar(file: File) {
   const uuid = crypto.randomUUID()

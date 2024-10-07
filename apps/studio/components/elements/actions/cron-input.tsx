@@ -19,7 +19,7 @@ import {
 import { Textarea } from '@repo/ui/components/ui/textarea'
 import { generateCron } from '@/lib/ai/cron'
 import { PiSpinnerStroke } from '@repo/ui/icons/pika'
-import { cn } from '@/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 import { Loader2 } from 'lucide-react'
 import { useState, useTransition } from 'react'
 import type { FieldError } from 'react-hook-form'

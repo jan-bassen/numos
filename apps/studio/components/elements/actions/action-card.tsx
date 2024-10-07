@@ -6,7 +6,7 @@ import {
   type ButtonProps,
   buttonVariants,
 } from '@repo/ui/components/ui/button'
-import { cn } from '@/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 import {
   ContextMenu,
   ContextMenuContent,
@@ -63,7 +63,7 @@ const ActionCard = forwardRef<HTMLButtonElement, ActionCardProps>(
       )
     }
     const trigger = action.trigger as ActionTrigger | undefined
-    const href = `/studio/${collectionSlug}/actions/${action.slug}`
+    const href = `/collections/${collectionSlug}/actions/${action.slug}`
     return (
       <AlertDialog>
         <ContextMenu>

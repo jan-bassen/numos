@@ -9,7 +9,7 @@ import {
 } from '@repo/ui/components/ui/carousel'
 import { type ReactNode, useEffect, useState } from 'react'
 import { useMediaQuery } from '@/lib/hooks/media-query'
-import { cn } from '@/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 import { PiSwipeRightHandStroke } from '@repo/ui/icons/pika'
 
 export default function Carousel({

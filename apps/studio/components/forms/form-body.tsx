@@ -1,5 +1,5 @@
-import { cn } from '@/lib/utils'
-import { ReactNode } from 'react'
+import { cn } from '@repo/ui/lib/utils'
+import type { ReactNode } from 'react'
 
 export default function FormBody({
   children,

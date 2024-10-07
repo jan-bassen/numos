@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { buttonVariants } from '@repo/ui/components/ui/button'
-import { cn } from '@/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 import type { Collection } from '@/types/database.types'
 import Image from 'next/image'
 import { SupabaseImage } from '@/lib/supabase/storage/supabaseImage'
@@ -26,7 +26,7 @@ export function NavbarCollectionLinks({
       {collections.map((collection) => (
         <Link
           key={collection.slug}
-          href={`/studio/${collection.slug}`}
+          href={`/collections/${collection.slug}`}
           className={cn(
             buttonVariants({ variant: 'ghost' }),
             'flex justify-start gap-2 align-middle text-foreground text-sm md:text-muted-foreground md:text-sm',

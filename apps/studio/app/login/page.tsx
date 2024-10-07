@@ -22,7 +22,7 @@ import { PiAlertTriangleStroke, PiCrossCross } from '@repo/ui/icons/pika'
 import Link from 'next/link'
 import { createSupabaseClient } from '@/lib/supabase/client'
 import { getURL } from '@/lib/supabase/client-utils'
-import { cn } from '@/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 import { Suspense } from 'react'
 import posthog from 'posthog-js'
 

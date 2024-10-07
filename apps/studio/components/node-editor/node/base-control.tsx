@@ -12,7 +12,7 @@ import type {
   NotatedListDataTypeValue,
 } from '@/types/database.types'
 import type { Control as ControlClass } from '@/lib/rete/classes/control'
-import { cn } from '@/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 import { buttonVariants } from '@repo/ui/components/ui/button'
 import { dataTypes } from '@/lib/supabase/constants/datatypes'
 import {

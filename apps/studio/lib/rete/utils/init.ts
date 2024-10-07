@@ -1,15 +1,13 @@
 import { AreaPlugin } from 'rete-area-plugin'
 import { Node } from '../classes/node'
-import {
-  type Area,
-  AreaExtra,
-  type Group,
-  type Item,
-  type NodeType,
-  type ResolvedEditorConfig,
-  Schemes,
+import type {
+  Area,
+  Group,
+  Item,
+  ResolvedEditorConfig,
 } from '@/types/nodes.types'
 import type { NodeEditor } from '../classes/editor'
+import type { NodeType } from '@repo/engine/src/types/node-types'
 
 export type NewNodePosition = 'center' | 'pointer'
 
@@ -38,7 +36,7 @@ export function getNodeMenuList(
 }
 
 function resolveSubitems(
-  subitems: Array<NodeType | Group>,
+  subitems: Array<NodeType | 'separator' | Group<NodeType>>,
   addNewNode: (type: NodeType, position: NewNodePosition) => Promise<void>,
   editor: NodeEditor,
   area: Area,
@@ -48,6 +46,14 @@ function resolveSubitems(
   return subitems
     .filter((item) => {
       if (typeof item === 'string') {
+        if (item === 'separator') return true
+        const nodeCategory = config.nodes[item].category
+        if (
+          config.type === 'data' &&
+          (nodeCategory === 'exec' || nodeCategory === 'hybrid')
+        ) {
+          return false
+        }
         return !config.blocklist.includes(item)
       }
       return item.subitems?.length > 0

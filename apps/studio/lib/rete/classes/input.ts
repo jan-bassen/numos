@@ -1,9 +1,7 @@
-import {
-  type ControlDefinition,
-  type EnumSocketDefinition,
-  type SavedInput,
-  SelectOptions,
-  type SocketDefinition,
+import type {
+  ControlDefinition,
+  SavedInput,
+  SocketDefinition,
 } from '@/types/nodes.types'
 import { Control } from './control'
 import { Port } from './port'
@@ -33,11 +31,13 @@ export class Input extends Port {
     ) {
       let impliedControl: ControlDefinition
       if (definition.type === 'enum') {
-        const def = definition as EnumSocketDefinition
+        const settings = definition.settings
+        const options =
+          settings && 'options' in settings ? settings.options : []
         impliedControl = {
           key: definition.key,
           type: 'enum',
-          options: def.options,
+          options,
         }
       } else {
         impliedControl = {

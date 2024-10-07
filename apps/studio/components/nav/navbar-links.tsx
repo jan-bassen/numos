@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { Button, buttonVariants } from '@repo/ui/components/ui/button'
-import { cn } from '@/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 import { useSelectedLayoutSegment } from 'next/navigation'
 import {
   DropdownMenu,
@@ -110,7 +110,7 @@ export function NavbarLinks({
           {groups.links.map((link) => (
             <Link
               key={link.slug}
-              href={`/studio/${currentCollection}/${link.slug}`}
+              href={`/collections/${currentCollection}/${link.slug}`}
               className={cn(
                 buttonVariants({ variant: 'ghost' }),
                 'flex gap-3 align-middle text-base text-foreground md:text-sm md:text-muted-foreground',
@@ -162,7 +162,7 @@ export function MobileNavbarLinks({
               <DropdownMenuItem asChild key={link.slug}>
                 <Link
                   key={link.slug}
-                  href={`/studio/${currentCollection}/${link.slug}`}
+                  href={`/collections/${currentCollection}/${link.slug}`}
                   className={cn(
                     'gap-1.5',
                     link.slug === selectedLayoutSegment &&

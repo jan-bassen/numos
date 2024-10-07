@@ -4,7 +4,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@repo/ui/components/ui/popover'
-import { cn } from '@/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 import type { Direction } from '@/types/database.types'
 import { Button, buttonVariants } from '@repo/ui/components/ui/button'
 import { useRef } from 'react'

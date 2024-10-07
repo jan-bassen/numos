@@ -5,7 +5,7 @@ import type { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
-import { handleReturnInfo, slugify } from '@/lib/utils'
+import { handleReturnInfo } from '@repo/ui/lib/utils'
 import { FormControl, FormItem, FormMessage } from '@repo/ui/components/ui/form'
 import { toast } from 'sonner'
 import { Input } from '@repo/ui/components/ui/input'
@@ -34,6 +34,7 @@ import {
   SelectValue,
 } from '@repo/ui/components/ui/select'
 import { Switch } from '@repo/ui/components/ui/switch'
+import { slugify } from '@/lib/utils'
 
 export function NewAttributeDialog({
   button,

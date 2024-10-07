@@ -6,7 +6,7 @@ import {
   PiNftDefaultStroke,
   PiPencilScaleCrossStroke,
 } from '@repo/ui/icons/pika'
-import type { EditorContext } from '@/types/nodes.types'
+import type { EditorContext, Group } from '@/types/nodes.types'
 
 export const baseConfig = (context: EditorContext) => {
   const tokenSubitems =
@@ -104,5 +104,5 @@ export const baseConfig = (context: EditorContext) => {
       },
     ],
   }
-  return [token, logic, math, text, other, utility]
+  return [token, logic, math, text, other, utility] as Group[]
 }

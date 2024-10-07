@@ -5,7 +5,6 @@ import { TabSelect } from '@/components/forms/tab-select'
 import { TabToggle } from '@/components/forms/tab-toggle'
 import {
   type Attribute,
-  type ValueSettings,
   type DataType,
   type ValueDataType,
   type ReturnInfo,
@@ -38,7 +37,7 @@ import {
   insertAttribute,
   updateAttribute,
 } from '@/lib/supabase/db/attributes'
-import { handleReturnInfo, slugify } from '@/lib/utils'
+import { handleReturnInfo } from '@repo/ui/lib/utils'
 import EditableHeader from '../../layout/pages/editable-header'
 import { useRouter } from 'next/navigation'
 import {
@@ -48,8 +47,10 @@ import {
 } from './attribute-schema'
 import { Button } from '@repo/ui/components/ui/button'
 import DeleteDialogContent from '@repo/ui/components/dialogs/delete-dialog'
-import { AlertDialogTrigger } from '@radix-ui/react-alert-dialog'
-import { AlertDialog } from '@repo/ui/components/ui/alert-dialog'
+import {
+  AlertDialogTrigger,
+  AlertDialog,
+} from '@repo/ui/components/ui/alert-dialog'
 import { Input } from '@repo/ui/components/ui/input'
 import { toast } from 'sonner'
 import { dataTypes } from '@/lib/supabase/constants/datatypes'
@@ -57,6 +58,8 @@ import ListInput from '@/components/datatypes/list-input'
 import { isArray } from 'lodash'
 import ListFormInput from '@/components/datatypes/list-input-form'
 import { removeAttributeFromLocalForm } from './utils'
+import { slugify } from '@/lib/utils'
+import type { ValueSettings } from '@repo/engine/src/types/value-types'
 
 export default function AttributeEditor({
   attribute,

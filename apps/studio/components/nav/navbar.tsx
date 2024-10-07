@@ -1,7 +1,7 @@
 'use client'
 
 import { Button, buttonVariants } from '@repo/ui/components/ui/button'
-import { cn } from '@/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 import Link from 'next/link'
 import CollectionPicker from './collection-picker'
 import type { Collection, Profile } from '@/types/database.types'
@@ -72,7 +72,7 @@ export default function Navbar({
             )}
           >
             <Link
-              href="/studio"
+              href="/collections"
               className={cn(
                 buttonVariants({ variant: 'ghost' }),
                 'h-auto items-center',

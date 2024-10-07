@@ -1,6 +1,6 @@
 import NavBreadcrumbs from '@/components/nav/nav-breadcrumbs'
 import { Badge, type BadgeVariant } from '@repo/ui/components/ui/badge'
-import { cn } from '@/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 import type { ReactNode } from 'react'
 import { H1 } from './headings'
 import Link from 'next/link'

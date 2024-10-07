@@ -17,7 +17,7 @@ import {
 import { fromAddress, fromLatLng, setKey, setLanguage } from 'react-geocode'
 import { Input } from '@repo/ui/components/ui/input'
 import { PiSearchDefaultStroke } from '@repo/ui/icons/pika'
-import { cn } from '@/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 import { Drag } from 'rete-react-plugin'
 import { getAddressFromGeocoder } from '../utils'
 import { locationSchema } from '../schemas'

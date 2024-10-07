@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 import { SupabaseImage } from '@/lib/supabase/storage/supabaseImage'
 import type { ImageInputProps } from '../generic-input'
 import { useRef, useState } from 'react'

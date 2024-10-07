@@ -2,8 +2,12 @@
   "extends": "@repo/tsconfig/base.json",
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "src"
+    "rootDir": "src",
+    "baseUrl": ".",
+    "paths": {
+      "@repo/engine/*": ["./src/*"]
+    }
   },
-  "include": ["src"],
+  "include": ["src", "value-types.ts"],
   "exclude": ["node_modules", "dist"]
 }

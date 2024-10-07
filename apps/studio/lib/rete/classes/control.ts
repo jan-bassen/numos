@@ -13,7 +13,6 @@ import type {
 } from '@/types/database.types'
 import { getDataTypeSchema } from '@/components/datatypes/schemas'
 import { ZodError, type ZodIssue } from 'zod'
-import { index } from 'drizzle-orm/mysql-core'
 
 export class Control extends ClassicPreset.Control {
   node: Node

@@ -6,7 +6,7 @@ import {
   PopoverTrigger,
 } from '@repo/ui/components/ui/popover'
 import { type FocusEvent, useRef } from 'react'
-import { cn } from '@/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 import type { Color } from '@/types/database.types'
 import { Drag } from 'rete-react-plugin'
 import { colorSchema } from '../schemas'

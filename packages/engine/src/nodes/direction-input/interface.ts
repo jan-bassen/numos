@@ -1,0 +1,18 @@
+import type { NodeInterface } from '@repo/engine/types/node-types.ts'
+
+export interface DirectionInputNode extends NodeInterface<'data'> {
+  type: 'direction-input'
+  category: 'data'
+  controls: {
+    direction: {
+      type: 'direction'
+      list: false
+    }
+  }
+  outputs: {
+    output: {
+      type: 'direction'
+      list: false
+    }
+  }
+}

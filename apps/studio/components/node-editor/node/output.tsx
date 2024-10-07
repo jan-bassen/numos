@@ -1,10 +1,10 @@
-import { NodeDefinition, Schemes } from '@/types/nodes.types'
-import { RenderEmit } from 'rete-react-plugin'
+import type { NodeDefinition, Schemes } from '@/types/nodes.types'
+import type { RenderEmit } from 'rete-react-plugin'
 import { Socket } from './socket'
-import { SocketType } from '@/types/database.types'
-import { cn } from '@/lib/utils'
-import { Output as OutputClass } from 'rete/_types/presets/classic'
-import { Socket as SocketClass } from '@/lib/rete/classes/socket'
+import type { SocketType } from '@/types/database.types'
+import { cn } from '@repo/ui/lib/utils'
+import type { Output as OutputClass } from 'rete/_types/presets/classic'
+import type { Socket as SocketClass } from '@/lib/rete/classes/socket'
 
 export default function Output({
   socketKey,

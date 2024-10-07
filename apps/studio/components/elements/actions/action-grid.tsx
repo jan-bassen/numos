@@ -1,6 +1,6 @@
 import type { Action } from '@/types/database.types'
 import ActionCard from './action-card'
-import { cn } from '@/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 import { NewActionDialog } from './new-action-dialog'
 
 export default function ActionGrid({

@@ -1,25 +1,12 @@
-import {
-  DataType,
-  type DataTypeValue,
-  type SocketType,
-} from '@/types/database.types'
-import {
-  type EnumSocketDefinition,
-  SavedInput,
-  SavedOutput,
-  SelectOptions,
-  type SocketDefinition,
-} from '@/types/nodes.types'
+import type { DataTypeValue, SocketType } from '@/types/database.types'
+import type { SocketDefinition } from '@/types/nodes.types'
 import { ClassicPreset } from 'rete'
 import type { Node } from './node'
 import type { Connection } from './connection'
-import { Input } from './input'
-import { Control } from './control'
 import { isEqual } from 'lodash'
 import { validateValueType } from '@/components/datatypes/schemas'
 import { toast } from 'sonner'
-import { th } from 'date-fns/locale'
-
+import type { EnumSettings } from '@repo/engine/src/types/value-types'
 export type SocketTypeData = {
   title: string
 }
@@ -107,13 +94,19 @@ export class Socket extends ClassicPreset.Socket {
 
     if (this.type === 'enum') {
       if (socket.type !== 'enum') return false //if (!["enum", "generic"].includes(socket.type)) return false;
-      const def = this.definition as EnumSocketDefinition
-      const socketDef = socket.definition as EnumSocketDefinition
-      if (def.adaptOptions !== socketDef.adaptOptions) {
+      // TODO: Clean up this mess and test it
+      const settings = this.definition.settings as EnumSettings
+      const socketSettings = socket.definition as unknown as EnumSettings
+      if (!socketSettings) return false
+
+      const socketDef = socket.definition
+      if (settings.adaptOptions !== socketSettings.adaptOptions) {
         return true
       }
-      const options = def.options?.map((option) => option.value)
-      const socketOptions = socketDef.options?.map((option) => option.value)
+      const options = settings.options?.map((option) => option.value)
+      const socketOptions = socketSettings.options?.map(
+        (option) => option.value,
+      )
       return isEqual(options, socketOptions)
     }
     if (socket.type === this.type) return true

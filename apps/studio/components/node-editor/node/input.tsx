@@ -4,7 +4,7 @@ import type { RenderEmit } from 'rete-react-plugin'
 import { Socket } from './socket'
 import type { SocketType } from '@/types/database.types'
 import Control from './control'
-import { cn } from '@/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 import { Separator } from '@repo/ui/components/ui/separator'
 
 export default function Input({

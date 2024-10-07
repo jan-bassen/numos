@@ -5,7 +5,7 @@ import type {
   UseFormReturn,
 } from 'react-hook-form'
 import { useEffect, useRef, useState } from 'react'
-import { cn } from '@/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 import { Form, FormField } from '@repo/ui/components/ui/form'
 import {
   Pagination,

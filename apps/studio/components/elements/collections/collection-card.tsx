@@ -7,7 +7,7 @@ import {
   type ButtonProps,
   buttonVariants,
 } from '@repo/ui/components/ui/button'
-import { cn, handleReturnInfo } from '@/lib/utils'
+import { cn, handleReturnInfo } from '@repo/ui/lib/utils'
 import {
   ContextMenu,
   ContextMenuContent,
@@ -61,7 +61,7 @@ const CollectionCard = forwardRef<HTMLButtonElement, CollectionCardProps>(
         <ContextMenu>
           <ContextMenuTrigger asChild>
             <Link
-              href={`/studio/${collection.slug}`}
+              href={`/collections/${collection.slug}`}
               key={collection.slug}
               className={cn(
                 buttonVariants({ variant: 'outline' }),

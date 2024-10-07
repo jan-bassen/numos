@@ -5,7 +5,7 @@ import {
   PiChevronBigLeftStroke,
   PiChevronLeftStroke,
 } from '@repo/ui/icons/pika'
-import { cn } from '@/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
@@ -28,7 +28,7 @@ export default function NotFound() {
           </Link>
           <Link
             className={cn(buttonVariants({ variant: 'outline' }))}
-            href="/studio"
+            href="/collections"
           >
             Studio
           </Link>

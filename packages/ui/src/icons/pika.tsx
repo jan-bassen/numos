@@ -1,3 +1,5 @@
+export type PikaIcon = (props: JSX.IntrinsicElements['svg']) => JSX.Element
+
 export function PiBook(props: JSX.IntrinsicElements['svg']) {
   return (
     <svg

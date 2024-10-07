@@ -1,6 +1,6 @@
 import NavBreadcrumbs from '@/components/nav/nav-breadcrumbs'
 import { Badge, type BadgeVariant } from '@repo/ui/components/ui/badge'
-import { cn } from '@/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 import { type ReactNode, useEffect, useRef, useState } from 'react'
 import { Input } from '@repo/ui/components/ui/input'
 import type { ControllerRenderProps, UseFormReturn } from 'react-hook-form'

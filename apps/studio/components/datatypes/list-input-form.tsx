@@ -1,6 +1,5 @@
 'use client'
 
-import type { ValueDataType, ValueSettings } from '@/types/database.types'
 import {
   type ArrayPath,
   type FieldArray,
@@ -17,7 +16,7 @@ import {
   FormMessage,
 } from '@repo/ui/components/ui/form'
 import { PiCrossCross, PiThreeByTwoDotsVertical } from '@repo/ui/icons/pika'
-import { cn } from '@/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 import { dataTypes } from '@/lib/supabase/constants/datatypes'
 import GenericInput from './generic-input'
 import { DndContext } from '@dnd-kit/core'
@@ -28,12 +27,16 @@ import {
   restrictToHorizontalAxis,
 } from '@dnd-kit/modifiers'
 import { CSS } from '@dnd-kit/utilities'
+import type {
+  ValueSettings,
+  ValueType,
+} from '@repo/engine/src/types/value-types'
 
 export type ListInputProps<
   SchemaType extends Record<string, any>,
   Key extends ArrayPath<SchemaType>,
 > = {
-  datatype: ValueDataType
+  datatype: ValueType
   form: UseFormReturn<SchemaType>
   itemKey: Key
   defaultItemValue: FieldArray<SchemaType, Key>

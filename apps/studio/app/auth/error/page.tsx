@@ -1,6 +1,6 @@
 import { buttonVariants } from '@repo/ui/components/ui/button'
 import { PiBugStroke, PiChevronBigLeftStroke } from '@repo/ui/icons/pika'
-import { cn } from '@/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 import Link from 'next/link'
 
 export default function AuthCodeErrorPage() {

@@ -1,7 +1,7 @@
-import * as React from "react";
+import * as React from 'react'
 
-import { cn } from "@/lib/utils";
-import { Label } from "./label";
+import { cn } from '@repo/ui/lib/utils'
+import { Label } from './label'
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {}
@@ -27,15 +27,15 @@ const FloatingLabel = React.forwardRef<
   return (
     <Label
       className={cn(
-        "peer-focus:secondary peer-focus:dark:secondary absolute start-2 top-2 z-10 origin-[0] -translate-y-4 scale-75 transform bg-background px-2 text-sm text-gray-500 duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:px-2 dark:bg-background rtl:peer-focus:left-auto rtl:peer-focus:translate-x-1/4",
+        'peer-focus:secondary peer-focus:dark:secondary absolute start-2 top-2 z-10 origin-[0] -translate-y-4 scale-75 transform bg-background px-2 text-sm text-gray-500 duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:px-2 dark:bg-background rtl:peer-focus:left-auto rtl:peer-focus:translate-x-1/4',
         className,
       )}
       ref={ref}
       {...props}
     />
-  );
-});
-FloatingLabel.displayName = "FloatingLabel";
+  )
+})
+FloatingLabel.displayName = 'FloatingLabel'
 
 /* type FloatingLabelInputProps = InputProps & { label?: string };
 
@@ -52,4 +52,4 @@ const FloatingLabelInput = React.forwardRef<
 });
 FloatingLabelInput.displayName = "FloatingLabelInput"; */
 
-export { FloatingLabel };
+export { FloatingLabel }
