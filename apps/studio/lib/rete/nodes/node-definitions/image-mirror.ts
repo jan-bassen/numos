@@ -1,7 +1,7 @@
-import type { NodeDefinition2 } from '@/types/nodes.types'
-import type { ImageMirrorNode } from '@repo/engine/src/nodes/image-mirror/interface'
+import type { SpecificNodeDefinition } from '@/types/nodes.types'
+import type { ImageMirrorNode } from '@repo/engine/nodes/image-mirror/interface'
 
-export const imageMirrorDefinition: NodeDefinition2<ImageMirrorNode> = {
+export const imageMirrorDefinition: SpecificNodeDefinition<ImageMirrorNode> = {
   type: 'image-mirror',
   category: 'data',
   title: 'Mirror',
@@ -17,11 +17,13 @@ export const imageMirrorDefinition: NodeDefinition2<ImageMirrorNode> = {
       type: 'enum',
       label: 'Mirror',
       placeholder: 'Select Direction',
-      defaultValue: 'horizontal',
-      options: [
-        { value: 'horizontal', label: 'Horizontal' },
-        { value: 'vertical', label: 'Vertical' },
-      ],
+      settings: {
+        default: 'horizontal',
+        options: [
+          { value: 'horizontal', label: 'Horizontal' },
+          { value: 'vertical', label: 'Vertical' },
+        ],
+      },
     },
   ],
   inputs: [{ key: 'image', type: 'buffer', label: 'Image' }],

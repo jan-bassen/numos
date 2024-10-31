@@ -1,7 +1,8 @@
 import type {
-  NodeComponentType,
+  SocketInterface,
   NodeInterface,
-} from '@repo/engine/types/node-types.ts'
+} from '@repo/engine/types/node-types'
+import type { ValueType } from '@repo/engine/types/value-types'
 
 export interface MapToChoiceNode extends NodeInterface<'data'> {
   type: 'map-to-choice'
@@ -11,9 +12,15 @@ export interface MapToChoiceNode extends NodeInterface<'data'> {
       type: 'enum'
       list: false
     }
-    [key: string]: NodeComponentType
+    [key: string]: {
+      type: ValueType
+      list: boolean
+    }
   }
   outputs: {
-    output: NodeComponentType
+    output: {
+      type: ValueType
+      list: boolean
+    }
   }
 }

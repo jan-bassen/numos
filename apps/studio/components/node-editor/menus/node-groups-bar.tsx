@@ -1,5 +1,5 @@
 import { cn } from '@repo/ui/lib/utils'
-import type { Item } from '@/types/nodes.types'
+import type { Item } from '@/types/editor.types'
 import { buttonVariants } from '@repo/ui/components/ui/button'
 import {
   Menubar,

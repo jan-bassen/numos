@@ -72,9 +72,9 @@ export function NodeComponent(props: Props) {
   Drag.useNoDrag(commentRef)
 
   const node = props.data
-  const inputs = sortByIndex(Object.entries(node.inputs))
-  const outputs = sortByIndex(Object.entries(node.outputs))
-  const controls = sortByIndex(Object.entries(node.controls))
+  const inputs = Object.entries(node.getInputs())
+  const outputs = Object.entries(node.getOutputs())
+  const controls = Object.entries(node.getControls())
   const { id, label, definition, displayData, error, context, comment } =
     props.data
   const root = definition.root
@@ -168,8 +168,8 @@ export function NodeComponent(props: Props) {
                     control={control}
                     emit={props.emit}
                     error={
-                      error?.component?.type === 'control' &&
-                      error?.component?.id === control.id
+                      error?.location.component?.type === 'control' &&
+                      error?.location.component?.key === control.definition.key
                     }
                   />
                 ))}
@@ -183,8 +183,8 @@ export function NodeComponent(props: Props) {
                     socketKey={key}
                     input={input}
                     error={
-                      error?.component?.type === 'input' &&
-                      error?.component?.id === input.id
+                      error?.location.component?.type === 'input' &&
+                      error?.location.component?.key === input.definition.key
                     }
                     nodeId={id}
                     emit={props.emit}
@@ -208,8 +208,8 @@ export function NodeComponent(props: Props) {
                       nodeId={id}
                       nodeDefinition={definition}
                       error={
-                        error?.component?.type === 'output' &&
-                        error?.component?.id === output.id
+                        error?.location.component?.type === 'output' &&
+                        error?.location.component?.key === output.definition.key
                       }
                       emit={props.emit}
                     />

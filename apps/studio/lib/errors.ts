@@ -1,81 +1,83 @@
+import type { GraphErrorData } from '@repo/engine/types/engine-types'
+
 export class FetchError extends Error {
   constructor(message: string) {
-    super(message);
-    this.name = "FetchError";
+    super(message)
+    this.name = 'FetchError'
   }
 }
 
 export class ParseError extends Error {
   constructor(message: string) {
-    super(message);
-    this.name = "ParseError";
+    super(message)
+    this.name = 'ParseError'
+  }
+}
+/* 
+type GraphErrorData = {
+  type: 'graph'
+  message: string
+  node: string
+  component?: {
+    id: string
+    type: 'input' | 'output' | 'control'
+  }
+  input?: {
+    key: string
+    type: 'metadata' | 'attributes' | 'parameters'
   }
 }
 
-export type GraphErrorData = {
-  type: "graph";
-  message: string;
-  node: string;
-  component?: {
-    id: string;
-    type: "input" | "output" | "control";
-  };
-  input?: {
-    key: string;
-    type: "metadata" | "attributes" | "parameters";
-  };
-};
-
-export class GraphError extends Error {
-  name = "GraphError";
+class GraphError extends Error {
+  name = 'GraphError'
   constructor(
     message: string,
     public node: string,
     public component?: {
-      id: string;
-      type: "input" | "output" | "control";
+      id: string
+      type: 'input' | 'output' | 'control'
     },
     public input?: {
-      key: string;
-      type: "metadata" | "attributes" | "parameters";
+      key: string
+      type: 'metadata' | 'attributes' | 'parameters'
     },
   ) {
-    super(message);
+    super(message)
   }
   serialize = (): GraphErrorData => {
     return {
-      type: "graph",
+      type: 'graph',
       message: this.message,
       node: this.node,
       component: this.component,
       input: this.input,
-    };
-  };
-}
+    }
+  }
+} */
 
 export class EngineInputError extends Error {
-  name = "InputDataError";
+  name = 'InputDataError'
   constructor(
-    public type: "metadata" | "attribute" | "parameter",
+    public type: 'metadata' | 'attribute' | 'parameter',
     public key: string,
     public node?: string,
     message?: string,
   ) {
-    const defaultMessage = `This ${type} is used, so it needs to be defined`;
-    super(message || defaultMessage);
+    const defaultMessage = `This ${type} is used, so it needs to be defined`
+    super(message || defaultMessage)
   }
 }
 
 export type UnkownErrorData = {
-  type: "unknown";
-  message: string;
-};
+  type: 'unknown'
+  message: string
+}
 
 export type SimulationCheck =
   | {
-      success: true;
+      success: true
     }
   | {
-      success: false;
-      error: GraphErrorData | UnkownErrorData;
-    };
+      success: false
+      error: GraphErrorData | UnkownErrorData
+    }

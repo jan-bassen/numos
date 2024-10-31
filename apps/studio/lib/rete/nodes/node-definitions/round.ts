@@ -1,7 +1,7 @@
-import type { NodeDefinition2 } from '@/types/nodes.types'
-import type { RoundNode } from '@repo/engine/src/nodes/round/interface'
+import type { SpecificNodeDefinition } from '@/types/nodes.types'
+import type { RoundNode } from '@repo/engine/nodes/round/interface'
 
-export const roundDefinition: NodeDefinition2<RoundNode> = {
+export const roundDefinition: SpecificNodeDefinition<RoundNode> = {
   type: 'round',
   category: 'data',
   title: 'Round',

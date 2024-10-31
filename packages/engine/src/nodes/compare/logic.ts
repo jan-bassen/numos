@@ -1,13 +1,13 @@
-import type { NodeLogic } from '@repo/engine/types/node-types.ts'
-import type { CompareNode } from './interface.ts'
-import { NodeError } from '@repo/engine/errors/node-error.ts'
+import type { NodeLogic } from '@repo/engine/types/node-types'
+import type { CompareNode } from '@repo/engine/nodes/compare/interface'
+import { NodeError } from '@repo/engine/errors/node-error'
 import { isEqual } from 'lodash'
 
 export const compareLogic: NodeLogic<CompareNode> = {
   data: {
-    output: ({ getInputValue, getControlValue }) => {
-      const value1 = getInputValue('value1')
-      const value2 = getInputValue('value2')
+    output: async ({ getInputValue, getControlValue }) => {
+      const value1 = await getInputValue('value1')
+      const value2 = await getInputValue('value2')
       const mode = getControlValue('mode').value
 
       if (value1.type !== value2.type) {

@@ -1,9 +1,5 @@
 'use client'
 
-import type {
-  NotatedDataTypeValue,
-  NotatedSingleDataTypeValue,
-} from '@/types/database.types'
 import ColorDisplay from './displays/color-display'
 import LocationDisplay from './displays/location-display'
 import AddressDisplay from './displays/address-display'
@@ -19,9 +15,15 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@repo/ui/components/ui/popover'
+import type {
+  Value,
+  ValueFormat,
+  ValueType,
+} from '@repo/engine/types/value-types'
+import { isListFormat } from '@repo/engine/datatypes/utils'
 
 export type GenericSingleDisplayProps = {
-  value: NotatedSingleDataTypeValue
+  value: Value<ValueType, 'single', true>
   className?: string
 }
 
@@ -62,12 +64,13 @@ export function GenericSingleDisplay({
 }
 
 export type GenericDisplayProps = {
-  value: NotatedDataTypeValue
+  value: Value<ValueType, ValueFormat, true>
   className?: string
 }
 
 export function GenericDisplay({ value, ...props }: GenericDisplayProps) {
-  if (value.list) {
+  if (isListFormat<ValueType, true>(value)) {
+    const x = value.value
     return (
       <Popover>
         <PopoverTrigger asChild>
@@ -80,19 +83,25 @@ export function GenericDisplay({ value, ...props }: GenericDisplayProps) {
         </PopoverTrigger>
         <PopoverContent className="w-fit min-w-32 px-3 py-2">
           <ul className={cn('space-y-1', props.className)}>
-            {value.value.map((v, index) => (
-              <li key={v.toString() + index.toString()} className="flex gap-2">
-                <GenericSingleDisplay
-                  value={
-                    {
-                      type: value.type,
-                      list: false,
-                      value: v,
-                    } as NotatedSingleDataTypeValue
-                  }
-                />
-              </li>
-            ))}
+            {value.value.map((v, index) => {
+              if (!v) return null
+              return (
+                <li
+                  key={v.toString() + index.toString()}
+                  className="flex gap-2"
+                >
+                  <GenericSingleDisplay
+                    value={
+                      {
+                        type: value.type,
+                        format: 'single',
+                        value: v,
+                      } as Value<ValueType, 'single', true>
+                    }
+                  />
+                </li>
+              )
+            })}
           </ul>
         </PopoverContent>
       </Popover>

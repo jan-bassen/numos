@@ -4,13 +4,10 @@ import { Card } from '@repo/ui/components/ui/card'
 import {
   InputOTP,
   InputOTPGroup,
-  InputOTPSeparator,
   InputOTPSlot,
 } from '@repo/ui/components/ui/input-otp'
 import { createSupabaseClient } from '@/lib/supabase/client'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { REGEXP_ONLY_DIGITS_AND_CHARS } from 'input-otp'
-import { useState } from 'react'
 import { toast } from 'sonner'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
@@ -18,7 +15,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,

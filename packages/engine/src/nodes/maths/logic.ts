@@ -1,13 +1,14 @@
-import type { NodeLogic } from '@repo/engine/types/node-types.ts'
-import type { MathsNode } from './interface.ts'
+import type { NodeLogic } from '@repo/engine/types/node-types'
+import type { MathsNode } from '@repo/engine/nodes/maths/interface'
 import { Decimal } from 'decimal.js'
-import { NodeError } from '@repo/engine/errors/node-error.ts'
+import { NodeError } from '@repo/engine/errors/node-error'
 
 export const mathsLogic: NodeLogic<MathsNode> = {
   data: {
-    output: ({ getInputValue, getControlValue }) => {
-      const a = new Decimal(getInputValue('number1').value)
-      const b = getInputValue('number2').value
+    output: async ({ getInputValue, getControlValue }) => {
+      const number1 = await getInputValue('number1')
+      const a = new Decimal(number1.value)
+      const b = await getInputValue('number2')
       const mode = getControlValue('mode').value
 
       switch (mode) {
@@ -15,25 +16,25 @@ export const mathsLogic: NodeLogic<MathsNode> = {
           return {
             type: 'number',
             format: 'single',
-            value: a.plus(b).toNumber(),
+            value: a.plus(b.value).toNumber(),
           }
         case 'subtract':
           return {
             type: 'number',
             format: 'single',
-            value: a.minus(b).toNumber(),
+            value: a.minus(b.value).toNumber(),
           }
         case 'mul':
           return {
             type: 'number',
             format: 'single',
-            value: a.times(b).toNumber(),
+            value: a.times(b.value).toNumber(),
           }
         case 'div':
           return {
             type: 'number',
             format: 'single',
-            value: a.div(b).toNumber(),
+            value: a.div(b.value).toNumber(),
           }
         default:
           throw new NodeError('Invalid mode', {

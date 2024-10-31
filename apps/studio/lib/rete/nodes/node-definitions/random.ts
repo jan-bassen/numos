@@ -1,7 +1,7 @@
-import type { NodeDefinition2 } from '@/types/nodes.types'
-import type { RandomNode } from '@repo/engine/src/nodes/random/interface'
+import type { SpecificNodeDefinition } from '@/types/nodes.types'
+import type { RandomNode } from '@repo/engine/nodes/random/interface'
 
-export const randomDefinition: NodeDefinition2<RandomNode> = {
+export const randomDefinition: SpecificNodeDefinition<RandomNode> = {
   type: 'random',
   category: 'data',
   title: 'Random',

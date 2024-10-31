@@ -1,14 +1,14 @@
 // ----------- BASETYPES -------------
 
-import type { Direction } from '../datatypes/directions.ts'
-import type { WeatherCode } from '../datatypes/weather-codes.ts'
+import type { Direction } from '@repo/engine/datatypes/directions'
+import type { WeatherCode } from '@repo/engine/datatypes/weather-codes'
 
 export type Color = { r: number; g: number; b: number; a: number }
 export type Location = { lat: number; lng: number }
 
 // ----------- VALUES -------------
 
-export type RawValue =
+export type RawSingleValue =
   | string
   | number
   | boolean
@@ -18,13 +18,36 @@ export type RawValue =
   | WeatherCode
   | Buffer
 
-export type OptionalValue<DTV extends RawValue = RawValue> =
+export type RawValue<
+  format extends ValueFormat = ValueFormat,
+  Optional extends boolean = false,
+> = format extends 'single'
+  ? Optional extends true
+    ? OptionalValue<RawSingleValue>
+    : RawSingleValue
+  : format extends 'array'
+    ? Optional extends true
+      ? OptionalValue<RawSingleValue>[]
+      : RawSingleValue[]
+    : format extends 'objectarray'
+      ? ObjectValue<RawSingleValue, Optional>[]
+      : Optional extends true
+        ?
+            | OptionalValue<RawSingleValue>
+            | OptionalValue<RawSingleValue>[]
+            | ObjectValue<RawSingleValue, true>[]
+        :
+            | RawSingleValue
+            | RawSingleValue[]
+            | ObjectValue<RawSingleValue, false>[]
+
+export type OptionalValue<DTV extends RawSingleValue = RawSingleValue> =
   | DTV
   | undefined
   | null
 
 export type ObjectValue<
-  DTV extends RawValue,
+  DTV extends RawSingleValue,
   Optional extends boolean = false,
 > = {
   id: string
@@ -32,8 +55,8 @@ export type ObjectValue<
 }
 
 export type ValueInterface<
-  DT extends DataType,
-  DTV extends RawValue,
+  DT extends OptionalValueType,
+  DTV extends RawSingleValue,
   Format extends 'single' | 'array' | 'objectarray' | undefined = undefined,
   Optional extends boolean = false,
 > = Format extends 'single'
@@ -50,11 +73,7 @@ export type ValueInterface<
       }
     : Format extends 'objectarray'
       ? { type: DT; format: 'objectarray'; value: ObjectValue<DTV, Optional>[] }
-      : {
-          type: DT
-          format: undefined
-          value: 'single' | 'array' | 'objectarray'
-        }
+      : never
 
 interface DataTypesMap<
   Format extends 'single' | 'array' | 'objectarray' | undefined = undefined,
@@ -72,28 +91,62 @@ interface DataTypesMap<
   image: ValueInterface<'image', string, Format, Optional>
   direction: ValueInterface<'direction', Direction, Format, Optional>
   buffer: ValueInterface<'buffer', Buffer, Format, Optional>
-  generic: ValueInterface<'generic', RawValue, Format, Optional>
   // Add new types here as needed
 }
 
+interface OptionalDataTypesMap<
+  Format extends 'single' | 'array' | 'objectarray' | undefined = undefined,
+  Optional extends boolean = false,
+> extends DataTypesMap {
+  generic: ValueInterface<'generic', RawSingleValue, Format, Optional>
+}
+
 export type ValueType = keyof DataTypesMap
+export type OptionalValueType = keyof OptionalDataTypesMap
+
 export type DataType = ValueType | 'exec'
+export type OptionalDataType = OptionalValueType | 'exec'
 
 export type ValueFormat = 'single' | 'array' | 'objectarray'
 
 export type Value<
-  T extends ValueType | undefined = undefined,
-  Format extends ValueFormat | undefined = undefined,
+  T extends ValueType = ValueType,
+  Format extends ValueFormat = ValueFormat,
   Optional extends boolean = false,
 > = T extends ValueType
   ? DataTypesMap<Format, Optional>[T]
   : DataTypesMap<Format, Optional>[keyof DataTypesMap]
 
+export type ValueWithGeneric<
+  T extends OptionalValueType = OptionalValueType,
+  Format extends ValueFormat = ValueFormat,
+  Optional extends boolean = false,
+> = T extends OptionalValueType
+  ? OptionalDataTypesMap<Format, Optional>[T]
+  : OptionalDataTypesMap<Format, Optional>[keyof OptionalDataTypesMap]
+
 export type ValueMap<
   Keys extends string = string,
-  Format extends ValueFormat | undefined = undefined,
+  VT extends ValueType = ValueType,
+  Format extends ValueFormat = ValueFormat,
   Optional extends boolean = false,
-> = Record<Keys, Value<ValueType, Format, Optional>>
+> = Record<Keys, Value<VT, Format, Optional>>
+
+export type NodeValueMap = ValueMap<
+  string,
+  ValueType,
+  'single' | 'objectarray',
+  true
+>
+
+export type ValueWithGenericMap<
+  Keys extends string = string,
+  Format extends ValueFormat = ValueFormat,
+  Optional extends boolean = false,
+> = Record<Keys, ValueWithGeneric<OptionalValueType, Format, Optional>>
+
+export type ValueTypeMap = Record<string, { type: ValueType; list: boolean }>
+export type RawValueMap = Record<string, RawValue>
 
 // ----------- SETTINGS -------------
 
@@ -103,7 +156,7 @@ export type SelectOption = {
 }
 
 export type BaseSettings = {
-  default?: RawValue | Array<RawValue>
+  default?: RawSingleValue | Array<RawSingleValue>
 }
 export type NumberSettings = {
   max?: number
@@ -125,8 +178,16 @@ export type GenericSettings = {
   type: Omit<DataType, 'enum' | 'string' | 'number'>
 } & BaseSettings
 
-export type ValueSettings<DT extends DataType = DataType> =
-  | NumberSettings
-  | StringSettings
-  | EnumSettings
-  | GenericSettings
+export type ValueSettings<
+  VT extends OptionalValueType | undefined = undefined,
+> = VT extends undefined
+  ? GenericSettings | EnumSettings | StringSettings | NumberSettings
+  : VT extends 'generic'
+    ? GenericSettings | EnumSettings | StringSettings | NumberSettings
+    : VT extends 'enum'
+      ? EnumSettings
+      : VT extends 'string'
+        ? StringSettings
+        : VT extends 'number'
+          ? NumberSettings
+          : GenericSettings

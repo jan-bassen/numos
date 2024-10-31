@@ -1,13 +1,9 @@
 import type { Action } from '../plugin'
-import {
-  type Area,
-  Editor,
-  type NodeDefinition,
-  type Position,
-  type SavedNode,
-} from '@/types/nodes.types'
+import type { Area } from '@/types/editor.types'
+import type { Position } from '@/types/nodes.types'
 import type { NodeEditor } from '../../editor'
 import type { Node } from '../../node'
+import type { SavedNode } from '@repo/engine/types/graph-types'
 
 export class AddNodeAction implements Action {
   node?: Node
@@ -27,7 +23,7 @@ export class AddNodeAction implements Action {
   async redo() {
     if (!this.node) return
     const node = {
-      ...this.node.serialize(),
+      ...this.node.save(),
       x: this.position?.x || 0,
       y: this.position?.y || 0,
     }

@@ -19,15 +19,14 @@ import {
   PiNavigationSlantStroke,
   PiPhotoImageDefaultSolid,
   PiPhotoImageDefaultStroke,
-  PiSquareDotSolid,
-  PiSquareDotStroke,
   PiWalletDefaultSolid,
   PiWalletDefaultStroke,
 } from '@repo/ui/icons/pika'
-import type { DataType, DataTypeDefinition } from '@/types/database.types'
+import type { ValueTypeDefinition } from '@/types/database.types'
+import type { DataType, OptionalDataType } from '@repo/engine/types/value-types'
 
-export const valueDataTypeKeys = [
-  'generic',
+// TODO: Check if we can remove generic
+export const valueTypeKeys = [
   'enum',
   'number',
   'string',
@@ -37,14 +36,12 @@ export const valueDataTypeKeys = [
   'datetime',
   'location',
   'weather',
-  'image',
-  'buffer',
   'direction',
+  'buffer',
+  'image',
 ] as const
 
-export const dataTypeKeys = [...valueDataTypeKeys, 'exec'] as const
-
-export const dataTypes: Record<DataType, DataTypeDefinition> = {
+export const dataTypes: Record<OptionalDataType, ValueTypeDefinition> = {
   exec: {
     title: 'Execution',
     description: 'The execution flow within a graph.',
@@ -154,28 +151,3 @@ export const dataTypes: Record<DataType, DataTypeDefinition> = {
     parameter: true,
   },
 }
-
-export const attributeDataTypeKeys = [
-  'enum',
-  'number',
-  'string',
-  'boolean',
-  'address',
-  'color',
-  'datetime',
-  'location',
-  'weather',
-  'direction',
-] as const
-
-export const parameterDataTypeKeys = [
-  'number',
-  'string',
-  'boolean',
-  'address',
-  'color',
-  'datetime',
-  'location',
-  'weather',
-  'direction',
-] as const

@@ -1,7 +1,7 @@
-import type { NodeDefinition2 } from '@/types/nodes.types'
-import type { ImageRotateNode } from '@repo/engine/src/nodes/image-rotate/interface'
+import type { SpecificNodeDefinition } from '@/types/nodes.types'
+import type { ImageRotateNode } from '@repo/engine/nodes/image-rotate/interface'
 
-export const imageRotateDefinition: NodeDefinition2<ImageRotateNode> = {
+export const imageRotateDefinition: SpecificNodeDefinition<ImageRotateNode> = {
   type: 'image-rotate',
   category: 'data',
   title: 'Rotate',

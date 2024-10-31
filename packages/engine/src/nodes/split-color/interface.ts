@@ -1,4 +1,4 @@
-import type { NodeInterface } from '@repo/engine/types/node-types.ts'
+import type { NodeInterface } from '@repo/engine/types/node-types'
 
 export interface SplitColorNode extends NodeInterface<'data'> {
   type: 'split-color'

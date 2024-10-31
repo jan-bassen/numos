@@ -1,11 +1,11 @@
-import type { NodeLogic } from '@repo/engine/types/node-types.ts'
-import type { DataSwitchNode } from './interface.ts'
+import type { NodeLogic } from '@repo/engine/types/node-types'
+import type { DataSwitchNode } from '@repo/engine/nodes/data-switch/interface'
 
 export const dataSwitchLogic: NodeLogic<DataSwitchNode> = {
   data: {
-    output: ({ getInputValue }) => {
-      const switchValue = getInputValue('switch').value
-      return getInputValue(switchValue ? 'true' : 'false')
+    output: async ({ getInputValue }) => {
+      const switchValue = await getInputValue('switch')
+      return getInputValue(switchValue.value ? 'true' : 'false')
     },
   },
 }

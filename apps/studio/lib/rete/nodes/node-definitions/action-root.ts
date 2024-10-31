@@ -1,7 +1,10 @@
-import type { NodeDefinition2, SocketDefinition2 } from '@/types/nodes.types'
-import type { ActionRootNode } from '@repo/engine/src/nodes/action-root/interface'
+import type {
+  SpecificNodeDefinition,
+  DataSocketDefinition,
+} from '@/types/nodes.types'
+import type { ActionRootNode } from '@repo/engine/nodes/action-root/interface'
 
-export const actionRootDefinition: NodeDefinition2<ActionRootNode> = {
+export const actionRootDefinition: SpecificNodeDefinition<ActionRootNode> = {
   type: 'action-root',
   category: 'hybrid',
   title: 'Trigger',
@@ -13,7 +16,8 @@ export const actionRootDefinition: NodeDefinition2<ActionRootNode> = {
     link: '#',
   },
   outputs: ({ getTrigger }) => {
-    const outputs: SocketDefinition2<ActionRootNode, 'outputs', string>[] = []
+    const outputs: DataSocketDefinition<ActionRootNode, 'outputs', string>[] =
+      []
     const trigger = getTrigger()
     if (!trigger) return []
     if (trigger.type === 'token') {

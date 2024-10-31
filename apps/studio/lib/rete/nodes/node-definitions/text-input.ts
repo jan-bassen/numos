@@ -1,7 +1,7 @@
-import type { NodeDefinition2 } from '@/types/nodes.types'
-import type { TextInputNode } from '@repo/engine/src/nodes/text-input/interface'
+import type { SpecificNodeDefinition } from '@/types/nodes.types'
+import type { TextInputNode } from '@repo/engine/nodes/text-input/interface'
 
-export const textInputDefinition: NodeDefinition2<TextInputNode> = {
+export const textInputDefinition: SpecificNodeDefinition<TextInputNode> = {
   type: 'text-input',
   category: 'data',
   title: 'Text',

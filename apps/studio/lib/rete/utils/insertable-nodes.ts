@@ -1,19 +1,9 @@
 import type { Node } from '../classes/node'
 import type { Size } from 'rete-area-plugin/_types/types'
 import type { Position } from 'rete-react-plugin'
-import type { Input, Output } from 'rete/_types/presets/classic'
-import type { Socket } from '../classes/socket'
 import { Connection } from '../classes/connection'
-import {
-  type Area,
-  Direction,
-  Graph,
-  NodeMap,
-  type Schemes,
-} from '@/types/nodes.types'
-import { NodeView as BaseNodeView } from 'rete-area-plugin'
+import type { Area, Schemes } from '@/types/editor.types'
 import type { NodeEditor } from '../classes/editor'
-import { ta } from 'date-fns/locale'
 
 export function getInnerRadius(size: Size) {
   const width = size.width
@@ -104,18 +94,14 @@ async function replaceConnections(
     throw new Error('Stranded connection! Target node for connection not found')
 
   const { sourceOutput, targetInput } = connection.resolveConnectionData()
-  const fittingInputs: string[] = Object.entries(
-    node.inputs as { [key: string]: Input<Socket> },
-  )
+  const fittingInputs: string[] = Object.entries(node.getInputs())
     .filter(
       ([key, input]) =>
         sourceOutput && input.socket.isCompatibleWith(sourceOutput.socket),
     )
     .map(([key, input]) => key)
 
-  const fittingOutputs: string[] = Object.entries(
-    node.outputs as { [key: string]: Output<Socket> },
-  )
+  const fittingOutputs: string[] = Object.entries(node.getOutputs())
     .filter(
       ([key, output]) =>
         targetInput && output.socket.isCompatibleWith(targetInput.socket),

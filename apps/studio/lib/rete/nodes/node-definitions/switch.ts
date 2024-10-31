@@ -1,7 +1,7 @@
-import type { NodeDefinition2 } from '@/types/nodes.types'
-import type { SwitchNode } from '@repo/engine/src/nodes/switch/interface'
+import type { SpecificNodeDefinition } from '@/types/nodes.types'
+import type { SwitchNode } from '@repo/engine/nodes/switch/interface'
 
-export const switchDefinition: NodeDefinition2<SwitchNode> = {
+export const switchDefinition: SpecificNodeDefinition<SwitchNode> = {
   type: 'switch',
   category: 'exec',
   title: 'Switch',

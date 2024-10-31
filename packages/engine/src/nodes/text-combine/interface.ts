@@ -1,4 +1,4 @@
-import type { NodeInterface } from '@repo/engine/types/node-types.ts'
+import type { NodeInterface } from '@repo/engine/types/node-types'
 
 export interface TextCombineNode extends NodeInterface<'data'> {
   type: 'text-combine'
@@ -12,6 +12,8 @@ export interface TextCombineNode extends NodeInterface<'data'> {
       type: 'string'
       list: false
     }
+  }
+  controls: {
     separator: {
       type: 'string'
       list: false

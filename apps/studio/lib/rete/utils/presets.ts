@@ -5,7 +5,7 @@ import {
   getSourceTarget,
 } from 'rete-connection-plugin'
 import { Connection } from '../classes/connection'
-import type { AreaExtra, Schemes } from '@/types/nodes.types'
+import type { AreaExtra, Schemes } from '@/types/editor.types'
 import type { NodeEditor } from '../classes/editor'
 
 export function getConnectionPreset(

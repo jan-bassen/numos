@@ -1,11 +1,10 @@
-import type { Input as InputClass } from '@/lib/rete/classes/input'
-import type { Schemes } from '@/types/nodes.types'
-import type { RenderEmit } from 'rete-react-plugin'
+import type { Input as InputClass } from '@/lib/rete/classes/connectors/input'
 import { Socket } from './socket'
 import type { SocketType } from '@/types/database.types'
 import Control from './control'
 import { cn } from '@repo/ui/lib/utils'
 import { Separator } from '@repo/ui/components/ui/separator'
+import type { RenderEmit } from '@/types/editor.types'
 
 export default function Input({
   socketKey,
@@ -18,15 +17,8 @@ export default function Input({
   input: InputClass
   nodeId: string
   error: boolean
-  emit: RenderEmit<Schemes>
+  emit: RenderEmit
 }) {
-  if (
-    input.node.definition.type === 'map-to-choice' &&
-    input.definition.key === 'value'
-  ) {
-    console.log(input)
-  }
-
   return (
     <>
       <div
@@ -34,7 +26,7 @@ export default function Input({
         key={socketKey}
         data-testid={`input-${socketKey}`}
       >
-        <Socket
+        <Socket<'data'>
           className={cn(
             '-ml-2 inline-block text-left',
             input.socket.name === 'exec' && '-mr-1',
@@ -46,10 +38,7 @@ export default function Input({
           nodeId={nodeId}
           payload={input.socket}
         />
-        {input?.control &&
-        input?.showControl &&
-        !input.socket.connected &&
-        input?.control.value.type !== 'generic' ? (
+        {input?.control && input?.showControl && !input.socket.connected && (
           <div className="flex w-full flex-col gap-0.5 pr-3">
             <div
               className={cn(
@@ -67,16 +56,6 @@ export default function Input({
               emit={emit}
               error={error}
             />
-          </div>
-        ) : (
-          <div
-            className={cn(
-              '!line-clamp-1 inline-block max-w-40 text-ellipsis pr-4 align-middle text-foreground text-xs leading-3',
-              error && 'text-destructive',
-            )}
-            data-testid="input-title"
-          >
-            {input?.label}
           </div>
         )}
       </div>

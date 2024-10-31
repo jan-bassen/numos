@@ -1,7 +1,7 @@
-import type { NodeDefinition2 } from '@/types/nodes.types'
-import type { ListAddNode } from '@repo/engine/src/nodes/list-add/interface'
+import type { SpecificNodeDefinition } from '@/types/nodes.types'
+import type { ListAddNode } from '@repo/engine/nodes/list-add/interface'
 
-export const listAddDefinition: NodeDefinition2<ListAddNode> = {
+export const listAddDefinition: SpecificNodeDefinition<ListAddNode> = {
   type: 'list-add',
   category: 'data',
   title: 'Add to List',
@@ -10,7 +10,8 @@ export const listAddDefinition: NodeDefinition2<ListAddNode> = {
     link: '#',
   },
   inputs: ({ getInfoFromInputConnections }) => {
-    const { type, settings } = getInfoFromInputConnections(['list', 'value'])
+    const { type, settings } =
+      getInfoFromInputConnections(['list', 'value']) || {}
     return [
       {
         key: 'list',
@@ -50,15 +51,17 @@ export const listAddDefinition: NodeDefinition2<ListAddNode> = {
       key: 'position',
       type: 'enum',
       label: 'Position',
-      defaultValue: 'start',
-      options: [
-        { value: 'start', label: 'Start' },
-        { value: 'end', label: 'End' },
-      ],
+      settings: {
+        default: 'start',
+        options: [
+          { value: 'start', label: 'Start' },
+          { value: 'end', label: 'End' },
+        ],
+      },
     },
   ],
   outputs: ({ getInfoFromInputConnections }) => {
-    const { type } = getInfoFromInputConnections(['list', 'value'])
+    const { type } = getInfoFromInputConnections(['list', 'value']) || {}
     return [{ key: 'output', type, list: true, label: 'List' }]
   },
 }

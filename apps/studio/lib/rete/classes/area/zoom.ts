@@ -1,4 +1,5 @@
-import type { InputMode, Position } from '@/types/nodes.types'
+import type { Position } from '@/types/nodes.types'
+import type { InputMode } from '@/types/editor.types'
 
 /**
  * Zoom source

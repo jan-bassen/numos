@@ -1,14 +1,14 @@
-import type { NodeLogic } from '@repo/engine/types/node-types.ts'
-import type { LengthNode } from './interface.ts'
+import type { NodeLogic } from '@repo/engine/types/node-types'
+import type { LengthNode } from '@repo/engine/nodes/length/interface'
 
 export const lengthLogic: NodeLogic<LengthNode> = {
   data: {
-    output: ({ getInputValue }) => {
-      const text = getInputValue('text').value
+    output: async ({ getInputValue }) => {
+      const text = await getInputValue('text')
       return {
         type: 'number',
         format: 'single',
-        value: text.length,
+        value: text.value.length,
       }
     },
   },

@@ -1,4 +1,4 @@
-import type { NodeInterface } from '@repo/engine/types/node-types.ts'
+import type { NodeInterface } from '@repo/engine/types/node-types'
 
 export interface LocationDistanceNode extends NodeInterface<'data'> {
   type: 'location-distance'

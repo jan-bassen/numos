@@ -1,13 +1,11 @@
-import { AreaPlugin } from 'rete-area-plugin'
-import { Node } from '../classes/node'
 import type {
   Area,
   Group,
   Item,
   ResolvedEditorConfig,
-} from '@/types/nodes.types'
+} from '@/types/editor.types'
 import type { NodeEditor } from '../classes/editor'
-import type { NodeType } from '@repo/engine/src/types/node-types'
+import type { NodeType } from '@repo/engine/types/node-types'
 
 export type NewNodePosition = 'center' | 'pointer'
 

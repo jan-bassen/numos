@@ -16,7 +16,7 @@ import {
 } from '@repo/ui/components/ui/context-menu'
 import { DropdownMenuSubitem } from './dropdown-subitem'
 import { ContextMenuSubitem } from './context-subitem'
-import type { Item } from '@/types/nodes.types'
+import type { Item } from '@/types/editor.types'
 import type { NewNodePosition } from '@/lib/rete/utils/init'
 
 declare type Props = {

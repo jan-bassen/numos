@@ -1,16 +1,16 @@
-import type { NodeLogic } from '@repo/engine/types/node-types.ts'
-import type { TextCombineNode } from './interface.ts'
+import type { NodeLogic } from '@repo/engine/types/node-types'
+import type { TextCombineNode } from '@repo/engine/nodes/text-combine/interface'
 
 export const textCombineLogic: NodeLogic<TextCombineNode> = {
   data: {
-    output: ({ getInputValue }) => {
-      const part1 = getInputValue('part1').value
-      const part2 = getInputValue('part2').value
-      const separator = getInputValue('separator').value
+    output: async ({ getInputValue, getControlValue }) => {
+      const part1 = await getInputValue('part1')
+      const part2 = await getInputValue('part2')
+      const separator = getControlValue('separator')
       return {
         type: 'string',
         format: 'single',
-        value: `${part1}${separator}${part2}`,
+        value: `${part1.value}${separator.value}${part2.value}`,
       }
     },
   },

@@ -1,7 +1,10 @@
-import type { ControlDefinition2, NodeDefinition2 } from '@/types/nodes.types'
-import type { ChangeCollectionAttributeNode } from '@repo/engine/src/nodes/change-collection-attribute/interface'
+import type {
+  ControlDefinition,
+  SpecificNodeDefinition,
+} from '@/types/nodes.types'
+import type { ChangeCollectionAttributeNode } from '@repo/engine/nodes/change-collection-attribute/interface'
 
-export const changeCollectionAttributeDefinition: NodeDefinition2<ChangeCollectionAttributeNode> =
+export const changeCollectionAttributeDefinition: SpecificNodeDefinition<ChangeCollectionAttributeNode> =
   {
     type: 'change-collection-attribute',
     category: 'exec',
@@ -18,7 +21,7 @@ export const changeCollectionAttributeDefinition: NodeDefinition2<ChangeCollecti
       getControlValue,
     }) => {
       const attributes = getCollectionAttributes()
-      const controls: ControlDefinition2<
+      const controls: ControlDefinition<
         ChangeCollectionAttributeNode,
         keyof ChangeCollectionAttributeNode['controls']
       >[] = [
@@ -28,7 +31,7 @@ export const changeCollectionAttributeDefinition: NodeDefinition2<ChangeCollecti
           label: 'Attribute',
           placeholder: 'Select Attribute',
           settings: {
-            options: attributes.map((attr) => {
+            options: attributes?.map((attr) => {
               return {
                 value: attr.slug,
                 label: attr.name || 'Unnamed Attribute',
@@ -43,7 +46,9 @@ export const changeCollectionAttributeDefinition: NodeDefinition2<ChangeCollecti
       ]
       const attributeControlValue = getControlValue('attribute').value
       if (attributeControlValue) {
-        const attributeType = getCollectionAttribute(attributeControlValue).type
+        const attributeType = getCollectionAttribute(
+          attributeControlValue,
+        )?.type
         if (attributeType === 'number') {
           controls.push({
             key: 'mode',

@@ -1,6 +1,7 @@
-import type { Area, Position, SelectableType } from '@/types/nodes.types'
+import type { Area, SelectableType } from '@/types/editor.types'
 import type { NodeEditor } from '../editor'
 import { debounce, isEqual } from 'lodash'
+import type { Position } from '@/types/nodes.types'
 
 export class Selector {
   selectedNodes: string[] = []

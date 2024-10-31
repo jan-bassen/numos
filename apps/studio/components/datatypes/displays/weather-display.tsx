@@ -1,14 +1,16 @@
-import { WeatherCode } from "@/types/database.types";
-import { GenericDisplayProps } from "../generic-display";
-import { weatherConditions } from "@/lib/supabase/constants/weather";
+import type { WeatherCode } from '@/types/database.types'
+import type { GenericDisplayProps } from '../generic-display'
+import { weatherConditions } from '@/lib/supabase/constants/weather'
+import type { OptionalValue } from '@repo/engine/types/value-types'
 
-export type WeatherDisplayProps = Omit<GenericDisplayProps, "value"> & {
-  value: WeatherCode;
-};
+export type WeatherDisplayProps = Omit<GenericDisplayProps, 'value'> & {
+  value: OptionalValue<WeatherCode>
+}
 
 export default function WeatherDisplay({
   value,
   className,
 }: WeatherDisplayProps) {
-  return <span className={className}>{weatherConditions[value]?.name}</span>;
+  if (!value) return null
+  return <span className={className}>{weatherConditions[value]?.name}</span>
 }

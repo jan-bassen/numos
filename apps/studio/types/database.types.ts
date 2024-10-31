@@ -1,18 +1,21 @@
 import type { ZodType } from 'zod'
-import {
-  Inputs,
-  NodeMap,
-  type SavedControlMap,
-  type SavedInputMap,
-  type SavedOutputMap,
-  type SelectOptions,
-} from './nodes.types'
 
 import type { MergeDeep } from 'type-fest'
 import type { Database as DatabaseGenerated } from './database-generated.types'
-import type { ActionTrigger } from '@/components/elements/actions/action-schema'
-import { Option } from '@hubspot/api-client/lib/codegen/automation/actions'
-import type { ValueSettings } from '@repo/engine/src/types/value-types'
+import type {
+  Value,
+  ValueFormat,
+  ValueMap,
+  ValueSettings,
+  ValueType,
+} from '@repo/engine/types/value-types'
+import type { ActionTrigger } from './actions.types'
+import type {
+  OLDSavedControlMap,
+  OLDSavedInputMap,
+  OLDSavedOutputMap,
+  SavedNodeState,
+} from '@repo/engine/types/graph-types'
 
 // Type overrides for specific columns:
 export type Database = MergeDeep<
@@ -33,47 +36,56 @@ export type Database = MergeDeep<
         }
         attributes: {
           Row: {
+            type: ValueType
             settings: ValueSettings | null
           }
           Insert: {
+            type: ValueType
             settings?: ValueSettings | null
           }
           Update: {
+            type: ValueType
             settings?: ValueSettings | null
           }
         }
         action_nodes: {
           Row: {
-            inputs: SavedInputMap | null
-            outputs?: SavedOutputMap
-            controls?: SavedControlMap
+            state: SavedNodeState | null
+            inputs: OLDSavedInputMap | null
+            outputs: OLDSavedOutputMap
+            controls: OLDSavedControlMap
           }
           Insert: {
-            inputs?: SavedInputMap | null
-            outputs?: SavedOutputMap | null
-            controls?: SavedControlMap | null
+            state?: SavedNodeState | null
+            inputs?: OLDSavedInputMap | null
+            outputs?: OLDSavedOutputMap
+            controls?: OLDSavedControlMap
           }
           Update: {
-            inputs?: SavedInputMap | null
-            outputs?: SavedOutputMap | null
-            controls?: SavedControlMap | null
+            state?: SavedNodeState | null
+            inputs?: OLDSavedInputMap | null
+            outputs?: OLDSavedOutputMap
+            controls?: OLDSavedControlMap
           }
         }
         image_nodes: {
           Row: {
-            inputs: SavedInputMap | null
-            outputs?: SavedOutputMap
-            controls?: SavedControlMap
+            state: SavedNodeState | null
+            inputs: OLDSavedInputMap | null
+            outputs: OLDSavedOutputMap
+            controls: OLDSavedControlMap
           }
           Insert: {
-            inputs?: SavedInputMap | null
-            outputs?: SavedOutputMap | null
-            controls?: SavedControlMap | null
+            state?: SavedNodeState | null
+            inputs?: OLDSavedInputMap | null
+            outputs?: OLDSavedOutputMap
+            controls?: OLDSavedControlMap
           }
           Update: {
-            inputs?: SavedInputMap | null
-            outputs?: SavedOutputMap | null
-            controls?: SavedControlMap | null
+            state?: SavedNodeState | null
+            inputs?: OLDSavedInputMap | null
+            outputs?: OLDSavedOutputMap
+            controls?: OLDSavedControlMap
           }
         }
       }
@@ -179,384 +191,7 @@ export type ExtendedCollection = Omit<Collection, 'editable_version'> & {
   editable_version: Version
 }
 
-export type DatatypeObjectValue<
-  DTV extends DataTypeValue,
-  Optional extends boolean = false,
-> = {
-  id: string
-  value: Optional extends true ? OptionalDataType<DTV> : DTV
-}
-
-export type OptionalDataType<DTV extends DataTypeValue = DataTypeValue> =
-  | DTV
-  | undefined
-  | null
-
-export type NotatedDataTypeValueInterface<
-  DT extends DataType,
-  DTV extends DataTypeValue,
-  List extends boolean = false,
-  Optional extends boolean = false,
-  AsObjectArray extends boolean = false,
-> = {
-  type: DT
-  list: List
-  value: List extends true
-    ? AsObjectArray extends false
-      ? Optional extends true
-        ? OptionalDataType<DTV>[]
-        : DTV[]
-      : DatatypeObjectValue<DTV, Optional>[]
-    : Optional extends true
-      ? OptionalDataType<DTV>
-      : DTV
-}
-
-export type Color = { r: number; g: number; b: number; a: number }
-export type Location = { lat: number; lng: number }
-
-export type DataTypeValue<Optional extends boolean = false> =
-  Optional extends true
-    ?
-        | string
-        | number
-        | boolean
-        | Color
-        | Location
-        | Direction
-        | WeatherCode
-        | Buffer
-        | undefined
-        | null
-    :
-        | string
-        | number
-        | boolean
-        | Color
-        | Location
-        | Direction
-        | WeatherCode
-        | Buffer
-
-export type NotatedSingleStringValue<Optional extends boolean = false> =
-  NotatedDataTypeValueInterface<'string', string, false, Optional, false>
-
-export type NotatedListStringValue<
-  Optional extends boolean = false,
-  AsObjectArray extends boolean = false,
-> = NotatedDataTypeValueInterface<
-  'string',
-  string,
-  true,
-  Optional,
-  AsObjectArray
->
-
-export type NotatedStringValue<
-  Optional extends boolean = false,
-  AsObjectArray extends boolean = false,
-> =
-  | NotatedSingleStringValue<Optional>
-  | NotatedListStringValue<Optional, AsObjectArray>
-
-export type NotatedSingleNumberValue<Optional extends boolean = false> =
-  NotatedDataTypeValueInterface<'number', number, false, Optional, false>
-
-export type NotatedListNumberValue<
-  Optional extends boolean = false,
-  AsObjectArray extends boolean = false,
-> = NotatedDataTypeValueInterface<
-  'number',
-  number,
-  true,
-  Optional,
-  AsObjectArray
->
-
-export type NotatedNumberValue<
-  Optional extends boolean = false,
-  AsObjectArray extends boolean = false,
-> =
-  | NotatedSingleNumberValue<Optional>
-  | NotatedListNumberValue<Optional, AsObjectArray>
-
-export type NotatedSingleBooleanValue<Optional extends boolean = false> =
-  NotatedDataTypeValueInterface<'boolean', boolean, false, Optional, false>
-
-export type NotatedListBooleanValue<
-  Optional extends boolean = false,
-  AsObjectArray extends boolean = false,
-> = NotatedDataTypeValueInterface<
-  'boolean',
-  boolean,
-  true,
-  Optional,
-  AsObjectArray
->
-
-export type NotatedBooleanValue<
-  Optional extends boolean = false,
-  AsObjectArray extends boolean = false,
-> =
-  | NotatedSingleBooleanValue<Optional>
-  | NotatedListBooleanValue<Optional, AsObjectArray>
-
-export type NotatedSingleColorValue<Optional extends boolean = false> =
-  NotatedDataTypeValueInterface<'color', Color, false, Optional, false>
-
-export type NotatedListColorValue<
-  Optional extends boolean = false,
-  AsObjectArray extends boolean = false,
-> = NotatedDataTypeValueInterface<'color', Color, true, Optional, AsObjectArray>
-
-export type NotatedColorValue<
-  Optional extends boolean = false,
-  AsObjectArray extends boolean = false,
-> =
-  | NotatedSingleColorValue<Optional>
-  | NotatedListColorValue<Optional, AsObjectArray>
-
-export type NotatedSingleLocationValue<Optional extends boolean = false> =
-  NotatedDataTypeValueInterface<'location', Location, false, Optional, false>
-
-export type NotatedListLocationValue<
-  Optional extends boolean = false,
-  AsObjectArray extends boolean = false,
-> = NotatedDataTypeValueInterface<
-  'location',
-  Location,
-  true,
-  Optional,
-  AsObjectArray
->
-
-export type NotatedLocationValue<
-  Optional extends boolean = false,
-  AsObjectArray extends boolean = false,
-> =
-  | NotatedSingleLocationValue<Optional>
-  | NotatedListLocationValue<Optional, AsObjectArray>
-
-export type NotatedSingleDirectionValue<Optional extends boolean = false> =
-  NotatedDataTypeValueInterface<'direction', Direction, false, Optional, false>
-
-export type NotatedListDirectionValue<
-  Optional extends boolean = false,
-  AsObjectArray extends boolean = false,
-> = NotatedDataTypeValueInterface<
-  'direction',
-  Direction,
-  true,
-  Optional,
-  AsObjectArray
->
-
-export type NotatedDirectionValue<
-  Optional extends boolean = false,
-  AsObjectArray extends boolean = false,
-> =
-  | NotatedSingleDirectionValue<Optional>
-  | NotatedListDirectionValue<Optional, AsObjectArray>
-
-export type NotatedSingleWeatherValue<Optional extends boolean = false> =
-  NotatedDataTypeValueInterface<'weather', WeatherCode, false, Optional, false>
-
-export type NotatedListWeatherValue<
-  Optional extends boolean = false,
-  AsObjectArray extends boolean = false,
-> = NotatedDataTypeValueInterface<
-  'weather',
-  WeatherCode,
-  true,
-  Optional,
-  AsObjectArray
->
-
-export type NotatedWeatherValue<
-  Optional extends boolean = false,
-  AsObjectArray extends boolean = false,
-> =
-  | NotatedSingleWeatherValue<Optional>
-  | NotatedListWeatherValue<Optional, AsObjectArray>
-
-export type NotatedSingleAddressValue<Optional extends boolean = false> =
-  NotatedDataTypeValueInterface<'address', string, false, Optional, false>
-
-export type NotatedListAddressValue<
-  Optional extends boolean = false,
-  AsObjectArray extends boolean = false,
-> = NotatedDataTypeValueInterface<
-  'address',
-  string,
-  true,
-  Optional,
-  AsObjectArray
->
-
-export type NotatedAddressValue<
-  Optional extends boolean = false,
-  AsObjectArray extends boolean = false,
-> =
-  | NotatedSingleAddressValue<Optional>
-  | NotatedListAddressValue<Optional, AsObjectArray>
-
-export type NotatedSingleImageValue<Optional extends boolean = false> =
-  NotatedDataTypeValueInterface<'image', string, false, Optional, false>
-
-export type NotatedListImageValue<
-  Optional extends boolean = false,
-  AsObjectArray extends boolean = false,
-> = NotatedDataTypeValueInterface<
-  'image',
-  string,
-  true,
-  Optional,
-  AsObjectArray
->
-
-export type NotatedImageValue<
-  Optional extends boolean = false,
-  AsObjectArray extends boolean = false,
-> =
-  | NotatedSingleImageValue<Optional>
-  | NotatedListImageValue<Optional, AsObjectArray>
-
-export type NotatedSingleBufferValue<Optional extends boolean = false> =
-  NotatedDataTypeValueInterface<'buffer', Buffer, false, Optional, false>
-
-export type NotatedListBufferValue<
-  Optional extends boolean = false,
-  AsObjectArray extends boolean = false,
-> = NotatedDataTypeValueInterface<
-  'buffer',
-  Buffer,
-  true,
-  Optional,
-  AsObjectArray
->
-
-export type NotatedBufferValue<
-  Optional extends boolean = false,
-  AsObjectArray extends boolean = false,
-> =
-  | NotatedSingleBufferValue<Optional>
-  | NotatedListBufferValue<Optional, AsObjectArray>
-
-export type NotatedSingleEnumValue<Optional extends boolean = false> =
-  NotatedDataTypeValueInterface<'enum', string, false, Optional, false>
-
-export type NotatedListEnumValue<
-  Optional extends boolean = false,
-  AsObjectArray extends boolean = false,
-> = NotatedDataTypeValueInterface<'enum', string, true, Optional, AsObjectArray>
-
-export type NotatedEnumValue<
-  Optional extends boolean = false,
-  AsObjectArray extends boolean = false,
-> =
-  | NotatedSingleEnumValue<Optional>
-  | NotatedListEnumValue<Optional, AsObjectArray>
-
-export type NotatedSingleDatetimeValue<Optional extends boolean = false> =
-  NotatedDataTypeValueInterface<'datetime', number, false, Optional, false>
-
-export type NotatedListDatetimeValue<
-  Optional extends boolean = false,
-  AsObjectArray extends boolean = false,
-> = NotatedDataTypeValueInterface<
-  'datetime',
-  number,
-  true,
-  Optional,
-  AsObjectArray
->
-
-export type NotatedDatetimeValue<
-  Optional extends boolean = false,
-  AsObjectArray extends boolean = false,
-> =
-  | NotatedSingleDatetimeValue<Optional>
-  | NotatedListDatetimeValue<Optional, AsObjectArray>
-
-export type NotatedSingleGenericValue<Optional extends boolean = false> =
-  NotatedDataTypeValueInterface<
-    'generic',
-    DataTypeValue,
-    false,
-    Optional,
-    false
-  >
-
-export type NotatedListGenericValue<
-  Optional extends boolean = false,
-  AsObjectArray extends boolean = false,
-> = NotatedDataTypeValueInterface<
-  'generic',
-  DataTypeValue,
-  true,
-  Optional,
-  AsObjectArray
->
-
-export type NotatedGenericValue<
-  Optional extends boolean = false,
-  AsObjectArray extends boolean = false,
-> =
-  | NotatedSingleGenericValue<Optional>
-  | NotatedListGenericValue<Optional, AsObjectArray>
-
-export type NotatedSingleDataTypeValue<Optional extends boolean = false> =
-  | NotatedSingleStringValue<Optional>
-  | NotatedSingleNumberValue<Optional>
-  | NotatedSingleBooleanValue<Optional>
-  | NotatedSingleColorValue<Optional>
-  | NotatedSingleLocationValue<Optional>
-  | NotatedSingleDirectionValue<Optional>
-  | NotatedSingleWeatherValue<Optional>
-  | NotatedSingleAddressValue<Optional>
-  | NotatedSingleImageValue<Optional>
-  | NotatedSingleBufferValue<Optional>
-  | NotatedSingleEnumValue<Optional>
-  | NotatedSingleDatetimeValue<Optional>
-  | NotatedSingleGenericValue<Optional>
-
-export type NotatedListDataTypeValue<
-  Optional extends boolean = false,
-  AsObjectArray extends boolean = false,
-> =
-  | NotatedListStringValue<Optional, AsObjectArray>
-  | NotatedListNumberValue<Optional, AsObjectArray>
-  | NotatedListBooleanValue<Optional, AsObjectArray>
-  | NotatedListColorValue<Optional, AsObjectArray>
-  | NotatedListLocationValue<Optional, AsObjectArray>
-  | NotatedListDirectionValue<Optional, AsObjectArray>
-  | NotatedListWeatherValue<Optional, AsObjectArray>
-  | NotatedListAddressValue<Optional, AsObjectArray>
-  | NotatedListImageValue<Optional, AsObjectArray>
-  | NotatedListBufferValue<Optional, AsObjectArray>
-  | NotatedListEnumValue<Optional, AsObjectArray>
-  | NotatedListDatetimeValue<Optional, AsObjectArray>
-  | NotatedListGenericValue<Optional, AsObjectArray>
-
-export type NotatedDataTypeValue<
-  Optional extends boolean = false,
-  AsObjectArray extends boolean = false,
-> =
-  | NotatedStringValue<Optional, AsObjectArray>
-  | NotatedNumberValue<Optional, AsObjectArray>
-  | NotatedBooleanValue<Optional, AsObjectArray>
-  | NotatedColorValue<Optional, AsObjectArray>
-  | NotatedLocationValue<Optional, AsObjectArray>
-  | NotatedDirectionValue<Optional, AsObjectArray>
-  | NotatedWeatherValue<Optional, AsObjectArray>
-  | NotatedAddressValue<Optional, AsObjectArray>
-  | NotatedImageValue<Optional, AsObjectArray>
-  | NotatedBufferValue<Optional, AsObjectArray>
-  | NotatedEnumValue<Optional, AsObjectArray>
-  | NotatedDatetimeValue<Optional, AsObjectArray>
-  | NotatedGenericValue<Optional, AsObjectArray>
-
-export type DataTypeDefinition = {
+export type ValueTypeDefinition = {
   title: string
   description?: string
   icons: {
@@ -567,47 +202,25 @@ export type DataTypeDefinition = {
   parameter: boolean
 }
 
-/* export type AttributeSettings = {
-  default?: DataTypeValue;
-  min?: DataTypeValue;
-  max?: DataTypeValue;
-  options?: DataTypeValue[];
-}; */
-
-export type DataTypeMap = {
-  [key: string]: { type: ValueDataType; list: boolean }
-}
-
-export type UnresolvedDataTypeValueMap<Optional extends boolean = false> =
-  Record<
-    string,
-    DataTypeValue | Array<DatatypeObjectValue<DataTypeValue, Optional>>
-  >
-
-export type DataTypeValueMap = {
-  [key: string]: DataTypeValue | Array<DataTypeValue>
-}
-
-export type NotatedDataTypeValueMap = Record<string, NotatedDataTypeValue>
-
 export type SimulatedMetadataChange = {
   name?: SimulatedValueChange
   description?: SimulatedValueChange
 }
 
 export type SimulatedValueChange = {
-  old: NotatedDataTypeValue
-  new: NotatedDataTypeValue
+  old: Value<ValueType, ValueFormat, true>
+  new: Value<ValueType, ValueFormat, true>
   label?: string
 }
 
 export type SimulatedStateChange = Record<string, SimulatedValueChange>
 
-export type SimulatedTokenStateResult = {
+/*  type SimulatedTokenStateResult = {
   metadataChange: SimulatedStateChange
   stateChange: SimulatedStateChange
   logs: string[]
 }
+ */
 export type SimulatedImageResult = {
   image: ArrayBuffer
   logs: string[]
@@ -629,12 +242,12 @@ export type ReturnInfo = {
 
 export type TokenState = {
   metadata: TokenMetadata
-  attributes: NotatedDataTypeValueMap
+  attributes: ValueMap
 }
 
 export type OptionalTokenState = {
   metadata: OptionalTokenMetadata
-  attributes: NotatedDataTypeValueMap
+  attributes: ValueMap
 }
 
 export type TokenMetadata = {

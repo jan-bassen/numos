@@ -1,10 +1,10 @@
-import type { NodeLogic } from '@repo/engine/types/node-types.ts'
-import type { ChangeCollectionAttributeNode } from './interface.ts'
-import { NodeError } from '@repo/engine/errors/node-error.ts'
+import type { NodeLogic } from '@repo/engine/types/node-types'
+import type { ChangeCollectionAttributeNode } from '@repo/engine/nodes/change-collection-attribute/interface'
+import { NodeError } from '@repo/engine/errors/node-error'
 import { Decimal } from 'decimal.js'
 
 export const changeCollectionLogic: NodeLogic<ChangeCollectionAttributeNode> = {
-  execution: ({
+  execution: async ({
     getControlValue,
     getInputValue,
     getCollectionAttribute,
@@ -12,10 +12,10 @@ export const changeCollectionLogic: NodeLogic<ChangeCollectionAttributeNode> = {
   }) => {
     const attributeKey = getControlValue('attribute')
     const mode = getControlValue('mode')
-    const value = getInputValue('value')
+    const value = await getInputValue('value')
 
     if (mode.value === 'set') {
-      const { changed, previous } = setCollectionAttribute(
+      const { changed, previous } = await setCollectionAttribute(
         attributeKey.value,
         value,
       )
@@ -25,7 +25,7 @@ export const changeCollectionLogic: NodeLogic<ChangeCollectionAttributeNode> = {
       return { forward: 'exec', log: { message } }
     }
 
-    const oldValue = getCollectionAttribute(attributeKey.value)
+    const oldValue = await getCollectionAttribute(attributeKey.value)
 
     const errorLocation = {
       component: {
@@ -70,7 +70,7 @@ export const changeCollectionLogic: NodeLogic<ChangeCollectionAttributeNode> = {
         )
     }
 
-    const { changed } = setCollectionAttribute(attributeKey.value, {
+    const { changed } = await setCollectionAttribute(attributeKey.value, {
       type: 'number',
       format: 'single',
       value: newValue.toNumber(),

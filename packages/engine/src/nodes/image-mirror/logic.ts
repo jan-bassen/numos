@@ -1,25 +1,25 @@
-import type { NodeLogic } from '@repo/engine/types/node-types.ts'
-import type { ImageMirrorNode } from './interface.ts'
+import type { NodeLogic } from '@repo/engine/types/node-types'
+import type { ImageMirrorNode } from '@repo/engine/nodes/image-mirror/interface'
 import sharp from 'sharp'
-import { NodeError } from '@repo/engine/errors/node-error.ts'
+import { NodeError } from '@repo/engine/errors/node-error'
 
 export const imageMirrorLogic: NodeLogic<ImageMirrorNode> = {
   data: {
     output: async ({ getInputValue, getControlValue }) => {
-      const image = getInputValue('image').value
-      const mode = getControlValue('mode').value
+      const image = await getInputValue('image')
+      const mode = getControlValue('mirror').value
       switch (mode) {
         case 'horizontal':
           return {
             type: 'buffer',
             format: 'single',
-            value: await sharp(image).flip().toBuffer(),
+            value: await sharp(image.value).flip().toBuffer(),
           }
         case 'vertical':
           return {
             type: 'buffer',
             format: 'single',
-            value: await sharp(image).flop().toBuffer(),
+            value: await sharp(image.value).flop().toBuffer(),
           }
         default:
           throw new NodeError('Invalid mode', {

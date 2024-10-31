@@ -1,13 +1,15 @@
-import type { NodeLogic } from '@repo/engine/types/node-types.ts'
-import type { TimeDifferenceNode } from './interface.ts'
+import type { NodeLogic } from '@repo/engine/types/node-types'
+import type { TimeDifferenceNode } from '@repo/engine/nodes/time-difference/interface'
 import { DateTime } from 'luxon'
 
 export const timeDifferenceLogic: NodeLogic<TimeDifferenceNode> = {
   data: {
-    output: ({ getInputValue, getControlValue }) => {
-      const time1 = DateTime.fromMillis(getInputValue('time1').value)
-      const time2 = DateTime.fromMillis(getInputValue('time2').value)
-      const diff = time2.diff(time1)
+    output: async ({ getInputValue, getControlValue }) => {
+      const time1 = await getInputValue('time1')
+      const time2 = await getInputValue('time2')
+      const start = DateTime.fromMillis(time1.value)
+      const end = DateTime.fromMillis(time2.value)
+      const diff = end.diff(start)
       const unit = getControlValue('unit').value
       let value: number
       switch (unit) {

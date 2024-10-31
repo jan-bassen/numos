@@ -7,7 +7,6 @@ import type {
   ReturnInfo,
   OptionalTokenMetadata,
   OptionalTokenState,
-  UnresolvedDataTypeValueMap,
 } from '@/types/database.types'
 import { useHotkeys } from 'react-hotkeys-hook'
 import {
@@ -29,7 +28,7 @@ import {
   PiSidebarMenuStroke,
   PiSwipeDefaultStroke,
 } from '@repo/ui/icons/pika'
-import type { GraphErrorData, SimulationCheck } from '@/lib/errors'
+import type { SimulationCheck } from '@/lib/errors'
 import { useEditor } from '@/lib/rete/use-editor'
 import { cn } from '@repo/ui/lib/utils'
 import type {
@@ -39,9 +38,12 @@ import type {
   EditorContext,
   EditorSettings,
   InputMode,
-  SavedControlMap,
+  Shape,
+} from '@/types/editor.types'
+import type {
+  OLDSavedControlMap,
   SavedGraph,
-} from '@/types/nodes.types'
+} from '@repo/engine/types/graph-types'
 import {
   Focus,
   LassoSelect,
@@ -58,11 +60,7 @@ import type { NodeEditor } from '@/lib/rete/classes/editor'
 import Link from 'next/link'
 import { useMediaQuery } from '@/lib/hooks/media-query'
 import { getAttributeTypes } from '@/components/elements/attributes/attribute-schema'
-import { notateValueMap } from '@/components/datatypes/utils'
-import {
-  type ParameterState,
-  getParameterTypes,
-} from '@/components/elements/actions/action-schema'
+import { getParameterTypes } from '@/components/elements/actions/action-schema'
 import { Separator } from '@repo/ui/components/ui/separator'
 import {
   DropdownMenu,
@@ -72,19 +70,18 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@repo/ui/components/ui/dropdown-menu'
-import type { Shape } from '@/lib/rete/classes/selector/multi-selector'
 import type { ZoomEventParams } from '@/lib/rete/classes/area/area'
 import Decimal from 'decimal.js'
 import { NodeGroupsBar } from '../menus/node-groups-bar'
 import SimulationForm from './simulation-form'
+import type {
+  GraphErrorData,
+  SimulationData,
+} from '@repo/engine/types/engine-types'
 
 export type BaseEditorFormProps = {
   attributes: Attribute[]
-  run: (
-    metadata: OptionalTokenMetadata,
-    attributes: UnresolvedDataTypeValueMap,
-    parameters?: UnresolvedDataTypeValueMap,
-  ) => Promise<void>
+  run: (data: SimulationData) => Promise<void>
   id: string
   error: GraphErrorData | null
   setError: Dispatch<SetStateAction<GraphErrorData | null>>
@@ -113,16 +110,12 @@ export default function BaseEditor({
   config: EditorConfig
   result: ReactNode
   resetResult: () => void
-  run: (
-    editor: Editor | null,
-    state: OptionalTokenState,
-    parameters?: ParameterState,
-  ) => Promise<SimulationCheck>
+  run: (editor: Editor | null, data: SimulationData) => Promise<SimulationCheck>
   autosave: AutoSaveFunctions
   action?: Action
   changeSettings?: (
     editor: NodeEditor,
-    controls: SavedControlMap,
+    controls: OLDSavedControlMap,
   ) => Promise<ReturnInfo>
   resultClassName?: string
   parentUrl?: string
@@ -198,34 +191,14 @@ export default function BaseEditor({
     )
   })
 
-  async function _run(
-    metadata: OptionalTokenMetadata,
-    attributes: UnresolvedDataTypeValueMap,
-    parameters?: UnresolvedDataTypeValueMap,
-  ) {
-    error && error.type === 'graph' && editor?.editor.clearError(error.node)
+  async function _run(data: SimulationData) {
+    error &&
+      error.type === 'graph' &&
+      editor?.editor.clearError(error.location.node)
     error && setError(null)
     result && resetResult()
 
-    const attributeTypes = getAttributeTypes(
-      editor?.editor.context.attributes || [],
-    )
-    const notatedToken = notateValueMap(attributes, attributeTypes)
-
-    const parameterTypes = getParameterTypes(
-      editor?.editor.context.parameters || [],
-    )
-
-    const notatedParameters = parameters
-      ? notateValueMap(parameters, parameterTypes)
-      : undefined
-
-    const tokenState = {
-      metadata,
-      attributes: notatedToken,
-    }
-
-    const res = await run(editor, tokenState, notatedParameters)
+    const res = await run(editor, data)
     if (!res.success) {
       if (res.error.type === 'graph') {
         editor?.editor.trigger(res.error)
@@ -533,7 +506,7 @@ export default function BaseEditor({
                   onClick={() => {
                     error &&
                       error.type === 'graph' &&
-                      editor?.editor.clearError(error.node)
+                      editor?.editor.clearError(error.location.node)
                     setError(null)
                   }}
                   className="z-40 p-1 text-destructive"

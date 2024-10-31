@@ -1,5 +1,5 @@
-import type { NodeLogic } from '@repo/engine/types/node-types.ts'
-import type { StopNode } from './interface.ts'
+import type { NodeLogic } from '@repo/engine/types/node-types'
+import type { StopNode } from '@repo/engine/nodes/stop/interface'
 
 export const stopLogic: NodeLogic<StopNode> = {
   execution: async () => {

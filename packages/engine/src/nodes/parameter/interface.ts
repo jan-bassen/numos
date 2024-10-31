@@ -1,7 +1,8 @@
 import type {
-  NodeComponentType,
+  SocketInterface,
   NodeInterface,
-} from '@repo/engine/types/node-types.ts'
+} from '@repo/engine/types/node-types'
+import type { ValueType } from '@repo/engine/types/value-types'
 
 export interface ParameterNode extends NodeInterface<'data'> {
   type: 'parameter'
@@ -13,6 +14,9 @@ export interface ParameterNode extends NodeInterface<'data'> {
     }
   }
   outputs: {
-    parameter: NodeComponentType
+    parameter: {
+      type: ValueType
+      list: boolean
+    }
   }
 }

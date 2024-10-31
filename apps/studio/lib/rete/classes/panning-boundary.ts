@@ -1,6 +1,5 @@
-import type { Selector } from './selector/selector'
 import type { NodeEditor } from './editor'
-import type { Area } from '@/types/nodes.types'
+import type { Area } from '@/types/editor.types'
 
 type PointerMove = {
   getEvent(): PointerEvent

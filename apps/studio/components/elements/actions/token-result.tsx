@@ -13,13 +13,13 @@ import {
   PiTagSolid,
   PiTerminalConsoleSquareStroke,
 } from '@repo/ui/icons/pika'
-import type { SimulatedTokenStateResult } from '@/types/database.types'
 import { isEqual } from 'lodash'
 import { useState } from 'react'
 import LogsList from './log-list'
 import { GenericDisplay } from '@/components/datatypes/generic-display'
 import LoadingSpinner from '@repo/ui/components/loading/loading-spinner'
 import { Separator } from '@repo/ui/components/ui/separator'
+import type { SimulatedTokenStateResult } from '@repo/engine/types/engine-types'
 
 export default function TokenResult({
   result,

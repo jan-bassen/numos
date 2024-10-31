@@ -13,11 +13,11 @@ import type { WeatherCode } from '@/types/database.types'
 import { cn } from '@repo/ui/lib/utils'
 import { useRef } from 'react'
 import { Drag } from 'rete-react-plugin'
-import { weatherSchema } from '../schemas'
 import {
   weatherCodeGroups,
   weatherConditions,
 } from '@/lib/supabase/constants/weather'
+import { weatherSchema } from '@repo/engine/datatypes/schemas'
 
 export default function WeatherInput({
   value,

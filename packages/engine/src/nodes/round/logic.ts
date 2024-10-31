@@ -1,18 +1,24 @@
-import type { NodeLogic } from '@repo/engine/types/node-types.ts'
-import type { RoundNode } from './interface.ts'
+import type { NodeLogic } from '@repo/engine/types/node-types'
+import type { RoundNode } from '@repo/engine/nodes/round/interface'
 import { Decimal } from 'decimal.js'
 
 export const roundLogic: NodeLogic<RoundNode> = {
   data: {
-    output: ({ getInputValue }) => {
-      const number = new Decimal(getInputValue('number').value)
-      const precision = new Decimal(getInputValue('precision').value)
+    output: async ({ getInputValue }) => {
+      const number = await getInputValue('number')
+      const precision = await getInputValue('precision')
+      const decimalPlaces = new Decimal(precision.value)
         .toDecimalPlaces(0)
         .toNumber()
+
+      const value = new Decimal(number.value)
+        .toDecimalPlaces(decimalPlaces)
+        .toNumber()
+
       return {
         type: 'number',
         format: 'single',
-        value: number.toDecimalPlaces(precision).toNumber(),
+        value,
       }
     },
   },

@@ -1,10 +1,10 @@
-import type { NodeLogic } from '@repo/engine/types/node-types.ts'
-import type { ChangeTokenAttributeNode } from './interface.ts'
-import { NodeError } from '@repo/engine/errors/node-error.ts'
+import type { NodeLogic } from '@repo/engine/types/node-types'
+import type { ChangeTokenAttributeNode } from '@repo/engine/nodes/change-token-attribute/interface'
+import { NodeError } from '@repo/engine/errors/node-error'
 import { Decimal } from 'decimal.js'
 
 export const changeTokenAttributeLogic: NodeLogic<ChangeTokenAttributeNode> = {
-  execution: ({
+  execution: async ({
     getControlValue,
     getInputValue,
     getTokenAttribute,
@@ -12,17 +12,20 @@ export const changeTokenAttributeLogic: NodeLogic<ChangeTokenAttributeNode> = {
   }) => {
     const attributeKey = getControlValue('attribute')
     const mode = getControlValue('mode')
-    const value = getInputValue('value')
+    const value = await getInputValue('value')
 
     if (mode.value === 'set') {
-      const { changed, previous } = setTokenAttribute(attributeKey.value, value)
+      const { changed, previous } = await setTokenAttribute(
+        attributeKey.value,
+        value,
+      )
       const message = changed
         ? `Set ${attributeKey.value} to ${value.value}`
         : `${attributeKey.value} already set to ${previous}`
       return { forward: 'exec', log: { message } }
     }
 
-    const oldValue = getTokenAttribute(attributeKey.value)
+    const oldValue = await getTokenAttribute(attributeKey.value)
 
     const errorLocation = {
       component: {
@@ -67,7 +70,7 @@ export const changeTokenAttributeLogic: NodeLogic<ChangeTokenAttributeNode> = {
         )
     }
 
-    const { changed } = setTokenAttribute(attributeKey.value, {
+    const { changed } = await setTokenAttribute(attributeKey.value, {
       type: 'number',
       format: 'single',
       value: newValue.toNumber(),

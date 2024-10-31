@@ -1,7 +1,6 @@
 'use client'
 
 import FormSegment from '@/components/forms/form-segment'
-import { TabSelect } from '@/components/forms/tab-select'
 import type {
   Action,
   TriggerType,
@@ -40,7 +39,6 @@ import {
   AlertDialogTrigger,
 } from '@repo/ui/components/ui/alert-dialog'
 import {
-  type ActionTrigger,
   actionSchema,
   intervalUnitOptions,
   tokenEventOptions,
@@ -69,6 +67,7 @@ import { listOptionMap, listOptions } from '../attributes/attribute-schema'
 import { removeActionParameterFromLocalForm } from './utils'
 import CronInput from './cron-input'
 import slugify from 'slugify'
+import type { ActionTrigger } from '@/types/actions.types'
 
 export default function ActionEditor({
   action,

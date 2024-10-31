@@ -3,18 +3,15 @@
 import {
   type Attribute,
   type LayerTree,
-  type LegacyLayerTree,
-  NotatedDataTypeValueMap,
   type OptionalTokenState,
   TokenState,
   type Version,
 } from '@/types/database.types'
-import type { AutoSaveFunctions, Editor, SavedGraph } from '@/types/nodes.types'
+import type { AutoSaveFunctions, Editor } from '@/types/editor.types'
+import type { SavedGraph } from '@repo/engine/types/graph-types'
 import NodeEditor from '../../node-editor/editor/base-editor'
 import { useState } from 'react'
-import { simulateImageGraph } from '@/lib/rete/engine'
 import type { SimulationCheck } from '@/lib/errors'
-import type { FullFileObject } from '@/lib/supabase/storage/user-images'
 import Image from 'next/image'
 import {
   deleteImageConnection,
@@ -26,9 +23,12 @@ import {
 } from '@/lib/supabase/db/image-graph'
 import { toast } from 'sonner'
 import { imageConfig } from '@/lib/rete/nodes/configs/image-config'
-import SimulationForm from '@/components/node-editor/editor/simulation-form'
-import type { ParameterState } from '../actions/action-schema'
 import LoadingSpinner from '@repo/ui/components/loading/loading-spinner'
+import type {
+  EngineContext,
+  SimulationData,
+} from '@repo/engine/types/engine-types'
+import { simulateImageGraph } from '@/lib/rete/engine'
 
 export function ImageResult({
   result,
@@ -76,12 +76,11 @@ export default function ImageNodeEditor({
 
   async function run(
     editor: Editor | null,
-    state: OptionalTokenState,
-    parameters?: ParameterState,
+    data: SimulationData,
   ): Promise<SimulationCheck> {
     setLoading(true)
     const graph = editor?.editor.getNodemap()
-    if (!state || !graph)
+    if (!data || !graph)
       return {
         success: false,
         error: {
@@ -104,19 +103,22 @@ export default function ImageNodeEditor({
       }
     }
 
-    const { image, error } = await simulateImageGraph(
+    const context: EngineContext = {
+      collectionId: version.id,
+    }
+
+    const { result: image, error } = await simulateImageGraph(
       graph,
-      rootNodeId,
-      state,
-      attributes,
-      version,
+      data,
+      context,
     )
     if (error) {
       setLoading(false)
       return { success: false, error }
     }
-    if (image) {
-      setResult(image)
+    if (result) {
+      const imageString = Buffer.from(image.value).toString('base64')
+      setResult(imageString)
       setLoading(false)
       return { success: true }
     }

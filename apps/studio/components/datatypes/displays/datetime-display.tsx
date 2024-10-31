@@ -1,13 +1,15 @@
-import { GenericDisplayProps } from "../generic-display";
+import type { OptionalValue } from '@repo/engine/types/value-types'
+import type { GenericDisplayProps } from '../generic-display'
 
-export type DateTimeDisplayProps = Omit<GenericDisplayProps, "value"> & {
-  value: number;
-};
+export type DateTimeDisplayProps = Omit<GenericDisplayProps, 'value'> & {
+  value: OptionalValue<number>
+}
 
 export default function DateTimeDisplay({
   value,
   className,
 }: DateTimeDisplayProps) {
-  const string = new Date(value).toLocaleString();
-  return <span className={className}>{string}</span>;
+  if (!value) return null
+  const string = new Date(value).toLocaleString()
+  return <span className={className}>{string}</span>
 }

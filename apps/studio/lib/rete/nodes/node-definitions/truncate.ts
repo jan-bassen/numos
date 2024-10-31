@@ -1,7 +1,7 @@
-import type { NodeDefinition2 } from '@/types/nodes.types'
-import type { TruncateNode } from '@repo/engine/src/nodes/truncate/interface'
+import type { SpecificNodeDefinition } from '@/types/nodes.types'
+import type { TruncateNode } from '@repo/engine/nodes/truncate/interface'
 
-export const truncateDefinition: NodeDefinition2<TruncateNode> = {
+export const truncateDefinition: SpecificNodeDefinition<TruncateNode> = {
   type: 'truncate',
   category: 'data',
   title: 'Truncate',

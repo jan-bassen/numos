@@ -1,33 +1,36 @@
-import type { GraphErrorData } from '@/lib/errors'
-import {
-  type ControlDefinition,
-  type DynamicControlsDefinition,
-  type NodeContext,
-  type NodeDefinition,
-  type SavedControl,
-  type SavedControlMap,
-  type SavedInput,
-  type SavedInputMap,
-  type SavedMapNode,
-  type SavedNode,
-  type SavedOutput,
-  type SavedOutputMap,
-  type SocketDefinition,
-  isExecInput,
-  isExecOutput,
-  type DynamicInputsDefinition,
-  type DynamicOutputsDefinition,
-  type Position,
+import type {
+  DynamicControlsDefinition,
+  NodeContext,
+  AnyDataSocketDefinition,
+  Position,
+  NodeDefinition,
+  AnyControlDefinition,
+  NodeInteractionInterface,
+  DefinitionInterface,
+  DynamicSocketsDefinition,
 } from '@/types/nodes.types'
+import type {
+  MapGraphNode,
+  SavedNode,
+  MapGraphDataInput,
+  MapGraphConnection,
+} from '@repo/engine/types/graph-types'
 import { Control } from './control'
 import { NodePreset } from './presets'
-import type {
-  DataTypeValue,
-  NotatedDataTypeValue,
-} from '@/types/database.types'
 import { debounce, isEqual } from 'lodash'
-import { Input } from './input'
-import { Output } from './output'
+import type {
+  NodeValueMap,
+  OptionalValueType,
+  Value,
+  ValueSettings,
+  ValueType,
+} from '@repo/engine/types/value-types'
+import type { AnyNode } from '@repo/engine/types/node-types'
+import { getInfoFromAttribute } from '@/components/elements/attributes/utils'
+import { Input } from './connectors/input'
+import { Output } from './connectors/output'
+import type { GraphErrorData } from '@repo/engine/types/engine-types'
+import { NodeError } from '@repo/engine/errors/node-error'
 
 export class Node extends NodePreset {
   width?: number
@@ -50,38 +53,6 @@ export class Node extends NodePreset {
     this.initialize(definition, savedNode)
   }
 
-  initialize = (definition: NodeDefinition, savedNode?: SavedNode) => {
-    this.comment = savedNode?.comment
-    definition.controls &&
-      this.initControls(definition.controls, savedNode?.controls)
-    definition.inputs && this.initInputs(definition.inputs, savedNode?.inputs)
-    definition.outputs &&
-      this.initOutputs(definition.outputs, savedNode?.outputs)
-    this.context.area.update('node', this.id)
-  }
-
-  initControls = (
-    definition: DynamicControlsDefinition,
-    savedControls?: SavedControlMap,
-  ) => {
-    const staticControls = this.resolveControlsDefinition(
-      definition,
-      savedControls,
-    )
-    for (const control of staticControls) {
-      this.addControl(
-        control.key,
-        new Control(this, control, savedControls?.[control.key]),
-      )
-    }
-  }
-
-  getControl = (key: string) => {
-    const control = this.controls[key]
-    if (!control) throw new Error(`Control ${key} not found`)
-    return control
-  }
-
   getConnectedInputs = () => {
     return this.context.editor
       .getConnections()
@@ -93,6 +64,17 @@ export class Node extends NodePreset {
       .filter((input) => input !== undefined)
   }
 
+  getConnectedOutput = (key: string) => {
+    const input = this.getInput(key)
+    if (!input) return
+    const connection = input.socket.connection
+    if (!connection) return
+    const output = this.context.editor
+      .getNode(connection.source)
+      ?.getOutput(connection.sourceOutput)
+    return output
+  }
+
   getConnectedOutputs = () => {
     return this.context.editor.getConnections().map((connection) => {
       if (connection.source === this.id) {
@@ -101,146 +83,238 @@ export class Node extends NodePreset {
     })
   }
 
+  getDefinitionInterface: (
+    savedNode?: SavedNode,
+  ) => DefinitionInterface<AnyNode> = (savedNode) => {
+    return {
+      getConnectedInputKeys: () => {
+        return this.getConnectedInputs().map((input) => input.key)
+      },
+      getInfoFromInputConnection: (key: string) => {
+        const connectedOutput = this.getConnectedOutput(key)
+        if (!connectedOutput) return
+        if (
+          connectedOutput.socket.type === 'exec' ||
+          connectedOutput.socket.type === 'generic'
+        ) {
+          return undefined
+        }
+        return {
+          type: connectedOutput.socket.type,
+          list: connectedOutput.socket.list,
+          settings: connectedOutput.socket.definition?.settings as
+            | ValueSettings<OptionalValueType>
+            | undefined,
+        }
+      },
+      getInfoFromInputConnections: (keys: string[]) => {
+        const output = keys
+          .map((key) => this.getConnectedOutput(key))
+          .find((o) => o !== undefined)
+        if (!output) return
+        if (output.socket.type === 'exec' || output.socket.type === 'generic') {
+          return undefined
+        }
+        return {
+          type: output.socket.type,
+          list: output.socket.list,
+          settings: output.socket.definition?.settings,
+        }
+      },
+      getControlValue: (key: string) => {
+        const control = this.getControl(key)
+        const savedControl = savedNode?.state?.controls?.[key]
+        if (control) return control.value
+        if (savedControl)
+          return {
+            value: savedControl.value,
+            type: savedControl?.type,
+            format: savedControl?.format,
+          } as Value<ValueType, 'single' | 'objectarray', true>
+        throw new Error(`Control ${key} not found`)
+      },
+      getParameter: (key: string) => {
+        const parameter = this.context.editor.context.parameters?.find(
+          (param) => param.key === key,
+        )
+        if (!parameter) return
+        return parameter
+      },
+      getParameters: () => {
+        return this.context.editor.context.parameters || []
+      },
+      getTrigger: () => {
+        return this.context.editor.context.action?.trigger || undefined
+      },
+      getTokenAttribute: (key: string) => {
+        const attribute = this.context.editor.context.attributes?.find(
+          (attr) => attr.slug === key,
+        )
+        if (!attribute || !attribute.token_specific) return
+        return getInfoFromAttribute(attribute)
+      },
+      getTokenAttributes: () => {
+        return this.context.editor.context.attributes
+          ?.filter((attr) => attr.token_specific)
+          .map((attr) => getInfoFromAttribute(attr))
+      },
+      getCollectionAttribute: (key: string) => {
+        const attribute = this.context.editor.context.attributes?.find(
+          (attr) => attr.slug === key,
+        )
+        if (!attribute || !!attribute.token_specific) return
+        return getInfoFromAttribute(attribute)
+      },
+      getCollectionAttributes: () => {
+        return this.context.editor.context.attributes
+          ?.filter((attr) => !attr.token_specific)
+          .map((attr) => getInfoFromAttribute(attr))
+      },
+    }
+  }
+
+  interactionInterface: NodeInteractionInterface<AnyNode> = {
+    updateInputs: () => {
+      this.updateInputs()
+    },
+    updateOutputs: () => {
+      this.updateOutputs()
+    },
+    updateControls: () => {
+      this.updateControls()
+    },
+    updateControl: (key, value) => {
+      this.updateControl(key, value)
+    },
+  }
+
+  //TODO: Add execs!
   resolveInputsDefinition = (
-    definition: DynamicInputsDefinition,
-    savedInputs?: SavedInputMap,
-  ): SocketDefinition[] => {
+    definition: DynamicSocketsDefinition<'inputs'>,
+    savedNode?: SavedNode,
+  ): AnyDataSocketDefinition<'inputs'>[] => {
     if (Array.isArray(definition)) return definition
-    return definition(this, savedInputs)
+    return definition(this.getDefinitionInterface(savedNode))
   }
 
   resolveOutputsDefinition = (
-    definition: DynamicOutputsDefinition,
-    savedOutputs?: SavedOutputMap,
-  ): SocketDefinition[] => {
+    definition: DynamicSocketsDefinition<'outputs'>,
+    savedNode?: SavedNode,
+  ): AnyDataSocketDefinition<'outputs'>[] => {
     if (Array.isArray(definition)) return definition
-    return definition(this, savedOutputs)
+    return definition(this.getDefinitionInterface(savedNode))
   }
 
   resolveControlsDefinition = (
     definition: DynamicControlsDefinition,
-    savedControls?: SavedControlMap,
-  ): ControlDefinition[] => {
+    savedNode?: SavedNode,
+  ): AnyControlDefinition[] => {
     if (Array.isArray(definition)) return definition
-    return definition(this, savedControls)
+    return definition(this.getDefinitionInterface(savedNode))
   }
 
-  initInputs = (
-    definition: DynamicInputsDefinition,
-    savedInputs?: SavedInputMap,
-  ) => {
-    const staticInputs = this.resolveInputsDefinition(definition, savedInputs)
-    for (const input of staticInputs) {
+  initialize = (definition: NodeDefinition, savedNode?: SavedNode) => {
+    this.comment = savedNode?.comment
+    definition.controls && this.initControls(definition, savedNode)
+    definition.inputs && this.initInputs(definition, savedNode)
+    definition.outputs && this.initOutputs(definition, savedNode)
+    this.context.area.update('node', this.id)
+  }
+
+  initControls = (definition: NodeDefinition, savedNode?: SavedNode) => {
+    if (!definition.controls) return
+    const staticControls = this.resolveControlsDefinition(
+      definition.controls,
+      savedNode,
+    )
+    for (const control of staticControls) {
+      this.addControl(
+        control.key,
+        new Control(this, control, savedNode?.state?.controls?.[control.key]),
+      )
+    }
+  }
+
+  initInputs = (definition: NodeDefinition, savedNode?: SavedNode) => {
+    if (definition.category === 'exec') {
+      //Add exec inputs
+    }
+    if (!definition.inputs) return
+    const dataInputDefinitions = this.resolveInputsDefinition(
+      definition.inputs,
+      savedNode,
+    )
+    for (const dataInputDefinition of dataInputDefinitions) {
       this.addInput(
-        input.key,
+        dataInputDefinition.key,
         new Input(
           this,
-          input,
-          savedInputs?.[input.key] as SavedInput | undefined,
+          dataInputDefinition,
+          savedNode?.state?.inputs?.[dataInputDefinition.key],
         ),
       )
     }
   }
 
-  initOutputs = (
-    definition: DynamicOutputsDefinition,
-    savedOutputs?: SavedOutputMap,
-  ) => {
+  initOutputs = (definition: NodeDefinition, savedNode?: SavedNode) => {
+    if (!definition.outputs) return
     const staticOutputs = this.resolveOutputsDefinition(
-      definition,
-      savedOutputs,
+      definition.outputs,
+      savedNode,
     )
     for (const output of staticOutputs) {
-      this.addOutput(
-        output.key,
-        new Output(
-          this,
-          output,
-          savedOutputs?.[output.key] as SavedOutput | undefined,
-        ),
-      )
+      this.addOutput(output.key, new Output(this, output))
     }
   }
 
   updateControls = () => {
     if (!this.definition.controls) return
-    const oldControls = this.controls
-    const staticControls = Array.isArray(this.definition.controls)
-      ? this.definition.controls
-      : this.definition.controls(this)
-
-    const oldControlKeys = Object.keys(this.controls)
-    for (const oldControlKey of oldControlKeys) {
-      if (!staticControls.some((socket) => socket.key === oldControlKey)) {
+    const oldControls = this.getControls()
+    const savedNode = this.save()
+    const newControlDefinitions = this.resolveControlsDefinition(
+      this.definition.controls,
+      savedNode,
+    )
+    for (const oldControlKey of Object.keys(oldControls)) {
+      if (
+        !newControlDefinitions.some((socket) => socket.key === oldControlKey)
+      ) {
         this.removeControl(oldControlKey)
       }
     }
-    for (const control of staticControls) {
+    for (const control of newControlDefinitions) {
       if (!this.hasControl(control.key)) {
         this.addControl(control.key, new Control(this, control, undefined))
       } else {
-        const oldControl = oldControls[control.key]
-        const oldSavedControl = oldControl?.serialize()
-        if (
-          oldControl &&
-          (oldControl.value.type === control.type || control.type === 'generic')
-        ) {
-          if (
-            control.type === 'enum' &&
-            control.settings &&
-            'options' in control.settings
-          ) {
-            this.removeControl(control.key)
-            this.addControl(
-              control.key,
-              new Control(this, control, oldSavedControl),
-            )
-            control.settings.options?.map((option) => {
-              if (oldControl.value.value === option.value) {
-                const newControl = this.getControl(control.key)
-                newControl.setValue(option.value)
-              }
-            })
-          } else {
-            const newControl = this.getControl(control.key)
-            newControl.setNotatedValue(oldControl.value)
-          }
-        }
-        if (
-          oldControl &&
-          oldControl.value.type !== control.type &&
-          control.type !== 'generic'
-        ) {
-          this.removeControl(control.key)
-          this.addControl(control.key, new Control(this, control, undefined))
-        }
+        const oldControlValue = oldControls[control.key]?.getValue()
+        this.removeControl(control.key)
+        this.addControl(
+          control.key,
+          new Control(this, control, oldControlValue),
+        )
       }
     }
     this.context.area.update('node', this.id)
   }
 
-  updateControl = (controlKey: string, value?: DataTypeValue | null) => {
+  updateControl = (
+    controlKey: string,
+    value?: Value<ValueType, 'single' | 'objectarray', true>,
+  ) => {
     if (!this.definition.controls) return
+    const savedNode = this.save()
     if (this.hasControl(controlKey)) {
-      const staticControls = Array.isArray(this.definition.controls)
-        ? this.definition.controls
-        : this.definition.controls(this)
+      const staticControls = this.resolveControlsDefinition(
+        this.definition.controls,
+        savedNode,
+      )
       const newControlDef = staticControls.find(
         (control) => control.key === controlKey,
       )
       if (!newControlDef) return
-      const oldSavedControl = this.controls[controlKey]?.serialize()
+      const newValue = value || this.getControl(controlKey)?.getValue()
       this.removeControl(controlKey)
-      this.addControl(
-        controlKey,
-        new Control(this, newControlDef, oldSavedControl),
-      )
-      const newControl = this.getControl(controlKey)
-      newControl.setNotatedValue({
-        value,
-        type: newControlDef.type,
-        list: newControlDef.list || false,
-      } as NotatedDataTypeValue<true, true>)
+      this.addControl(controlKey, new Control(this, newControlDef, newValue))
     }
   }
 
@@ -255,7 +329,7 @@ export class Node extends NodePreset {
 
     //Remove inputs that are not defined in the definition
     const newInputsMap = new Map(inputsDefinition.map((i) => [i.key, i]))
-    for (const key of Object.keys(this.inputs)) {
+    for (const key of Object.keys(this.getInputs())) {
       if (!newInputsMap.has(key)) {
         this.removeSocket(key, 'input')
       }
@@ -269,17 +343,12 @@ export class Node extends NodePreset {
       }
 
       //Store the old input and check if it needs to be updated
-      const currentInput = this.inputs[inputDef.key]
-
+      const currentInput = this.getInput(inputDef.key)
       if (!currentInput || isEqual(currentInput.definition, inputDef)) continue
 
-      //Store the old input as a serialized object and remove it
-      let oldSavedInput = currentInput?.serialize()
+      //Store the old input control value and remove it
+      const oldInputControlValue = currentInput?.getControlValue()
       this.removeInput(inputDef.key)
-
-      if (this.definition.type === 'compare') {
-        console.log(oldSavedInput)
-      }
 
       //Remove value from old input control if datatype or list changed
       const typeChanged =
@@ -289,15 +358,9 @@ export class Node extends NodePreset {
         currentInput?.socket.list &&
         inputDef.list &&
         currentInput?.socket.list !== inputDef.list
-      if ((typeChanged || listChanged) && 'control' in oldSavedInput) {
-        oldSavedInput = {
-          ...oldSavedInput,
-          control: {
-            ...oldSavedInput.control,
-            value: null,
-          } as SavedControl,
-        }
-      }
+
+      const controlValue =
+        typeChanged || listChanged ? undefined : oldInputControlValue
 
       //Add the new input
       this.addInput(
@@ -305,7 +368,7 @@ export class Node extends NodePreset {
         new Input(
           this,
           inputDef,
-          oldSavedInput,
+          controlValue,
           currentInput?.socket.connection,
         ),
       )
@@ -323,7 +386,7 @@ export class Node extends NodePreset {
       this.definition.outputs,
     )
     const newOutputsMap = new Map(outputsDefinition.map((o) => [o.key, o]))
-    for (const key of Object.keys(this.outputs)) {
+    for (const key of Object.keys(this.getOutputs())) {
       if (!newOutputsMap.has(key)) {
         this.removeSocket(key, 'output')
       }
@@ -333,7 +396,7 @@ export class Node extends NodePreset {
       if (!this.hasOutput(outputDef.key)) {
         this.addOutput(outputDef.key, new Output(this, outputDef))
       } else {
-        const currentOutput = this.outputs[outputDef.key]
+        const currentOutput = this.getOutput(outputDef.key)
         if (!currentOutput) continue
         let differentOptions = false
         if (
@@ -359,16 +422,10 @@ export class Node extends NodePreset {
           currentOutput?.label !== outputDef.label ||
           differentOptions
         ) {
-          const oldSavedOutput = currentOutput?.serialize()
           this.removeOutput(outputDef.key)
           this.addOutput(
             outputDef.key,
-            new Output(
-              this,
-              outputDef,
-              oldSavedOutput,
-              currentOutput.socket.connection,
-            ),
+            new Output(this, outputDef, currentOutput.socket.connection),
           )
           this.validateSocketOutputConnections(outputDef.key)
         }
@@ -378,7 +435,7 @@ export class Node extends NodePreset {
   }
 
   validateSocketInputConnections = (key: string) => {
-    const input = this.inputs[key]
+    const input = this.getInput(key)
     if (!input) return
     const connections = this.getConnections().filter((connection) => {
       return connection.target === this.id && connection.targetInput === key
@@ -387,7 +444,7 @@ export class Node extends NodePreset {
     for (const connection of connections) {
       const source = this.context.editor.getNode(connection.source)
       if (!source) return
-      const sourceOutput = source.outputs[connection.sourceOutput]
+      const sourceOutput = source.getOutput(connection.sourceOutput)
       if (!sourceOutput) return
       const valid = input.socket.isCompatibleWith(sourceOutput.socket)
       if (!valid) {
@@ -408,7 +465,7 @@ export class Node extends NodePreset {
   }
 
   validateSocketOutputConnections = (key: string) => {
-    const output = this.outputs[key]
+    const output = this.getOutput(key)
     if (!output) return
     const connections = this.getConnections().filter((connection) => {
       return connection.source === this.id && connection.sourceOutput === key
@@ -417,7 +474,7 @@ export class Node extends NodePreset {
     for (const connection of connections) {
       const target = this.context.editor.getNode(connection.target)
       if (!target) return
-      const targetInput = target.inputs[connection.targetInput]
+      const targetInput = target.getInput(connection.targetInput)
       if (!targetInput) return
       const valid = output.socket.isCompatibleWith(targetInput.socket)
       if (!valid) {
@@ -456,7 +513,7 @@ export class Node extends NodePreset {
     debounce(() => {
       this.context.editor.events.onNodeChanged?.(
         this.context.editor,
-        this.serialize(),
+        this.save(),
       )
     }, 1000)()
   }
@@ -524,7 +581,7 @@ export class Node extends NodePreset {
           if (!node) return []
           return Object.values(node.inputs)
             .map((input) => {
-              if (!isExecInput(input)) return input.connection?.node
+              return input.connection?.node
             })
             .filter((node) => typeof node === 'string')
         })
@@ -539,9 +596,9 @@ export class Node extends NodePreset {
         const connectedNodes = nextNodes.flatMap((nodeId) => {
           const node = graph[nodeId]
           if (!node) return []
-          return Object.values(node.outputs)
+          return Object.values(node.forwards)
             .map((output) => {
-              if (isExecOutput(output)) return output.connection?.node
+              return output.node
             })
             .filter((node) => typeof node === 'string')
         })
@@ -552,107 +609,101 @@ export class Node extends NodePreset {
     }
   }
 
-  serializeInput = (key: string): SavedInput => {
-    const input = this.inputs[key]
-    if (!input) throw new Error(`Input ${key} not found`)
-    return input.serialize()
+  getControlValues = (): NodeValueMap => {
+    const values = {} as NodeValueMap
+    for (const key of this.getControlKeys()) {
+      const value = this.getControl(key)?.getValue()
+      if (value) values[key] = value
+    }
+    return values
   }
 
-  serializeInputs = (): SavedInputMap => {
-    return Object.keys(this.inputs).reduce<SavedInputMap>(
-      (accumulator, key) => {
-        accumulator[key] = this.serializeInput(key)
-        return accumulator
-      },
-      {},
-    )
+  getInputValues = (): NodeValueMap => {
+    const values = {} as NodeValueMap
+    for (const key of this.getInputKeys()) {
+      const value = this.getInput(key)?.getControlValue()
+      if (value) values[key] = value
+    }
+    return values
   }
 
-  serializeOutput = (key: string): SavedOutput => {
-    const output = this.outputs[key]
-    if (!output) throw new Error(`Output ${key} not found`)
-    return output.serialize()
-  }
-
-  serializeOutputs = (): SavedOutputMap => {
-    return Object.keys(this.outputs).reduce<SavedOutputMap>(
-      (accumulator, key) => {
-        accumulator[key] = this.serializeOutput(key)
-        return accumulator
-      },
-      {},
-    )
-  }
-
-  serializeControl = (key: string): SavedControl => {
-    const control = this.controls[key]
-    if (!control) throw new Error(`Control ${key} not found`)
-    return control.serialize()
-  }
-
-  serializeControls = (): SavedControlMap => {
-    return Object.keys(this.controls).reduce<SavedControlMap>(
-      (accumulator, key) => {
-        accumulator[key] = this.serializeControl(key)
-        return accumulator
-      },
-      {},
-    )
-  }
-
-  serialize = (): SavedNode => {
-    const inputs = this.serializeInputs()
-    const outputs = this.serializeOutputs()
-    const controls = this.serializeControls()
+  save = (): SavedNode => {
+    const inputs = this.getInputValues()
+    const controls = this.getControlValues()
     const position = this.context.area.nodeViews.get(this.id)?.position
     return {
       id: this.id,
       type: this.definition.type,
       x: position?.x || null,
       y: position?.y || null,
-      inputs,
-      controls,
-      outputs,
       comment: this.comment,
+      state: {
+        inputs,
+        controls,
+      },
     }
   }
 
-  serializeToMap = (): SavedMapNode => {
-    const inputs = Object.keys(this.inputs).reduce<{
-      [key: string]: SavedInput
-    }>((accumulator, key) => {
-      accumulator[key] = this.serializeInput(key)
+  saveToMap = (): MapGraphNode => {
+    const inputs = this.getDataInputEntries().reduce<
+      Record<string, MapGraphDataInput>
+    >((accumulator, [key, input]) => {
+      if (!input) return accumulator
+      const connection = input.socket.connection
+      accumulator[key] = {
+        controlValue: input.getResolvedControlValue(),
+        connection: connection
+          ? {
+              connectionId: connection.id,
+              node: connection.source,
+              key: connection.sourceOutput,
+            }
+          : undefined,
+      }
       return accumulator
     }, {})
-    const outputs = Object.keys(this.outputs).reduce<{
-      [key: string]: SavedOutput
-    }>((accumulator, key) => {
-      accumulator[key] = this.serializeOutput(key)
+
+    const controls = this.getControlEntries().reduce<
+      Record<string, Value<ValueType, 'single' | 'array', true>>
+    >((accumulator, [key, control]) => {
+      if (!control) return accumulator
+      accumulator[key] = control.getResolvedValue()
       return accumulator
     }, {})
-    const controls = Object.keys(this.controls).reduce<{
-      [key: string]: SavedControl
-    }>((accumulator, key) => {
-      accumulator[key] = this.serializeControl(key)
+
+    const forwards = this.getExecOutputEntries().reduce<
+      Record<string, MapGraphConnection>
+    >((accumulator, [key, output]) => {
+      const connection = output.socket.connection
+      if (!connection) return accumulator
+      accumulator[key] = {
+        connectionId: connection.id,
+        node: connection.source,
+        key: connection.sourceOutput,
+      }
       return accumulator
     }, {})
+
     return {
       id: this.id,
       type: this.definition.type,
+      root: this.definition.root || false,
       inputs,
       controls,
-      outputs,
+      forwards,
     }
   }
 
-  duplicate = async () => {
-    const initial = this.serialize()
+  duplicate = async (offset?: Position) => {
+    const initial = this.save()
+    const xOffset = offset ? offset.x : 20
+    const yOffset = offset ? offset.y : 20
 
     const node = {
       ...initial,
       id: crypto.randomUUID(),
-      x: initial.x ? initial.x + 20 : 0,
-      y: initial.y ? initial.y + 20 : 0,
+      x: initial.x ? initial.x + xOffset : 0,
+      y: initial.y ? initial.y + yOffset : 0,
     }
 
     await this.context.editor.addSavedNode(node)

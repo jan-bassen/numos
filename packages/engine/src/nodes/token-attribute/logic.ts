@@ -1,5 +1,5 @@
-import type { NodeLogic } from '@repo/engine/types/node-types.ts'
-import type { TokenAttributeNode } from './interface.ts'
+import type { NodeLogic } from '@repo/engine/types/node-types'
+import type { TokenAttributeNode } from '@repo/engine/nodes/token-attribute/interface'
 
 export const tokenAttributeLogic: NodeLogic<TokenAttributeNode> = {
   data: {

@@ -1,7 +1,7 @@
-import type { NodeDefinition2 } from '@/types/nodes.types'
-import type { LengthNode } from '@repo/engine/src/nodes/length/interface'
+import type { SpecificNodeDefinition } from '@/types/nodes.types'
+import type { LengthNode } from '@repo/engine/nodes/length/interface'
 
-export const lengthDefinition: NodeDefinition2<LengthNode> = {
+export const lengthDefinition: SpecificNodeDefinition<LengthNode> = {
   type: 'length',
   category: 'data',
   title: 'Length',

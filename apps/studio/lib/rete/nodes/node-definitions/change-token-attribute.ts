@@ -1,7 +1,10 @@
-import type { ControlDefinition2, NodeDefinition2 } from '@/types/nodes.types'
-import type { ChangeTokenAttributeNode } from '@repo/engine/src/nodes/change-token-attribute/interface'
+import type {
+  ControlDefinition,
+  SpecificNodeDefinition,
+} from '@/types/nodes.types'
+import type { ChangeTokenAttributeNode } from '@repo/engine/nodes/change-token-attribute/interface'
 
-export const changeTokenAttributeDefinition: NodeDefinition2<ChangeTokenAttributeNode> =
+export const changeTokenAttributeDefinition: SpecificNodeDefinition<ChangeTokenAttributeNode> =
   {
     type: 'change-token-attribute',
     category: 'exec',
@@ -14,7 +17,7 @@ export const changeTokenAttributeDefinition: NodeDefinition2<ChangeTokenAttribut
     },
     controls: ({ getTokenAttributes, getTokenAttribute, getControlValue }) => {
       const attributes = getTokenAttributes()
-      const controls: ControlDefinition2<
+      const controls: ControlDefinition<
         ChangeTokenAttributeNode,
         keyof ChangeTokenAttributeNode['controls']
       >[] = [
@@ -24,7 +27,7 @@ export const changeTokenAttributeDefinition: NodeDefinition2<ChangeTokenAttribut
           label: 'Attribute',
           placeholder: 'Select Attribute',
           settings: {
-            options: attributes.map((attr) => {
+            options: attributes?.map((attr) => {
               return {
                 value: attr.slug,
                 label: attr.name || 'Unnamed Attribute',
@@ -39,7 +42,7 @@ export const changeTokenAttributeDefinition: NodeDefinition2<ChangeTokenAttribut
       ]
       const attributeControlValue = getControlValue('attribute').value
       if (attributeControlValue) {
-        const attributeType = getTokenAttribute(attributeControlValue).type
+        const attributeType = getTokenAttribute(attributeControlValue)?.type
         if (attributeType === 'number') {
           controls.push({
             key: 'mode',

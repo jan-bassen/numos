@@ -3,7 +3,14 @@ import intersects from 'intersects'
 // @ts-ignore
 import decomp from 'poly-decomp'
 import './multi-selector.css'
-import type { Area, EditorMode, Position } from '@/types/nodes.types'
+import type { Position } from '@/types/nodes.types'
+import type {
+  EditorMode,
+  EditorModeOptions,
+  Intersect,
+  Shape,
+  Area,
+} from '@/types/editor.types'
 import { isHotkeyPressed } from 'react-hotkeys-hook'
 
 function screenToEditorCoordinates(
@@ -26,16 +33,8 @@ function getPoint(event: PointerEvent, container: HTMLElement) {
   }
 }
 
-export type Intersect = 'full' | 'center'
-export type Shape = 'lasso' | 'marquee'
-
-type Options = {
-  button: number | null
-  intersect: Intersect
-}
-
 const options: {
-  [key in EditorMode]: Options
+  [key in EditorMode]: EditorModeOptions
 } = {
   select: {
     button: 0,

@@ -7,7 +7,6 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
-    "test": "jest",
     "cdk": "cdk",
     "deploy": "npm run build && cdk deploy",
     "db:generate": "drizzle-kit generate",
@@ -15,6 +14,7 @@
     "db:typegen": "supabase gen types typescript --project-id izjqprmqnuotxzejbgxs > src/types/database.types.ts"
   },
   "dependencies": {
+    "@repo/tsconfig": "workspace:*",
     "@repo/engine": "workspace:*",
     "@types/aws-lambda": "^8.10.145",
     "aws": "^0.0.3-2",

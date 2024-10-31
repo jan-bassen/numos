@@ -1,16 +1,18 @@
-import { GenericDisplayProps } from "../generic-display";
+import type { OptionalValue } from '@repo/engine/types/value-types'
+import type { GenericDisplayProps } from '../generic-display'
 
-export type AddressDisplayProps = Omit<GenericDisplayProps, "value"> & {
-  value: string;
-};
+export type AddressDisplayProps = Omit<GenericDisplayProps, 'value'> & {
+  value: OptionalValue<string>
+}
 
 export default function AddressDisplay({
   value,
   className,
 }: AddressDisplayProps) {
+  if (!value) return null
   return (
     <span className={className}>
       {value.slice(0, 5)}...{value.slice(-3)}
     </span>
-  );
+  )
 }

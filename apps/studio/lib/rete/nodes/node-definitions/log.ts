@@ -1,7 +1,7 @@
-import type { NodeDefinition2 } from '@/types/nodes.types'
-import type { LogNode } from '@repo/engine/src/nodes/log/interface'
+import type { SpecificNodeDefinition } from '@/types/nodes.types'
+import type { LogNode } from '@repo/engine/nodes/log/interface'
 
-export const logDefinition: NodeDefinition2<LogNode> = {
+export const logDefinition: SpecificNodeDefinition<LogNode> = {
   type: 'log',
   category: 'exec',
   title: 'Log',
@@ -12,7 +12,7 @@ export const logDefinition: NodeDefinition2<LogNode> = {
     link: '#',
   },
   inputs: ({ getInfoFromInputConnection }) => {
-    const { type, list, settings } = getInfoFromInputConnection('value')
+    const { type, list, settings } = getInfoFromInputConnection('value') || {}
     return [
       {
         key: 'value',

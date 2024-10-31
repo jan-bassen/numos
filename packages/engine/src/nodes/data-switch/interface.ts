@@ -1,7 +1,8 @@
 import type {
-  NodeComponentType,
+  SocketInterface,
   NodeInterface,
-} from '@repo/engine/types/node-types.ts'
+} from '@repo/engine/types/node-types'
+import type { ValueType } from '@repo/engine/types/value-types'
 
 export interface DataSwitchNode extends NodeInterface<'data'> {
   type: 'data-switch'
@@ -11,10 +12,19 @@ export interface DataSwitchNode extends NodeInterface<'data'> {
       type: 'boolean'
       list: false
     }
-    true: NodeComponentType
-    false: NodeComponentType
+    true: {
+      type: ValueType
+      list: boolean
+    }
+    false: {
+      type: ValueType
+      list: boolean
+    }
   }
   outputs: {
-    output: NodeComponentType
+    output: {
+      type: ValueType
+      list: boolean
+    }
   }
 }

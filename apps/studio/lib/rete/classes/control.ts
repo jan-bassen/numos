@@ -1,63 +1,65 @@
-import { ClassicPreset } from 'rete'
-import type {
-  ControlDefinition,
-  SavedControl,
-  SelectOptions,
-} from '@/types/nodes.types'
+import type { AnyControlDefinition } from '@/types/nodes.types'
 import type { Node } from './node'
 import { debounce } from 'lodash'
-import type {
-  DataTypeValue,
-  NotatedDataTypeValue,
-  ValueDataType,
-} from '@/types/database.types'
-import { getDataTypeSchema } from '@/components/datatypes/schemas'
 import { ZodError, type ZodIssue } from 'zod'
+import type {
+  RawValue,
+  Value,
+  ValueSettings,
+  ValueType,
+} from '@repo/engine/types/value-types'
+import { getDataTypeSchema } from '@repo/engine/datatypes/schemas'
+import { resolveObjectArrayValue } from '@repo/engine/datatypes/utils'
 
-export class Control extends ClassicPreset.Control {
-  node: Node
-  value: NotatedDataTypeValue<true, true>
+export class Control {
+  id: string
+  value: Value<ValueType, 'single' | 'objectarray', true>
   valid = true
   issues: ZodIssue[] = []
-  definition?: ControlDefinition
-  options?: SelectOptions
+  settings?: ValueSettings
   index?: number
   constructor(
-    node: Node,
-    definition: ControlDefinition,
-    savedControl?: SavedControl,
+    public node: Node,
+    public definition: AnyControlDefinition,
+    value?: Value<ValueType, 'single' | 'objectarray', true>,
   ) {
-    super()
-    this.node = node
-    this.id = savedControl?.key || this.id
-
-    this.value = {
-      type: definition.type,
-      list: definition.list || false,
-      value: savedControl?.value,
-    } as NotatedDataTypeValue<true, true>
-
-    this.definition = definition
-    if ('options' in definition) this.options = definition.options
+    this.id = crypto.randomUUID()
+    this.value =
+      value ||
+      ({
+        type: definition.type,
+        format: definition.list ? 'objectarray' : 'single',
+        value: undefined,
+      } as Value<ValueType, 'single' | 'objectarray', true>)
+    this.settings = definition.settings
     this.index = definition.index
     this.validate()
     this.saveNode = this.saveNode.bind(this)
   }
 
-  onChange(value: NotatedDataTypeValue<true, true>) {
-    this.definition?.onChange?.(this.node, value)
+  onChange(value: Value<ValueType, 'single' | 'objectarray', true>) {
+    this.definition?.onChange?.(this.node.interactionInterface, value)
   }
 
-  setValue(value: DataTypeValue<true>) {
+  getValue(): Value<ValueType, 'single' | 'objectarray', true> {
+    return this.value
+  }
+
+  getResolvedValue(): Value<ValueType, 'single' | 'array', true> {
+    const resolvedValue = resolveObjectArrayValue(this.value)
+    return resolvedValue
+  }
+
+  setRawValue(value: RawValue<'objectarray' | 'single'>) {
     const newValue = {
       type: this.value.type,
-      list: this.value.list || false,
+      list: this.value.format,
       value,
-    } as NotatedDataTypeValue<true, true>
-    this.setNotatedValue(newValue)
+    } as unknown as Value<ValueType, 'single' | 'objectarray', true>
+    this.setValue(newValue)
   }
 
-  setNotatedValue(value: NotatedDataTypeValue<true, true>) {
+  setValue(value: Value<ValueType, 'single' | 'objectarray', true>) {
     this.value = value
     this.onChange?.(value)
     this.validate()
@@ -68,16 +70,17 @@ export class Control extends ClassicPreset.Control {
 
   saveNode() {
     const editor = this.node.context.editor
-    editor.events.onNodeChanged?.(editor, this.node.serialize())
+    editor.events.onNodeChanged?.(editor, this.node.save())
   }
 
   // TODO: Validate more
-  serialize(): SavedControl {
+  /*   serialize(): SavedControl {
+    const resolvedValue = resolveObjectArrayValue<ValueType, true>(this.value)
     return {
       key: this.id,
-      ...this.value,
+      ...resolvedValue,
     }
-  }
+  } */
 
   setIssues(issues: ZodIssue[]) {
     this.issues = issues
@@ -97,10 +100,7 @@ export class Control extends ClassicPreset.Control {
 
   validate() {
     if (!this.value.type) return
-    const schema = getDataTypeSchema(this.value.type, this.value.list, {
-      optional: true,
-      asObjectArray: true,
-    })
+    const schema = getDataTypeSchema(this.value.type, this.value.format, true)
     try {
       schema.parse(this.value.value)
     } catch (error) {
@@ -114,15 +114,5 @@ export class Control extends ClassicPreset.Control {
       }
     }
     this.clearIssues()
-
-    /*     
-    this.valid = isValidValueType<true, true>(
-      this.value.type,
-      this.value.list,
-      this.value.value,
-      { optional: true, asObjectArray: true },
-    )
-    this.node.context.area.update('node', this.node.id)
-    */
   }
 }

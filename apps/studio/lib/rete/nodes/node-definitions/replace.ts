@@ -1,7 +1,7 @@
-import type { NodeDefinition2 } from '@/types/nodes.types'
-import type { ReplaceNode } from '@repo/engine/src/nodes/replace/interface'
+import type { SpecificNodeDefinition } from '@/types/nodes.types'
+import type { ReplaceNode } from '@repo/engine/nodes/replace/interface'
 
-export const replaceDefinition: NodeDefinition2<ReplaceNode> = {
+export const replaceDefinition: SpecificNodeDefinition<ReplaceNode> = {
   type: 'replace',
   category: 'data',
   title: 'Replace',

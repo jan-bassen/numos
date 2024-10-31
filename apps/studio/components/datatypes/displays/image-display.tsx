@@ -1,11 +1,13 @@
-import { SupabaseImage } from "@/lib/supabase/storage/supabaseImage";
-import { GenericDisplayProps } from "../generic-display";
+import { SupabaseImage } from '@/lib/supabase/storage/supabaseImage'
+import type { GenericDisplayProps } from '../generic-display'
+import type { OptionalValue } from '@repo/engine/types/value-types'
 
-export type ImageDisplayProps = Omit<GenericDisplayProps, "value"> & {
-  value: string;
-};
+export type ImageDisplayProps = Omit<GenericDisplayProps, 'value'> & {
+  value: OptionalValue<string>
+}
 
 export default function ImageDisplay({ value, ...props }: ImageDisplayProps) {
+  if (!value) return null
   return (
     <SupabaseImage
       src={`user-images/${value}`}
@@ -14,5 +16,5 @@ export default function ImageDisplay({ value, ...props }: ImageDisplayProps) {
       height={160}
       alt="Image"
     />
-  );
+  )
 }

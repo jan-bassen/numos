@@ -1,7 +1,7 @@
-import type { NodeDefinition2 } from '@/types/nodes.types'
-import type { NumberInputNode } from '@repo/engine/src/nodes/number-input/interface'
+import type { SpecificNodeDefinition } from '@/types/nodes.types'
+import type { NumberInputNode } from '@repo/engine/nodes/number-input/interface'
 
-export const numberInputDefinition: NodeDefinition2<NumberInputNode> = {
+export const numberInputDefinition: SpecificNodeDefinition<NumberInputNode> = {
   type: 'number-input',
   category: 'data',
   title: 'Number',

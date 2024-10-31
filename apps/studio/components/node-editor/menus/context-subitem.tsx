@@ -7,7 +7,7 @@ import {
   ContextMenuSubTrigger,
 } from '@repo/ui/components/ui/context-menu'
 import type { NewNodePosition } from '@/lib/rete/utils/init'
-import type { Item } from '@/types/nodes.types'
+import type { Item } from '@/types/editor.types'
 
 export function ContextMenuSubitem({
   subitem,

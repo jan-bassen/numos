@@ -1,21 +1,21 @@
-import type { NodeLogic } from '@repo/engine/types/node-types.ts'
-import type { MapToDateNode } from './interface.ts'
+import type { NodeLogic } from '@repo/engine/types/node-types'
+import type { MapToDateNode } from '@repo/engine/nodes/map-to-date/interface'
 
 export const mapToDateLogic: NodeLogic<MapToDateNode> = {
   data: {
-    output: ({ getInputValue, getControlValue }) => {
+    output: async ({ getInputValue, getControlValue }) => {
       const steps = getControlValue('breakpoints').value
       const breakpoints = steps.sort((a, b) => a - b)
       const mode = getControlValue('mode').value
-      const datetime = getInputValue('datetime').value
+      const datetime = await getInputValue('datetime')
 
       let index = breakpoints.findIndex((b) => {
-        return b >= datetime
+        return b >= datetime.value
       })
       if (index === -1) {
         index = breakpoints.length
       } else {
-        if (breakpoints[index] === datetime && mode === 'up') {
+        if (breakpoints[index] === datetime.value && mode === 'up') {
           index = index + 1
         }
       }

@@ -1,7 +1,7 @@
-import type { NodeDefinition2 } from '@/types/nodes.types'
-import type { LocationDistanceNode } from '@repo/engine/src/nodes/location-distance/interface'
+import type { SpecificNodeDefinition } from '@/types/nodes.types'
+import type { LocationDistanceNode } from '@repo/engine/nodes/location-distance/interface'
 
-export const locationDistanceDefinition: NodeDefinition2<LocationDistanceNode> =
+export const locationDistanceDefinition: SpecificNodeDefinition<LocationDistanceNode> =
   {
     type: 'location-distance',
     category: 'data',
@@ -16,14 +16,16 @@ export const locationDistanceDefinition: NodeDefinition2<LocationDistanceNode> =
         key: 'unit',
         type: 'enum',
         label: 'Unit',
-        defaultValue: 'km',
-        options: [
-          { value: 'km', label: 'Kilometers' },
-          { value: 'meter', label: 'Meters' },
-          { value: 'mile', label: 'Miles' },
-          { value: 'yard', label: 'Yards' },
-          { value: 'nautical mile', label: 'Nautical Miles' },
-        ],
+        settings: {
+          default: 'km',
+          options: [
+            { value: 'km', label: 'Kilometers' },
+            { value: 'meter', label: 'Meters' },
+            { value: 'mile', label: 'Miles' },
+            { value: 'yard', label: 'Yards' },
+            { value: 'nautical mile', label: 'Nautical Miles' },
+          ],
+        },
       },
     ],
     inputs: [

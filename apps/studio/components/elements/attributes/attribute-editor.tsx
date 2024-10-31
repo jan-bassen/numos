@@ -59,7 +59,7 @@ import { isArray } from 'lodash'
 import ListFormInput from '@/components/datatypes/list-input-form'
 import { removeAttributeFromLocalForm } from './utils'
 import { slugify } from '@/lib/utils'
-import type { ValueSettings } from '@repo/engine/src/types/value-types'
+import type { ValueSettings, ValueType } from '@repo/engine/types/value-types'
 
 export default function AttributeEditor({
   attribute,
@@ -74,7 +74,7 @@ export default function AttributeEditor({
   const [locked, setLocked] = useState(!!attribute)
   /* const [type, setType] = useState<DataType>(attribute?.type || "enum"); */
   const { type, list } = attribute || {
-    type: 'enum' as ValueDataType,
+    type: 'enum' as ValueType,
     list: false,
   }
 
@@ -139,7 +139,7 @@ export default function AttributeEditor({
         slug,
         version: version.id,
         description: data.description || null,
-        type: data.badge as DataType,
+        type: data.badge as ValueType,
         list: attribute.list,
         token_specific: data.token_specific,
         display: data.display,
@@ -152,7 +152,7 @@ export default function AttributeEditor({
         slug,
         version: version.id,
         description: data.description || null,
-        type: data.badge as DataType,
+        type: data.badge as ValueType,
         token_specific: data.token_specific,
         display: data.display,
         settings: data.settings as ValueSettings,
@@ -359,13 +359,15 @@ export default function AttributeEditor({
             description="If a default value is set, this value won't have to be provided on mint."
             className="flex flex-col gap-6"
           >
-            {list && type !== 'exec' ? (
+            {list ? (
               <ListFormInput
                 form={form}
                 itemKey="settings.default"
-                datatype={type}
-                settings={getSettings()}
-                locked={locked}
+                inputProps={{
+                  datatype: type as ValueType,
+                  settings: getSettings(),
+                  locked: locked,
+                }}
                 classNames={{ container: 'w-full' }}
                 defaultValue={
                   isArray(defaultValues.settings?.default)

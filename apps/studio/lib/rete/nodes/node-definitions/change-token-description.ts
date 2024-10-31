@@ -1,7 +1,7 @@
-import type { NodeDefinition2 } from '@/types/nodes.types'
-import type { ChangeTokenDescriptionNode } from '@repo/engine/src/nodes/change-token-description/interface'
+import type { SpecificNodeDefinition } from '@/types/nodes.types'
+import type { ChangeTokenDescriptionNode } from '@repo/engine/nodes/change-token-description/interface'
 
-export const changeTokenDescriptionDefinition: NodeDefinition2<ChangeTokenDescriptionNode> =
+export const changeTokenDescriptionDefinition: SpecificNodeDefinition<ChangeTokenDescriptionNode> =
   {
     type: 'change-token-description',
     category: 'exec',

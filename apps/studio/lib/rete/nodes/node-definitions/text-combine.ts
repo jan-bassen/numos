@@ -1,7 +1,7 @@
-import type { NodeDefinition2 } from '@/types/nodes.types'
-import type { TextCombineNode } from '@repo/engine/src/nodes/text-combine/interface'
+import type { SpecificNodeDefinition } from '@/types/nodes.types'
+import type { TextCombineNode } from '@repo/engine/nodes/text-combine/interface'
 
-export const textCombineDefinition: NodeDefinition2<TextCombineNode> = {
+export const textCombineDefinition: SpecificNodeDefinition<TextCombineNode> = {
   type: 'text-combine',
   category: 'data',
   title: 'Combine',
@@ -21,7 +21,9 @@ export const textCombineDefinition: NodeDefinition2<TextCombineNode> = {
       type: 'string',
       label: 'Separator',
       placeholder: 'Seperator',
-      defaultValue: ' ',
+      settings: {
+        default: ' ',
+      },
     },
   ],
   outputs: [{ key: 'output', type: 'string', label: 'Output' }],

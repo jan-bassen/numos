@@ -1,16 +1,16 @@
 import type { ConnectionBase, NodeBase } from 'rete'
 import type { Node } from './node'
 import type { SocketType } from '@/types/database.types'
-import type { SavedConnection } from '@/types/nodes.types'
 import type { NodeEditor } from './editor'
-import type { Socket } from './socket'
-import { th } from 'date-fns/locale'
+import type { SavedConnection } from '@repo/engine/types/graph-types'
+import type { OptionalDataType } from '@repo/engine/types/value-types'
+import type { Socket } from './connectors/socket'
 
 export class Connection implements ConnectionBase {
   id: ConnectionBase['id']
   source: NodeBase['id']
   target: NodeBase['id']
-  type: SocketType
+  type: OptionalDataType
   list: boolean
   isPseudo?: boolean
   constructor(
@@ -21,12 +21,12 @@ export class Connection implements ConnectionBase {
     public targetInput: string,
     id?: string,
   ) {
-    if (!(source.outputs as Record<string, any>)[sourceOutput as string]) {
+    if (!source.hasOutput(sourceOutput)) {
       throw new Error(
         `source node doesn't have output with a key ${String(sourceOutput)}`,
       )
     }
-    if (!(target.inputs as Record<string, any>)[targetInput as string]) {
+    if (!target.hasInput(targetInput)) {
       throw new Error(
         `target node doesn't have input with a key ${String(targetInput)}`,
       )
@@ -59,11 +59,11 @@ export class Connection implements ConnectionBase {
   }
 
   getSourceOutput() {
-    return this.editor.getNode(this.source)?.outputs[this.sourceOutput]
+    return this.editor.getNode(this.source)?.getOutput(this.sourceOutput)
   }
 
   getTargetInput() {
-    return this.editor.getNode(this.target)?.inputs[this.targetInput]
+    return this.editor.getNode(this.target)?.getInput(this.targetInput)
   }
 
   resolveConnectionData() {
@@ -71,8 +71,8 @@ export class Connection implements ConnectionBase {
     if (!source) throw new Error('Source node not found')
     const target = this.editor.getNode(this.target)
     if (!target) throw new Error('Target node not found')
-    const sourceOutput = source?.outputs[this.sourceOutput]
-    const targetInput = target?.inputs[this.targetInput]
+    const sourceOutput = source?.getOutput(this.sourceOutput)
+    const targetInput = target?.getInput(this.targetInput)
     return {
       source,
       target,
@@ -125,13 +125,13 @@ export function getPseudoConnectionType(
   if (source && sourceOutput) {
     const sourceNode = editor.getNode(source)
     if (!sourceNode) return 'number'
-    const sourceSocket = sourceNode.outputs[sourceOutput]?.socket
+    const sourceSocket = sourceNode.getOutput(sourceOutput)?.socket
     return sourceSocket?.type || 'number'
   }
   if (target && targetInput) {
     const targetNode = editor.getNode(target)
     if (!targetNode) return 'number'
-    const targetSocket = targetNode.inputs[targetInput]?.socket
+    const targetSocket = targetNode.getInput(targetInput)?.socket
     return targetSocket?.type || 'number'
   }
   return 'number'

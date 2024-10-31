@@ -5,10 +5,8 @@ import type {
   SavedConnection,
   SavedGraph,
   SavedNode,
-} from '@/types/nodes.types'
+} from '@repo/engine/types/graph-types'
 import { createSupabaseServerComponentClient } from '../server-client'
-import { revalidate } from '../server-utils'
-import { revalidatePath } from 'next/cache'
 
 export async function insertImageNode(
   node: SavedNode,
@@ -24,12 +22,10 @@ export async function insertImageNode(
   const supabase = await createSupabaseServerComponentClient()
 
   const insertNode: InsertImageNode = {
-    controls: node.controls,
     id: node.id,
-    inputs: node.inputs,
-    outputs: node.outputs,
     type: node.type,
     version: versionId,
+    state: node.state,
     x: node.x,
     y: node.y,
   }
@@ -54,9 +50,7 @@ export async function updateImageNode(node: SavedNode): Promise<ReturnInfo> {
   const { error } = await supabase
     .from('image_nodes')
     .update({
-      controls: node.controls,
-      inputs: node.inputs,
-      outputs: node.outputs,
+      state: node.state,
       comment: node.comment,
     })
     .eq('id', node.id)

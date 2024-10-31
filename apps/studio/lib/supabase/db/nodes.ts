@@ -1,16 +1,9 @@
 'use server'
 
-import type { NodeType, SavedControl } from '@/types/nodes.types'
+import type { OLDSavedControl } from '@repo/engine/types/graph-types'
 import { createSupabaseServerComponentClient } from '../server-client'
 import type { ReturnInfo } from '@/types/database.types'
-
-// Control key has to be 'attribute'
-const attributeDependentNodes: NodeType[] = [
-  'change-attribute',
-  'attribute-data',
-  'enum-input',
-  'image-map',
-]
+import { attributeNodeDependency } from '@/lib/rete/nodes/node-dependencies'
 
 export async function updateAttributeNodeControls(
   versionId: string,
@@ -24,7 +17,10 @@ export async function updateAttributeNodeControls(
     .from('image_nodes')
     .select('id, controls')
     .eq('version', versionId)
-    .in('type', attributeDependentNodes)
+    .in(
+      'type',
+      attributeNodeDependency.nodes.map((node) => node.nodeType),
+    )
     .eq('controls->attribute->>value', oldSlug)
 
   if (imageNodesError) {
@@ -38,12 +34,12 @@ export async function updateAttributeNodeControls(
     if (!imageNode.controls?.attribute) {
       continue
     }
-    const updatedControls: Record<string, SavedControl> = {
+    const updatedControls: Record<string, OLDSavedControl> = {
       ...imageNode.controls,
       attribute: {
         ...imageNode.controls.attribute,
         value: newSlug,
-      } as SavedControl,
+      } as OLDSavedControl,
     }
     const { error: updateError } = await supabase
       .from('image_nodes')
@@ -77,7 +73,10 @@ export async function updateAttributeNodeControls(
     .from('action_nodes')
     .select('id, controls')
     .in('action', actionIds)
-    .in('type', attributeDependentNodes)
+    .in(
+      'type',
+      attributeNodeDependency.nodes.map((node) => node.nodeType),
+    )
     .eq('controls->attribute->>value', oldSlug)
 
   if (actionNodesError) {
@@ -93,12 +92,12 @@ export async function updateAttributeNodeControls(
       continue
     }
 
-    const updatedControls: Record<string, SavedControl> = {
+    const updatedControls: Record<string, OLDSavedControl> = {
       ...actionNode.controls,
       attribute: {
         ...actionNode.controls.attribute,
         value: newSlug,
-      } as SavedControl,
+      } as OLDSavedControl,
     }
 
     const { error: updateError } = await supabase
@@ -131,7 +130,10 @@ export async function clearAttributeNodeControls(
     .from('image_nodes')
     .select('id, controls')
     .eq('version', versionId)
-    .in('type', attributeDependentNodes)
+    .in(
+      'type',
+      attributeNodeDependency.nodes.map((node) => node.nodeType),
+    )
     .eq('controls->attribute->>value', oldSlug)
 
   if (imageNodesError) {
@@ -148,13 +150,13 @@ export async function clearAttributeNodeControls(
     if (!imageNode.controls?.attribute) {
       continue
     }
-    const updatedControls: Record<string, SavedControl> = {
+    const updatedControls: Record<string, OLDSavedControl> = {
       ...imageNode.controls,
       attribute: {
         key: imageNode.controls.attribute.key,
         type: imageNode.controls.attribute.type,
         value: undefined,
-      } as SavedControl,
+      } as OLDSavedControl,
     }
 
     const { error: updateError } = await supabase
@@ -189,7 +191,10 @@ export async function clearAttributeNodeControls(
     .from('action_nodes')
     .select('id, controls')
     .in('action', actionIds)
-    .in('type', attributeDependentNodes)
+    .in(
+      'type',
+      attributeNodeDependency.nodes.map((node) => node.nodeType),
+    )
     .eq('controls->attribute->>value', oldSlug)
 
   if (actionNodesError) {
@@ -205,13 +210,13 @@ export async function clearAttributeNodeControls(
       continue
     }
 
-    const updatedControls: Record<string, SavedControl> = {
+    const updatedControls: Record<string, OLDSavedControl> = {
       ...actionNode.controls,
       attribute: {
         key: actionNode.controls.attribute.key,
         type: actionNode.controls.attribute.type,
         value: undefined,
-      } as SavedControl,
+      } as OLDSavedControl,
     }
 
     const { error: updateError } = await supabase

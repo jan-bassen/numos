@@ -1,10 +1,10 @@
-import type { NodeLogic } from '@repo/engine/types/node-types.ts'
-import type { ListLengthNode } from './interface.ts'
+import type { NodeLogic } from '@repo/engine/types/node-types'
+import type { ListLengthNode } from '@repo/engine/nodes/list-length/interface'
 
 export const listLengthLogic: NodeLogic<ListLengthNode> = {
   data: {
-    output: ({ getInputValue }) => {
-      const list = getInputValue('list')
+    output: async ({ getInputValue }) => {
+      const list = await getInputValue('list')
       return {
         type: 'number',
         format: 'single',

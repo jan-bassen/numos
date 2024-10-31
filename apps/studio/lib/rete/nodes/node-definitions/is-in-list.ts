@@ -1,7 +1,8 @@
-import type { NodeDefinition2 } from '@/types/nodes.types'
-import type { IsInListNode } from '@repo/engine/src/nodes/is-in-list/interface'
+import type { SpecificNodeDefinition } from '@/types/nodes.types'
+import { NodeError } from '@repo/engine/errors/node-error'
+import type { IsInListNode } from '@repo/engine/nodes/is-in-list/interface'
 
-export const isInListDefinition: NodeDefinition2<IsInListNode> = {
+export const isInListDefinition: SpecificNodeDefinition<IsInListNode> = {
   type: 'is-in-list',
   category: 'data',
   title: 'Is in List',
@@ -13,7 +14,8 @@ export const isInListDefinition: NodeDefinition2<IsInListNode> = {
     example: '(List: [1, 2, 3], Value: 2) = true',
   },
   inputs: ({ getInfoFromInputConnections }) => {
-    const { type, settings } = getInfoFromInputConnections(['list', 'value'])
+    const { type, settings } =
+      getInfoFromInputConnections(['list', 'value']) || {}
     return [
       {
         key: 'list',

@@ -1,10 +1,7 @@
 'use client'
 
-import { H3 } from '@/components/layout/pages/headings'
-import LoadingSpinner from '@repo/ui/components/loading/loading-spinner'
 import { Button, type ButtonProps } from '@repo/ui/components/ui/button'
 import { Input, type InputProps } from '@repo/ui/components/ui/input'
-import { Label } from '@repo/ui/components/ui/label'
 import {
   Popover,
   PopoverContent,
@@ -18,7 +15,6 @@ import {
 } from '@repo/ui/components/ui/tabs'
 import { Textarea } from '@repo/ui/components/ui/textarea'
 import { generateCron } from '@/lib/ai/cron'
-import { PiSpinnerStroke } from '@repo/ui/icons/pika'
 import { cn } from '@repo/ui/lib/utils'
 import { Loader2 } from 'lucide-react'
 import { useState, useTransition } from 'react'

@@ -1,86 +1,84 @@
-import type { DataTypeValue, SocketType } from '@/types/database.types'
-import type { SocketDefinition } from '@/types/nodes.types'
+import type { AnyDataSocketDefinition } from '@/types/nodes.types'
 import { ClassicPreset } from 'rete'
-import type { Node } from './node'
-import type { Connection } from './connection'
+import type { Node } from '../node'
+import type { Connection } from '../connection'
 import { isEqual } from 'lodash'
-import { validateValueType } from '@/components/datatypes/schemas'
 import { toast } from 'sonner'
-import type { EnumSettings } from '@repo/engine/src/types/value-types'
-export type SocketTypeData = {
-  title: string
-}
+import type {
+  OptionalDataType,
+  ValueSettings,
+} from '@repo/engine/types/value-types'
 
 export class Socket extends ClassicPreset.Socket {
-  definition: SocketDefinition
-  type: SocketType
+  id: string
+  type: OptionalDataType
   list: boolean
   name: string
-  value?: DataTypeValue
   connected: boolean
-  connection?: Connection
   onConnect: (node: Node, connection: Connection) => void
   onDisconnect: (node: Node, connection: Connection) => void
   constructor(
     public side: 'input' | 'output',
-    definition: SocketDefinition,
-    private node: Node,
-    connection?: Connection,
+    public definition: AnyDataSocketDefinition,
+    public node: Node,
+    public connection?: Connection,
   ) {
     super('name')
+    this.id = crypto.randomUUID()
     this.definition = definition
-    this.type = definition.type
+    this.type = definition.type || 'generic'
+    this.name = definition.type || 'generic' //TODO: Remove this
     this.list = definition.list || false
-    this.name = definition.type
     this.connected = !!connection
     this.connection = connection
     this.onConnect = (node: Node, connection: Connection) => {
       this.connected = true
       this.connection = connection
-      definition.onConnect?.(node, connection)
+      definition.onConnect?.(node.interactionInterface)
       node.context.area.update('node', node.id)
     }
     this.onDisconnect = (node: Node, connection: Connection) => {
       this.connected = false
       this.connection = undefined
-      definition.onDisconnect?.(node, connection)
+      definition.onDisconnect?.(node.interactionInterface)
       node.context.area.update('node', node.id)
     }
   }
 
-  setValue(value: DataTypeValue) {
-    if (this.type === 'exec' || this.type === 'generic') return
-    const { error } = validateValueType<true>(this.type, this.list, value, {
-      optional: true,
-      asObjectArray: false,
-    })
-    if (error) {
-      throw new Error(
-        `Invalid value ${value} for socket ${this.name} of type ${this.type}`,
-      )
-    }
-    this.value = value
-  }
-
   isCompatibleWith(socket: Socket) {
+    if (socket.type === 'exec') {
+      if (this.type !== 'exec') return false
+      if (this.connected && this.side === 'output') return false
+      const isLoop = this.node.isConnectedToNode(
+        socket.node,
+        'exec',
+        socket.side,
+      )
+      if (isLoop) {
+        toast.warning("Nodes can't be connected in a loop")
+        return false
+      }
+      return true
+    }
+
     const isAlreadyConnected = this.node.isConnectedToNode(
       socket.node,
-      socket.type === 'exec' ? 'exec' : 'data',
+      'data',
       socket.side,
     )
     if (isAlreadyConnected) {
       toast.warning("Nodes can't be connected in a loop")
       return false
     }
+
+    const canSocketBecomeList =
+      !socket.list && socket.type === 'generic' && socket.definition.canBeList
+    const canThisBecomeList =
+      !this.list && this.type === 'generic' && this.definition.canBeList
+
     if (
-      (this.list &&
-        !socket.list &&
-        socket.definition.type === 'generic' &&
-        socket.definition.canBeList) ||
-      (!this.list &&
-        socket.list &&
-        this.definition.type === 'generic' &&
-        this.definition.canBeList)
+      (this.list && canSocketBecomeList) ||
+      (socket.list && canThisBecomeList)
     )
       return true
 
@@ -90,16 +88,17 @@ export class Socket extends ClassicPreset.Socket {
       (this.type === 'generic' && !this.definition.compatibleWith) ||
       (socket.type === 'generic' && !socket.definition.compatibleWith)
     )
+      // TODO: Integrate compatibleWith correctly
       return true
 
     if (this.type === 'enum') {
-      if (socket.type !== 'enum') return false //if (!["enum", "generic"].includes(socket.type)) return false;
-      // TODO: Clean up this mess and test it
-      const settings = this.definition.settings as EnumSettings
-      const socketSettings = socket.definition as unknown as EnumSettings
+      // Compare enum settings
+      if (socket.type !== 'enum') return false
+
+      const settings = this.definition.settings as ValueSettings<'enum'>
+      const socketSettings = socket.definition.settings as ValueSettings<'enum'>
       if (!socketSettings) return false
 
-      const socketDef = socket.definition
       if (settings.adaptOptions !== socketSettings.adaptOptions) {
         return true
       }
@@ -109,7 +108,10 @@ export class Socket extends ClassicPreset.Socket {
       )
       return isEqual(options, socketOptions)
     }
-    if (socket.type === this.type) return true
+
+    if (socket.type === this.type)
+      // Compare basic compatibility
+      return true
     if (this.definition.compatibleWith?.includes(socket.type)) return true
     return false
   }

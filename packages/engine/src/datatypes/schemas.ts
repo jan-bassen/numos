@@ -1,7 +1,7 @@
-import { ZodError, type ZodType, z } from 'zod'
-import { directions } from './directions.ts'
-import { weatherCodes } from './weather-codes.ts'
-import type { Value, ValueFormat, ValueType } from '../types/value-types.ts'
+import { type ZodType, z } from 'zod'
+import type { ValueFormat, ValueType } from '@repo/engine/types/value-types'
+import { directions } from '@repo/engine/datatypes/directions'
+import { weatherCodes } from '@repo/engine/datatypes/weather-codes'
 
 export const enumSchema = z.string({
   required_error: 'Value is required',
@@ -80,7 +80,6 @@ export const datatypeSchema: Record<ValueType, z.ZodType> = {
   datetime: datetimeSchema,
   buffer: bufferSchema,
   enum: enumSchema,
-  generic: z.never(),
 }
 
 export function getDataTypeSchema(

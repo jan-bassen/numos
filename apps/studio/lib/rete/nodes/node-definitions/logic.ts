@@ -1,7 +1,7 @@
-import type { NodeDefinition2 } from '@/types/nodes.types'
-import type { LogicNode } from '@repo/engine/src/nodes/logic/interface'
+import type { SpecificNodeDefinition } from '@/types/nodes.types'
+import type { LogicNode } from '@repo/engine/nodes/logic/interface'
 
-export const logicDefinition: NodeDefinition2<LogicNode> = {
+export const logicDefinition: SpecificNodeDefinition<LogicNode> = {
   type: 'logic',
   category: 'data',
   title: 'Logic',
@@ -24,17 +24,19 @@ export const logicDefinition: NodeDefinition2<LogicNode> = {
       key: 'mode',
       type: 'enum',
       label: 'Select Mode',
-      defaultValue: 'and',
       onChange: (node) => {
         node.updateInputs()
       },
-      options: [
-        { value: 'and', label: 'And' },
-        { value: 'or', label: 'Or' },
-        { value: 'not', label: 'Not' },
-        { value: 'xor', label: 'Xor' },
-        { value: 'nand', label: 'Nand' },
-      ],
+      settings: {
+        default: 'and',
+        options: [
+          { value: 'and', label: 'And' },
+          { value: 'or', label: 'Or' },
+          { value: 'not', label: 'Not' },
+          { value: 'xor', label: 'Xor' },
+          { value: 'nand', label: 'Nand' },
+        ],
+      },
     },
   ],
   outputs: [{ key: 'output', type: 'boolean', label: 'Output' }],

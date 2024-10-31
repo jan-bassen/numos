@@ -1,17 +1,17 @@
-import type { NodeLogic } from '@repo/engine/types/node-types.ts'
-import type { ListAddNode } from './interface.ts'
-import { NodeError } from '@repo/engine/errors/node-error.ts'
+import type { NodeLogic } from '@repo/engine/types/node-types'
+import type { ListAddNode } from '@repo/engine/nodes/list-add/interface'
+import { NodeError } from '@repo/engine/errors/node-error'
 import type {
-  RawValue,
+  RawSingleValue,
   Value,
   ValueType,
-} from '@repo/engine/types/value-types.ts'
+} from '@repo/engine/types/value-types'
 
 export const listAddLogic: NodeLogic<ListAddNode> = {
   data: {
-    output: ({ getInputValue, getControlValue }) => {
-      const list = getInputValue('list')
-      const value = getInputValue('value')
+    output: async ({ getInputValue, getControlValue }) => {
+      const list = await getInputValue('list')
+      const value = await getInputValue('value')
       const position = getControlValue('position').value
       if (list.type !== value.type) {
         throw new NodeError('Type mismatch', {
@@ -21,7 +21,7 @@ export const listAddLogic: NodeLogic<ListAddNode> = {
           },
         })
       }
-      let newList: RawValue[]
+      let newList: RawSingleValue[]
       switch (position) {
         case 'start':
           newList = [value.value, ...list.value]

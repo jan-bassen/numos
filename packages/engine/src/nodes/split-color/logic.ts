@@ -1,23 +1,23 @@
-import type { NodeLogic } from '@repo/engine/types/node-types.ts'
-import type { SplitColorNode } from './interface.ts'
+import type { NodeLogic } from '@repo/engine/types/node-types'
+import type { SplitColorNode } from '@repo/engine/nodes/split-color/interface'
 
 export const splitColorLogic: NodeLogic<SplitColorNode> = {
   data: {
-    red: ({ getInputValue }) => {
-      const color = getInputValue('color').value
-      return { type: 'number', format: 'single', value: color.r }
+    red: async ({ getInputValue }) => {
+      const color = await getInputValue('color')
+      return { type: 'number', format: 'single', value: color.value.r }
     },
-    green: ({ getInputValue }) => {
-      const color = getInputValue('color').value
-      return { type: 'number', format: 'single', value: color.g }
+    green: async ({ getInputValue }) => {
+      const color = await getInputValue('color')
+      return { type: 'number', format: 'single', value: color.value.g }
     },
-    blue: ({ getInputValue }) => {
-      const color = getInputValue('color').value
-      return { type: 'number', format: 'single', value: color.b }
+    blue: async ({ getInputValue }) => {
+      const color = await getInputValue('color')
+      return { type: 'number', format: 'single', value: color.value.b }
     },
-    alpha: ({ getInputValue }) => {
-      const color = getInputValue('color').value
-      return { type: 'number', format: 'single', value: color.a }
+    alpha: async ({ getInputValue }) => {
+      const color = await getInputValue('color')
+      return { type: 'number', format: 'single', value: color.value.a }
     },
   },
 }

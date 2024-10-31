@@ -1,10 +1,10 @@
-import type { NodeErrorData } from '@repo/engine/types/engine-types.ts'
+import type { NodeErrorData } from '@repo/engine/types/engine-types'
 
 export class NodeError extends Error {
   name = 'NodeError'
   constructor(
     message: string,
-    private location: {
+    public location: {
       component?: {
         key: string
         type: 'input' | 'output' | 'control'

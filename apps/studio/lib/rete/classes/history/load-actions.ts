@@ -1,5 +1,4 @@
 import type { BaseSchemes, ConnectionId, NodeId } from 'rete'
-import { type BaseArea, BaseAreaPlugin } from 'rete-area-plugin'
 import {
   AddConnectionAction,
   RemoveConnectionAction,
@@ -7,8 +6,8 @@ import {
 import { AddNodeAction, DragNodeAction, RemoveNodeAction } from './actions/node'
 import type { Action, HistoryPlugin, Preset } from './plugin'
 import { NodeEditor } from '../editor'
-import type { Area, AreaExtra, Position, Schemes } from '@/types/nodes.types'
-import { Area as AreaClass } from '../area/area'
+import type { Position } from '@/types/nodes.types'
+import type { Area } from '@/types/editor.types'
 import { AreaPlugin } from '../area/area-plugin'
 import type { Node } from '../node'
 import type { Connection } from '../connection'
@@ -47,7 +46,7 @@ function trackNodes<S extends BaseSchemes>(
       nodes.set(id, node)
     }
     if (context.type === 'noderemoved') {
-      const node = context.data.serialize()
+      const node = context.data.save()
       const position = positions.get(node.id)
 
       if (!node) throw new Error('node')

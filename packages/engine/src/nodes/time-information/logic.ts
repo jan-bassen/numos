@@ -1,11 +1,12 @@
-import type { NodeLogic } from '@repo/engine/types/node-types.ts'
-import type { TimeInformationNode } from './interface.ts'
+import type { NodeLogic } from '@repo/engine/types/node-types'
+import type { TimeInformationNode } from '@repo/engine/nodes/time-information/interface'
 import { DateTime } from 'luxon'
 
 export const timeInformationLogic: NodeLogic<TimeInformationNode> = {
   data: {
-    output: ({ getInputValue, getControlValue }) => {
-      const time = DateTime.fromMillis(getInputValue('time').value)
+    output: async ({ getInputValue, getControlValue }) => {
+      const timestamp = await getInputValue('time')
+      const time = DateTime.fromMillis(timestamp.value)
       const unit = getControlValue('unit').value
       let value: number
       switch (unit) {

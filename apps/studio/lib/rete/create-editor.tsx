@@ -1,38 +1,40 @@
 import { createRoot } from 'react-dom/client'
 import { AreaExtensions } from 'rete-area-plugin'
 import { ConnectionPlugin } from 'rete-connection-plugin'
-import { ReactPlugin, Presets, type ReactArea2D } from 'rete-react-plugin'
 import type {
-  SavedGraph,
   EditorContext,
   Schemes,
   AreaExtra,
   Editor,
   EditorEvents,
   EditorSettings,
-} from '../../types/nodes.types'
+  EditorConfig,
+} from '@/types/editor.types'
 import type { Control } from './classes/control'
 import { getConnectionPreset } from './utils/presets'
-import { getSocket } from '@/components/node-editor/node/socket'
+import { getSocket, SocketProps } from '@/components/node-editor/node/socket'
 import { getConnection } from '@/components/node-editor/connection'
-import type { ExtractPayload } from 'rete-react-plugin/_types/presets/classic/types'
+import type {
+  ExtractPayload,
+  ReactArea2D,
+} from 'rete-react-plugin/_types/presets/classic/types'
 import { NodeComponent } from '@/components/node-editor/node/node'
-import type { EditorConfig } from '@/types/nodes.types'
 import { Node } from './classes/node'
-import _, { debounce } from 'lodash'
+import _ from 'lodash'
 import { NodeEditor } from './classes/editor'
 import { insertableNodes } from './utils/insertable-nodes'
 import { toast } from 'sonner'
 import { ControlComponent } from '@/components/node-editor/node/base-control'
 import { getPseudoConnectionType } from './classes/connection'
 import { AreaPlugin } from './classes/area/area-plugin'
-import { Drag } from './classes/area/drag'
 import { zoomAt } from './classes/area/extensions/zoom-at'
 import { HistoryPlugin } from './classes/history/plugin'
 import {
   type HistoryActions,
   loadHistoryActions,
 } from './classes/history/load-actions'
+import type { SavedGraph } from '@repo/engine/types/graph-types'
+import { Presets, ReactPlugin } from 'rete-react-plugin'
 
 export async function createEditor(
   container: HTMLElement,
@@ -145,6 +147,7 @@ export async function createEditor(
         node(data: ExtractPayload<Schemes, 'node'>) {
           return NodeComponent
         },
+        // @ts-ignore
         socket(data: ExtractPayload<Schemes, 'socket'>) {
           return getSocket(data)
         },
@@ -194,7 +197,7 @@ export async function createEditor(
       return context
     }
     if (context.type === 'nodecreated') {
-      editor.events.onNodeCreated?.(editor, context.data.serialize())
+      editor.events.onNodeCreated?.(editor, context.data.save())
     }
     if (context.type === 'noderemoved') {
       editor.events.onNodeRemoved?.(editor, context.data)

@@ -1,7 +1,8 @@
-import type { NodeDefinition2 } from '@/types/nodes.types'
-import type { DataSwitchNode } from '@repo/engine/src/nodes/data-switch/interface'
+import type { SpecificNodeDefinition } from '@/types/nodes.types'
+import { NodeError } from '@repo/engine/errors/node-error'
+import type { DataSwitchNode } from '@repo/engine/nodes/data-switch/interface'
 
-export const dataSwitchDefinition: NodeDefinition2<DataSwitchNode> = {
+export const dataSwitchDefinition: SpecificNodeDefinition<DataSwitchNode> = {
   type: 'data-switch',
   category: 'data',
   title: 'Map to Yes/No',
@@ -10,10 +11,8 @@ export const dataSwitchDefinition: NodeDefinition2<DataSwitchNode> = {
     link: '#data-switch',
   },
   inputs: ({ getInfoFromInputConnections }) => {
-    const { type, settings, list } = getInfoFromInputConnections([
-      'true',
-      'false',
-    ])
+    const { type, settings, list } =
+      getInfoFromInputConnections(['true', 'false']) || {}
     return [
       {
         key: 'switch',
@@ -55,10 +54,8 @@ export const dataSwitchDefinition: NodeDefinition2<DataSwitchNode> = {
     ]
   },
   outputs: ({ getInfoFromInputConnections }) => {
-    const { type, list, settings } = getInfoFromInputConnections([
-      'true',
-      'false',
-    ])
+    const { type, list, settings } =
+      getInfoFromInputConnections(['true', 'false']) || {}
     return [{ key: 'output', type, list, label: 'Result', settings }]
   },
 }

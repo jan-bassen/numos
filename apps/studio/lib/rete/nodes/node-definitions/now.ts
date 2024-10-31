@@ -1,7 +1,7 @@
-import type { NodeDefinition2 } from '@/types/nodes.types'
-import type { NowNode } from '@repo/engine/src/nodes/now/interface'
+import type { SpecificNodeDefinition } from '@/types/nodes.types'
+import type { NowNode } from '@repo/engine/nodes/now/interface'
 
-export const nowDefinition: NodeDefinition2<NowNode> = {
+export const nowDefinition: SpecificNodeDefinition<NowNode> = {
   type: 'now',
   category: 'data',
   title: 'Now',

@@ -1,7 +1,7 @@
-import type { NodeDefinition2 } from '@/types/nodes.types'
-import type { ParameterNode } from '@repo/engine/src/nodes/parameter/interface'
+import type { SpecificNodeDefinition } from '@/types/nodes.types'
+import type { ParameterNode } from '@repo/engine/nodes/parameter/interface'
 
-export const parameterDefinition: NodeDefinition2<ParameterNode> = {
+export const parameterDefinition: SpecificNodeDefinition<ParameterNode> = {
   type: 'parameter',
   category: 'data',
   title: 'Parameter',

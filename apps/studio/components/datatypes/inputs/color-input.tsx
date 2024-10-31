@@ -7,9 +7,9 @@ import {
 } from '@repo/ui/components/ui/popover'
 import { type FocusEvent, useRef } from 'react'
 import { cn } from '@repo/ui/lib/utils'
-import type { Color } from '@/types/database.types'
 import { Drag } from 'rete-react-plugin'
-import { colorSchema } from '../schemas'
+import { colorSchema } from '@repo/engine/datatypes/schemas'
+import type { Color } from '@repo/engine/types/value-types'
 
 export default function ColorInput({
   value,

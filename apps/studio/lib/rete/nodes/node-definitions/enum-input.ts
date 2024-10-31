@@ -1,7 +1,10 @@
-import type { ControlDefinition2, NodeDefinition2 } from '@/types/nodes.types'
-import type { EnumInputNode } from '@repo/engine/src/nodes/enum-input/interface'
+import type {
+  ControlDefinition,
+  SpecificNodeDefinition,
+} from '@/types/nodes.types'
+import type { EnumInputNode } from '@repo/engine/nodes/enum-input/interface'
 
-export const enumInputDefinition: NodeDefinition2<EnumInputNode> = {
+export const enumInputDefinition: SpecificNodeDefinition<EnumInputNode> = {
   type: 'enum-input',
   category: 'data',
   title: 'Choice',
@@ -16,8 +19,8 @@ export const enumInputDefinition: NodeDefinition2<EnumInputNode> = {
     getCollectionAttributes,
     getControlValue,
   }) => {
-    const tokenAttributes = getTokenAttributes()
-    const collectionAttributes = getCollectionAttributes()
+    const tokenAttributes = getTokenAttributes() || []
+    const collectionAttributes = getCollectionAttributes() || []
     const attributes = [...tokenAttributes, ...collectionAttributes]
     const enumAttributes = attributes.filter(
       (attribute) => attribute.type === 'enum',
@@ -28,7 +31,7 @@ export const enumInputDefinition: NodeDefinition2<EnumInputNode> = {
         label: attribute.name || 'Unnamed Attribute',
       }
     })
-    const controls: ControlDefinition2<
+    const controls: ControlDefinition<
       EnumInputNode,
       keyof EnumInputNode['controls']
     >[] = [

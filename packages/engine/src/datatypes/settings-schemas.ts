@@ -12,7 +12,7 @@ import {
   numberSchema,
   stringSchema,
   weatherSchema,
-} from './schemas.ts'
+} from '@repo/engine/datatypes/schemas'
 import type {
   BaseSettings,
   EnumSettings,
@@ -22,7 +22,7 @@ import type {
   ValueFormat,
   ValueSettings,
   ValueType,
-} from '../types/value-types.ts'
+} from '@repo/engine/types/value-types'
 
 export function getBaseValueSchema(
   baseSchema: ZodType,

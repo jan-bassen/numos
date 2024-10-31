@@ -1,18 +1,30 @@
-// ----------- NODE INTERFACE -------------
+import type { nodeTypes } from '@repo/engine/nodes/nodetypes'
+import type { EngineContext, LogEntry } from '@repo/engine/types/engine-types'
+import type { BasicMetadataKeys } from '@repo/engine/types/token-types'
+import type {
+  Value,
+  ValueSettings,
+  ValueType,
+} from '@repo/engine/types/value-types'
 
-import type { nodeTypes } from '../nodes/nodetypes.ts'
-import type { EngineContext } from './engine-types.ts'
-import type { Value, ValueSettings, ValueType } from './value-types.ts'
+// ----------- NODE INTERFACE -------------
 
 export type NodeType = (typeof nodeTypes)[number]
 
-export type NodeComponentType<VT extends ValueType = ValueType> = {
+export type SocketInterface<VT extends ValueType = ValueType> = {
   type: VT
   list: boolean
   settings?: ValueSettings<VT> //useless for now
 }
 
-export type NodeComponentTypeMap = Record<string, NodeComponentType>
+export type ControlInterface<VT extends ValueType = ValueType> = {
+  type: VT
+  list: boolean
+  settings?: ValueSettings<VT> //useless for now
+}
+
+export type SocketInterfaceMap = Record<string, SocketInterface>
+export type ControlInterfaceMap = Record<string, ControlInterface>
 
 export type NodeCategory = 'data' | 'exec' | 'hybrid'
 
@@ -23,24 +35,45 @@ export interface NodeInterface<
   type: NodeType
   category: T
   root?: R
-  rootOutput?: R extends true ? NodeComponentType : never
-  inputs?: NodeComponentTypeMap
+  rootOutput?: R extends true ? SocketInterface : never
+  inputs?: SocketInterfaceMap
   outputs?: T extends 'hybrid'
-    ? NodeComponentTypeMap
+    ? SocketInterfaceMap
     : T extends 'data'
       ? R extends true
         ? never
-        : NodeComponentTypeMap
+        : SocketInterfaceMap
       : never
-  controls?: NodeComponentTypeMap
+  controls?: ControlInterfaceMap
   forwards?: T extends 'exec' | 'hybrid' ? string[] | undefined : never
 }
 
-export type InferredValue<
+export interface AnyNode extends NodeInterface<NodeCategory> {
+  inputs: SocketInterfaceMap
+  outputs: SocketInterfaceMap
+  controls: ControlInterfaceMap
+}
+
+export interface AnyDataNode extends NodeInterface<NodeCategory> {
+  category: 'data' | 'hybrid'
+  inputs: SocketInterfaceMap
+  outputs: SocketInterfaceMap
+  controls: ControlInterfaceMap
+}
+
+export interface AnyExecNode extends NodeInterface<NodeCategory> {
+  category: 'exec' | 'hybrid'
+  inputs?: SocketInterfaceMap
+  outputs?: SocketInterfaceMap
+  controls?: ControlInterfaceMap
+  forwards?: string[]
+}
+
+export type InferredSocketValue<
   I extends NodeInterface<NodeCategory>,
-  T extends 'inputs' | 'outputs' | 'controls',
+  T extends 'inputs' | 'outputs',
   K extends keyof I[T],
-> = I[T] extends NodeComponentTypeMap
+> = I[T] extends SocketInterfaceMap
   ? Value<
       I[T][K]['type'],
       I[T][K]['list'] extends true
@@ -51,8 +84,22 @@ export type InferredValue<
     >
   : never
 
+export type InferredControlValue<
+  I extends NodeInterface<NodeCategory>,
+  K extends keyof I['controls'],
+> = I['controls'] extends ControlInterfaceMap
+  ? Value<
+      I['controls'][K]['type'],
+      I['controls'][K]['list'] extends true
+        ? 'array'
+        : I['controls'][K]['list'] extends false
+          ? 'single'
+          : 'single' | 'array'
+    >
+  : never
+
 export type InferredRootValue<I extends NodeInterface<NodeCategory>> =
-  I['rootOutput'] extends NodeComponentType
+  I['rootOutput'] extends SocketInterface
     ? Value<
         I['rootOutput']['type'],
         I['rootOutput']['list'] extends true
@@ -63,53 +110,92 @@ export type InferredRootValue<I extends NodeInterface<NodeCategory>> =
       >
     : never
 
-export type InferredType<
+export type InferredSocketType<
   I extends NodeInterface<NodeCategory>,
-  T extends 'inputs' | 'outputs' | 'controls',
+  T extends 'inputs' | 'outputs',
   K extends keyof I[T],
-> = I[T] extends NodeComponentTypeMap ? I[T][K]['type'] : never
+> = I[T] extends SocketInterfaceMap ? I[T][K]['type'] : never
 
-export type InferredList<
+export type InferredControlType<
   I extends NodeInterface<NodeCategory>,
-  T extends 'inputs' | 'outputs' | 'controls',
+  K extends keyof I['controls'],
+> = I['controls'] extends ControlInterfaceMap ? I['controls'][K]['type'] : never
+
+export type InferredSocketList<
+  I extends NodeInterface<NodeCategory>,
+  T extends 'inputs' | 'outputs',
   K extends keyof I[T],
-> = I[T] extends NodeComponentTypeMap ? I[T][K]['list'] : never
+> = I[T] extends SocketInterfaceMap ? I[T][K]['list'] : never
+
+export type InferredControlList<
+  I extends NodeInterface<NodeCategory>,
+  K extends keyof I['controls'],
+> = I['controls'] extends ControlInterfaceMap ? I['controls'][K]['list'] : never
 
 // TODO: Make async
-export type DataInterface<I extends NodeInterface<NodeCategory>> = {
-  getParameter: (key: string) => Value<undefined, 'array' | 'single'>
-  getTokenAttribute: (key: string) => Value<undefined, 'array' | 'single'>
-  getCollectionAttribute: (key: string) => Value<undefined, 'array' | 'single'>
-  getMetadata: <K extends 'id' | 'name' | 'description'>(
+export type DataInterface<
+  I extends NodeInterface<NodeCategory>,
+  Simulation extends boolean = boolean,
+> = {
+  getLayer: (image: string) => Promise<Value<'buffer', 'single'>>
+  getParameter: (
+    key: string,
+  ) => Simulation extends true
+    ? Value<ValueType, 'array' | 'single'>
+    : Promise<Value<ValueType, 'array' | 'single'>>
+  getTokenAttribute: (
+    key: string,
+  ) => Simulation extends true
+    ? Value<ValueType, 'array' | 'single'>
+    : Promise<Value<ValueType, 'array' | 'single'>>
+  getCollectionAttribute: (
+    key: string,
+  ) => Simulation extends true
+    ? Value<ValueType, 'array' | 'single'>
+    : Promise<Value<ValueType, 'array' | 'single'>>
+  getMetadata: <K extends BasicMetadataKeys>(
     key: K,
-  ) => Value<
-    K extends 'id' ? 'number' : 'string',
-    K extends 'id' ? 'single' : 'single'
-  >
+  ) => Simulation extends true
+    ? Value<K extends 'id' ? 'number' : 'string', 'single'>
+    : Promise<Value<K extends 'id' ? 'number' : 'string', 'single'>>
   getInputValue: <K extends keyof I['inputs']>(
     key: K,
-  ) => InferredValue<I, 'inputs', K>
+  ) => Promise<InferredSocketValue<I, 'inputs', K>>
   getControlValue: <K extends keyof I['controls']>(
     key: K,
-  ) => InferredValue<I, 'controls', K>
+  ) => InferredControlValue<I, K>
 }
 
-export type ExecutionInterface<I extends NodeInterface<NodeCategory>> =
-  DataInterface<I> & {
-    revert: () => void
-    setTokenAttribute: (
-      key: string,
-      value: Value<undefined, 'array' | 'single'>,
-    ) => { previous: string; changed: boolean }
-    setCollectionAttribute: (
-      key: string,
-      value: Value<undefined, 'array' | 'single'>,
-    ) => { previous: string; changed: boolean }
-    setMetadata: (
-      key: 'name' | 'description',
-      value: string,
-    ) => { previous: string; changed: boolean }
-  }
+export type StateChangeResult = {
+  previous: Value<ValueType, 'array' | 'single'>
+  changed: boolean
+}
+
+export type MetadataChangeResult = {
+  previous: Value<'string', 'single'>
+  changed: boolean
+}
+
+export type ExecutionInterface<
+  I extends NodeInterface<NodeCategory>,
+  Simulation extends boolean = false,
+> = DataInterface<I> & {
+  revert: () => void
+  setTokenAttribute: (
+    key: string,
+    value: Value<ValueType, 'array' | 'single'>,
+  ) => Simulation extends true ? StateChangeResult : Promise<StateChangeResult>
+  setCollectionAttribute: (
+    key: string,
+    value: Value<ValueType, 'array' | 'single'>,
+  ) => Simulation extends true ? StateChangeResult : Promise<StateChangeResult>
+  setMetadata: (
+    key: 'name' | 'description',
+    value: string,
+  ) => Simulation extends true
+    ? MetadataChangeResult
+    : Promise<MetadataChangeResult>
+}
 
 // ----------- NODE LOGIC -------------
 
@@ -120,31 +206,47 @@ export type NodeContext = EngineContext & {
 export type ExecutionNodeOutput<I extends NodeInterface<NodeCategory>> =
   I['forwards'] extends string[]
     ? {
-        log: { message: string }
+        log: LogEntry
         forward: I['forwards'][number]
       }
     : {
-        log: { message: string }
+        log: LogEntry
       }
 
-export type NodeExecution<I extends NodeInterface<NodeCategory>> = (
-  state: ExecutionInterface<I>,
+export type AnyExecutionNodeOutput = {
+  log: LogEntry
+  forward?: string
+}
+
+export type NodeExecution<
+  I extends NodeInterface<NodeCategory>,
+  Simulation extends boolean = boolean,
+> = (
+  state: ExecutionInterface<I, Simulation>,
   context: NodeContext,
 ) => ExecutionNodeOutput<I> | Promise<ExecutionNodeOutput<I>>
 
-export type DynamicNodeData<I extends NodeInterface<NodeCategory>> = <
-  K extends keyof I['outputs'],
->(
+export type DynamicNodeData<
+  I extends NodeInterface<NodeCategory>,
+  Simulation extends boolean = boolean,
+> = <K extends keyof I['outputs']>(
   key: K,
-  state: DataInterface<I>,
+  state: DataInterface<I, Simulation>,
   context: NodeContext,
-) => InferredValue<I, 'outputs', K> | Promise<InferredValue<I, 'outputs', K>>
+) =>
+  | InferredSocketValue<I, 'outputs', K>
+  | Promise<InferredSocketValue<I, 'outputs', K>>
 
-export type StaticNodeData<I extends NodeInterface<NodeCategory>> = {
+export type StaticNodeData<
+  I extends NodeInterface<NodeCategory>,
+  Simulation extends boolean = boolean,
+> = {
   [K in keyof I['outputs']]: (
     state: DataInterface<I>,
     context: NodeContext,
-  ) => InferredValue<I, 'outputs', K> | Promise<InferredValue<I, 'outputs', K>>
+  ) =>
+    | InferredSocketValue<I, 'outputs', K>
+    | Promise<InferredSocketValue<I, 'outputs', K>>
 }
 
 export type RootNodeFunction<I extends NodeInterface<NodeCategory>> = (
@@ -152,9 +254,10 @@ export type RootNodeFunction<I extends NodeInterface<NodeCategory>> = (
   context: NodeContext,
 ) => InferredRootValue<I> | Promise<InferredRootValue<I>>
 
-export type NodeData<I extends NodeInterface<NodeCategory>> =
-  | StaticNodeData<I>
-  | DynamicNodeData<I>
+export type NodeData<
+  I extends NodeInterface<NodeCategory>,
+  Simulation extends boolean = boolean,
+> = StaticNodeData<I, Simulation> | DynamicNodeData<I, Simulation>
 
 export type NodeLogic<I extends NodeInterface<NodeCategory>> =
   I['category'] extends 'exec'
@@ -175,3 +278,18 @@ export type NodeLogic<I extends NodeInterface<NodeCategory>> =
             data: NodeData<I>
           }
         : never
+
+export interface AnyNodeForLogic {
+  inputs?: SocketInterfaceMap
+  outputs?: SocketInterfaceMap
+  controls?: ControlInterfaceMap
+}
+
+export type AnyNodeLogic<
+  Category extends NodeCategory = NodeCategory,
+  Simulation extends boolean = boolean,
+> = {
+  execution?: NodeExecution<AnyExecNode, Simulation>
+  data?: NodeData<NodeInterface<Category, boolean>>
+  root?: RootNodeFunction<NodeInterface<Category, boolean>>
+}

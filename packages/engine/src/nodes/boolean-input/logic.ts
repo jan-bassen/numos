@@ -1,5 +1,5 @@
-import type { NodeLogic } from '@repo/engine/types/node-types.ts'
-import type { BooleanInputNode } from './interface.ts'
+import type { NodeLogic } from '@repo/engine/types/node-types'
+import type { BooleanInputNode } from '@repo/engine/nodes/boolean-input/interface'
 
 export const booleanInputLogic: NodeLogic<BooleanInputNode> = {
   data: {

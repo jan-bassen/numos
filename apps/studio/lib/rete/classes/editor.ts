@@ -1,35 +1,26 @@
-import {
-  type Area,
-  type Direction,
-  type EditorConfig,
-  type EditorContext,
-  type EditorEvents,
-  type EditorSettings,
-  type Graph,
-  type Item,
-  type MultiSelector,
-  type NodeMap,
-  type NodeType,
-  type ResolvedEditorConfig,
-  type SavedGraph,
-  type Schemes,
-  ReversedSavedInputMap,
-  ReversedSavedOutputMap,
-  type ReversedNodeMap,
-  type ReversedSavedExecInput,
-  ReversedSavedOutput,
-  type ReversedSavedDataOutput,
-  type SavedExecOutput,
-  type SavedDataInput,
-  type SavedMapNode,
-  type History,
-  type SavedNode,
-} from '@/types/nodes.types'
-import type { GraphErrorData } from '@/lib/errors'
+import type {
+  Area,
+  Direction,
+  EditorConfig,
+  EditorContext,
+  EditorEvents,
+  EditorSettings,
+  Graph,
+  Item,
+  MultiSelector,
+  ResolvedEditorConfig,
+  Schemes,
+  History,
+} from '@/types/editor.types'
+import type {
+  MapGraph,
+  SavedGraph,
+  MapGraphNode,
+  SavedNode,
+} from '@repo/engine/types/graph-types'
 import { Node } from './node'
 import { Connection } from './connection'
 import { NodeEditor as BaseNodeEditor } from 'rete'
-import type { Position } from 'rete-react-plugin'
 import { toast } from 'sonner'
 import { getNodeMenuList, type NewNodePosition } from '../utils/init'
 import {
@@ -39,9 +30,11 @@ import {
 import { Selector } from './selector/selector'
 import { accumulateOnShift } from '../utils/presets'
 import { addMultiSelector } from './selector/multi-selector'
-import { isEqual, set } from 'lodash'
+import { isEqual } from 'lodash'
 import { zoomAt } from './area/extensions/zoom-at'
 import { Drag, dragModeDragGuards, selectModeDragGuards } from './area/drag'
+import type { NodeType } from '@repo/engine/types/node-types'
+import type { GraphErrorData } from '@repo/engine/types/engine-types'
 
 export class NodeEditor extends BaseNodeEditor<Schemes> {
   configDef: EditorConfig
@@ -118,7 +111,7 @@ export class NodeEditor extends BaseNodeEditor<Schemes> {
   }
 
   trigger(error: GraphErrorData) {
-    const node = this.getNode(error.node)
+    const node = this.getNode(error.location.node)
     if (!node) {
       return
     }
@@ -164,7 +157,7 @@ export class NodeEditor extends BaseNodeEditor<Schemes> {
   getGraph = () => {
     const nodes = this.getNodes()
     const connections = this.getConnections()
-    const serializedNodes = nodes.map((node) => node.serialize())
+    const serializedNodes = nodes.map((node) => node.save())
     const serializedConnections = connections.map((conn) => conn.serialize())
 
     return {
@@ -174,40 +167,10 @@ export class NodeEditor extends BaseNodeEditor<Schemes> {
   }
 
   getNodemap = () => {
-    const nodeMap: NodeMap = {}
+    const nodeMap: MapGraph = {}
     for (const node of this.getNodes()) {
-      const serializedNode = node.serialize()
-      nodeMap[node.id] = serializedNode as SavedMapNode
-    }
-    for (const connection of this.getConnections()) {
-      if (connection.type === 'exec') {
-        if (
-          nodeMap[connection.source]?.outputs[connection.sourceOutput]?.type ===
-          'exec'
-        ) {
-          //@ts-ignore - Cant really fix this tbh (writing of nested maps)
-          nodeMap[connection.source].outputs[
-            connection.sourceOutput
-            //@ts-ignore - Cant really fix this tbh (writing of nested maps)
-          ].connection = {
-            node: connection.target,
-            input: connection.targetInput,
-          }
-        }
-      } else {
-        if (
-          nodeMap[connection.target]?.inputs[connection.targetInput]?.type !==
-          'exec'
-        )
-          //@ts-ignore - Cant really fix this tbh (writing of nested maps)
-          nodeMap[connection.target].inputs[
-            connection.targetInput
-            //@ts-ignore - Cant really fix this tbh (writing of nested maps)
-          ].connection = {
-            node: connection.source,
-            output: connection.sourceOutput,
-          }
-      }
+      const savedMapNode = node.saveToMap()
+      nodeMap[node.id] = savedMapNode
     }
     return nodeMap
   }
@@ -238,9 +201,9 @@ export class NodeEditor extends BaseNodeEditor<Schemes> {
       const target = this.getNode(savedConnection.target)
       if (
         !source ||
-        !source.outputs[savedConnection.sourceOutput] ||
+        !source.getOutput(savedConnection.sourceOutput) ||
         !target ||
-        !target.inputs[savedConnection.targetInput]
+        !target.getInput(savedConnection.targetInput)
       ) {
         removedConnections++
         this.events.onConnectionRemoved?.(this, savedConnection.id)

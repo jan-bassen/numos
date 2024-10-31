@@ -1,5 +1,5 @@
-import type { NodeLogic } from '@repo/engine/types/node-types.ts'
-import type { CollectionAttributeNode } from './interface.ts'
+import type { NodeLogic } from '@repo/engine/types/node-types'
+import type { CollectionAttributeNode } from '@repo/engine/nodes/collection-attribute/interface'
 
 export const collectionAttributeLogic: NodeLogic<CollectionAttributeNode> = {
   data: {

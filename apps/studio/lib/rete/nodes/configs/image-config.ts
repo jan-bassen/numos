@@ -1,4 +1,4 @@
-import type { EditorConfig, EditorContext } from '@/types/nodes.types'
+import type { EditorConfig, EditorContext } from '@/types/editor.types'
 import { PiPhotoImageDefaultStroke } from '@repo/ui/icons/pika'
 import { baseConfig } from './base-config'
 import { nodeDefinitions } from './definitions'

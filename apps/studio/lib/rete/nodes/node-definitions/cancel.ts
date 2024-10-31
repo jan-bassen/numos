@@ -1,7 +1,7 @@
-import type { NodeDefinition2 } from '@/types/nodes.types'
-import type { CancelNode } from '@repo/engine/src/nodes/cancel/interface'
+import type { SpecificNodeDefinition } from '@/types/nodes.types'
+import type { CancelNode } from '@repo/engine/nodes/cancel/interface'
 
-export const cancelDefinition: NodeDefinition2<CancelNode> = {
+export const cancelDefinition: SpecificNodeDefinition<CancelNode> = {
   type: 'cancel',
   category: 'exec',
   title: 'Cancel',

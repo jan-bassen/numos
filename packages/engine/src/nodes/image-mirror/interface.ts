@@ -1,4 +1,4 @@
-import type { NodeInterface } from '@repo/engine/types/node-types.ts'
+import type { NodeInterface } from '@repo/engine/types/node-types'
 
 export interface ImageMirrorNode extends NodeInterface<'data'> {
   type: 'image-mirror'
@@ -10,7 +10,7 @@ export interface ImageMirrorNode extends NodeInterface<'data'> {
     }
   }
   controls: {
-    mode: {
+    mirror: {
       type: 'enum'
       list: false
       settings: {

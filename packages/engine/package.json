@@ -5,6 +5,15 @@
     "dev": "tsc --watch",
     "build": "tsc"
   },
+  "exports": {
+    "./types/*": "./src/types/*.ts",
+    "./engine/*": "./src/engine/*.ts",
+    "./datatypes/*": "./src/datatypes/*.ts",
+    "./nodes/*": "./src/nodes/*.ts",
+    "./errors/*": "./src/errors/*.ts",
+    "./storage/*": "./src/storage/*.ts",
+    "./utils": "./src/utils.ts"
+  },
   "devDependencies": {
     "@repo/tsconfig": "workspace:*",
     "@types/lodash": "^4.17.7",
@@ -12,6 +21,7 @@
     "typescript": "^5.5.4"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.39.8",
     "@types/node": "^22.7.2",
     "decimal.js": "^10.4.3",
     "lodash": "^4.17.21",

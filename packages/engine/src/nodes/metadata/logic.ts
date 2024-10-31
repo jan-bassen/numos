@@ -1,5 +1,5 @@
-import type { NodeLogic } from '@repo/engine/types/node-types.ts'
-import type { MetadataNode } from './interface.ts'
+import type { NodeLogic } from '@repo/engine/types/node-types'
+import type { MetadataNode } from '@repo/engine/nodes/metadata/interface'
 
 export const metadataLogic: NodeLogic<MetadataNode> = {
   data: {

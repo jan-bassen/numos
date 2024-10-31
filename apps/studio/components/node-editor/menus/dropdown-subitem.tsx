@@ -7,7 +7,7 @@ import {
   DropdownMenuSubTrigger,
 } from '@repo/ui/components/ui/dropdown-menu'
 import type { NewNodePosition } from '@/lib/rete/utils/init'
-import type { Item } from '@/types/nodes.types'
+import type { Item } from '@/types/editor.types'
 
 export function DropdownMenuSubitem({
   subitem,

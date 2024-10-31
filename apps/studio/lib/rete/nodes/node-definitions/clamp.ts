@@ -1,7 +1,7 @@
-import type { NodeDefinition2 } from '@/types/nodes.types'
-import type { ClampNode } from '@repo/engine/src/nodes/clamp/interface'
+import type { SpecificNodeDefinition } from '@/types/nodes.types'
+import type { ClampNode } from '@repo/engine/nodes/clamp/interface'
 
-export const clampDefinition: NodeDefinition2<ClampNode> = {
+export const clampDefinition: SpecificNodeDefinition<ClampNode> = {
   type: 'clamp',
   category: 'data',
   title: 'Clamp',

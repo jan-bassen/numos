@@ -1,7 +1,7 @@
-import type { NodeDefinition2 } from '@/types/nodes.types'
-import type { CollectionAttributeNode } from '@repo/engine/src/nodes/collection-attribute/interface'
+import type { SpecificNodeDefinition } from '@/types/nodes.types'
+import type { CollectionAttributeNode } from '@repo/engine/nodes/collection-attribute/interface'
 
-export const collectionAttributeDefinition: NodeDefinition2<CollectionAttributeNode> =
+export const collectionAttributeDefinition: SpecificNodeDefinition<CollectionAttributeNode> =
   {
     type: 'collection-attribute',
     category: 'data',

@@ -13,7 +13,7 @@ import { Json } from '@/types/database-generated.types'
 import { revalidatePath } from 'next/cache'
 import { createSupabaseServerComponentClient } from '../server-client'
 import { redirect } from 'next/navigation'
-import type { ActionTrigger } from '@/components/elements/actions/action-schema'
+import type { ActionTrigger } from '@/types/actions.types'
 
 const regex = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
 

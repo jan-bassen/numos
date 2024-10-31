@@ -32,9 +32,9 @@ import {
 } from '@repo/ui/icons/pika'
 import type { Action } from '@/types/database.types'
 import { deleteAction } from '@/lib/supabase/db/actions'
-import { toast } from 'sonner'
-import { type ActionTrigger, actionTypes } from './action-schema'
+import { actionTypes } from './action-schema'
 import { forwardRef } from 'react'
+import type { ActionTrigger } from '@/types/actions.types'
 
 export type ExtendedAction = Action & { collection_slug: string }
 interface ActionCardProps extends ButtonProps {

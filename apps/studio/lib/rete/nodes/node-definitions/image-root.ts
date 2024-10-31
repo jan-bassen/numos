@@ -1,7 +1,7 @@
-import type { NodeDefinition2 } from '@/types/nodes.types'
-import type { ImageRootNode } from '@repo/engine/src/nodes/image-root/interface'
+import type { SpecificNodeDefinition } from '@/types/nodes.types'
+import type { ImageRootNode } from '@repo/engine/nodes/image-root/interface'
 
-export const imageRootDefinition: NodeDefinition2<ImageRootNode> = {
+export const imageRootDefinition: SpecificNodeDefinition<ImageRootNode> = {
   type: 'image-root',
   category: 'data',
   title: 'Output',

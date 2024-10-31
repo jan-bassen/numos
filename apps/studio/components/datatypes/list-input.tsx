@@ -1,10 +1,5 @@
 'use client'
 
-import type {
-  DatatypeObjectValue,
-  DataTypeValue,
-  NotatedListDataTypeValue,
-} from '@/types/database.types'
 import { Plus } from 'lucide-react'
 import { Button } from '@repo/ui/components/ui/button'
 import { PiCrossCross, PiThreeByTwoDotsVertical } from '@repo/ui/icons/pika'
@@ -21,15 +16,22 @@ import {
 import { CSS } from '@dnd-kit/utilities'
 import { type ChangeEvent, useMemo } from 'react'
 import type { ZodIssue } from 'zod'
-import type { ValueSettings } from '@repo/engine/src/types/value-types'
+import type {
+  ObjectValue,
+  OptionalValue,
+  RawSingleValue,
+  Value,
+  ValueSettings,
+  ValueType,
+} from '@repo/engine/types/value-types'
 
 export type ListInputProps = {
-  value: NotatedListDataTypeValue<true, true>
+  value: Value<ValueType, 'objectarray', true>
   settings?: ValueSettings
   placeholder?: string
   locked?: boolean
-  onChange?: (value: NotatedListDataTypeValue<true, true>) => void
-  onValueChange?: (value: NotatedListDataTypeValue<true, true>) => void
+  onChange?: (value: Value<ValueType, 'objectarray', true>) => void
+  onValueChange?: (value: Value<ValueType, 'objectarray', true>) => void
   onBlur?: (e: ChangeEvent<Element>) => void
   classNames?: {
     container?: string
@@ -84,7 +86,7 @@ export default function ListInput({
     [value],
   )
 
-  const changeValue = (v: DataTypeValue<true>, index: number) => {
+  const changeValue = (v: OptionalValue, index: number) => {
     if (!onValueChange) return
     const newValueArray = valueArray ? [...valueArray] : []
     if (newValueArray[index]) {
@@ -93,7 +95,7 @@ export default function ListInput({
       const newValue = {
         ...value,
         value: newValueArray,
-      } as NotatedListDataTypeValue<true, true>
+      } as Value<ValueType, 'objectarray', true>
       onValueChange(newValue)
     }
   }
@@ -114,7 +116,7 @@ export default function ListInput({
     const newValue = {
       ...value,
       value: newValueArray,
-    } as NotatedListDataTypeValue<true, true>
+    } as Value<ValueType, 'objectarray', true>
     onValueChange(newValue)
   }
 
@@ -125,26 +127,21 @@ export default function ListInput({
     const newValue = {
       ...value,
       value: newValueArray,
-    } as NotatedListDataTypeValue<true, true>
+    } as Value<ValueType, 'objectarray', true>
     onValueChange(newValue)
   }
 
-  const append = (v: DatatypeObjectValue<DataTypeValue, true>) => {
+  const append = (v: ObjectValue<RawSingleValue, true>) => {
     if (!onValueChange) return
-    const newValueArray: DatatypeObjectValue<DataTypeValue, true>[] = valueArray
+    const newValueArray: ObjectValue<RawSingleValue, true>[] = valueArray
       ? [...valueArray]
       : []
     newValueArray.push(v)
     const newValue = {
       ...value,
       value: newValueArray,
-    } as NotatedListDataTypeValue<true, true>
+    } as Value<ValueType, 'objectarray', true>
     onValueChange(newValue)
-  }
-
-  if (value.type === 'generic') {
-    console.error('ListInput: Generic type not supported')
-    return null
   }
 
   const modifiers = [restrictToParentElement]

@@ -11,14 +11,7 @@ import StringInput from '@/components/datatypes/inputs/string-input'
 import WeatherInput from '@/components/datatypes/inputs/weather-input'
 import type { InputProps } from '@repo/ui/components/ui/input'
 import type { TextareaProps } from '@repo/ui/components/ui/textarea'
-import type {
-  Color,
-  DataTypeValue,
-  Direction,
-  Location,
-  WeatherCode,
-  LayerTree,
-} from '@/types/database.types'
+import type { Direction, WeatherCode, LayerTree } from '@/types/database.types'
 import type * as SelectPrimitives from '@repo/ui/components/ui/select'
 import type {
   ChangeEvent,
@@ -28,37 +21,43 @@ import type {
 import { ImageInput } from '@/components/datatypes/inputs/image-input'
 import DirectionInput from '@/components/datatypes/inputs/direction-input'
 import type { SelectOptions } from '@/types/nodes.types'
-import type { ValueSettings } from '@repo/engine/src/types/value-types'
+import type {
+  Color,
+  Location,
+  RawSingleValue,
+  ValueSettings,
+  ValueType,
+} from '@repo/engine/types/value-types'
 
-export type GenericInputExtra = {
+export type GenericInputExtra<VT extends ValueType = ValueType> = {
   id?: string
   locked?: boolean
   className?: string
   onBlur?: (e: ChangeEvent<Element>) => void
-  settings?: ValueSettings
-  onValueChange?: (value: DataTypeValue | null) => void
+  settings?: ValueSettings<VT>
+  onValueChange?: (value: RawSingleValue | null) => void
   environment?: 'node' | 'form' | 'list'
   valid?: boolean
 }
 
 export type StringInputProps = Omit<TextareaProps, 'value'> &
-  GenericInputExtra & {
+  GenericInputExtra<'string'> & {
     value?: string | null
     datatype: 'string'
   }
 export type NumberInputProps = Omit<InputProps, 'value'> &
-  GenericInputExtra & {
+  GenericInputExtra<'number'> & {
     value?: number | string | null
     datatype: 'number'
   }
 
 export type AddressInputProps = Omit<InputProps, 'value'> &
-  GenericInputExtra & {
+  GenericInputExtra<'address'> & {
     value?: string | null
     datatype: 'address'
   }
 
-export type BooleanInputProps = GenericInputExtra & {
+export type BooleanInputProps = GenericInputExtra<'boolean'> & {
   value?: boolean | null
   onChange?: (value?: boolean | null) => void
   onCheckedChange?: (value?: boolean | null) => void
@@ -69,7 +68,7 @@ export type EnumInputProps = Omit<
   ComponentPropsWithoutRef<typeof SelectPrimitives.Select>,
   'value'
 > &
-  GenericInputExtra & {
+  GenericInputExtra<'enum'> & {
     value?: string | null
     onChange?: (value: string | null) => void
     datatype: 'enum'
@@ -81,39 +80,39 @@ export type ColorInputProps = Omit<
   HTMLAttributes<HTMLDivElement>,
   'color' | 'onChange' | 'onChangeCapture'
 > &
-  GenericInputExtra & {
+  GenericInputExtra<'color'> & {
     datatype: 'color'
     value?: Color
     onChange?: (value: Color | null) => void
   }
-export type DatetimeInputProps = GenericInputExtra & {
+export type DatetimeInputProps = GenericInputExtra<'datetime'> & {
   onChange?: (value: number | null) => void
   datatype: 'datetime'
   value?: number | null
 }
-export type LocationInputProps = GenericInputExtra & {
+export type LocationInputProps = GenericInputExtra<'location'> & {
   datatype: 'location'
   value?: Location | null
   onChange?: (value: Location | null) => void
 }
-export type WeatherInputProps = GenericInputExtra & {
+export type WeatherInputProps = GenericInputExtra<'weather'> & {
   datatype: 'weather'
   value?: WeatherCode | null
   onChange?: (value: WeatherCode | null) => void
 }
-export type ImageInputProps = GenericInputExtra & {
+export type ImageInputProps = GenericInputExtra<'image'> & {
   onChange?: (value: string | null) => void
   datatype: 'image'
   value?: string | null
   layertree?: LayerTree
 }
-export type DirectionInputProps = GenericInputExtra & {
+export type DirectionInputProps = GenericInputExtra<'direction'> & {
   onChange?: (value: Direction | null) => void
   datatype: 'direction'
   value?: Direction | null
 }
 
-export type BufferInputProps = GenericInputExtra & {
+export type BufferInputProps = GenericInputExtra<'buffer'> & {
   onChange?: (value: Buffer | null) => void
   datatype: 'buffer'
   value?: Buffer | null
@@ -125,7 +124,27 @@ export type GenericProps = GenericInputExtra & {
   value?: any
 }
 
-export type GenericInputProps =
+type InputPropsMap = {
+  string: StringInputProps
+  number: NumberInputProps
+  address: AddressInputProps
+  boolean: BooleanInputProps
+  enum: EnumInputProps
+  color: ColorInputProps
+  datetime: DatetimeInputProps
+  location: LocationInputProps
+  weather: WeatherInputProps
+  image: ImageInputProps
+  direction: DirectionInputProps
+  buffer: BufferInputProps
+  generic: GenericProps
+}
+
+export type GenericInputProps<
+  K extends keyof InputPropsMap = keyof InputPropsMap,
+> = InputPropsMap[K]
+
+/* export type GenericInputProps =
   | NumberInputProps
   | AddressInputProps
   | BooleanInputProps
@@ -138,9 +157,8 @@ export type GenericInputProps =
   | ImageInputProps
   | DirectionInputProps
   | BufferInputProps
-  | GenericProps
+  | GenericProps */
 
-//TODO: Fix exec && buffer type
 export default function GenericInput(props: GenericInputProps) {
   switch (props.datatype) {
     case 'number':
@@ -165,8 +183,6 @@ export default function GenericInput(props: GenericInputProps) {
       return <ImageInput {...props} />
     case 'direction':
       return <DirectionInput {...props} />
-    case 'generic':
-      return null
     default:
       console.error('GenericInput: Unhandled type')
       return null

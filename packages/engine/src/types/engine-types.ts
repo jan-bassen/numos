@@ -1,10 +1,11 @@
-// ----------- ERRORS -------------
+import type {
+  Value,
+  ValueFormat,
+  ValueMap,
+  ValueType,
+} from '@repo/engine/types/value-types'
 
-import {
-  DataType,
-  type Value,
-  type ValueMap,
-} from '@repo/engine/types/value-types.ts'
+// ----------- ERRORS -------------
 
 export type NodeErrorData = {
   type: 'node'
@@ -37,6 +38,11 @@ export type GraphErrorData = {
   }
 }
 
+export type UnknownErrorData = {
+  type: 'unknown'
+  message: string
+}
+
 // ----------- NEW ENGINE -------------
 
 // Use a state interface with getters and setters for data
@@ -48,95 +54,58 @@ export type GraphErrorData = {
 
 // Preload only static data like attribute settings for validation
 
-export type MapNode = { x: any }
-export type Graph = Record<string, MapNode>
-
 export type EngineContext = {
-  collectionId: string // Or slug?
-  actionId: string // Or slug?
-  tokenId: number
+  collectionId: string
 }
 
-export class EngineBase {
-  constructor(
-    private readonly graph: Graph,
-    private readonly context: EngineContext,
-    private readonly mode: 'simulation' | 'application',
-    private readonly type: 'data' | 'execution',
-  ) {}
-
-  getControlValue(key: string) {}
-  getConnectedNode(nodeId: string, side: 'input' | 'output', key: string) {}
-  validateValue(value: Value) {}
+export type ActionContext = EngineContext & {
+  actionId: string
 }
 
-// ----------- ENGINES -------------
-
-export class SimulationEngine extends EngineBase {
-  constructor(
-    graph: Graph,
-    context: EngineContext,
-    type: 'data' | 'execution',
-  ) {
-    super(graph, context, 'simulation', type)
+export type SimulationData = {
+  basicMetadata: {
+    id?: Value<'number', 'single', true>
+    name?: Value<'string', 'single', true>
+    description?: Value<'string', 'single', true>
   }
-  getTokenAttribute(key: string) {}
-  getCollectionAttribute(key: string) {}
-  getMetadata(key: string) {}
+  attributes: ValueMap<string, ValueType, 'single' | 'objectarray', true>
+  parameters: ValueMap<string, ValueType, 'single' | 'objectarray', true>
 }
 
-export class ApplicationEngine extends EngineBase {
-  constructor(
-    graph: Graph,
-    context: EngineContext,
-    type: 'data' | 'execution',
-  ) {
-    super(graph, context, 'application', type)
-  }
-  getTokenAttribute(key: string) {}
-  getCollectionAttribute(key: string) {}
-  getMetadata(key: string) {}
+export type SimulatedValueChange = {
+  old: Value<ValueType, 'single' | 'array', false>
+  new: Value<ValueType, 'single' | 'array', false>
+  label?: string
 }
 
-// ----------- ACTION ENGINES -------------
+export type SimulatedStateChange = Record<string, SimulatedValueChange>
 
-export class ActionSimulationEngine extends SimulationEngine {
-  constructor(graph: Graph, context: EngineContext) {
-    super(graph, context, 'execution')
-  }
-  execute(parameters: ValueMap) {}
-  getParameter(key: string) {}
-  setTokenAttribute(key: string, value: Value) {}
-  setCollectionAttribute(key: string, value: Value) {}
-  setMetadata(key: string, value: Value) {}
-  getNodeOutput(nodeId: string, key: string) {}
+export type LogEntry = {
+  message: string
 }
 
-export class ActionEngine extends ApplicationEngine {
-  constructor(graph: Graph, context: EngineContext) {
-    super(graph, context, 'execution')
-  }
-  execute(parameters: ValueMap) {}
-  getParameter(key: string) {}
-  setTokenAttribute(key: string, value: Value) {}
-  setCollectionAttribute(key: string, value: Value) {}
-  setMetadata(key: string, value: Value) {}
-  getNodeOutput(nodeId: string, key: string) {}
+export type SimulatedTokenStateResult = {
+  metadataChange: SimulatedStateChange
+  stateChange: SimulatedStateChange
+  logs: LogEntry[]
 }
 
-// ----------- IMAGE ENGINES -------------
+export type ImageSimulationResult =
+  | {
+      result: Value<'buffer', 'single', false>
+      error: undefined
+    }
+  | {
+      result: undefined
+      error: GraphErrorData | UnknownErrorData
+    }
 
-export class ImageEngine extends ApplicationEngine {
-  constructor(graph: Graph, context: EngineContext) {
-    super(graph, context, 'data')
-  }
-  setImage(key: string, value: Buffer) {}
-  getNodeOutput(nodeId: string, key: string) {}
-}
-
-export class ImageSimulationEngine extends SimulationEngine {
-  constructor(graph: Graph, context: EngineContext) {
-    super(graph, context, 'data')
-  }
-  getNodeOutput(nodeId: string, key: string) {}
-}
+export type ActionSimulationResult =
+  | {
+      result: undefined
+      error: GraphErrorData | UnknownErrorData
+    }
+  | {
+      result: SimulatedTokenStateResult
+      error: undefined
+    }

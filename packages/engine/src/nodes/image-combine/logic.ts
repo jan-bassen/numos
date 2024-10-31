@@ -1,22 +1,22 @@
-import type { NodeLogic } from '@repo/engine/types/node-types.ts'
-import type { ImageCombineNode } from './interface.ts'
+import type { NodeLogic } from '@repo/engine/types/node-types'
+import type { ImageCombineNode } from '@repo/engine/nodes/image-combine/interface'
 import sharp from 'sharp'
 
 export const ImageCombineLogic: NodeLogic<ImageCombineNode> = {
   data: {
     output: async ({ getInputValue }) => {
-      const buffer1 = getInputValue('image1').value
-      const buffer2 = getInputValue('image2').value
+      const buffer1 = await getInputValue('image1')
+      const buffer2 = await getInputValue('image2')
 
-      const image1 = await sharp(buffer1).metadata()
-      const image2 = await sharp(buffer2).metadata()
+      const image1 = await sharp(buffer1.value).metadata()
+      const image2 = await sharp(buffer2.value).metadata()
 
-      let overlay = buffer1
+      let overlay = buffer1.value
       let res: Buffer | undefined
 
       if (image1.width && image1.height && image2.width && image2.height) {
         if (image1.width > image2.width || image1.height > image2.height) {
-          overlay = await sharp(buffer1)
+          overlay = await sharp(buffer1.value)
             .resize({
               width: image2.width,
               height: image2.height,
@@ -25,7 +25,7 @@ export const ImageCombineLogic: NodeLogic<ImageCombineNode> = {
             })
             .toBuffer()
         }
-        res = await sharp(buffer2)
+        res = await sharp(buffer2.value)
           .composite([{ input: overlay }])
           .toBuffer()
       }

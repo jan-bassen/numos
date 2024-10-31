@@ -1,7 +1,7 @@
-import type { NodeDefinition2 } from '@/types/nodes.types'
-import type { MetadataNode } from '@repo/engine/src/nodes/metadata/interface'
+import type { SpecificNodeDefinition } from '@/types/nodes.types'
+import type { MetadataNode } from '@repo/engine/nodes/metadata/interface'
 
-export const metadataDefinition: NodeDefinition2<MetadataNode> = {
+export const metadataDefinition: SpecificNodeDefinition<MetadataNode> = {
   type: 'metadata',
   category: 'data',
   title: 'Metadata',

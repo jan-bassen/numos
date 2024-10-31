@@ -1,7 +1,7 @@
 import {
   getSettingsSchema,
   getSettingsValidation,
-} from '@/components/datatypes/settings-schemas'
+} from '@repo/engine/datatypes/settings-schemas'
 import type { TabSelectOption } from '@/components/forms/tab-select'
 import type { TabToggleOption } from '@/components/forms/tab-toggle'
 import {
@@ -14,17 +14,16 @@ import {
   PiSquareDotStroke,
   PiTokenStroke,
 } from '@repo/ui/icons/pika'
-import { dataTypeKeys } from '@/lib/supabase/constants/datatypes'
-import type {
-  Attribute,
-  DataTypeMap,
-  DataType,
-  DataTypeValue,
-  SchemaMap,
-  DataTypeValueMap,
-} from '@/types/database.types'
+import type { Attribute, DataType, SchemaMap } from '@/types/database.types'
 import { z } from 'zod'
-import type { ValueSettings } from '@repo/engine/src/types/value-types'
+import type {
+  RawValue,
+  RawValueMap,
+  ValueSettings,
+  ValueType,
+  ValueTypeMap,
+} from '@repo/engine/types/value-types'
+import { valueTypeKeys } from '@/lib/supabase/constants/datatypes'
 
 export const displayOptions: TabSelectOption[] = [
   {
@@ -125,7 +124,7 @@ export const listOptionMap = {
 export const listOptions: TabToggleOption[] = Object.values(listOptionMap)
 
 export const newAttributeSchema = z.object({
-  type: z.enum(dataTypeKeys, {
+  type: z.enum(valueTypeKeys, {
     required_error: 'You need to select a data type',
   }),
   list: z
@@ -162,7 +161,7 @@ export const newAttributeSchema = z.object({
     .optional(),
 })
 
-export const attributeSchema = (type: DataType, list: boolean) =>
+export const attributeSchema = (type: ValueType, list: boolean) =>
   z.object({
     name: z
       .string()
@@ -182,45 +181,30 @@ export const attributeSchema = (type: DataType, list: boolean) =>
     list: z.boolean(),
     token_specific: z.boolean(),
     display: z.enum(['public', 'hidden', 'private']),
-    settings: getSettingsSchema(type, list),
+    settings: getSettingsSchema(type, list ? 'objectarray' : 'single'),
   })
 
 export function getSchemaFromAttributes(
   attributes: Attribute[],
-  options?: { optional?: boolean; asObjectArray?: boolean },
+  optional: boolean,
 ) {
   const schema: SchemaMap = {}
   for (const attribute of attributes) {
     const singleSchema = getSettingsValidation(
       attribute.type,
-      attribute.list,
+      attribute.list ? 'objectarray' : 'single',
+      optional,
       attribute.settings as ValueSettings,
-      options,
     )
-    if (options?.optional)
-      schema[attribute.slug] = singleSchema.nullable().optional()
+    if (optional) schema[attribute.slug] = singleSchema.nullable().optional()
     else schema[attribute.slug] = singleSchema
   }
   return z.object(schema)
 }
 
-export function getSchemaFromAttribute(
-  attribute: Attribute,
-  options?: { optional?: boolean; inForm?: boolean },
-) {
-  const optional = options?.optional || false
-  const inForm = options?.inForm || false
-  return getSettingsValidation(
-    attribute.type,
-    attribute.list,
-    attribute.settings as ValueSettings,
-    options,
-  )
-}
-
 export function getDefaultValuesFromAttributes(
   attributes: Attribute[],
-  state?: DataTypeValueMap,
+  state?: RawValueMap,
 ) {
   const defaultValues = attributes.reduce(
     (acc, attribute) => {
@@ -233,15 +217,14 @@ export function getDefaultValuesFromAttributes(
       }
       return acc
     },
-    {} as Record<string, DataTypeValue | Array<DataTypeValue>>,
+    {} as Record<string, RawValue>,
   )
   return defaultValues
 }
 
-export const getAttributeTypes = (attributes: Attribute[]): DataTypeMap => {
+export const getAttributeTypes = (attributes: Attribute[]): ValueTypeMap => {
   return attributes.reduce((accumulator, attribute) => {
-    if (attribute.type === 'exec') return accumulator
     accumulator[attribute.slug] = { type: attribute.type, list: attribute.list }
     return accumulator
-  }, {} as DataTypeMap)
+  }, {} as ValueTypeMap)
 }

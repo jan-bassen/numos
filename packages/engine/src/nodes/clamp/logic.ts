@@ -1,17 +1,17 @@
-import type { NodeLogic } from '@repo/engine/types/node-types.ts'
-import type { ClampNode } from './interface.ts'
+import type { NodeLogic } from '@repo/engine/types/node-types'
+import type { ClampNode } from '@repo/engine/nodes/clamp/interface'
 import { Decimal } from 'decimal.js'
-
 export const clampLogic: NodeLogic<ClampNode> = {
   data: {
-    output: ({ getInputValue }) => {
-      const number = new Decimal(getInputValue('number').value)
-      const min = getInputValue('min').value
-      const max = getInputValue('max').value
+    output: async ({ getInputValue }) => {
+      const number = await getInputValue('number')
+      const dec = new Decimal(number.value)
+      const min = await getInputValue('min')
+      const max = await getInputValue('max')
       return {
         type: 'number',
         format: 'single',
-        value: number.clamp(min, max).toNumber(),
+        value: dec.clamp(min.value, max.value).toNumber(),
       }
     },
   },

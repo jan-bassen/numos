@@ -1,16 +1,10 @@
 'use client'
 
-import type { Schemes } from '@/types/nodes.types'
+import type { Schemes } from '@/types/editor.types'
 import { Drag, Presets, type ReactArea2D } from 'rete-react-plugin'
 import GenericInput, {
   type GenericInputProps,
 } from '@/components/datatypes/generic-input'
-import type {
-  DatatypeObjectValue,
-  DataTypeValue,
-  NotatedDataTypeValue,
-  NotatedListDataTypeValue,
-} from '@/types/database.types'
 import type { Control as ControlClass } from '@/lib/rete/classes/control'
 import { cn } from '@repo/ui/lib/utils'
 import { buttonVariants } from '@repo/ui/components/ui/button'
@@ -22,6 +16,12 @@ import {
 } from '@repo/ui/components/ui/popover'
 import { useRef } from 'react'
 import ListInput from '@/components/datatypes/list-input'
+import type {
+  RawSingleValue,
+  Value,
+  ValueMap,
+  ValueType,
+} from '@repo/engine/types/value-types'
 
 declare type ControlProps = {
   className: string
@@ -42,7 +42,7 @@ export function ControlComponent(payload: { data: ControlClass }) {
 
   if (!control) return null
 
-  if (control.value.list) {
+  if (control.value.format !== 'single') {
     return (
       <Popover>
         <span ref={dragRef}>
@@ -65,8 +65,8 @@ export function ControlComponent(payload: { data: ControlClass }) {
           >
             <ListInput
               value={control.value}
-              onValueChange={(v: NotatedListDataTypeValue<true, true>) => {
-                control.setNotatedValue(v)
+              onValueChange={(v: Value<ValueType, 'objectarray', true>) => {
+                control.setValue(v)
               }}
               valid={control.valid}
               issues={control.getIssues()}
@@ -90,17 +90,17 @@ export function ControlComponent(payload: { data: ControlClass }) {
     datatype: control.value.type,
     valid: control.valid,
     value: payload.data.value.value,
-    staticoptions: control.options,
+    settings: control.settings,
     layertree:
       control.value.type === 'image'
         ? payload.data.node.context.editor.context.layers
         : undefined,
-    onValueChange: (v: DataTypeValue<true>) => {
-      control.setNotatedValue({
+    onValueChange: (v: RawSingleValue | null) => {
+      control.setValue({
         value: v,
         type: control.value.type,
-        list: control.value.list,
-      } as NotatedDataTypeValue<true, true>)
+        format: control.value.format,
+      } as Value<ValueType, 'single' | 'objectarray', true>)
     },
   } as GenericInputProps
   return (

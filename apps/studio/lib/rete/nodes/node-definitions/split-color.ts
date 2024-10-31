@@ -1,7 +1,7 @@
-import type { NodeDefinition2 } from '@/types/nodes.types'
-import type { SplitColorNode } from '@repo/engine/src/nodes/split-color/interface'
+import type { SpecificNodeDefinition } from '@/types/nodes.types'
+import type { SplitColorNode } from '@repo/engine/nodes/split-color/interface'
 
-export const splitColorDefinition: NodeDefinition2<SplitColorNode> = {
+export const splitColorDefinition: SpecificNodeDefinition<SplitColorNode> = {
   type: 'split-color',
   category: 'data',
   title: 'Split Color',

@@ -1,7 +1,7 @@
-import type { NodeDefinition2 } from '@/types/nodes.types'
-import type { MathsNode } from '@repo/engine/src/nodes/maths/interface'
+import type { SpecificNodeDefinition } from '@/types/nodes.types'
+import type { MathsNode } from '@repo/engine/nodes/maths/interface'
 
-export const mathsDefinition: NodeDefinition2<MathsNode> = {
+export const mathsDefinition: SpecificNodeDefinition<MathsNode> = {
   type: 'maths',
   category: 'data',
   title: 'Math',
@@ -20,13 +20,15 @@ export const mathsDefinition: NodeDefinition2<MathsNode> = {
       type: 'enum',
       label: 'Mode',
       placeholder: 'Select Mode',
-      defaultValue: 'add',
-      options: [
-        { value: 'add', label: 'Add' },
-        { value: 'sub', label: 'Subtract' },
-        { value: 'mul', label: 'Multiply' },
-        { value: 'div', label: 'Divide' },
-      ],
+      settings: {
+        options: [
+          { value: 'add', label: 'Add' },
+          { value: 'sub', label: 'Subtract' },
+          { value: 'mul', label: 'Multiply' },
+          { value: 'div', label: 'Divide' },
+        ],
+        default: 'add',
+      },
     },
   ],
   outputs: [{ key: 'output', type: 'number', label: 'Result' }],

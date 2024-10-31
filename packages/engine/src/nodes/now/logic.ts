@@ -1,5 +1,5 @@
-import type { NodeLogic } from '@repo/engine/types/node-types.ts'
-import type { NowNode } from './interface.ts'
+import type { NodeLogic } from '@repo/engine/types/node-types'
+import type { NowNode } from '@repo/engine/nodes/now/interface'
 
 export const nowLogic: NodeLogic<NowNode> = {
   data: {

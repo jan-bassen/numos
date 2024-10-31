@@ -1,5 +1,5 @@
-import type { NodeLogic } from '@repo/engine/types/node-types.ts'
-import type { DatetimeInputNode } from './interface.ts'
+import type { NodeLogic } from '@repo/engine/types/node-types'
+import type { DatetimeInputNode } from '@repo/engine/nodes/datetime-input/interface'
 
 export const datetimeInputLogic: NodeLogic<DatetimeInputNode> = {
   data: {

@@ -1,9 +1,17 @@
-import type { NodeDefinition2, SocketDefinition2 } from '@/types/nodes.types'
-import type { MapToDateNode } from '@repo/engine/src/nodes/map-to-date/interface'
-import { getDefinedValuesFromObjectArray } from '@repo/engine/src/datatypes/utils'
+import type {
+  SpecificNodeDefinition,
+  DataSocketDefinition,
+} from '@/types/nodes.types'
+import type { MapToDateNode } from '@repo/engine/nodes/map-to-date/interface'
+import { getDefinedValuesFromObjectArray } from '@repo/engine/datatypes/utils'
 import { DateTime } from 'luxon'
+import type {
+  NodeCategory,
+  SocketInterfaceMap,
+  NodeInterface,
+} from '@repo/engine/types/node-types'
 
-export const mapToDateDefinition: NodeDefinition2<MapToDateNode> = {
+export const mapToDateDefinition: SpecificNodeDefinition<MapToDateNode> = {
   type: 'map-to-date',
   category: 'data',
   title: 'Map to Time Range',
@@ -28,11 +36,13 @@ export const mapToDateDefinition: NodeDefinition2<MapToDateNode> = {
       key: 'mode',
       type: 'enum',
       label: 'Breakpoint counts to',
-      defaultValue: 'up',
-      options: [
-        { value: 'up', label: 'the range above' },
-        { value: 'down', label: 'the range below' },
-      ],
+      settings: {
+        default: 'up',
+        options: [
+          { value: 'up', label: 'the range above' },
+          { value: 'down', label: 'the range below' },
+        ],
+      },
     },
   ],
   inputs: ({
@@ -62,22 +72,24 @@ export const mapToDateDefinition: NodeDefinition2<MapToDateNode> = {
           DateTime.fromMillis(step.value).toFormat('yy/MM/dd') || 'Undefined',
       }
     })
-    const { type, settings } = getInfoFromInputConnections(
-      getConnectedInputKeys().filter((key) => key !== 'datetime'),
-    )
+    const { type, settings } =
+      getInfoFromInputConnections(
+        getConnectedInputKeys().filter((key) => key !== 'datetime'),
+      ) || {}
     const mode = getControlValue('mode').value
 
-    const numberDef: SocketDefinition2<MapToDateNode, 'inputs', 'datetime'> = {
-      index: 0,
-      key: 'datetime',
-      label: 'Number',
-      type: 'datetime',
-      hideControl: true,
-      dividerAfter: breakpoints.length > 0,
-      list: false,
-    }
+    const numberDef: DataSocketDefinition<MapToDateNode, 'inputs', 'datetime'> =
+      {
+        index: 0,
+        key: 'datetime',
+        label: 'Number',
+        type: 'datetime',
+        hideControl: true,
+        dividerAfter: breakpoints.length > 0,
+        list: false,
+      }
 
-    const valueDefs: SocketDefinition2<MapToDateNode, 'inputs', string>[] =
+    const valueDefs: DataSocketDefinition<MapToDateNode, 'inputs', string>[] =
       breakpoints?.map((step, index) => {
         const previousBreakpoint =
           index === 0 ? undefined : breakpoints[index - 1]
@@ -103,7 +115,7 @@ export const mapToDateDefinition: NodeDefinition2<MapToDateNode> = {
         }
       })
 
-    const lastStepDef: SocketDefinition2<MapToDateNode, 'inputs', string> = {
+    const lastStepDef: DataSocketDefinition<MapToDateNode, 'inputs', string> = {
       index: breakpoints.length + 2,
       key: breakpoints.length.toString(),
       label: `${mode === 'up' ? '>' : '≥'} ${breakpoints[breakpoints.length - 1]?.datestring}`,
@@ -121,7 +133,7 @@ export const mapToDateDefinition: NodeDefinition2<MapToDateNode> = {
       },
     }
 
-    const inputDefs: SocketDefinition2<MapToDateNode, 'inputs', string>[] = [
+    const inputDefs: DataSocketDefinition<MapToDateNode, 'inputs', string>[] = [
       numberDef,
       ...valueDefs,
     ]
@@ -132,9 +144,10 @@ export const mapToDateDefinition: NodeDefinition2<MapToDateNode> = {
     return inputDefs
   },
   outputs: ({ getInfoFromInputConnections, getConnectedInputKeys }) => {
-    const { type, list, settings } = getInfoFromInputConnections(
-      getConnectedInputKeys().filter((key) => key !== 'datetime'),
-    )
+    const { type, list, settings } =
+      getInfoFromInputConnections(
+        getConnectedInputKeys().filter((key) => key !== 'datetime'),
+      ) || {}
     return [{ key: 'output', type, list, settings, label: 'Value' }]
   },
 }

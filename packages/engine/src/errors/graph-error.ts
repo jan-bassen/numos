@@ -1,4 +1,4 @@
-import type { GraphErrorData } from '@repo/engine/types/engine-types.ts'
+import type { GraphErrorData } from '@repo/engine/types/engine-types'
 
 export class GraphError extends Error {
   name = 'GraphError'

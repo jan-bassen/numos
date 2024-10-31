@@ -7,7 +7,6 @@ import {
   PopoverTrigger,
 } from '@repo/ui/components/ui/popover'
 import { type FormEvent, useEffect, useMemo, useRef, useState } from 'react'
-import type { Location } from '@/types/database.types'
 import { Button, buttonVariants } from '@repo/ui/components/ui/button'
 import {
   APIProvider,
@@ -20,7 +19,8 @@ import { PiSearchDefaultStroke } from '@repo/ui/icons/pika'
 import { cn } from '@repo/ui/lib/utils'
 import { Drag } from 'rete-react-plugin'
 import { getAddressFromGeocoder } from '../utils'
-import { locationSchema } from '../schemas'
+import { locationSchema } from '@repo/engine/datatypes/schemas'
+import type { Location } from '@repo/engine/types/value-types'
 
 export default function LocationInput({
   value,

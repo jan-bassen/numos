@@ -2,6 +2,8 @@
   "extends": "@repo/tsconfig/nextjs.json",
   "compilerOptions": {
     "baseUrl": ".",
+    "rootDir": "src",
+    "outDir": "dist",
     "paths": {
       "@repo/ui/*": ["./src/*"]
     }

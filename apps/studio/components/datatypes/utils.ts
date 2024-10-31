@@ -1,19 +1,14 @@
 import type {
-  DataTypeMap,
   Location,
-  NotatedDataTypeValue,
-  NotatedDataTypeValueMap,
-  DataTypeValueMap,
-  NotatedSingleDataTypeValue,
-  DataTypeValue,
-  UnresolvedDataTypeValueMap,
-  DatatypeObjectValue,
-  OptionalDataType,
-} from '@/types/database.types'
-import { validateValueType } from './schemas'
-import { isArray } from 'lodash'
+  ObjectValue,
+  RawSingleValue,
+  Value,
+  ValueFormat,
+  ValueMap,
+  ValueType,
+} from '@repo/engine/types/value-types'
 
-export function singleDatatypeToText(data: NotatedSingleDataTypeValue) {
+/* export function singleDatatypeToText(data: Value<undefined, 'single'>) {
   switch (data.type) {
     case 'string':
       return data.value
@@ -40,12 +35,9 @@ export function singleDatatypeToText(data: NotatedSingleDataTypeValue) {
     default:
       return data.value
   }
-}
+} */
 
-export function datatypeToText<AsObjectArray extends boolean = false>(
-  data: NotatedDataTypeValue<false, AsObjectArray>,
-  asObjectArray: AsObjectArray,
-) {
+/* export function datatypeToText(value: Value) {
   if (data.list) {
     return `[${data.value
       .map((v) => {
@@ -60,7 +52,7 @@ export function datatypeToText<AsObjectArray extends boolean = false>(
       .join(', ')}]`
   }
   return singleDatatypeToText(data)
-}
+} */
 
 export function getAddressFromGeocoder(
   geodata: any[],
@@ -92,46 +84,8 @@ export function getAddressFromGeocoder(
   return { short: shortAddress, long: longAddress }
 }
 
-export function resolveListValue<Optional extends boolean = false>(
+/* export function resolveListValue<Optional extends boolean = false>(
   value: Array<DatatypeObjectValue<DataTypeValue, Optional>>,
 ): DataTypeValue<Optional>[] {
   return value.map((v) => v.value)
-}
-
-export const notateValueMap = (
-  state: UnresolvedDataTypeValueMap,
-  typeMap: DataTypeMap,
-): NotatedDataTypeValueMap => {
-  return Object.entries(state).reduce<NotatedDataTypeValueMap>(
-    (accumulator, [key, value]) => {
-      if (value === undefined || value === null) {
-        return accumulator
-      }
-      const typeEntry = typeMap[key]
-      if (!typeEntry) {
-        throw new Error('Type not found')
-      }
-      if (typeEntry?.list && !isArray(value)) {
-        throw new Error('Value is not an array')
-      }
-      const realValue = typeEntry?.list
-        ? resolveListValue<false>(
-            value as DatatypeObjectValue<DataTypeValue, false>[],
-          )
-        : value
-
-      const { result: notatedValue, error } = validateValueType(
-        typeEntry.type,
-        typeEntry.list,
-        realValue as DataTypeValue<false> | DataTypeValue<false>[],
-        { optional: false, asObjectArray: false },
-      )
-      if (error) {
-        throw new Error('Error with parsing value')
-      }
-      accumulator[key] = notatedValue
-      return accumulator
-    },
-    {} as NotatedDataTypeValueMap,
-  )
-}
+} */

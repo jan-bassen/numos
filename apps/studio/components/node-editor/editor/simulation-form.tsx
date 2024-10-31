@@ -8,21 +8,24 @@ import {
   FormMessage,
 } from '@repo/ui/components/ui/form'
 import Link from 'next/link'
-import GenericInput from '@/components/datatypes/generic-input'
+import GenericInput, {
+  type GenericInputProps,
+} from '@/components/datatypes/generic-input'
 import { type Path, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { cn } from '@repo/ui/lib/utils'
 import { useParams } from 'next/navigation'
 import {
+  getAttributeTypes,
   getDefaultValuesFromAttributes,
   getSchemaFromAttributes,
 } from '@/components/elements/attributes/attribute-schema'
 import type { BaseEditorFormProps } from './base-editor'
 import {
-  type ActionTrigger,
   getDefaultValuesFromParameters,
   getParametersSchema,
+  getParameterTypes,
 } from '@/components/elements/actions/action-schema'
 import {
   Accordion,
@@ -47,17 +50,17 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@repo/ui/components/ui/dialog'
-import { optionalMetadataSchema } from './metadata-schema'
+import { annotateMetadata, optionalMetadataSchema } from './metadata-schema'
 import StringInput from '@/components/datatypes/inputs/string-input'
 import { Button } from '@repo/ui/components/ui/button'
 import NumberInput from '@/components/datatypes/inputs/number-input'
 import { useEffect, useState } from 'react'
 import ListFormInput from '@/components/datatypes/list-input-form'
 import { toast } from 'sonner'
-import type {
-  ValueSettings,
-  ValueType,
-} from '@repo/engine/src/types/value-types'
+import type { ValueSettings, ValueType } from '@repo/engine/types/value-types'
+import type { ActionTrigger } from '@/types/actions.types'
+import type { SimulationData } from '@repo/engine/types/engine-types'
+import { generateValueMap } from '@repo/engine/datatypes/utils'
 
 export default function SimulationForm({
   action,
@@ -69,8 +72,8 @@ export default function SimulationForm({
 }: BaseEditorFormProps) {
   const [accordionOpen, setAccordionOpen] = useState<string[] | undefined>()
   useEffect(() => {
-    if (error?.input) {
-      setAccordionOpen([error.input.type])
+    if (error?.location.input) {
+      setAccordionOpen([error.location.input.type])
       form.setError(
         // @ts-ignore
         `${error.input.type}.${error.input.key}`,
@@ -83,7 +86,7 @@ export default function SimulationForm({
         },
       )
     }
-    if (!error || !error.input) form.trigger()
+    if (!error || !error.location.input) form.trigger()
   }, [error])
 
   const { collection } = useParams()
@@ -92,6 +95,7 @@ export default function SimulationForm({
   const trigger = action?.trigger as ActionTrigger | undefined
   const hasParams =
     action && trigger?.type === 'api' && trigger.settings.params.length > 0
+  const parameters = hasParams ? trigger.settings.params : undefined
 
   const storedMetadata =
     typeof localStorage === 'undefined'
@@ -126,10 +130,7 @@ export default function SimulationForm({
 
   const schema = z.object({
     metadata: optionalMetadataSchema,
-    attributes: getSchemaFromAttributes(attributes, {
-      optional: true,
-      asObjectArray: true,
-    }),
+    attributes: getSchemaFromAttributes(attributes, true),
     parameters: hasParams
       ? getParametersSchema(trigger.settings.params, true)
       : z.undefined(),
@@ -157,7 +158,28 @@ export default function SimulationForm({
       )
     }
 
-    if (data) run(data.metadata || {}, data.attributes, data.parameters)
+    const annotatedMetadataValues = annotateMetadata(data.metadata)
+
+    const attributeTypes = getAttributeTypes(attributes || [])
+    const annotatedAttributeValues = generateValueMap(
+      data.attributes,
+      attributeTypes,
+    )
+
+    const parameterTypes = getParameterTypes(parameters || [])
+
+    const annotatedParameterValues = data.parameters
+      ? generateValueMap(data.parameters, parameterTypes)
+      : {}
+
+    //TODO: Mayge validate all entries here?!?!
+    const simulationData: SimulationData = {
+      basicMetadata: annotatedMetadataValues,
+      attributes: annotatedAttributeValues,
+      parameters: annotatedParameterValues,
+    }
+
+    run(simulationData)
   }
 
   function onError(errors: unknown) {
@@ -368,13 +390,7 @@ export default function SimulationForm({
             <AccordionContent className="space-y-4 border-b bg-muted/20 p-3 pt-5 pb-7">
               {attributes.map((attribute) => {
                 if (!attribute.token_specific) return null
-                if (attribute.type === 'exec' || attribute.type === 'buffer')
-                  return null
-                const settings = attribute.settings as ValueSettings | null
-                const props = {
-                  datatype: attribute.type as ValueType,
-                  settings: settings || undefined,
-                }
+                if (attribute.type === 'buffer') return null
                 if (attribute.list) {
                   const itemKey = `attributes.${attribute.slug}` as Path<
                     z.infer<typeof schema>
@@ -412,12 +428,17 @@ export default function SimulationForm({
                         )}
                       </div>
                       <ListFormInput
-                        {...props}
+                        inputProps={
+                          {
+                            datatype: attribute.type as ValueType,
+                            settings: attribute.settings as ValueSettings,
+                            placeholder: attribute.name || undefined,
+                            locked: false,
+                          } as GenericInputProps
+                        }
                         form={form}
                         itemKey={`attributes.${attribute.slug}`}
-                        settings={attribute.settings as ValueSettings}
                         defaultItemValue={{ value: undefined }}
-                        locked={false}
                         classNames={{
                           container:
                             'min-h-12 grid-cols-1 md:grid-cols-1 xl:grid-cols-1 gap-2 bg-background p-2.5',
@@ -438,6 +459,12 @@ export default function SimulationForm({
                     key={`attributes.${attribute.slug}`}
                     render={({ field }) => {
                       const { ref, ...rest } = field
+                      const props = {
+                        datatype: attribute.type as ValueType,
+                        settings: attribute.settings as ValueSettings,
+                        placeholder: attribute.name || undefined,
+                        locked: false,
+                      } as GenericInputProps
                       return (
                         <FormItem>
                           <div
@@ -502,10 +529,6 @@ export default function SimulationForm({
               <AccordionContent className="space-y-4 border-b bg-muted/20 p-3 pt-5 pb-7">
                 {hasParams &&
                   trigger?.settings.params.map((parameter) => {
-                    const props = {
-                      datatype: parameter.type as ValueType,
-                      settings: undefined,
-                    }
                     if (parameter.list) {
                       const itemKey = `parameter.${parameter.key}` as Path<
                         z.infer<typeof schema>
@@ -541,12 +564,15 @@ export default function SimulationForm({
                             )}
                           </div>
                           <ListFormInput
-                            {...props}
+                            inputProps={{
+                              datatype: parameter.type as ValueType,
+                              settings: undefined,
+                              placeholder: parameter.key,
+                              locked: false,
+                            }}
                             form={form}
                             itemKey={`parameters.${parameter.key}`}
-                            /* settings={parameter.settings as ValueSettings} */
                             defaultItemValue={{ value: undefined }}
-                            locked={false}
                             classNames={{
                               container:
                                 'min-h-12 grid-cols-1 md:grid-cols-1 xl:grid-cols-1 gap-2 bg-background p-2.5',
@@ -567,6 +593,12 @@ export default function SimulationForm({
                         key={`parameters.${parameter.key}`}
                         render={({ field }) => {
                           const { ref, ...rest } = field
+                          const props = {
+                            datatype: parameter.type as ValueType,
+                            settings: undefined,
+                            placeholder: parameter.key,
+                            locked: false,
+                          } as GenericInputProps
                           return (
                             <FormItem>
                               <div

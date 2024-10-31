@@ -1,6 +1,6 @@
 import { AddNodeMenu } from './menus/add-node-menu'
 import { createRoot, type Root } from 'react-dom/client'
-import type { Area, EditorMode, Item } from '@/types/nodes.types'
+import type { Area, EditorMode, Item } from '@/types/editor.types'
 import { useEffect, useRef } from 'react'
 
 export function addBackground(area: Area, nodeList: Item[], mode?: EditorMode) {

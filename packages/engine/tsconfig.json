@@ -8,6 +8,6 @@
       "@repo/engine/*": ["./src/*"]
     }
   },
-  "include": ["src", "value-types.ts"],
+  "include": ["src"],
   "exclude": ["node_modules", "dist"]
 }

@@ -1,7 +1,7 @@
-import type { NodeDefinition2 } from '@/types/nodes.types'
-import type { ImageInputNode } from '@repo/engine/src/nodes/image-input/interface'
+import type { SpecificNodeDefinition } from '@/types/nodes.types'
+import type { ImageInputNode } from '@repo/engine/nodes/image-input/interface'
 
-export const imageInputDefinition: NodeDefinition2<ImageInputNode> = {
+export const imageInputDefinition: SpecificNodeDefinition<ImageInputNode> = {
   type: 'image-input',
   category: 'data',
   title: 'Layer',

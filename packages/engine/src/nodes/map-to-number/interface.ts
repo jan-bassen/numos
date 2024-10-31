@@ -1,8 +1,5 @@
-import type {
-  NodeComponentType,
-  NodeInterface,
-} from '@repo/engine/types/node-types.ts'
-import type { ValueType } from '@repo/engine/types/value-types.ts'
+import type { NodeInterface } from '@repo/engine/types/node-types'
+import type { ValueType } from '@repo/engine/types/value-types'
 
 export interface MapToNumberNode extends NodeInterface<'data'> {
   type: 'map-to-number'
@@ -29,6 +26,9 @@ export interface MapToNumberNode extends NodeInterface<'data'> {
     }
   }
   outputs: {
-    output: NodeComponentType
+    output: {
+      type: ValueType
+      list: boolean
+    }
   }
 }

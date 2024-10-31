@@ -1,18 +1,19 @@
+import type { LogEntry } from '@repo/engine/types/engine-types'
 import { cn } from '@repo/ui/lib/utils'
 
-export default function LogsList({ logs }: { logs: string[] }) {
+export default function LogsList({ logs }: { logs: LogEntry[] }) {
   const lastIndex = logs.length - 1
   return (
     <ul className="pl-2">
       {logs.map((log, index) => {
-        if (typeof log !== 'string' && log === '') return null
+        if (typeof log !== 'string' && log.message === '') return null
         return (
           <li
             className={cn(
               'relative flex shrink-0 items-center gap-3 border-border-highlight border-l-2 py-1 text-sm ',
               (index === 0 || index === lastIndex) && 'border-background',
             )}
-            key={log}
+            key={log.message}
           >
             {index === 0 && (
               <div className="-translate-x-0.5 absolute bottom-0 left-0 h-1/2 w-0.5 bg-border-highlight" />
@@ -26,7 +27,7 @@ export default function LogsList({ logs }: { logs: string[] }) {
                 (index === 0 || index === lastIndex) && 'bg-border-highlight',
               )}
             />
-            {log}
+            {log.message}
           </li>
         )
       })}

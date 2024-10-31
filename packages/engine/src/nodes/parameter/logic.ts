@@ -1,7 +1,7 @@
-import type { NodeLogic } from '@repo/engine/types/node-types.ts'
-import type { ParameterNode } from './interface.ts'
+import type { NodeLogic } from '@repo/engine/types/node-types'
+import type { ParameterNode } from '@repo/engine/nodes/parameter/interface'
 
-export const parameterName: NodeLogic<ParameterNode> = {
+export const parameterLogic: NodeLogic<ParameterNode> = {
   data: {
     parameter: ({ getControlValue, getParameter }) => {
       const parameterKey = getControlValue('parameter')

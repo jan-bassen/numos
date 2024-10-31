@@ -6,15 +6,15 @@ import {
   TooltipContent,
 } from '@repo/ui/components/ui/tooltip'
 import { cn } from '@repo/ui/lib/utils'
-import type { Location } from '@/types/database.types'
 import { useState } from 'react'
 import { fromLatLng } from 'react-geocode'
 import { getAddressFromGeocoder } from '../utils'
 import { Separator } from '@repo/ui/components/ui/separator'
 import type { GenericDisplayProps } from '../generic-display'
+import type { Location, OptionalValue } from '@repo/engine/types/value-types'
 
 export type LocationDisplayProps = Omit<GenericDisplayProps, 'value'> & {
-  value: Location
+  value: OptionalValue<Location>
 }
 
 export default function LocationDisplay({
@@ -23,6 +23,7 @@ export default function LocationDisplay({
 }: LocationDisplayProps) {
   const [shortAddress, setShortAddress] = useState<string>('')
   const [longAddress, setLongAddress] = useState<string>('')
+  if (!value) return null
   fromLatLng(value.lat, value.lng).then(({ results }) => {
     const address = getAddressFromGeocoder(results, value)
     setShortAddress(address.short)

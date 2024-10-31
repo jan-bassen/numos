@@ -1,7 +1,8 @@
 import type {
-  NodeComponentType,
+  SocketInterface,
   NodeInterface,
-} from '@repo/engine/types/node-types.ts'
+} from '@repo/engine/types/node-types'
+import type { ValueType } from '@repo/engine/types/value-types'
 
 export interface ChangeCollectionAttributeNode extends NodeInterface<'exec'> {
   type: 'change-collection-attribute'
@@ -25,7 +26,10 @@ export interface ChangeCollectionAttributeNode extends NodeInterface<'exec'> {
     }
   }
   inputs: {
-    value: NodeComponentType
+    value: {
+      type: ValueType
+      list: boolean
+    }
   }
   forwards: ['exec']
 }

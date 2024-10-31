@@ -18,32 +18,25 @@ import {
 import { PiCrossCross, PiThreeByTwoDotsVertical } from '@repo/ui/icons/pika'
 import { cn } from '@repo/ui/lib/utils'
 import { dataTypes } from '@/lib/supabase/constants/datatypes'
-import GenericInput from './generic-input'
+import GenericInput, { type GenericInputProps } from './generic-input'
 import { DndContext } from '@dnd-kit/core'
-import { SortableContext, useSortable, arrayMove } from '@dnd-kit/sortable'
+import { SortableContext, useSortable } from '@dnd-kit/sortable'
 import {
   restrictToVerticalAxis,
   restrictToParentElement,
   restrictToHorizontalAxis,
 } from '@dnd-kit/modifiers'
 import { CSS } from '@dnd-kit/utilities'
-import type {
-  ValueSettings,
-  ValueType,
-} from '@repo/engine/src/types/value-types'
 
 export type ListInputProps<
   SchemaType extends Record<string, any>,
   Key extends ArrayPath<SchemaType>,
 > = {
-  datatype: ValueType
+  inputProps: GenericInputProps
   form: UseFormReturn<SchemaType>
   itemKey: Key
-  defaultItemValue: FieldArray<SchemaType, Key>
-  settings?: ValueSettings
   defaultValue?: Array<any>
-  placeholder?: string
-  locked?: boolean
+  defaultItemValue: FieldArray<SchemaType, Key>
   classNames?: {
     container?: string
     item?: string
@@ -84,14 +77,11 @@ export default function ListFormInput<
   SchemaType extends Record<string, any>,
   ListKey extends ArrayPath<SchemaType>,
 >({
-  datatype,
+  inputProps,
   form,
   itemKey,
-  settings,
   defaultValue = [],
   defaultItemValue,
-  placeholder,
-  locked = false,
   classNames,
   limitAxis,
 }: ListInputProps<SchemaType, ListKey>) {
@@ -147,7 +137,7 @@ export default function ListFormInput<
                   {({ attributes, listeners }) => (
                     <div key={field.id} className="relative w-full">
                       <div className="flex w-full items-start">
-                        {!locked && (
+                        {!inputProps.locked && (
                           <div
                             className={cn(
                               'grid h-10 place-items-center rounded-l-md border border-border border-r-0 bg-background px-0.5 text-muted-foreground transition-colors duration-200 hover:bg-muted/10',
@@ -177,18 +167,16 @@ export default function ListFormInput<
                               >
                                 <FormControl>
                                   <GenericInput
+                                    {...inputProps}
                                     {...rest}
-                                    settings={settings}
-                                    datatype={datatype}
-                                    placeholder={placeholder}
-                                    locked={locked}
                                     environment="list"
                                     className={cn(
                                       'rounded-md',
                                       invalid &&
                                         'border-destructive/50 bg-destructive/10 focus-visible:ring-destructive/50',
-                                      !locked && 'rounded-l-none',
+                                      !inputProps.locked && 'rounded-l-none',
                                       classNames?.input,
+                                      inputProps.className,
                                     )}
                                   />
                                 </FormControl>
@@ -198,7 +186,7 @@ export default function ListFormInput<
                           }}
                         />
                       </div>
-                      {!locked && (
+                      {!inputProps.locked && (
                         <Button
                           variant={'outline'}
                           size={'none'}
@@ -222,7 +210,7 @@ export default function ListFormInput<
             })}
           </SortableContext>
         </DndContext>
-        {!locked && (
+        {!inputProps.locked && (
           <Button
             onClick={() => append(defaultItemValue)}
             variant={'outline'}
@@ -230,7 +218,7 @@ export default function ListFormInput<
             type="button"
           >
             <Plus className="size-3.5" />
-            Add {dataTypes[datatype].title}
+            Add {dataTypes[inputProps.datatype].title}
           </Button>
         )}
       </div>

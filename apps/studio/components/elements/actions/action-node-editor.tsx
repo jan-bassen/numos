@@ -1,15 +1,6 @@
 'use client'
 
-import {
-  type Action,
-  type Attribute,
-  type SimulatedTokenStateResult,
-  NotatedDataTypeValueMap,
-  type Version,
-  TokenState,
-  type OptionalTokenState,
-} from '@/types/database.types'
-import type { AutoSaveFunctions, Editor, SavedGraph } from '@/types/nodes.types'
+import type { Action, Attribute, Version } from '@/types/database.types'
 import { Suspense, useState } from 'react'
 import {
   deleteActionConnection,
@@ -25,8 +16,14 @@ import { toast } from 'sonner'
 import BaseEditor from '../../node-editor/editor/base-editor'
 import { actionConfig } from '@/lib/rete/nodes/configs/action-config'
 import TokenResult from './token-result'
-import SimulationForm from '@/components/node-editor/editor/simulation-form'
-import type { ActionTrigger, ParameterState } from './action-schema'
+import type { AutoSaveFunctions, Editor } from '@/types/editor.types'
+import type { SavedGraph } from '@repo/engine/types/graph-types'
+import type { ActionTrigger, ParameterState } from '@/types/actions.types'
+import type {
+  ActionContext,
+  SimulatedTokenStateResult,
+  SimulationData,
+} from '@repo/engine/types/engine-types'
 
 const autoSaveActions: AutoSaveFunctions = {
   uploadNode: insertActionNode,
@@ -55,12 +52,11 @@ export default function ActionNodeEditor({
 
   async function run(
     editor: Editor | null,
-    state: OptionalTokenState,
-    parameters?: ParameterState,
+    data: SimulationData,
   ): Promise<SimulationCheck> {
     setLoading(true)
     const graph = editor?.editor.getNodemap()
-    if (!state || !graph)
+    if (!data || !graph)
       return {
         success: false,
         error: {
@@ -81,14 +77,11 @@ export default function ActionNodeEditor({
         },
       }
     }
-    const { result, error } = await simulateActionGraph(
-      graph,
-      rootNodeId,
-      state,
-      version,
-      attributes,
-      parameters,
-    )
+    const context: ActionContext = {
+      collectionId: version.id,
+      actionId: action.id,
+    }
+    const { result, error } = await simulateActionGraph(graph, data, context)
     if (error) {
       setLoading(false)
       return { success: false, error }

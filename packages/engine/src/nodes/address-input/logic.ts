@@ -1,5 +1,5 @@
-import type { NodeLogic } from '@repo/engine/types/node-types.ts'
-import type { AddressInputNode } from './interface.ts'
+import type { NodeLogic } from '@repo/engine/types/node-types'
+import type { AddressInputNode } from '@repo/engine/nodes/address-input/interface'
 
 export const addressInputLogic: NodeLogic<AddressInputNode> = {
   data: {

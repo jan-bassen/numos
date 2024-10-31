@@ -1,10 +1,10 @@
-import type { NodeLogic } from '@repo/engine/types/node-types.ts'
-import type { LogNode } from './interface.ts'
-import { valueToText } from '@repo/engine/datatypes/utils.ts'
+import type { NodeLogic } from '@repo/engine/types/node-types'
+import type { LogNode } from '@repo/engine/nodes/log/interface'
+import { valueToText } from '@repo/engine/datatypes/utils'
 
 export const logLogic: NodeLogic<LogNode> = {
   execution: async ({ getInputValue }) => {
-    const value = getInputValue('value')
+    const value = await getInputValue('value')
     const message = valueToText(value)
     return {
       forward: 'exec',

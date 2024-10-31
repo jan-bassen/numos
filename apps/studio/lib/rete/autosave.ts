@@ -1,11 +1,8 @@
 import type { ReturnInfo } from '@/types/database.types'
-import type {
-  AutoSaveFunctions,
-  EditorEvents,
-  SavedControlMap,
-} from '@/types/nodes.types'
+import type { AutoSaveFunctions, EditorEvents } from '@/types/editor.types'
 import { toast } from 'sonner'
 import type { NodeEditor } from './classes/editor'
+import type { OLDSavedControlMap } from '@repo/engine/types/graph-types'
 
 export function autosaveToEvents(
   autosave: AutoSaveFunctions,
@@ -14,7 +11,7 @@ export function autosaveToEvents(
   parentId: string,
   changeSettings?: (
     editor: NodeEditor,
-    controls: SavedControlMap,
+    controls: OLDSavedControlMap,
   ) => Promise<ReturnInfo>,
 ): EditorEvents {
   return {

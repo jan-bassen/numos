@@ -1,9 +1,13 @@
-import type { NodeDefinition2, SocketDefinition2 } from '@/types/nodes.types'
-import type { MapToNumberNode } from '@repo/engine/src/nodes/map-to-number/interface'
-import { getDefinedValuesFromObjectArray } from '@repo/engine/src/datatypes/utils'
+import type {
+  SpecificNodeDefinition,
+  DataSocketDefinition,
+  SpecificDynamicSocketsDefinition,
+} from '@/types/nodes.types'
+import type { MapToNumberNode } from '@repo/engine/nodes/map-to-number/interface'
+import { getDefinedValuesFromObjectArray } from '@repo/engine/datatypes/utils'
 import { Decimal } from 'decimal.js'
 
-export const mapToNumberDefinition: NodeDefinition2<MapToNumberNode> = {
+export const mapToNumberDefinition: SpecificNodeDefinition<MapToNumberNode> = {
   type: 'map-to-number',
   category: 'data',
   title: 'Map to Number Range',
@@ -28,11 +32,13 @@ export const mapToNumberDefinition: NodeDefinition2<MapToNumberNode> = {
       key: 'mode',
       type: 'enum',
       label: 'Breakpoint counts to',
-      defaultValue: 'up',
-      options: [
-        { value: 'up', label: 'the range above' },
-        { value: 'down', label: 'the range below' },
-      ],
+      settings: {
+        default: 'up',
+        options: [
+          { value: 'up', label: 'the range above' },
+          { value: 'down', label: 'the range below' },
+        ],
+      },
     },
   ],
   inputs: ({
@@ -58,22 +64,24 @@ export const mapToNumberDefinition: NodeDefinition2<MapToNumberNode> = {
       const numberValue = new Decimal(step.value).toDecimalPlaces(2)
       return { id: step.id, value: numberValue.toNumber() }
     })
-    const { type, settings } = getInfoFromInputConnections(
-      getConnectedInputKeys().filter((key) => key !== 'number'),
-    )
+    const { type, settings } =
+      getInfoFromInputConnections(
+        getConnectedInputKeys().filter((key) => key !== 'number'),
+      ) || {}
     const mode = getControlValue('mode').value
 
-    const numberDef: SocketDefinition2<MapToNumberNode, 'inputs', 'number'> = {
-      index: 0,
-      key: 'number',
-      label: 'Number',
-      type: 'number',
-      hideControl: true,
-      dividerAfter: breakpoints.length > 0,
-      list: false,
-    }
+    const numberDef: DataSocketDefinition<MapToNumberNode, 'inputs', 'number'> =
+      {
+        index: 0,
+        key: 'number',
+        label: 'Number',
+        type: 'number',
+        hideControl: true,
+        dividerAfter: breakpoints.length > 0,
+        list: false,
+      }
 
-    const valueDefs: SocketDefinition2<MapToNumberNode, 'inputs', string>[] =
+    const valueDefs: DataSocketDefinition<MapToNumberNode, 'inputs', string>[] =
       breakpoints?.map((step, index) => {
         const previousBreakpoint =
           index === 0 ? undefined : breakpoints[index - 1]
@@ -99,28 +107,27 @@ export const mapToNumberDefinition: NodeDefinition2<MapToNumberNode> = {
         }
       })
 
-    const lastStepDef: SocketDefinition2<MapToNumberNode, 'inputs', string> = {
-      index: breakpoints.length + 2,
-      key: breakpoints.length.toString(),
-      label: `${mode === 'up' ? '>' : '≥'} ${breakpoints[breakpoints.length - 1]?.value?.toString()}`,
-      type,
-      list: false,
-      settings,
-      hideControl: true,
-      onConnect: (node) => {
-        node.updateInputs()
-        node.updateOutputs()
-      },
-      onDisconnect: (node) => {
-        node.updateInputs()
-        node.updateOutputs()
-      },
-    }
+    const lastStepDef: DataSocketDefinition<MapToNumberNode, 'inputs', string> =
+      {
+        index: breakpoints.length + 2,
+        key: breakpoints.length.toString(),
+        label: `${mode === 'up' ? '>' : '≥'} ${breakpoints[breakpoints.length - 1]?.value?.toString()}`,
+        type,
+        list: false,
+        settings,
+        hideControl: true,
+        onConnect: (node) => {
+          node.updateInputs()
+          node.updateOutputs()
+        },
+        onDisconnect: (node) => {
+          node.updateInputs()
+          node.updateOutputs()
+        },
+      }
 
-    const inputDefs: SocketDefinition2<MapToNumberNode, 'inputs', string>[] = [
-      numberDef,
-      ...valueDefs,
-    ]
+    const inputDefs: DataSocketDefinition<MapToNumberNode, 'inputs', string>[] =
+      [numberDef, ...valueDefs]
     if (breakpoints.length > 0) {
       inputDefs.push(lastStepDef)
     }
@@ -128,9 +135,10 @@ export const mapToNumberDefinition: NodeDefinition2<MapToNumberNode> = {
     return inputDefs
   },
   outputs: ({ getInfoFromInputConnections, getConnectedInputKeys }) => {
-    const { type, list, settings } = getInfoFromInputConnections(
-      getConnectedInputKeys().filter((key) => key !== 'number'),
-    )
+    const { type, list, settings } =
+      getInfoFromInputConnections(
+        getConnectedInputKeys().filter((key) => key !== 'number'),
+      ) || {}
     return [{ key: 'output', type, list, settings, label: 'Value' }]
   },
 }

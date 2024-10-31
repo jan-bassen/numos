@@ -1,4 +1,4 @@
-import type { Editor } from '@/types/nodes.types'
+import type { Editor } from '@/types/editor.types'
 import { useHotkeys } from 'react-hotkeys-hook'
 
 export const useEditorHotkeys = (editor: Editor | null) => {

@@ -1,17 +1,12 @@
 'use server'
 
-import {
-  ActionConnection,
-  type InsertActionNode,
-  type ReturnInfo,
-} from '@/types/database.types'
+import type { InsertActionNode, ReturnInfo } from '@/types/database.types'
 import type {
   SavedConnection,
   SavedGraph,
   SavedNode,
-} from '@/types/nodes.types'
+} from '@repo/engine/types/graph-types'
 import { createSupabaseServerComponentClient } from '../server-client'
-import { revalidatePath } from 'next/cache'
 
 export async function insertActionNode(
   node: SavedNode,
@@ -27,15 +22,14 @@ export async function insertActionNode(
   const supabase = await createSupabaseServerComponentClient()
 
   const insertNode: InsertActionNode = {
-    controls: node.controls,
     id: node.id,
-    inputs: node.inputs,
-    outputs: node.outputs,
     type: node.type,
     action: actionId,
+    state: node.state,
     x: node.x,
     y: node.y,
   }
+
   const { error } = await supabase.from('action_nodes').insert(insertNode)
 
   if (error) {
@@ -56,11 +50,7 @@ export async function updateActionNode(node: SavedNode): Promise<ReturnInfo> {
 
   const { error } = await supabase
     .from('action_nodes')
-    .update({
-      controls: node.controls,
-      inputs: node.inputs,
-      outputs: node.outputs,
-    })
+    .update({ state: node.state })
     .eq('id', node.id)
 
   if (error) {

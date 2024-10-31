@@ -1,13 +1,13 @@
-import type { NodeLogic } from '@repo/engine/types/node-types.ts'
-import type { IsInListNode } from './interface.ts'
-import { NodeError } from '@repo/engine/errors/node-error.ts'
-import type { RawValue } from '@repo/engine/types/value-types.ts'
+import type { NodeLogic } from '@repo/engine/types/node-types'
+import type { IsInListNode } from '@repo/engine/nodes/is-in-list/interface'
+import { NodeError } from '@repo/engine/errors/node-error'
+import type { RawSingleValue } from '@repo/engine/types/value-types'
 
 export const IsInListLogic: NodeLogic<IsInListNode> = {
   data: {
-    output: ({ getInputValue }) => {
-      const list = getInputValue('list')
-      const value = getInputValue('value')
+    output: async ({ getInputValue }) => {
+      const list = await getInputValue('list')
+      const value = await getInputValue('value')
       if (list.type !== value.type) {
         throw new NodeError('Type mismatch', {
           component: {
@@ -16,7 +16,7 @@ export const IsInListLogic: NodeLogic<IsInListNode> = {
           },
         })
       }
-      const array = list.value as RawValue[]
+      const array = list.value as RawSingleValue[]
       return {
         type: 'boolean',
         format: 'single',

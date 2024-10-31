@@ -1,5 +1,5 @@
-import type { NodeLogic } from '@repo/engine/types/node-types.ts'
-import type { ActionRootNode } from './interface.js'
+import type { NodeLogic } from '@repo/engine/types/node-types'
+import type { ActionRootNode } from '@repo/engine/nodes/action-root/interface'
 
 export const actionRootLogic: NodeLogic<ActionRootNode> = {
   execution: () => {

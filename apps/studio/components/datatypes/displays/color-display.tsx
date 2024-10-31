@@ -4,14 +4,14 @@ import {
   TooltipContent,
 } from '@repo/ui/components/ui/tooltip'
 import { cn } from '@repo/ui/lib/utils'
-import type { Color } from '@/types/database.types'
 import type { GenericDisplayProps } from '../generic-display'
+import type { Color, OptionalValue } from '@repo/engine/types/value-types'
 
 export type ColorDisplayProps = Omit<GenericDisplayProps, 'value'> & {
-  value: Color
+  value: OptionalValue<Color>
 }
-
 export default function ColorDisplay({ value, className }: ColorDisplayProps) {
+  if (!value) return null
   return (
     <Tooltip>
       <TooltipTrigger

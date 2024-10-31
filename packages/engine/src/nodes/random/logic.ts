@@ -1,16 +1,18 @@
-import type { NodeLogic } from '@repo/engine/types/node-types.ts'
-import type { RandomNode } from './interface.ts'
+import type { NodeLogic } from '@repo/engine/types/node-types'
+import type { RandomNode } from '@repo/engine/nodes/random/interface'
 import { Decimal } from 'decimal.js'
 
 export const randomLogic: NodeLogic<RandomNode> = {
   data: {
-    output: ({ getInputValue }) => {
-      const min = getInputValue('min').value
-      const max = getInputValue('max').value
+    output: async ({ getInputValue }) => {
+      const min = await getInputValue('min')
+      const max = await getInputValue('max')
       return {
         type: 'number',
         format: 'single',
-        value: new Decimal(Math.random() * (max - min) + min).toNumber(),
+        value: new Decimal(
+          Math.random() * (max.value - min.value) + min.value,
+        ).toNumber(),
       }
     },
   },

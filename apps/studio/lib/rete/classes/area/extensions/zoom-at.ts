@@ -1,4 +1,4 @@
-import type { Area, Schemes } from '@/types/nodes.types'
+import type { Area, Schemes } from '@/types/editor.types'
 import type {
   NodeRef,
   SchemesWithSizes,

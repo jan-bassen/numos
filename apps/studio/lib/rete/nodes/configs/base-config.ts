@@ -6,7 +6,7 @@ import {
   PiNftDefaultStroke,
   PiPencilScaleCrossStroke,
 } from '@repo/ui/icons/pika'
-import type { EditorContext, Group } from '@/types/nodes.types'
+import type { EditorContext, Group } from '@/types/editor.types'
 
 export const baseConfig = (context: EditorContext) => {
   const tokenSubitems =

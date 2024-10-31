@@ -1,5 +1,5 @@
-import type { NodeLogic } from '@repo/engine/types/node-types.ts'
-import type { ColorInputNode } from './interface.ts'
+import type { NodeLogic } from '@repo/engine/types/node-types'
+import type { ColorInputNode } from '@repo/engine/nodes/color-input/interface'
 
 export const colorInputLogic: NodeLogic<ColorInputNode> = {
   data: {

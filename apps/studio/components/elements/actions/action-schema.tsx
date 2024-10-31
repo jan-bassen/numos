@@ -1,23 +1,30 @@
-import { datatypeSchema } from '@/components/datatypes/schemas'
 import {
   PiCalendarFilledStroke,
   PiLinkChainHorizontalStroke,
   PiNftBoltMintStroke,
   PiTimerDefaultStroke,
 } from '@repo/ui/icons/pika'
-import { valueDataTypeKeys } from '@/lib/supabase/constants/datatypes'
 import type {
-  DataTypeMap,
   IntervalUnit,
-  NotatedDataTypeValue,
   TriggerType,
   ValueDataType,
 } from '@/types/database.types'
 import type { SelectOptions } from '@/types/nodes.types'
-import { Interval } from 'luxon'
 import { z } from 'zod'
 import cron from 'cron-validate'
-import type { ValueType } from '@repo/engine/src/types/value-types'
+import type {
+  ValueType,
+  Value,
+  ValueMap,
+  ValueTypeMap,
+} from '@repo/engine/types/value-types'
+import { valueTypeKeys } from '@/lib/supabase/constants/datatypes'
+import type {
+  ActionTrigger,
+  ParameterInfo,
+  ParameterState,
+} from '@/types/actions.types'
+import { datatypeSchema } from '@repo/engine/datatypes/schemas'
 
 export const actionTypes: Record<
   TriggerType,
@@ -75,8 +82,6 @@ export const triggerOptions: SelectOptions = [
   },
 ]
 
-export type TokenEvent = 'mint' | 'transfer' | 'burn' | 'approve'
-
 export const tokenEventOptions: SelectOptions = [
   { value: 'mint', label: 'On Mint' },
   { value: 'transfer', label: 'On Transfer' },
@@ -89,41 +94,6 @@ export const intervalUnitOptions: SelectOptions = [
   { value: 'hours', label: 'Hours' },
   { value: 'days', label: 'Days' },
 ]
-
-export type ActionTrigger =
-  | {
-      type: 'api'
-      settings: {
-        params: {
-          type: ValueDataType
-          list: boolean
-          key: string
-        }[]
-      }
-    }
-  | {
-      type: 'interval'
-      settings: {
-        start?: number
-        end?: number
-        interval: number
-        unit: IntervalUnit
-      }
-    }
-  | {
-      type: 'schedule'
-      settings: {
-        start?: number
-        end?: number
-        schedule: string
-      }
-    }
-  | {
-      type: 'token'
-      settings: {
-        event: TokenEvent
-      }
-    }
 
 export const newActionSchema = z.object({
   trigger: z.enum(['api', 'interval', 'token', 'schedule'], {
@@ -190,7 +160,7 @@ export const triggerSchema = (type: TriggerType) => {
                   invalid_type_error: 'Key must be a string',
                 })
                 .min(1, 'Every parameter needs a key'),
-              type: z.enum(valueDataTypeKeys),
+              type: z.enum(valueTypeKeys),
               list: z.boolean(),
             }),
           )
@@ -294,10 +264,10 @@ export function getDefaultTriggerSettings(type: TriggerType): ActionTrigger {
   }
 }
 
-export type Parameter = { type: ValueType; key: string; list: boolean }
-export type ParameterState = Record<string, NotatedDataTypeValue>
-
-export const getParametersSchema = (params: Parameter[], optional?: boolean) =>
+export const getParametersSchema = (
+  params: ParameterInfo[],
+  optional?: boolean,
+) =>
   z.object(
     Object.fromEntries(
       params.map((param) => [
@@ -318,25 +288,24 @@ export const getParametersSchema = (params: Parameter[], optional?: boolean) =>
   )
 
 export function getDefaultValuesFromParameters(
-  parameters: Parameter[],
+  parameters: ParameterInfo[],
   state?: ParameterState,
 ) {
-  const defaultValues = parameters.reduce(
-    (acc, parameter) => {
-      const value = state?.[parameter.key]
-      if (value) {
-        acc[parameter.key] = value
-      }
-      return acc
-    },
-    {} as Record<string, NotatedDataTypeValue>,
-  )
+  const defaultValues = parameters.reduce((acc, parameter) => {
+    const value = state?.[parameter.key]
+    if (value) {
+      acc[parameter.key] = value
+    }
+    return acc
+  }, {} as ValueMap)
   return defaultValues
 }
 
-export const getParameterTypes = (parameters: Parameter[]): DataTypeMap => {
+export const getParameterTypes = (
+  parameters: ParameterInfo[],
+): ValueTypeMap => {
   return parameters.reduce((accumulator, parameter) => {
     accumulator[parameter.key] = { type: parameter.type, list: parameter.list }
     return accumulator
-  }, {} as DataTypeMap)
+  }, {} as ValueTypeMap)
 }

@@ -1,8 +1,8 @@
 import type {
-  NodeComponentType,
+  SocketInterface,
   NodeInterface,
-} from '@repo/engine/types/node-types.ts'
-import type { ValueType } from '@repo/engine/types/value-types.ts'
+} from '@repo/engine/types/node-types'
+import type { ValueType } from '@repo/engine/types/value-types'
 
 export interface MapToDateNode extends NodeInterface<'data'> {
   type: 'map-to-date'
@@ -19,7 +19,7 @@ export interface MapToDateNode extends NodeInterface<'data'> {
   }
   controls: {
     breakpoints: {
-      type: 'number'
+      type: 'datetime'
       list: true
     }
     mode: {
@@ -29,6 +29,9 @@ export interface MapToDateNode extends NodeInterface<'data'> {
     }
   }
   outputs: {
-    output: NodeComponentType
+    output: {
+      type: ValueType
+      list: boolean
+    }
   }
 }

@@ -1,92 +1,47 @@
-import type { GetSchemes, NodeBase } from 'rete'
-import type { ReactArea2D, RenderEmit } from 'rete-react-plugin'
-import type {
-  Action,
-  Attribute,
-  DataType,
-  DataTypeValue,
-  ReturnInfo,
-  SocketType,
-  NotatedDataTypeValueMap,
-  ValueDataType,
-  NotatedDataTypeValue,
-  ValueSocketType,
-  OptionalTokenState,
-  LegacyLayerTree,
-  LayerTree,
-  Collection,
-  Version,
-  Database,
-} from './database.types'
+import type { RenderEmit } from 'rete-react-plugin'
 import type { Node } from '@/lib/rete/classes/node'
-import type { Socket } from '@/lib/rete/classes/socket'
 import type { Control } from '@/lib/rete/classes/control'
-import type { ContextMenuExtra } from 'rete-context-menu-plugin'
-import type { Connection } from '@/lib/rete/classes/connection'
 import type { NodeEditor } from '@/lib/rete/classes/editor'
-import type { Input } from '@/lib/rete/classes/input'
 import type {
-  ActionTrigger,
-  Parameter,
-  ParameterState,
-} from '@/components/elements/actions/action-schema'
-import type { Output } from '@/lib/rete/classes/output'
-import type {
-  Intersect,
-  Shape,
-} from '@/lib/rete/classes/selector/multi-selector'
-import type { AreaPlugin } from '@/lib/rete/classes/area/area-plugin'
-import type { ZoomEventParams } from '@/lib/rete/classes/area/area'
-import type { HistoryPlugin } from '@/lib/rete/classes/history/plugin'
-import type { HistoryActions } from '@/lib/rete/classes/history/load-actions'
-import type {
-  InferredList,
-  InferredType,
+  AnyNode,
+  InferredControlList,
+  InferredControlType,
+  InferredSocketList,
+  InferredSocketType,
   NodeCategory,
   NodeInterface,
   NodeType,
-  NodeType as NodeType2,
-} from '@repo/engine/src/types/node-types.ts'
+} from '@repo/engine/types/node-types'
 import type {
+  OptionalDataType,
+  OptionalValueType,
   Value,
   ValueSettings,
   ValueType,
-} from '@repo/engine/src/types/value-types'
+} from '@repo/engine/types/value-types'
+import type { Area, Schemes } from './editor.types'
+import type { ActionTrigger, ParameterInfo } from './actions.types'
+import type { AttributeInfo } from './attributes.types'
+import type { Input } from '@/lib/rete/classes/connectors/input'
+import type { Output } from '@/lib/rete/classes/connectors/output'
 
-export type Schemes = GetSchemes<Node, Connection>
-export type AreaExtra = ReactArea2D<Schemes> | ContextMenuExtra
-export type Area = AreaPlugin
-export type History = HistoryPlugin<Schemes, HistoryActions>
+// ----------- NODE DEPENDENCIES -------------
 
-export type EditorType = 'image' | 'action'
-
-export type NodeComponentType = 'input' | 'generic'
-
-export type EditorContext = {
-  type: EditorType
-  attributes: Attribute[]
-  parameters?: Parameter[]
-  layers?: LayerTree
-  action?: Action
+export type NodeDependency = {
+  element: 'attribute'
+  nodes: {
+    nodeType: NodeType
+    controls: string[]
+  }[]
 }
 
-export type EditorMode = 'select' | 'drag'
-export type InputMode = 'mouse' | 'touchpad'
-export type EditorSettings = {
-  mode: EditorMode
-  shape: Shape
-  input: InputMode
-  panningBoundary?: {
-    intensity: number
-    padding: number
-  }
-}
+// ----------- NODE PART DEFINITIONS -------------
 
-// Node Interfaces
+export type SocketSide = 'input' | 'output'
 
-export type Sockets = { [key: string]: Socket }
 export type Inputs = { [key: string]: Input }
 export type Outputs = { [key: string]: Output }
+
 export type Controls = { [key: string]: Control }
 
 export type SelectOption = {
@@ -99,280 +54,108 @@ export type SelectOption = {
 
 export type SelectOptions = SelectOption[]
 
-export type EnumControlDefinition = ControlDefinitionBase & {
-  type: 'enum'
-  options: SelectOptions
-}
-
-export type GenericControlDefinition = ControlDefinitionBase & {
-  type: Omit<ValueDataType, 'enum'>
-}
-
-export type ControlDefinition = EnumControlDefinition | GenericControlDefinition
-
-export type ControlDefinitionBase = {
+export type ControlDefinition<
+  I extends NodeInterface<NodeCategory>,
+  K extends keyof I['controls'],
+> = {
   index?: number
-  key: string
-  state?: string
-  type: ValueDataType
-  list?: boolean
+  key: K
   label?: string
-  settings?: ValueSettings
-  defaultValue?: DataTypeValue
+  state?: string
+  type: InferredControlType<I, K>
+  list?: InferredControlList<I, K>
+  settings?: ValueSettings<InferredControlType<I, K>>
   placeholder?: string
-  onChange?: (node: Node, value: NotatedDataTypeValue<true, true>) => void
+  onChange?: (
+    node: NodeInteractionInterface<I>,
+    value: Value<
+      InferredControlType<I, K>,
+      InferredControlList<I, K> extends true
+        ? 'objectarray'
+        : InferredControlList<I, K> extends false
+          ? 'single'
+          : 'single' | 'objectarray',
+      true
+    >,
+  ) => void
   readonly?: boolean
 }
 
-export type NotatedControlDefinition = {
-  interfaceType: 'control'
-  definition: ControlDefinition
-}
+export type AnyControlDefinition = ControlDefinition<AnyNode, string>
 
-export type SocketDefinition = {
+export type DataSocketDefinition<
+  I extends NodeInterface<NodeCategory>,
+  T extends 'inputs' | 'outputs',
+  K extends keyof I[T],
+> = {
   index?: number
-  list?: boolean
+  type?: InferredSocketType<I, T, K>
+  list?: InferredSocketList<I, T, K>
   canBeList?: boolean
-  key: string
-  type: SocketType
-  settings?: ValueSettings
+  key: K
+  settings?: ValueSettings<InferredSocketType<I, T, K>>
   state?: string
   label: string
   multipleConnections?: boolean
   hideControl?: boolean
   dividerAfter?: boolean
-  control?: ControlDefinition
-  compatibleWith?: DataType[]
-  onConnect?: (node: Node, connection: Connection) => void
-  onDisconnect?: (node: Node, connection: Connection) => void
+  control?: ControlDefinition<any, any> //TODO: Make typesafe
+  compatibleWith?: OptionalDataType[]
+  onConnect?: (node: NodeInteractionInterface<I>) => void
+  onDisconnect?: (node: NodeInteractionInterface<I>) => void
 }
 
-/* export type EnumSocketDefinition<I extends NodeInterface = any> =
-  SocketDefinitionBase & {
-    type: 'enum'
-    options: SelectOptions
-    adaptOptions?: boolean
-  }
+export type ExecSocketDefinition = { key: string; label: string }
 
-export type GenericSocketDefinition<I extends NodeInterface = any> =
-  SocketDefinitionBase & {
-    type: SocketType
-    canBeList?: boolean
-    settings?: ValueSettings
-  }
+export type AnyDataSocketDefinition<
+  Side extends 'inputs' | 'outputs' = 'inputs' | 'outputs',
+> = DataSocketDefinition<AnyNode, Side, string>
 
-export type SocketDefinition<I extends NodeInterface = any> =
-  | EnumSocketDefinition<I>
-  | GenericSocketDefinition<I>
- */
+/* export type SpecificDynamicInputsDefinition<
+  I extends NodeInterface<NodeCategory>,
+> =
+  | SpecificSocketDefinition<I, 'inputs', keyof I['inputs']>[]
+  | ((
+      state: DefinitionInterface<I>,
+    ) => SpecificSocketDefinition<I, 'inputs', keyof I['inputs']>[])
 
-/* export type InputDefinition = {
-  key: string;
-  state?: string;
-  type: DataType;
-  order?: {
-    first: boolean;
-    next: string;
-  };
-  label?: string;
-  hideControl?: boolean;
-  control?: ControlDefinition;
-  onConnect?: (node: Node, connection: Connection) => void;
-  onDisconnect?: (node: Node, connection: Connection) => void;
-};
+export type DynamicInputsDefinition = SpecificDynamicInputsDefinition<AnyNode>
 
-export type NotatedInputDefinition = {
-  type: "input";
-  definition: InputDefinition;
-};
+export type SpecificDynamicOutputsDefinition<
+  I extends NodeInterface<NodeCategory>,
+> =
+  | SpecificSocketDefinition<I, 'outputs', keyof I['outputs']>[]
+  | ((
+      state: DefinitionInterface<I>,
+    ) => SpecificSocketDefinition<I, 'outputs', keyof I['outputs']>[]) 
 
-export type OutputDefinition = {
-  key: string;
-  type: DataType;
-  state?: string;
-  label?: string;
-  onConnect?: (node: Node, connection: Connection) => void;
-  onDisconnect?: (node: Node, connection: Connection) => void;
-};
+export type DynamicOutputsDefinition = SpecificDynamicOutputsDefinition<AnyNode> */
 
-export type NotatedOutputDefinition = {
-  type: "output";
-  definition: OutputDefinition;
-};
+export type SpecificDynamicSocketsDefinition<
+  I extends NodeInterface<NodeCategory>,
+  Side extends 'inputs' | 'outputs' = 'inputs' | 'outputs',
+> =
+  | DataSocketDefinition<I, Side, keyof I[Side]>[]
+  | ((
+      state: DefinitionInterface<I>,
+    ) => DataSocketDefinition<I, Side, keyof I[Side]>[])
 
-export type ActionDefinition = {
-  type: string;
-  buttonVariant?: ButtonVariant;
-  label?: string;
-  description?: string;
-  icon: LucideIcon;
-  action: () => void;
-};
+export type DynamicSocketsDefinition<
+  Side extends 'inputs' | 'outputs' = 'inputs' | 'outputs',
+> = SpecificDynamicSocketsDefinition<AnyNode, Side>
 
-export type NotatedActionDefinition = {
-  type: "action";
-  definition: ActionDefinition;
-};
-
-export type NodeInterfaceDefinition =
-  | NotatedInputDefinition
-  | NotatedControlDefinition
-  | NotatedOutputDefinition
-  | NotatedActionDefinition; */
-
-export type DynamicInputsDefinition =
-  | SocketDefinition[]
-  | ((node: Node, savedInputs?: SavedInputMap) => SocketDefinition[])
-
-export type DynamicOutputsDefinition =
-  | SocketDefinition[]
-  | ((node: Node, savedOutputs?: SavedOutputMap) => SocketDefinition[])
+export type SpecificDynamicControlsDefinition<
+  I extends NodeInterface<NodeCategory>,
+> =
+  | ControlDefinition<I, keyof I['controls']>[]
+  | ((
+      state: DefinitionInterface<I>,
+    ) => ControlDefinition<I, keyof I['controls']>[])
 
 export type DynamicControlsDefinition =
-  | ControlDefinition[]
-  | ((node: Node, savedControls?: SavedControlMap) => ControlDefinition[])
+  SpecificDynamicControlsDefinition<AnyNode>
 
-// NODES
-
-export type NodeDefinition = {
-  type: NodeType
-  root?: boolean
-  title: string
-  componentType: NodeComponentType
-  nodeInfo: NodeInfo
-  inputs?: DynamicInputsDefinition
-  outputs?: DynamicOutputsDefinition
-  controls?: DynamicControlsDefinition
-}
-
-export type Position = { x: number; y: number }
-
-export type DataMap = Record<string, NotatedDataTypeValue>
-
-export type DataSimulationData = {
-  state: NotatedDataTypeValueMap
-  inputs: NotatedDataTypeValueMap
-  controls: SavedControlMap
-  node: SavedMapNode
-}
-
-export type DataSimulationResult = {
-  state: NotatedDataTypeValueMap
-  log: string | string[]
-}
-
-export type SimulationContext = {
-  version: Version
-  attributes: Attribute[]
-  parameters?: ParameterState
-}
-
-export type SimulationData = {
-  node: SavedMapNode
-  context: SimulationContext
-  initialState: OptionalTokenState
-  state: OptionalTokenState
-  inputs: DataMap
-  controls: SavedControlMap<false>
-}
-
-export type ControlSimulationData = {
-  initialState: NotatedDataTypeValueMap
-  state: NotatedDataTypeValueMap
-  inputs: DataMap
-  controls: SavedControlMap
-  node: SavedMapNode
-  context: SimulationContext
-}
-
-export type ControlSimulationResult = {
-  state: OptionalTokenState
-  forward?: string
-  log: string | string[]
-}
-
-export type ControlGraphSimulationResult = {
-  state: NotatedDataTypeValueMap
-  logs: string[]
-}
-
-export type NodeLogicDefinition = {
-  execute?: {
-    execution?: () => void
-    outputs?:
-      | {
-          [key: string]: () => void
-        }
-      | ((key: string) => void)
-  }
-  simulate: {
-    execution?: (
-      data: SimulationData,
-    ) => ControlSimulationResult | Promise<ControlSimulationResult>
-    outputs?:
-      | {
-          [key: string]: (
-            data: SimulationData,
-          ) => NotatedDataTypeValue | Promise<NotatedDataTypeValue>
-        }
-      | ((
-          key: string,
-          data: SimulationData,
-        ) => NotatedDataTypeValue | Promise<NotatedDataTypeValue>)
-  }
-}
-
-export type NodeLogicDefinitions<NT extends string = string> = {
-  [key in NT]: NodeLogicDefinition
-}
-
-export type ExecNodeDefinition = {
-  execute?: () => void
-  simulate: (
-    data: ControlSimulationData,
-  ) => ControlSimulationResult | Promise<ControlSimulationResult>
-}
-
-export type DataNodeDefinition = {
-  simulate: {
-    [key: string]: (
-      data: DataSimulationData,
-    ) => NotatedDataTypeValue | Promise<NotatedDataTypeValue>
-  }
-  execute?: {
-    [key: string]: () => void
-  }
-}
-
-export type DataNodeDefinitions<NT extends string = string> = {
-  [key in NT]: DataNodeDefinition
-}
-
-export type ExecNodeDefinitions<NT extends string = string> = {
-  [key in NT]: ExecNodeDefinition
-}
-
-export type HybridNodeDefinitions<NT extends string = string> = {
-  [key in NT]: ExecNodeDefinition | DataNodeDefinition
-}
-
-export type NodeDefinitions<NT extends string = string> = {
-  [key in NT]: NodeDefinition
-}
-
-export type NodeContext = {
-  editor: NodeEditor
-  area: Area
-}
-
-export type NodeIds = {
-  node: NodeBase['id']
-  inputs: { [key in string]: NodeBase['id'] }
-  outputs: { [key in string]: NodeBase['id'] }
-  controls: { [key in string]: NodeBase['id'] }
-}
-
-// COMPONENTS
+// ----------- NODE INTERFACES -------------
 
 export type NodeInfo = {
   description: string
@@ -380,6 +163,101 @@ export type NodeInfo = {
   graphic?: string
   link?: string
 }
+
+export type NodeInteractionInterface<I extends NodeInterface<NodeCategory>> = {
+  updateInputs: () => void
+  updateOutputs: () => void
+  updateControls: () => void
+  updateControl: <K extends keyof I['controls']>(
+    key: K,
+    value: Value<
+      InferredControlType<I, K>,
+      InferredControlList<I, K> extends true
+        ? 'objectarray'
+        : InferredControlList<I, K> extends false
+          ? 'single'
+          : 'single' | 'objectarray',
+      true
+    >,
+  ) => void
+}
+
+export type DefinitionInterface<I extends NodeInterface<NodeCategory>> = {
+  getConnectedInputKeys: () => Array<keyof I['inputs']>
+  getInfoFromInputConnection: (key: keyof I['inputs']) =>
+    | {
+        type: ValueType
+        list: boolean
+        settings?: ValueSettings
+      }
+    | undefined
+  getInfoFromInputConnections: (keys: Array<keyof I['inputs']>) =>
+    | {
+        type: ValueType
+        list: boolean
+        settings?: ValueSettings
+      }
+    | undefined
+  getControlValue: <K extends keyof I['controls']>(
+    key: K,
+  ) => Value<
+    InferredControlType<I, K>,
+    InferredControlList<I, K> extends true
+      ? 'objectarray'
+      : InferredControlList<I, K> extends false
+        ? 'single'
+        : 'single' | 'objectarray',
+    true
+  >
+  getParameter: (key: string) => ParameterInfo | undefined
+  getParameters: () => ParameterInfo[] | undefined
+  getTrigger: () => ActionTrigger | undefined
+  getTokenAttribute: (key: string) => AttributeInfo | undefined
+  getTokenAttributes: () => AttributeInfo[] | undefined
+  getCollectionAttribute: (key: string) => AttributeInfo | undefined
+  getCollectionAttributes: () => AttributeInfo[] | undefined
+}
+
+// ----------- NODE DEFINITION -------------
+
+export type SpecificNodeDefinition<I extends NodeInterface<NodeCategory>> = {
+  type: I['type']
+  root?: I['root']
+  category: I['category']
+  componentType?: NodeComponentType
+  title: string
+  nodeInfo: NodeInfo
+  forwards?: I['forwards'] extends string[]
+    ? ExecSocketDefinition[]
+    :
+        | never
+        | (['forwards'] extends never
+            ? never
+            : (
+                node: Node,
+              ) => I['forwards'] extends string[]
+                ? ExecSocketDefinition[]
+                : never)
+  inputs?: SpecificDynamicSocketsDefinition<I, 'inputs'>
+  outputs?: SpecificDynamicSocketsDefinition<I, 'outputs'>
+  controls?: SpecificDynamicControlsDefinition<I>
+}
+
+export type NodeDefinition = SpecificNodeDefinition<AnyNode>
+
+export type NodeDefinitions = Record<NodeType, NodeDefinition>
+
+export type Position = { x: number; y: number }
+
+// TODO: REMOVE?!
+export type NodeContext = {
+  editor: NodeEditor
+  area: Area
+}
+
+// ----------- NODE COMPONENTS -------------
+
+export type NodeComponentType = 'input' | 'generic'
 
 export type NodeDisplayData = {
   [key: string]: any
@@ -402,433 +280,3 @@ export type Props = {
 }
 
 export type NodeComponent = (props: Props) => JSX.Element
-
-//SAVED
-
-export type Graph = {
-  nodes: Node[]
-  connections: Connection[]
-}
-
-export type SavedControl<AsObjectArray extends boolean = true> = {
-  key: string
-} & NotatedDataTypeValue<true, AsObjectArray>
-
-export type PortBase = {
-  id: string
-  key: string
-  type: DataType
-}
-
-export type SavedExecInput = PortBase & {
-  type: 'exec'
-}
-
-export type ReversedSavedExecInput = PortBase & {
-  type: 'exec'
-  connection?: {
-    node: string
-    output: string
-  }
-}
-
-export type SavedExecOutput = PortBase & {
-  type: 'exec'
-  connection?: {
-    node: string
-    input: string
-  }
-}
-
-export type ReversedSavedExecOutput = PortBase & {
-  type: 'exec'
-}
-
-export type SavedDataInput = PortBase & {
-  type: ValueSocketType
-  list: boolean
-  connection?: {
-    node: string
-    output: string
-  }
-  control?: SavedControl
-}
-
-export type ReversedSavedDataInput = PortBase & {
-  type: ValueSocketType
-  list: boolean
-  control?: SavedControl
-}
-
-export type SavedDataOutput = PortBase & {
-  type: ValueSocketType
-  list: boolean
-}
-
-export type ReversedSavedDataOutput = PortBase & {
-  type: ValueSocketType
-  list: boolean
-  connection?: {
-    node: string
-    input: string
-  }
-}
-
-export type SavedInput = SavedExecInput | SavedDataInput
-export type SavedOutput = SavedExecOutput | SavedDataOutput
-
-export type ReversedSavedInput = ReversedSavedExecInput | ReversedSavedDataInput
-export type ReversedSavedOutput =
-  | ReversedSavedExecOutput
-  | ReversedSavedDataOutput
-
-export function isExecOutput(
-  output: SavedOutput,
-): output is SavedExecOutput | ReversedSavedExecOutput {
-  return output.type === 'exec'
-}
-
-export function isExecInput(
-  input: SavedInput,
-): input is SavedExecInput | ReversedSavedExecInput {
-  return input.type === 'exec'
-}
-
-export type SavedInputMap = { [key: string]: Omit<SavedInput, 'connections'> }
-
-export type SavedOutputMap = {
-  [key: string]: Omit<SavedOutput, 'connections'>
-}
-export type ReversedSavedInputMap = {
-  [key: string]: Omit<ReversedSavedInput, 'connections'>
-}
-export type ReversedSavedOutputMap = {
-  [key: string]: Omit<ReversedSavedOutput, 'connections'>
-}
-export type SavedControlMap<AsObjectArray extends boolean = true> = {
-  [key: string]: SavedControl<AsObjectArray>
-}
-
-export type SavedNode = {
-  id: string
-  type: NodeType
-  x: number | null
-  y: number | null
-  inputs: SavedInputMap
-  controls: SavedControlMap
-  outputs: SavedOutputMap
-  comment?: string
-}
-
-export type SavedMapNode = {
-  id: string
-  type: NodeType
-  inputs: { [key: string]: SavedInput }
-  controls: { [key: string]: SavedControl }
-  outputs: { [key: string]: SavedOutput }
-}
-
-export type ReversedSavedMapNode = {
-  id: string
-  type: NodeType
-  inputs: { [key: string]: ReversedSavedInput }
-  controls: { [key: string]: SavedControl }
-  outputs: { [key: string]: ReversedSavedOutput }
-}
-
-export type SavedConnection = {
-  id: string
-  source: string
-  target: string
-  sourceOutput: string
-  targetInput: string
-  type: SocketType
-}
-
-export type NodeMap = { [key: string]: SavedMapNode }
-export type ReversedNodeMap = { [key: string]: ReversedSavedMapNode }
-
-export type SavedGraph = {
-  nodes: SavedNode[]
-  connections: SavedConnection[]
-}
-
-//CONFIG
-
-export type NodeConfig = Record<
-  NodeType,
-  {
-    definition: NodeDefinition
-    node: new (context: NodeContext, node?: SavedNode) => Node
-  }
->
-
-export type Item = {
-  key: string
-  label: string
-  handler(mode: 'center' | 'pointer'): void
-  Icon?: (props: JSX.IntrinsicElements['svg']) => JSX.Element
-  subitems?: Item[]
-}
-
-export type Group<NT extends NodeType = NodeType> = {
-  key: string
-  label: string
-  Icon?: (props: JSX.IntrinsicElements['svg']) => JSX.Element
-  subitems: Array<NT | Group<NT> | 'separator'>
-}
-
-export type EditorConfig = (context: EditorContext) => ResolvedEditorConfig
-
-export type ResolvedEditorConfig = {
-  type: 'data' | 'execution'
-  root: { type: NodeType; position: Position }
-  blocklist: NodeType[]
-  nodes: NodeDefinitions2
-  groups: Group<NodeType>[]
-}
-
-export type Direction = 'up' | 'down' | 'left' | 'right'
-
-export type MultiSelector = {
-  setIntersect(intersect: Intersect): void
-  setShape(shape: Shape): void
-  setButton(button: 0 | 1): void
-  setOptions(mode: EditorMode): void
-  destroy: () => void
-}
-
-export type Editor = {
-  destroy: () => void
-  area: Area
-  editor: NodeEditor
-  history: History
-}
-
-export type EditorEvents = {
-  onSelectionChanged?: (selection: string[]) => void
-  onNodeMoved?: (editor: NodeEditor, id: string, position: Position) => void
-  onNodeCreated?: (editor: NodeEditor, node: SavedNode) => void
-  onNodeRemoved?: (editor: NodeEditor, node: Node) => void
-  onConnectionCreated?: (
-    editor: NodeEditor,
-    connection: SavedConnection,
-  ) => void
-  onConnectionRemoved?: (
-    editor: NodeEditor,
-    connection: Connection | string,
-  ) => void
-  onNodeChanged?: (editor: NodeEditor, node: SavedNode) => void
-  onRootNodeChanged?: (editor: NodeEditor, controls: SavedControlMap) => void
-  onZoomed?: (editor: NodeEditor, params: ZoomEventParams) => void
-}
-
-export type AutoSaveFunctions = {
-  uploadNode?: (node: SavedNode, parent: string) => Promise<ReturnInfo>
-  deleteNode?: (nodeId: string) => Promise<ReturnInfo>
-  saveNodePosition?: (nodeId: string, position: Position) => Promise<ReturnInfo>
-  uploadConnection?: (
-    connection: SavedConnection,
-    parentId: string,
-  ) => Promise<ReturnInfo>
-  deleteConnection?: (connectionId: string) => Promise<ReturnInfo>
-  updateNode?: (node: SavedNode) => Promise<ReturnInfo>
-  changeSelection?: (selection: string[]) => void
-}
-
-//Selection
-export type SelectorEntity = {
-  label: string
-  id: string
-  unselect(): void
-  translate(dx: number, dy: number): void
-}
-
-export type SelectableType = 'node' | 'connection'
-
-// NEW NODE DEFINITION
-
-export type NodeInteractionInterface<I extends NodeInterface<NodeCategory>> = {
-  updateInputs: () => void
-  updateInput: <K extends keyof I['inputs']>(
-    key: K,
-    value: Value<
-      InferredType<I, 'inputs', K>,
-      InferredList<I, 'inputs', K> extends true
-        ? 'objectarray'
-        : InferredList<I, 'inputs', K> extends false
-          ? 'single'
-          : 'single' | 'objectarray',
-      true
-    >,
-  ) => void
-  updateOutputs: () => void
-  updateOutput: <K extends keyof I['outputs']>(
-    key: K,
-    value: Value<
-      InferredType<I, 'outputs', K>,
-      InferredList<I, 'outputs', K> extends true
-        ? 'objectarray'
-        : InferredList<I, 'outputs', K> extends false
-          ? 'single'
-          : 'single' | 'objectarray',
-      true
-    >,
-  ) => void
-  updateControls: () => void
-  updateControl: <K extends keyof I['controls']>(
-    key: K,
-    value: Value<
-      InferredType<I, 'controls', K>,
-      InferredList<I, 'controls', K> extends true
-        ? 'objectarray'
-        : InferredList<I, 'controls', K> extends false
-          ? 'single'
-          : 'single' | 'objectarray',
-      true
-    >,
-  ) => void
-}
-
-// TODO: Check if really objectarray
-export type ControlDefinition2<
-  I extends NodeInterface<NodeCategory>,
-  K extends keyof I['controls'],
-> = {
-  index?: number
-  key: K
-  label?: string
-  state?: string
-  type: InferredType<I, 'controls', K>
-  list?: InferredList<I, 'controls', K>
-  settings?: ValueSettings<InferredType<I, 'controls', K>>
-  placeholder?: string
-  onChange?: (
-    node: NodeInteractionInterface<I>,
-    value: Value<
-      InferredType<I, 'controls', K>,
-      InferredList<I, 'controls', K> extends true
-        ? 'objectarray'
-        : InferredList<I, 'controls', K> extends false
-          ? 'single'
-          : 'single' | 'objectarray',
-      true
-    >,
-  ) => void
-  readonly?: boolean
-}
-
-export type SocketDefinition2<
-  I extends NodeInterface<NodeCategory>,
-  T extends 'inputs' | 'outputs',
-  K extends keyof I[T],
-> = {
-  index?: number
-  list?: InferredList<I, T, K>
-  canBeList?: boolean
-  key: K
-  type: InferredType<I, T, K>
-  settings?: ValueSettings<InferredType<I, T, K>>
-  state?: string
-  label: string
-  multipleConnections?: boolean
-  hideControl?: boolean
-  dividerAfter?: boolean
-  control?: ControlDefinition
-  compatibleWith?: DataType[]
-  onConnect?: (node: NodeInteractionInterface<I>) => void
-  onDisconnect?: (node: NodeInteractionInterface<I>) => void
-}
-
-export type AttributeInfo = {
-  description?: string
-  display: Database['public']['Enums']['display']
-  id: string
-  list: boolean
-  name?: string
-  settings?: ValueSettings
-  slug: string
-  token_specific: boolean
-  type: ValueType
-}
-
-export type DefinitionInterface<I extends NodeInterface<NodeCategory>> = {
-  getConnectedInputKeys: () => Array<keyof I['inputs']>
-  getInfoFromInputConnection: <VT extends ValueType = ValueType>(
-    key: keyof I['inputs'],
-  ) => {
-    type: VT
-    list: boolean
-    settings?: ValueSettings<VT>
-  }
-  getInfoFromInputConnections: <VT extends ValueType = ValueType>(
-    keys: Array<keyof I['inputs']>,
-  ) => {
-    type: VT
-    list: boolean
-    settings?: ValueSettings<VT>
-  }
-  getControlValue: <K extends keyof I['controls']>(
-    key: K,
-  ) => Value<
-    InferredType<I, 'controls', K>,
-    InferredList<I, 'controls', K> extends true
-      ? 'objectarray'
-      : InferredList<I, 'controls', K> extends false
-        ? 'single'
-        : 'single' | 'objectarray',
-    true
-  >
-  getParameter: (key: string) => Parameter | undefined
-  getParameters: () => Parameter[] | undefined
-  getTrigger: () => ActionTrigger | undefined
-  getTokenAttribute: (key: string) => AttributeInfo
-  getTokenAttributes: () => AttributeInfo[]
-  getCollectionAttribute: (key: string) => AttributeInfo
-  getCollectionAttributes: () => AttributeInfo[]
-}
-
-export type DynamicInputsDefinition2<I extends NodeInterface<NodeCategory>> =
-  | SocketDefinition2<I, 'inputs', keyof I['inputs']>[]
-  | ((
-      state: DefinitionInterface<I>,
-    ) => SocketDefinition2<I, 'inputs', keyof I['inputs']>[])
-
-export type DynamicOutputsDefinition2<I extends NodeInterface<NodeCategory>> =
-  | SocketDefinition2<I, 'outputs', keyof I['outputs']>[]
-  | ((
-      state: DefinitionInterface<I>,
-    ) => SocketDefinition2<I, 'outputs', keyof I['outputs']>[])
-
-export type DynamicControlsDefinition2<I extends NodeInterface<NodeCategory>> =
-  | ControlDefinition[]
-  | ((
-      state: DefinitionInterface<I>,
-    ) => ControlDefinition2<I, keyof I['controls']>[])
-
-// NODES
-
-export type NodeDefinition2<I extends NodeInterface<NodeCategory>> = {
-  type: I['type']
-  root?: I['root']
-  category: I['category']
-  componentType?: NodeComponentType
-  title: string
-  nodeInfo: NodeInfo
-  forwards?: I['forwards'] extends string[]
-    ? { key: I['forwards'][number]; label: string }[]
-    :
-        | never
-        | (['forwards'] extends never
-            ? never
-            : (
-                node: Node,
-              ) => I['forwards'] extends string[]
-                ? { key: I['forwards'][number]; label: string }[]
-                : never)
-  inputs?: DynamicInputsDefinition2<I>
-  outputs?: DynamicOutputsDefinition2<I>
-  controls?: DynamicControlsDefinition2<I>
-}
-
-export type NodeDefinitions2 = Record<NodeType2, NodeDefinition2<any>>

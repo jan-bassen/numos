@@ -1,7 +1,8 @@
-import type { NodeDefinition2, SelectOptions } from '@/types/nodes.types'
-import type { CompareNode } from '@repo/engine/src/nodes/compare/interface'
+import type { SpecificNodeDefinition, SelectOptions } from '@/types/nodes.types'
+import { NodeError } from '@repo/engine/errors/node-error'
+import type { CompareNode } from '@repo/engine/nodes/compare/interface'
 
-export const compareDefinition: NodeDefinition2<CompareNode> = {
+export const compareDefinition: SpecificNodeDefinition<CompareNode> = {
   type: 'compare',
   category: 'data',
   title: 'Compare',
@@ -13,10 +14,8 @@ export const compareDefinition: NodeDefinition2<CompareNode> = {
     link: '#math-compare',
   },
   inputs: ({ getInfoFromInputConnections }) => {
-    const { type, list, settings } = getInfoFromInputConnections([
-      'value1',
-      'value2',
-    ])
+    const { type, list, settings } =
+      getInfoFromInputConnections(['value1', 'value2']) || {}
     return [
       {
         key: 'value1',
@@ -53,7 +52,8 @@ export const compareDefinition: NodeDefinition2<CompareNode> = {
     ]
   },
   controls: ({ getInfoFromInputConnections }) => {
-    const { type, list } = getInfoFromInputConnections(['value1', 'value2'])
+    const { type, list } =
+      getInfoFromInputConnections(['value1', 'value2']) || {}
     let options: SelectOptions = []
     if (!list) {
       switch (type) {

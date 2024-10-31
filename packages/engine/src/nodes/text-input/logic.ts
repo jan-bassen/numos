@@ -1,5 +1,5 @@
-import type { NodeLogic } from '@repo/engine/types/node-types.ts'
-import type { TextInputNode } from './interface.ts'
+import type { NodeLogic } from '@repo/engine/types/node-types'
+import type { TextInputNode } from '@repo/engine/nodes/text-input/interface'
 
 export const textInputLogic: NodeLogic<TextInputNode> = {
   data: {
