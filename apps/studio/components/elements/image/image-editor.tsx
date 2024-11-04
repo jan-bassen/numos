@@ -104,21 +104,16 @@ export default function ImageNodeEditor({
     }
 
     const context: EngineContext = {
-      collectionId: version.id,
+      collectionId: version.collection,
     }
 
-    const { result: image, error } = await simulateImageGraph(
-      graph,
-      data,
-      context,
-    )
+    const { result, error } = await simulateImageGraph(graph, data, context)
     if (error) {
       setLoading(false)
       return { success: false, error }
     }
     if (result) {
-      const imageString = Buffer.from(image.value).toString('base64')
-      setResult(imageString)
+      setResult(result.value)
       setLoading(false)
       return { success: true }
     }

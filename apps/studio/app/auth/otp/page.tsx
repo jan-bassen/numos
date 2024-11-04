@@ -60,7 +60,7 @@ export default function OtpPage() {
       toast.error('Invalid token')
       return
     }
-    router.push('/studio')
+    router.push('/')
   }
   const emailProvided = email && z.string().email().safeParse(email).success
   return (

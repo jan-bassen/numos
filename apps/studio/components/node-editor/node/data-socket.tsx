@@ -5,12 +5,15 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@repo/ui/components/ui/tooltip'
-import type { SocketProps } from './socket'
 import type { OptionalDataType } from '@repo/engine/types/value-types'
 import { dataTypes } from '@/lib/supabase/constants/datatypes'
+import type { Socket } from '@/lib/rete/classes/connectors/socket'
 
-export function DataSocketComponent(props: SocketProps) {
-  const datatype = dataTypes[props.payload.type as OptionalDataType]
+export type DataSocketComponentProps = { data: Socket }
+
+export function DataSocketComponent(props: DataSocketComponentProps) {
+  const socket = props.data
+  const datatype = dataTypes[props.data.type as OptionalDataType]
   return (
     <TooltipProvider>
       <Tooltip>
@@ -18,12 +21,9 @@ export function DataSocketComponent(props: SocketProps) {
           <div
             className={cn(
               'z-[9999] box-border inline-block size-4 cursor-pointer border-2 bg-grid align-middle hover:border-foreground hover:bg-muted',
-              props.payload.type
-                ? `border-${props.payload.type}`
-                : 'border-muted-foreground',
-              props.payload.type === 'generic' &&
-                'border-border-highlight bg-border',
-              props.payload.list ? 'rounded-xmd' : 'rounded-full',
+              socket.type ? `border-${socket.type}` : 'border-muted-foreground',
+              socket.type === 'generic' && 'border-border-highlight bg-border',
+              socket.list ? 'rounded-xmd' : 'rounded-full',
             )}
           />
         </TooltipTrigger>

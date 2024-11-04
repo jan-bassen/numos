@@ -12,7 +12,10 @@ import type {
 } from '@/types/editor.types'
 import type { Control } from './classes/control'
 import { getConnectionPreset } from './utils/presets'
-import { getSocket, SocketProps } from '@/components/node-editor/node/socket'
+import {
+  getSocket,
+  type SocketProps,
+} from '@/components/node-editor/node/socket'
 import { getConnection } from '@/components/node-editor/connection'
 import type {
   ExtractPayload,
@@ -149,7 +152,7 @@ export async function createEditor(
         },
         // @ts-ignore
         socket(data: ExtractPayload<Schemes, 'socket'>) {
-          return getSocket(data)
+          return getSocket(data as unknown as SocketProps)
         },
         // @ts-ignore
         connection(data: ExtractPayload<Schemes, 'connection'>) {
@@ -239,10 +242,9 @@ export async function createEditor(
   //Disallow multiple root nodes
   editor.addPipe((context) => {
     if (context.type === 'nodecreate' && context.data.definition.root) {
-      const existingRoot = editor
-        .getNodes()
-        .find((node) => node.definition.root)
+      const existingRoot = editor.hasRootNode()
       if (existingRoot) {
+        editor.events.onNodeRemoved?.(editor, context.data)
         toast.error('Only one root node is allowed!')
         return
       }

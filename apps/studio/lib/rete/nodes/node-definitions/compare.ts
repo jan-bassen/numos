@@ -118,7 +118,7 @@ export const compareDefinition: SpecificNodeDefinition<CompareNode> = {
         type: 'enum',
         label: 'Select Mode',
         defaultValue: 'eq',
-        options,
+        settings: { options },
       },
     ]
   },

@@ -10,7 +10,7 @@ import type {
 export type NodeErrorData = {
   type: 'node'
   message: string
-  location: {
+  location?: {
     component?: {
       key: string
       type: 'input' | 'output' | 'control'
@@ -92,7 +92,7 @@ export type SimulatedTokenStateResult = {
 
 export type ImageSimulationResult =
   | {
-      result: Value<'buffer', 'single', false>
+      result: Value<'image', 'single', false>
       error: undefined
     }
   | {

@@ -26,7 +26,7 @@ export default function Input({
         key={socketKey}
         data-testid={`input-${socketKey}`}
       >
-        <Socket<'data'>
+        <Socket
           className={cn(
             '-ml-2 inline-block text-left',
             input.socket.name === 'exec' && '-mr-1',
@@ -38,7 +38,7 @@ export default function Input({
           nodeId={nodeId}
           payload={input.socket}
         />
-        {input?.control && input?.showControl && !input.socket.connected && (
+        {input?.control && input?.showControl && !input.socket.connected ? (
           <div className="flex w-full flex-col gap-0.5 pr-3">
             <div
               className={cn(
@@ -56,6 +56,10 @@ export default function Input({
               emit={emit}
               error={error}
             />
+          </div>
+        ) : (
+          <div className="!line-clamp-1 max-w-40 text-ellipsis pr-4 align-middle text-foreground text-xs">
+            {input?.label}
           </div>
         )}
       </div>

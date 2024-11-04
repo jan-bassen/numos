@@ -7,6 +7,7 @@ import type {
   SavedNode,
 } from '@repo/engine/types/graph-types'
 import { createSupabaseServerComponentClient } from '../server-client'
+import { changeSavedNodeStructure, replaceRemovedNodes } from '@/lib/transition'
 
 export async function insertImageNode(
   node: SavedNode,
@@ -37,7 +38,7 @@ export async function insertImageNode(
       message: error.message || 'Error upserting node',
     }
   }
-  /* revalidatePath("/studio/[collection]/image", "page"); */
+  /* revalidatePath("/collections/[collection]/image", "page"); */
   return {
     ok: true,
     message: 'Node upserted',
@@ -61,7 +62,7 @@ export async function updateImageNode(node: SavedNode): Promise<ReturnInfo> {
       message: error.message || 'Error updating node',
     }
   }
-  /* revalidatePath("/studio/[collection]/image", "page"); */
+  /* revalidatePath("/collections/[collection]/image", "page"); */
   return {
     ok: true,
     message: 'Node updated',
@@ -103,7 +104,7 @@ export async function deleteImageNode(nodeId: string): Promise<ReturnInfo> {
       message: error.message || 'Error deleting node',
     }
   }
-  /* revalidatePath("/studio/[collection]/image", "page"); */
+  /* revalidatePath("/collections/[collection]/image", "page"); */
   return {
     ok: true,
     message: 'Node deleted',
@@ -126,7 +127,7 @@ export async function deleteImageConnection(
       message: error.message || 'Error deleting connection',
     }
   }
-  /* revalidatePath("/studio/[collection]/image", "page"); */
+  /* revalidatePath("/collections/[collection]/image", "page"); */
   return {
     ok: true,
     message: 'Connection deleted',
@@ -153,7 +154,7 @@ export async function upsertImageConnection(
       message: error.message || 'Error upserting connection',
     }
   }
-  /* revalidatePath("/studio/[collection]/image", "page"); */
+  /* revalidatePath("/collections/[collection]/image", "page"); */
   return {
     ok: true,
     message: 'Connection upserted',
@@ -169,6 +170,9 @@ export async function getImageGraph(versionId: string): Promise<SavedGraph> {
     .eq('version', versionId)
     .returns<SavedNode[]>()
 
+  const replacedNodes = replaceRemovedNodes(nodes || [])
+  const transformedNodes = changeSavedNodeStructure(replacedNodes)
+
   const { data: connections, error: connectionsError } = await supabase
     .from('image_connections')
     .select('*')
@@ -179,7 +183,7 @@ export async function getImageGraph(versionId: string): Promise<SavedGraph> {
   }
 
   return {
-    nodes: nodes || [],
+    nodes: transformedNodes || [],
     connections: connections || [],
   }
 }

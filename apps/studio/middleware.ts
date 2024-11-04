@@ -8,7 +8,7 @@ export async function middleware(request: NextRequest) {
     },
   })
 
-  //Maybe improve security, but should be fine for now with RLS
+  //TODO: Maybe improve security, but should be fine for now with RLS
   const supabase = await createSupabaseMiddlewareClient(request, response)
   const { data, error } = await supabase.auth.getSession()
   if (error || !data.session) {
@@ -27,5 +27,5 @@ export async function middleware(request: NextRequest) {
 }; */
 
 export const config = {
-  matcher: ['/studio(.*)'],
+  matcher: ['/((?!.*\\..*|_next|login|signup|auth).*)', '/', '/(api|trpc)(.*)'],
 }

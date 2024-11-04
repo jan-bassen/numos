@@ -9,7 +9,7 @@ export const changeTokenAttributeDefinition: SpecificNodeDefinition<ChangeTokenA
     type: 'change-token-attribute',
     category: 'exec',
     title: 'Change Token Attribute',
-    forwards: [{ key: 'exec', label: 'Execute' }],
+    forwards: [{ type: 'exec', key: 'exec', label: 'Execute' }],
     nodeInfo: {
       description:
         'With this node you can change one of the token specific attributes.',
@@ -40,7 +40,7 @@ export const changeTokenAttributeDefinition: SpecificNodeDefinition<ChangeTokenA
           },
         },
       ]
-      const attributeControlValue = getControlValue('attribute').value
+      const attributeControlValue = getControlValue('attribute')?.value
       if (attributeControlValue) {
         const attributeType = getTokenAttribute(attributeControlValue)?.type
         if (attributeType === 'number') {

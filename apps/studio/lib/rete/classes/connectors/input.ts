@@ -1,6 +1,7 @@
 import type {
   AnyControlDefinition,
   AnyDataSocketDefinition,
+  ExecSocketDefinition,
 } from '@/types/nodes.types'
 import { Control } from '../control'
 import type { Node } from '../node'
@@ -15,17 +16,19 @@ export class Input {
   socket: Socket
   control: Control | null = null
   showControl = true
-
+  multipleConnections: boolean
   constructor(
     public node: Node,
-    public definition: AnyDataSocketDefinition<'inputs'>, //TODO: Add exec input definition
+    public definition: AnyDataSocketDefinition<'inputs'> | ExecSocketDefinition, //TODO: Add exec input definition
     value?: Value<ValueType, 'single' | 'objectarray', true>,
     connection?: Connection,
   ) {
     this.id = crypto.randomUUID()
     this.label = definition.label
     this.socket = new Socket('input', definition, node, connection)
-    if (definition.type) {
+    this.multipleConnections =
+      definition.type === 'exec' || definition.multipleConnections || false
+    if (definition.type && definition.type !== 'exec') {
       const impliedControl: AnyControlDefinition = {
         type: definition.type,
         list: definition.list || false,
@@ -57,6 +60,7 @@ export class Input {
   }
 
   addControl(control: Control, showControl = true) {
+    if (this.definition.type === 'exec') return
     if (this.control) throw new Error('control already added for this input')
     this.control = control
     this.showControl = showControl

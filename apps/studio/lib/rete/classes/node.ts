@@ -8,6 +8,8 @@ import type {
   NodeInteractionInterface,
   DefinitionInterface,
   DynamicSocketsDefinition,
+  DynamicExecSocketsDefinition,
+  ExecSocketDefinition,
 } from '@/types/nodes.types'
 import type {
   MapGraphNode,
@@ -92,18 +94,19 @@ export class Node extends NodePreset {
       },
       getInfoFromInputConnection: (key: string) => {
         const connectedOutput = this.getConnectedOutput(key)
+        console.log(connectedOutput)
         if (!connectedOutput) return
         if (
-          connectedOutput.socket.type === 'exec' ||
+          connectedOutput.socket.definition.type === 'exec' ||
           connectedOutput.socket.type === 'generic'
         ) {
           return undefined
         }
         return {
-          type: connectedOutput.socket.type,
+          type: connectedOutput.socket.type as ValueType,
           list: connectedOutput.socket.list,
           settings: connectedOutput.socket.definition?.settings as
-            | ValueSettings<OptionalValueType>
+            | ValueSettings<ValueType>
             | undefined,
         }
       },
@@ -112,26 +115,29 @@ export class Node extends NodePreset {
           .map((key) => this.getConnectedOutput(key))
           .find((o) => o !== undefined)
         if (!output) return
-        if (output.socket.type === 'exec' || output.socket.type === 'generic') {
+        if (
+          output.socket.definition.type === 'exec' ||
+          output.socket.type === 'generic'
+        ) {
           return undefined
         }
         return {
-          type: output.socket.type,
+          type: output.socket.type as ValueType,
           list: output.socket.list,
           settings: output.socket.definition?.settings,
         }
       },
       getControlValue: (key: string) => {
         const control = this.getControl(key)
-        const savedControl = savedNode?.state?.controls?.[key]
         if (control) return control.value
+        const savedControl = savedNode?.state?.controls?.[key]
         if (savedControl)
           return {
             value: savedControl.value,
             type: savedControl?.type,
             format: savedControl?.format,
           } as Value<ValueType, 'single' | 'objectarray', true>
-        throw new Error(`Control ${key} not found`)
+        return undefined
       },
       getParameter: (key: string) => {
         const parameter = this.context.editor.context.parameters?.find(
@@ -205,6 +211,14 @@ export class Node extends NodePreset {
     return definition(this.getDefinitionInterface(savedNode))
   }
 
+  resolveExecOutputsDefinition = (
+    definition: DynamicExecSocketsDefinition<AnyNode>,
+    savedNode?: SavedNode,
+  ): ExecSocketDefinition[] => {
+    if (Array.isArray(definition)) return definition
+    return definition(this.getDefinitionInterface(savedNode))
+  }
+
   resolveControlsDefinition = (
     definition: DynamicControlsDefinition,
     savedNode?: SavedNode,
@@ -215,9 +229,9 @@ export class Node extends NodePreset {
 
   initialize = (definition: NodeDefinition, savedNode?: SavedNode) => {
     this.comment = savedNode?.comment
-    definition.controls && this.initControls(definition, savedNode)
-    definition.inputs && this.initInputs(definition, savedNode)
-    definition.outputs && this.initOutputs(definition, savedNode)
+    this.initControls(definition, savedNode)
+    this.initInputs(definition, savedNode)
+    this.initOutputs(definition, savedNode)
     this.context.area.update('node', this.id)
   }
 
@@ -236,8 +250,19 @@ export class Node extends NodePreset {
   }
 
   initInputs = (definition: NodeDefinition, savedNode?: SavedNode) => {
-    if (definition.category === 'exec') {
-      //Add exec inputs
+    if (
+      definition.category === 'exec' ||
+      (definition.category === 'hybrid' && !definition.root)
+    ) {
+      this.addInput(
+        'exec',
+        new Input(this, {
+          type: 'exec',
+          key: 'exec',
+          label: 'Execution',
+          index: 0,
+        }),
+      )
     }
     if (!definition.inputs) return
     const dataInputDefinitions = this.resolveInputsDefinition(
@@ -257,6 +282,16 @@ export class Node extends NodePreset {
   }
 
   initOutputs = (definition: NodeDefinition, savedNode?: SavedNode) => {
+    const execOutputs = definition.forwards
+    if (execOutputs) {
+      const staticExecOutputs = this.resolveExecOutputsDefinition(
+        execOutputs,
+        savedNode,
+      )
+      for (const output of staticExecOutputs) {
+        this.addOutput(output.key, new Output(this, output))
+      }
+    }
     if (!definition.outputs) return
     const staticOutputs = this.resolveOutputsDefinition(
       definition.outputs,
@@ -319,8 +354,26 @@ export class Node extends NodePreset {
   }
 
   updateInputs = () => {
-    //Check if inputs definition exists
-    if (!this.definition.inputs) return
+    if (
+      this.definition.category === 'exec' ||
+      (this.definition.category === 'hybrid' && !this.definition.root)
+    ) {
+      if (!this.getInput('exec')) {
+        this.addInput(
+          'exec',
+          new Input(this, {
+            type: 'exec',
+            key: 'exec',
+            label: 'Execution',
+            index: 0,
+          }),
+        )
+      }
+    }
+
+    if (!this.definition.inputs)
+      //Check if inputs definition exists
+      return
 
     //Resolve inputs definition
     const inputsDefinition = this.resolveInputsDefinition(
@@ -330,7 +383,7 @@ export class Node extends NodePreset {
     //Remove inputs that are not defined in the definition
     const newInputsMap = new Map(inputsDefinition.map((i) => [i.key, i]))
     for (const key of Object.keys(this.getInputs())) {
-      if (!newInputsMap.has(key)) {
+      if (!newInputsMap.has(key) && key !== 'exec') {
         this.removeSocket(key, 'input')
       }
     }
@@ -351,9 +404,7 @@ export class Node extends NodePreset {
       this.removeInput(inputDef.key)
 
       //Remove value from old input control if datatype or list changed
-      const typeChanged =
-        currentInput?.socket.type !== 'generic' &&
-        currentInput?.socket.type !== inputDef.type
+      const typeChanged = currentInput?.socket.type !== inputDef.type
       const listChanged =
         currentInput?.socket.list &&
         inputDef.list &&
@@ -380,6 +431,14 @@ export class Node extends NodePreset {
   }
 
   updateOutputs = () => {
+    const execOutputs = this.definition.forwards
+    if (execOutputs) {
+      const staticExecOutputs = this.resolveExecOutputsDefinition(execOutputs)
+      for (const output of staticExecOutputs) {
+        if (this.getOutput(output.key)) continue
+        this.addOutput(output.key, new Output(this, output))
+      }
+    }
     if (!this.definition.outputs) return
 
     const outputsDefinition = this.resolveOutputsDefinition(
@@ -397,7 +456,8 @@ export class Node extends NodePreset {
         this.addOutput(outputDef.key, new Output(this, outputDef))
       } else {
         const currentOutput = this.getOutput(outputDef.key)
-        if (!currentOutput) continue
+        if (!currentOutput || currentOutput.socket.definition.type === 'exec')
+          continue
         let differentOptions = false
         if (
           //TODO: Clean up these checks
@@ -678,8 +738,8 @@ export class Node extends NodePreset {
       if (!connection) return accumulator
       accumulator[key] = {
         connectionId: connection.id,
-        node: connection.source,
-        key: connection.sourceOutput,
+        node: connection.target,
+        key: connection.targetInput,
       }
       return accumulator
     }, {})

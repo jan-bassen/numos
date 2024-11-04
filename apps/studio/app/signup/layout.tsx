@@ -11,7 +11,7 @@ export default async function SignInLayout({
   const supabase = await createSupabaseServerComponentClient()
   const { data } = await supabase.auth.getUser()
   if (data.user) {
-    redirect('/studio')
+    redirect('/')
   }
   return <>{children}</>
 }

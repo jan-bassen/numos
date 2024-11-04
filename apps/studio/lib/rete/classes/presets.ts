@@ -5,7 +5,6 @@ import type { Output } from './connectors/output'
 import type { Input } from './connectors/input'
 
 //TODO: Add sorting to elements
-// TODO: Clean up methods ->  only one socket type
 export class NodePreset implements NodeBase {
   id: NodeBase['id']
   inputs: Inputs = {} as Inputs
@@ -23,8 +22,6 @@ export class NodePreset implements NodeBase {
   }
 
   addInput(key: string, input: Input) {
-    if (key === 'exec') throw new Error('exec input cant be of type data')
-
     if (this.hasInput(key))
       throw new Error(`input with key '${String(key)}' already added`)
 
@@ -36,12 +33,10 @@ export class NodePreset implements NodeBase {
   }
 
   removeInput(key: string) {
-    if (key === 'exec') throw new Error('exec input cant be of type data')
     delete this.inputs[key]
   }
 
   getInput(key: string) {
-    if (key === 'exec') throw new Error('exec input cant be of type data')
     return this.inputs[key]
   }
 

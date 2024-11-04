@@ -83,7 +83,7 @@ export default function LoginPage({
       email: data.user.email,
       name: data.user.user_metadata.name || null,
     })
-    router.push('/studio')
+    router.push('/')
   }
 
   async function loginWithoutPassword() {

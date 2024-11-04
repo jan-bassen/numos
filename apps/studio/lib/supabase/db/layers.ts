@@ -23,7 +23,7 @@ import { th } from 'date-fns/locale'
 //TODO: Layer2 -> Layer
 
 export async function revalidateLayers() {
-  revalidatePath('/studio/[collection]/layers', 'page')
+  revalidatePath('/collections/[collection]/layers', 'page')
 }
 
 export async function insertLayers(layers: InsertLayer[]): Promise<ReturnInfo> {
@@ -44,7 +44,7 @@ export async function updateLayer(
   if (error) {
     return { ok: false, message: error.message }
   }
-  revalidatePath('/studio/[collection]/layers', 'page')
+  revalidatePath('/collections/[collection]/layers', 'page')
   return { ok: true, message: 'Layer updated' }
 }
 
@@ -69,7 +69,7 @@ export async function moveLayersAndFolders(
   if (folderError) {
     return { ok: false, message: folderError.message }
   }
-  revalidatePath('/studio/[collection]/layers', 'page')
+  revalidatePath('/collections/[collection]/layers', 'page')
   return { ok: true, message: 'Layers and folders moved' }
 }
 
@@ -79,7 +79,7 @@ export async function deleteLayer(id: string): Promise<ReturnInfo> {
   if (error) {
     return { ok: false, message: error.message }
   }
-  revalidatePath('/studio/[collection]/layers', 'page')
+  revalidatePath('/collections/[collection]/layers', 'page')
   return { ok: true, message: 'Layer deleted' }
 }
 
@@ -89,7 +89,7 @@ export async function insertFolder(folder: InsertFolder): Promise<ReturnInfo> {
   if (error) {
     return { ok: false, message: error.message }
   }
-  revalidatePath('/studio/[collection]/layers', 'page')
+  revalidatePath('/collections/[collection]/layers', 'page')
   return { ok: true, message: 'Successfully inserted folder' }
 }
 
@@ -103,7 +103,7 @@ export async function updateFolder(
   if (error) {
     return { ok: false, message: error.message }
   }
-  revalidatePath('/studio/[collection]/layers', 'page')
+  revalidatePath('/collections/[collection]/layers', 'page')
   return { ok: true, message: 'Successfully updated folder' }
 }
 
@@ -114,7 +114,7 @@ export async function deleteFolder(id: string): Promise<ReturnInfo> {
   if (error) {
     return { ok: false, message: 'Error with deleting folder' }
   }
-  revalidatePath('/studio/[collection]/layers', 'page')
+  revalidatePath('/collections/[collection]/layers', 'page')
   return { ok: true, message: 'Folder deleted' }
 }
 

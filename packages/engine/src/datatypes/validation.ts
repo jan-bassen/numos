@@ -53,7 +53,13 @@ export function explicitlyValidateValue<
       validated: Value<T, F, Optional>
       error: undefined
     } {
-  if (value === undefined || value === null) {
+  if (
+    value === undefined ||
+    value === null ||
+    value.value === undefined ||
+    value.value === null ||
+    value.value === ''
+  ) {
     if (optional) {
       return {
         validated: {

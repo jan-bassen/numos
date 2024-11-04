@@ -5,7 +5,7 @@ export const switchLogic: NodeLogic<SwitchNode> = {
   execution: async ({ getInputValue }) => {
     const value = await getInputValue('switch')
     return {
-      forward: value ? 'true' : 'false',
+      forward: value.value ? 'true' : 'false',
       log: { message: `Switch executed with value ${value.value}` },
     }
   },

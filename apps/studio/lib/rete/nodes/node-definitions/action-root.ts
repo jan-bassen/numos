@@ -9,7 +9,7 @@ export const actionRootDefinition: SpecificNodeDefinition<ActionRootNode> = {
   category: 'hybrid',
   title: 'Trigger',
   root: true,
-  forwards: [{ key: 'exec', label: 'Execute' }],
+  forwards: [{ type: 'exec', key: 'exec', label: 'Execute' }],
   componentType: 'generic',
   nodeInfo: {
     description: 'This node starts the execution.',

@@ -4,7 +4,7 @@ import type { StopNode } from '@repo/engine/nodes/stop/interface'
 export const stopLogic: NodeLogic<StopNode> = {
   execution: async () => {
     return {
-      log: { message: 'Token name changed from undefined to undefined' },
+      log: { message: 'Action stopped explicitly' },
     }
   },
 }

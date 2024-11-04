@@ -3,6 +3,7 @@ import type {
   NodeValueMap,
   OptionalDataType,
   OptionalValueType,
+  RawValue,
   Value,
   ValueMap,
   ValueType,
@@ -10,7 +11,10 @@ import type {
 
 export type OLDSavedControl = {
   key: string
-} & Value<ValueType, 'single' | 'array', true>
+  type: OptionalValueType
+  list: boolean
+  value: RawValue
+}
 
 export type OLDPortBase = {
   id: string
@@ -48,13 +52,15 @@ export type OLDSavedDataOutput = OLDPortBase & {
 export type OLDSavedInput = OLDSavedExecInput | OLDSavedDataInput
 export type OLDSavedOutput = OLDSavedExecOutput | OLDSavedDataOutput
 
-export type OLDSavedInputMap = {
-  [key: string]: Omit<OLDSavedInput, 'connections'>
-}
+export type OLDSavedInputMap = Record<
+  string,
+  Omit<OLDSavedInput, 'connections'>
+>
 
-export type OLDSavedOutputMap = {
-  [key: string]: Omit<OLDSavedOutput, 'connections'>
-}
+export type OLDSavedOutputMap = Record<
+  string,
+  Omit<OLDSavedOutput, 'connections'>
+>
 
 export type OLDSavedControlMap = {
   [key: string]: OLDSavedControl
@@ -72,7 +78,10 @@ export type SavedNode = {
   type: NodeType
   x: number | null
   y: number | null
-  state?: SavedNodeState
+  state: SavedNodeState
+  inputs?: OLDSavedInputMap // TO BE REMOVED
+  controls?: OLDSavedControlMap // TO BE REMOVED
+  outputs?: OLDSavedOutputMap // TO BE REMOVED
   comment?: string
 }
 

@@ -11,6 +11,7 @@ export async function createSupabaseServiceClient() {
   ) {
     throw new Error('Missing database service key environment variable')
   }
+  console.log(process.env.NEXT_PUBLIC_SUPABASE_URL)
   return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
     process.env.SUPABASE_SERVICE_KEY,

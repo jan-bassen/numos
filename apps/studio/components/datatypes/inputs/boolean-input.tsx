@@ -21,6 +21,7 @@ export default function BooleanInput({
   locked,
   environment,
   valid,
+  settings,
   ...props
 }: BooleanInputProps) {
   function _onBlur(e: FocusEvent<HTMLButtonElement, Element>) {
@@ -99,6 +100,11 @@ export default function BooleanInput({
         <p className="pr-2">{value ? 'Yes' : 'No'}</p>
       </Button>
     )
+  }
+  if (environment === 'node') {
+    if (value === undefined || value === null) {
+      setValue(false)
+    }
   }
   return (
     <Switch

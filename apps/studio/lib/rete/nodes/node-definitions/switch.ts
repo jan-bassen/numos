@@ -6,8 +6,8 @@ export const switchDefinition: SpecificNodeDefinition<SwitchNode> = {
   category: 'exec',
   title: 'Switch',
   forwards: [
-    { key: 'true', label: 'If true' },
-    { key: 'false', label: 'If false' },
+    { type: 'exec', key: 'true', label: 'If true' },
+    { type: 'exec', key: 'false', label: 'If false' },
   ],
   nodeInfo: {
     description: 'This can switch between two execution paths.',

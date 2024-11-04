@@ -52,20 +52,24 @@ export class ActionSimulationEngine extends SimulationEngine {
     this.simulatedResult.logs.push(entry)
   }
 
-  getParameter(key: string): Value<ValueType, 'single' | 'array', false> {
+  getParameter(
+    key: string,
+    node: string,
+  ): Value<ValueType, 'single' | 'array', false> {
     const simulationData = this.getSimulationData()
     if (!simulationData) throw new Error('Simulation data not set')
     const value = simulationData.parameters[key]
     if (!value) throw new Error(`Parameter ${key} not found`)
-    return this.validateAndResolveValue(value)
+    return this.validateAndResolveValue(value, node)
   }
 
   setTokenAttribute(
     key: string,
     value: Value<ValueType, ValueFormat, true>,
+    node: string,
   ): StateChangeResult {
-    const result = this.validateAndResolveValue(value)
-    const previous = this.getTokenAttribute(key)
+    const result = this.validateAndResolveValue(value, node)
+    const previous = this.getTokenAttribute(key, node)
     if (isEqual(previous, result)) return { previous, changed: false }
     this.simulatedResult.stateChange[key] = {
       old: previous,
@@ -80,9 +84,10 @@ export class ActionSimulationEngine extends SimulationEngine {
   setCollectionAttribute(
     key: string,
     value: Value<ValueType, ValueFormat, true>,
+    node: string,
   ): StateChangeResult {
-    const result = this.validateAndResolveValue(value)
-    const previous = this.getCollectionAttribute(key)
+    const result = this.validateAndResolveValue(value, node)
+    const previous = this.getCollectionAttribute(key, node)
     if (isEqual(previous, result)) return { previous, changed: false }
     this.simulatedResult.stateChange[key] = {
       old: previous,
@@ -148,7 +153,10 @@ export class ActionSimulationEngine extends SimulationEngine {
     let currentNode: string = rootId
     while (shouldContinue) {
       if (currentNode && alreadyRunNodes[currentNode]) {
-        throw new Error('Loop detected')
+        const error = new GraphError('Loop detected', {
+          node: currentNode,
+        }).serialize()
+        return { result: undefined, error }
       }
       try {
         const { forward, log } = await this.runNodeLogic(currentNode)
@@ -160,17 +168,34 @@ export class ActionSimulationEngine extends SimulationEngine {
             'output',
             forward,
           )?.node
-          if (!nextNode) throw new Error('Next node not found')
+          if (!nextNode) {
+            this.addLog({
+              message: 'No further connection found',
+            })
+            this.addLog({
+              message: 'Action ended',
+            })
+            shouldContinue = false
+            break
+          }
           currentNode = nextNode
         } else {
           shouldContinue = false
         }
+        //TODO: Fix Error-Location (wrong Node on get input from simulation data) !
       } catch (err) {
         if (err instanceof NodeError) {
-          throw new GraphError(err.message, {
-            node: currentNode,
-            ...err.location,
-          })
+          const error = err.convertToGraphError(currentNode).serialize()
+          return { result: undefined, error }
+        }
+        if (err instanceof GraphError) {
+          return { result: undefined, error: err.serialize() }
+        }
+        if (err instanceof Error) {
+          return {
+            result: undefined,
+            error: { type: 'unknown', message: err.message },
+          }
         }
         throw err
       }

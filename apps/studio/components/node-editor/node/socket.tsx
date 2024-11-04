@@ -1,6 +1,5 @@
 import type { NodeId } from 'rete'
 import type { Side } from 'rete-connection-plugin'
-import { Presets } from 'rete-react-plugin'
 import type { Socket as SocketClass } from '@/lib/rete/classes/connectors/socket'
 import type { OptionalDataType } from '@repo/engine/types/value-types'
 import { ExecSocketComponent } from './exec-socket'
@@ -18,7 +17,7 @@ export declare type SocketProps = {
   type: OptionalDataType
 }
 
-export function Socket<T extends 'data' | 'exec' | undefined = undefined>({
+export function Socket({
   className,
   emit,
   nodeId,
@@ -49,7 +48,7 @@ export function Socket<T extends 'data' | 'exec' | undefined = undefined>({
   )
 }
 
-export function getSocket(props: any) {
+export function getSocket(props: SocketProps) {
   const type = props.payload.type as OptionalDataType
   if (type === 'exec') {
     return ExecSocketComponent

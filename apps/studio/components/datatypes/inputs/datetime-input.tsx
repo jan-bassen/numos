@@ -40,7 +40,6 @@ export default function DatetimeInput({
   valid,
   ...props
 }: DatetimeInputProps) {
-  console.log('rerender')
   const timestamp = datetimeSchema.optional().nullable().parse(value) || null
   const date = timestamp ? new Date(timestamp) : null
 

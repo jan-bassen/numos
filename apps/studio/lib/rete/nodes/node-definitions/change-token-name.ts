@@ -6,7 +6,7 @@ export const changeTokenNameDefinition: SpecificNodeDefinition<ChangeTokenNameNo
     type: 'change-token-name',
     category: 'exec',
     title: 'Change Token Name',
-    forwards: [{ key: 'exec', label: 'Execute' }],
+    forwards: [{ type: 'exec', key: 'exec', label: 'Execute' }],
     root: false,
     nodeInfo: {
       description: 'With this node you can change the name of the token.',

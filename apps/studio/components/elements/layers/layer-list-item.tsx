@@ -77,11 +77,15 @@ export default function LayerListItem({
     setRenaming(false)
   }
 
-  const handleClick = (e: MouseEvent<HTMLSpanElement>) => {
+  const handleClick = (
+    e: MouseEvent<HTMLSpanElement>,
+    contextMenu?: boolean,
+  ) => {
     if (e.button !== 0 && e.button !== 2) return
-    e.stopPropagation()
-
-    e.preventDefault()
+    if (!contextMenu) {
+      e.stopPropagation()
+      e.preventDefault()
+    }
     if (e.metaKey) {
       if (isSelected) {
         context.removeFromSelection(selectionElement)
@@ -126,7 +130,7 @@ export default function LayerListItem({
             }}
             onClick={handleClick}
             onDoubleClick={() => setDialogOpen(true)}
-            onContextMenu={handleClick}
+            onContextMenu={(e) => handleClick(e, true)}
             onDragStart={handleDragStart}
             onDragEnd={(e) => {
               context.setDraggedElement(null)

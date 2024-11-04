@@ -13,6 +13,8 @@ import type {
   DataInterface,
   NodeData,
 } from '@repo/engine/types/node-types'
+import { GraphError } from '@repo/engine/errors/graph-error.ts'
+import { NodeError } from '@repo/engine/errors/node-error.ts'
 
 export class SimulationEngine extends EngineBase {
   constructor(
@@ -36,28 +38,37 @@ export class SimulationEngine extends EngineBase {
     nodeId,
   ) => ({
     getLayer: async (image: string) => {
-      return this.getLayer(image)
+      return this.getLayer(image, nodeId)
     },
     getParameter: (key: string) => {
-      throw new Error('Parameters are not supported for images')
+      throw new GraphError('Parameters are not supported for images', {
+        node: nodeId,
+        input: { key, type: 'parameters' },
+      })
     },
     getTokenAttribute: (key: string) => {
-      return this.getTokenAttribute(key)
+      return this.getTokenAttribute(key, nodeId)
     },
     getCollectionAttribute: (key: string) => {
-      return this.getCollectionAttribute(key)
+      return this.getCollectionAttribute(key, nodeId)
     },
     getMetadata<Key extends BasicMetadataKeys>(
       key: Key,
     ): Value<Key extends 'id' ? 'number' : 'string', 'single', false> {
-      const value = this.getMetadata<Key>(key)
-      return value
+      return this.getMetadata<Key>(key)
     },
     getInputValue: async (key: string) => {
       return this.getInputValue(nodeId, key)
     },
     getControlValue: (key: string) => {
-      return this.getControlValue(nodeId, key)
+      try {
+        return this.getControlValue(nodeId, key)
+      } catch (err) {
+        if (err instanceof NodeError) {
+          throw err.convertToGraphError(nodeId)
+        }
+        throw err
+      }
     },
   })
 
@@ -77,50 +88,95 @@ export class SimulationEngine extends EngineBase {
     key: string,
   ): Promise<Value<ValueType, 'single' | 'array', false>> {
     const logic = this.getNodeLogic(nodeId)
-    if (!logic) throw new Error(`Node ${nodeId} has no data logic`)
+    if (!logic) throw new GraphError('Node has no data logic', { node: nodeId })
     const dataLogic = logic.data as NodeData<AnyDataNode, true> | undefined
-    if (!dataLogic) throw new Error(`Node ${nodeId} has no data logic`)
-    if (typeof dataLogic === 'function') {
-      const result = dataLogic(key, this.getDataInterface(nodeId), {
-        ...this.getContext(),
-        nodeId,
+    if (!dataLogic)
+      throw new GraphError('Node has no data logic', {
+        node: nodeId,
+        component: { key, type: 'output' },
       })
-      return result
+    if (typeof dataLogic === 'function') {
+      try {
+        const result = dataLogic(key, this.getDataInterface(nodeId), {
+          ...this.getContext(),
+          nodeId,
+        })
+        return result
+      } catch (err) {
+        if (err instanceof NodeError) {
+          throw err.convertToGraphError(nodeId)
+        }
+        if (err instanceof Error) {
+          throw new GraphError(err.message, { node: nodeId })
+        }
+        throw err
+      }
     }
     const outputLogic = dataLogic[key]
-    if (!outputLogic) throw new Error(`Node ${nodeId} has no output logic`)
-    if (typeof outputLogic === 'function') {
-      const result = outputLogic(this.getDataInterface(nodeId), {
-        ...this.getContext(),
-        nodeId,
+    if (!outputLogic)
+      throw new GraphError('Node has no output logic', {
+        node: nodeId,
+        component: { key, type: 'output' },
       })
-      return result
+    if (typeof outputLogic === 'function') {
+      try {
+        const result = outputLogic(this.getDataInterface(nodeId), {
+          ...this.getContext(),
+          nodeId,
+        })
+        return result
+      } catch (err) {
+        if (err instanceof NodeError) {
+          throw err.convertToGraphError(nodeId)
+        }
+        throw err
+      }
     }
-    throw new Error(`Node ${nodeId} has no output logic`)
+    throw new GraphError('Node has no output logic', {
+      node: nodeId,
+      component: { key, type: 'output' },
+    })
   }
 
-  getTokenAttribute(key: string): Value<ValueType, 'array' | 'single', false> {
+  getTokenAttribute(
+    key: string,
+    node: string,
+  ): Value<ValueType, 'array' | 'single', false> {
     if (!this.simulationData) throw new Error('Simulation data not set')
     const value = this.simulationData.attributes[key]
-    if (!value) throw new Error(`Attribute ${key} not found`)
-    return this.validateAndResolveValue(value)
+    if (!value)
+      throw new GraphError(`Attribute ${key} not defined`, {
+        node,
+        input: { key, type: 'attributes' },
+      })
+    return this.validateAndResolveValue(value, node)
   }
 
   getCollectionAttribute(
     key: string,
+    node: string,
   ): Value<ValueType, 'array' | 'single', false> {
     if (!this.simulationData) throw new Error('Simulation data not set')
     const value = this.simulationData.attributes[key]
-    if (!value) throw new Error(`Attribute ${key} not found`)
-    return this.validateAndResolveValue(value)
+    if (!value)
+      throw new NodeError(`Attribute ${key} not defined`, {
+        input: { key, type: 'attributes' },
+      })
+    return this.validateAndResolveValue(value, node)
   }
 
   getMetadata<Key extends BasicMetadataKeys>(
     key: Key,
   ): Value<Key extends 'id' ? 'number' : 'string', 'single', false> {
-    if (!this.simulationData) throw new Error('Simulation data not set')
+    if (!this.simulationData)
+      throw new NodeError('Simulation data not set', {
+        input: { key, type: 'metadata' },
+      })
     const value = this.simulationData.basicMetadata[key]
-    if (!value) throw new Error(`Metadata ${key} not found`)
+    if (!value)
+      throw new NodeError(`Metadata: ${key} not defined`, {
+        input: { key, type: 'metadata' },
+      })
     const type =
       key === 'id'
         ? ('number' as Key extends 'id' ? 'number' : 'string')
@@ -130,7 +186,10 @@ export class SimulationEngine extends EngineBase {
       'single',
       false
     >(type, 'single', false, value)
-    if (error) throw new Error('Error with parsing value')
+    if (error)
+      throw new NodeError('Error with parsing value', {
+        input: { key, type: 'metadata' },
+      })
     return validated
   }
 }

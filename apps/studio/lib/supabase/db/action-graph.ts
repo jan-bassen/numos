@@ -2,11 +2,19 @@
 
 import type { InsertActionNode, ReturnInfo } from '@/types/database.types'
 import type {
+  OLDSavedDataInput,
   SavedConnection,
   SavedGraph,
   SavedNode,
+  SavedNodeState,
 } from '@repo/engine/types/graph-types'
 import { createSupabaseServerComponentClient } from '../server-client'
+import type {
+  NodeValueMap,
+  Value,
+  ValueType,
+} from '@repo/engine/types/value-types'
+import { changeSavedNodeStructure, replaceRemovedNodes } from '@/lib/transition'
 
 export async function insertActionNode(
   node: SavedNode,
@@ -38,7 +46,7 @@ export async function insertActionNode(
       message: error.message || 'Error upserting node',
     }
   }
-  /* revalidatePath("/studio/[collection]/actions/[action]", "page"); */
+  /* revalidatePath("/collections/[collection]/actions/[action]", "page"); */
   return {
     ok: true,
     message: 'Node upserted',
@@ -59,7 +67,7 @@ export async function updateActionNode(node: SavedNode): Promise<ReturnInfo> {
       message: error.message || 'Error updating node',
     }
   }
-  /* revalidatePath("/studio/[collection]/actions/[action]", "page"); */
+  /* revalidatePath("/collections/[collection]/actions/[action]", "page"); */
   return {
     ok: true,
     message: 'Node updated',
@@ -104,7 +112,7 @@ export async function deleteActionNode(nodeId: string): Promise<ReturnInfo> {
       message: error.message || 'Error deleting node',
     }
   }
-  /* revalidatePath("/studio/[collection]/actions/[action]", "page"); */
+  /* revalidatePath("/collections/[collection]/actions/[action]", "page"); */
   return {
     ok: true,
     message: 'Node deleted',
@@ -127,7 +135,7 @@ export async function deleteActionConnection(
       message: error.message || 'Error deleting connection',
     }
   }
-  /* revalidatePath("/studio/[collection]/actions/[action]", "page"); */
+  /* revalidatePath("/collections/[collection]/actions/[action]", "page"); */
   return {
     ok: true,
     message: 'Connection deleted',
@@ -154,7 +162,7 @@ export async function upsertActionConnection(
       message: error.message || 'Error upserting connection',
     }
   }
-  /* revalidatePath("/studio/[collection]/actions/[action]", "page"); */
+  /* revalidatePath("/collections/[collection]/actions/[action]", "page"); */
   return {
     ok: true,
     message: 'Connection upserted',
@@ -170,6 +178,9 @@ export async function getActionGraph(actionId: string): Promise<SavedGraph> {
     .eq('action', actionId)
     .returns<SavedNode[]>()
 
+  const replacedNodes = replaceRemovedNodes(nodes || [])
+  const transformedNodes = changeSavedNodeStructure(replacedNodes)
+
   const { data: connections, error: connectionsError } = await supabase
     .from('action_connections')
     .select('*')
@@ -179,7 +190,7 @@ export async function getActionGraph(actionId: string): Promise<SavedGraph> {
     throw new Error('Error fetching graph')
   }
   return {
-    nodes: nodes || [],
+    nodes: transformedNodes || [],
     connections: connections || [],
   }
 }

@@ -1,17 +1,17 @@
-import { createSupabaseServerComponentClient } from "@/lib/supabase/server-client";
-import { redirect } from "next/navigation";
+import { createSupabaseServerComponentClient } from '@/lib/supabase/server-client'
+import { redirect } from 'next/navigation'
 
 export default async function LoginLayout({
   children,
   params,
 }: {
-  children: React.ReactNode;
-  params: { collection: string };
+  children: React.ReactNode
+  params: { collection: string }
 }) {
-  const supabase = await createSupabaseServerComponentClient();
-  const { data } = await supabase.auth.getUser();
+  const supabase = await createSupabaseServerComponentClient()
+  const { data } = await supabase.auth.getUser()
   if (data.user) {
-    redirect("/studio");
+    redirect('/')
   }
-  return <>{children}</>;
+  return <>{children}</>
 }

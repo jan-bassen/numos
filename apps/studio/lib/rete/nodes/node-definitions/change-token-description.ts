@@ -6,7 +6,7 @@ export const changeTokenDescriptionDefinition: SpecificNodeDefinition<ChangeToke
     type: 'change-token-description',
     category: 'exec',
     title: 'Change Token Description',
-    forwards: [{ key: 'exec', label: 'Execute' }],
+    forwards: [{ type: 'exec', key: 'exec', label: 'Execute' }],
     root: false,
     nodeInfo: {
       description:

@@ -23,6 +23,8 @@ import { imageAcceptString } from './file-types'
 import { moveLayersAndFolders } from '@/lib/supabase/db/layers'
 import { toast } from 'sonner'
 
+// TODO: Clean up
+
 export const childrenOffset = 1.2 // rem
 
 export type TreeElement = {

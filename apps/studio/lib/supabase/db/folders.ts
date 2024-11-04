@@ -21,7 +21,7 @@ export async function addEmptyFolder(
   if (error) {
     return { ok: false, message: error.message }
   }
-  revalidatePath('/studio/[collection]/assets', 'page')
+  revalidatePath('/collections/[collection]/assets', 'page')
   return { ok: true, message: 'Successfully created' }
 }
 
@@ -37,7 +37,7 @@ export async function renameEmptyFolder(
   if (error) {
     return { ok: false, message: error.message }
   }
-  revalidatePath('/studio/[collection]/assets')
+  revalidatePath('/collections/[collection]/assets')
   return { ok: true, message: 'Successfully renamed' }
 }
 
@@ -53,7 +53,7 @@ export async function moveEmptyFolder(
   if (error) {
     return { ok: false, message: error.message }
   }
-  revalidatePath('/studio/[collection]/assets')
+  revalidatePath('/collections/[collection]/assets')
   return { ok: true, message: 'Successfully moved' }
 }
 
@@ -63,7 +63,7 @@ export async function deleteEmptyFolder(id: string): Promise<ReturnInfo> {
   if (error) {
     return { ok: false, message: error.message }
   }
-  revalidatePath('/studio/[collection]/assets')
+  revalidatePath('/collections/[collection]/assets')
   return { ok: true, message: 'Successfully deleted' }
 }
 

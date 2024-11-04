@@ -12,5 +12,13 @@ export const imageRootDefinition: SpecificNodeDefinition<ImageRootNode> = {
       'This node outputs the resulting image, which will be image of your tokens.',
     link: '#',
   },
-  inputs: [{ key: 'image', type: 'buffer', list: false, label: 'Image' }],
+  inputs: [
+    {
+      key: 'image',
+      type: 'buffer',
+      list: false,
+      label: 'Image',
+      hideControl: true,
+    },
+  ],
 }

@@ -46,7 +46,7 @@ export const mapToNumberDefinition: SpecificNodeDefinition<MapToNumberNode> = {
     getInfoFromInputConnections,
     getConnectedInputKeys,
   }) => {
-    const steps = getControlValue('breakpoints').value
+    const steps = getControlValue('breakpoints')?.value
     if (!steps) return []
     const seenValues = new Set<number>()
 
@@ -68,7 +68,7 @@ export const mapToNumberDefinition: SpecificNodeDefinition<MapToNumberNode> = {
       getInfoFromInputConnections(
         getConnectedInputKeys().filter((key) => key !== 'number'),
       ) || {}
-    const mode = getControlValue('mode').value
+    const mode = getControlValue('mode')?.value
 
     const numberDef: DataSocketDefinition<MapToNumberNode, 'inputs', 'number'> =
       {

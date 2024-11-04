@@ -105,7 +105,15 @@ export type DataSocketDefinition<
   onDisconnect?: (node: NodeInteractionInterface<I>) => void
 }
 
-export type ExecSocketDefinition = { key: string; label: string }
+export type ExecSocketDefinition = {
+  type: 'exec'
+  key: string
+  label: string
+  index?: number
+  dividerAfter?: boolean
+  onConnect?: (node: NodeInteractionInterface<AnyNode>) => void
+  onDisconnect?: (node: NodeInteractionInterface<AnyNode>) => void
+}
 
 export type AnyDataSocketDefinition<
   Side extends 'inputs' | 'outputs' = 'inputs' | 'outputs',
@@ -139,6 +147,20 @@ export type SpecificDynamicSocketsDefinition<
   | ((
       state: DefinitionInterface<I>,
     ) => DataSocketDefinition<I, Side, keyof I[Side]>[])
+
+export type DynamicExecSocketsDefinition<
+  I extends NodeInterface<NodeCategory>,
+> = I['forwards'] extends string[]
+  ? ExecSocketDefinition[]
+  :
+      | never
+      | (['forwards'] extends never
+          ? never
+          : (
+              state: DefinitionInterface<I>,
+            ) => I['forwards'] extends string[]
+              ? ExecSocketDefinition[]
+              : never)
 
 export type DynamicSocketsDefinition<
   Side extends 'inputs' | 'outputs' = 'inputs' | 'outputs',
@@ -200,15 +222,17 @@ export type DefinitionInterface<I extends NodeInterface<NodeCategory>> = {
     | undefined
   getControlValue: <K extends keyof I['controls']>(
     key: K,
-  ) => Value<
-    InferredControlType<I, K>,
-    InferredControlList<I, K> extends true
-      ? 'objectarray'
-      : InferredControlList<I, K> extends false
-        ? 'single'
-        : 'single' | 'objectarray',
-    true
-  >
+  ) =>
+    | Value<
+        InferredControlType<I, K>,
+        InferredControlList<I, K> extends true
+          ? 'objectarray'
+          : InferredControlList<I, K> extends false
+            ? 'single'
+            : 'single' | 'objectarray',
+        true
+      >
+    | undefined
   getParameter: (key: string) => ParameterInfo | undefined
   getParameters: () => ParameterInfo[] | undefined
   getTrigger: () => ActionTrigger | undefined
@@ -227,17 +251,7 @@ export type SpecificNodeDefinition<I extends NodeInterface<NodeCategory>> = {
   componentType?: NodeComponentType
   title: string
   nodeInfo: NodeInfo
-  forwards?: I['forwards'] extends string[]
-    ? ExecSocketDefinition[]
-    :
-        | never
-        | (['forwards'] extends never
-            ? never
-            : (
-                node: Node,
-              ) => I['forwards'] extends string[]
-                ? ExecSocketDefinition[]
-                : never)
+  forwards?: DynamicExecSocketsDefinition<I>
   inputs?: SpecificDynamicSocketsDefinition<I, 'inputs'>
   outputs?: SpecificDynamicSocketsDefinition<I, 'outputs'>
   controls?: SpecificDynamicControlsDefinition<I>

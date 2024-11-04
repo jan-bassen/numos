@@ -32,7 +32,7 @@ export const collectionAttributeDefinition: SpecificNodeDefinition<CollectionAtt
       ]
     },
     outputs: ({ getCollectionAttribute, getControlValue }) => {
-      const attributeKey = getControlValue('attribute').value
+      const attributeKey = getControlValue('attribute')?.value
       if (!attributeKey) return []
       const attribute = getCollectionAttribute(attributeKey)
       if (!attribute) return []

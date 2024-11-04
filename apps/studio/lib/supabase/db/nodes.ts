@@ -1,9 +1,10 @@
 'use server'
 
-import type { OLDSavedControl } from '@repo/engine/types/graph-types'
+import type { OLDSavedControl, SavedNode } from '@repo/engine/types/graph-types'
 import { createSupabaseServerComponentClient } from '../server-client'
 import type { ReturnInfo } from '@/types/database.types'
 import { attributeNodeDependency } from '@/lib/rete/nodes/node-dependencies'
+import { NodeValueMap } from '@repo/engine/types/value-types'
 
 export async function updateAttributeNodeControls(
   versionId: string,
@@ -78,6 +79,7 @@ export async function updateAttributeNodeControls(
       attributeNodeDependency.nodes.map((node) => node.nodeType),
     )
     .eq('controls->attribute->>value', oldSlug)
+    .returns<SavedNode[]>()
 
   if (actionNodesError) {
     return {
@@ -88,22 +90,24 @@ export async function updateAttributeNodeControls(
 
   //Update the action nodes
   for (const actionNode of actionNodes) {
-    if (!actionNode.controls?.attribute) {
+    if (!actionNode.state.controls?.attribute) {
       continue
     }
 
-    const updatedControls: Record<string, OLDSavedControl> = {
-      ...actionNode.controls,
-      attribute: {
-        ...actionNode.controls.attribute,
-        value: newSlug,
-      } as OLDSavedControl,
+    const updatedControls = {
+      ...actionNode.state.controls,
     }
+    // biome-ignore lint/performance/noDelete: <explanation>
+    delete updatedControls.attribute
 
     const { error: updateError } = await supabase
       .from('action_nodes')
       .update({
-        controls: updatedControls,
+        controls: undefined,
+        state: {
+          ...actionNode.state,
+          controls: updatedControls,
+        },
       })
       .eq('id', actionNode.id)
 
@@ -135,6 +139,7 @@ export async function clearAttributeNodeControls(
       attributeNodeDependency.nodes.map((node) => node.nodeType),
     )
     .eq('controls->attribute->>value', oldSlug)
+    .returns<SavedNode[]>()
 
   if (imageNodesError) {
     return {
@@ -147,22 +152,22 @@ export async function clearAttributeNodeControls(
 
   // Update the image nodes
   for (const imageNode of imageNodes) {
-    if (!imageNode.controls?.attribute) {
+    if (!imageNode.state.controls?.attribute) {
       continue
     }
-    const updatedControls: Record<string, OLDSavedControl> = {
-      ...imageNode.controls,
-      attribute: {
-        key: imageNode.controls.attribute.key,
-        type: imageNode.controls.attribute.type,
-        value: undefined,
-      } as OLDSavedControl,
-    }
+
+    //Remove "attribute" key from controls
+    const updatedControls = { ...imageNode.state.controls }
+    // biome-ignore lint/performance/noDelete: <explanation>
+    delete updatedControls.attribute
 
     const { error: updateError } = await supabase
       .from('image_nodes')
       .update({
-        controls: updatedControls,
+        controls: undefined,
+        state: {
+          controls: updatedControls,
+        },
       })
       .eq('id', imageNode.id)
 
@@ -196,6 +201,7 @@ export async function clearAttributeNodeControls(
       attributeNodeDependency.nodes.map((node) => node.nodeType),
     )
     .eq('controls->attribute->>value', oldSlug)
+    .returns<SavedNode[]>()
 
   if (actionNodesError) {
     return {
@@ -210,19 +216,20 @@ export async function clearAttributeNodeControls(
       continue
     }
 
-    const updatedControls: Record<string, OLDSavedControl> = {
-      ...actionNode.controls,
-      attribute: {
-        key: actionNode.controls.attribute.key,
-        type: actionNode.controls.attribute.type,
-        value: undefined,
-      } as OLDSavedControl,
+    const updatedControls = {
+      ...actionNode.state.controls,
     }
+    // biome-ignore lint/performance/noDelete: <explanation>
+    delete updatedControls.attribute
 
     const { error: updateError } = await supabase
       .from('action_nodes')
       .update({
-        controls: updatedControls,
+        controls: undefined,
+        state: {
+          ...actionNode.state,
+          controls: updatedControls,
+        },
       })
       .eq('id', actionNode.id)
 

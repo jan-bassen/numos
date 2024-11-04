@@ -233,7 +233,7 @@ export async function deleteImage(path: string) {
   if (error) {
     return { ok: false, message: error.message }
   }
-  revalidatePath('/studio/[collection]/layers', 'page')
+  revalidatePath('/collections/[collection]/layers', 'page')
   return {
     ok: true,
     message: 'Successfully deleted',
@@ -245,7 +245,7 @@ export async function deleteImages(paths: string[]) {
   const { data, error } = await supabase.storage
     .from('user-images')
     .remove(paths)
-  if (data) revalidatePath('/studio/[collection]/layers', 'page')
+  if (data) revalidatePath('/collections/[collection]/layers', 'page')
   if (error) {
     throw new FetchError(error.message)
   }
@@ -268,7 +268,7 @@ export async function deleteFolder(path: string) {
     return { ok: false, message: error.message }
   }
 
-  revalidatePath('/studio/[collection]/layers', 'page')
+  revalidatePath('/collections/[collection]/layers', 'page')
   return { ok: true, message: 'Successfully deleted' }
 }
 
@@ -277,7 +277,7 @@ export async function moveImage(oldPath: string, newPath: string) {
   const { data, error } = await supabase.storage
     .from('user-images')
     .move(oldPath, newPath)
-  if (data) revalidatePath('/studio/[collection]/layers', 'page')
+  if (data) revalidatePath('/collections/[collection]/layers', 'page')
   if (error) {
     throw new FetchError(error.message)
   }
@@ -304,7 +304,8 @@ export async function moveImages(images: MoveImage[]) {
       results.push(data.message)
     }
   }
-  if (results.length > 0) revalidatePath('/studio/[collection]/layers', 'page')
+  if (results.length > 0)
+    revalidatePath('/collections/[collection]/layers', 'page')
   if (errors.length > 0) {
     throw new FetchError(errors[0] || 'Error moving images')
   }
@@ -323,6 +324,7 @@ export async function moveFolder(path: string, newPath: string) {
   })
 
   const results = await moveImages(images)
-  if (results.length > 0) revalidatePath('/studio/[collection]/layers', 'page')
+  if (results.length > 0)
+    revalidatePath('/collections/[collection]/layers', 'page')
   return results
 }

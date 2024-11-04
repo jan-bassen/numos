@@ -175,6 +175,10 @@ export class NodeEditor extends BaseNodeEditor<Schemes> {
     return nodeMap
   }
 
+  hasRootNode = () => {
+    return this.getNodes().some((node) => node.definition.root)
+  }
+
   importGraph = async (
     graph: SavedGraph,
     area: Area,

@@ -21,6 +21,7 @@ import sharp from 'sharp'
 import type { NodeType } from '@repo/engine/types/node-types'
 import { nodeLogic } from '@repo/engine/nodes/nodetypes'
 import { GraphError } from '@repo/engine/errors/graph-error'
+import { NodeError } from '@repo/engine/errors/node-error.ts'
 
 export class EngineBase {
   constructor(
@@ -47,14 +48,14 @@ export class EngineBase {
 
   getNodeType(nodeId: string): NodeType {
     const type = this.graph[nodeId]?.type
-    if (!type) throw new Error(`Node ${nodeId} not found`)
+    if (!type) throw new GraphError('Node not found', { node: nodeId })
     return type
   }
 
   getNodeLogic(nodeId: string) {
     const type = this.getNodeType(nodeId)
     const logic = nodeLogic[type]
-    if (!logic) throw new Error(`Nodetype ${type} invalid`)
+    if (!logic) throw new GraphError('Nodetype invalid', { node: nodeId })
     return logic
   }
 
@@ -63,8 +64,12 @@ export class EngineBase {
     key: string,
   ): Value<ValueType, 'single' | 'array', false> {
     const value = this.graph[nodeId]?.controls[key]
-    if (!value) throw new Error(`Control value ${key} not found`)
-    return this.validateAndResolveValue(value)
+    if (!value)
+      throw new GraphError('Control value not defined', {
+        node: nodeId,
+        component: { key, type: 'control' },
+      })
+    return this.validateAndResolveValue(value, nodeId)
   }
 
   getInputControlValue(
@@ -72,8 +77,25 @@ export class EngineBase {
     key: string,
   ): Value<ValueType, 'single' | 'array', false> {
     const value = this.graph[nodeId]?.inputs[key]?.controlValue
-    if (!value) throw new Error(`Control value ${key} not found`)
-    return this.validateAndResolveValue(value)
+    if (!value)
+      throw new GraphError('Control value not defined', {
+        node: nodeId,
+        component: { key, type: 'input' },
+      })
+    try {
+      return this.validateAndResolveValue(value, nodeId)
+    } catch (err) {
+      if (err instanceof NodeError) {
+        throw new GraphError(
+          'Control value needs to be defined, if input is not connected',
+          {
+            node: nodeId,
+            component: { key, type: 'input' },
+          },
+        )
+      }
+      throw err
+    }
   }
 
   getConnection(
@@ -82,29 +104,40 @@ export class EngineBase {
     key: string,
   ): MapGraphConnection | undefined {
     const node = this.graph[nodeId]
-    if (!node) throw new Error(`Node ${nodeId} not found`)
+    if (!node) throw new GraphError('Node not found', { node: nodeId })
     if (side === 'input') {
       const input = node.inputs[key]
-      if (!input) throw new Error(`Data input ${key} not found`)
+      if (!input)
+        throw new GraphError(`Data input ${key} not found`, {
+          node: nodeId,
+          component: { key, type: 'input' },
+        })
       return input.connection
     }
     return node.forwards[key]
   }
 
-  async getLayer(image: string): Promise<Value<'buffer', 'single'>> {
+  async getLayer(
+    image: string,
+    node: string,
+  ): Promise<Value<'buffer', 'single'>> {
     const context = this.getContext()
     const path = `/${context.collectionId}/${image}`
 
     //TODO: Remove Service Client from Package!
     const supabaseService = await createSupabaseServiceClient()
+    console.log(path)
     const { data: layer, error } = await supabaseService.storage
       .from('layers')
       .download(path)
     if (error) {
-      throw new Error('Error downloading layer')
+      console.error(error)
+      throw new GraphError(`Error downloading layer: ${error.message}`, {
+        node,
+      })
     }
     if (!layer || layer.type.split('/')[0] !== 'image')
-      throw new Error('Layer is not an image')
+      throw new GraphError('Layer is not an image', { node })
     const value = await sharp(await layer.arrayBuffer()).toBuffer()
     return {
       type: 'buffer',
@@ -113,11 +146,23 @@ export class EngineBase {
     }
   }
 
-  validateAndResolveValue(value: Value<ValueType, ValueFormat, true>) {
-    const { validated, error } = validateValue<false>(value, false)
-    if (error) throw new Error(error.message)
-    const resolvedValue = resolveObjectArrayValue(validated)
-    return resolvedValue
+  //TODO: Fix Error-Location!
+  //TODO: Fix boolean "false" input
+  validateAndResolveValue(
+    value: Value<ValueType, ValueFormat, true>,
+    node: string,
+  ) {
+    try {
+      const { validated, error } = validateValue<false>(value, false)
+      if (error) throw new GraphError(error.message, { node })
+      const resolvedValue = resolveObjectArrayValue(validated)
+      return resolvedValue
+    } catch (err) {
+      if (err instanceof Error) {
+        throw new GraphError(err.message, { node })
+      }
+      throw err
+    }
   }
 
   serializeError(error: unknown): GraphErrorData | UnknownErrorData {

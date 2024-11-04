@@ -23,7 +23,7 @@ export const parameterDefinition: SpecificNodeDefinition<ParameterNode> = {
         key: 'parameter',
         type: 'enum',
         placeholder: 'Select Parameter',
-        options: options,
+        settings: { options },
         onChange: (node) => {
           node.updateOutputs()
         },

@@ -9,7 +9,7 @@ export const changeCollectionAttributeDefinition: SpecificNodeDefinition<ChangeC
     type: 'change-collection-attribute',
     category: 'exec',
     title: 'Change Collection Attribute',
-    forwards: [{ key: 'exec', label: 'Execute' }],
+    forwards: [{ type: 'exec', key: 'exec', label: 'Execute' }],
     nodeInfo: {
       description:
         'With this node you can change one of the collectio wide attributes.',
@@ -44,7 +44,7 @@ export const changeCollectionAttributeDefinition: SpecificNodeDefinition<ChangeC
           },
         },
       ]
-      const attributeControlValue = getControlValue('attribute').value
+      const attributeControlValue = getControlValue('attribute')?.value
       if (attributeControlValue) {
         const attributeType = getCollectionAttribute(
           attributeControlValue,

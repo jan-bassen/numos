@@ -48,7 +48,7 @@ export default async function Collection({
         }
       >
         <Link
-          href={`/studio/${collection.slug}/settings`}
+          href={`/collections/${collection.slug}/settings`}
           className={cn('gap-2', buttonVariants())}
         >
           <PiSettings02Stroke className="size-4" />
@@ -60,24 +60,24 @@ export default async function Collection({
           {
             Icon: PiPhotoImageDefaultStroke,
             label: "Edit Image",
-            href: `/studio/${collection.slug}/image`,
+            href: `/collections/${collection.slug}/image`,
           },
           {
             Icon: PiLayerThreeStroke,
             label: "Manage Layers",
-            href: `/studio/${collection.slug}/layers`,
+            href: `/collections/${collection.slug}/layers`,
           },
           {
             Icon: PiSettings02Stroke,
             label: "Change Settings",
-            href: `/studio/${collection.slug}/settings`,
+            href: `/collections/${collection.slug}/settings`,
           },
         ]}
       /> */}
       {/* <div className="grid grid-cols-1 gap-8 md:grid-cols-2"> */}
       <Segment
         title="Attributes"
-        link={`/studio/${collection.slug}/attributes`}
+        link={`/collections/${collection.slug}/attributes`}
       >
         <CardRow
           className="lg:grid-cols-2"
@@ -107,7 +107,7 @@ export default async function Collection({
           }
         />
       </Segment>
-      <Segment title="Actions" link={`/studio/${collection.slug}/actions`}>
+      <Segment title="Actions" link={`/collections/${collection.slug}/actions`}>
         <CardRow
           className="lg:grid-cols-2"
           cards={actions.map((action) => {

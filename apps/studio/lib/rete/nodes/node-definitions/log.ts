@@ -5,7 +5,7 @@ export const logDefinition: SpecificNodeDefinition<LogNode> = {
   type: 'log',
   category: 'exec',
   title: 'Log',
-  forwards: [{ key: 'exec', label: 'Execute' }],
+  forwards: [{ type: 'exec', key: 'exec', label: 'Execute' }],
   nodeInfo: {
     description:
       'This node logs some text for testing. You can use this to debug your actions.',
@@ -13,6 +13,7 @@ export const logDefinition: SpecificNodeDefinition<LogNode> = {
   },
   inputs: ({ getInfoFromInputConnection }) => {
     const { type, list, settings } = getInfoFromInputConnection('value') || {}
+    console.log(type, list, settings)
     return [
       {
         key: 'value',

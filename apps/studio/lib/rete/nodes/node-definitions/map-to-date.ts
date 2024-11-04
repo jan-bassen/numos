@@ -50,7 +50,7 @@ export const mapToDateDefinition: SpecificNodeDefinition<MapToDateNode> = {
     getInfoFromInputConnections,
     getConnectedInputKeys,
   }) => {
-    const steps = getControlValue('breakpoints').value
+    const steps = getControlValue('breakpoints')?.value
     if (!steps) return []
     const seenValues = new Set<number>()
 
@@ -76,7 +76,7 @@ export const mapToDateDefinition: SpecificNodeDefinition<MapToDateNode> = {
       getInfoFromInputConnections(
         getConnectedInputKeys().filter((key) => key !== 'datetime'),
       ) || {}
-    const mode = getControlValue('mode').value
+    const mode = getControlValue('mode')?.value
 
     const numberDef: DataSocketDefinition<MapToDateNode, 'inputs', 'datetime'> =
       {

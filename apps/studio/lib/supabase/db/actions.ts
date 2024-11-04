@@ -9,7 +9,6 @@ import type {
   TriggerType,
   UpdateAction,
 } from '@/types/database.types'
-import { Json } from '@/types/database-generated.types'
 import { revalidatePath } from 'next/cache'
 import { createSupabaseServerComponentClient } from '../server-client'
 import { redirect } from 'next/navigation'
@@ -145,14 +144,12 @@ export async function upsertBasicAction(
 
   const supabase = await createSupabaseServerComponentClient()
 
-  console.log(action)
   const { data: allSlugs, error: fetchAllSlugsError } = await supabase
     .from('actions')
     .select('id, slug')
     .eq('version', action.version)
 
   if (fetchAllSlugsError) {
-    console.log(fetchAllSlugsError)
     throw new FetchError('Error with fetching slug data')
   }
   if (
@@ -171,7 +168,7 @@ export async function upsertBasicAction(
     throw new FetchError('Error with inserting new action')
   }
 
-  revalidatePath('/studio/[collection]/actions/[action]')
+  revalidatePath('/collections/[collection]/actions/[action]')
 
   return {
     ok: true,
@@ -221,7 +218,7 @@ export async function insertAction(action: InsertAction): Promise<ReturnInfo> {
     throw new FetchError('Error with inserting new action')
   }
 
-  revalidatePath('/studio/[collection]/actions/[action]')
+  revalidatePath('/collections/[collection]/actions/[action]')
 
   return {
     ok: true,
@@ -253,7 +250,7 @@ export async function updateActionSettings(
       message: error.message,
     }
   }
-  revalidatePath('/studio/[collection]/actions/[action]')
+  revalidatePath('/collections/[collection]/actions/[action]')
   return {
     ok: true,
     message: 'Successfully saved',
@@ -279,7 +276,7 @@ export async function editAction(action: UpdateAction) {
       message: error.message,
     }
   }
-  revalidatePath('/studio/[collection]/actions/[action]', 'page')
+  revalidatePath('/collections/[collection]/actions/[action]', 'page')
   return {
     ok: true,
     message: 'Successfully updated',
@@ -296,5 +293,5 @@ export async function deleteAction(id: string, collectionSlug: string) {
   if (error) {
     throw new FetchError('Error with deleting action')
   }
-  redirect(`/studio/${collectionSlug}/actions`)
+  redirect(`/collections/${collectionSlug}/actions`)
 }

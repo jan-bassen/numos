@@ -11,7 +11,7 @@ export const logicDefinition: SpecificNodeDefinition<LogicNode> = {
     link: '#logic',
   },
   inputs: ({ getControlValue }) => {
-    const mode = getControlValue('mode').value
+    const mode = getControlValue('mode')?.value
     if (mode === 'not')
       return [{ key: 'boolean1', type: 'boolean', label: 'Boolean' }]
     return [

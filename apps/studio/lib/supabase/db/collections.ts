@@ -112,7 +112,7 @@ async function upsertCollection(
       }
     }
   }
-  revalidatePath('/studio/[collection]')
+  revalidatePath('/collections/[collection]')
   return {
     ok: true,
     message: 'Successfully saved',
@@ -139,9 +139,9 @@ export async function updateCollection(
       message: error.message,
     }
   }
-  revalidatePath('/studio/[collection]', 'layout')
-  revalidatePath('/studio/[collection]', 'page')
-  revalidatePath('/studio/[collection]/settings', 'page')
+  revalidatePath('/collections/[collection]', 'layout')
+  revalidatePath('/collections/[collection]', 'page')
+  revalidatePath('/collections/[collection]/settings', 'page')
   return {
     ok: true,
     message: 'Successfully saved',
@@ -228,7 +228,7 @@ export async function deleteCollection(id: string): Promise<ReturnInfo> {
     }
   }
 
-  revalidatePath('/studio/[collection]')
+  revalidatePath('/collections/[collection]')
   return {
     ok: true,
     message: 'Successfully deleted',

@@ -24,7 +24,7 @@ export const tokenAttributeDefinition: SpecificNodeDefinition<TokenAttributeNode
           key: 'attribute',
           type: 'enum',
           placeholder: 'Select Attribute',
-          options,
+          settings: { options },
           onChange: (node) => {
             node.updateOutputs()
           },
@@ -32,7 +32,7 @@ export const tokenAttributeDefinition: SpecificNodeDefinition<TokenAttributeNode
       ]
     },
     outputs: ({ getTokenAttribute, getControlValue }) => {
-      const attributeKey = getControlValue('attribute').value
+      const attributeKey = getControlValue('attribute')?.value
       if (!attributeKey) return []
       const attribute = getTokenAttribute(attributeKey)
       if (!attribute) return []

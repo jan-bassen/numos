@@ -72,14 +72,16 @@ export default function SimulationForm({
 }: BaseEditorFormProps) {
   const [accordionOpen, setAccordionOpen] = useState<string[] | undefined>()
   useEffect(() => {
-    if (error?.location.input) {
-      setAccordionOpen([error.location.input.type])
+    if (error?.location?.input) {
+      const type = error.location.input.type
+      const key = error.location.input.key
+      setAccordionOpen([type])
       form.setError(
         // @ts-ignore
-        `${error.input.type}.${error.input.key}`,
+        `${type}.${key}`,
         {
           type: 'custom',
-          message: error.message,
+          message: 'This value is used, so it needs to be defined',
         },
         {
           shouldFocus: true,

@@ -1,4 +1,7 @@
-import type { AnyDataSocketDefinition } from '@/types/nodes.types'
+import type {
+  AnyDataSocketDefinition,
+  ExecSocketDefinition,
+} from '@/types/nodes.types'
 import { ClassicPreset } from 'rete'
 import type { Node } from '../node'
 import type { Connection } from '../connection'
@@ -19,7 +22,7 @@ export class Socket extends ClassicPreset.Socket {
   onDisconnect: (node: Node, connection: Connection) => void
   constructor(
     public side: 'input' | 'output',
-    public definition: AnyDataSocketDefinition,
+    public definition: AnyDataSocketDefinition | ExecSocketDefinition,
     public node: Node,
     public connection?: Connection,
   ) {
@@ -28,7 +31,8 @@ export class Socket extends ClassicPreset.Socket {
     this.definition = definition
     this.type = definition.type || 'generic'
     this.name = definition.type || 'generic' //TODO: Remove this
-    this.list = definition.list || false
+    this.list = definition.type === 'exec' ? false : definition.list || false
+
     this.connected = !!connection
     this.connection = connection
     this.onConnect = (node: Node, connection: Connection) => {
@@ -46,7 +50,7 @@ export class Socket extends ClassicPreset.Socket {
   }
 
   isCompatibleWith(socket: Socket) {
-    if (socket.type === 'exec') {
+    if (socket.definition.type === 'exec') {
       if (this.type !== 'exec') return false
       if (this.connected && this.side === 'output') return false
       const isLoop = this.node.isConnectedToNode(
@@ -60,6 +64,7 @@ export class Socket extends ClassicPreset.Socket {
       }
       return true
     }
+    if (this.definition.type === 'exec') return false
 
     const isAlreadyConnected = this.node.isConnectedToNode(
       socket.node,

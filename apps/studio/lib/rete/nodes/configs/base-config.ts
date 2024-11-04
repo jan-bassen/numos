@@ -12,14 +12,16 @@ export const baseConfig = (context: EditorContext) => {
   const tokenSubitems =
     context.type === 'action'
       ? [
-          'attribute-data',
-          'meta-data',
+          'token-attribute',
+          'collection-attribute',
+          'metadata',
           'separator',
-          'change-attribute',
+          'change-token-attribute',
+          'change-collection-attribute',
           'change-token-name',
           'change-token-description',
         ]
-      : ['attribute-data', 'meta-data']
+      : ['token-attribute', 'collection-attribute', 'metadata']
   const token = {
     label: 'Token',
     key: 'token',
@@ -100,7 +102,7 @@ export const baseConfig = (context: EditorContext) => {
       {
         label: 'Lists',
         key: 'list',
-        subitems: ['list-append', 'list-prepend', 'list-length', 'is-in-list'],
+        subitems: ['list-add', 'list-length', 'is-in-list'],
       },
     ],
   }

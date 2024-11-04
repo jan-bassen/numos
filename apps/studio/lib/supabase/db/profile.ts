@@ -14,7 +14,7 @@ export async function getUser(): Promise<User> {
   const supabase = await createSupabaseServerComponentClient()
   const { data, error } = await supabase.auth.getUser()
   if (error) {
-    throw new Error('Error fetching user')
+    throw new Error(`Error fetching user: ${error.message}`)
   }
   return data.user
 }

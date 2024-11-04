@@ -163,8 +163,8 @@ export async function updateAttribute(
       console.log(res)
     }
 
-    revalidatePath('/studio/[collection]/attributes/[attribute]')
-    revalidatePath('/studio/[collection]/attributes/')
+    revalidatePath('/collections/[collection]/attributes/[attribute]')
+    revalidatePath('/collections/[collection]/attributes/')
     return {
       ok: true,
       message: 'Successfully updated.',
@@ -216,8 +216,8 @@ export async function updateAttribute(
     throw new FetchError("Error with inserting new attribute");
   }
 
-  revalidatePath(`/studio/[collection]/attributes/[attribute]`);
-  revalidatePath("/studio/[collection]/attributes/");
+  revalidatePath(`/collections/[collection]/attributes/[attribute]`);
+  revalidatePath("/collections/[collection]/attributes/");
 
   return {
     ok: true,
@@ -310,7 +310,7 @@ export async function duplicateAttribute(id: string): Promise<ReturnInfo> {
     throw new FetchError('Error with inserting new attribute')
   }
 
-  revalidatePath('/studio/[collection]/attributes/[attribute]')
+  revalidatePath('/collections/[collection]/attributes/[attribute]')
   return {
     ok: true,
     message: 'Successfully duplicated',
@@ -334,6 +334,6 @@ export async function deleteAttribute(
     return { ok: false, message: error.message }
   }
   const res = await clearAttributeNodeControls(versionId, slug)
-  revalidatePath('/studio/[collection]/attributes')
+  revalidatePath('/collections/[collection]/attributes')
   return res
 }

@@ -39,7 +39,7 @@ export default function SigninPage() {
         return
       }
       if (data.user) {
-        router.push('/studio')
+        router.push('/')
       }
     }
 
