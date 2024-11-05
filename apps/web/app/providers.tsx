@@ -48,6 +48,7 @@ export default function Providers({
             ? 'localStorage+cookie'
             : 'memory',
         capture_pageview: false,
+        capture_pageleave: true,
         loaded: (posthog) => {
           if (
             process.env.NODE_ENV === 'development' ||

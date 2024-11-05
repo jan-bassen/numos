@@ -1,11 +1,10 @@
-import { PostHog } from "posthog-node";
+import { PostHog } from 'posthog-node'
 
 export default function PostHogClient() {
-  if (!process.env.NEXT_PUBLIC_POSTHOG_KEY) return null
-  const posthogClient = new PostHog(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
+  if (!process.env.NEXT_PUBLIC_POSTHOG_KEY) throw new Error('No analytics key')
+  return new PostHog(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
     host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
     flushAt: 1,
     flushInterval: 0,
-  });
-  return posthogClient;
+  })
 }

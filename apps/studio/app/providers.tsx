@@ -38,9 +38,9 @@ export default function Providers({
     }
 
     const key = process.env.NEXT_PUBLIC_POSTHOG_KEY
-    if (!key) return
+    if (!key) throw new Error('No analytics key')
 
-    if (!posthog.__loaded && process.env.VERCEL_ENV === 'production') {
+    if (!posthog.__loaded) {
       posthog.init(key, {
         api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
         persistence:
@@ -48,6 +48,7 @@ export default function Providers({
             ? 'localStorage+cookie'
             : 'memory',
         capture_pageview: false,
+        capture_pageleave: true,
         loaded: (posthog) => {
           if (
             process.env.NODE_ENV === 'development' ||
