@@ -1,9 +1,11 @@
 {
   "name": "@repo/engine",
   "type": "module",
+  "version": "0.1.0",
   "scripts": {
     "dev": "tsc --watch",
-    "build": "tsc"
+    "build": "tsc",
+    "lint": "biome lint"
   },
   "exports": {
     "./types/*": "./src/types/*.ts",

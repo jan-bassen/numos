@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "check-types": "tsc --noEmit",
-    "lint": "next lint",
+    "lint": "biome lint",
     "dg:typegen": "supabase gen types typescript --project-id ncqfkhposkxidjcaghvj > types/database-generated.types.ts",
     "email": "email dev --dir lib/emails"
   },

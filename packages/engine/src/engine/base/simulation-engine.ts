@@ -13,8 +13,8 @@ import type {
   DataInterface,
   NodeData,
 } from '@repo/engine/types/node-types'
-import { GraphError } from '@repo/engine/errors/graph-error.ts'
-import { NodeError } from '@repo/engine/errors/node-error.ts'
+import { GraphError } from '@repo/engine/errors/graph-error'
+import { NodeError } from '@repo/engine/errors/node-error'
 
 export class SimulationEngine extends EngineBase {
   constructor(
@@ -61,14 +61,7 @@ export class SimulationEngine extends EngineBase {
       return this.getInputValue(nodeId, key)
     },
     getControlValue: (key: string) => {
-      try {
-        return this.getControlValue(nodeId, key)
-      } catch (err) {
-        if (err instanceof NodeError) {
-          throw err.convertToGraphError(nodeId)
-        }
-        throw err
-      }
+      return this.getControlValue(nodeId, key)
     },
   })
 
@@ -103,9 +96,7 @@ export class SimulationEngine extends EngineBase {
         })
         return result
       } catch (err) {
-        if (err instanceof NodeError) {
-          throw err.convertToGraphError(nodeId)
-        }
+        if (err instanceof NodeError) throw err.convertToGraphError(nodeId)
         if (err instanceof Error) {
           throw new GraphError(err.message, { node: nodeId })
         }
@@ -120,15 +111,12 @@ export class SimulationEngine extends EngineBase {
       })
     if (typeof outputLogic === 'function') {
       try {
-        const result = outputLogic(this.getDataInterface(nodeId), {
+        return outputLogic(this.getDataInterface(nodeId), {
           ...this.getContext(),
           nodeId,
         })
-        return result
       } catch (err) {
-        if (err instanceof NodeError) {
-          throw err.convertToGraphError(nodeId)
-        }
+        if (err instanceof NodeError) throw err.convertToGraphError(nodeId)
         throw err
       }
     }
@@ -159,7 +147,8 @@ export class SimulationEngine extends EngineBase {
     if (!this.simulationData) throw new Error('Simulation data not set')
     const value = this.simulationData.attributes[key]
     if (!value)
-      throw new NodeError(`Attribute ${key} not defined`, {
+      throw new GraphError(`Attribute ${key} not defined`, {
+        node,
         input: { key, type: 'attributes' },
       })
     return this.validateAndResolveValue(value, node)
@@ -167,14 +156,17 @@ export class SimulationEngine extends EngineBase {
 
   getMetadata<Key extends BasicMetadataKeys>(
     key: Key,
+    node: string,
   ): Value<Key extends 'id' ? 'number' : 'string', 'single', false> {
     if (!this.simulationData)
-      throw new NodeError('Simulation data not set', {
+      throw new GraphError('Simulation data not set', {
+        node,
         input: { key, type: 'metadata' },
       })
     const value = this.simulationData.basicMetadata[key]
     if (!value)
-      throw new NodeError(`Metadata: ${key} not defined`, {
+      throw new GraphError(`Metadata: ${key} not defined`, {
+        node,
         input: { key, type: 'metadata' },
       })
     const type =
@@ -187,7 +179,8 @@ export class SimulationEngine extends EngineBase {
       false
     >(type, 'single', false, value)
     if (error)
-      throw new NodeError('Error with parsing value', {
+      throw new GraphError('Error with parsing value', {
+        node,
         input: { key, type: 'metadata' },
       })
     return validated

@@ -1,18 +1,14 @@
 import type {
   EngineContext,
-  GraphErrorData,
   ImageSimulationResult,
   SimulationData,
-  UnknownErrorData,
 } from '@repo/engine/types/engine-types'
 import type { MapGraph } from '@repo/engine/types/graph-types'
 import { SimulationEngine } from '@repo/engine/engine/base/simulation-engine'
 import type { Value, ValueType } from '@repo/engine/types/value-types'
 import { explicitlyValidateValue } from '@repo/engine/datatypes/validation'
 import { GraphError } from '@repo/engine/errors/graph-error'
-import { NodeError } from '@repo/engine/errors/node-error'
-
-//TODO: Make errors to specific errors
+import { NodeError } from '../errors/node-error.ts'
 
 export class ImageSimulationEngine extends SimulationEngine {
   constructor(
@@ -34,18 +30,12 @@ export class ImageSimulationEngine extends SimulationEngine {
     if (!rootLogic)
       throw new GraphError('Root node has no root logic', { node: rootId })
     try {
-      const result = rootLogic(this.getDataInterface(rootId), {
+      return rootLogic(this.getDataInterface(rootId), {
         ...this.getContext(),
         nodeId: rootId,
       })
-      return result
     } catch (err) {
-      if (err instanceof NodeError) {
-        throw new GraphError(err.message, {
-          node: rootId,
-          ...err.location,
-        })
-      }
+      if (err instanceof NodeError) throw err.convertToGraphError(rootId)
       throw err
     }
   }
@@ -75,13 +65,6 @@ export class ImageSimulationEngine extends SimulationEngine {
       } as Value<'image', 'single', false>
       return { result, error: undefined }
     } catch (err) {
-      if (err instanceof NodeError) {
-        const [rootId, rootNode] = this.findRootNode()
-        return {
-          result: undefined,
-          error: err.convertToGraphError(rootId).serialize(),
-        }
-      }
       const error = this.serializeError(err)
       return { result: undefined, error }
     }

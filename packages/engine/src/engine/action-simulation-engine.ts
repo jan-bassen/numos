@@ -21,8 +21,8 @@ import type {
   ValueType,
 } from '@repo/engine/types/value-types'
 import { SimulationEngine } from '@repo/engine/engine/base/simulation-engine'
-import { NodeError } from '@repo/engine/errors/node-error'
 import { GraphError } from '@repo/engine/errors/graph-error'
+import { NodeError } from '../errors/node-error.ts'
 
 export class ActionSimulationEngine extends SimulationEngine {
   simulatedResult: SimulatedTokenStateResult
@@ -102,8 +102,9 @@ export class ActionSimulationEngine extends SimulationEngine {
   setMetadata(
     key: 'name' | 'description',
     value: string,
+    node: string,
   ): MetadataChangeResult {
-    const previous = this.getMetadata(key)
+    const previous = this.getMetadata(key, node)
     if (previous.value === value) return { previous, changed: false }
     this.simulatedResult.metadataChange[key] = {
       old: previous,
@@ -185,8 +186,10 @@ export class ActionSimulationEngine extends SimulationEngine {
         //TODO: Fix Error-Location (wrong Node on get input from simulation data) !
       } catch (err) {
         if (err instanceof NodeError) {
-          const error = err.convertToGraphError(currentNode).serialize()
-          return { result: undefined, error }
+          return {
+            result: undefined,
+            error: err.convertToGraphError(currentNode).serialize(),
+          }
         }
         if (err instanceof GraphError) {
           return { result: undefined, error: err.serialize() }

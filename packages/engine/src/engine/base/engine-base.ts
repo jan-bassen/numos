@@ -21,7 +21,6 @@ import sharp from 'sharp'
 import type { NodeType } from '@repo/engine/types/node-types'
 import { nodeLogic } from '@repo/engine/nodes/nodetypes'
 import { GraphError } from '@repo/engine/errors/graph-error'
-import { NodeError } from '@repo/engine/errors/node-error.ts'
 
 export class EngineBase {
   constructor(
@@ -82,20 +81,7 @@ export class EngineBase {
         node: nodeId,
         component: { key, type: 'input' },
       })
-    try {
-      return this.validateAndResolveValue(value, nodeId)
-    } catch (err) {
-      if (err instanceof NodeError) {
-        throw new GraphError(
-          'Control value needs to be defined, if input is not connected',
-          {
-            node: nodeId,
-            component: { key, type: 'input' },
-          },
-        )
-      }
-      throw err
-    }
+    return this.validateAndResolveValue(value, nodeId)
   }
 
   getConnection(
@@ -146,8 +132,6 @@ export class EngineBase {
     }
   }
 
-  //TODO: Fix Error-Location!
-  //TODO: Fix boolean "false" input
   validateAndResolveValue(
     value: Value<ValueType, ValueFormat, true>,
     node: string,
