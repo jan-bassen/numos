@@ -17,7 +17,7 @@ export async function handleFileUpload(
   collectionId: string,
   folder: string | null,
   files: File[] | null,
-  fileInputRef: RefObject<HTMLInputElement> | null,
+  fileInputRef: RefObject<HTMLInputElement | null> | null,
 ) {
   if (!files) return
   const fileMap: Record<string, File> = {}

@@ -7,6 +7,8 @@ import type { NewItemDialogProps } from '@/types/props.types'
 import { PiAddAddStroke } from '@repo/ui/icons/pika'
 import { Separator } from '@repo/ui/components/ui/separator'
 
+import type { JSX } from "react";
+
 export const seondaryNavbarIconClasses = 'h-4 w-4 my-auto hidden md:block'
 
 export default function SecondaryNavbar({

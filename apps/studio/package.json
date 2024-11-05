@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "dev": "next dev --turbo",
+    "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "check-types": "tsc --noEmit",
@@ -47,19 +47,19 @@
     "lodash": "^4.17.21",
     "lucide-react": "^0.272.0",
     "luxon": "^3.4.0",
-    "next": "^14.2.3",
+    "next": "15.0.2",
     "next-themes": "^0.2.1",
     "path": "^0.12.7",
     "poly-decomp": "^0.3.0",
     "posthog-js": "^1.131.4",
     "posthog-node": "^4.0.1",
-    "react": "18.2.0",
+    "react": "19.0.0-rc-02c0e824-20241028",
     "react-canvas-confetti": "^2.0.7",
     "react-color": "^2.19.3",
     "react-colorful": "^5.6.1",
     "react-datepicker": "^4.16.0",
     "react-device-detect": "^2.2.3",
-    "react-dom": "18.2.0",
+    "react-dom": "19.0.0-rc-02c0e824-20241028",
     "react-geocode": "1.0.0-alpha.1",
     "react-hook-form": "^7.45.2",
     "react-hotkeys-hook": "^4.4.1",
@@ -93,9 +93,9 @@
     "@types/lodash": "^4.17.7",
     "@types/luxon": "^3.4.2",
     "@types/node": "^20.14.11",
-    "@types/react": "^18.3.3",
+    "@types/react": "npm:types-react@19.0.0-rc.1",
     "@types/react-color": "^3.0.6",
-    "@types/react-dom": "^18.3.0",
+    "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1",
     "autoprefixer": "^10.4.15",
     "cross-env": "^7.0.3",
     "pg": "^8.11.1",
@@ -108,7 +108,9 @@
   "pnpm": {
     "overrides": {
       "@radix-ui/react-dismissable-layer": "^1.0.5",
-      "@radix-ui/react-focus-scope": "^1.0.4"
+      "@radix-ui/react-focus-scope": "^1.0.4",
+      "@types/react": "npm:types-react@19.0.0-rc.1",
+      "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1"
     }
   }
 }

@@ -2,6 +2,8 @@ import { buttonVariants } from '@repo/ui/components/ui/button'
 import { cn } from '@repo/ui/lib/utils'
 import Link from 'next/link'
 
+import type { JSX } from "react";
+
 type LinkObject = {
   text: string
   href: string

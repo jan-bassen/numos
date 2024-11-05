@@ -8,16 +8,21 @@ import Page from '@/components/layout/pages/page'
 import { actionTypes } from '@/components/elements/actions/action-schema'
 import { NewActionDialog } from '@/components/elements/actions/new-action-dialog'
 
-export default async function ActionsLayout({
-  children,
-  params,
-}: {
-  children: React.ReactNode
-  params: {
-    collection: string
-    action: string
+export default async function ActionsLayout(
+  props: {
+    children: React.ReactNode
+    params: Promise<{
+      collection: string
+      action: string
+    }>
   }
-}) {
+) {
+  const params = await props.params;
+
+  const {
+    children
+  } = props;
+
   const collection = await getCollectionFromSlug(params.collection)
   if (!collection.editable_version) throw new Error('No editable version')
   const actions: NavItem[] = (await getActionsForNav(params.collection)).map(

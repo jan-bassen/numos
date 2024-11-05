@@ -3,14 +3,21 @@ import Main from '@/components/layout/pages/main'
 import { getActionBySlug } from '@/lib/supabase/db/actions'
 import { getExtendedCollectionFromSlug } from '@/lib/supabase/db/collections'
 
-export default async function ActionPage({
-  params: { collection, action },
-}: {
-  params: {
-    collection: string
-    action: string
+export default async function ActionPage(
+  props: {
+    params: Promise<{
+      collection: string
+      action: string
+    }>
   }
-}) {
+) {
+  const params = await props.params;
+
+  const {
+    collection,
+    action
+  } = params;
+
   const fullCollection = await getExtendedCollectionFromSlug(collection)
   const fullAction = await getActionBySlug(
     action,

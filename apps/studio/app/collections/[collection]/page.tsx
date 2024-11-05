@@ -16,11 +16,12 @@ import { SupabaseImage } from '@/lib/supabase/storage/supabaseImage'
 import { cn } from '@repo/ui/lib/utils'
 import Link from 'next/link'
 
-export default async function Collection({
-  params,
-}: {
-  params: { collection: string }
-}) {
+export default async function Collection(
+  props: {
+    params: Promise<{ collection: string }>
+  }
+) {
+  const params = await props.params;
   const collection = await getExtendedCollectionFromSlug(params.collection)
   const version = collection.editable_version
   const badge = {

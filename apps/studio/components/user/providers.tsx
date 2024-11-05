@@ -9,7 +9,7 @@ import {
 import { createSupabaseClient } from '@/lib/supabase/client'
 import type { Provider, UserIdentity } from '@supabase/supabase-js'
 import { useRouter } from 'next/navigation'
-import type { SVGProps } from 'react'
+import type { SVGProps, JSX } from 'react';
 import { toast } from 'sonner'
 
 const providers: {

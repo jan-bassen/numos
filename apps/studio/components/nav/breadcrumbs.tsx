@@ -6,7 +6,7 @@ import {
   BreadcrumbSeparator,
 } from '@repo/ui/components/ui/breadcrumb'
 import Link from 'next/link'
-import { Fragment } from 'react'
+import { Fragment, type JSX } from 'react';
 
 export type BreadcrumbObject =
   | {

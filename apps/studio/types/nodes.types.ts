@@ -25,6 +25,8 @@ import type { AttributeInfo } from './attributes.types'
 import type { Input } from '@/lib/rete/classes/connectors/input'
 import type { Output } from '@/lib/rete/classes/connectors/output'
 
+import type { JSX } from "react";
+
 // ----------- NODE DEPENDENCIES -------------
 
 export type NodeDependency = {

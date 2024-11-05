@@ -5,11 +5,12 @@ import { getImageGraph } from '@/lib/supabase/db/image-graph'
 import ImageNodeEditor from '@/components/elements/image/image-editor'
 import { getLayerTree } from '@/lib/supabase/db/layers'
 
-export default async function Collection({
-  params,
-}: {
-  params: { collection: string }
-}) {
+export default async function Collection(
+  props: {
+    params: Promise<{ collection: string }>
+  }
+) {
+  const params = await props.params;
   const collection = await getExtendedCollectionFromSlug(params.collection)
 
   const [attributes, graph, layerTree] = await Promise.all([

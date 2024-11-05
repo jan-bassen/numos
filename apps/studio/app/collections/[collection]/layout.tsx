@@ -5,13 +5,18 @@ import { getAllCollections } from '@/lib/supabase/db/collections'
 import { getProfile, getUser } from '@/lib/supabase/db/profile'
 import { notFound } from 'next/navigation'
 
-export default async function Layout({
-  children,
-  params,
-}: {
-  children: React.ReactNode
-  params: { collection: string }
-}) {
+export default async function Layout(
+  props: {
+    children: React.ReactNode
+    params: Promise<{ collection: string }>
+  }
+) {
+  const params = await props.params;
+
+  const {
+    children
+  } = props;
+
   const collections = await getAllCollections()
   const collection = collections.find((c) => c.slug === params.collection)
   if (!collection) {

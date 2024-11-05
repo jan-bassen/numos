@@ -6,7 +6,7 @@ export function useEditor<T extends { destroy(): void }>(
   create: (el: HTMLElement) => Promise<T>,
 ) {
   const [container, setContainer] = useState<null | HTMLElement>(null)
-  const editorRef = useRef<T>()
+  const editorRef = useRef<T | null>(null)
   const [editor, setEditor] = useState<T | null>(null)
   const ref = useRef(null)
 

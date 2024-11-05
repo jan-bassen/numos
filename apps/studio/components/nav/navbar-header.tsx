@@ -4,6 +4,8 @@ import { Button } from '@repo/ui/components/ui/button'
 import { PiAddAddStroke } from '@repo/ui/icons/pika'
 import Link from 'next/link'
 
+import type { JSX } from "react";
+
 export default function NavbarHeader({
   title,
   href,

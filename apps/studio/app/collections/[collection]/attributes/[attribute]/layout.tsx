@@ -3,18 +3,24 @@ import SecondaryNavbar, {
 } from '@/components/nav/secondary-navbar'
 import { getAttributesForNav } from '@/lib/supabase/db/attributes'
 import { getCollectionFromSlug } from '@/lib/supabase/db/collections'
-import { NavItem } from '@/types/database.types'
+import type { NavItem } from '@/types/database.types'
 import Page from '@/components/layout/pages/page'
 import { dataTypes } from '@/lib/supabase/constants/datatypes'
 import { NewAttributeDialog } from '@/components/elements/attributes/new-attribute-dialog'
 
-export default async function Layout({
-  children,
-  params,
-}: {
-  children: React.ReactNode
-  params: { collection: string; attribute: string }
-}) {
+export default async function Layout(
+  props: {
+    children: React.ReactNode
+    params: Promise<{ collection: string; attribute: string }>
+  }
+) {
+  const params = await props.params;
+
+  const {
+    children
+  } = props;
+
+  console.log('render')
   const collection = await getCollectionFromSlug(params.collection)
   if (!collection.editable_version) throw new Error('No editable version')
   const attributes = await getAttributesForNav(collection.editable_version)

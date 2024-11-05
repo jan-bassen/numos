@@ -26,6 +26,8 @@ import type {
 } from '@/types/actions.types'
 import { datatypeSchema } from '@repo/engine/datatypes/schemas'
 
+import type { JSX } from "react";
+
 export const actionTypes: Record<
   TriggerType,
   { name: string; icon: (props: JSX.IntrinsicElements['svg']) => JSX.Element }

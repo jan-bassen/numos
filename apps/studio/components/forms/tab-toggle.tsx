@@ -1,7 +1,7 @@
 import { Tabs, TabsList, TabsTrigger } from '@repo/ui/components/ui/tabs'
 import { PiCheckTickCircleBrokenStroke } from '@repo/ui/icons/pika'
 import { cn } from '@repo/ui/lib/utils'
-import type { ChangeEvent } from 'react'
+import type { ChangeEvent, JSX } from 'react';
 
 export type TabToggleOption = {
   value: boolean

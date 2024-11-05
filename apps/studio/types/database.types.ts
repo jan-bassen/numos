@@ -17,6 +17,8 @@ import type {
   SavedNodeState,
 } from '@repo/engine/types/graph-types'
 
+import type { JSX } from "react";
+
 // Type overrides for specific columns:
 export type Database = MergeDeep<
   DatabaseGenerated,

@@ -32,20 +32,9 @@ export const metadata: Metadata = {
   ],
 }
 
-const PostHogPageView = dynamic(
-  () => import('@/lib/posthog/posthog-pageview'),
-  {
-    ssr: false,
-  },
-)
-
-const CookieBanner = dynamic(() => import('@/lib/posthog/cookie-banner'), {
-  ssr: false,
-})
-
-const Providers = dynamic(() => import('@/app/providers'), {
-  ssr: false,
-})
+const PostHogPageView = dynamic(() => import('@/lib/posthog/posthog-pageview'))
+const CookieBanner = dynamic(() => import('@/lib/posthog/cookie-banner'))
+const Providers = dynamic(() => import('@/app/providers'))
 
 export default async function RootLayout({
   children,

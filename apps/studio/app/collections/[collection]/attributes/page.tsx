@@ -31,11 +31,12 @@ import { dataTypes } from '@/lib/supabase/constants/datatypes'
 import { iconClassesStroke } from '@/components/nav/navbar-links'
 import { NewAttributeDialog } from '@/components/elements/attributes/new-attribute-dialog'
 
-export default async function AttributesPage({
-  params,
-}: {
-  params: { collection: string; attribute: string }
-}) {
+export default async function AttributesPage(
+  props: {
+    params: Promise<{ collection: string; attribute: string }>
+  }
+) {
+  const params = await props.params;
   const collection = await getCollectionFromSlug(params.collection)
   if (!collection.editable_version) throw new Error('No editable version')
   const attributes = await getAllAttributes(collection.editable_version)

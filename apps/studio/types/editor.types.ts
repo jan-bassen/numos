@@ -21,6 +21,8 @@ import type {
   RenderEmit as RenderEmitBase,
 } from 'rete-react-plugin'
 
+import type { JSX } from "react";
+
 // ----------- EDITOR -------------
 
 export type Schemes = GetSchemes<Node, Connection>

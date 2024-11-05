@@ -3,11 +3,12 @@ import { getAttributeBySlug } from "@/lib/supabase/db/attributes";
 import AttributeEditor from "../../../../../components/elements/attributes/attribute-editor";
 import { getExtendedCollectionFromSlug } from "@/lib/supabase/db/collections";
 
-export default async function Attribute({
-  params,
-}: {
-  params: { collection: string; attribute: string };
-}) {
+export default async function Attribute(
+  props: {
+    params: Promise<{ collection: string; attribute: string }>;
+  }
+) {
+  const params = await props.params;
   const collection = await getExtendedCollectionFromSlug(params.collection);
   const attribute =
     params.attribute === "new"

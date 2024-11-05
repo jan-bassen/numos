@@ -12,11 +12,12 @@ import { getAllActions } from '@/lib/supabase/db/actions'
 import { getExtendedCollectionFromSlug } from '@/lib/supabase/db/collections'
 import type { NavItem } from '@/types/database.types'
 
-export default async function ActionsPage({
-  params,
-}: {
-  params: { collection: string }
-}) {
+export default async function ActionsPage(
+  props: {
+    params: Promise<{ collection: string }>
+  }
+) {
+  const params = await props.params;
   const collection = await getExtendedCollectionFromSlug(params.collection)
   const actions = await getAllActions(collection.editable_version.id)
   const actionNavItems: NavItem[] = actions.map((action) => ({

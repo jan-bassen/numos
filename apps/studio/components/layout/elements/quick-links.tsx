@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ReactNode, SVGProps } from 'react'
+import { ReactNode, SVGProps, type JSX } from 'react';
 
 export default function QuickLinks({
   links,
