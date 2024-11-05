@@ -3,9 +3,28 @@
   "ui": "tui",
   "tasks": {
     "studio#build": {
-      "dependsOn": ["@repo/engine#build"],
+      "dependsOn": ["@repo/engine#build", "^build"],
+      "env": [
+        "NEXT_PUBLIC_POSTHOG_HOST",
+        "NEXT_PUBLIC_POSTHOG_KEY",
+        "HUBSPOT_ACCESS_TOKEN",
+        "NEXT_PUBLIC_GOOGLE_MAPS_API_KEY",
+        "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+        "NEXT_PUBLIC_SUPABASE_PROJECT_ID",
+        "NEXT_PUBLIC_SUPABASE_URL",
+        "SUPABASE_SERVICE_KEY",
+        "OPENAI_API_KEY"
+      ],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [".next/**", "!.next/cache/**"]
+    },
+    "web#build": {
+      "dependsOn": ["^build"],
+      "env": [
+        "NEXT_PUBLIC_POSTHOG_HOST",
+        "NEXT_PUBLIC_POSTHOG_KEY",
+        "HUBSPOT_ACCESS_TOKEN"
+      ]
     },
     "build": {
       "dependsOn": ["^build"],
