@@ -29,11 +29,7 @@ const formSchema = z.object({
 
 type SchemaType = z.infer<typeof formSchema>
 
-export default function LoginPage({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined }
-}) {
+export default function LoginPage() {
   const [submitted, setSubmitted] = useState(false)
 
   const form = useForm<SchemaType>({

@@ -187,7 +187,7 @@ export async function setAttributeLock(id: string, locked: boolean) {
   const supabase = await createSupabaseServerComponentClient()
   const { error } = await supabase
     .from('attributes')
-    .update({ locked })
+    .update({ locked } as UpdateAttribute)
     .eq('id', id)
   if (error) {
     throw new FetchError('Error with updating attribute')

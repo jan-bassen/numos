@@ -82,7 +82,7 @@ export default function RunSidebar({
               )}
             </div>
           </ResizablePanel>
-          <ResizableHandle className="h-px bg-sidebar-border" />
+          <ResizableHandle className=" h-[0.5px] bg-sidebar-border" />
           <div className="-translate-y-4 z-50 flex h-0 justify-center overflow-visible">
             <Button
               type="submit"

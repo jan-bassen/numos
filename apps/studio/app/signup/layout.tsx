@@ -3,10 +3,8 @@ import { redirect } from 'next/navigation'
 
 export default async function SignInLayout({
   children,
-  params,
 }: {
   children: React.ReactNode
-  params: { collection: string }
 }) {
   const supabase = await createSupabaseServerComponentClient()
   const { data } = await supabase.auth.getUser()
