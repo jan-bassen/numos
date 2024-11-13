@@ -20,6 +20,7 @@ import { Loader2 } from 'lucide-react'
 import { useState, useTransition } from 'react'
 import type { FieldError } from 'react-hook-form'
 import { toast } from 'sonner'
+import { Label } from '@repo/ui/components/ui/label'
 
 export type CronObject = {
   schedule?: string
@@ -106,8 +107,8 @@ export default function CronInput({
           )}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="space-y-2">
-        <Tabs defaultValue="ai">
+      <PopoverContent className="min-h-64 p-3">
+        <Tabs defaultValue="ai" className="flex flex-col justify-between gap-2">
           <TabsList className="w-full">
             <TabsTrigger value="ai" className="w-full">
               AI
@@ -117,12 +118,21 @@ export default function CronInput({
             </TabsTrigger>
           </TabsList>
           <TabsContent value="ai" className="space-y-2">
-            <Textarea
-              className="h-12 w-full"
-              placeholder="Describe your schedule and we will generate it for you"
-              value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
-            />
+            <div className="space-y-0.5">
+              <Label
+                htmlFor="cron-prompt"
+                className="pl-0.5 text-muted-foreground text-sm"
+              >
+                Prompt
+              </Label>
+              <Textarea
+                id="cron-prompt"
+                className="min-h-24 w-full"
+                placeholder="Every first day of the month at 10am"
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
+              />
+            </div>
             <Button
               form="cron-ai-form"
               type="submit"
@@ -134,28 +144,46 @@ export default function CronInput({
             </Button>
           </TabsContent>
           <TabsContent value="manual" className="space-y-2">
-            <Input
-              {...input}
-              onChange={(e) =>
-                field.onChange({
-                  schedule: e.target.value,
-                  description: field.value?.description,
-                })
-              }
-              onBlur={() => field.onBlur(field.value)}
-              value={field.value?.schedule}
-              placeholder='e.g. "0 0 * * * *"'
-            />
-            <Textarea
-              onChange={(e) =>
-                field.onChange({
-                  schedule: field.value?.schedule,
-                  description: e.target.value,
-                })
-              }
-              value={field.value?.description}
-              placeholder='e.g. "Every first day of the month at 10am"'
-            />
+            <div className="space-y-0.5">
+              <Label
+                htmlFor="cron-schedule"
+                className="pl-0.5 text-muted-foreground text-sm"
+              >
+                Cron-Schedule
+              </Label>
+              <Input
+                id="cron-schedule"
+                {...input}
+                onChange={(e) =>
+                  field.onChange({
+                    schedule: e.target.value,
+                    description: field.value?.description,
+                  })
+                }
+                onBlur={() => field.onBlur(field.value)}
+                value={field.value?.schedule}
+                placeholder="0 0 * * * *"
+              />
+            </div>
+            <div className="space-y-0.5">
+              <Label
+                htmlFor="cron-description"
+                className="pl-0.5 text-muted-foreground text-sm"
+              >
+                Description
+              </Label>
+              <Textarea
+                id="cron-description"
+                className="min-h-16"
+                onChange={(e) =>
+                  field.onChange({
+                    schedule: field.value?.schedule,
+                    description: e.target.value,
+                  })
+                }
+                value={field.value?.description}
+              />
+            </div>
           </TabsContent>
         </Tabs>
       </PopoverContent>

@@ -6,7 +6,7 @@ import { createSupabaseServerClient } from './server-client'
 import type { ReturnInfo } from '@/types/database.types'
 import { z } from 'zod'
 import { signupSchema } from '../validation/auth'
-import { hubspot } from '../hubspot/client'
+import { hubspot } from '../hubspot/hubspot-client'
 import {
   type CollectionResponseWithTotalSimplePublicObjectForwardPaging,
   FilterOperatorEnum,

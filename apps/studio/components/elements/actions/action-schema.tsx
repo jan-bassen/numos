@@ -56,14 +56,14 @@ export const triggerOptions: SelectOptions = [
     label: 'API',
     subtext: 'Call from your app',
     description:
-      'Trigger via an API call from your app, website or other service',
+      'Trigger via an API call from your app or website (e.g. on button click)',
     icons: { stroke: PiLinkChainHorizontalStroke },
   },
   {
     value: 'interval',
     label: 'Interval',
     subtext: 'Every X minutes',
-    description: 'Trigger automatically at a set interval, e.g. every 3 days',
+    description: 'Trigger automatically at a set interval (e.g. every 3 days)',
     icons: { stroke: PiTimerDefaultStroke },
   },
   {
@@ -72,14 +72,14 @@ export const triggerOptions: SelectOptions = [
     subtext: 'Custom Schedule',
     icons: { stroke: PiCalendarFilledStroke },
     description:
-      'Trigger automatically at a set (cron) schedule, e.g. every first day of the month',
+      'Trigger automatically at a schedule (e.g. every first day of the month)',
   },
   {
     value: 'token',
     label: 'Token',
     subtext: 'On mint, transfer, ...',
     description:
-      'Trigger automatically when a token event occurs, e.g. when a token is minted',
+      'Trigger automatically when a token event occurs (e.g. on transfer)',
     icons: { stroke: PiNftBoltMintStroke },
   },
 ]

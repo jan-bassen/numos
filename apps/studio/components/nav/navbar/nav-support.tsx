@@ -7,14 +7,13 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  useSidebar,
 } from '@repo/ui/components/ui/sidebar'
-import { type ComponentProps, useEffect, useRef, useState } from 'react'
+import { type ComponentProps, useEffect, useState } from 'react'
 import { cn } from '@repo/ui/lib/utils'
-import { useChatContext } from '@/lib/hubspot/context'
+import { useChatContext } from '@/lib/hubspot/chat-context'
 
 export function NavSupport(props: ComponentProps<typeof SidebarGroup>) {
-  const { chatOpen, setChatOpen } = useChatContext()
+  const { chatOpen, setChatOpen, unreadMessages } = useChatContext()
   const [disabled, setDisabled] = useState(false)
   useEffect(() => {
     if (chatOpen) {
@@ -41,7 +40,7 @@ export function NavSupport(props: ComponentProps<typeof SidebarGroup>) {
             <SidebarMenuButton
               size="sm"
               className={cn(
-                'disabled:opacity-100',
+                'disabled:opacity-100 ',
                 chatOpen && 'bg-sidebar-accent',
               )}
               disabled={disabled}
@@ -51,6 +50,9 @@ export function NavSupport(props: ComponentProps<typeof SidebarGroup>) {
             >
               <MessagesSquare />
               <span>Live chat with team</span>
+              {unreadMessages && (
+                <div className="flex size-2 animate-pulse rounded-full bg-destructive" />
+              )}
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

@@ -203,28 +203,10 @@ export default function ActionEditor({
               <FormSegment
                 title="Trigger"
                 description="Define how the action gets triggered and starts executing."
-                options={[
-                  {
-                    label: 'API',
-                    explanation:
-                      'Trigger via an API call from your app, website or other service',
-                  },
-                  {
-                    label: 'Interval',
-                    explanation:
-                      'Trigger automatically at a set interval, e.g. every 3 days',
-                  },
-                  {
-                    label: 'Schedule',
-                    explanation:
-                      'Trigger automatically at a schedule, e.g. every first day of the month at 10am',
-                  },
-                  {
-                    label: 'Token',
-                    explanation:
-                      'Trigger automatically when a token event occurs, e.g. when a token is minted',
-                  },
-                ]}
+                options={triggerOptions.map(({ label, description }) => ({
+                  label,
+                  explanation: description || '',
+                }))}
               >
                 <EnumInput
                   datatype="enum"

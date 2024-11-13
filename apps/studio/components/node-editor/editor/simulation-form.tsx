@@ -71,6 +71,10 @@ export default function SimulationForm({
   const action = editor?.editor.context.action
   const attributes = editor?.editor.context.attributes || []
   const [accordionOpen, setAccordionOpen] = useState<string[] | undefined>()
+  const { collection } = useParams()
+
+  if (!collection) throw new Error('Collection is not defined.')
+
   useEffect(() => {
     if (error?.location?.input) {
       const type = error.location.input.type
@@ -91,44 +95,44 @@ export default function SimulationForm({
     if (!error || !error.location.input) form.trigger()
   }, [error])
 
-  const { collection } = useParams()
-  if (!collection) throw new Error('Collection is not defined.')
-
   const trigger = action?.trigger as ActionTrigger | undefined
   const hasParams =
     action && trigger?.type === 'api' && trigger.settings.params.length > 0
   const parameters = hasParams ? trigger.settings.params : undefined
 
-  const storedMetadata =
-    typeof localStorage === 'undefined'
-      ? {}
-      : JSON.parse(localStorage?.getItem(`${collection}-metadata`) || '{}')
+  useEffect(() => {
+    const storedMetadata = JSON.parse(
+      localStorage?.getItem(`${collection}-metadata`) || '{}',
+    )
+    form.setValue('metadata', storedMetadata, {
+      shouldValidate: false,
+      shouldDirty: false,
+      shouldTouch: false,
+    })
+  }, [collection])
 
-  const storedAttributeData =
-    typeof localStorage === 'undefined'
-      ? {}
-      : JSON.parse(
-          localStorage?.getItem(`${collection}-attribute-form`) || '{}',
-        )
+  useEffect(() => {
+    const storedAttributeData = JSON.parse(
+      localStorage?.getItem(`${collection}-attribute-form`) || '{}',
+    )
+    form.setValue(
+      'attributes',
+      getDefaultValuesFromAttributes(attributes, storedAttributeData),
+      { shouldValidate: false, shouldDirty: false, shouldTouch: false },
+    )
+  }, [collection, attributes])
 
-  const storedParamsData =
-    typeof localStorage === 'undefined' || !hasParams
-      ? {}
-      : JSON.parse(
-          localStorage?.getItem(`${collection}-${action.slug}-param-form`) ||
-            '{}',
-        )
-
-  const defaultValues = {
-    metadata: storedMetadata || {},
-    attributes: getDefaultValuesFromAttributes(attributes, storedAttributeData),
-    parameters: hasParams
-      ? getDefaultValuesFromParameters(
-          trigger.settings.params,
-          storedParamsData,
-        )
-      : undefined,
-  }
+  useEffect(() => {
+    if (!hasParams || !parameters) return
+    const storedParamsData = JSON.parse(
+      localStorage.getItem(`${collection}-${action.slug}-param-form`) || '{}',
+    )
+    form.setValue(
+      'parameters',
+      getDefaultValuesFromParameters(parameters, storedParamsData),
+      { shouldValidate: false, shouldDirty: false, shouldTouch: false },
+    )
+  }, [collection, action?.slug, hasParams, parameters])
 
   const schema = z.object({
     metadata: optionalMetadataSchema,
@@ -141,7 +145,6 @@ export default function SimulationForm({
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     mode: 'onBlur',
-    defaultValues,
   })
 
   async function onSubmit(data: z.infer<typeof schema>) {
@@ -164,7 +167,7 @@ export default function SimulationForm({
 
     const attributeTypes = getAttributeTypes(attributes || [])
     const annotatedAttributeValues = generateValueMap(
-      data.attributes,
+      data?.attributes || {},
       attributeTypes,
     )
 

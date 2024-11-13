@@ -21,7 +21,7 @@ export function TriggerSelectContent(props: SelectContentProps) {
               })}
               {option.label}
             </h3>
-            <p className="text-ellipsis text-xs text-muted-foreground">
+            <p className="text-ellipsis text-left text-muted-foreground text-xs">
               {option.description}
             </p>
           </SelectItem>

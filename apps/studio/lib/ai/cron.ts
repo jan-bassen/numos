@@ -45,7 +45,7 @@ export async function generateCron(
     prompt: `
     Generate a single (!) cron schedule and a new description for this prompt: "${prompt}".
     If the prompt doesn't provide enough information or you can't fullfill the request, please leave the schedule and description undefined. 
-    Instead provide a message to the user, explaining what they can do to adjust their prompt.
+    Instead provide a message to the user, explaining what they can do to adjust their prompt. Ignore timezones.
 
     Description:
     The description should be a one sentence description of the schedule, starting with "Every...". This should be based on the schedule, not the original description. Feel free to add additional information like the timezone if needed.
@@ -80,7 +80,6 @@ export async function generateCron(
       error instanceof TypeValidationError ||
       error instanceof JSONParseError
     ) {
-      console.log(error)
       return {
         type: 'error',
         message:

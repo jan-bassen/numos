@@ -9,7 +9,7 @@ import type { User } from '@supabase/supabase-js'
 import { useEffect } from 'react'
 import { SidebarProvider } from '@repo/ui/components/ui/sidebar'
 import { SecondarySidebarProvider } from '@repo/ui/components/ui/sidebar-secondary'
-import { ChatProvider } from '@/lib/hubspot/context'
+import { ChatProvider } from '@/lib/hubspot/chat-context'
 
 declare global {
   interface Window {
@@ -18,6 +18,7 @@ declare global {
       loadImmediately?: boolean
     }
     HubSpotConversations: {
+      on: (event: string, callback: (payload: any) => void) => void
       widget: {
         open: () => void
         close: () => void

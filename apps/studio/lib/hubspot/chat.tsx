@@ -1,7 +1,7 @@
 'use client'
 
 import { cn } from '@repo/ui/lib/utils'
-import { useChatContext } from './context'
+import { useChatContext } from './chat-context'
 import { useEffect, useRef } from 'react'
 import { useSidebar } from '@repo/ui/components/ui/sidebar'
 

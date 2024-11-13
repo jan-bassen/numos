@@ -57,7 +57,7 @@ export default function InfoButton({
         <PiInformationCircleSolid className="mt-0.5 h-4 w-4 text-border" />
       </PopoverTrigger>
       <PopoverContent
-        className=" w-80 space-y-3 py-3 font-normal text-popover-foreground text-sm"
+        className="w-96 space-y-3 py-3 font-normal text-popover-foreground text-sm"
         side="right"
       >
         <div className="space-y-1">

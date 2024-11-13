@@ -198,7 +198,7 @@ export function getSchemaFromAttributes(
     if (optional) schema[attribute.slug] = singleSchema.nullable().optional()
     else schema[attribute.slug] = singleSchema
   }
-  return z.object(schema)
+  return z.object(schema).optional()
 }
 
 export function getDefaultValuesFromAttributes(
