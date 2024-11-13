@@ -18,7 +18,7 @@ export default function SelectOptionItem(props: { option: SelectOption }) {
         {option.icons?.stroke({
           className: 'size-4',
         })}
-        {option.label}
+        {option.label || option.value}
       </h3>
       <p className="text-ellipsis text-muted-foreground text-xs">
         {option.description}

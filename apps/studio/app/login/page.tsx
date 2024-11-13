@@ -23,7 +23,7 @@ import Link from 'next/link'
 import { createSupabaseClient } from '@/lib/supabase/client'
 import { getURL } from '@/lib/supabase/client-utils'
 import { cn } from '@repo/ui/lib/utils'
-import { Suspense, use } from 'react';
+import { Suspense, use } from 'react'
 import posthog from 'posthog-js'
 
 const formSchema = z.object({
@@ -35,12 +35,10 @@ const formSchema = z.object({
     .min(6, 'Please enter a password with at least 6 characters'),
 })
 
-export default function LoginPage(
-  props: {
-    searchParams: Promise<{ [key: string]: string | string[] | undefined }>
-  }
-) {
-  const searchParams = use(props.searchParams);
+export default function LoginPage(props: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}) {
+  const searchParams = use(props.searchParams)
   const router = useRouter()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

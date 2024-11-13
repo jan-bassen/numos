@@ -1,6 +1,6 @@
 import type { AnyControlDefinition } from '@/types/nodes.types'
 import type { Node } from './node'
-import { debounce } from 'lodash'
+import { debounce, throttle } from 'lodash'
 import { ZodError, type ZodIssue } from 'zod'
 import type {
   RawValue,
@@ -37,6 +37,12 @@ export class Control {
     this.saveNode = this.saveNode.bind(this)
   }
 
+  //TODO: Clean up duplicate code
+  saveNode = debounce(() => {
+    const editor = this.node.context.editor
+    editor.events.onNodeChanged?.(editor, this.node.save())
+  }, 1500)
+
   onChange(value: Value<ValueType, 'single' | 'objectarray', true>) {
     this.definition?.onChange?.(this.node.interactionInterface, value)
   }
@@ -64,23 +70,8 @@ export class Control {
     this.onChange?.(value)
     this.validate()
     this.node.context.area.update('control', this.id)
-    /* debounce(this.validate, 1500)() */
-    debounce(this.saveNode, 1500)()
+    this.saveNode()
   }
-
-  saveNode() {
-    const editor = this.node.context.editor
-    editor.events.onNodeChanged?.(editor, this.node.save())
-  }
-
-  // TODO: Validate more
-  /*   serialize(): SavedControl {
-    const resolvedValue = resolveObjectArrayValue<ValueType, true>(this.value)
-    return {
-      key: this.id,
-      ...resolvedValue,
-    }
-  } */
 
   setIssues(issues: ZodIssue[]) {
     this.issues = issues
@@ -104,6 +95,7 @@ export class Control {
     try {
       schema.parse(this.value.value)
     } catch (error) {
+      console.error(error)
       if (error instanceof ZodError) {
         if (error.issues.length === 0) {
           this.clearIssues()

@@ -81,10 +81,7 @@ export default function ListInput({
   issues = [],
   onValueChange,
 }: ListInputProps) {
-  const valueArray = useMemo(
-    () => value.value || [{ id: crypto.randomUUID(), value: undefined }],
-    [value],
-  )
+  const valueArray = useMemo(() => value.value || [], [value])
 
   const changeValue = (v: OptionalValue, index: number) => {
     if (!onValueChange) return

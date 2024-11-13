@@ -20,7 +20,7 @@ export interface MathsNode extends NodeInterface<'data'> {
       settings: {
         options: [
           { value: 'add'; label: 'Add' },
-          { value: 'subtract'; label: 'Subtract' },
+          { value: 'sub'; label: 'Subtract' },
           { value: 'mul'; label: 'Multiply' },
           { value: 'div'; label: 'Divide' },
         ]

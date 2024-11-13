@@ -95,6 +95,17 @@ export function getDataTypeSchema(
     return z.array(baseSchema)
   }
   if (format === 'objectarray') {
+    if (optional) {
+      return z
+        .array(
+          z.object({
+            id: z.string().optional(),
+            value: baseSchema,
+          }),
+        )
+        .optional()
+        .nullable()
+    }
     return z.array(
       z.object({
         id: z.string().optional(),

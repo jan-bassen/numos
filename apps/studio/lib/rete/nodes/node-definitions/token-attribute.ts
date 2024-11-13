@@ -5,7 +5,7 @@ export const tokenAttributeDefinition: SpecificNodeDefinition<TokenAttributeNode
   {
     type: 'token-attribute',
     category: 'data',
-    title: 'Token Attribute',
+    title: 'Attribute',
     nodeInfo: {
       description:
         'This node allows you to get the value of an attribute from the token.',
@@ -42,7 +42,7 @@ export const tokenAttributeDefinition: SpecificNodeDefinition<TokenAttributeNode
           type: attribute.type,
           list: attribute.list,
           label: attribute.name || 'Unnamed Attribute',
-          attributes: attribute.settings,
+          settings: attribute.settings,
         },
       ]
     },

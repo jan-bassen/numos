@@ -2,7 +2,7 @@
 
 import type { Collection, LayerTree } from '@/types/database.types'
 import { type DragEvent, useEffect, useRef, useState } from 'react'
-import Header from '@/components/layout/pages/header'
+import Header from '@/components/layout/pages/new-header'
 import { Button, buttonVariants } from '@repo/ui/components/ui/button'
 import {
   PiFolderPlusStroke,
@@ -20,8 +20,13 @@ import {
 } from '@repo/ui/components/ui/context-menu'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { imageAcceptString } from './file-types'
-import { moveLayersAndFolders } from '@/lib/supabase/db/layers'
+import {
+  deleteFolders,
+  deleteLayers,
+  moveLayersAndFolders,
+} from '@/lib/supabase/db/layers'
 import { toast } from 'sonner'
+import Main from '@/components/layout/pages/new-main'
 
 // TODO: Clean up
 
@@ -49,6 +54,7 @@ export type TreeContext = {
   addBetweenToSelection: (element: TreeElement) => void
   removeFromSelection: (element: TreeElement) => void
   moveSelection: (target: TreeElement) => void
+  /* deleteSelection: () => void */
 }
 export type FolderState = {
   [key: string]: string[]
@@ -68,10 +74,14 @@ export default function LayerTreeView({
     Object.keys(tree.layers).length === 0 &&
     Object.keys(tree.folders).length === 0
 
-  //TODO: Validate folderState?
-  const [folderState, setFolderState] = useState<FolderState>(
-    JSON.parse(localStorage.getItem(`folder-state-${collection.id}`) || '{}'),
-  )
+  const [folderState, setFolderState] = useState<FolderState>({})
+
+  useEffect(() => {
+    setFolderState(
+      JSON.parse(localStorage.getItem(`folder-state-${collection.id}`) || '{}'),
+    )
+  }, [collection.id])
+
   const [selection, setSelection] = useState<TreeSelection>({
     folder: [],
     layer: [],
@@ -211,6 +221,26 @@ export default function LayerTreeView({
     })
   }
 
+  // TODO: Doesnt work yet because selection gets cleared too quickly
+  const deleteSelection = async () => {
+    if (locked) return
+    setLocked(true)
+    const selectedLayers = selection.layer.map((item) => item.id)
+    const selectedFolders = selection.folder.map((item) => item.id)
+    const layerPromise = deleteLayers(selectedLayers)
+    const folderPromise = deleteFolders(selectedFolders)
+    const promise = Promise.all([layerPromise, folderPromise])
+    toast.promise(promise, {
+      loading: 'Deleting...',
+      success: () => {
+        setLocked(false)
+        resetSelection()
+        return 'Deleted'
+      },
+      error: (error) => error.message,
+    })
+  }
+
   useHotkeys('esc', () => {
     resetSelection()
   })
@@ -225,7 +255,6 @@ export default function LayerTreeView({
   }
 
   const isDirectChild = () => {
-    console.log(draggedElement)
     if (!draggedElement) return false
     return directChildren[draggedElement.type].includes(draggedElement.id)
   }
@@ -286,95 +315,98 @@ export default function LayerTreeView({
           Upload
         </label>
       </Header>
-      <input
-        type="file"
-        accept={imageAcceptString}
-        id="file-input"
-        className="hidden"
-        ref={fileInputRef}
-        multiple
-        onChange={(event) =>
-          handleFileUpload(
-            collection.id,
-            null,
-            Array.from(event.target?.files || []),
-            fileInputRef,
-          )
-        }
-      />
-      <ContextMenu>
-        <ContextMenuTrigger
-          className={cn(
-            'h-full min-h-[50dvh]',
-            isEmpty &&
-              'grid cursor-pointer place-items-center rounded-md bg-muted/30 ring-2 ring-border/70 ring-offset-2',
-            draggedOver === 'root' &&
-              'rounded-md ring-2 ring-primary ring-offset-0',
-          )}
-          onDrop={handleDrop}
-          onDragLeave={() => {
-            setDraggedOver(null)
-          }}
-          onDragOver={handleDragOver}
-          onClick={() => {
-            if (isEmpty) {
-              fileInputRef.current?.click()
-            }
-          }}
-        >
-          {isEmpty ? (
-            <div className="flex flex-col items-center justify-center gap-3">
-              <PiPhotoImageArrowUpSolid className="size-10 opacity-20" />
-              <p className="text-sm opacity-35">
-                Drag and drop your first layer here
-              </p>
-            </div>
-          ) : (
-            <LayerFolderView
-              collectionId={collection.id}
-              tree={tree}
-              folder={null}
-              newFolder={newFolder}
-              setNewFolder={setNewFolder}
-              level={0}
-              folderState={folderState}
-              setFolderState={setFolderState}
-              context={{
-                locked,
-                setLocked,
-                draggedElement,
-                setDraggedElement,
-                draggedOver,
-                setDraggedOver,
-                selection,
-                resetSelection,
-                setSelection,
-                setSelectionTo,
-                addToSelection,
-                addBetweenToSelection,
-                removeFromSelection,
-                moveSelection,
-              }}
-            />
-          )}
-        </ContextMenuTrigger>
-        <ContextMenuContent>
-          <ContextMenuItem
-            onClick={() => fileInputRef.current?.click()}
-            className="flex gap-1.5"
+      <Main className="p-4">
+        <input
+          type="file"
+          accept={imageAcceptString}
+          id="file-input"
+          className="hidden"
+          ref={fileInputRef}
+          multiple
+          onChange={(event) =>
+            handleFileUpload(
+              collection.id,
+              null,
+              Array.from(event.target?.files || []),
+              fileInputRef,
+            )
+          }
+        />
+        <ContextMenu>
+          <ContextMenuTrigger
+            className={cn(
+              'h-full',
+              isEmpty &&
+                'grid cursor-pointer place-items-center rounded-md bg-muted/30 ring-2 ring-border/70 ring-offset-2',
+              draggedOver === 'root' &&
+                'rounded-md ring-2 ring-primary ring-offset-0',
+            )}
+            onDrop={handleDrop}
+            onDragLeave={() => {
+              setDraggedOver(null)
+            }}
+            onDragOver={handleDragOver}
+            onClick={() => {
+              if (isEmpty) {
+                fileInputRef.current?.click()
+              }
+            }}
           >
-            <PiPhotoImageArrowUpStroke className="size-4" />
-            Upload
-          </ContextMenuItem>
-          <ContextMenuItem
-            onClick={() => setNewFolder(true)}
-            className="flex gap-1.5"
-          >
-            <PiFolderPlusStroke className="size-4" />
-            New Folder
-          </ContextMenuItem>
-        </ContextMenuContent>
-      </ContextMenu>
+            {isEmpty ? (
+              <div className="flex flex-col items-center justify-center gap-3">
+                <PiPhotoImageArrowUpSolid className="size-10 opacity-20" />
+                <p className="text-sm opacity-35">
+                  Drag and drop your first layer here
+                </p>
+              </div>
+            ) : (
+              <LayerFolderView
+                collectionId={collection.id}
+                tree={tree}
+                folder={null}
+                newFolder={newFolder}
+                setNewFolder={setNewFolder}
+                level={0}
+                folderState={folderState}
+                setFolderState={setFolderState}
+                context={{
+                  locked,
+                  setLocked,
+                  draggedElement,
+                  setDraggedElement,
+                  draggedOver,
+                  setDraggedOver,
+                  selection,
+                  resetSelection,
+                  setSelection,
+                  setSelectionTo,
+                  addToSelection,
+                  addBetweenToSelection,
+                  removeFromSelection,
+                  moveSelection,
+                  /* deleteSelection, */
+                }}
+              />
+            )}
+          </ContextMenuTrigger>
+          <ContextMenuContent>
+            <ContextMenuItem
+              onClick={() => fileInputRef.current?.click()}
+              className="flex gap-1.5"
+            >
+              <PiPhotoImageArrowUpStroke className="size-4" />
+              Upload
+            </ContextMenuItem>
+            <ContextMenuItem
+              onClick={() => setNewFolder(true)}
+              className="flex gap-1.5"
+            >
+              <PiFolderPlusStroke className="size-4" />
+              New Folder
+            </ContextMenuItem>
+          </ContextMenuContent>
+        </ContextMenu>
+      </Main>
     </>
   )
 }

@@ -6,7 +6,7 @@ import {
   BreadcrumbSeparator,
 } from '@repo/ui/components/ui/breadcrumb'
 import Link from 'next/link'
-import { Fragment, type JSX } from 'react';
+import { Fragment, type JSX } from 'react'
 
 export type BreadcrumbObject =
   | {
@@ -33,26 +33,28 @@ export default function Breadcrumbs({
   return (
     <Breadcrumb>
       <BreadcrumbList className={className}>
+        <Fragment key={'studio'}>
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link href={'/'}>Studio</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator>{divider}</BreadcrumbSeparator>
+        </Fragment>
         {items.map((item, index) => {
           return (
             <Fragment key={item.type === 'element' ? item.key : item.href}>
               {item.type === 'link' ? (
-                <BreadcrumbItem /* key={item.href} */>
+                <BreadcrumbItem>
                   <BreadcrumbLink asChild>
-                    <Link /* key={`link-${item.href}`} */ href={item.href}>
-                      {item.label}
-                    </Link>
+                    <Link href={item.href}>{item.label}</Link>
                   </BreadcrumbLink>
                 </BreadcrumbItem>
               ) : (
                 item.element
               )}
               {index !== items.length - 1 && (
-                <BreadcrumbSeparator
-                /* key={`separator-${item.type === 'element' ? item.key : item.href}`} */
-                >
-                  {divider}
-                </BreadcrumbSeparator>
+                <BreadcrumbSeparator>{divider}</BreadcrumbSeparator>
               )}
             </Fragment>
           )

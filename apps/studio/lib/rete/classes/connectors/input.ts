@@ -28,7 +28,11 @@ export class Input {
     this.socket = new Socket('input', definition, node, connection)
     this.multipleConnections =
       definition.type === 'exec' || definition.multipleConnections || false
-    if (definition.type && definition.type !== 'exec') {
+    if (
+      definition.type &&
+      definition.type !== 'exec' &&
+      definition.type !== 'buffer'
+    ) {
       const impliedControl: AnyControlDefinition = {
         type: definition.type,
         list: definition.list || false,

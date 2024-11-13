@@ -8,10 +8,11 @@ import {
   insertLayers,
   revalidateLayers,
 } from '@/lib/supabase/db/layers'
-import type { ChangeEvent, RefObject } from 'react'
-import { toast } from 'sonner'
+import type { RefObject } from 'react'
+
 import { RestrictionError } from '@uppy/core/lib/Restricter'
 import { validImageExtensions, validImageTypes } from './file-types'
+import { toast } from 'sonner'
 
 export async function handleFileUpload(
   collectionId: string,

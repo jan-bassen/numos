@@ -45,13 +45,6 @@ export type Database = {
             referencedRelation: "accounts"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "account_memberships_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
         ]
       }
       accounts: {
@@ -70,15 +63,7 @@ export type Database = {
           id?: string
           owner?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "fk_owner"
-            columns: ["owner"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       action_connections: {
         Row: {
@@ -140,6 +125,7 @@ export type Database = {
           id: string
           inputs: Json | null
           outputs: Json | null
+          state: Json | null
           type: string
           x: number | null
           y: number | null
@@ -151,6 +137,7 @@ export type Database = {
           id?: string
           inputs?: Json | null
           outputs?: Json | null
+          state?: Json | null
           type: string
           x?: number | null
           y?: number | null
@@ -162,6 +149,7 @@ export type Database = {
           id?: string
           inputs?: Json | null
           outputs?: Json | null
+          state?: Json | null
           type?: string
           x?: number | null
           y?: number | null
@@ -181,6 +169,7 @@ export type Database = {
           created_at: string
           description: string | null
           id: string
+          locked: boolean
           name: string | null
           slug: string
           trigger: Json | null
@@ -191,6 +180,7 @@ export type Database = {
           created_at?: string
           description?: string | null
           id?: string
+          locked?: boolean
           name?: string | null
           slug: string
           trigger?: Json | null
@@ -201,6 +191,7 @@ export type Database = {
           created_at?: string
           description?: string | null
           id?: string
+          locked?: boolean
           name?: string | null
           slug?: string
           trigger?: Json | null
@@ -224,6 +215,7 @@ export type Database = {
           display: Database["public"]["Enums"]["display"]
           id: string
           list: boolean
+          locked: boolean
           name: string | null
           settings: Json | null
           slug: string
@@ -238,6 +230,7 @@ export type Database = {
           display?: Database["public"]["Enums"]["display"]
           id?: string
           list?: boolean
+          locked?: boolean
           name?: string | null
           settings?: Json | null
           slug: string
@@ -252,6 +245,7 @@ export type Database = {
           display?: Database["public"]["Enums"]["display"]
           id?: string
           list?: boolean
+          locked?: boolean
           name?: string | null
           settings?: Json | null
           slug?: string
@@ -460,6 +454,7 @@ export type Database = {
           id: string
           inputs: Json | null
           outputs: Json | null
+          state: Json | null
           type: string
           version: string
           x: number | null
@@ -471,6 +466,7 @@ export type Database = {
           id?: string
           inputs?: Json | null
           outputs?: Json | null
+          state?: Json | null
           type: string
           version: string
           x?: number | null
@@ -482,6 +478,7 @@ export type Database = {
           id?: string
           inputs?: Json | null
           outputs?: Json | null
+          state?: Json | null
           type?: string
           version?: string
           x?: number | null
@@ -576,15 +573,7 @@ export type Database = {
           updated_at?: string | null
           username?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "profiles_id_fkey"
-            columns: ["id"]
-            isOneToOne: true
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       versions: {
         Row: {
@@ -705,6 +694,19 @@ export type Database = {
         | "address"
       trigger: "api" | "interval" | "token" | "schedule"
       "trigger-type": "api" | "interval" | "blockchain" | "token" | "schedule"
+      "value-type":
+        | "enum"
+        | "number"
+        | "string"
+        | "boolean"
+        | "address"
+        | "color"
+        | "datetime"
+        | "location"
+        | "weather"
+        | "image"
+        | "direction"
+        | "buffer"
       "version-status": "development" | "review" | "ready" | "live"
       "weather-code":
         | "200"
@@ -849,4 +851,19 @@ export type Enums<
   ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
     ? PublicSchema["Enums"][PublicEnumNameOrOptions]
+    : never
+
+export type CompositeTypes<
+  PublicCompositeTypeNameOrOptions extends
+    | keyof PublicSchema["CompositeTypes"]
+    | { schema: keyof Database },
+  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    : never = never,
+> = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
+    ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never

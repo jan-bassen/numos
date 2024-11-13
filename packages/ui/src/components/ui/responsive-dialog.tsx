@@ -76,7 +76,7 @@ export function ResponsiveDialog({
           {title && <DrawerTitle>{title}</DrawerTitle>}
           {description && <DrawerDescription>{description}</DrawerDescription>}
         </DrawerHeader>
-        <div className="px-4 py-2 flex flex-col gap-4">{children}</div>
+        <div className="flex flex-col gap-4 px-4 py-2">{children}</div>
         <DrawerFooter className="pt-2">
           <DrawerClose asChild>
             <Button variant="outline">Cancel</Button>

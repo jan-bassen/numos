@@ -33,7 +33,7 @@ export function ThemeTabSelect() {
         localStorage.setItem('theme', v)
       }}
     >
-      <TabsList className="h-9 w-full gap-1 bg-transparent px-1">
+      <TabsList className="h-8  w-full p-0 px-1 gap-1 bg-transparent">
         <TabsTrigger
           value="light"
           className={cn(
@@ -42,9 +42,9 @@ export function ThemeTabSelect() {
           )}
         >
           {theme === 'light' ? (
-            <PiSunSolid className="my-auto h-4  w-4" />
+            <PiSunSolid className="my-auto h-4 w-4" />
           ) : (
-            <PiSunStroke className="my-auto h-4  w-4" />
+            <PiSunStroke className="my-auto h-4 w-4" />
           )}
         </TabsTrigger>
         <TabsTrigger
@@ -55,9 +55,9 @@ export function ThemeTabSelect() {
           )}
         >
           {theme === 'dark' ? (
-            <PiMoonSolid className="my-auto h-4  w-4" />
+            <PiMoonSolid className="my-auto h-4 w-4" />
           ) : (
-            <PiMoonStroke className="my-auto h-4  w-4" />
+            <PiMoonStroke className="my-auto h-4 w-4" />
           )}
         </TabsTrigger>
         <TabsTrigger
@@ -68,9 +68,9 @@ export function ThemeTabSelect() {
           )}
         >
           {theme === 'system' ? (
-            <PiMonitor01Solid className="my-auto h-4  w-4" />
+            <PiMonitor01Solid className="my-auto h-4 w-4" />
           ) : (
-            <PiMonitor01Stroke className="my-auto h-4  w-4" />
+            <PiMonitor01Stroke className="my-auto h-4 w-4" />
           )}
         </TabsTrigger>
       </TabsList>

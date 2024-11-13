@@ -17,7 +17,7 @@ import type {
   SavedNodeState,
 } from '@repo/engine/types/graph-types'
 
-import type { JSX } from "react";
+import type { JSX } from 'react'
 
 // Type overrides for specific columns:
 export type Database = MergeDeep<
@@ -183,6 +183,14 @@ export type InsertEmptyFolder = TablesInsert<'empty_folders'>
 export type Profile = Tables<'profiles'>
 export type InsertProfile = TablesInsert<'profiles'>
 export type UpdateProfile = TablesUpdate<'profiles'>
+
+export type UserData = {
+  username: string
+  name: string
+  email?: string
+  internal_avatar?: string
+  external_avatar?: string
+}
 
 export type ImageGraph = {
   nodes: ImageNode[]

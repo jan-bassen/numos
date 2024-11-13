@@ -50,7 +50,7 @@ export function signedSupabaseLoader({
 export function SupabaseImage(
   props: Omit<ImageProps, 'src'> & {
     src?: string | StaticImport | null
-    signed?: boolean
+    signed?: 'true' | 'false'
   },
 ) {
   if (!props.src)
@@ -63,7 +63,7 @@ export function SupabaseImage(
     )
 
   const { signed, ...imageProps } = props
-  if (props.signed) {
+  if (props.signed === 'true') {
     return (
       <Image
         {...imageProps}

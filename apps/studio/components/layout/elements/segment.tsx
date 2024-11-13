@@ -21,7 +21,7 @@ export default function Segment({
       {link ? (
         <Link
           href={link}
-          className="pl-1 text-lg font-semibold transition-colors duration-200 ease-in-out hover:underline"
+          className="pl-1 font-semibold text-lg transition-colors duration-200 ease-in-out hover:underline"
         >
           {title}
         </Link>

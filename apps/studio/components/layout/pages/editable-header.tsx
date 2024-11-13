@@ -19,7 +19,7 @@ import {
   PiPencilEditSolid,
   PiPencilEditStroke,
 } from '@repo/ui/icons/pika'
-import Header from './header'
+import Header from './new-header'
 import Link from 'next/link'
 import { useMediaQuery } from '@/lib/hooks/media-query'
 import { SupabaseImage } from '@/lib/supabase/storage/supabaseImage'

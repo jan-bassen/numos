@@ -2,22 +2,18 @@
 
 import FormSegment from '@/components/forms/form-segment'
 import { TabSelect } from '@/components/forms/tab-select'
-import { TabToggle } from '@/components/forms/tab-toggle'
-import {
-  type Attribute,
-  type DataType,
-  type ValueDataType,
-  type ReturnInfo,
-  type InsertAttribute,
-  UpdateAttribute,
-  type Version,
+import type {
+  Attribute,
+  ValueDataType,
+  ReturnInfo,
+  InsertAttribute,
+  Version,
 } from '@/types/database.types'
 import { useEffect, useState } from 'react'
 import type { BadgeVariant } from '@repo/ui/components/ui/badge'
 import {
   PiAddAddStroke,
   PiCrossCross,
-  PiDeleteDustbin01Stroke,
   PiRefreshStroke,
 } from '@repo/ui/icons/pika'
 import type { z } from 'zod'
@@ -38,40 +34,37 @@ import {
   updateAttribute,
 } from '@/lib/supabase/db/attributes'
 import { handleReturnInfo } from '@repo/ui/lib/utils'
-import EditableHeader from '../../layout/pages/editable-header'
 import { useRouter } from 'next/navigation'
-import {
-  attributeSchema,
-  displayOptions,
-  scopeOptions,
-} from './attribute-schema'
+import { attributeSchema, displayOptions } from './attribute-schema'
 import { Button } from '@repo/ui/components/ui/button'
-import DeleteDialogContent from '@repo/ui/components/dialogs/delete-dialog'
-import {
-  AlertDialogTrigger,
-  AlertDialog,
-} from '@repo/ui/components/ui/alert-dialog'
 import { Input } from '@repo/ui/components/ui/input'
-import { toast } from 'sonner'
 import { dataTypes } from '@/lib/supabase/constants/datatypes'
-import ListInput from '@/components/datatypes/list-input'
-import { isArray } from 'lodash'
+import { at, isArray } from 'lodash'
 import ListFormInput from '@/components/datatypes/list-input-form'
 import { removeAttributeFromLocalForm } from './utils'
 import { slugify } from '@/lib/utils'
 import type { ValueSettings, ValueType } from '@repo/engine/types/value-types'
+import NumberInput from '@/components/datatypes/inputs/number-input'
+import Header from '@/components/layout/pages/new-header'
+import Main from '@/components/layout/pages/new-main'
+import FormContent from '@/components/forms/form-content'
+import LockButton from '@/components/buttons/lock-button'
+import SaveButton from '@/components/buttons/save-button'
+import ResetButton from '@/components/buttons/reset-button'
+import DeleteButton from '@/components/buttons/delete-button'
 
 export default function AttributeEditor({
   attribute,
   collectionSlug,
   version,
 }: {
-  attribute?: Attribute
+  attribute: Attribute
   collectionSlug: string
   version: Version
 }) {
+  console.log(attribute)
   const router = useRouter()
-  const [locked, setLocked] = useState(!!attribute)
+  const [locked, setLocked] = useState(attribute.locked)
   /* const [type, setType] = useState<DataType>(attribute?.type || "enum"); */
   const { type, list } = attribute || {
     type: 'enum' as ValueType,
@@ -82,20 +75,6 @@ export default function AttributeEditor({
     ? {
         text: `${list ? 'List of ' : ''}${dataTypes[type].title}${list ? 's' : ''}`,
         variant: 'secondary' as BadgeVariant,
-
-        /* options: Object.entries(dataTypes)
-          .map(([key, value]) => {
-            if (!value.attribute) return;
-            return {
-              value: key,
-              label: value.title,
-            };
-          })
-          .filter((o) => o !== undefined) as { value: string; label: string }[],
-        onChange: (v: string) => {
-          form.setValue("settings.default", null);
-          setType(v as DataType);
-        }, */
       }
     : undefined
 
@@ -106,7 +85,6 @@ export default function AttributeEditor({
     badge: type,
     list: attribute?.list || false,
     description: attribute?.description || undefined,
-    token_specific: attribute?.token_specific || true,
     display: attribute?.display || 'public',
     settings: (attribute?.settings as ValueSettings) || {},
   }
@@ -141,7 +119,7 @@ export default function AttributeEditor({
         description: data.description || null,
         type: data.badge as ValueType,
         list: attribute.list,
-        token_specific: data.token_specific,
+        token_specific: true,
         display: data.display,
         settings: data.settings as ValueSettings,
       }
@@ -153,7 +131,7 @@ export default function AttributeEditor({
         version: version.id,
         description: data.description || null,
         type: data.badge as ValueType,
-        token_specific: data.token_specific,
+        token_specific: true,
         display: data.display,
         settings: data.settings as ValueSettings,
       }
@@ -163,8 +141,8 @@ export default function AttributeEditor({
       res,
       () => {
         if (slug !== oldSlug)
-          router.push(`/studio/${collectionSlug}/attributes/${slug}`)
-        setLocked(true)
+          router.push(`/collections/${collectionSlug}/attributes/${slug}`)
+        form.reset(defaultValues)
       },
       () => {},
     )
@@ -176,11 +154,7 @@ export default function AttributeEditor({
   }
 
   function onReset() {
-    if (!attribute) {
-      router.push(`/studio/${collectionSlug}/attributes`)
-    }
-    /* setType(attribute?.type || "enum"); */
-    form.resetField('settings')
+    form.reset(defaultValues)
     if (list) {
       form.setValue('settings.default', attribute?.settings?.default || [])
     }
@@ -202,289 +176,271 @@ export default function AttributeEditor({
   }
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit, onError)}
-        className="space-y-8 pb-8 lg:space-y-10"
+    <>
+      <Header
+        title={attribute.name || attribute.slug}
+        subtitle={attribute.description || ''}
+        badge={badge}
       >
-        <EditableHeader
-          form={form}
-          defaultValues={defaultValues}
-          locked={locked}
-          setLocked={setLocked}
-          onReset={onReset}
-          title={attribute?.name || undefined}
-          titlePlaceholder="Name"
-          subtitle={attribute?.description || undefined}
-          subtitlePlaceholder="Description"
-          badge={badge}
-        >
-          {locked && attribute && (
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button variant={'outline'} className="gap-1.5">
-                  <PiDeleteDustbin01Stroke className="size-4" />
-                  Delete
-                </Button>
-              </AlertDialogTrigger>
-              <DeleteDialogContent
-                title="attribute"
-                onDelete={async () => {
-                  const res = await deleteAttribute(
-                    attribute.id,
-                    collectionSlug,
-                    attribute.version,
-                    attribute.slug,
-                  )
-                  handleReturnInfo(res, () => {
-                    removeAttributeFromLocalForm(collectionSlug, attribute.slug)
-                    router.push(`/studio/${collectionSlug}/attributes`)
-                  })
-                }}
-              />
-            </AlertDialog>
-          )}
-        </EditableHeader>
-        <div className="w-full space-y-8">
-          <FormSegment
-            title="Scope"
-            description="A collection-wide attribute can be changed, but is applied to every token. Usually you want to use token-specific attributes."
+        <DeleteButton
+          title="attribute"
+          onDelete={async () => {
+            const res = await deleteAttribute(
+              attribute.id,
+              collectionSlug,
+              attribute.version,
+              attribute.slug,
+            )
+            handleReturnInfo(res, () => {
+              removeAttributeFromLocalForm(collectionSlug, attribute.slug)
+              router.push(`/collections/${collectionSlug}/attributes`)
+            })
+          }}
+        />
+        {form.formState.isDirty ? (
+          <>
+            <ResetButton onClick={() => onReset()} />
+            <SaveButton type="submit" form="attribute-form" />
+          </>
+        ) : (
+          <LockButton
+            element="attribute"
+            id={attribute.id}
+            locked={locked}
+            setLocked={setLocked}
+          />
+        )}
+      </Header>
+      <Main>
+        <Form {...form}>
+          <form
+            id="attribute-form"
+            onSubmit={form.handleSubmit(onSubmit, onError)}
+            className="space-y-8 pb-8 lg:space-y-10"
           >
-            <FormField
-              control={form.control}
-              name="token_specific"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <TabToggle
-                      {...field}
-                      locked={locked}
-                      options={scopeOptions}
-                      className="w-full max-w-[30rem]"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </FormSegment>
-          <FormSegment
-            title="Display"
-            description="Only private attributes are secret and not added to the metadata. Shadowed attributes are still public, but not necessarily visible on frontends."
-          >
-            <FormField
-              control={form.control}
-              name="display"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <TabSelect
-                      {...field}
-                      locked={locked}
-                      options={displayOptions}
-                      className="w-full max-w-[30rem]"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </FormSegment>
-          {type === 'enum' && (
-            <FormSegment
-              title="Options"
-              description="Define possible options for the attribute can be set to."
-              className="w-full"
-            >
-              {optionsArray.fields.map((field, index) => (
-                <div key={field.id} className="flex w-full justify-start gap-2">
+            <FormContent>
+              <FormSegment
+                title="Display"
+                description="Only private attributes are secret and not added to the metadata. Shadowed attributes are still public, but not necessarily visible on frontends."
+              >
+                <FormField
+                  control={form.control}
+                  name="display"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <TabSelect
+                          {...field}
+                          locked={locked}
+                          options={displayOptions}
+                          className="w-full max-w-[30rem]"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </FormSegment>
+              {type === 'enum' && (
+                <FormSegment
+                  title="Options"
+                  description="Define possible options for the attribute can be set to."
+                  className="w-full"
+                >
+                  {optionsArray.fields.map((field, index) => (
+                    <div
+                      key={field.id}
+                      className="flex w-full justify-start gap-2"
+                    >
+                      <FormField
+                        control={form.control}
+                        name={`settings.options.${index}.value`}
+                        render={({ field }) => {
+                          const { value, ...rest } = field
+                          return (
+                            <FormItem className="w-full max-w-[30rem]">
+                              <Input
+                                disabled={locked}
+                                className="w-full"
+                                {...rest}
+                                value={value || ''}
+                                onBlur={(e) => {
+                                  form.trigger('settings.options')
+                                  // @ts-ignore
+                                  field.onBlur(e)
+                                }}
+                              />
+                              <FormMessage />
+                            </FormItem>
+                          )
+                        }}
+                      />
+                      {!locked && (
+                        <Button
+                          variant={'outline'}
+                          size={'icon'}
+                          className="shrink-0"
+                          onClick={() => {
+                            optionsArray.remove(index)
+                            form.trigger('settings.options')
+                          }}
+                        >
+                          <PiCrossCross className="size-4" />
+                        </Button>
+                      )}
+                    </div>
+                  ))}
+                  {!locked && (
+                    <Button
+                      type="button"
+                      variant={'ghost'}
+                      onClick={() => {
+                        optionsArray.append({ key: '', type: 'string' })
+                      }}
+                      className="w-fit gap-1.5 pl-2"
+                    >
+                      <PiAddAddStroke className="size-4" />
+                      Add Option
+                    </Button>
+                  )}
                   <FormField
                     control={form.control}
-                    name={`settings.options.${index}.value`}
+                    name="settings.options"
+                    render={() => <FormMessage />}
+                  />
+                </FormSegment>
+              )}
+              <FormSegment
+                title="Default Value"
+                description="If a default value is set, this value won't have to be provided on mint."
+                className="flex flex-col gap-6"
+              >
+                {list ? (
+                  <ListFormInput
+                    form={form}
+                    itemKey="settings.default"
+                    inputProps={{
+                      datatype: type as ValueType,
+                      settings: getSettings(),
+                      locked: locked,
+                    }}
+                    classNames={{ container: 'w-full' }}
+                    defaultValue={
+                      isArray(defaultValues.settings?.default)
+                        ? defaultValues.settings.default
+                        : defaultValues.settings.default !== undefined &&
+                            defaultValues.settings.default !== null
+                          ? [defaultValues.settings.default]
+                          : []
+                    }
+                    defaultItemValue={{ value: undefined }}
+                  />
+                ) : (
+                  <FormField
+                    control={form.control}
+                    name="settings.default"
                     render={({ field }) => {
                       return (
-                        <FormItem className="w-full max-w-[30rem]">
-                          <Input
-                            disabled={locked}
-                            className="w-full"
-                            {...field}
-                            onBlur={(e) => {
-                              form.trigger('settings.options')
-                              // @ts-ignore
-                              field.onBlur(e)
-                            }}
-                          />
+                        <FormItem>
+                          <FormControl>
+                            <div className="flex gap-2">
+                              <GenericInput
+                                environment="form"
+                                datatype={type as ValueDataType}
+                                locked={locked}
+                                settings={getSettings()}
+                                className="w-[30rem]"
+                                placeholder="No default value"
+                                {...field}
+                              />
+                              {(!!form.getValues().settings.default ||
+                                form.getValues().settings.default === false) &&
+                                !locked && (
+                                  <Button
+                                    variant="outline"
+                                    type="button"
+                                    size="icon"
+                                    onClick={() => {
+                                      form.setValue('settings.default', null, {
+                                        shouldDirty: true,
+                                        shouldTouch: true,
+                                      })
+                                    }}
+                                  >
+                                    <PiRefreshStroke className="size-4" />
+                                  </Button>
+                                )}
+                            </div>
+                          </FormControl>
                           <FormMessage />
                         </FormItem>
                       )
                     }}
                   />
-                  {!locked && (
-                    <Button
-                      variant={'outline'}
-                      size={'icon'}
-                      className="shrink-0"
-                      onClick={() => {
-                        optionsArray.remove(index)
-                        form.trigger('settings.options')
-                      }}
-                    >
-                      <PiCrossCross className="size-4" />
-                    </Button>
-                  )}
-                </div>
-              ))}
-              {!locked && (
-                <Button
-                  type="button"
-                  variant={'ghost'}
-                  onClick={() => {
-                    optionsArray.append({ key: '', type: 'string' })
-                  }}
-                  className="w-fit gap-1.5 pl-2"
+                )}
+              </FormSegment>
+              {type === 'number' && (
+                <FormSegment
+                  title="Range"
+                  description="If set, the attribute can only be within the boundaries."
                 >
-                  <PiAddAddStroke className="size-4" />
-                  Add Option
-                </Button>
-              )}
-              <FormField
-                control={form.control}
-                name="settings.options"
-                render={() => <FormMessage />}
-              />
-            </FormSegment>
-          )}
-          <FormSegment
-            title="Default Value"
-            description="If a default value is set, this value won't have to be provided on mint."
-            className="flex flex-col gap-6"
-          >
-            {list ? (
-              <ListFormInput
-                form={form}
-                itemKey="settings.default"
-                inputProps={{
-                  datatype: type as ValueType,
-                  settings: getSettings(),
-                  locked: locked,
-                }}
-                classNames={{ container: 'w-full' }}
-                defaultValue={
-                  isArray(defaultValues.settings?.default)
-                    ? defaultValues.settings.default
-                    : defaultValues.settings.default !== undefined &&
-                        defaultValues.settings.default !== null
-                      ? [defaultValues.settings.default]
-                      : []
-                }
-                defaultItemValue={{ value: undefined }}
-              />
-            ) : (
-              <FormField
-                control={form.control}
-                name="settings.default"
-                render={({ field }) => {
-                  const { ref, ...rest } = field
-                  return (
-                    <FormItem>
-                      <FormLabel>Default Value</FormLabel>
-                      <FormControl>
-                        <div className="flex gap-2">
-                          <GenericInput
-                            environment="form"
-                            datatype={type as ValueDataType}
-                            locked={locked}
-                            settings={getSettings()}
-                            className="w-[30rem]"
-                            placeholder="No default value"
-                            {...rest}
-                          />
-                          {(!!form.getValues().settings.default ||
-                            form.getValues().settings.default === false) &&
-                            !locked && (
-                              <Button
-                                variant="outline"
-                                type="button"
-                                size="icon"
-                                onClick={() => {
-                                  form.setValue('settings.default', null, {
-                                    shouldDirty: true,
-                                    shouldTouch: true,
-                                  })
+                  <div className="flex w-full max-w-[30rem] flex-col gap-3 lg:flex-row">
+                    <FormField
+                      control={form.control}
+                      name="settings.min"
+                      render={({ field }) => {
+                        console.log(field.value)
+                        return (
+                          <FormItem className="w-full">
+                            <FormLabel>Min</FormLabel>
+                            <FormControl>
+                              <NumberInput
+                                datatype="number"
+                                locked={locked}
+                                placeholder="No lower limit"
+                                className="w-full"
+                                {...field}
+                                onBlur={(e) => {
+                                  form.trigger('settings.max')
+                                  // @ts-ignore
+                                  field.onBlur(e)
                                 }}
-                              >
-                                <PiRefreshStroke className="size-4" />
-                              </Button>
-                            )}
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )
-                }}
-              />
-            )}
-          </FormSegment>
-          {type === 'number' && (
-            <FormSegment
-              title="Range"
-              description="If set, the attribute can only be within the boundaries."
-            >
-              <div className="flex w-full max-w-[30rem] flex-col gap-3 lg:flex-row">
-                <FormField
-                  control={form.control}
-                  name="settings.min"
-                  render={({ field }) => {
-                    const { ref, ...rest } = field
-                    return (
-                      <FormItem className="w-full">
-                        <FormLabel>Min</FormLabel>
-                        <FormControl>
-                          <GenericInput
-                            datatype={type}
-                            locked={locked}
-                            placeholder="No lower limit"
-                            className="w-full"
-                            {...rest}
-                            onBlur={(e) => {
-                              form.trigger('settings.max')
-                              // @ts-ignore
-                              field.onBlur(e)
-                            }}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )
-                  }}
-                />
-                <FormField
-                  control={form.control}
-                  name="settings.max"
-                  render={({ field }) => {
-                    const { ref, ...rest } = field
-                    return (
-                      <FormItem className="w-full">
-                        <FormLabel>Max</FormLabel>
-                        <FormControl>
-                          <GenericInput
-                            datatype={type}
-                            locked={locked}
-                            className="w-full"
-                            placeholder="No upper limit"
-                            {...rest}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )
-                  }}
-                />
-              </div>
-            </FormSegment>
-          )}
-        </div>
-      </form>
-    </Form>
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )
+                      }}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="settings.max"
+                      render={({ field }) => {
+                        const { ref, ...rest } = field
+                        return (
+                          <FormItem className="w-full">
+                            <FormLabel>Max</FormLabel>
+                            <FormControl>
+                              <NumberInput
+                                datatype="number"
+                                locked={locked}
+                                className="w-full"
+                                placeholder="No upper limit"
+                                {...rest}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )
+                      }}
+                    />
+                  </div>
+                </FormSegment>
+              )}
+            </FormContent>
+          </form>
+        </Form>
+      </Main>
+    </>
   )
 }

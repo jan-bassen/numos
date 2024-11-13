@@ -184,7 +184,7 @@ export default function GenericInput(props: GenericInputProps) {
     case 'direction':
       return <DirectionInput {...props} />
     default:
-      console.error('GenericInput: Unhandled type')
+      console.error(`GenericInput: Unhandled type - ${props.datatype}`)
       return null
   }
 }

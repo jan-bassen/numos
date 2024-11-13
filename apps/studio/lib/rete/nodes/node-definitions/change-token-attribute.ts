@@ -8,7 +8,7 @@ export const changeTokenAttributeDefinition: SpecificNodeDefinition<ChangeTokenA
   {
     type: 'change-token-attribute',
     category: 'exec',
-    title: 'Change Token Attribute',
+    title: 'Change Attribute',
     forwards: [{ type: 'exec', key: 'exec', label: 'Execute' }],
     nodeInfo: {
       description:

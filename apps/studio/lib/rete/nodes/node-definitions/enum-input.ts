@@ -14,14 +14,8 @@ export const enumInputDefinition: SpecificNodeDefinition<EnumInputNode> = {
       'This node allows you to get the options of an choice attribute in case you want to set one manually.',
     link: '#attribute',
   },
-  controls: ({
-    getTokenAttributes,
-    getCollectionAttributes,
-    getControlValue,
-  }) => {
-    const tokenAttributes = getTokenAttributes() || []
-    const collectionAttributes = getCollectionAttributes() || []
-    const attributes = [...tokenAttributes, ...collectionAttributes]
+  controls: ({ getTokenAttributes, getControlValue }) => {
+    const attributes = getTokenAttributes() || []
     const enumAttributes = attributes.filter(
       (attribute) => attribute.type === 'enum',
     )
@@ -66,11 +60,10 @@ export const enumInputDefinition: SpecificNodeDefinition<EnumInputNode> = {
     }
     return controls
   },
-  outputs: ({ getControlValue, getTokenAttribute, getCollectionAttribute }) => {
+  outputs: ({ getControlValue, getTokenAttribute }) => {
     const attributeKey = getControlValue('attribute')?.value
     if (attributeKey) {
-      const attribute =
-        getTokenAttribute(attributeKey) || getCollectionAttribute(attributeKey)
+      const attribute = getTokenAttribute(attributeKey)
 
       if (!attribute) return []
       return [

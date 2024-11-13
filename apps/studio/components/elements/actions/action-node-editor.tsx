@@ -18,7 +18,7 @@ import { actionConfig } from '@/lib/rete/nodes/configs/action-config'
 import TokenResult from './token-result'
 import type { AutoSaveFunctions, Editor } from '@/types/editor.types'
 import type { SavedGraph } from '@repo/engine/types/graph-types'
-import type { ActionTrigger, ParameterState } from '@/types/actions.types'
+import type { ActionTrigger } from '@/types/actions.types'
 import type {
   ActionContext,
   SimulatedTokenStateResult,
@@ -104,10 +104,8 @@ export default function ActionNodeEditor({
 
   return (
     <BaseEditor
-      action={action}
       parentId={action.id}
       initialGraph={initialGraph}
-      attributes={attributes}
       context={{
         type: 'action',
         attributes: attributes,
@@ -121,7 +119,7 @@ export default function ActionNodeEditor({
       run={run}
       autosave={autoSaveActions}
       resultClassName="h-full"
-      parentUrl={`/studio/${collectionSlug}/actions/${action.slug}`}
+      parentUrl={`/collections/${collectionSlug}/actions/${action.slug}`}
     />
   )
 }

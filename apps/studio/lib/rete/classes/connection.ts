@@ -68,9 +68,11 @@ export class Connection implements ConnectionBase {
 
   resolveConnectionData() {
     const source = this.editor.getNode(this.source)
-    if (!source) throw new Error('Source node not found')
     const target = this.editor.getNode(this.target)
-    if (!target) throw new Error('Target node not found')
+    //TODO: Clean this up. Non-connected connections should not be possible
+    if (!target && !source) {
+      this.editor.removeConnection(this.id)
+    }
     const sourceOutput = source?.getOutput(this.sourceOutput)
     const targetInput = target?.getInput(this.targetInput)
     return {

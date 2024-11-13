@@ -8,25 +8,32 @@ import {
 } from '@repo/ui/icons/pika'
 import type { EditorContext, Group } from '@/types/editor.types'
 
+function getTokenSubitems(context: EditorContext) {
+  const hasAttribute = context.attributes.length > 0
+
+  const tokenSubitems = []
+  if (hasAttribute) {
+    tokenSubitems.push('token-attribute')
+  }
+  tokenSubitems.push('metadata')
+  if (context.type === 'action') {
+    tokenSubitems.push('separator')
+    if (hasAttribute) {
+      tokenSubitems.push('change-token-attribute')
+    }
+    tokenSubitems.push('change-token-name')
+    tokenSubitems.push('change-token-description')
+  }
+
+  return tokenSubitems
+}
+
 export const baseConfig = (context: EditorContext) => {
-  const tokenSubitems =
-    context.type === 'action'
-      ? [
-          'token-attribute',
-          'collection-attribute',
-          'metadata',
-          'separator',
-          'change-token-attribute',
-          'change-collection-attribute',
-          'change-token-name',
-          'change-token-description',
-        ]
-      : ['token-attribute', 'collection-attribute', 'metadata']
   const token = {
     label: 'Token',
     key: 'token',
     Icon: PiNftDefaultStroke,
-    subitems: tokenSubitems,
+    subitems: getTokenSubitems(context),
   }
   const logic = {
     label: 'Logic',

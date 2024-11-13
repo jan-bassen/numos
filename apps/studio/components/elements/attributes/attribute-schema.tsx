@@ -179,7 +179,6 @@ export const attributeSchema = (type: ValueType, list: boolean) =>
       .optional(),
     badge: z.string().optional(),
     list: z.boolean(),
-    token_specific: z.boolean(),
     display: z.enum(['public', 'hidden', 'private']),
     settings: getSettingsSchema(type, list ? 'objectarray' : 'single'),
   })

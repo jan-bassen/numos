@@ -227,14 +227,14 @@ export async function createEditor(
     if (context.type === 'connectioncreated') {
       const { source, target, targetInput, sourceOutput } =
         context.data.resolveConnectionData()
-      sourceOutput?.socket.onConnect?.(source, context.data)
-      targetInput?.socket.onConnect?.(target, context.data)
+      source && sourceOutput?.socket.onConnect?.(source, context.data)
+      target && targetInput?.socket.onConnect?.(target, context.data)
     }
     if (context.type === 'connectionremoved') {
       const { source, target, targetInput, sourceOutput } =
         context.data.resolveConnectionData()
-      sourceOutput?.socket.onDisconnect?.(source, context.data)
-      targetInput?.socket.onDisconnect?.(target, context.data)
+      source && sourceOutput?.socket.onDisconnect?.(source, context.data)
+      target && targetInput?.socket.onDisconnect?.(target, context.data)
     }
     return context
   })

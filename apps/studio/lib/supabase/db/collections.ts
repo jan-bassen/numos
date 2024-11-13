@@ -154,11 +154,6 @@ export async function getCollectionFromSlug(slug: string): Promise<Collection> {
   }
 
   const supabase = await createSupabaseServerComponentClient()
-  const { data: userRes, error: authError } = await supabase.auth.getUser()
-  if (authError || !userRes?.user) {
-    console.error('Error with fetching user', authError)
-    redirect('/login')
-  }
 
   const { data, error } = await supabase
     .from('collections')
@@ -169,6 +164,26 @@ export async function getCollectionFromSlug(slug: string): Promise<Collection> {
     throw new FetchError('Error with fetching collection')
   }
   return data
+}
+
+export async function getVersionIdFromCollectionSlug(
+  slug: string,
+): Promise<string> {
+  if (!slug) {
+    throw new FetchError('No slug defined')
+  }
+
+  const supabase = await createSupabaseServerComponentClient()
+
+  const { data, error } = await supabase
+    .from('collections')
+    .select('editable_version')
+    .eq('slug', slug)
+    .single()
+  if (error || !data || !data.editable_version) {
+    throw new FetchError('Error with fetching collection')
+  }
+  return data.editable_version
 }
 
 export async function getAllExtendedCollections(): Promise<

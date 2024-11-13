@@ -82,7 +82,7 @@ export async function getAttribute(id: string): Promise<Attribute> {
 export async function getAttributeBySlug(
   version: string,
   slug: string,
-): Promise<Attribute | undefined> {
+): Promise<Attribute> {
   if (!slug) {
     throw new FetchError('No attribute defined')
   }
@@ -99,12 +99,18 @@ export async function getAttributeBySlug(
     throw new FetchError('error with fetch')
   }
 
-  return data || undefined
+  if (!data) throw new FetchError('Attribute not found')
+
+  return data
 }
 
+export type AttributeNavItem = Pick<
+  Attribute,
+  'name' | 'slug' | 'type' | 'list'
+>
 export async function getAttributesForNav(
   version: string,
-): Promise<Pick<Attribute, 'name' | 'slug' | 'type' | 'list'>[]> {
+): Promise<AttributeNavItem[]> {
   if (!version) {
     throw new FetchError('No collection defined')
   }
@@ -174,6 +180,17 @@ export async function updateAttribute(
       ok: false,
       message: 'Error updating database entry!',
     }
+  }
+}
+
+export async function setAttributeLock(id: string, locked: boolean) {
+  const supabase = await createSupabaseServerComponentClient()
+  const { error } = await supabase
+    .from('attributes')
+    .update({ locked })
+    .eq('id', id)
+  if (error) {
+    throw new FetchError('Error with updating attribute')
   }
 }
 
@@ -336,4 +353,26 @@ export async function deleteAttribute(
   const res = await clearAttributeNodeControls(versionId, slug)
   revalidatePath('/collections/[collection]/attributes')
   return res
+}
+
+export async function deleteAttributeBySlug(
+  versionId: string,
+  attributeSlug: string,
+) {
+  const supabase = await createSupabaseServerComponentClient()
+
+  const { error } = await supabase
+    .from('attributes')
+    .delete()
+    .eq('slug', attributeSlug)
+    .eq('version', versionId)
+
+  if (error) {
+    return { ok: false, message: error.message }
+  }
+
+  const res = await clearAttributeNodeControls(versionId, attributeSlug)
+
+  revalidatePath('/collections/[collection]/attributes')
+  return { ok: true, message: 'Successfully deleted' }
 }

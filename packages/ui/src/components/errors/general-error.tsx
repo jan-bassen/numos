@@ -8,6 +8,7 @@ import {
 } from '@repo/ui/icons/pika'
 import { cn } from '@repo/ui/lib/utils'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 export default function GeneralError(props: {
   resetFunction: () => void
@@ -15,6 +16,7 @@ export default function GeneralError(props: {
   className?: string
 }) {
   const { resetFunction, error, className } = props
+  const router = useRouter()
   return (
     <div
       className={cn(
@@ -34,15 +36,23 @@ export default function GeneralError(props: {
       </p>
       <div className="flex w-fit gap-2">
         <Link
-          href={'/studio'}
+          href={'/collections'}
           className={cn(buttonVariants({ variant: 'ghost' }), 'flex gap-2')}
         >
           <PiChevronBigLeftStroke className="size-4" />
           Studio
         </Link>
-        <Button className="flex w-32 gap-2" onClick={() => resetFunction}>
+        {/*  <Button
+          variant={'ghost'}
+          className="flex w-32 gap-2"
+          onClick={() => resetFunction}
+        >
           <PiRefreshStroke className="size-4" />
-          Try again
+          Retry
+        </Button> */}
+        <Button className="flex w-40 gap-2" onClick={() => router.refresh()}>
+          <PiRefreshStroke className="size-4" />
+          Refresh page
         </Button>
       </div>
     </div>

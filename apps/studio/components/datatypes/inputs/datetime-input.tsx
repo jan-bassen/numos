@@ -118,7 +118,7 @@ export default function DatetimeInput({
           <Input
             type="time"
             className="flex w-full justify-center border-none text-center"
-            value={timeString || undefined}
+            value={timeString || ''}
             onBlur={_onBlur}
             onChange={(e) => {
               if (!locked) {

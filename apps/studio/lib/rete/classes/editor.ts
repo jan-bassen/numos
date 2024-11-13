@@ -302,6 +302,18 @@ export class NodeEditor extends BaseNodeEditor<Schemes> {
     }
   }
 
+  moveSelection = async (area: Area, length: number, direction: Direction) => {
+    const selectedNodes = this.selector.selectedNodes
+    if (selectedNodes.length === 0) return
+    for (const nodeId of selectedNodes) {
+      const node = this.getNode(nodeId)
+      if (!node || node?.definition.root) {
+        continue
+      }
+      this.moveNode(area, nodeId, length, direction)
+    }
+  }
+
   removeSingleNode = async (node: string) => {
     if (this.getNode(node)?.definition.root) return
     const connections = this.getConnections().filter(
@@ -335,6 +347,22 @@ export class NodeEditor extends BaseNodeEditor<Schemes> {
     }
     for (const node of nodesToRemove) {
       await this.removeNode(node)
+    }
+  }
+
+  deleteSelection = () => {
+    const selectedNodes = this.selector.selectedNodes
+    if (selectedNodes.length === 0) return
+    for (const nodeId of selectedNodes) {
+      const node = this.getNode(nodeId)
+      if (!node || node?.definition.root) {
+        continue
+      }
+      const connections = node.getConnections()
+      for (const connection of connections) {
+        this.removeConnection(connection.id)
+      }
+      this.removeNode(nodeId)
     }
   }
 

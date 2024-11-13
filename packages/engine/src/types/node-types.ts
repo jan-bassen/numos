@@ -148,11 +148,6 @@ export type DataInterface<
   ) => Simulation extends true
     ? Value<ValueType, 'array' | 'single'>
     : Promise<Value<ValueType, 'array' | 'single'>>
-  getCollectionAttribute: (
-    key: string,
-  ) => Simulation extends true
-    ? Value<ValueType, 'array' | 'single'>
-    : Promise<Value<ValueType, 'array' | 'single'>>
   getMetadata: <K extends BasicMetadataKeys>(
     key: K,
   ) => Simulation extends true
@@ -182,10 +177,6 @@ export type ExecutionInterface<
 > = DataInterface<I> & {
   revert: () => void
   setTokenAttribute: (
-    key: string,
-    value: Value<ValueType, 'array' | 'single'>,
-  ) => Simulation extends true ? StateChangeResult : Promise<StateChangeResult>
-  setCollectionAttribute: (
     key: string,
     value: Value<ValueType, 'array' | 'single'>,
   ) => Simulation extends true ? StateChangeResult : Promise<StateChangeResult>

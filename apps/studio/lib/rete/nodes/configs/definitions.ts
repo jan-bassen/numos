@@ -2,12 +2,10 @@ import { actionRootDefinition } from '../node-definitions/action-root'
 import { addressInputDefinition } from '../node-definitions/address-input'
 import { booleanInputDefinition } from '../node-definitions/boolean-input'
 import { cancelDefinition } from '../node-definitions/cancel'
-import { changeCollectionAttributeDefinition } from '../node-definitions/change-collection-attribute'
 import { changeTokenAttributeDefinition } from '../node-definitions/change-token-attribute'
 import { changeTokenDescriptionDefinition } from '../node-definitions/change-token-description'
 import { changeTokenNameDefinition } from '../node-definitions/change-token-name'
 import { clampDefinition } from '../node-definitions/clamp'
-import { collectionAttributeDefinition } from '../node-definitions/collection-attribute'
 import { colorInputDefinition } from '../node-definitions/color-input'
 import { combineColorDefinition } from '../node-definitions/combine-color'
 import { compareDefinition } from '../node-definitions/compare'
@@ -56,14 +54,11 @@ export const nodeDefinitions: NodeDefinitions = {
   'address-input': addressInputDefinition as NodeDefinition,
   'boolean-input': booleanInputDefinition as NodeDefinition,
   cancel: cancelDefinition as NodeDefinition,
-  'change-collection-attribute':
-    changeCollectionAttributeDefinition as NodeDefinition,
   'change-token-attribute': changeTokenAttributeDefinition as NodeDefinition,
   'change-token-description':
     changeTokenDescriptionDefinition as NodeDefinition,
   'change-token-name': changeTokenNameDefinition as NodeDefinition,
   clamp: clampDefinition as NodeDefinition,
-  'collection-attribute': collectionAttributeDefinition as NodeDefinition,
   'color-input': colorInputDefinition as NodeDefinition,
   'combine-color': combineColorDefinition as NodeDefinition,
   compare: compareDefinition as NodeDefinition,

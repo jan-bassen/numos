@@ -22,7 +22,7 @@ export function singleValueToText(data: Value<ValueType, 'single'>): string {
     case 'address':
       return data.value
     case 'color':
-      return `${data.value.r}, ${data.value.g}, ${data.value.b}, ${data.value.a}`
+      return `{r: ${data.value.r}, g: ${data.value.g}, b: ${data.value.b}, a: ${data.value.a}}`
     case 'datetime':
       return new Date(data.value).toISOString()
     case 'location':

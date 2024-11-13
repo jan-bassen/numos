@@ -5,7 +5,8 @@ import { ApplicationEngine } from '@repo/engine/engine/base/application-engine'
 
 export class ActionEngine extends ApplicationEngine {
   constructor(graph: MapGraph, context: EngineContext) {
-    super(graph, context, 'execution')
+    super(graph, context)
+    const variable = 'hello'
   }
   execute(parameters: ValueMap) {}
   getParameter(key: string) {}

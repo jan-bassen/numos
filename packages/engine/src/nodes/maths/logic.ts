@@ -18,7 +18,7 @@ export const mathsLogic: NodeLogic<MathsNode> = {
             format: 'single',
             value: a.plus(b.value).toNumber(),
           }
-        case 'subtract':
+        case 'sub':
           return {
             type: 'number',
             format: 'single',

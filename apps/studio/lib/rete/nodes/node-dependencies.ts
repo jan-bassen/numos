@@ -9,15 +9,7 @@ export const attributeNodeDependency: NodeDependency = {
       controls: ['attribute'], // Only attribute keys are supported for now
     },
     {
-      nodeType: 'change-collection-attribute',
-      controls: ['attribute'], // Only attribute keys are supported for now
-    },
-    {
       nodeType: 'token-attribute',
-      controls: ['attribute'], // Only attribute keys are supported for now
-    },
-    {
-      nodeType: 'collection-attribute',
       controls: ['attribute'], // Only attribute keys are supported for now
     },
     {

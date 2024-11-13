@@ -1,40 +1,26 @@
 'use client'
 
-import { PiPencilEditSolid } from '@repo/ui/icons/pika'
 import { SupabaseImage } from '@/lib/supabase/storage/supabaseImage'
-import { uploadAvatar } from '@/lib/supabase/storage/uploaders'
-import { cn } from '@repo/ui/lib/utils'
-import Image from 'next/image'
-import { useState } from 'react'
+import type { UserData } from '@/types/database.types'
+import Image, { type ImageProps } from 'next/image'
 
-export function Avatar({
-  internal,
-  src,
-  size,
-  className,
-}: {
-  internal: boolean
-  src: string
-  size: number
-  className?: string
-}) {
+type AvatarProps = Omit<ImageProps, 'src' | 'alt'> & {
+  user: UserData
+}
+export function Avatar({ user, ...props }: AvatarProps) {
   return (
     <>
-      {internal ? (
+      {user.internal_avatar ? (
         <SupabaseImage
-          src={`avatars/${src}`}
+          {...props}
+          src={`avatars/${user.internal_avatar}`}
           alt="User Avatar"
-          width={size}
-          height={size}
-          className={className}
         />
       ) : (
         <Image
-          src={src || '/images/placeholder.png'}
+          {...props}
+          src={user.external_avatar || '/images/placeholder.png'}
           alt="User Avatar"
-          width={size}
-          height={size}
-          className={className}
         />
       )}
     </>

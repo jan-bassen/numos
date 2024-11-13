@@ -3,12 +3,10 @@ import { actionRootLogic } from '@repo/engine/nodes/action-root/logic'
 import { addressInputLogic } from '@repo/engine/nodes/address-input/logic'
 import { booleanInputLogic } from '@repo/engine/nodes/boolean-input/logic'
 import { cancelLogic } from '@repo/engine/nodes/cancel/logic'
-import { changeCollectionLogic } from '@repo/engine/nodes/change-collection-attribute/logic'
 import { changeTokenAttributeLogic } from '@repo/engine/nodes/change-token-attribute/logic'
 import { changeTokenDescriptionLogic } from '@repo/engine/nodes/change-token-description/logic'
 import { changeTokenNameLogic } from '@repo/engine/nodes/change-token-name/logic'
 import { clampLogic } from '@repo/engine/nodes/clamp/logic'
-import { collectionAttributeLogic } from '@repo/engine/nodes/collection-attribute/logic'
 import { colorInputLogic } from '@repo/engine/nodes/color-input/logic'
 import { combineColorLogic } from '@repo/engine/nodes/combine-color/logic'
 import { compareLogic } from '@repo/engine/nodes/compare/logic'
@@ -56,12 +54,10 @@ export const nodeTypes = [
   'address-input',
   'boolean-input',
   'cancel',
-  'change-collection-attribute',
   'change-token-attribute',
   'change-token-description',
   'change-token-name',
   'clamp',
-  'collection-attribute',
   'color-input',
   'combine-color',
   'compare',
@@ -111,12 +107,10 @@ export const nodeLogic: Record<NodeType, AnyNodeLogic> = {
   'address-input': addressInputLogic,
   'boolean-input': booleanInputLogic,
   cancel: cancelLogic,
-  'change-collection-attribute': changeCollectionLogic,
   'change-token-attribute': changeTokenAttributeLogic,
   'change-token-description': changeTokenDescriptionLogic,
   'change-token-name': changeTokenNameLogic,
   clamp: clampLogic,
-  'collection-attribute': collectionAttributeLogic,
   'color-input': colorInputLogic,
   'combine-color': combineColorLogic,
   compare: compareLogic,

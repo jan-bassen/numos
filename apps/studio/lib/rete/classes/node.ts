@@ -94,7 +94,6 @@ export class Node extends NodePreset {
       },
       getInfoFromInputConnection: (key: string) => {
         const connectedOutput = this.getConnectedOutput(key)
-        console.log(connectedOutput)
         if (!connectedOutput) return
         if (
           connectedOutput.socket.definition.type === 'exec' ||
@@ -567,15 +566,14 @@ export class Node extends NodePreset {
     this.height = this.context.area.nodeViews.get(this.id)?.element.offsetHeight
   }
 
+  saveToDb = debounce(() => {
+    this.context.editor.events.onNodeChanged?.(this.context.editor, this.save())
+  }, 1000)
+
   setComment = (comment: string) => {
     this.comment = comment
     this.context.area.update('node', this.id)
-    debounce(() => {
-      this.context.editor.events.onNodeChanged?.(
-        this.context.editor,
-        this.save(),
-      )
-    }, 1000)()
+    this.saveToDb()
   }
 
   getConnections = () => {

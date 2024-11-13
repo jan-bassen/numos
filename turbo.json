@@ -18,6 +18,15 @@
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [".next/**", "!.next/cache/**"]
     },
+    "studio#typegen": {
+      "env": [
+        "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+        "NEXT_PUBLIC_SUPABASE_PROJECT_ID",
+        "NEXT_PUBLIC_SUPABASE_URL",
+        "SUPABASE_SERVICE_KEY"
+      ],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"]
+    },
     "web#build": {
       "dependsOn": ["^build"],
       "env": [

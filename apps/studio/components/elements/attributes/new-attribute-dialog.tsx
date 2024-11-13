@@ -51,6 +51,8 @@ export function NewAttributeDialog({
     resolver: zodResolver(schema),
     mode: 'onBlur',
     defaultValues: {
+      name: '',
+      slug: ' ',
       list: false,
     },
   })
@@ -69,10 +71,10 @@ export function NewAttributeDialog({
     description:
       'Attributes are the traits of your token. They can be different types of data like a number, text, a date, or something else.',
     icon: Milestone,
-    field: (field) => (
+    field: ({ onChange, value, ...rest }) => (
       <FormItem className="min-h-18 w-full">
-        <Select onValueChange={field.onChange} defaultValue={field.value}>
-          <SelectTrigger className={field.value && 'h-14'}>
+        <Select onValueChange={onChange} defaultValue={value} {...rest}>
+          <SelectTrigger className={value && 'h-14'}>
             <SelectValue placeholder="Select a data type" />
           </SelectTrigger>
           <DatatypeSelectContent />
@@ -89,7 +91,7 @@ export function NewAttributeDialog({
       'Usually, attributes are single values. If you want to store multiple values in it as a list, you can turn it on here.',
     icon: List,
     field: (field) => {
-      const { onChange, value, ref, ...rest } = field
+      const { onChange, value, ...rest } = field
       return (
         <FormItem className="min-h-18 w-full">
           <div className="flex items-center justify-center gap-3 pt-3">
@@ -148,28 +150,11 @@ export function NewAttributeDialog({
     ),
   }
 
-  const descriptionStage: StageDefinition<SchemaType, 'description'> = {
-    key: 'description',
-    title: 'Add a description (optional)',
-    description:
-      'A description will help you and others remember what your attribute is about.',
-    icon: Info,
-    field: (field) => (
-      <FormItem className="min-h-18 w-full">
-        <FormControl>
-          <Textarea {...field} className="min-h-16" />
-        </FormControl>
-        <FormMessage />
-      </FormItem>
-    ),
-  }
-
   const stages = [
     typeStage,
     listStage,
     nameStage,
     slugStage,
-    descriptionStage,
   ] as StageDefinition<SchemaType>[]
 
   async function onSubmit(values: SchemaType) {
@@ -185,7 +170,7 @@ export function NewAttributeDialog({
       res,
       () => {
         setDialogOpen(false)
-        router.push(`/studio/${collectionSlug}/attributes/${values.slug}`)
+        router.push(`/collections/${collectionSlug}/attributes/${values.slug}`)
       },
       () => {},
     )

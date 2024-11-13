@@ -130,7 +130,6 @@ export default function ImageNodeEditor({
     <NodeEditor
       parentId={version.id}
       initialGraph={initialGraph}
-      attributes={attributes}
       context={{
         type: 'image',
         attributes: attributes,

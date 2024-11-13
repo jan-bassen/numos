@@ -32,6 +32,7 @@ import { PiChevronBigLeftStroke } from '@repo/ui/icons/pika'
 import { buttonVariants } from '@repo/ui/components/ui/button'
 import { collectionSchema } from './collection-schema'
 
+// Not in use anymore
 export default function CollectionEditor({
   collection,
 }: {
@@ -68,6 +69,8 @@ export default function CollectionEditor({
       if (values.slug !== collection.slug) {
         router.push(`/collections/${values.slug}/settings`)
       }
+
+      form.reset(defaultValues)
     })
   }
 

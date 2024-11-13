@@ -77,12 +77,9 @@ export default function LayerListItem({
     setRenaming(false)
   }
 
-  const handleClick = (
-    e: MouseEvent<HTMLSpanElement>,
-    contextMenu?: boolean,
-  ) => {
+  const handleClick = (e: MouseEvent<HTMLSpanElement>) => {
     if (e.button !== 0 && e.button !== 2) return
-    if (!contextMenu) {
+    if (e.button === 0) {
       e.stopPropagation()
       e.preventDefault()
     }
@@ -130,7 +127,7 @@ export default function LayerListItem({
             }}
             onClick={handleClick}
             onDoubleClick={() => setDialogOpen(true)}
-            onContextMenu={(e) => handleClick(e, true)}
+            onContextMenu={handleClick}
             onDragStart={handleDragStart}
             onDragEnd={(e) => {
               context.setDraggedElement(null)
@@ -143,7 +140,7 @@ export default function LayerListItem({
               className="size-8 shrink-0 rounded-md"
               width={64}
               height={64}
-              signed
+              signed="true"
             />
             {renaming ? (
               <Input
@@ -198,13 +195,7 @@ export default function LayerListItem({
             <PiInputFieldStroke className="size-4" />
             Rename
           </ContextMenuItem>
-          <ContextMenuItem
-            onClick={async () => {
-              const res = await deleteLayer(layer.id)
-              handleReturnInfo(res)
-            }}
-            className="flex gap-1.5"
-          >
+          <ContextMenuItem onClick={handleClick} className="flex gap-1.5">
             <PiDeleteDustbin02Stroke className="size-4" />
             Delete
           </ContextMenuItem>
@@ -222,7 +213,7 @@ export default function LayerListItem({
                 className="contain h-full w-full drop-shadow-sm"
                 width={1000}
                 height={1000}
-                signed
+                signed="true"
               />
             </div>
             <div className="flex -md:w-full flex-col justify-end gap-3 md:min-w-56 md:max-w-[33vw] md:gap-2">

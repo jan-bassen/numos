@@ -1,7 +1,10 @@
-import Header from '@/components/layout/pages/header'
-import Main from '@/components/layout/pages/main'
+import Header from '@/components/layout/pages/new-header'
+import Main from '@/components/layout/pages/new-main'
 import { getAllAttributes } from '@/lib/supabase/db/attributes'
-import { getCollectionFromSlug } from '@/lib/supabase/db/collections'
+import {
+  getCollectionFromSlug,
+  getVersionIdFromCollectionSlug,
+} from '@/lib/supabase/db/collections'
 import {
   DataTable,
   type DataTableOptions,
@@ -10,12 +13,7 @@ import {
   type ExtendedAttribute,
   columns,
 } from '@/components/elements/attributes/attribute-columns'
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '@repo/ui/components/ui/tabs'
+import { Tabs } from '@repo/ui/components/ui/tabs'
 import {
   PiAddAddStroke,
   PiGridDashboard02Stroke,
@@ -23,34 +21,18 @@ import {
 } from '@repo/ui/icons/pika'
 import AttributeGrid from '@/components/elements/attributes/attribute-grid'
 import { Button } from '@repo/ui/components/ui/button'
-import PageTopBar from '@/components/layout/pages/page-top-bar'
-import Page from '@/components/layout/pages/page'
-import SecondaryNavbar from '@/components/nav/secondary-navbar'
-import type { NavItem } from '@/types/database.types'
-import { dataTypes } from '@/lib/supabase/constants/datatypes'
-import { iconClassesStroke } from '@/components/nav/navbar-links'
 import { NewAttributeDialog } from '@/components/elements/attributes/new-attribute-dialog'
 
-export default async function AttributesPage(
-  props: {
-    params: Promise<{ collection: string; attribute: string }>
-  }
-) {
-  const params = await props.params;
-  const collection = await getCollectionFromSlug(params.collection)
-  if (!collection.editable_version) throw new Error('No editable version')
-  const attributes = await getAllAttributes(collection.editable_version)
-  const attributeNavItems: NavItem[] = attributes.map((attribute) => ({
-    name: `${attribute.name}${attribute.list ? ' (List)' : ''}`,
-    slug: attribute.slug,
-    icon: dataTypes[attribute.type].icons.stroke({
-      className: iconClassesStroke,
-    }),
-  }))
+export default async function AttributesPage(props: {
+  params: Promise<{ collection: string; attribute: string }>
+}) {
+  const { collection, attribute } = await props.params
+  const version = await getVersionIdFromCollectionSlug(collection)
+  const attributes = await getAllAttributes(version)
 
   const attributeRows: ExtendedAttribute[] = attributes.map((attribute) => ({
     ...attribute,
-    collection_slug: collection.slug,
+    collection_slug: collection,
   }))
 
   const tableOptions: DataTableOptions = {
@@ -60,68 +42,48 @@ export default async function AttributesPage(
     },
   }
   return (
-    <Page>
-      <SecondaryNavbar
-        versionId={collection.editable_version}
-        collectionSlug={params.collection}
-        type="attributes"
+    <Tabs defaultValue="grid">
+      <Header
         title="Attributes"
-        items={attributeNavItems}
-        NewItemDialog={NewAttributeDialog}
-      />
-      <Tabs defaultValue="grid" asChild>
-        <Main>
-          <Header
-            title="Attributes"
-            subtitle="Define the traits tokens in the collection can have."
-          >
-            <NewAttributeDialog
-              button={
-                <Button className="gap-1.5 pl-3">
-                  <PiAddAddStroke className="size-4" />
-                  New Attribute
-                </Button>
-              }
-              versionId={collection.editable_version}
-              collectionSlug={params.collection}
-            />
-          </Header>
-          <div>
-            <PageTopBar>
-              <TabsList className="h-9 w-fit gap-1 bg-transparent p-0">
-                <TabsTrigger
-                  value="grid"
-                  className="gap-1.5 rounded-md data-[state=active]:bg-muted"
-                >
-                  <PiGridDashboard02Stroke className="my-auto h-4 w-4" />
-                  Grid
-                </TabsTrigger>
-                <TabsTrigger
-                  value="table"
-                  className="gap-1.5 rounded-md data-[state=active]:bg-muted"
-                >
-                  <PiGridTableStroke className="my-auto h-4 w-4" />
-                  Table
-                </TabsTrigger>
-              </TabsList>
-            </PageTopBar>
-            <TabsContent value="grid" className="mt-3 w-full">
-              <AttributeGrid
-                attributes={attributeRows}
-                collectionSlug={params.collection}
-                versionId={collection.editable_version}
-              />
-            </TabsContent>
-            <TabsContent value="table" className="mt-0 w-full">
-              <DataTable
-                columns={columns}
-                data={attributeRows}
-                options={tableOptions}
-              />
-            </TabsContent>
-          </div>
-        </Main>
-      </Tabs>
-    </Page>
+        subtitle="Define the traits tokens in the collection can have."
+        tabs={[
+          {
+            value: 'grid',
+            label: 'Grid',
+            Icon: PiGridDashboard02Stroke,
+          },
+          {
+            value: 'table',
+            label: 'Table',
+            Icon: PiGridTableStroke,
+          },
+        ]}
+      >
+        <NewAttributeDialog
+          button={
+            <Button className="gap-1.5 pl-3">
+              <PiAddAddStroke className="size-4" />
+              New Attribute
+            </Button>
+          }
+          versionId={version}
+          collectionSlug={collection}
+        />
+      </Header>
+      <Main tabValue="grid">
+        <AttributeGrid
+          attributes={attributeRows}
+          collectionSlug={collection}
+          versionId={version}
+        />
+      </Main>
+      <Main className="p-0" tabValue="table">
+        <DataTable
+          columns={columns}
+          data={attributeRows}
+          options={tableOptions}
+        />
+      </Main>
+    </Tabs>
   )
 }

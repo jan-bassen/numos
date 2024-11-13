@@ -17,9 +17,7 @@ import type {
   UpdateFolder,
   UpdateLayer,
 } from '@/types/database.types'
-import { sub } from 'date-fns'
-import { th } from 'date-fns/locale'
-
+import type { TreeSelection } from '@/components/elements/layers/tree'
 //TODO: Layer2 -> Layer
 
 export async function revalidateLayers() {
@@ -83,6 +81,17 @@ export async function deleteLayer(id: string): Promise<ReturnInfo> {
   return { ok: true, message: 'Layer deleted' }
 }
 
+export async function deleteLayers(ids: string[]) {
+  console.log(ids)
+  const supabase = await createSupabaseServerComponentClient()
+  const { error } = await supabase.from('layers').delete().in('id', ids)
+  if (error) {
+    return { ok: false, message: 'Error with deleting layer' }
+  }
+  revalidatePath('/collections/[collection]/layers', 'page')
+  return { ok: true, message: 'Layers deleted' }
+}
+
 export async function insertFolder(folder: InsertFolder): Promise<ReturnInfo> {
   const supabase = await createSupabaseServerComponentClient()
   const { error } = await supabase.from('folders').insert(folder)
@@ -116,6 +125,16 @@ export async function deleteFolder(id: string): Promise<ReturnInfo> {
   }
   revalidatePath('/collections/[collection]/layers', 'page')
   return { ok: true, message: 'Folder deleted' }
+}
+
+export async function deleteFolders(ids: string[]) {
+  const supabase = await createSupabaseServerComponentClient()
+  const { error } = await supabase.from('folders').delete().in('id', ids)
+  if (error) {
+    return { ok: false, message: 'Error with deleting folder' }
+  }
+  revalidatePath('/collections/[collection]/layers', 'page')
+  return { ok: true, message: 'Folders deleted' }
 }
 
 export async function getAllLayers(collectionId: string) {

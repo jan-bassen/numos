@@ -20,11 +20,12 @@ export default function NumberInput({
   }
   const dragRef = useRef<any>(null)
   Drag.useNoDrag(dragRef)
+  const _value = value === null || value === undefined ? '' : value
   return (
     <Input
       onChange={(e) => {
         if (locked) return
-        onValueChange?.(e.target.value)
+        onValueChange?.(e.target.value === '' ? null : e.target.value)
         onChange?.(e)
       }}
       disabled={locked}
@@ -36,7 +37,7 @@ export default function NumberInput({
           'flex h-7 w-44 items-center rounded-lg px-2 text-sm',
         className,
       )}
-      value={value || ''}
+      value={_value}
       onBlur={_onBlur}
       ref={environment === 'node' ? dragRef : undefined}
       {...props}

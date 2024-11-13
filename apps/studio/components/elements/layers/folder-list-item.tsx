@@ -120,9 +120,11 @@ export default function FolderListItem({
   }
 
   const handleClick = (e: MouseEvent<HTMLSpanElement>) => {
-    e.stopPropagation()
-    e.preventDefault()
     if (e.button !== 0 && e.button !== 2) return
+    if (e.button === 0) {
+      e.stopPropagation()
+      e.preventDefault()
+    }
     if (e.metaKey) {
       if (isSelected) {
         context.removeFromSelection(selectionElement)

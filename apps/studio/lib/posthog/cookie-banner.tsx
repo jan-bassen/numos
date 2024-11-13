@@ -1,12 +1,7 @@
 'use client'
 
 import { Button } from '@repo/ui/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@repo/ui/components/ui/card'
+import { Card, CardTitle } from '@repo/ui/components/ui/card'
 import { usePostHog } from 'posthog-js/react'
 import { useEffect, useState } from 'react'
 

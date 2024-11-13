@@ -25,7 +25,7 @@ import type { AttributeInfo } from './attributes.types'
 import type { Input } from '@/lib/rete/classes/connectors/input'
 import type { Output } from '@/lib/rete/classes/connectors/output'
 
-import type { JSX } from "react";
+import type { JSX } from 'react'
 
 // ----------- NODE DEPENDENCIES -------------
 
@@ -240,8 +240,6 @@ export type DefinitionInterface<I extends NodeInterface<NodeCategory>> = {
   getTrigger: () => ActionTrigger | undefined
   getTokenAttribute: (key: string) => AttributeInfo | undefined
   getTokenAttributes: () => AttributeInfo[] | undefined
-  getCollectionAttribute: (key: string) => AttributeInfo | undefined
-  getCollectionAttributes: () => AttributeInfo[] | undefined
 }
 
 // ----------- NODE DEFINITION -------------

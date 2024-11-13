@@ -8,16 +8,15 @@ import type {
   SimulationData,
 } from '@repo/engine/types/engine-types'
 import type { MapGraph } from '@repo/engine/types/graph-types'
-import { ImageSimulationEngine } from '@repo/engine/engine/image-simulation-engine'
-import { ActionSimulationEngine } from '@repo/engine/engine/action-simulation-engine'
+import { SimulationEngine } from '@repo/engine/engine/simulation-engine'
 
 export async function simulateImageGraph(
   graph: MapGraph,
   data: SimulationData,
   context: EngineContext,
 ): Promise<ImageSimulationResult> {
-  const engine = new ImageSimulationEngine(graph, context)
-  return engine.execute(data)
+  const engine = new SimulationEngine(graph, context)
+  return engine.createImage(data)
 }
 
 export async function simulateActionGraph(
@@ -25,6 +24,6 @@ export async function simulateActionGraph(
   data: SimulationData,
   context: ActionContext,
 ): Promise<ActionSimulationResult> {
-  const engine = new ActionSimulationEngine(graph, context)
-  return engine.execute(data)
+  const engine = new SimulationEngine(graph, context)
+  return engine.executeAction(data)
 }

@@ -72,9 +72,14 @@ export async function getAllActionsBySlug(
   return actions
 }
 
+export type ActionNavItem = {
+  slug: string
+  name: string | null
+  type: TriggerType | null
+}
 export async function getActionsForNav(
   collectionSlug: string,
-): Promise<{ slug: string; name: string | null; type: TriggerType | null }[]> {
+): Promise<ActionNavItem[]> {
   if (!collectionSlug) {
     throw new FetchError('No collection defined')
   }
@@ -283,6 +288,17 @@ export async function editAction(action: UpdateAction) {
   }
 }
 
+export async function setActionLock(id: string, locked: boolean) {
+  const supabase = await createSupabaseServerComponentClient()
+  const { error } = await supabase
+    .from('actions')
+    .update({ locked })
+    .eq('id', id)
+  if (error) {
+    throw new FetchError('Error with updating action')
+  }
+}
+
 export async function deleteAction(id: string, collectionSlug: string) {
   if (!id) {
     throw new FetchError('No action defined')
@@ -294,4 +310,23 @@ export async function deleteAction(id: string, collectionSlug: string) {
     throw new FetchError('Error with deleting action')
   }
   redirect(`/collections/${collectionSlug}/actions`)
+}
+
+export async function deleteActionBySlug(
+  versionId: string,
+  actionSlug: string,
+) {
+  const supabase = await createSupabaseServerComponentClient()
+
+  const { error } = await supabase
+    .from('actions')
+    .delete()
+    .eq('slug', actionSlug)
+    .eq('version', versionId)
+
+  if (error) {
+    return { ok: false, message: error.message }
+  }
+  revalidatePath('/collections/[collection]/actions')
+  return { ok: true, message: 'Successfully deleted' }
 }

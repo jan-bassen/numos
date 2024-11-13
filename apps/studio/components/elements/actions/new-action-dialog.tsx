@@ -54,6 +54,10 @@ export function NewActionDialog({
   const form = useForm<SchemaType>({
     resolver: zodResolver(schema),
     mode: 'onBlur',
+    defaultValues: {
+      name: '',
+      slug: ' ',
+    },
   })
 
   function inferSlug(name: string) {
@@ -122,21 +126,6 @@ export function NewActionDialog({
         </FormItem>
       ),
     },
-    {
-      key: 'description',
-      title: 'Add a description (optional)',
-      description:
-        'A description will help you and others remember what your action is about.',
-      icon: Info,
-      field: (field) => (
-        <FormItem className="min-h-18 w-full">
-          <FormControl>
-            <Textarea {...field} className="min-h-16" />
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      ),
-    },
   ]
 
   async function onSubmit(values: SchemaType) {
@@ -152,7 +141,7 @@ export function NewActionDialog({
       res,
       () => {
         setDialogOpen(false)
-        router.push(`/studio/${collectionSlug}/actions/${values.slug}`)
+        router.push(`/collections/${collectionSlug}/actions/${values.slug}`)
       },
       () => {},
     )

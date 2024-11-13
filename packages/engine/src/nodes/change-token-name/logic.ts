@@ -6,8 +6,8 @@ export const changeTokenNameLogic: NodeLogic<ChangeTokenNameNode> = {
     const newName = await getInputValue('name')
     const { changed, previous } = await setMetadata('name', newName.value)
     const message = changed
-      ? `Token name changed from ${previous} to ${newName.value}`
-      : `Token name unchanged at ${previous}`
+      ? `Token name changed from "${previous.value}" to "${newName.value}"`
+      : `Token name unchanged at "${previous.value}"`
 
     return {
       forward: 'exec',

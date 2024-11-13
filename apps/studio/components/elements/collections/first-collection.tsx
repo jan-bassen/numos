@@ -53,7 +53,7 @@ export function FirstCollection({ user }: { user: User }) {
     handleReturnInfo(
       res,
       () => {
-        router.push(`/studio/${values.slug}`)
+        router.push(`/collections/${values.slug}`)
       },
       () => {},
     )

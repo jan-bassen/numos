@@ -3,15 +3,22 @@ import { SupabaseImage } from '@/lib/supabase/storage/supabaseImage'
 import type { ImageInputProps } from '../generic-input'
 import { useRef, useState } from 'react'
 import { Drag } from 'rete-react-plugin'
-import { PiFolderDefaultSolid, PiHomeDefaultSolid } from '@repo/ui/icons/pika'
+import {
+  PiFolderDefaultSolid,
+  PiHomeDefaultSolid,
+  PiPhotoImagePlusStroke,
+} from '@repo/ui/icons/pika'
 import { Button } from '@repo/ui/components/ui/button'
 import {
   Dialog,
   DialogContent,
+  DialogHeader,
+  DialogTitle,
   DialogTrigger,
 } from '@repo/ui/components/ui/dialog'
 import Breadcrumbs from '@/components/nav/breadcrumbs'
 import { BreadcrumbItem } from '@repo/ui/components/ui/breadcrumb'
+import Link from 'next/link'
 
 export function ImageInput({
   value,
@@ -112,19 +119,20 @@ export function ImageInput({
             width={160}
             height={160}
             alt="Image"
-            signed
+            signed="true"
           />
         </DialogTrigger>
         <DialogContent
           className="flex min-h-96 max-w-[36rem] flex-col gap-2"
           aria-description="Dialog to select a layer"
         >
-          <div className="h-10">
+          <DialogHeader className="space-y-3">
+            <DialogTitle>Select Layer</DialogTitle>
             <Breadcrumbs
               items={breadcrumbs}
               className="h-10 w-full gap-1 pb-2 sm:gap-1"
             />
-          </div>
+          </DialogHeader>
           {folders.length === 0 && layers.length === 0 ? (
             <div className="grid h-[17.5rem] w-full place-items-center">
               <p className="font-medium text-muted-foreground text-sm">
@@ -175,7 +183,7 @@ export function ImageInput({
                       className="size-24 shrink-0 rounded-md"
                       width={192}
                       height={192}
-                      signed
+                      signed="true"
                     />
                   </Button>
                   <label

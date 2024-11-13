@@ -26,7 +26,7 @@ import type {
 } from '@/types/actions.types'
 import { datatypeSchema } from '@repo/engine/datatypes/schemas'
 
-import type { JSX } from "react";
+import type { JSX } from 'react'
 
 export const actionTypes: Record<
   TriggerType,
@@ -163,7 +163,7 @@ export const triggerSchema = (type: TriggerType) => {
                 })
                 .min(1, 'Every parameter needs a key'),
               type: z.enum(valueTypeKeys),
-              list: z.boolean(),
+              list: z.boolean().default(false),
             }),
           )
           .refine((params) => {

@@ -37,13 +37,13 @@ export default function TokenResult({
   )
   return (
     <Tabs value={page} onValueChange={setPage} className="h-full">
-      <div className="h-full space-y-4 rounded-lg p-2 md:p-4">
+      <div className="h-full space-y-4 rounded-lg p-2 ">
         <div className="flex items-end justify-between">
           {/* biome-ignore lint/nursery/useSortedClasses: <explanation> */}
           <h3 className="h-fit pl-1 text-xl font-extrabold">
             {page === 'changes' ? 'Changes' : 'Logs'}
           </h3>
-          <TabsList className="z-50 h-8 bg-muted px-0.5">
+          <TabsList className="z-100 h-8 bg-muted px-0.5">
             <TabsTrigger value="changes">
               <PiNftDefaultStroke className="size-4" />
             </TabsTrigger>

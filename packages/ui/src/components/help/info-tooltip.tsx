@@ -57,17 +57,17 @@ export default function InfoButton({
         <PiInformationCircleSolid className="mt-0.5 h-4 w-4 text-border" />
       </PopoverTrigger>
       <PopoverContent
-        className="max-w-xs space-y-3 py-3 font-normal text-popover-foreground text-xs"
+        className=" w-80 space-y-3 py-3 font-normal text-popover-foreground text-sm"
         side="right"
       >
-        <div className="space-y-1.5">
-          <h1 className="">{title}</h1>
+        <div className="space-y-1">
+          <h1 className="font-bold ">{title}</h1>
           <p className="">{description}</p>
         </div>
         {options && (
           <>
             <Separator />
-            <ul className="mt-2 space-y-1.5 ">
+            <ul className="mt-2 space-y-1.5 text-xs">
               {options.map((option) => (
                 <li key={option.label}>
                   <b className="underline">{option.label}:</b>{' '}

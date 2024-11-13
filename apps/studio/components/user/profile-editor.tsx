@@ -15,16 +15,22 @@ import type { User } from '@supabase/supabase-js'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import Identities from './providers'
+import Identities from './identity-providers'
 import { updateProfile, updateProfileImage } from '@/lib/supabase/db/profile'
-import EditableHeader, {
-  EditableHeaderImage,
-} from '../layout/pages/editable-header'
 import { handleReturnInfo } from '@repo/ui/lib/utils'
 import { toast } from 'sonner'
 import { Dialog } from '@repo/ui/components/ui/dialog'
 import PasswordDialogContent from './password-dialog'
+import Header from '../layout/pages/new-header'
+import Main from '../layout/pages/new-main'
+import FormContent from '../forms/form-content'
+import { EditableImage } from '../layout/pages/new-editable-image'
 import { Button } from '@repo/ui/components/ui/button'
+import {
+  PiCheckTickSquareBrokenStroke,
+  PiSafeStroke,
+} from '@repo/ui/icons/pika'
+import SaveButton from '../buttons/save-button'
 
 const schema = z.object({
   name: z.string().optional(),
@@ -38,7 +44,6 @@ export default function UserProfileEditor({
   user: User
   profile: Profile
 }) {
-  const [locked, setLocked] = useState(true)
   const [passwordDialogOpen, setPasswordDialogOpen] = useState(false)
 
   const defaultValues = {
@@ -61,13 +66,7 @@ export default function UserProfileEditor({
       updated_at: null,
     }
     const res = await updateProfile(user.id, newProfile)
-    handleReturnInfo(
-      res,
-      () => {
-        setLocked(true)
-      },
-      () => {},
-    )
+    handleReturnInfo(res)
   }
 
   const onError = (error: unknown) => {
@@ -85,79 +84,62 @@ export default function UserProfileEditor({
 
   return (
     <>
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit, onError)}
-          className="w-full space-y-8"
-        >
-          <EditableHeader
-            form={form}
-            defaultValues={defaultValues}
-            locked={locked}
-            setLocked={setLocked}
-            title={
-              profile?.full_name || profile?.username || user.user_metadata.name
-            }
-            titlePlaceholder="Your Name"
-            icon={
-              <EditableHeaderImage
-                location={{ bucket: 'avatars', name: crypto.randomUUID() }}
-                initial={profile?.avatar_url || undefined}
-                updateFunction={updateImage}
-                alt="User Avatar"
-                size={48}
-                locked={locked}
-              />
-            }
-            showBreadcrumbs={false}
-          />
-          <FormSegment title="Username">
-            <FormField
-              control={form.control}
-              name="username"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      readOnly={locked}
-                      className="w-max-[40rem]"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </FormSegment>
-          <FormSegment
-            title="Connections"
-            description="Manage the different ways you can log into your account with"
+      <Header title="Account" subtitle="Everything regarding your account">
+        {form.getFieldState('username').isDirty && (
+          <SaveButton type="submit" form="account-form" />
+        )}
+      </Header>
+      <Main>
+        <Form {...form}>
+          <form
+            id="account-form"
+            onSubmit={form.handleSubmit(onSubmit, onError)}
+            className="w-full space-y-8"
           >
-            {user.identities && (
-              <Identities
-                identities={user.identities}
-                setPasswordDialogOpen={setPasswordDialogOpen}
-              />
-            )}
-          </FormSegment>
-          <FormSegment
-            title="Password"
-            description="Change your password"
-            className="sm:hidden"
-          >
-            <Button
-              type="button"
-              variant={'outline'}
-              onClick={() => setPasswordDialogOpen(true)}
-            >
-              Change Password
-            </Button>
-          </FormSegment>
-        </form>
-      </Form>
-      <Dialog open={passwordDialogOpen} onOpenChange={setPasswordDialogOpen}>
-        <PasswordDialogContent setDialogOpen={setPasswordDialogOpen} />
-      </Dialog>
+            <FormContent>
+              <FormSegment title="Profile Image">
+                <EditableImage
+                  location={{ bucket: 'avatars', name: crypto.randomUUID() }}
+                  initial={profile?.avatar_url || undefined}
+                  updateFunction={updateImage}
+                  className="size-20"
+                  alt="Profile Image"
+                  width={80}
+                  height={80}
+                />
+              </FormSegment>
+              <FormSegment title="Username">
+                <FormField
+                  control={form.control}
+                  name="username"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input {...field} className="w-max-[40rem]" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </FormSegment>
+              <FormSegment
+                title="Connections"
+                description="Manage the different ways you can log into your account with"
+              >
+                {user.identities && (
+                  <Identities
+                    identities={user.identities}
+                    setPasswordDialogOpen={setPasswordDialogOpen}
+                  />
+                )}
+              </FormSegment>
+            </FormContent>
+          </form>
+        </Form>
+        <Dialog open={passwordDialogOpen} onOpenChange={setPasswordDialogOpen}>
+          <PasswordDialogContent setDialogOpen={setPasswordDialogOpen} />
+        </Dialog>
+      </Main>
     </>
   )
 }

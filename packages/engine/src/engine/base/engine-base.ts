@@ -26,8 +26,6 @@ export class EngineBase {
   constructor(
     private readonly graph: MapGraph,
     private readonly context: EngineContext,
-    private readonly mode: 'simulation' | 'application',
-    private readonly type: 'data' | 'execution',
   ) {}
 
   getContext() {

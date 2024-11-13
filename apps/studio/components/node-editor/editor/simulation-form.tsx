@@ -21,7 +21,6 @@ import {
   getDefaultValuesFromAttributes,
   getSchemaFromAttributes,
 } from '@/components/elements/attributes/attribute-schema'
-import type { BaseEditorFormProps } from './base-editor'
 import {
   getDefaultValuesFromParameters,
   getParametersSchema,
@@ -61,15 +60,16 @@ import type { ValueSettings, ValueType } from '@repo/engine/types/value-types'
 import type { ActionTrigger } from '@/types/actions.types'
 import type { SimulationData } from '@repo/engine/types/engine-types'
 import { generateValueMap } from '@repo/engine/datatypes/utils'
+import { useEditorContext } from './editor-provider'
 
 export default function SimulationForm({
-  action,
-  attributes,
-  run,
   id,
-  error,
-  setError,
-}: BaseEditorFormProps) {
+}: {
+  id: string
+}) {
+  const { error, execute, editor } = useEditorContext()
+  const action = editor?.editor.context.action
+  const attributes = editor?.editor.context.attributes || []
   const [accordionOpen, setAccordionOpen] = useState<string[] | undefined>()
   useEffect(() => {
     if (error?.location?.input) {
@@ -181,7 +181,7 @@ export default function SimulationForm({
       parameters: annotatedParameterValues,
     }
 
-    run(simulationData)
+    execute(simulationData)
   }
 
   function onError(errors: unknown) {
@@ -460,7 +460,6 @@ export default function SimulationForm({
                     name={`attributes.${attribute.slug}`}
                     key={`attributes.${attribute.slug}`}
                     render={({ field }) => {
-                      const { ref, ...rest } = field
                       const props = {
                         datatype: attribute.type as ValueType,
                         settings: attribute.settings as ValueSettings,
@@ -503,7 +502,7 @@ export default function SimulationForm({
                               )}
                             </div>
                             <FormControl>
-                              <GenericInput {...props} {...rest} />
+                              <GenericInput {...props} {...field} />
                             </FormControl>
                           </div>
                           <FormMessage className="w-full" />
@@ -594,7 +593,6 @@ export default function SimulationForm({
                         name={`parameters.${parameter.key}`}
                         key={`parameters.${parameter.key}`}
                         render={({ field }) => {
-                          const { ref, ...rest } = field
                           const props = {
                             datatype: parameter.type as ValueType,
                             settings: undefined,
@@ -630,7 +628,7 @@ export default function SimulationForm({
                                   )}
                                 </div>
                                 <FormControl>
-                                  <GenericInput {...props} {...rest} />
+                                  <GenericInput {...props} {...field} />
                                 </FormControl>
                               </div>
                               <FormMessage className="w-full" />

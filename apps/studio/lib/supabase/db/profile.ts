@@ -9,6 +9,7 @@ import type {
 import { createSupabaseServerComponentClient } from '../server-client'
 import { revalidatePath } from 'next/cache'
 import type { User } from '@supabase/supabase-js'
+import { FetchError } from '@/lib/errors'
 
 export async function getUser(): Promise<User> {
   const supabase = await createSupabaseServerComponentClient()
@@ -87,7 +88,7 @@ export async function updateProfile(
       message: error.message,
     }
   }
-  revalidatePath('/user', 'page')
+  revalidatePath('/account', 'page')
   return {
     ok: true,
     message: 'Profile updated',
@@ -109,7 +110,7 @@ export async function updateProfileImage(
       message: error.message,
     }
   }
-  revalidatePath('/user', 'page')
+  revalidatePath('/account', 'page')
   return {
     ok: true,
     message: 'Profile image updated',

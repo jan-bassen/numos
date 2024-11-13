@@ -37,6 +37,10 @@ export function NewCollectionDialog({ button }: { button: ReactNode }) {
   const form = useForm<SchemaType>({
     resolver: zodResolver(schema),
     mode: 'onBlur',
+    defaultValues: {
+      name: '',
+      slug: ' ',
+    },
   })
 
   function inferSlug(name: string) {
@@ -85,36 +89,6 @@ export function NewCollectionDialog({ button }: { button: ReactNode }) {
         </FormItem>
       ),
     },
-    {
-      key: 'description',
-      title: 'Add a description (optional)',
-      description:
-        'A description will help you remember what your collection is about. This will also show up in marketplaces and other places.',
-      icon: Info,
-      field: (field) => (
-        <FormItem className="min-h-[80px] w-full">
-          <FormControl>
-            <Textarea {...field} />
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      ),
-    },
-    {
-      key: 'max_supply',
-      title: 'Set a maximum supply (optional)',
-      description:
-        "This will limit the number of tokens that can be minted total from this collection. If you don't set a maximum supply, the collection will be unlimited.",
-      icon: Hash,
-      field: (field) => (
-        <FormItem className="min-h-[80px] w-full">
-          <FormControl>
-            <Input type="number" placeholder="Unlimited" {...field} />
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      ),
-    },
   ]
 
   async function onSubmit(values: SchemaType) {
@@ -123,7 +97,7 @@ export function NewCollectionDialog({ button }: { button: ReactNode }) {
       res,
       () => {
         setDialogOpen(false)
-        router.push(`/studio/${values.slug}`)
+        router.push(`/collections/${values.slug}`)
       },
       () => {},
     )

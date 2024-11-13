@@ -83,10 +83,20 @@ export default function EnumInput({
         <SelectContent className={cn('min-h-8')}>
           <SelectGroup>
             {options?.map((option, index) => {
-              if (typeof option === 'string') {
-                return <SelectOptionItem option={option} key={option} />
+              if (option.value === '' || option.value === undefined) {
+                return null
               }
-              return <SelectOptionItem option={option} key={option.value} />
+              if (typeof option === 'string') {
+                const _option = { value: option, label: option }
+                return (
+                  // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+                  <SelectOptionItem option={_option} key={option + index} />
+                )
+              }
+              return (
+                // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+                <SelectOptionItem option={option} key={option.value + index} />
+              )
             })}
           </SelectGroup>
         </SelectContent>

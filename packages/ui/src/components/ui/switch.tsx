@@ -1,23 +1,20 @@
 'use client'
 
-import * as React from 'react'
+import type * as React from 'react'
 import * as SwitchPrimitives from '@radix-ui/react-switch'
 
 import { cn } from '@repo/ui/lib/utils'
 
-const Switch = React.forwardRef<
-  React.ElementRef<typeof SwitchPrimitives.Root>,
-  React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root> & {
-    thumbClassName?: string
-  }
->(({ className, thumbClassName, ...props }, ref) => (
+type SwitchProps = React.ComponentProps<typeof SwitchPrimitives.Root> & {
+  thumbClassName?: string
+}
+const Switch = ({ className, thumbClassName, ...props }: SwitchProps) => (
   <SwitchPrimitives.Root
     className={cn(
       'peer inline-flex h-[24px] w-[44px] shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-creative data-[state=unchecked]:bg-input',
       className,
     )}
     {...props}
-    ref={ref}
   >
     <SwitchPrimitives.Thumb
       className={cn(
@@ -26,7 +23,7 @@ const Switch = React.forwardRef<
       )}
     />
   </SwitchPrimitives.Root>
-))
+)
 Switch.displayName = SwitchPrimitives.Root.displayName
 
 export { Switch }

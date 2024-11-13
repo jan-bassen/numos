@@ -4,7 +4,7 @@ import type {
   Path,
   UseFormReturn,
 } from 'react-hook-form'
-import { useEffect, useRef, useState, type JSX } from 'react';
+import { useEffect, useRef, useState, type JSX } from 'react'
 import { cn } from '@repo/ui/lib/utils'
 import { Form, FormField } from '@repo/ui/components/ui/form'
 import {
@@ -13,7 +13,6 @@ import {
   PaginationItem,
 } from '@repo/ui/components/ui/pagination'
 import { ChevronLeft, ChevronRight, type LucideIcon } from 'lucide-react'
-import { useHotkeys } from 'react-hotkeys-hook'
 import {
   Carousel,
   CarouselContent,
