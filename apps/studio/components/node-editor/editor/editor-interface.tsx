@@ -218,8 +218,8 @@ export default function EditorInterface({
       </div>
       <div
         className={cn(
-          'absolute right-2 bottom-2 z-40 flex size-fit gap-2 md:top-4 md:right-4 transition-transform',
-          sidebarOpen && 'md:-translate-x-[19rem]',
+          'absolute right-2 bottom-2 z-40 flex size-fit gap-2 transition-transform md:top-4 md:right-4',
+          sidebarOpen && 'md:-translate-x-[18rem]',
         )}
       >
         <Button

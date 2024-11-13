@@ -11,6 +11,7 @@ import { Suspense } from 'react'
 import PostHogPageView from '@/lib/posthog/posthog-pageview'
 import Providers from './providers'
 import CookieBanner from '@/lib/posthog/cookie-banner'
+import ChatWidget from '@/lib/hubspot/chat'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' })
@@ -52,6 +53,7 @@ export default async function RootLayout({
             <PostHogPageView />
           </Suspense>
           {children}
+          <ChatWidget />
           <CookieBanner isLoggedIn={!!user} />
           <Toaster position="bottom-right" richColors />
         </Providers>

@@ -9,6 +9,7 @@ import type { User } from '@supabase/supabase-js'
 import { useEffect } from 'react'
 import { SidebarProvider } from '@repo/ui/components/ui/sidebar'
 import { SecondarySidebarProvider } from '@repo/ui/components/ui/sidebar-secondary'
+import { ChatProvider } from '@/lib/hubspot/context'
 
 declare global {
   interface Window {
@@ -20,6 +21,10 @@ declare global {
       widget: {
         open: () => void
         close: () => void
+        load: () => void
+        remove: () => void
+        refresh: () => void
+        status: () => { loaded: boolean }
       }
     }
   }
@@ -85,9 +90,11 @@ export default function Providers({
       <ThemeProvider attribute="class" defaultTheme={'system'}>
         <TooltipProvider delayDuration={500} skipDelayDuration={500}>
           <SidebarProvider>
-            <SecondarySidebarProvider defaultOpen>
-              {children}
-            </SecondarySidebarProvider>
+            <ChatProvider>
+              <SecondarySidebarProvider defaultOpen>
+                {children}
+              </SecondarySidebarProvider>
+            </ChatProvider>
           </SidebarProvider>
         </TooltipProvider>
       </ThemeProvider>
