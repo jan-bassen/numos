@@ -1,6 +1,6 @@
 'use server'
 
-import { createSupabaseClient } from '../client'
+import { createSupabaseClient } from '../clients/client'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { FetchError } from '@/lib/errors'
 import { revalidatePath } from 'next/cache'

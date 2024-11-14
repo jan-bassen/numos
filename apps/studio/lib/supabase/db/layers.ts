@@ -1,7 +1,7 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { createSupabaseServerComponentClient } from '../server-client'
+import { createSupabaseServerComponentClient } from '../clients/server-client'
 import type {
   Folder,
   InsertFolder,
@@ -17,7 +17,7 @@ import type {
   UpdateFolder,
   UpdateLayer,
 } from '@/types/database.types'
-import type { TreeSelection } from '@/components/elements/layers/tree'
+import type { TreeSelection } from '@/app/collections/[collection]/image/layers/(components)/tree'
 //TODO: Layer2 -> Layer
 
 export async function revalidateLayers() {

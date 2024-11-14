@@ -1,6 +1,6 @@
 'use client'
 
-import DeleteButton from '@/components/buttons/delete-button'
+import DeleteButton from '@/components/forms/buttons/delete-button'
 import { deleteCollection } from '@/lib/supabase/db/collections'
 import { handleReturnInfo } from '@repo/ui/lib/utils'
 
@@ -10,6 +10,7 @@ export default function DeleteCollectionButton({
   return (
     <DeleteButton
       title="collection"
+      secure
       onDelete={async () => {
         const res = await deleteCollection(collection)
         handleReturnInfo(res)

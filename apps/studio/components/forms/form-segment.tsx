@@ -1,4 +1,3 @@
-import { Separator } from '@repo/ui/components/ui/separator'
 import { cn } from '@repo/ui/lib/utils'
 import InfoButton, {
   type InfoTooltipOptions,

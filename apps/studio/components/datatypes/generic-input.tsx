@@ -1,14 +1,14 @@
 'use client'
 
-import AddressInput from '@/components/datatypes/inputs/address-input'
-import BooleanInput from '@/components/datatypes/inputs/boolean-input'
-import ColorInput from '@/components/datatypes/inputs/color-input'
-import DatetimeInput from '@/components/datatypes/inputs/datetime-input'
-import EnumInput from '@/components/datatypes/inputs/enum-input'
-import LocationInput from '@/components/datatypes/inputs/location-input'
-import NumberInput from '@/components/datatypes/inputs/number-input'
-import StringInput from '@/components/datatypes/inputs/string-input'
-import WeatherInput from '@/components/datatypes/inputs/weather-input'
+import AddressInput from '@/components/datatypes/address/address-input'
+import BooleanInput from '@/components/datatypes/boolean/boolean-input'
+import ColorInput from '@/components/datatypes/color/color-input'
+import DatetimeInput from '@/components/datatypes/datetime/datetime-input'
+import EnumInput from '@/components/datatypes/enum/enum-input'
+import LocationInput from '@/components/datatypes/location/location-input'
+import NumberInput from '@/components/datatypes/number/number-input'
+import StringInput from '@/components/datatypes/string/string-input'
+import WeatherInput from '@/components/datatypes/weather/weather-input'
 import type { InputProps } from '@repo/ui/components/ui/input'
 import type { TextareaProps } from '@repo/ui/components/ui/textarea'
 import type { Direction, WeatherCode, LayerTree } from '@/types/database.types'
@@ -18,8 +18,8 @@ import type {
   ComponentPropsWithoutRef,
   HTMLAttributes,
 } from 'react'
-import { ImageInput } from '@/components/datatypes/inputs/image-input'
-import DirectionInput from '@/components/datatypes/inputs/direction-input'
+import { ImageInput } from '@/components/datatypes/image/image-input'
+import DirectionInput from '@/components/datatypes/direction/direction-input'
 import type { SelectOptions } from '@/types/nodes.types'
 import type {
   Color,

@@ -1,4 +1,4 @@
-import { createSupabaseServerComponentClient } from '@/lib/supabase/server-client'
+import { createSupabaseServerComponentClient } from '@/lib/supabase/clients/server-client'
 import { redirect } from 'next/navigation'
 
 export default async function LoginLayout({

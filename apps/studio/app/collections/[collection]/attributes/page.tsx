@@ -1,5 +1,5 @@
-import Header from '@/components/layout/pages/new-header'
-import Main from '@/components/layout/pages/new-main'
+import Header from '@/components/layout/pages/header'
+import Main from '@/components/layout/pages/main'
 import { getAllAttributes } from '@/lib/supabase/db/attributes'
 import {
   getCollectionFromSlug,
@@ -12,16 +12,16 @@ import {
 import {
   type ExtendedAttribute,
   columns,
-} from '@/components/elements/attributes/attribute-columns'
+} from '@/app/collections/[collection]/attributes/(components)/attribute-columns'
 import { Tabs } from '@repo/ui/components/ui/tabs'
 import {
   PiAddAddStroke,
   PiGridDashboard02Stroke,
   PiGridTableStroke,
 } from '@repo/ui/icons/pika'
-import AttributeGrid from '@/components/elements/attributes/attribute-grid'
+import AttributeGrid from '@/app/collections/[collection]/attributes/(components)/attribute-grid'
 import { Button } from '@repo/ui/components/ui/button'
-import { NewAttributeDialog } from '@/components/elements/attributes/new-attribute-dialog'
+import { NewAttributeDialog } from '@/app/collections/[collection]/attributes/(components)/new-attribute-dialog'
 
 export default async function AttributesPage(props: {
   params: Promise<{ collection: string; attribute: string }>

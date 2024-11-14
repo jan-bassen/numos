@@ -6,7 +6,7 @@ import type {
   ReturnInfo,
   UpdateProfile,
 } from '@/types/database.types'
-import { createSupabaseServerComponentClient } from '../server-client'
+import { createSupabaseServerComponentClient } from '../clients/server-client'
 import { revalidatePath } from 'next/cache'
 import type { User } from '@supabase/supabase-js'
 import { FetchError } from '@/lib/errors'

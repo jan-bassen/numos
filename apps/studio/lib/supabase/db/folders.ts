@@ -5,7 +5,7 @@ import type {
   InsertEmptyFolder,
   ReturnInfo,
 } from '@/types/database.types'
-import { createSupabaseServerComponentClient } from '../server-client'
+import { createSupabaseServerComponentClient } from '../clients/server-client'
 import { revalidatePath } from 'next/cache'
 import type { EmptyFolderObject } from '../storage/user-images'
 

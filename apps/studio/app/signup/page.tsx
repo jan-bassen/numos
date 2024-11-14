@@ -1,6 +1,6 @@
 'use client'
 
-import { signInWithPassword, signup } from '@/lib/supabase/auth'
+import { signInWithPassword, signup } from '@/lib/supabase/auth/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import type { z } from 'zod'
@@ -19,10 +19,10 @@ import { Card } from '@repo/ui/components/ui/card'
 import Logo from '@repo/ui/components/brand/logo'
 import Link from 'next/link'
 import { handleReturnInfo } from '@repo/ui/lib/utils'
-import { signupSchema } from '@/lib/validation/auth'
+import { signupSchema } from '@/lib/schemas/sign-up-schema'
 import { Badge } from '@repo/ui/components/ui/badge'
 import { useEffect } from 'react'
-import { createSupabaseClient } from '@/lib/supabase/client'
+import { createSupabaseClient } from '@/lib/supabase/clients/client'
 
 export default function SigninPage() {
   const router = useRouter()

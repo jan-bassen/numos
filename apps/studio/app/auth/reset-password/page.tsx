@@ -1,7 +1,7 @@
-'use client';
-import { use } from "react";
+'use client'
+import { use } from 'react'
 
-import { resetPassword } from '@/lib/supabase/auth'
+import { resetPassword } from '@/lib/supabase/auth/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -39,10 +39,10 @@ const passwordSchema = z
 
 type SchemaType = z.infer<typeof passwordSchema>
 
-export default function ResetPasswordPage(
-  props: { searchParams: Promise<{ error_description: string; code: string }> }
-) {
-  const searchParams = use(props.searchParams);
+export default function ResetPasswordPage(props: {
+  searchParams: Promise<{ error_description: string; code: string }>
+}) {
+  const searchParams = use(props.searchParams)
   const router = useRouter()
   const form = useForm<SchemaType>({
     resolver: zodResolver(passwordSchema),

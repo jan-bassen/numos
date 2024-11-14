@@ -1,22 +1,18 @@
 import {
   Body,
   Button,
-  Column,
   Container,
   Font,
   Head,
   Heading,
-  Hr,
   Html,
   Img,
   Link,
   Preview,
-  Row,
   Section,
   Tailwind,
   Text,
 } from '@react-email/components'
-import { head } from 'lodash'
 import * as React from 'react'
 
 export type SupabaseEmailData = {
@@ -35,6 +31,8 @@ export type EmailProps = {
   }
   email_data: SupabaseEmailData
 }
+
+//TODO: Make own app for emails
 
 const previewText = 'Sign up to Numos Studio'
 const content = {

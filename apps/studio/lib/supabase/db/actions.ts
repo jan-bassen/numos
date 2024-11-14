@@ -10,7 +10,7 @@ import type {
   UpdateAction,
 } from '@/types/database.types'
 import { revalidatePath } from 'next/cache'
-import { createSupabaseServerComponentClient } from '../server-client'
+import { createSupabaseServerComponentClient } from '../clients/server-client'
 import { redirect } from 'next/navigation'
 import type { ActionTrigger } from '@/types/actions.types'
 

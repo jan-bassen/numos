@@ -1,5 +1,4 @@
-import ActionEditor from '@/components/elements/actions/action-editor'
-import Main from '@/components/layout/pages/main'
+import ActionEditor from '@/app/collections/[collection]/actions/[action]/(components)/action-editor'
 import { getActionBySlug } from '@/lib/supabase/db/actions'
 import { getExtendedCollectionFromSlug } from '@/lib/supabase/db/collections'
 

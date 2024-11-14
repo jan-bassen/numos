@@ -17,9 +17,9 @@ import { toast } from 'sonner'
 import { Card } from '@repo/ui/components/ui/card'
 import Logo from '@repo/ui/components/brand/logo'
 import Link from 'next/link'
-import { createSupabaseClient } from '@/lib/supabase/client'
+import { createSupabaseClient } from '@/lib/supabase/clients/client'
 import { Suspense, useState } from 'react'
-import { getURL } from '@/lib/supabase/client-utils'
+import { getURL } from '@/lib/supabase/clients/client-utils'
 
 const formSchema = z.object({
   email: z

@@ -12,9 +12,9 @@ import type {
 import { FetchError } from '@/lib/errors'
 import { revalidatePath } from 'next/cache'
 import { notFound, redirect } from 'next/navigation'
-import { createSupabaseServerComponentClient } from '../server-client'
+import { createSupabaseServerComponentClient } from '../clients/server-client'
 import { deleteFolder } from '../storage/user-images'
-import { createSupabaseServiceClient } from '../service-client'
+import { createSupabaseServiceClient } from '../clients/service-client'
 import { getFirstAccountId } from './accounts'
 
 export const isCollectionSlugTaken = async (slug: string) => {

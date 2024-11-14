@@ -1,5 +1,5 @@
 import { getAttributeBySlug } from '@/lib/supabase/db/attributes'
-import AttributeEditor from '../../../../../components/elements/attributes/attribute-editor'
+import AttributeEditor from './(components)/attribute-editor'
 import { getExtendedCollectionFromSlug } from '@/lib/supabase/db/collections'
 
 export default async function Attribute(props: {

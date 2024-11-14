@@ -1,17 +1,33 @@
+import { TabsContent } from '@repo/ui/components/ui/tabs'
 import { cn } from '@repo/ui/lib/utils'
-import type { ReactNode } from 'react'
 
 export default function Main({
   children,
   className,
+  tabValue,
 }: {
-  children?: ReactNode
+  children?: React.ReactNode
   className?: string
+  tabValue?: string
 }) {
+  if (tabValue) {
+    return (
+      <TabsContent value={tabValue} asChild>
+        <main
+          className={cn(
+            '!mt-0 flex h-full w-full flex-grow flex-col gap-6 p-6',
+            className,
+          )}
+        >
+          {children}
+        </main>
+      </TabsContent>
+    )
+  }
   return (
     <main
       className={cn(
-        'flex min-h-screen w-full flex-col gap-4 overflow-visible bg-background p-4 pb-20 sm:p-6 md:overflow-auto md:px-12 lg:gap-8 [&:has([role=breadcrumbs])]:pt-4',
+        'flex h-full w-full flex-grow flex-col gap-8 p-8',
         className,
       )}
     >
@@ -19,5 +35,3 @@ export default function Main({
     </main>
   )
 }
-
-/* "max-w-[90rem]" */

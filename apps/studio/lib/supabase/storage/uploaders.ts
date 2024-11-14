@@ -1,7 +1,7 @@
 'use client'
 
 import type { ReturnInfo } from '@/types/database.types'
-import { createSupabaseClient } from '../client'
+import { createSupabaseClient } from '../clients/client'
 import { toast } from 'sonner'
 import { handleReturnInfo } from '@repo/ui/lib/utils'
 

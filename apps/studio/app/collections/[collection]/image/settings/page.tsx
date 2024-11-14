@@ -1,5 +1,5 @@
-import Header from '@/components/layout/pages/new-header'
-import Main from '@/components/layout/pages/new-main'
+import Header from '@/components/layout/pages/header'
+import Main from '@/components/layout/pages/main'
 import { getExtendedCollectionFromSlug } from '@/lib/supabase/db/collections'
 
 export default async function ImageSettingsPage(props: {

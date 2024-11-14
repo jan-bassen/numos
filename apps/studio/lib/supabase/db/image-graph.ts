@@ -6,7 +6,7 @@ import type {
   SavedGraph,
   SavedNode,
 } from '@repo/engine/types/graph-types'
-import { createSupabaseServerComponentClient } from '../server-client'
+import { createSupabaseServerComponentClient } from '../clients/server-client'
 import { changeSavedNodeStructure, replaceRemovedNodes } from '@/lib/transition'
 
 export async function insertImageNode(

@@ -1,6 +1,6 @@
 'use server'
 
-import { createSupabaseServerComponentClient } from '../server-client'
+import { createSupabaseServerComponentClient } from '../clients/server-client'
 
 export async function getFirstAccountId() {
   const supabase = await createSupabaseServerComponentClient()

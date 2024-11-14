@@ -11,6 +11,7 @@ import {
   AlertDialogTrigger,
 } from '@repo/ui/components/ui/alert-dialog'
 import { Input } from '@repo/ui/components/ui/input'
+import { buttonVariants } from '../ui/button'
 
 export default function InputDeleteDialogContent({
   onDelete,
@@ -45,6 +46,7 @@ export default function InputDeleteDialogContent({
             onDelete()
           }}
           disabled={deleteConfirm !== 'Delete'}
+          className={buttonVariants({ variant: 'destructive' })}
         >
           Delete
         </AlertDialogAction>

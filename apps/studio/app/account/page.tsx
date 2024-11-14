@@ -1,4 +1,4 @@
-import UserProfileEditor from '../../components/user/profile-editor'
+import UserProfileEditor from './(components)/profile-editor'
 import { getProfile, getUser } from '@/lib/supabase/db/profile'
 
 export default async function UserProfilePage() {

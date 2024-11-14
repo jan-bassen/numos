@@ -6,7 +6,7 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from '@repo/ui/components/ui/input-otp'
-import { createSupabaseClient } from '@/lib/supabase/client'
+import { createSupabaseClient } from '@/lib/supabase/clients/client'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { toast } from 'sonner'
 import { z } from 'zod'

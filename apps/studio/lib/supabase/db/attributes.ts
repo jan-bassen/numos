@@ -8,7 +8,7 @@ import type {
 } from '@/types/database.types'
 import { FetchError } from '@/lib/errors'
 import { revalidatePath } from 'next/cache'
-import { createSupabaseServerComponentClient } from '../server-client'
+import { createSupabaseServerComponentClient } from '../clients/server-client'
 import { redirect } from 'next/navigation'
 import {
   clearAttributeNodeControls,

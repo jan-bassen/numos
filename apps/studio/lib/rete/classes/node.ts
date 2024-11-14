@@ -28,7 +28,7 @@ import type {
   ValueType,
 } from '@repo/engine/types/value-types'
 import type { AnyNode } from '@repo/engine/types/node-types'
-import { getInfoFromAttribute } from '@/components/elements/attributes/utils'
+import { getInfoFromAttribute } from '@/app/collections/[collection]/attributes/(functions)/utils'
 import { Input } from './connectors/input'
 import { Output } from './connectors/output'
 import type { GraphErrorData } from '@repo/engine/types/engine-types'

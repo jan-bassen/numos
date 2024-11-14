@@ -1,5 +1,5 @@
-import Page from '@/components/layout/pages/new-page'
-import { Navbar } from '@/components/nav/navbar/navbar'
+import Page from '@/components/layout/pages/page'
+import { Navbar } from '@/components/navigation/navbar/navbar'
 
 export default function UserLayout({
   children,

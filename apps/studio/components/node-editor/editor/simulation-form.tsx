@@ -20,12 +20,12 @@ import {
   getAttributeTypes,
   getDefaultValuesFromAttributes,
   getSchemaFromAttributes,
-} from '@/components/elements/attributes/attribute-schema'
+} from '@/lib/schemas/attribute-schema'
 import {
   getDefaultValuesFromParameters,
   getParametersSchema,
   getParameterTypes,
-} from '@/components/elements/actions/action-schema'
+} from '@/lib/schemas/action-schema'
 import {
   Accordion,
   AccordionContent,
@@ -50,9 +50,9 @@ import {
   DialogTrigger,
 } from '@repo/ui/components/ui/dialog'
 import { annotateMetadata, optionalMetadataSchema } from './metadata-schema'
-import StringInput from '@/components/datatypes/inputs/string-input'
+import StringInput from '@/components/datatypes/string/string-input'
 import { Button } from '@repo/ui/components/ui/button'
-import NumberInput from '@/components/datatypes/inputs/number-input'
+import NumberInput from '@/components/datatypes/number/number-input'
 import { useEffect, useState } from 'react'
 import ListFormInput from '@/components/datatypes/list-input-form'
 import { toast } from 'sonner'

@@ -1,5 +1,5 @@
 import { getCollectionFromSlug } from '@/lib/supabase/db/collections'
-import LayerTreeView from '@/components/elements/layers/tree'
+import LayerTreeView from '@/app/collections/[collection]/image/layers/(components)/tree'
 import { getLayerTree } from '@/lib/supabase/db/layers'
 
 export default async function LayerPage(props: {
