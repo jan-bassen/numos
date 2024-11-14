@@ -7,7 +7,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@repo/ui/components/ui/alert-dialog'
-import { buttonVariants } from '@repo/ui/definitions'
+import { buttonVariants } from '@repo/ui/components/ui/button'
 
 export default function DeleteDialogContent({
   onDelete,
