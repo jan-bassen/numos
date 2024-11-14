@@ -22,6 +22,9 @@ export const timeInformationLogic: NodeLogic<TimeInformationNode> = {
         case 'day':
           value = time.weekday
           break
+        case 'day-of-month':
+          value = time.day
+          break
         case 'week':
           value = time.weekNumber
           break

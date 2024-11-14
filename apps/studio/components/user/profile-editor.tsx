@@ -108,6 +108,20 @@ export default function UserProfileEditor({
                   height={80}
                 />
               </FormSegment>
+              <FormSegment title="Full Name">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input {...field} className="w-max-[40rem]" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </FormSegment>
               <FormSegment title="Username">
                 <FormField
                   control={form.control}

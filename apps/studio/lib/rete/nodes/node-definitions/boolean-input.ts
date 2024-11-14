@@ -6,6 +6,7 @@ export const booleanInputDefinition: SpecificNodeDefinition<BooleanInputNode> =
     type: 'boolean-input',
     category: 'data',
     title: 'Yes/No',
+    componentType: 'input',
     nodeInfo: {
       description:
         'This node allows you to input a boolean (true/false) value.',

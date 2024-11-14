@@ -9,8 +9,14 @@ import Main from '@/components/layout/pages/new-main'
 import type { BadgeVariant } from '@repo/ui/components/ui/badge'
 import { getLatestActions } from '@/lib/supabase/db/actions'
 import { getLatestAttributes } from '@/lib/supabase/db/attributes'
-import { getExtendedCollectionFromSlug } from '@/lib/supabase/db/collections'
+import {
+  deleteCollection,
+  getExtendedCollectionFromSlug,
+} from '@/lib/supabase/db/collections'
 import { SupabaseImage } from '@/lib/supabase/storage/supabaseImage'
+import DeleteButton from '@/components/buttons/delete-button'
+import { handleReturnInfo } from '@repo/ui/lib/utils'
+import DeleteCollectionButton from './(components)/delete-collection-button'
 
 export default async function Collection(props: {
   params: Promise<{ collection: string }>
@@ -41,7 +47,9 @@ export default async function Collection(props: {
             />
           ) : null
         }
-      />
+      >
+        <DeleteCollectionButton collection={collection.id} />
+      </Header>
       <Main>
         <Segment
           title="Attributes"

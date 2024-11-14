@@ -14,12 +14,13 @@ export interface TimeInformationNode extends NodeInterface<'data'> {
       type: 'enum'
       list: false
       options: [
-        { value: 'second'; label: 'Second' },
-        { value: 'minute'; label: 'Minute' },
-        { value: 'hour'; label: 'Hour' },
-        { value: 'day'; label: 'Day' },
-        { value: 'week'; label: 'Week' },
-        { value: 'month'; label: 'Month' },
+        { value: 'second'; label: 'Second of the minute' },
+        { value: 'minute'; label: 'Minute of the hour' },
+        { value: 'hour'; label: 'Hour of the day' },
+        { value: 'day'; label: 'Day of the week' },
+        { value: 'day-of-month'; label: 'Day of the month' },
+        { value: 'week'; label: 'Week of the year' },
+        { value: 'month'; label: 'Month of the year' },
         { value: 'year'; label: 'Year' },
       ]
     }

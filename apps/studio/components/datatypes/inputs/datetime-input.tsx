@@ -92,7 +92,7 @@ export default function DatetimeInput({
             'flex w-full min-w-40 border border-border bg-background font-normal',
             environment !== 'node' && 'h-10 rounded-md py-3',
             environment === 'node' &&
-              'flex h-7 items-center rounded-lg px-2 text-sm',
+              'flex h-7 min-w-36 items-center rounded-lg px-2 text-sm',
             valid === false && 'border-warning bg-warning/10',
             className,
           )}

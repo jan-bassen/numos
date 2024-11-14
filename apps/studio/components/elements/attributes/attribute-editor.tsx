@@ -52,6 +52,7 @@ import LockButton from '@/components/buttons/lock-button'
 import SaveButton from '@/components/buttons/save-button'
 import ResetButton from '@/components/buttons/reset-button'
 import DeleteButton from '@/components/buttons/delete-button'
+import { Textarea } from '@repo/ui/components/ui/textarea'
 
 export default function AttributeEditor({
   attribute,
@@ -62,7 +63,6 @@ export default function AttributeEditor({
   collectionSlug: string
   version: Version
 }) {
-  console.log(attribute)
   const router = useRouter()
   const [locked, setLocked] = useState(attribute.locked)
   /* const [type, setType] = useState<DataType>(attribute?.type || "enum"); */
@@ -219,6 +219,49 @@ export default function AttributeEditor({
             className="space-y-8 pb-8 lg:space-y-10"
           >
             <FormContent>
+              <FormSegment
+                title="Information"
+                description="Change the basic information of the attribute."
+                options={[
+                  {
+                    label: 'Name',
+                    explanation:
+                      'The name will show up throughout the studio and wherever your attribute is displayed. You can change it later.',
+                  },
+                  {
+                    label: 'Description',
+                    explanation:
+                      'A description will help you and others remember what your attribute is about. This will also show up in marketplaces and other places.',
+                  },
+                ]}
+              >
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Name</FormLabel>
+                      <FormControl>
+                        <Input {...field} className="w-full max-w-[30rem]" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Description</FormLabel>
+                      <FormControl>
+                        <Textarea {...field} className="w-full max-w-[30rem]" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </FormSegment>
               <FormSegment
                 title="Display"
                 description="Only private attributes are secret and not added to the metadata. Shadowed attributes are still public, but not necessarily visible on frontends."
@@ -389,7 +432,6 @@ export default function AttributeEditor({
                       control={form.control}
                       name="settings.min"
                       render={({ field }) => {
-                        console.log(field.value)
                         return (
                           <FormItem className="w-full">
                             <FormLabel>Min</FormLabel>

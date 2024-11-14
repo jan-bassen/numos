@@ -1,5 +1,4 @@
 import {
-  AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
@@ -7,8 +6,8 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from '@repo/ui/components/ui/alert-dialog'
+import { buttonVariants } from '@repo/ui/definitions'
 
 export default function DeleteDialogContent({
   onDelete,
@@ -18,7 +17,7 @@ export default function DeleteDialogContent({
   title?: string
 }) {
   return (
-    <AlertDialogContent>
+    <AlertDialogContent className="gap-6">
       <AlertDialogHeader>
         <AlertDialogTitle>
           Are you sure to delete this {title}?
@@ -28,10 +27,14 @@ export default function DeleteDialogContent({
           {title} and remove all the data from our servers.
         </AlertDialogDescription>
       </AlertDialogHeader>
-
       <AlertDialogFooter>
         <AlertDialogCancel>Cancel</AlertDialogCancel>
-        <AlertDialogAction onClick={onDelete}>Delete</AlertDialogAction>
+        <AlertDialogAction
+          className={buttonVariants({ variant: 'destructive' })}
+          onClick={onDelete}
+        >
+          Delete
+        </AlertDialogAction>
       </AlertDialogFooter>
     </AlertDialogContent>
   )

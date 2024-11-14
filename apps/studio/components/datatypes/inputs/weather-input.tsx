@@ -49,7 +49,7 @@ export default function WeatherInput({
             buttonVariants({ variant: 'outline' }),
             'h-10',
             environment === 'node' &&
-              'flex h-7 items-center rounded-lg px-2 text-sm',
+              'flex h-7 min-w-36 items-center rounded-lg px-2 font-normal text-sm',
             valid === false && 'border-warning bg-warning/10',
             className,
           )}

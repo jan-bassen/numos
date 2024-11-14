@@ -51,7 +51,7 @@ export default function ColorInput({
               : '',
           }}
           className={cn(
-            'flex h-10 min-w-30 items-center justify-center rounded-lg border border-border bg-background text-sm',
+            'flex h-10 min-w-36 items-center justify-center rounded-lg border border-border bg-background text-sm',
             environment === 'node' &&
               '!font-normal flex h-7 w-full rounded-lg px-2 outline-0',
             valid === false && 'border-warning bg-warning/10',

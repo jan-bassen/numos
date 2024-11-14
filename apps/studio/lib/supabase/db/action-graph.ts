@@ -2,18 +2,11 @@
 
 import type { InsertActionNode, ReturnInfo } from '@/types/database.types'
 import type {
-  OLDSavedDataInput,
   SavedConnection,
   SavedGraph,
   SavedNode,
-  SavedNodeState,
 } from '@repo/engine/types/graph-types'
 import { createSupabaseServerComponentClient } from '../server-client'
-import type {
-  NodeValueMap,
-  Value,
-  ValueType,
-} from '@repo/engine/types/value-types'
 import { changeSavedNodeStructure, replaceRemovedNodes } from '@/lib/transition'
 
 export async function insertActionNode(
@@ -177,6 +170,8 @@ export async function getActionGraph(actionId: string): Promise<SavedGraph> {
     .select('*')
     .eq('action', actionId)
     .returns<SavedNode[]>()
+
+  console.log('Getting action graph')
 
   const replacedNodes = replaceRemovedNodes(nodes || [])
   const transformedNodes = changeSavedNodeStructure(replacedNodes)

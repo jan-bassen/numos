@@ -62,4 +62,20 @@ export const changeTokenAttributeDefinition: SpecificNodeDefinition<ChangeTokenA
       }
       return controls
     },
+    inputs: ({ getControlValue, getTokenAttribute }) => {
+      const attributeKey = getControlValue('attribute')
+      if (!attributeKey?.value) return []
+      const attribute = getTokenAttribute(attributeKey.value)
+      if (!attribute) return []
+      return [
+        {
+          key: 'value',
+          type: attribute.type,
+          format: attribute.list ? 'objectarray' : 'single',
+          label: 'Attribute',
+          placeholder: 'New Value',
+          settings: attribute.settings,
+        },
+      ]
+    },
   }

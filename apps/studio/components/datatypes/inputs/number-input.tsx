@@ -13,6 +13,7 @@ export default function NumberInput({
   environment,
   valid,
   value,
+  placeholder,
   ...props
 }: NumberInputProps) {
   function _onBlur(e: FocusEvent<HTMLInputElement, Element>) {
@@ -40,6 +41,7 @@ export default function NumberInput({
       value={_value}
       onBlur={_onBlur}
       ref={environment === 'node' ? dragRef : undefined}
+      placeholder={placeholder || '0'}
       {...props}
     />
   )

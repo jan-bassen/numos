@@ -68,6 +68,7 @@ import LockButton from '@/components/buttons/lock-button'
 import ResetButton from '@/components/buttons/reset-button'
 import DeleteButton from '@/components/buttons/delete-button'
 import SaveButton from '@/components/buttons/save-button'
+import { Textarea } from '@repo/ui/components/ui/textarea'
 
 export default function ActionEditor({
   action,
@@ -182,6 +183,49 @@ export default function ActionEditor({
             className="space-y-8 pb-6 lg:space-y-10"
           >
             <FormContent>
+              <FormSegment
+                title="Information"
+                description="Change the basic information of the action."
+                options={[
+                  {
+                    label: 'Name',
+                    explanation:
+                      'The name will show up throughout the studio and wherever your action is displayed. You can change it later.',
+                  },
+                  {
+                    label: 'Description',
+                    explanation:
+                      'A description will help you and others remember what your action is about. This will also show up in marketplaces and other places.',
+                  },
+                ]}
+              >
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Name</FormLabel>
+                      <FormControl>
+                        <Input {...field} className="w-full max-w-[35rem]" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Description</FormLabel>
+                      <FormControl>
+                        <Textarea {...field} className="w-full max-w-[35rem]" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </FormSegment>
               {action && (
                 <FormSegment
                   title="Execution Logic"

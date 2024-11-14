@@ -32,7 +32,6 @@ export default function LocationInput({
   valid,
   ...props
 }: LocationInputProps) {
-  console.log(value)
   const location: Location | null = useMemo(() => {
     return locationSchema.optional().nullable().parse(value) || null
   }, [value])
@@ -102,7 +101,7 @@ export default function LocationInput({
             buttonVariants({ variant: 'outline' }),
             '!line-clamp-1 h-10 w-full overflow-hidden text-ellipsis text-nowrap font-normal',
             environment === 'node' &&
-              'h-7 max-w-52 items-center rounded-lg px-2 py-0 text-sm',
+              'h-7 min-w-36 max-w-52 items-center rounded-lg px-2 py-0 text-sm',
             valid === false && 'border-warning bg-warning/10',
             className,
           )}

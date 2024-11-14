@@ -13,6 +13,7 @@ export default function StringInput({
   environment,
   valid,
   value,
+  placeholder,
   ...props
 }: StringInputProps) {
   function _onBlur(e: FocusEvent<HTMLTextAreaElement, Element>) {
@@ -28,7 +29,7 @@ export default function StringInput({
       className={cn(
         '!min-h-0 scrollbar-none h-10 w-full max-w-96',
         environment === 'node' &&
-          'flex h-7 items-center rounded-lg px-2 py-1 text-sm',
+          'flex h-7 w-44 items-center rounded-lg px-2 py-1 text-sm',
         environment === 'list' && 'items-center py-1.5 pl-2',
         valid === false && 'border-warning bg-warning/10',
         className,
@@ -40,6 +41,7 @@ export default function StringInput({
         onChange?.(e)
       }}
       ref={environment === 'node' ? dragRef : undefined}
+      placeholder={placeholder || 'Text'}
       {...props}
     />
   )

@@ -14,6 +14,7 @@ export default function AddressInput({
   valid,
   id,
   value,
+  placeholder,
   ...props
 }: AddressInputProps) {
   function _onBlur(e: FocusEvent<HTMLInputElement, Element>) {
@@ -30,7 +31,8 @@ export default function AddressInput({
       className={cn(
         'w-full',
         environment === 'node' &&
-          'flex h-7 items-center rounded-lg px-2 text-sm',
+          'flex h-7 w-44 items-center rounded-lg px-2 text-sm',
+        environment === 'node' && value && 'w-80',
         valid === false && 'border-warning bg-warning/10',
         className,
       )}
@@ -40,6 +42,7 @@ export default function AddressInput({
       }}
       onBlur={_onBlur}
       ref={environment === 'node' ? dragRef : undefined}
+      placeholder={placeholder || '0x...'}
       {...props}
     />
   )

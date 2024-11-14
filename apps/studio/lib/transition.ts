@@ -1,4 +1,5 @@
 import type {
+  OLDSavedControl,
   OLDSavedDataInput,
   SavedNode,
   SavedNodeState,
@@ -22,7 +23,7 @@ export function changeSavedNodeStructure(oldNodes: SavedNode[]): SavedNode[] {
         (accumulator, [key, input]) => {
           if (input.type !== 'exec') {
             const i = input as OLDSavedDataInput
-            if (!i.control?.value) return accumulator
+            if (!i.control) return accumulator
             accumulator[key] = {
               type: i.type,
               format: i.list ? 'objectarray' : 'single',
@@ -56,6 +57,7 @@ export function changeSavedNodeStructure(oldNodes: SavedNode[]): SavedNode[] {
       inputs,
       controls,
     }
+
     return {
       ...node,
       state,
@@ -66,22 +68,46 @@ export function changeSavedNodeStructure(oldNodes: SavedNode[]): SavedNode[] {
   })
 }
 
-const changedNodes: Record<string, { new: NodeType; reset: boolean }> = {
+const changedNodes: Record<
+  string,
+  {
+    new: NodeType
+    reset: boolean
+    setInputs?: { [key: string]: OLDSavedDataInput }
+    setControls?: { [key: string]: OLDSavedControl }
+  }
+> = {
   'attribute-data': {
     new: 'token-attribute',
-    reset: true,
+    reset: false,
   },
   'change-attribute': {
     new: 'change-token-attribute',
-    reset: true,
+    reset: false,
   },
   'list-append': {
     new: 'list-add',
-    reset: true,
+    reset: false,
+    setControls: {
+      position: {
+        key: 'position',
+        type: 'enum',
+        list: false,
+        value: 'end',
+      },
+    },
   },
   'list-prepend': {
     new: 'list-add',
-    reset: true,
+    reset: false,
+    setControls: {
+      position: {
+        key: 'position',
+        type: 'enum',
+        list: false,
+        value: 'start',
+      },
+    },
   },
   'meta-data': {
     new: 'metadata',
@@ -99,6 +125,32 @@ export function replaceRemovedNodes(nodes: SavedNode[]): SavedNode[] {
           inputs: undefined,
           controls: undefined,
           outputs: undefined,
+        }
+      }
+      if (changed.setInputs) {
+        const newInputs = node.inputs
+          ? {
+              ...node.inputs,
+              ...changed.setInputs,
+            }
+          : changed.setInputs
+        return {
+          ...node,
+          type: changed.new,
+          inputs: newInputs,
+        }
+      }
+      if (changed.setControls) {
+        const newControls = node.controls
+          ? {
+              ...node.controls,
+              ...changed.setControls,
+            }
+          : changed.setControls
+        return {
+          ...node,
+          type: changed.new,
+          controls: newControls,
         }
       }
       return {

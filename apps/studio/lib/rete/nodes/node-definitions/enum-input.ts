@@ -8,7 +8,6 @@ export const enumInputDefinition: SpecificNodeDefinition<EnumInputNode> = {
   type: 'enum-input',
   category: 'data',
   title: 'Choice',
-  componentType: 'input',
   nodeInfo: {
     description:
       'This node allows you to get the options of an choice attribute in case you want to set one manually.',

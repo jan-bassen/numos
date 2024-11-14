@@ -31,7 +31,7 @@ export default function DirectionInput({
           disabled={locked}
           className={cn(
             buttonVariants({ variant: 'outline' }),
-            'h-10 min-w-32 rounded-md',
+            'h-10 min-w-36 rounded-md font-normal',
             environment === 'node' && 'h-7 rounded-lg px-2 text-sm',
             valid === false && 'border-warning bg-warning/10',
             className,
