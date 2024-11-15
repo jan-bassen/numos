@@ -8,6 +8,8 @@ import {
   PiBarchartDefaultStroke,
   PiPhotoImageDefaultSolid,
   PiPhotoImageDefaultStroke,
+  PiSettings02Solid,
+  PiSettings02Stroke,
 } from '@repo/ui/icons/pika'
 import {
   Collapsible,
@@ -31,7 +33,7 @@ import { useState, type SVGProps } from 'react'
 import type { Collection } from '@/types/database.types'
 import { dataTypes } from '@/lib/supabase/constants/datatypes'
 import { triggerOptions } from '@/lib/schemas/action-schema'
-import type { NavItems } from '../navbar'
+import type { NavItems } from '../../navbar'
 import { useSelectedLayoutSegments } from 'next/navigation'
 import { cn } from '@repo/ui/lib/utils'
 import Link from 'next/link'
@@ -140,6 +142,25 @@ export function NavCollectionItems({ collection, navItems }: NavMainProps) {
           const isActive =
             item.slug === segments[0] || item.slug === dropdownOpen
           const href = `/collections/${collection.slug}/${item.slug}`
+
+          if (!item.items)
+            return (
+              <SidebarMenuButton asChild key={item.slug}>
+                <Link
+                  className={cn('w-full', isActive && 'font-semibold')}
+                  href={href}
+                >
+                  {isActive ? (
+                    <item.icons.fill className="size-4 " />
+                  ) : (
+                    <item.icons.stroke className="size-4" />
+                  )}
+
+                  <span>{item.title}</span>
+                </Link>
+              </SidebarMenuButton>
+            )
+
           return (
             <Collapsible
               key={item.title}
@@ -160,7 +181,7 @@ export function NavCollectionItems({ collection, navItems }: NavMainProps) {
                     <SidebarMenuButton asChild>
                       <div
                         className={cn(
-                          'group/collapsible-trigger flex items-center pl-1.5',
+                          'group/collapsible-trigger flex items-center pl-2',
                           isActive && 'bg-sidebar-accent',
                         )}
                       >

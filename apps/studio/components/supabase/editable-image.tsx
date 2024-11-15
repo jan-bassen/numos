@@ -12,6 +12,7 @@ export type EditableImageProps = {
   location: StorageLocation
   updateFunction?: (fullPath: string) => Promise<ReturnInfo>
   initial?: string
+  locked?: boolean
 } & Omit<ImageProps, 'src'>
 
 export function EditableImage({
@@ -19,6 +20,7 @@ export function EditableImage({
   updateFunction,
   initial,
   className,
+  locked = false,
   ...props
 }: EditableImageProps) {
   const [image, setImage] = useState<string | undefined>(initial)
@@ -34,6 +36,7 @@ export function EditableImage({
         type="file"
         accept="image/*"
         id="image-input"
+        disabled={locked}
         ref={imageInputRef}
         className="hidden"
         onChange={async (event) => {
@@ -50,12 +53,14 @@ export function EditableImage({
       />
       <button
         type="button"
+        disabled={locked}
         onClick={() => imageInputRef.current?.click()}
         className="group grid place-items-center"
       >
         <>
-          <PiPencilEditSolid className="z-10 col-span-1 col-start-1 row-span-1 row-start-1 size-6 text-white opacity-0 transition-opacity group-hover:opacity-100" />
-
+          {!locked && (
+            <PiPencilEditSolid className="z-10 col-span-1 col-start-1 row-span-1 row-start-1 size-6 text-white opacity-0 transition-opacity group-hover:opacity-100" />
+          )}
           <SupabaseImage
             {...props}
             src={image ? `${location.bucket}/${image}` : undefined}

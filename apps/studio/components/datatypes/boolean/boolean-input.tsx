@@ -8,7 +8,7 @@ import {
   PiCrossCrossSquare,
   PiSquareDotStroke,
 } from '@repo/ui/icons/pika'
-import { TabSelect } from '@/components/forms/tab-select'
+import { TabSelect } from '@/components/forms/tab-inputs/tab-select'
 import { Button } from '@repo/ui/components/ui/button'
 
 export default function BooleanInput({

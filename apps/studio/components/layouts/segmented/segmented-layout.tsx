@@ -1,4 +1,4 @@
-export default function FormContent({
+export default function SegmentedLayout({
   children,
 }: {
   children: React.ReactNode

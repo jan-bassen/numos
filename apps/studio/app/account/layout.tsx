@@ -1,4 +1,4 @@
-import Page from '@/components/layout/pages/page'
+import Page from '@/components/page/page'
 import { Navbar } from '@/components/navigation/navbar/navbar'
 
 export default function UserLayout({

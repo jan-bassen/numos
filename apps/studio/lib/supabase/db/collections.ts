@@ -148,6 +148,24 @@ export async function updateCollection(
   }
 }
 
+export async function setCollectionSettingsLock(id: string, locked: boolean) {
+  const supabase = await createSupabaseServerComponentClient()
+  const { error } = await supabase
+    .from('collections')
+    .update({ settings_locked: locked })
+    .eq('id', id)
+  if (error) {
+    return {
+      ok: false,
+      message: error.message,
+    }
+  }
+  return {
+    ok: true,
+    message: 'Successfully updated',
+  }
+}
+
 export async function getCollectionFromSlug(slug: string): Promise<Collection> {
   if (!slug) {
     throw new FetchError('No slug defined')

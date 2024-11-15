@@ -3,7 +3,7 @@ import { getAttributesForNav } from '@/lib/supabase/db/attributes'
 import { getCollectionFromSlug } from '@/lib/supabase/db/collections'
 import { NavCollectionItems } from './nav-collection-items'
 
-export async function NavCollection({
+export async function NavCollectionParts({
   collection_slug,
 }: { collection_slug: string }) {
   const collection = await getCollectionFromSlug(collection_slug)

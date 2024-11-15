@@ -1,5 +1,5 @@
 import { Navbar } from '@/components/navigation/navbar/navbar'
-import Page from '@/components/layout/pages/page'
+import Page from '@/components/page/page'
 
 export default async function Layout(props: {
   children: React.ReactNode

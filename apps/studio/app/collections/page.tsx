@@ -1,12 +1,11 @@
 import { getAllExtendedCollections } from '@/lib/supabase/db/collections'
-import Main from '@/components/layout/pages/main'
+import Main from '@/components/page/main'
 import CollectionCard from './(components)/collection-card'
-import Segment from '@/components/layout/elements/segment'
-import CardRow from '@/components/layout/elements/card-row'
+import CardRow from '@/components/layouts/simple/card-row'
 import type { ExtendedCollection } from '@/types/database.types'
 import { getProfile, getUser } from '@/lib/supabase/db/profile'
 import { Navbar } from '@/components/navigation/navbar/navbar'
-import Header from '@/components/layout/pages/header'
+import Header from '@/components/page/header'
 import EmptyCollectionsView from '@/app/collections/(components)/empty-collections-view'
 import { NewCollectionDialog } from '@/app/collections/(components)/new-collection-dialog'
 import { Button } from '@repo/ui/components/ui/button'
@@ -40,38 +39,29 @@ export default async function HomePage() {
         </Header>
         <Main>
           {collections.length === 0 ? (
-            <Segment
-              title=""
-              className="h-full p-0.5 pb-10"
-              containerClassName="h-full"
-            >
-              <div className="grid h-full place-items-center rounded-lg border border-border border-dashed p-6">
-                {/* <FirstCollection user={user} /> */}
-                <EmptyCollectionsView>
-                  <NewCollectionDialog button={<CollectionCard />} />
-                </EmptyCollectionsView>
-              </div>
-            </Segment>
+            <div className="grid h-full place-items-center rounded-lg border border-border border-dashed p-6">
+              <EmptyCollectionsView>
+                <NewCollectionDialog
+                  button={<Button>Create Collection</Button>}
+                />
+              </EmptyCollectionsView>
+            </div>
           ) : (
-            <Segment title="Collections" link="/collections">
-              <CardRow
-                createButton={
-                  <NewCollectionDialog button={<CollectionCard />} />
+            <CardRow
+              createButton={<NewCollectionDialog button={<CollectionCard />} />}
+              cards={collections.map((collection) => {
+                return {
+                  component: (
+                    <CollectionCard
+                      key={collection.slug}
+                      collection={collection}
+                    />
+                  ),
+                  key: collection.slug,
                 }
-                cards={collections.map((collection) => {
-                  return {
-                    component: (
-                      <CollectionCard
-                        key={collection.slug}
-                        collection={collection}
-                      />
-                    ),
-                    key: collection.slug,
-                  }
-                })}
-                className="grid-cols-1 md:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-2"
-              />
-            </Segment>
+              })}
+              className="grid-cols-1 md:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-2"
+            />
           )}
         </Main>
       </div>

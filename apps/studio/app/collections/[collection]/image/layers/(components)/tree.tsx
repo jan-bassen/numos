@@ -2,7 +2,7 @@
 
 import type { Collection, LayerTree } from '@/types/database.types'
 import { type DragEvent, useEffect, useRef, useState } from 'react'
-import Header from '@/components/layout/pages/header'
+import Header from '@/components/page/header'
 import { Button, buttonVariants } from '@repo/ui/components/ui/button'
 import {
   PiFolderPlusStroke,
@@ -26,7 +26,7 @@ import {
   moveLayersAndFolders,
 } from '@/lib/supabase/db/layers'
 import { toast } from 'sonner'
-import Main from '@/components/layout/pages/main'
+import Main from '@/components/page/main'
 
 // TODO: Clean up
 

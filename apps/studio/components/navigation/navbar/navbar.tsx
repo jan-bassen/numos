@@ -11,9 +11,10 @@ import type { ActionNavItem } from '@/lib/supabase/db/actions'
 import { NavUser } from './user/nav-user'
 import { Suspense } from 'react'
 import { NavUserSkeleton } from './user/nav-user-skeleton'
-import { NavCollection } from './collection/nav-collection'
+import { NavCollectionParts } from './collection/collection-parts/nav-collection-parts'
 import { NumosButton } from './numos-button'
 import { NavCollections } from './nav-collections'
+import { NavCollectionSettings } from './collection/nav-collection-settings'
 
 type SidebarProps = React.ComponentProps<typeof Sidebar> & {
   collection?: string
@@ -30,7 +31,10 @@ export async function Navbar({ collection, ...props }: SidebarProps) {
       <SidebarContent>
         <Suspense>
           {collection ? (
-            <NavCollection collection_slug={collection} />
+            <>
+              <NavCollectionParts collection_slug={collection} />
+              <NavCollectionSettings collection_slug={collection} />
+            </>
           ) : (
             <NavCollections />
           )}

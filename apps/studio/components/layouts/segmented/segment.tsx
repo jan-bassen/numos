@@ -3,7 +3,7 @@ import InfoButton, {
   type InfoTooltipOptions,
 } from '@repo/ui/components/help/info-tooltip'
 
-export default function FormSegment({
+export default function Segment({
   title,
   description,
   options,

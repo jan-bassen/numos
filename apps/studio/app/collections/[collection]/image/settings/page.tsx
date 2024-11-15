@@ -1,5 +1,6 @@
-import Header from '@/components/layout/pages/header'
-import Main from '@/components/layout/pages/main'
+import Header from '@/components/page/header'
+import Main from '@/components/page/main'
+import ComingSoonBadge from '@/components/misc/coming-soon-badge'
 import { getExtendedCollectionFromSlug } from '@/lib/supabase/db/collections'
 
 export default async function ImageSettingsPage(props: {
@@ -14,7 +15,9 @@ export default async function ImageSettingsPage(props: {
         title="Image Settings"
         subtitle="Configure the settings for the images in this collection"
       />
-      <Main>Hi</Main>
+      <Main className="md:px-18 md:pt-12">
+        <ComingSoonBadge />
+      </Main>
     </>
   )
 }

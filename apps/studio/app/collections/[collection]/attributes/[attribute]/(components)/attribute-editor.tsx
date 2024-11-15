@@ -1,13 +1,14 @@
 'use client'
 
-import FormSegment from '@/components/forms/form-segment'
-import { TabSelect } from '@/components/forms/tab-select'
+import Segment from '@/components/layouts/segmented/segment'
+import { TabSelect } from '@/components/forms/tab-inputs/tab-select'
 import type {
   Attribute,
   ValueDataType,
   ReturnInfo,
   InsertAttribute,
   Version,
+  UpdateAttribute,
 } from '@/types/database.types'
 import { useEffect, useState } from 'react'
 import type { BadgeVariant } from '@repo/ui/components/ui/badge'
@@ -48,14 +49,30 @@ import { removeAttributeFromLocalForm } from '../../(functions)/utils'
 import { slugify } from '@/lib/utils'
 import type { ValueSettings, ValueType } from '@repo/engine/types/value-types'
 import NumberInput from '@/components/datatypes/number/number-input'
-import Header from '@/components/layout/pages/header'
-import Main from '@/components/layout/pages/main'
-import FormContent from '@/components/forms/form-content'
+import Header from '@/components/page/header'
+import Main from '@/components/page/main'
+import SegmentedLayout from '@/components/layouts/segmented/segmented-layout'
 import LockButton from '@/components/forms/buttons/lock-button'
 import SaveButton from '@/components/forms/buttons/save-button'
 import ResetButton from '@/components/forms/buttons/reset-button'
 import DeleteButton from '@/components/forms/buttons/delete-button'
 import { Textarea } from '@repo/ui/components/ui/textarea'
+
+function getDefaultValuesFromAttribute(
+  attribute: Attribute,
+  updatedAttribute?: UpdateAttribute,
+) {
+  return {
+    name: updatedAttribute?.name || attribute.name || '',
+    badge: updatedAttribute?.type || attribute.type,
+    list: updatedAttribute?.list || attribute.list || false,
+    description:
+      updatedAttribute?.description || attribute.description || undefined,
+    display: updatedAttribute?.display || attribute.display || 'public',
+    settings:
+      updatedAttribute?.settings || (attribute.settings as ValueSettings) || {},
+  }
+}
 
 export default function AttributeEditor({
   attribute,
@@ -69,10 +86,7 @@ export default function AttributeEditor({
   const router = useRouter()
   const [locked, setLocked] = useState(attribute.locked)
   /* const [type, setType] = useState<DataType>(attribute?.type || "enum"); */
-  const { type, list } = attribute || {
-    type: 'enum' as ValueType,
-    list: false,
-  }
+  const { type, list } = attribute
 
   const badge = type
     ? {
@@ -83,14 +97,7 @@ export default function AttributeEditor({
 
   const schema = attributeSchema(type, list)
 
-  const defaultValues = {
-    name: attribute?.name || '',
-    badge: type,
-    list: attribute?.list || false,
-    description: attribute?.description || undefined,
-    display: attribute?.display || 'public',
-    settings: (attribute?.settings as ValueSettings) || {},
-  }
+  const defaultValues = getDefaultValuesFromAttribute(attribute)
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
@@ -112,40 +119,27 @@ export default function AttributeEditor({
   async function onSubmit(data: z.infer<typeof schema>) {
     const oldSlug = attribute?.slug
     const slug = slugify(data.name)
-    let res: ReturnInfo
-    if (attribute) {
-      const newAttribute = {
-        id: attribute.id,
-        name: data.name,
-        slug,
-        version: version.id,
-        description: data.description || null,
-        type: data.badge as ValueType,
-        list: attribute.list,
-        token_specific: true,
-        display: data.display,
-        settings: data.settings as ValueSettings,
-      }
-      res = await updateAttribute(newAttribute, oldSlug)
-    } else {
-      const newAttribute: InsertAttribute = {
-        name: data.name,
-        slug,
-        version: version.id,
-        description: data.description || null,
-        type: data.badge as ValueType,
-        token_specific: true,
-        display: data.display,
-        settings: data.settings as ValueSettings,
-      }
-      res = await insertAttribute(newAttribute)
+
+    const newAttribute: UpdateAttribute = {
+      id: attribute.id,
+      name: data.name,
+      slug,
+      version: version.id,
+      description: data.description || null,
+      type: data.badge as ValueType,
+      list: attribute.list,
+      token_specific: true,
+      display: data.display,
+      settings: data.settings as ValueSettings,
     }
+    const res = await updateAttribute(newAttribute, oldSlug)
+
     handleReturnInfo(
       res,
       () => {
         if (slug !== oldSlug)
           router.push(`/collections/${collectionSlug}/attributes/${slug}`)
-        form.reset(defaultValues)
+        form.reset(getDefaultValuesFromAttribute(attribute, newAttribute))
       },
       () => {},
     )
@@ -221,8 +215,8 @@ export default function AttributeEditor({
             onSubmit={form.handleSubmit(onSubmit, onError)}
             className="space-y-8 pb-8 lg:space-y-10"
           >
-            <FormContent>
-              <FormSegment
+            <SegmentedLayout>
+              <Segment
                 title="Information"
                 description="Change the basic information of the attribute."
                 options={[
@@ -245,7 +239,11 @@ export default function AttributeEditor({
                     <FormItem>
                       <FormLabel>Name</FormLabel>
                       <FormControl>
-                        <Input {...field} className="w-full max-w-[30rem]" />
+                        <Input
+                          {...field}
+                          disabled={locked}
+                          className="w-full max-w-form-input"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -258,14 +256,18 @@ export default function AttributeEditor({
                     <FormItem>
                       <FormLabel>Description</FormLabel>
                       <FormControl>
-                        <Textarea {...field} className="w-full max-w-[30rem]" />
+                        <Textarea
+                          {...field}
+                          disabled={locked}
+                          className="w-full max-w-form-input"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-              </FormSegment>
-              <FormSegment
+              </Segment>
+              <Segment
                 title="Display"
                 description="Only private attributes are secret and not added to the metadata. Shadowed attributes are still public, but not necessarily visible on frontends."
               >
@@ -279,16 +281,16 @@ export default function AttributeEditor({
                           {...field}
                           locked={locked}
                           options={displayOptions}
-                          className="w-full max-w-[30rem]"
+                          className="w-full max-w-form-input"
                         />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-              </FormSegment>
+              </Segment>
               {type === 'enum' && (
-                <FormSegment
+                <Segment
                   title="Options"
                   description="Define possible options for the attribute can be set to."
                   className="w-full"
@@ -296,7 +298,7 @@ export default function AttributeEditor({
                   {optionsArray.fields.map((field, index) => (
                     <div
                       key={field.id}
-                      className="flex w-full justify-start gap-2"
+                      className="flex w-full max-w-form-input justify-start gap-2"
                     >
                       <FormField
                         control={form.control}
@@ -304,7 +306,7 @@ export default function AttributeEditor({
                         render={({ field }) => {
                           const { value, ...rest } = field
                           return (
-                            <FormItem className="w-full max-w-[30rem]">
+                            <FormItem className="w-full">
                               <Input
                                 disabled={locked}
                                 className="w-full"
@@ -354,9 +356,9 @@ export default function AttributeEditor({
                     name="settings.options"
                     render={() => <FormMessage />}
                   />
-                </FormSegment>
+                </Segment>
               )}
-              <FormSegment
+              <Segment
                 title="Default Value"
                 description="If a default value is set, this value won't have to be provided on mint."
                 className="flex flex-col gap-6"
@@ -370,7 +372,7 @@ export default function AttributeEditor({
                       settings: getSettings(),
                       locked: locked,
                     }}
-                    classNames={{ container: 'w-full' }}
+                    classNames={{ container: 'w-full  max-w-form-input' }}
                     defaultValue={
                       isArray(defaultValues.settings?.default)
                         ? defaultValues.settings.default
@@ -389,14 +391,14 @@ export default function AttributeEditor({
                       return (
                         <FormItem>
                           <FormControl>
-                            <div className="flex gap-2">
+                            <div className="flex w-full max-w-form-input gap-2">
                               <GenericInput
                                 environment="form"
                                 datatype={type as ValueDataType}
                                 locked={locked}
                                 settings={getSettings()}
-                                className="w-[30rem]"
                                 placeholder="No default value"
+                                className="w-full"
                                 {...field}
                               />
                               {(!!form.getValues().settings.default ||
@@ -424,13 +426,13 @@ export default function AttributeEditor({
                     }}
                   />
                 )}
-              </FormSegment>
+              </Segment>
               {type === 'number' && (
-                <FormSegment
+                <Segment
                   title="Range"
                   description="If set, the attribute can only be within the boundaries."
                 >
-                  <div className="flex w-full max-w-[30rem] flex-col gap-3 lg:flex-row">
+                  <div className="flex w-full max-w-form-input flex-col gap-3 lg:flex-row">
                     <FormField
                       control={form.control}
                       name="settings.min"
@@ -480,9 +482,9 @@ export default function AttributeEditor({
                       }}
                     />
                   </div>
-                </FormSegment>
+                </Segment>
               )}
-            </FormContent>
+            </SegmentedLayout>
           </form>
         </Form>
       </Main>

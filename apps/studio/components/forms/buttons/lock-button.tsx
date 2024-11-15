@@ -2,6 +2,7 @@
 
 import { setActionLock } from '@/lib/supabase/db/actions'
 import { setAttributeLock } from '@/lib/supabase/db/attributes'
+import { setCollectionSettingsLock } from '@/lib/supabase/db/collections'
 import { Button } from '@repo/ui/components/ui/button'
 import { PiLockCloseStroke, PiLockOpenStroke } from '@repo/ui/icons/pika'
 import { cn } from '@repo/ui/lib/utils'
@@ -15,7 +16,7 @@ export default function LockButton({
   className,
 }: {
   id: string
-  element: 'action' | 'attribute'
+  element: 'action' | 'attribute' | 'collection-settings'
   locked: boolean
   setLocked: (value: boolean) => void
   className?: string
@@ -27,6 +28,9 @@ export default function LockButton({
         break
       case 'attribute':
         setAttributeLock(id, locked)
+        break
+      case 'collection-settings':
+        setCollectionSettingsLock(id, locked)
         break
     }
   }, [locked, element, id])

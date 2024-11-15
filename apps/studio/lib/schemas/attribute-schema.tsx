@@ -2,12 +2,9 @@ import {
   getSettingsSchema,
   getSettingsValidation,
 } from '@repo/engine/datatypes/settings-schemas'
-import type { TabSelectOption } from '@/components/forms/tab-select'
-import type { TabToggleOption } from '@/components/forms/tab-toggle'
 import {
   PiEye02OffStroke,
   PiGlobeStroke,
-  PiGridDashboard01Stroke,
   PiGridDashboardCircleStroke,
   PiIncognitoStroke,
   PiListDefaultStroke,
@@ -24,8 +21,9 @@ import type {
   ValueTypeMap,
 } from '@repo/engine/types/value-types'
 import { valueTypeKeys } from '@/lib/supabase/constants/datatypes'
+import type { TabOption } from '@/components/forms/tab-inputs/tab-option'
 
-export const displayOptions: TabSelectOption[] = [
+export const displayOptions: TabOption[] = [
   {
     value: 'public',
     label: 'Public',
@@ -49,10 +47,7 @@ export const displayOptions: TabSelectOption[] = [
 //TODO: Implement Map instead of array above
 
 export type AttributeDisplay = 'public' | 'hidden' | 'private'
-export const attributeDisplayOptions: Record<
-  AttributeDisplay,
-  TabSelectOption
-> = {
+export const attributeDisplayOptions: Record<AttributeDisplay, TabOption> = {
   public: {
     value: 'public',
     label: 'Public',
@@ -73,7 +68,7 @@ export const attributeDisplayOptions: Record<
   },
 }
 
-export const scopeOptions: TabToggleOption[] = [
+export const scopeOptions: TabOption<boolean>[] = [
   {
     value: true,
     label: 'Token',
@@ -89,7 +84,10 @@ export const scopeOptions: TabToggleOption[] = [
 ]
 
 export type AttributeScope = 'token' | 'collection'
-export const attributeScopeOptions: Record<AttributeScope, TabToggleOption> = {
+export const attributeScopeOptions: Record<
+  AttributeScope,
+  TabOption<boolean>
+> = {
   token: {
     value: true,
     label: 'Token',
@@ -121,7 +119,7 @@ export const listOptionMap = {
   },
 }
 
-export const listOptions: TabToggleOption[] = Object.values(listOptionMap)
+export const listOptions: TabOption<boolean>[] = Object.values(listOptionMap)
 
 export const newAttributeSchema = z.object({
   type: z.enum(valueTypeKeys, {

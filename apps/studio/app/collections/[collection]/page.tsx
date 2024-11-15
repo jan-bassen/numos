@@ -2,10 +2,10 @@ import ActionCard from '@/app/collections/[collection]/actions/(components)/acti
 import { NewActionDialog } from '@/app/collections/[collection]/actions/(components)/new-action-dialog'
 import AttributeCard from '@/app/collections/[collection]/attributes/(components)/attribute-card'
 import { NewAttributeDialog } from '@/app/collections/[collection]/attributes/(components)/new-attribute-dialog'
-import CardRow from '@/components/layout/elements/card-row'
-import Segment from '@/components/layout/elements/segment'
-import Header from '@/components/layout/pages/header'
-import Main from '@/components/layout/pages/main'
+import CardRow from '@/components/layouts/simple/card-row'
+import Section from '@/components/layouts/simple/section'
+import Header from '@/components/page/header'
+import Main from '@/components/page/main'
 import type { BadgeVariant } from '@repo/ui/components/ui/badge'
 import { getLatestActions } from '@/lib/supabase/db/actions'
 import { getLatestAttributes } from '@/lib/supabase/db/attributes'
@@ -51,7 +51,7 @@ export default async function Collection(props: {
         <DeleteCollectionButton collection={collection.id} />
       </Header>
       <Main>
-        <Segment
+        <Section
           title="Attributes"
           link={`/collections/${collection.slug}/attributes`}
         >
@@ -82,8 +82,8 @@ export default async function Collection(props: {
               />
             }
           />
-        </Segment>
-        <Segment
+        </Section>
+        <Section
           title="Actions"
           link={`/collections/${collection.slug}/actions`}
         >
@@ -114,7 +114,7 @@ export default async function Collection(props: {
               />
             }
           />
-        </Segment>
+        </Section>
       </Main>
     </>
   )

@@ -108,7 +108,7 @@ export default function ListFormInput<
     <>
       <div
         className={cn(
-          'grid min-h-16 max-w-[50rem] grid-cols-1 gap-3 rounded-lg border border-border bg-muted/20 p-4 md:grid-cols-2 xl:grid-cols-3',
+          'grid min-h-16 max-w-[50rem] grid-cols-1 gap-3 rounded-lg border border-border bg-muted/20 p-3 md:grid-cols-2 xl:grid-cols-3',
           rootState.invalid && 'border-destructive',
           classNames?.container,
         )}

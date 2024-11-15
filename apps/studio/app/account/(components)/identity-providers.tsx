@@ -11,6 +11,7 @@ import type { Provider, UserIdentity } from '@supabase/supabase-js'
 import { useRouter } from 'next/navigation'
 import type { SVGProps, JSX } from 'react'
 import { toast } from 'sonner'
+import { cn } from '@repo/ui/lib/utils'
 
 const providers: {
   [key: string]: {
@@ -48,9 +49,11 @@ function getName(identity: UserIdentity) {
 export default function Identities({
   identities,
   setPasswordDialogOpen,
+  className,
 }: {
   identities: UserIdentity[]
   setPasswordDialogOpen: (value: boolean) => void
+  className?: string
 }) {
   const router = useRouter()
 
@@ -87,7 +90,7 @@ export default function Identities({
     }
   }
   return (
-    <ul className="flex flex-col gap-6 pt-2">
+    <ul className={cn('flex flex-col gap-6 pt-2', className)}>
       {identities.map((identity) => (
         <li
           key={identity.provider}

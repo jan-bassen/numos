@@ -1,5 +1,5 @@
-import Header from '@/components/layout/pages/header'
-import Main from '@/components/layout/pages/main'
+import Header from '@/components/page/header'
+import Main from '@/components/page/main'
 import { getAllAttributes } from '@/lib/supabase/db/attributes'
 import {
   getCollectionFromSlug,

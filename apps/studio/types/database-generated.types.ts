@@ -276,6 +276,7 @@ export type Database = {
           image: string | null
           max_supply: number | null
           name: string | null
+          settings_locked: boolean
           slug: string
           symbol: string | null
           updated_at: string | null
@@ -291,6 +292,7 @@ export type Database = {
           image?: string | null
           max_supply?: number | null
           name?: string | null
+          settings_locked?: boolean
           slug: string
           symbol?: string | null
           updated_at?: string | null
@@ -306,6 +308,7 @@ export type Database = {
           image?: string | null
           max_supply?: number | null
           name?: string | null
+          settings_locked?: boolean
           slug?: string
           symbol?: string | null
           updated_at?: string | null

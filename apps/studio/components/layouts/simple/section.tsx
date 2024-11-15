@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react'
-import { H2 } from '../pages/headings'
+import { H2 } from '../../page/headings'
 import Link from 'next/link'
 import { cn } from '@repo/ui/lib/utils'
 
-export default function Segment({
+export default function Section({
   children,
   title,
   link,
@@ -17,7 +17,7 @@ export default function Segment({
   containerClassName?: string
 }) {
   return (
-    <div className={cn('space-y-2', containerClassName)}>
+    <section className={cn('space-y-2', containerClassName)}>
       {link ? (
         <Link
           href={link}
@@ -29,6 +29,6 @@ export default function Segment({
         <H2 className="pl-1">{title}</H2>
       )}
       <div className={className}>{children}</div>
-    </div>
+    </section>
   )
 }

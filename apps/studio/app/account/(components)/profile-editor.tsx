@@ -1,6 +1,6 @@
 'use client'
 
-import FormSegment from '@/components/forms/form-segment'
+import Segment from '@/components/layouts/segmented/segment'
 import {
   Form,
   FormControl,
@@ -21,11 +21,12 @@ import { handleReturnInfo } from '@repo/ui/lib/utils'
 import { toast } from 'sonner'
 import { Dialog } from '@repo/ui/components/ui/dialog'
 import PasswordDialogContent from './password-dialog'
-import Header from '../../../components/layout/pages/header'
-import Main from '../../../components/layout/pages/main'
-import FormContent from '../../../components/forms/form-content'
+import Header from '../../../components/page/header'
+import Main from '../../../components/page/main'
+import SegmentedLayout from '../../../components/layouts/segmented/segmented-layout'
 import { EditableImage } from '../../../components/supabase/editable-image'
 import SaveButton from '../../../components/forms/buttons/save-button'
+import { useRouter } from 'next/navigation'
 
 const schema = z.object({
   name: z.string().optional(),
@@ -40,6 +41,7 @@ export default function UserProfileEditor({
   profile: Profile
 }) {
   const [passwordDialogOpen, setPasswordDialogOpen] = useState(false)
+  const router = useRouter()
 
   const defaultValues = {
     name: profile.full_name || user.user_metadata.name || undefined,
@@ -61,7 +63,9 @@ export default function UserProfileEditor({
       updated_at: null,
     }
     const res = await updateProfile(user.id, newProfile)
-    handleReturnInfo(res)
+    handleReturnInfo(res, () => {
+      form.reset({ name: data.name, username: data.username })
+    })
   }
 
   const onError = (error: unknown) => {
@@ -80,7 +84,7 @@ export default function UserProfileEditor({
   return (
     <>
       <Header title="Account" subtitle="Everything regarding your account">
-        {form.getFieldState('username').isDirty && (
+        {form.formState.isDirty && (
           <SaveButton type="submit" form="account-form" />
         )}
       </Header>
@@ -91,8 +95,8 @@ export default function UserProfileEditor({
             onSubmit={form.handleSubmit(onSubmit, onError)}
             className="w-full space-y-8"
           >
-            <FormContent>
-              <FormSegment title="Profile Image">
+            <SegmentedLayout>
+              <Segment title="Profile Image">
                 <EditableImage
                   location={{ bucket: 'avatars', name: crypto.randomUUID() }}
                   initial={profile?.avatar_url || undefined}
@@ -102,47 +106,48 @@ export default function UserProfileEditor({
                   width={80}
                   height={80}
                 />
-              </FormSegment>
-              <FormSegment title="Full Name">
+              </Segment>
+              <Segment title="Full Name">
                 <FormField
                   control={form.control}
                   name="name"
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input {...field} className="w-max-[40rem]" />
+                        <Input {...field} className=" max-w-form-input" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-              </FormSegment>
-              <FormSegment title="Username">
+              </Segment>
+              <Segment title="Username">
                 <FormField
                   control={form.control}
                   name="username"
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input {...field} className="w-max-[40rem]" />
+                        <Input {...field} className=" max-w-form-input" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-              </FormSegment>
-              <FormSegment
+              </Segment>
+              <Segment
                 title="Connections"
                 description="Manage the different ways you can log into your account with"
               >
                 {user.identities && (
                   <Identities
+                    className="w-full max-w-form-input"
                     identities={user.identities}
                     setPasswordDialogOpen={setPasswordDialogOpen}
                   />
                 )}
-              </FormSegment>
-            </FormContent>
+              </Segment>
+            </SegmentedLayout>
           </form>
         </Form>
         <Dialog open={passwordDialogOpen} onOpenChange={setPasswordDialogOpen}>

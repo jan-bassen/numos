@@ -1,6 +1,6 @@
 'use client'
 
-import FormSegment from '@/components/forms/form-segment'
+import Segment from '@/components/layouts/segmented/segment'
 import type {
   Action,
   TriggerType,
@@ -64,14 +64,25 @@ import { removeActionParameterFromLocalForm } from '../../(functions)/utils'
 import CronInput from './cron-input'
 import slugify from 'slugify'
 import type { ActionTrigger } from '@/types/actions.types'
-import Main from '@/components/layout/pages/main'
-import Header from '@/components/layout/pages/header'
-import FormContent from '@/components/forms/form-content'
+import Main from '@/components/page/main'
+import Header from '@/components/page/header'
+import SegmentedLayout from '@/components/layouts/segmented/segmented-layout'
 import LockButton from '@/components/forms/buttons/lock-button'
 import ResetButton from '@/components/forms/buttons/reset-button'
 import DeleteButton from '@/components/forms/buttons/delete-button'
 import SaveButton from '@/components/forms/buttons/save-button'
 import { Textarea } from '@repo/ui/components/ui/textarea'
+
+function getDefaultValuesFromAction(
+  action: Action,
+  updatedAction?: UpdateAction,
+) {
+  return {
+    name: updatedAction?.name || action.name || '',
+    description: updatedAction?.description || action.description || undefined,
+    trigger: updatedAction?.trigger?.settings || action.trigger?.settings,
+  }
+}
 
 export default function ActionEditor({
   action,
@@ -89,11 +100,7 @@ export default function ActionEditor({
 
   const schema = actionSchema(type)
 
-  const defaultValues = {
-    name: action?.name || '',
-    description: action?.description || undefined,
-    trigger: trigger?.settings,
-  }
+  const defaultValues = getDefaultValuesFromAction(action)
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
@@ -109,33 +116,23 @@ export default function ActionEditor({
   async function onSubmit(data: z.infer<typeof schema>) {
     const oldSlug = action?.slug
     const slug = slugify(data.name || '')
-    let res: ReturnInfo
-    if (action) {
-      const newAction: UpdateAction = {
-        id: action.id,
-        name: data.name,
-        slug,
-        description: data.description || null,
-        trigger: { type, settings: data.trigger } as ActionTrigger,
-      }
 
-      res = await editAction(newAction)
-    } else {
-      const newAction: InsertAction = {
-        name: data.name,
-        slug,
-        version: version.id,
-        description: data.description || null,
-        trigger: { type, settings: data.trigger } as ActionTrigger,
-      }
-      res = await insertAction(newAction)
+    const newAction: UpdateAction = {
+      id: action.id,
+      name: data.name,
+      slug,
+      description: data.description || null,
+      trigger: { type, settings: data.trigger } as ActionTrigger,
     }
+
+    const res = await editAction(newAction)
+
     handleReturnInfo(
       res,
       () => {
         if (oldSlug !== slug)
           router.push(`/collections/${collectionSlug}/actions/${slug}`)
-        form.reset(defaultValues)
+        form.reset(getDefaultValuesFromAction(action, newAction))
       },
       () => {},
     )
@@ -185,8 +182,8 @@ export default function ActionEditor({
             onSubmit={form.handleSubmit(onSubmit, onError)}
             className="space-y-8 pb-6 lg:space-y-10"
           >
-            <FormContent>
-              <FormSegment
+            <SegmentedLayout>
+              <Segment
                 title="Information"
                 description="Change the basic information of the action."
                 options={[
@@ -209,7 +206,7 @@ export default function ActionEditor({
                     <FormItem>
                       <FormLabel>Name</FormLabel>
                       <FormControl>
-                        <Input {...field} className="w-full max-w-[35rem]" />
+                        <Input {...field} className="w-full max-w-form-input" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -222,15 +219,18 @@ export default function ActionEditor({
                     <FormItem>
                       <FormLabel>Description</FormLabel>
                       <FormControl>
-                        <Textarea {...field} className="w-full max-w-[35rem]" />
+                        <Textarea
+                          {...field}
+                          className="w-full max-w-form-input"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-              </FormSegment>
+              </Segment>
               {action && (
-                <FormSegment
+                <Segment
                   title="Execution Logic"
                   description="Define what the action does when triggered."
                 >
@@ -238,16 +238,16 @@ export default function ActionEditor({
                     href={`/collections/${collectionSlug}/actions/${action.slug}/logic`}
                     className={cn(
                       buttonVariants({ variant: 'outline' }),
-                      'relative flex min-h-28 w-fulitems-center max-w-[35rem] justify-center gap-2 overflow-hidden',
+                      'relative flex min-h-28 w-fulitems-center max-w-form-input justify-center gap-2 overflow-hidden',
                     )}
                   >
                     <PiAutomationStroke className="my-auto size-4" />
                     Edit Logic
                     <div className="!bg-dots_grid absolute size-full translate-x-[12.5px] translate-y-[15px] bg-[50px_50px] bg-[length:100px_100px] opacity-25" />
                   </Link>
-                </FormSegment>
+                </Segment>
               )}
-              <FormSegment
+              <Segment
                 title="Trigger"
                 description="Define how the action gets triggered and starts executing."
                 options={triggerOptions.map(({ label, description }) => ({
@@ -261,15 +261,15 @@ export default function ActionEditor({
                   onChange={(v) => setType(v as TriggerType)}
                   locked={locked}
                   staticoptions={triggerOptions}
-                  className="w-full md:max-w-[35rem]"
+                  className="w-full md:max-w-form-input"
                 />
-              </FormSegment>
+              </Segment>
               {type === 'interval' && (
-                <FormSegment
+                <Segment
                   title="Interval Settings"
                   description="Define the details of the interval trigger."
                 >
-                  <div className="flex gap-4 md:max-w-[35rem]">
+                  <div className="flex gap-4 md:max-w-form-input">
                     <FormField
                       control={form.control}
                       name="trigger.start"
@@ -305,7 +305,7 @@ export default function ActionEditor({
                       )}
                     />
                   </div>
-                  <div className="flex w-full -xs:flex-col gap-4 md:max-w-[35rem]">
+                  <div className="flex w-full -xs:flex-col gap-4 md:max-w-form-input">
                     <FormField
                       control={form.control}
                       name="trigger.interval"
@@ -343,19 +343,19 @@ export default function ActionEditor({
                       )}
                     />
                   </div>
-                </FormSegment>
+                </Segment>
               )}
               {type === 'schedule' && (
-                <FormSegment
+                <Segment
                   title="Schedule"
                   description="Define the schedule that triggers the action. The format is a cron expression. For more information, see the AWS documentation."
                   link={{
                     label: 'Learn more',
                     href: 'https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-scheduled-rule-pattern.html#eb-cron-expressions',
                   }}
-                  className="w-full md:max-w-[35rem]"
+                  className="w-full md:max-w-form-input"
                 >
-                  <div className="flex w-full gap-4 md:max-w-[35rem]">
+                  <div className="flex w-full gap-4">
                     <FormField
                       control={form.control}
                       name="trigger.start"
@@ -427,10 +427,10 @@ export default function ActionEditor({
                       )
                     }}
                   />
-                </FormSegment>
+                </Segment>
               )}
               {type === 'token' && (
-                <FormSegment
+                <Segment
                   title="Token Event"
                   description="Define the token event that triggers the action."
                 >
@@ -446,23 +446,26 @@ export default function ActionEditor({
                             datatype="enum"
                             staticoptions={tokenEventOptions}
                             locked={locked}
-                            className="w-fit md:w-[35rem]"
+                            className="w-fit md:max-w-form-input"
                           />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
-                </FormSegment>
+                </Segment>
               )}
               {type === 'api' && (
-                <FormSegment
+                <Segment
                   title="Parameters"
                   description="Define input parameters for the API call."
                   className="w-full"
                 >
                   {paramsArray.fields.map((field, index) => (
-                    <div key={field.id} className="flex w-full flex-col gap-2">
+                    <div
+                      key={field.id}
+                      className="flex w-full max-w-form-input flex-col gap-2"
+                    >
                       <FormLabel>{`Parameter ${index + 1}`}</FormLabel>
                       <div className="flex w-full gap-2">
                         <FormField
@@ -641,9 +644,9 @@ export default function ActionEditor({
                       Add Parameter
                     </Button>
                   )}
-                </FormSegment>
+                </Segment>
               )}
-            </FormContent>
+            </SegmentedLayout>
           </form>
         </Form>
       </Main>

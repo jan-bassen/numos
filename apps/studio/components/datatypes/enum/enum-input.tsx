@@ -64,7 +64,10 @@ export default function EnumInput({
       }}
       disabled={locked}
     >
-      <div ref={environment === 'node' ? dragRef : undefined}>
+      <div
+        ref={environment === 'node' ? dragRef : undefined}
+        className="w-full"
+      >
         <SelectTrigger
           id={props.id}
           className={cn(

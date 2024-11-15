@@ -211,7 +211,8 @@ module.exports = {
   			'4.5': '1.125rem',
   			'5.5': '1.375rem',
   			'6.5': '1.625rem',
-  			'9.5': '2.375rem'
+  			'9.5': '2.375rem',
+			"form-input": "40rem"
   		},
   		borderWidth: {
   			'3': '3px',

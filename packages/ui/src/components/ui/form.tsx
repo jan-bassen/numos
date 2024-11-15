@@ -144,14 +144,13 @@ const FormMessage = ({
   ...props
 }: React.ComponentProps<'p'>) => {
   const { error, formMessageId, name } = useFormField()
-  if (error && !error.message) {
-    console.error('Uncaught error in form', error)
-  }
   const body = error?.message
     ? String(error?.message)
     : error?.root
       ? error?.root.message
-      : children
+      : typeof error === 'string'
+        ? String(error)
+        : children
 
   if (!body) {
     return null
