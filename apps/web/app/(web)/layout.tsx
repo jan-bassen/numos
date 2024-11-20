@@ -9,6 +9,7 @@ import Script from 'next/script'
 import PostHogPageView from '@/lib/posthog/posthog-pageview'
 import Providers from './providers'
 import CookieBanner from '@/lib/posthog/cookie-banner'
+import { Suspense } from 'react'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 
@@ -46,7 +47,9 @@ export default async function RootLayout({
     >
       <body className={cn(outfit.className, 'relative bg-background')}>
         <Providers>
-          <PostHogPageView />
+          <Suspense>
+            <PostHogPageView />
+          </Suspense>
           {children}
           <CookieBanner />
           <Toaster position="bottom-right" richColors />
