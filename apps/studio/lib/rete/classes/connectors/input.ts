@@ -17,6 +17,7 @@ export class Input {
   control: Control | null = null
   showControl = true
   multipleConnections: boolean
+  lastValue?: Value<ValueType, 'single' | 'objectarray', true>
   constructor(
     public node: Node,
     public definition: AnyDataSocketDefinition<'inputs'> | ExecSocketDefinition, //TODO: Add exec input definition
@@ -28,6 +29,9 @@ export class Input {
     this.socket = new Socket('input', definition, node, connection)
     this.multipleConnections =
       definition.type === 'exec' || definition.multipleConnections || false
+    if (!definition.type) {
+      this.lastValue = value
+    }
     if (
       definition.type &&
       definition.type !== 'exec' &&
@@ -51,7 +55,7 @@ export class Input {
   getControlValue():
     | Value<ValueType, 'single' | 'objectarray', true>
     | undefined {
-    return this.control?.value
+    return this.control?.value || this.lastValue
   }
 
   getResolvedControlValue():

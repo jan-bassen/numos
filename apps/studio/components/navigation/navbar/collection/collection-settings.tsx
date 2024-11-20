@@ -1,8 +1,7 @@
 'use client'
 
 import {
-  PiBarchartDefaultSolid,
-  PiBarchartDefaultStroke,
+  PiLinkHorizontalStroke,
   PiRocketShipSolid,
   PiRocketShipStroke,
   PiSettings02Solid,
@@ -20,6 +19,14 @@ import { cn } from '@repo/ui/lib/utils'
 import Link from 'next/link'
 
 const items = [
+  /*   {
+    title: 'Integration',
+    slug: 'integration',
+    icons: {
+      stroke: PiLinkHorizontalStroke,
+      fill: PiLinkHorizontalStroke,
+    },
+  }, */
   {
     title: 'Settings',
     slug: 'settings',
@@ -28,31 +35,15 @@ const items = [
       fill: PiSettings02Solid,
     },
   },
-  {
-    title: 'Deployment',
-    slug: 'deployment',
-    icons: {
-      stroke: PiRocketShipStroke,
-      fill: PiRocketShipSolid,
-    },
-  },
 ]
 
-export function NavCollectionSettings({
+export function CollectionSettings({
   collection_slug,
 }: { collection_slug?: string }) {
   const segments = useSelectedLayoutSegments()
-  console.log(segments)
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>
-        <Link
-          href={`/collections/${collection_slug}`}
-          className="hover:underline"
-        >
-          Settings
-        </Link>
-      </SidebarGroupLabel>
+      <SidebarGroupLabel>Settings</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => {
           const isActive = item.slug === segments[0]

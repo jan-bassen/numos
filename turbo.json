@@ -27,6 +27,10 @@
       ],
       "inputs": ["$TURBO_DEFAULT$", ".env*"]
     },
+    "web#typegen": {
+      "env": ["DATABASE_URI"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"]
+    },
     "web#build": {
       "dependsOn": ["^build"],
       "env": [

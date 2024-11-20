@@ -32,8 +32,6 @@ import { getInfoFromAttribute } from '@/app/collections/[collection]/attributes/
 import { Input } from './connectors/input'
 import { Output } from './connectors/output'
 import type { GraphErrorData } from '@repo/engine/types/engine-types'
-import { NodeError } from '@repo/engine/errors/node-error'
-
 export class Node extends NodePreset {
   width?: number
   height?: number
@@ -388,7 +386,7 @@ export class Node extends NodePreset {
     }
 
     for (const inputDef of inputsDefinition) {
-      //Add new input if defined and
+      //Add new input if defined and not already added
       if (!this.hasInput(inputDef.key)) {
         this.addInput(inputDef.key, new Input(this, inputDef))
         continue
@@ -403,7 +401,9 @@ export class Node extends NodePreset {
       this.removeInput(inputDef.key)
 
       //Remove value from old input control if datatype or list changed
-      const typeChanged = currentInput?.socket.type !== inputDef.type
+      const typeChanged =
+        currentInput?.socket.type !== 'generic' &&
+        currentInput?.socket.type !== inputDef.type
       const listChanged =
         currentInput?.socket.list &&
         inputDef.list &&

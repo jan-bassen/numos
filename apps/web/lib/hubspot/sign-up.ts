@@ -12,6 +12,7 @@ export type SignUp = {
   firstname: string
   lastname?: string
   message?: string
+  twitter?: string
 }
 
 export async function signUp(data: SignUp) {
@@ -58,6 +59,7 @@ export async function signUp(data: SignUp) {
         message: data.message || '',
         accepted: 'NO',
         lifecyclestage: 'lead',
+        x_account: data.twitter || '',
       },
       associations: [],
     }

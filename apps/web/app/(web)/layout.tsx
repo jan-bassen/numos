@@ -5,8 +5,10 @@ import { Toaster } from '@repo/ui/components/ui/sonner'
 import { cn } from '@repo/ui/lib/utils'
 import localFont from 'next/font/local'
 import type { CssVariable } from 'next/dist/compiled/@next/font'
-import dynamic from 'next/dynamic'
 import Script from 'next/script'
+import PostHogPageView from '@/lib/posthog/posthog-pageview'
+import Providers from './providers'
+import CookieBanner from '@/lib/posthog/cookie-banner'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 
@@ -14,7 +16,7 @@ const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' })
 
 const fira = localFont<CssVariable>({
   display: 'swap',
-  src: '../public/fonts/fira.ttf',
+  src: '../../public/fonts/fira.ttf',
   variable: '--font-fira',
 })
 
@@ -31,21 +33,6 @@ export const metadata: Metadata = {
   ],
 }
 
-const PostHogPageView = dynamic(
-  () => import('@/lib/posthog/posthog-pageview'),
-  {
-    ssr: false,
-  },
-)
-
-const CookieBanner = dynamic(() => import('@/lib/posthog/cookie-banner'), {
-  ssr: false,
-})
-
-const Providers = dynamic(() => import('@/app/providers'), {
-  ssr: false,
-})
-
 export default async function RootLayout({
   children,
 }: {
@@ -55,12 +42,13 @@ export default async function RootLayout({
     <html
       lang="en"
       className={`${outfit.variable} ${inter.variable} ${fira.variable}`}
+      suppressHydrationWarning
     >
       <body className={cn(outfit.className, 'relative bg-background')}>
-        <Providers isLoggedIn={false}>
+        <Providers>
           <PostHogPageView />
           {children}
-          <CookieBanner isLoggedIn={false} />
+          <CookieBanner />
           <Toaster position="bottom-right" richColors />
         </Providers>
         <Script

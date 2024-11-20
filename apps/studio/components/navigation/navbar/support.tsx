@@ -12,7 +12,7 @@ import { type ComponentProps, useEffect, useState } from 'react'
 import { cn } from '@repo/ui/lib/utils'
 import { useChatContext } from '@/lib/hubspot/chat-context'
 
-export function NavSupport(props: ComponentProps<typeof SidebarGroup>) {
+export function Support(props: ComponentProps<typeof SidebarGroup>) {
   const { chatOpen, setChatOpen, unreadMessages } = useChatContext()
   const [disabled, setDisabled] = useState(false)
   useEffect(() => {

@@ -23,6 +23,7 @@ const formSchema = z.object({
   lastname: z.string().optional(),
   email: z.string().email(),
   message: z.string().optional(),
+  twitter: z.string().optional(),
 })
 
 async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -113,6 +114,19 @@ export default function SignUpForm() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Email*</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="twitter"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>X/Twitter</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>

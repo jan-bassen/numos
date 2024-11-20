@@ -154,6 +154,10 @@ export class NodeEditor extends BaseNodeEditor<Schemes> {
     this.updateConfig()
   }
 
+  hasConnection(id: string) {
+    return this.getConnection(id) !== undefined
+  }
+
   getGraph = () => {
     const nodes = this.getNodes()
     const connections = this.getConnections()

@@ -13,7 +13,6 @@ export const logDefinition: SpecificNodeDefinition<LogNode> = {
   },
   inputs: ({ getInfoFromInputConnection }) => {
     const { type, list, settings } = getInfoFromInputConnection('value') || {}
-    console.log(type, list, settings)
     return [
       {
         key: 'value',

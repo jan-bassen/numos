@@ -8,8 +8,6 @@ import {
   PiBarchartDefaultStroke,
   PiPhotoImageDefaultSolid,
   PiPhotoImageDefaultStroke,
-  PiSettings02Solid,
-  PiSettings02Stroke,
 } from '@repo/ui/icons/pika'
 import {
   Collapsible,
@@ -95,8 +93,8 @@ const getItems = (items: NavItems): SidebarItem[] => {
         {
           title: 'Image',
           slug: 'image',
-        },
-        { title: 'Settings', slug: 'settings' },
+        } /* 
+        { title: 'Settings', slug: 'settings' }, */,
       ],
     },
   ]
@@ -120,7 +118,7 @@ type NavMainProps = {
   navItems: NavItems
 }
 
-export function NavCollectionItems({ collection, navItems }: NavMainProps) {
+export function CollectionItems({ collection, navItems }: NavMainProps) {
   const [dropdownOpen, setDropdownOpen] = useState<string | null>(null)
   const { open: sidebarOpen } = useSidebar()
   const items = getItems(navItems)
@@ -129,14 +127,7 @@ export function NavCollectionItems({ collection, navItems }: NavMainProps) {
   if (!version) throw new Error('No version')
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>
-        <Link
-          href={`/collections/${collection.slug}`}
-          className="hover:underline"
-        >
-          {collection.name || 'Collection'}
-        </Link>
-      </SidebarGroupLabel>
+      <SidebarGroupLabel>Components</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => {
           const isActive =

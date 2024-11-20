@@ -10,6 +10,7 @@ import EmptyCollectionsView from '@/app/collections/(components)/empty-collectio
 import { NewCollectionDialog } from '@/app/collections/(components)/new-collection-dialog'
 import { Button } from '@repo/ui/components/ui/button'
 import { PiAddAddStroke } from '@repo/ui/icons/pika'
+import Page from '@/components/page/page'
 
 export default async function HomePage() {
   const collections: ExtendedCollection[] = await getAllExtendedCollections()
@@ -19,7 +20,7 @@ export default async function HomePage() {
   return (
     <>
       <Navbar />
-      <div className="flex min-h-full w-full flex-col overflow-y-auto overflow-x-hidden">
+      <Page>
         <Header
           title={name ? `Welcome, ${name}!` : 'Welcome!'}
           subtitle="While we're working hard to iron out any bugs, but you'll
@@ -64,7 +65,7 @@ export default async function HomePage() {
             />
           )}
         </Main>
-      </div>
+      </Page>
     </>
   )
 }

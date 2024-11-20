@@ -40,6 +40,7 @@ const formSchema = z.object({
   firstname: z.string(),
   lastname: z.string().optional(),
   email: z.string().email(),
+  twitter: z.string().optional(),
   message: z.string().optional(),
 })
 
@@ -122,6 +123,19 @@ export default function SignUpDialog() {
               />
               <FormField
                 control={form.control}
+                name="twitter"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>X/Twitter</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
                 name="message"
                 render={({ field }) => (
                   <FormItem>
@@ -195,6 +209,19 @@ export default function SignUpDialog() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Email*</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="twitter"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>X/Twitter</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>

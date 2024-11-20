@@ -5,16 +5,21 @@ import {
   SidebarHeader,
   SidebarRail,
 } from '@repo/ui/components/ui/sidebar'
-import { NavSupport } from './nav-support'
+import { Support } from './support'
 import type { AttributeNavItem } from '@/lib/supabase/db/attributes'
 import type { ActionNavItem } from '@/lib/supabase/db/actions'
 import { NavUser } from './user/nav-user'
 import { Suspense } from 'react'
 import { NavUserSkeleton } from './user/nav-user-skeleton'
-import { NavCollectionParts } from './collection/collection-parts/nav-collection-parts'
+import { CollectionParts } from './collection/collection-parts/collection-parts'
+import { CollectionSwitcher } from './collection/collection-switcher/collection-switcher'
 import { NumosButton } from './numos-button'
-import { NavCollections } from './nav-collections'
-import { NavCollectionSettings } from './collection/nav-collection-settings'
+import { Collections } from './collections/collections'
+import { CollectionsSkeleton } from './collections/collections-skeleton'
+import { CollectionSettings } from './collection/collection-settings'
+import { CollectionSwitcherSkeleton } from './collection/collection-switcher/collection-switcher-skeleton'
+import { CollectionPartsSkeleton } from './collection/collection-parts/collection-parts-skeleton'
+import { cn } from '@repo/ui/lib/utils'
 
 type SidebarProps = React.ComponentProps<typeof Sidebar> & {
   collection?: string
@@ -25,21 +30,32 @@ export type NavItems = [AttributeNavItem[], ActionNavItem[]]
 export async function Navbar({ collection, ...props }: SidebarProps) {
   return (
     <Sidebar collapsible="icon" {...props}>
-      <SidebarHeader>
+      <SidebarHeader /* className={cn(!!collection && 'pb-5')} */>
         <NumosButton />
       </SidebarHeader>
-      <SidebarContent>
-        <Suspense>
-          {collection ? (
-            <>
-              <NavCollectionParts collection_slug={collection} />
-              <NavCollectionSettings collection_slug={collection} />
-            </>
-          ) : (
-            <NavCollections />
-          )}
-        </Suspense>
-        <NavSupport className="mt-auto" />
+      <SidebarContent className="scrollbar-thin scrollbar-thumb-sidebar-border scrollbar-track-transparent">
+        {collection ? (
+          <>
+            {/* <div className="p-2">
+              <Suspense fallback={<CollectionSwitcherSkeleton />}>
+                <CollectionSwitcher collection_slug={collection} />
+              </Suspense>
+            </div> */}
+            <Suspense
+              fallback={
+                <CollectionPartsSkeleton collection_slug={collection} />
+              }
+            >
+              <CollectionParts collection_slug={collection} />
+            </Suspense>
+            <CollectionSettings collection_slug={collection} />
+          </>
+        ) : (
+          <Suspense fallback={<CollectionsSkeleton />}>
+            <Collections />
+          </Suspense>
+        )}
+        <Support className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
         <Suspense fallback={<NavUserSkeleton />}>

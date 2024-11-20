@@ -70,7 +70,7 @@ export class Connection implements ConnectionBase {
     const source = this.editor.getNode(this.source)
     const target = this.editor.getNode(this.target)
     //TODO: Clean this up. Non-connected connections should not be possible
-    if (!target && !source) {
+    if (!target && !source && this.editor.hasConnection(this.id)) {
       this.editor.removeConnection(this.id)
     }
     const sourceOutput = source?.getOutput(this.sourceOutput)

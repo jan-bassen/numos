@@ -5,34 +5,24 @@ import { Card, CardTitle } from '@repo/ui/components/ui/card'
 import { usePostHog } from 'posthog-js/react'
 import { useEffect, useState } from 'react'
 
-export function cookieConsentGiven(isLoggedIn: boolean) {
-  if (isLoggedIn) {
-    return 'yes'
-  }
+export function cookieConsentGiven() {
   if (!localStorage.getItem('cookie_consent')) {
     return 'undecided'
   }
   return localStorage.getItem('cookie_consent')
 }
 
-export default function CookieBanner({ isLoggedIn }: { isLoggedIn: boolean }) {
+export default function CookieBanner() {
   const [consentGiven, setConsentGiven] = useState('')
   const posthog = usePostHog()
 
   useEffect(() => {
-    setConsentGiven(cookieConsentGiven(isLoggedIn) || 'undecided')
-  }, [isLoggedIn])
-
-  useEffect(() => {
     if (consentGiven !== '') {
       posthog.set_config({
-        persistence:
-          consentGiven === 'yes' || isLoggedIn
-            ? 'localStorage+cookie'
-            : 'memory',
+        persistence: consentGiven === 'yes' ? 'localStorage+cookie' : 'memory',
       })
     }
-  }, [consentGiven, isLoggedIn, posthog.set_config])
+  }, [consentGiven, posthog.set_config])
 
   const handleAcceptCookies = () => {
     localStorage.setItem('cookie_consent', 'yes')

@@ -12,34 +12,35 @@ import {
   DropdownMenuTrigger,
 } from '@repo/ui/components/ui/dropdown-menu'
 import { SupabaseImage } from '@/components/supabase/supabase-image'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@repo/ui/components/ui/tooltip'
+import { useSidebar } from '@repo/ui/components/ui/sidebar'
 
-export default function CollectionSwitcher({
+export function CollectionSwitcherButton({
   collections,
-  collapsed,
   currentCollection,
   className,
 }: {
   collections: Collection[]
-  collapsed?: boolean
   currentCollection?: Collection
   className?: string
 }) {
+  const { open: sidebarOpen, isMobile } = useSidebar()
   return (
     <DropdownMenu modal={true}>
-      <div className={cn('flex grow-0 md:w-full', className)}>
+      <div
+        className={cn(
+          'flex grow-0 md:w-full',
+          sidebarOpen && 'px-1',
+          className,
+        )}
+      >
         <Link
           href={`/collections/${currentCollection?.slug}`}
           className={cn(
             buttonVariants({ variant: 'ghost' }),
             'flex gap-3 p-0 md:h-11 md:gap-2',
-            collapsed
-              ? 'w-full justify-center rounded-lg'
-              : 'grow-0 justify-start rounded-none border-border md:w-[calc(100%-2rem)] md:rounded-l-lg md:border md:px-3',
+            sidebarOpen
+              ? 'grow-0 justify-start rounded-none border-border md:w-[calc(100%-2rem)] md:rounded-l-lg md:border md:px-1.5'
+              : 'w-full justify-center rounded-lg md:h-8',
           )}
         >
           <SupabaseImage
@@ -49,30 +50,22 @@ export default function CollectionSwitcher({
                 : undefined
             }
             alt="Collection Image"
-            width={128}
-            height={128}
-            className={cn(
-              'h-8 w-8 shrink-0 rounded-full object-cover ',
-              collapsed ? 'md:h-7 md:w-7' : 'md:h-6 md:w-6',
-            )}
+            width={32}
+            height={32}
+            className={cn('h-8 w-8 shrink-0 rounded-lg object-cover ')}
           />
-          <Tooltip>
-            <TooltipTrigger
-              className={cn(
-                '!line-clamp-1 !text-ellipsis !hidden md:!inline w-full text-left text-base md:text-sm',
-                !currentCollection?.name ||
-                  (currentCollection.name.length < 15 && 'pointer-events-none'),
-                collapsed && 'md:!hidden',
-              )}
-            >
-              {currentCollection?.name || 'Select Collection'}
-            </TooltipTrigger>
-            <TooltipContent side="bottom" align="start">
-              {currentCollection?.name || 'Select Collection'}
-            </TooltipContent>
-          </Tooltip>
+          <span
+            className={cn(
+              '!line-clamp-1 !text-ellipsis !hidden md:!inline w-full text-left text-base md:text-sm',
+              !currentCollection?.name ||
+                (currentCollection.name.length < 15 && 'pointer-events-none'),
+              !sidebarOpen && 'md:!hidden',
+            )}
+          >
+            {currentCollection?.name || 'Select Collection'}
+          </span>
         </Link>
-        {!collapsed && (
+        {sidebarOpen && (
           <DropdownMenuTrigger asChild>
             <Button
               variant={'ghost'}
@@ -84,10 +77,10 @@ export default function CollectionSwitcher({
         )}
       </div>
       <DropdownMenuContent
-        sideOffset={6}
+        className="mt-2 w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+        side={isMobile ? 'top' : 'right'}
         align="end"
-        alignOffset={-8}
-        className="mt-1 mr-0.5 ml-2 min-w-[10rem] md:mt-0 md:mr-2 md:w-48"
+        sideOffset={4}
       >
         {collections.map((collection) => (
           <DropdownMenuItem key={collection.slug} asChild>

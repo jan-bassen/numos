@@ -12,7 +12,6 @@
     "typegen": "supabase gen types typescript --project-id ncqfkhposkxidjcaghvj > types/database-generated.types.ts",
     "email": "email dev --dir lib/emails"
   },
-
   "peerDependencies": {
     "react": "^18"
   },
@@ -84,6 +83,7 @@
     "tus-js-client": "^4.1.0",
     "type-fest": "^4.20.1",
     "usehooks-ts": "^3.1.0",
+    "viem": "^2.21.45",
     "web-worker": "^1.3.0",
     "zod": "^3.22.4"
   },

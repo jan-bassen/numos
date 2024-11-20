@@ -9,7 +9,7 @@ import {
 } from '@repo/ui/components/ui/sidebar'
 import Link from 'next/link'
 
-export async function NavCollections() {
+export async function Collections() {
   const collections = await getAllCollections()
   return (
     <SidebarGroup>

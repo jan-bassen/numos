@@ -171,8 +171,6 @@ export async function getActionGraph(actionId: string): Promise<SavedGraph> {
     .eq('action', actionId)
     .returns<SavedNode[]>()
 
-  console.log('Getting action graph')
-
   const replacedNodes = replaceRemovedNodes(nodes || [])
   const transformedNodes = changeSavedNodeStructure(replacedNodes)
 

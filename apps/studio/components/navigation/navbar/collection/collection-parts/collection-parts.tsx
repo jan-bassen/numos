@@ -1,9 +1,9 @@
 import { getActionsForNav } from '@/lib/supabase/db/actions'
 import { getAttributesForNav } from '@/lib/supabase/db/attributes'
 import { getCollectionFromSlug } from '@/lib/supabase/db/collections'
-import { NavCollectionItems } from './nav-collection-items'
+import { CollectionItems } from './collection-items'
 
-export async function NavCollectionParts({
+export async function CollectionParts({
   collection_slug,
 }: { collection_slug: string }) {
   const collection = await getCollectionFromSlug(collection_slug)
@@ -13,5 +13,5 @@ export async function NavCollectionParts({
   const actionPromise = getActionsForNav(collection.slug)
   const navItems = await Promise.all([attributePromise, actionPromise])
 
-  return <NavCollectionItems collection={collection} navItems={navItems} />
+  return <CollectionItems collection={collection} navItems={navItems} />
 }
