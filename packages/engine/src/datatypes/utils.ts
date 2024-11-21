@@ -98,7 +98,7 @@ export function resolveObjectArrayValue<
   return {
     type: value.type,
     format: 'array',
-    value: value.value.map((v) => v.value),
+    value: value.value ? value.value.map((v) => v.value) : undefined,
   } as Value<VT, 'single' | 'array', Optional>
 }
 
