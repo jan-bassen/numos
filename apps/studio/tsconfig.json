@@ -11,6 +11,6 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-   "app/reset-password", "lib/rete/nodes/configs/script.js"  ],
+   "app/reset-password", "lib/rete/nodes/configs/script.js", "components/node-editor/run-sidebar"  ],
   "exclude": ["node_modules"]
 }

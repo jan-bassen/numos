@@ -1,18 +1,11 @@
 'use client'
 
-import {
-  type Attribute,
-  type LayerTree,
-  type OptionalTokenState,
-  TokenState,
-  type Version,
-} from '@/types/database.types'
+import type { Attribute, LayerTree, Version } from '@/types/database.types'
 import type { AutoSaveFunctions, Editor } from '@/types/editor.types'
 import type { SavedGraph } from '@repo/engine/types/graph-types'
 import NodeEditor from '../../../../../../components/node-editor/editor/base-editor'
 import { useState } from 'react'
 import type { SimulationCheck } from '@/lib/errors'
-import Image from 'next/image'
 import {
   deleteImageConnection,
   deleteImageNode,
@@ -23,33 +16,12 @@ import {
 } from '@/lib/supabase/db/image-graph'
 import { toast } from 'sonner'
 import { imageConfig } from '@/lib/rete/nodes/configs/image-config'
-import LoadingSpinner from '@repo/ui/components/loading/loading-spinner'
 import type {
   EngineContext,
   SimulationData,
 } from '@repo/engine/types/engine-types'
 import { simulateImageGraph } from '@/lib/rete/engine'
-
-export function ImageResult({
-  result,
-  loading,
-}: {
-  result?: string
-  loading?: boolean
-}) {
-  if (loading && !result) return <LoadingSpinner containerClassName="!h-80" />
-  if (!result) return null
-  return (
-    <Image
-      src={
-        result ? `data:image/jpeg;base64,${result}` : '/images/placeholder.png'
-      }
-      alt="Result"
-      width={320}
-      height={320}
-    />
-  )
-}
+import ImageResult from './image-result'
 
 const autoSaveActions: AutoSaveFunctions = {
   uploadNode: insertImageNode,
@@ -140,7 +112,7 @@ export default function ImageNodeEditor({
       resetResult={() => setResult(null)}
       run={run}
       autosave={autoSaveActions}
-      resultClassName="!min-h-[20.2rem] overflow-hidden"
+      resultClassName=" overflow-hidden"
     />
   )
 }

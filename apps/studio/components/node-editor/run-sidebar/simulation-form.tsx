@@ -49,7 +49,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@repo/ui/components/ui/dialog'
-import { annotateMetadata, optionalMetadataSchema } from './metadata-schema'
+import {
+  annotateMetadata,
+  optionalMetadataSchema,
+} from '../../../lib/schemas/metadata-schema'
 import StringInput from '@/components/datatypes/string/string-input'
 import { Button } from '@repo/ui/components/ui/button'
 import NumberInput from '@/components/datatypes/number/number-input'
@@ -60,7 +63,7 @@ import type { ValueSettings, ValueType } from '@repo/engine/types/value-types'
 import type { ActionTrigger } from '@/types/actions.types'
 import type { SimulationData } from '@repo/engine/types/engine-types'
 import { generateValueMap } from '@repo/engine/datatypes/utils'
-import { useEditorContext } from './editor-provider'
+import { useEditorContext } from '@/components/node-editor/editor/editor-provider'
 
 export default function SimulationForm({
   id,

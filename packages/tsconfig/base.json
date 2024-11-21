@@ -20,7 +20,5 @@
     "strictNullChecks": true,
     "composite": true,
     "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "allowImportingTsExtensions": true
   }
 }

@@ -20,7 +20,8 @@ import { createSupabaseServiceClient } from '@repo/engine/storage/service-client
 import sharp from 'sharp'
 import type { NodeType } from '@repo/engine/types/node-types'
 import { nodeLogic } from '@repo/engine/nodes/nodetypes'
-import { GraphError } from '@repo/engine/errors/graph-error'
+import { GraphErrorLocation, GraphError } from '@repo/engine/errors/graph-error'
+import { NodeError } from '@repo/engine/errors/node-error.js'
 
 export class EngineBase {
   constructor(
@@ -66,7 +67,12 @@ export class EngineBase {
         node: nodeId,
         component: { key, type: 'control' },
       })
-    return this.validateAndResolveValue(value, nodeId)
+        try { return this.validateAndResolveValue(value) } catch (err) {
+         if (err instanceof Error) {
+      throw new GraphError(err?.message || "", { node: nodeId, component: { key, type: 'control' }, })
+      }
+      throw err
+    }
   }
 
   getInputControlValue(
@@ -79,7 +85,12 @@ export class EngineBase {
         node: nodeId,
         component: { key, type: 'input' },
       })
-    return this.validateAndResolveValue(value, nodeId)
+    try { return this.validateAndResolveValue(value) } catch (err) {
+         if (err instanceof Error) {
+      throw new GraphError(err?.message || "", { node: nodeId, component: { key, type: 'input' }, })
+      }
+      throw err
+    }
   }
 
   getConnection(
@@ -114,6 +125,7 @@ export class EngineBase {
     const { data: layer, error } = await supabaseService.storage
       .from('layers')
       .download(path)
+      
     if (error) {
       console.error(error)
       throw new GraphError(`Error downloading layer: ${error.message}`, {
@@ -131,20 +143,19 @@ export class EngineBase {
   }
 
   validateAndResolveValue(
-    value: Value<ValueType, ValueFormat, true>,
-    node: string,
+    value: Value<ValueType, ValueFormat, true>
   ) {
-    try {
       const { validated, error } = validateValue<false>(value, false)
-      if (error) throw new GraphError(error.message, { node })
+      if (error) throw new Error(error.message)
       const resolvedValue = resolveObjectArrayValue(validated)
       return resolvedValue
-    } catch (err) {
-      if (err instanceof Error) {
-        throw new GraphError(err.message, { node })
-      }
-      throw err
+  }
+
+  locateError(error: unknown, location: GraphErrorLocation): GraphError {
+    if (error instanceof Error) {
+      return new GraphError(error.message, location)
     }
+    return new GraphError('Unknown error occured', location)
   }
 
   serializeError(error: unknown): GraphErrorData | UnknownErrorData {
@@ -154,6 +165,6 @@ export class EngineBase {
     if (error instanceof Error) {
       return { type: 'unknown', message: error.message }
     }
-    return { type: 'unknown', message: 'Completely unknown error occured' }
+    return { type: 'unknown', message: 'Unknown error occured' }
   }
 }

@@ -2,7 +2,13 @@ import { createEditor } from '@/lib/rete/create-editor'
 import { useEditorHotkeys } from '@/lib/rete/utils/hotkeys'
 import type { ReturnInfo } from '@/types/database.types'
 import { useHotkeys } from 'react-hotkeys-hook'
-import { type ReactNode, useEffect, useState } from 'react'
+import {
+  type Dispatch,
+  type ReactNode,
+  type SetStateAction,
+  useEffect,
+  useState,
+} from 'react'
 
 import type { SimulationCheck } from '@/lib/errors'
 import { useEditor } from '@/lib/rete/use-editor'
@@ -12,8 +18,6 @@ import type {
   EditorConfig,
   EditorContext,
   EditorSettings,
-  InputMode,
-  Shape,
 } from '@/types/editor.types'
 import type {
   OLDSavedControlMap,
@@ -21,15 +25,14 @@ import type {
 } from '@repo/engine/types/graph-types'
 import { autosaveToEvents } from '@/lib/rete/autosave'
 import type { NodeEditor } from '@/lib/rete/classes/editor'
-import { useMediaQuery } from '@/lib/hooks/media-query'
 import type { ZoomEventParams } from '@/lib/rete/classes/area/area'
 import Decimal from 'decimal.js'
 import type {
   GraphErrorData,
   SimulationData,
 } from '@repo/engine/types/engine-types'
-import RunSidebar from './run-sidebar'
-import EditorInterface from './editor-interface'
+import RunSidebar from '../run-sidebar/run-sidebar'
+import EditorInterface from '../interface/editor-interface'
 import EditorProvider from './editor-provider'
 import { useSecondarySidebar } from '@repo/ui/components/ui/sidebar-secondary'
 
@@ -63,9 +66,22 @@ export default function BaseEditor({
   parentUrl?: string
 }) {
   const { open: sidebarOpen, setOpen: setSidebarOpen } = useSecondarySidebar()
-  const [uploadQueue, setUploadQueue] = useState(0)
   const [zoom, setZoom] = useState('100%')
-  const [error, setError] = useState<GraphErrorData | null>(null)
+  const [error, _setError] = useState<GraphErrorData | null>(null)
+
+  const setError: Dispatch<SetStateAction<GraphErrorData | null>> = (
+    value:
+      | GraphErrorData
+      | null
+      | ((prevState: GraphErrorData | null) => GraphErrorData | null),
+  ) => {
+    const oldError = error
+    _setError(value)
+    if (oldError) {
+      const { node } = oldError.location
+      editor?.editor.clearError(node)
+    }
+  }
 
   const [settings, setSettings] = useState<EditorSettings>({
     mode: 'select',
@@ -85,24 +101,7 @@ export default function BaseEditor({
     editor?.editor.applySettings(settings)
   }, [settings])
 
-  function increaseUploadQueue() {
-    setUploadQueue((currentUploadQueue) => currentUploadQueue + 1)
-  }
-
-  function decreaseUploadQueue() {
-    setUploadQueue((currentUploadQueue) => {
-      const updatedQueue = currentUploadQueue > 0 ? currentUploadQueue - 1 : 0
-      return updatedQueue
-    })
-  }
-
-  const autosaveEvents = autosaveToEvents(
-    autosave,
-    increaseUploadQueue,
-    decreaseUploadQueue,
-    parentId,
-    changeSettings,
-  )
+  const autosaveEvents = autosaveToEvents(autosave, parentId, changeSettings)
 
   const events = {
     ...autosaveEvents,
@@ -167,13 +166,7 @@ export default function BaseEditor({
     >
       <div className="relative flex h-full w-full max-w-full">
         <div ref={editorRef} className="size-full" />
-        <EditorInterface
-          parentUrl={parentUrl}
-          editor={editor}
-          settings={settings}
-          setSettings={setSettings}
-          zoom={zoom}
-        />
+        <EditorInterface parentUrl={parentUrl} editor={editor} zoom={zoom} />
         <RunSidebar resultClassName={resultClassName} />
       </div>
     </EditorProvider>

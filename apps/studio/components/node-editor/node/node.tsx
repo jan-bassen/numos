@@ -78,7 +78,6 @@ export function NodeComponent(props: Props) {
   const { id, label, definition, displayData, error, context, comment } =
     props.data
   const root = definition.root
-
   const selected = context.editor.selector.isSelected('node', id)
 
   return (

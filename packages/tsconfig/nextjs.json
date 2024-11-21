@@ -8,6 +8,8 @@
     "plugins": [{ "name": "next" }],
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "noEmit": true,
+    "allowImportingTsExtensions": true
   }
 }

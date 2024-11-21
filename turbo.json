@@ -2,6 +2,18 @@
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
   "tasks": {
+    "@repo/engine#build": {
+      "dependsOn": []
+    },
+    "core#deploy": {
+      "cache": false,
+      "dependsOn": ["core#build"],
+      "env": ["DATABASE_URL"]
+    },
+    "core#build": {
+      "cache": false,
+      "dependsOn": ["^build"]
+    },
     "studio#build": {
       "dependsOn": ["@repo/engine#build", "^build"],
       "env": [
@@ -40,9 +52,7 @@
       ]
     },
     "build": {
-      "dependsOn": ["^build"],
-      "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**"]
+      "dependsOn": ["^build"]
     },
     "check-types": {
       "dependsOn": ["^check-types"]

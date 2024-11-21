@@ -1,5 +1,5 @@
 import type { NodeErrorData } from '@repo/engine/types/engine-types'
-import { GraphError } from './graph-error.ts'
+import { GraphError } from '@repo/engine/errors/graph-error'
 
 export class NodeError extends Error {
   name = 'NodeError'

@@ -25,7 +25,10 @@ import type {
   NodeData,
   StateChangeResult,
 } from '@repo/engine/types/node-types'
-import { GraphError } from '@repo/engine/errors/graph-error'
+import {
+  GraphError,
+  type GraphErrorLocation,
+} from '@repo/engine/errors/graph-error'
 import { NodeError } from '@repo/engine/errors/node-error'
 import { isEqual } from 'lodash'
 
@@ -178,62 +181,68 @@ export class SimulationEngine extends EngineBase {
     key: string,
     node: string,
   ): Value<ValueType, 'array' | 'single', false> {
-    if (!this.simulationData) throw new Error('Simulation data not set')
+    const location: GraphErrorLocation = {
+      node,
+      input: { key, type: 'attributes' },
+    }
+    if (!this.simulationData)
+      throw new GraphError(`Attribute ${key} not defined`, location)
     const change = this.simulatedResult.stateChange[key]
     const value = change ? change.new : this.simulationData.attributes[key]
-    if (!value)
-      throw new GraphError(`Attribute ${key} not defined`, {
-        node,
-        input: { key, type: 'attributes' },
-      })
-    return this.validateAndResolveValue(value, node)
+    if (!value) throw new GraphError(`Attribute ${key} not defined`, location)
+    try {
+      return this.validateAndResolveValue(value)
+    } catch (err) {
+      throw this.locateError(err, location)
+    }
   }
 
   getCollectionAttribute(
     key: string,
     node: string,
   ): Value<ValueType, 'array' | 'single', false> {
-    if (!this.simulationData) throw new Error('Simulation data not set')
+    const location: GraphErrorLocation = {
+      node,
+      input: { key, type: 'attributes' },
+    }
+    if (!this.simulationData)
+      throw new GraphError(`Attribute ${key} not defined`, location)
     const change = this.simulatedResult.stateChange[key]
     const value = change ? change.new : this.simulationData.attributes[key]
-    if (!value)
-      throw new GraphError(`Attribute ${key} not defined`, {
-        node,
-        input: { key, type: 'attributes' },
-      })
-    return this.validateAndResolveValue(value, node)
+    if (!value) throw new GraphError(`Attribute ${key} not defined`, location)
+    try {
+      return this.validateAndResolveValue(value)
+    } catch (err) {
+      throw this.locateError(err, location)
+    }
   }
 
   getMetadata<Key extends BasicMetadataKeys>(
     key: Key,
     node: string,
   ): Value<Key extends 'id' ? 'number' : 'string', 'single', false> {
+    const location: GraphErrorLocation = {
+      node,
+      input: { key, type: 'metadata' },
+    }
     if (!this.simulationData)
-      throw new GraphError('Simulation data not set', {
-        node,
-        input: { key, type: 'metadata' },
-      })
+      throw new GraphError('Simulation data not set', location)
+
     const change = this.simulatedResult.metadataChange[key]
     const value = change ? change.new : this.simulationData.basicMetadata[key]
-    if (!value)
-      throw new GraphError(`Metadata: ${key} not defined`, {
-        node,
-        input: { key, type: 'metadata' },
-      })
+    if (!value) throw new GraphError(`Metadata: ${key} not defined`, location)
     const type =
       key === 'id'
         ? ('number' as Key extends 'id' ? 'number' : 'string')
         : ('string' as Key extends 'id' ? 'number' : 'string')
+
     const { validated, error } = explicitlyValidateValue<
       Key extends 'id' ? 'number' : 'string',
       'single',
       false
     >(type, 'single', false, value)
-    if (error)
-      throw new GraphError('Error with parsing value', {
-        node,
-        input: { key, type: 'metadata' },
-      })
+
+    if (error) throw new GraphError('Error with parsing value', location)
     return validated
   }
 
@@ -273,11 +282,20 @@ export class SimulationEngine extends EngineBase {
     key: string,
     node: string,
   ): Value<ValueType, 'single' | 'array', false> {
-    const simulationData = this.getSimulationData()
-    if (!simulationData) throw new Error('Simulation data not set')
-    const value = simulationData.parameters[key]
-    if (!value) throw new Error(`Parameter ${key} not found`)
-    return this.validateAndResolveValue(value, node)
+    const location: GraphErrorLocation = {
+      node,
+      input: { key, type: 'parameters' },
+    }
+    try {
+      const simulationData = this.getSimulationData()
+      if (!simulationData)
+        throw new GraphError('Simulation data not set', location)
+      const value = simulationData.parameters[key]
+      if (!value) throw new GraphError(`Parameter ${key} not found`, location)
+      return this.validateAndResolveValue(value)
+    } catch (err) {
+      throw this.locateError(err, location)
+    }
   }
 
   setTokenAttribute(
@@ -285,17 +303,25 @@ export class SimulationEngine extends EngineBase {
     value: Value<ValueType, ValueFormat, true>,
     node: string,
   ): StateChangeResult {
-    const result = this.validateAndResolveValue(value, node)
-    const previous = this.getTokenAttribute(key, node)
-    if (isEqual(previous, result)) return { previous, changed: false }
-    this.simulatedResult.stateChange[key] = {
-      old: previous,
-      new: result,
+    const location: GraphErrorLocation = {
+      node,
+      input: { key, type: 'attributes' },
     }
-    this.simulatedResult.logs.push({
-      message: `Set token attribute ${key} to ${result.value}`,
-    })
-    return { previous, changed: true }
+    try {
+      const result = this.validateAndResolveValue(value)
+      const previous = this.getTokenAttribute(key, node)
+      if (isEqual(previous, result)) return { previous, changed: false }
+      this.simulatedResult.stateChange[key] = {
+        old: previous,
+        new: result,
+      }
+      this.simulatedResult.logs.push({
+        message: `Set token attribute ${key} to ${result.value}`,
+      })
+      return { previous, changed: true }
+    } catch (err) {
+      throw this.locateError(err, location)
+    }
   }
 
   setMetadata(
@@ -303,20 +329,28 @@ export class SimulationEngine extends EngineBase {
     value: string,
     node: string,
   ): MetadataChangeResult {
-    const previous = this.getMetadata(key, node)
-    if (previous.value === value) return { previous, changed: false }
-    this.simulatedResult.metadataChange[key] = {
-      old: previous,
-      new: {
-        type: 'string',
-        format: 'single',
-        value,
-      },
+    const location: GraphErrorLocation = {
+      node,
+      input: { key, type: 'metadata' },
     }
-    this.simulatedResult.logs.push({
-      message: `Set basic metadata ${key} to ${value}`,
-    })
-    return { previous, changed: true }
+    try {
+      const previous = this.getMetadata(key, node)
+      if (previous.value === value) return { previous, changed: false }
+      this.simulatedResult.metadataChange[key] = {
+        old: previous,
+        new: {
+          type: 'string',
+          format: 'single',
+          value,
+        },
+      }
+      this.simulatedResult.logs.push({
+        message: `Set basic metadata ${key} to ${value}`,
+      })
+      return { previous, changed: true }
+    } catch (err) {
+      throw this.locateError(err, location)
+    }
   }
 
   getExecutionInterface(nodeId: string): ExecutionInterface<AnyExecNode, true> {

@@ -206,7 +206,11 @@ export default function ActionEditor({
                     <FormItem>
                       <FormLabel>Name</FormLabel>
                       <FormControl>
-                        <Input {...field} className="w-full max-w-form-input" />
+                        <Input
+                          {...field}
+                          disabled={locked}
+                          className="w-full max-w-form-input"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -221,6 +225,7 @@ export default function ActionEditor({
                       <FormControl>
                         <Textarea
                           {...field}
+                          disabled={locked}
                           className="w-full max-w-form-input"
                         />
                       </FormControl>
