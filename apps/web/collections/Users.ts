@@ -8,6 +8,7 @@ export const Users: CollectionConfig = {
   auth: true,
   fields: [],
   upload: {
+    disableLocalStorage: true,
     staticDir: 'avatars',
     bulkUpload: false,
     imageSizes: [

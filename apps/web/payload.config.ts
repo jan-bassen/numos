@@ -56,6 +56,7 @@ export default buildConfig({
     vercelBlobStorage({
       collections: {
         media: true,
+        users: true,
       },
       // biome-ignore lint/style/noNonNullAssertion: <explanation>
       // biome-ignore lint/suspicious/noExtraNonNullAssertion: <explanation>
