@@ -7,12 +7,12 @@ import { toast } from 'sonner'
 import { childrenOffset } from './tree'
 
 export default function NewFolderListItem({
-  collectionId,
+  version,
   parentId,
   setNewFolder,
   level,
 }: {
-  collectionId: string
+  version: string
   parentId: string | null
   setNewFolder: (value: boolean) => void
   level: number
@@ -32,7 +32,7 @@ export default function NewFolderListItem({
       return
     }
     const folder: InsertFolder = {
-      collection: collectionId,
+      version: version,
       name: name,
       parent: parentId,
     }

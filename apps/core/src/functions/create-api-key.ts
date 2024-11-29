@@ -1,14 +1,42 @@
-import { GraphError } from '@repo/engine/errors/graph-error'
-import type { Handler } from 'aws-lambda'
-import DynamoDB from 'aws-sdk/clients/dynamodb'
+import { SuccessResponse } from '@/functions/utils/success-response'
+import {
+  type InternalHandler,
+  getHandlerFromInternal,
+} from './utils/handlers/internal-handler'
+import { apiKeyRequestSchema } from '@repo/shared/schemas/create-api-key-schema'
+import { generateApiKey } from '@/authorizers/generate-api-key'
+import type { ApiKeyEntry } from '@/types/ddb'
+import { putApiKey } from '@/ddb/put-api-key'
 
-export const handler: Handler = async (event, context) => {
-  const dynamodb = new DynamoDB()
-  const engine = new GraphError("Hello, World Number 2!", {node: "test"})
-
-  return {
-    statusCode: 200,
-    headers: { 'Content-Type': 'text/plain' },
-    body: JSON.stringify({ message: 'Hello, World Number 2!' }),
-  }
+type CreateApiKeyResult = {
+  id: string
+  clientSecret: string
 }
+
+const createApiKeyHandler: InternalHandler<
+  typeof apiKeyRequestSchema,
+  CreateApiKeyResult
+> = async ({ label, collection_id }) => {
+  const { id, clientSecret, encryptedKey, iv } = await generateApiKey()
+
+  const item: ApiKeyEntry = {
+    id,
+    collection: collection_id,
+    createdAt: new Date().toISOString(),
+    label: label,
+    encryptedKey,
+    iv,
+  }
+
+  await putApiKey(item)
+
+  return new SuccessResponse<CreateApiKeyResult>({
+    id,
+    clientSecret,
+  }).toResponse()
+}
+
+export const handler = getHandlerFromInternal(
+  createApiKeyHandler,
+  apiKeyRequestSchema,
+)

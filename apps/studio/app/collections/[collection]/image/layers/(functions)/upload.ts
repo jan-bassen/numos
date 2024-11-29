@@ -15,7 +15,7 @@ import { validImageExtensions, validImageTypes } from './file-types'
 import { toast } from 'sonner'
 
 export async function handleFileUpload(
-  collectionId: string,
+  version: string,
   folder: string | null,
   files: File[] | null,
   fileInputRef: RefObject<HTMLInputElement | null> | null,
@@ -30,7 +30,7 @@ export async function handleFileUpload(
     fileInputRef.current.files = null
   }
 
-  const res = await createLayerEntries(collectionId, folder, fileMap)
+  const res = await createLayerEntries(version, folder, fileMap)
   if (!res.ok) {
     toast.error(res.message)
     return
@@ -38,7 +38,7 @@ export async function handleFileUpload(
   const promises: Promise<string>[] = []
   for (const [id, file] of Object.entries(fileMap)) {
     try {
-      const promise = uploadFile('layers', collectionId, id, file)
+      const promise = uploadFile('layers', version, id, file)
       promises.push(promise)
     } catch (err) {
       if (err instanceof RestrictionError) {
@@ -167,7 +167,7 @@ const verifyFile = (
 }
 
 export async function createLayerEntries(
-  collectionId: string,
+  version: string,
   folder: string | null,
   files: Record<string, File>,
 ) {
@@ -187,7 +187,7 @@ export async function createLayerEntries(
       const { width, height } = await getImageDimensions(file)
       const layer: InsertLayer = {
         id,
-        collection: collectionId,
+        version: version,
         folder: folder,
         name: newName,
         type,

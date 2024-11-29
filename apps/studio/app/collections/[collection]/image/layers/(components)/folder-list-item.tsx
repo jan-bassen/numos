@@ -171,7 +171,7 @@ export default function FolderListItem({
         .filter((item) => item.kind === 'file')
         .map((item) => item.getAsFile())
         .filter((file) => file !== null)
-      handleFileUpload(folder.collection, folder.id, files, null)
+      handleFileUpload(folder.version, folder.id, files, null)
     }
   }
 
@@ -222,7 +222,7 @@ export default function FolderListItem({
               multiple
               onChange={(event) =>
                 handleFileUpload(
-                  folder.collection,
+                  folder.version,
                   folder.id,
                   Array.from(event.target?.files || []),
                   fileInputRef,
@@ -343,7 +343,7 @@ export default function FolderListItem({
         </ContextMenu>
         <AccordionContent className="px-0.5 pt-[calc(0.125rem-1px)] pb-0.5">
           <LayerFolderView
-            collectionId={folder.collection}
+            version={folder.version}
             tree={tree}
             folder={folder}
             newFolder={newFolder}

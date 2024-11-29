@@ -67,19 +67,19 @@ export async function deleteEmptyFolder(id: string): Promise<ReturnInfo> {
   return { ok: true, message: 'Successfully deleted' }
 }
 
-export async function getEmptyFolders(collectionId: string, path?: string) {
+export async function getEmptyFolders(version: string, path?: string) {
   const supabase = await createSupabaseServerComponentClient()
 
   const { data, error } = path
     ? await supabase
         .from('empty_folders')
         .select()
-        .eq('collection', collectionId)
+        .eq('version', version)
         .eq('path', path)
     : await supabase
         .from('empty_folders')
         .select()
-        .eq('collection', collectionId)
+        .eq('version', version)
         .is('path', null)
 
   if (error) {
@@ -89,33 +89,28 @@ export async function getEmptyFolders(collectionId: string, path?: string) {
 }
 
 export async function getEmptyFoldersAsFileObjects(
-  collectionId: string,
+  version: string,
   path?: string,
 ): Promise<EmptyFolderObject[]> {
-  const folders = await getEmptyFolders(collectionId, path)
+  const folders = await getEmptyFolders(version, path)
 
   return folders.map((folder) => ({
     id: folder.id,
     name: folder.label,
-    path: folder.path
-      ? `${folder.collection}/${folder.path}`
-      : folder.collection,
+    path: folder.path ? `${folder.version}/${folder.path}` : folder.version,
     fullPath: folder.path
-      ? `${folder.collection + folder.path}/${folder.label}`
-      : `${folder.collection}/${folder.label}`,
+      ? `${folder.version + folder.path}/${folder.label}`
+      : `${folder.version}/${folder.label}`,
     folderPath: folder.path ? `${folder.path}/${folder.label}` : folder.label,
     type: 'empty-folder',
   }))
 }
 
 export async function getCurrentEmptyFolder(
-  collectionId: string,
+  version: string,
   currentPath: string,
 ): Promise<EmptyFolder | undefined> {
   const supabase = await createSupabaseServerComponentClient()
-
-  console.log(currentPath)
-  console.log(collectionId)
 
   const path = currentPath.split('/').slice(0, -1).join('/') || null
   const label = currentPath.split('/').slice(-1)[0]
@@ -128,7 +123,7 @@ export async function getCurrentEmptyFolder(
     const { data, error } = await supabase
       .from('empty_folders')
       .select()
-      .eq('collection', collectionId)
+      .eq('version', version)
       .eq('label', label)
       .is('path', null)
 
@@ -140,7 +135,7 @@ export async function getCurrentEmptyFolder(
   const { data, error } = await supabase
     .from('empty_folders')
     .select()
-    .eq('collection', collectionId)
+    .eq('version', version)
     .eq('label', label)
     .eq('path', path)
 

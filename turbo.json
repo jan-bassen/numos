@@ -3,7 +3,8 @@
   "ui": "tui",
   "tasks": {
     "@repo/engine#build": {
-      "dependsOn": []
+      "dependsOn": ["@repo/shared#build"],
+      "outputs": ["dist/**"]
     },
     "core#deploy": {
       "cache": false,
@@ -12,10 +13,13 @@
     },
     "core#build": {
       "cache": false,
-      "dependsOn": ["^build"]
+      "outputs": ["dist/**"]
+    },
+    "core#test": {
+      "cache": false
     },
     "studio#build": {
-      "dependsOn": ["@repo/engine#build", "^build"],
+      "dependsOn": ["@repo/engine#build", "@repo/shared#build"],
       "env": [
         "NEXT_PUBLIC_POSTHOG_HOST",
         "NEXT_PUBLIC_POSTHOG_KEY",
@@ -44,7 +48,7 @@
       "inputs": ["$TURBO_DEFAULT$", ".env*"]
     },
     "web#build": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["^build", "@repo/shared#build"],
       "env": [
         "NEXT_PUBLIC_POSTHOG_HOST",
         "NEXT_PUBLIC_POSTHOG_KEY",

@@ -1,5 +1,6 @@
 import { desc, min } from 'drizzle-orm'
 import {
+  foreignKey,
   index,
   integer,
   jsonb,
@@ -12,7 +13,7 @@ import {
   uuid,
   varchar,
 } from 'drizzle-orm/pg-core'
-import { z } from 'zod'
+import { array, z } from 'zod'
 
 //TODO: How to track current version without recursive dependency?
 
@@ -26,8 +27,8 @@ export const collections = pgTable(
     studio_id: uuid('studio_id').notNull().unique(),
     key: varchar('slug').notNull().unique(),
     created_at: timestamp('deployed_at').defaultNow(),
-    chain: integer('chain_id').notNull(),
-    address: varchar('address').notNull(),
+    chain: integer('chain_id').notNull(), //Verify
+    address: varchar('address').notNull(), //Verify
   },
   (table) => ({
     studio_id: uniqueIndex('studio_id_idx').on(table.studio_id),
@@ -49,7 +50,7 @@ export const deployments = pgTable(
     minor: integer('minor').notNull(),
     patch: integer('patch').notNull(),
     created_at: timestamp('created_at').defaultNow(),
-    image_graph: jsonb('image_graph').notNull(),
+    image_graph: jsonb('image_graph').notNull(), //Verify
   },
   (table) => ({
     collection: index('deployment_collection_idx').on(table.collection),
@@ -69,7 +70,7 @@ export const tokens = pgTable(
     token_id: integer('token_id').notNull(),
     name: text('name').notNull(),
     description: text('description').notNull(),
-    attributes: jsonb('attributes').notNull(),
+    attributes: jsonb('attributes').notNull(), //Verify
   },
   (table) => ({
     collection: index('token_collection_idx').on(table.collection),
@@ -100,9 +101,9 @@ export const attributes = pgTable(
     deployment: serial('deployment')
       .notNull()
       .references(() => deployments.id),
-    type: attributeType('type').notNull(),
+    type: attributeType('type').notNull(), //Verify
     description: text('description'),
-    settings: jsonb('settings'),
+    settings: jsonb('settings'), //Verify
   },
   (table) => ({
     key: index('attribute_key_idx').on(table.key),
@@ -121,7 +122,7 @@ export const actions = pgTable(
     deployment: serial('deployment')
       .notNull()
       .references(() => deployments.id),
-    graph: jsonb('graph').notNull(),
+    graph: jsonb('graph').notNull(), //Verify
     description: text('description'),
   },
   (table) => ({
@@ -136,12 +137,12 @@ export const apiTriggers = pgTable(
   'api_triggers',
   {
     id: serial('id').primaryKey(),
-    key: varchar('key').notNull(),
+    key: varchar('key').notNull(), //Verify
     created_at: timestamp('created_at').defaultNow(),
     action: serial('action')
       .notNull()
       .references(() => actions.id),
-    parameters: jsonb('parameters'),
+    parameters: jsonb('parameters'), //Verify
   },
   (table) => ({
     key: index('api_trigger_key_idx').on(table.key),
@@ -188,12 +189,62 @@ export const scheduleTriggers = pgTable(
       .notNull()
       .references(() => actions.id),
     type: scheduleEnum('type').notNull(),
-    schedule: varchar('schedule').notNull(),
-    start_at: timestamp('start_at'),
-    end_at: timestamp('end_at'),
+    schedule: varchar('schedule').notNull(), //Verify
+    start_at: timestamp('start_at'), //Verify
+    end_at: timestamp('end_at'), //Verify
   },
   (table) => ({
     aws_id: uniqueIndex('aws_schedule_id_idx').on(table.aws_id),
     actions: index('time_trigger_action_idx').on(table.action),
+  }),
+)
+
+export const folders = pgTable(
+  'folders',
+  {
+    id: serial('id').primaryKey(),
+    studio_id: uuid('studio_id').notNull().unique(),
+    deployment: serial('deployment')
+      .notNull()
+      .references(() => deployments.id),
+    name: varchar('name').notNull(),
+    parent: serial('parent'),
+    created_at: timestamp('created_at').defaultNow(),
+  },
+  (table) => {
+    return {
+      deployment: index('folders_deployment_idx').on(table.deployment),
+      parent: index('folders_parent_idx').on(table.parent),
+      parentReference: foreignKey({
+        columns: [table.parent],
+        foreignColumns: [table.id],
+        name: 'folders_parent_fkey',
+      }),
+    }
+  },
+)
+
+export const layers = pgTable(
+  'layers',
+  {
+    id: serial('id').primaryKey(),
+    studio_id: uuid('studio_id').notNull().unique(),
+    deployment: serial('deployment')
+      .notNull()
+      .references(() => deployments.id),
+    folder: serial('folder')
+      .notNull()
+      .references(() => folders.id),
+    name: varchar('name').notNull(),
+    type: varchar('type').notNull(),
+    bytes: integer('bytes').notNull(),
+    width: integer('width').notNull(),
+    height: integer('height').notNull(),
+    created_at: timestamp('created_at').defaultNow(),
+    tags: varchar('tags').array().default([]),
+  },
+  (table) => ({
+    deployment: index('layers_deployment_idx').on(table.deployment),
+    folder: index('layers_folder_idx').on(table.folder),
   }),
 )
