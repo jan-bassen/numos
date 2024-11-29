@@ -20,7 +20,7 @@ import {
 import { isArray } from 'lodash'
 
 export default function LayerFolderView({
-  collectionId,
+  version,
   tree,
   folder,
   newFolder,
@@ -30,7 +30,7 @@ export default function LayerFolderView({
   level,
   context,
 }: {
-  collectionId: string
+  version: string
   tree: LayerTree
   folder: ResolvedFolder | null
   newFolder: boolean
@@ -77,7 +77,7 @@ export default function LayerFolderView({
     <div ref={ref} className="space-y-0.5">
       {newFolder && (
         <NewFolderListItem
-          collectionId={collectionId}
+          version={version}
           parentId={id}
           setNewFolder={setNewFolder}
           level={level}

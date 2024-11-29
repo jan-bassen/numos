@@ -7,6 +7,7 @@ export default async function LayerPage(props: {
 }) {
   const params = await props.params
   const collection = await getCollectionFromSlug(params.collection)
-  const tree = await getLayerTree(collection.id)
+  if (!collection.editable_version) return null
+  const tree = await getLayerTree(collection.editable_version)
   return <LayerTreeView collection={collection} tree={tree} />
 }

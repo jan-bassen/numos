@@ -1,4 +1,4 @@
-import type { Result } from '@/types/result.types'
+import type { Result } from '@repo/shared/types/result'
 import 'server-only'
 import type { Abi } from 'viem'
 import { chains, type Address, type Chain } from './client'

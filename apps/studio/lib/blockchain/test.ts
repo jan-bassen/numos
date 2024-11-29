@@ -2,7 +2,7 @@
 
 import { getAbi } from './abi'
 import { type Address, type Chain, getBlockchainClient } from './client'
-import type { Result } from '@/types/result.types'
+import type { Result } from '@repo/shared/types/result'
 
 type isERC721Response = Result<boolean>
 

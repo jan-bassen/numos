@@ -20,8 +20,10 @@ import { createSupabaseServiceClient } from '@repo/engine/storage/service-client
 import sharp from 'sharp'
 import type { NodeType } from '@repo/engine/types/node-types'
 import { nodeLogic } from '@repo/engine/nodes/nodetypes'
-import { GraphErrorLocation, GraphError } from '@repo/engine/errors/graph-error'
-import { NodeError } from '@repo/engine/errors/node-error.js'
+import {
+  type GraphErrorLocation,
+  GraphError,
+} from '@repo/engine/errors/graph-error'
 
 export class EngineBase {
   constructor(
@@ -67,9 +69,14 @@ export class EngineBase {
         node: nodeId,
         component: { key, type: 'control' },
       })
-        try { return this.validateAndResolveValue(value) } catch (err) {
-         if (err instanceof Error) {
-      throw new GraphError(err?.message || "", { node: nodeId, component: { key, type: 'control' }, })
+    try {
+      return this.validateAndResolveValue(value)
+    } catch (err) {
+      if (err instanceof Error) {
+        throw new GraphError(err?.message || '', {
+          node: nodeId,
+          component: { key, type: 'control' },
+        })
       }
       throw err
     }
@@ -85,9 +92,14 @@ export class EngineBase {
         node: nodeId,
         component: { key, type: 'input' },
       })
-    try { return this.validateAndResolveValue(value) } catch (err) {
-         if (err instanceof Error) {
-      throw new GraphError(err?.message || "", { node: nodeId, component: { key, type: 'input' }, })
+    try {
+      return this.validateAndResolveValue(value)
+    } catch (err) {
+      if (err instanceof Error) {
+        throw new GraphError(err?.message || '', {
+          node: nodeId,
+          component: { key, type: 'input' },
+        })
       }
       throw err
     }
@@ -125,7 +137,7 @@ export class EngineBase {
     const { data: layer, error } = await supabaseService.storage
       .from('layers')
       .download(path)
-      
+
     if (error) {
       console.error(error)
       throw new GraphError(`Error downloading layer: ${error.message}`, {
@@ -142,13 +154,11 @@ export class EngineBase {
     }
   }
 
-  validateAndResolveValue(
-    value: Value<ValueType, ValueFormat, true>
-  ) {
-      const { validated, error } = validateValue<false>(value, false)
-      if (error) throw new Error(error.message)
-      const resolvedValue = resolveObjectArrayValue(validated)
-      return resolvedValue
+  validateAndResolveValue(value: Value<ValueType, ValueFormat, true>) {
+    const { validated, error } = validateValue<false>(value, false)
+    if (error) throw new Error(error.message)
+    const resolvedValue = resolveObjectArrayValue(validated)
+    return resolvedValue
   }
 
   locateError(error: unknown, location: GraphErrorLocation): GraphError {

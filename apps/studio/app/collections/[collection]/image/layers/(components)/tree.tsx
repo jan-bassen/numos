@@ -94,6 +94,9 @@ export default function LayerTreeView({
     )
   }, [folderState, collection.id])
 
+  const version = collection.editable_version
+  if (!version) return null
+
   const resetSelection = () => {
     setSelection({ folder: [], layer: [] })
   }
@@ -275,11 +278,12 @@ export default function LayerTreeView({
 
     //Handle external drop
     if (e.dataTransfer?.items.length > 0) {
+      if (!collection.editable_version) throw new Error('No version')
       const files = Array.from(e.dataTransfer?.items || [])
         .filter((item) => item.kind === 'file')
         .map((item) => item.getAsFile())
         .filter((file) => file !== null)
-      handleFileUpload(collection.id, null, files, null)
+      handleFileUpload(collection.editable_version, null, files, null)
     }
   }
 
@@ -323,14 +327,15 @@ export default function LayerTreeView({
           className="hidden"
           ref={fileInputRef}
           multiple
-          onChange={(event) =>
+          onChange={(event) => {
+            if (!collection.editable_version) throw new Error('No version')
             handleFileUpload(
-              collection.id,
+              collection.editable_version,
               null,
               Array.from(event.target?.files || []),
               fileInputRef,
             )
-          }
+          }}
         />
         <ContextMenu>
           <ContextMenuTrigger
@@ -361,7 +366,7 @@ export default function LayerTreeView({
               </div>
             ) : (
               <LayerFolderView
-                collectionId={collection.id}
+                version={version}
                 tree={tree}
                 folder={null}
                 newFolder={newFolder}

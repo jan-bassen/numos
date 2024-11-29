@@ -14,7 +14,7 @@ export default async function Collection(props: {
   const [attributes, graph, layerTree] = await Promise.all([
     getAllAttributes(collection.editable_version.id),
     getImageGraph(collection.editable_version.id),
-    getLayerTree(collection.id),
+    getLayerTree(collection.editable_version.id),
   ])
 
   return (
