@@ -18,6 +18,7 @@ import type {
 } from '@repo/engine/types/graph-types'
 
 import type { JSX } from 'react'
+import type { ValidationIssueInfo } from '@repo/engine/types/validation-types'
 
 // Type overrides for specific columns:
 export type Database = MergeDeep<
@@ -46,7 +47,7 @@ export type Database = MergeDeep<
             settings?: ValueSettings | null
           }
           Update: {
-            type: ValueType
+            type?: ValueType
             settings?: ValueSettings | null
           }
         }
@@ -88,6 +89,17 @@ export type Database = MergeDeep<
             inputs?: OLDSavedInputMap | null
             outputs?: OLDSavedOutputMap
             controls?: OLDSavedControlMap
+          }
+        }
+        action_issues: {
+          Row: {
+            info: ValidationIssueInfo
+          }
+          Insert: {
+            info: ValidationIssueInfo
+          }
+          Update: {
+            info: ValidationIssueInfo
           }
         }
       }
@@ -136,6 +148,9 @@ export type UpdateActionNode = TablesUpdate<'action_nodes'>
 export type ActionConnection = Tables<'action_connections'>
 export type InsertActionConnection = TablesInsert<'action_connections'>
 export type UpdateActionConnection = TablesUpdate<'action_connections'>
+export type ActionIssue = Tables<'action_issues'>
+export type InsertActionIssue = TablesInsert<'action_issues'>
+export type UpdateActionIssue = TablesUpdate<'action_issues'>
 
 export type Layer = Tables<'layers'>
 export type InsertLayer = TablesInsert<'layers'>
@@ -243,6 +258,7 @@ export type NavItem = {
   icon: JSX.Element
 }
 
+//TODO: Move all References to shared
 export type ReturnInfo = {
   ok: boolean
   message: string | null

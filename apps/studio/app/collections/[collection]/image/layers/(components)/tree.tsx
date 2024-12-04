@@ -2,7 +2,13 @@
 
 import type { Collection, LayerTree } from '@/types/database.types'
 import { type DragEvent, useEffect, useRef, useState } from 'react'
-import Header from '@/components/page/header'
+import {
+  Header,
+  HeaderActions,
+  HeaderContent,
+  HeaderMain,
+  HeaderTitle,
+} from '@/components/page/header'
 import { Button, buttonVariants } from '@repo/ui/components/ui/button'
 import {
   PiFolderPlusStroke,
@@ -27,6 +33,7 @@ import {
 } from '@/lib/supabase/db/layers'
 import { toast } from 'sonner'
 import Main from '@/components/page/main'
+import { Page } from '@/components/page/page'
 
 // TODO: Clean up
 
@@ -298,26 +305,30 @@ export default function LayerTreeView({
   }
 
   return (
-    <>
-      <Header
-        title="Layers"
-        subtitle="Layers make up the images of your tokens. For example they can be backgrounds or represent specific traits."
-      >
-        <Button
-          variant={'outline'}
-          className="shrink-0 gap-2"
-          onClick={() => setNewFolder(true)}
-        >
-          <PiFolderPlusStroke className="size-4" />
-          New Folder
-        </Button>
-        <label
-          htmlFor="file-input"
-          className={cn(buttonVariants({}), 'cursor-pointer gap-2')}
-        >
-          <PiPhotoImageArrowUpStroke className="size-4" />
-          Upload
-        </label>
+    <Page>
+      <Header>
+        <HeaderContent>
+          <HeaderMain>
+            <HeaderTitle>Layers</HeaderTitle>
+          </HeaderMain>
+          <HeaderActions>
+            <Button
+              variant={'outline'}
+              className="shrink-0 gap-2"
+              onClick={() => setNewFolder(true)}
+            >
+              <PiFolderPlusStroke className="size-4" />
+              New Folder
+            </Button>
+            <label
+              htmlFor="file-input"
+              className={cn(buttonVariants({}), 'cursor-pointer gap-2')}
+            >
+              <PiPhotoImageArrowUpStroke className="size-4" />
+              Upload
+            </label>
+          </HeaderActions>
+        </HeaderContent>
       </Header>
       <Main className="p-4">
         <input
@@ -412,6 +423,6 @@ export default function LayerTreeView({
           </ContextMenuContent>
         </ContextMenu>
       </Main>
-    </>
+    </Page>
   )
 }

@@ -1,85 +1,212 @@
 import NavBreadcrumbs from '@/components/navigation/nav-breadcrumbs'
-import { Badge, type BadgeVariant } from '@repo/ui/components/ui/badge'
+import { Badge, type BadgeProps } from '@repo/ui/components/ui/badge'
 import { cn } from '@repo/ui/lib/utils'
-import type { ReactNode } from 'react'
+import type { ComponentProps } from 'react'
 import { H1 } from './headings'
 import Link from 'next/link'
-import { TabsList, TabsTrigger } from '@repo/ui/components/ui/tabs'
+import {
+  TabsList,
+  type TabsListProps,
+  TabsTrigger,
+  type TabsTriggerProps,
+} from '@repo/ui/components/ui/tabs'
+import { Button } from '@repo/ui/components/ui/button'
+import { PiThreeDotsHorizontal } from '@repo/ui/icons/pika'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  type DropdownMenuContentProps,
+  DropdownMenuTrigger,
+} from '@repo/ui/components/ui/dropdown-menu'
+import { Input, type InputProps } from '@repo/ui/components/ui/input'
 
-export type TabItems = {
-  value: string
-  label: string
-  Icon: (props: React.SVGProps<SVGSVGElement>) => JSX.Element
-}
-
-export default function Header({
-  title,
-  subtitle,
-  badge,
-  icon,
-  tabs,
+export function Header({
   children,
   className,
-  showBreadcrumbs = true,
-}: {
-  title: string
-  subtitle?: string | null
-  badge?: { text: string; variant?: BadgeVariant; link?: string }
-  icon?: ReactNode
-  tabs?: TabItems[]
-  children?: ReactNode
-  className?: string
-  showBreadcrumbs?: boolean
-}) {
+  hideBreadcrumbs,
+  ...props
+}: ComponentProps<'header'> & { hideBreadcrumbs?: boolean }) {
   return (
     <header
       className={cn(
-        'flex h-fit w-full flex-col gap-4 border-border border-b p-6 lg:flex-col',
-        tabs && 'pb-0',
+        'flex h-fit w-full flex-col gap-4 border-border border-b p-6 has-[[role=tablist]]:pb-0 lg:flex-col',
+        className,
+      )}
+      {...props}
+    >
+      <NavBreadcrumbs
+        className={cn('pl-1.5 md:flex', hideBreadcrumbs && 'hidden md:hidden')}
+      />
+      {children}
+    </header>
+  )
+}
+
+export function HeaderContent({
+  children,
+  className,
+  ...props
+}: ComponentProps<'div'>) {
+  return (
+    <div
+      className={cn(
+        'flex w-full flex-col justify-between gap-4 sm:flex-row sm:gap-2',
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </div>
+  )
+}
+
+export function HeaderMain({
+  children,
+  className,
+  ...props
+}: ComponentProps<'div'>) {
+  return (
+    <div className={cn('flex w-full items-center gap-3', className)} {...props}>
+      {children}
+    </div>
+  )
+}
+
+export function HeaderIcon({
+  children,
+  className,
+  ...props
+}: ComponentProps<'div'>) {
+  return (
+    <div className={cn('aspect-square size-10 shrink-0', className)} {...props}>
+      {children}
+    </div>
+  )
+}
+
+export function HeaderTitle({
+  children,
+  className,
+  ...props
+}: ComponentProps<'h1'>) {
+  return (
+    <H1
+      className={cn(
+        'line-clamp-1 h-11 text-ellipsis border-0 px-1 pt-0.5 font-bold text-4xl',
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </H1>
+  )
+}
+
+export function HeaderDropdown({
+  children,
+  className,
+  ...props
+}: DropdownMenuContentProps) {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant={'ghost'}
+          size={'iconMedium'}
+          className="-translate-x-1 translate-y-0.5"
+        >
+          <PiThreeDotsHorizontal className="size-5" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent
+        side="bottom"
+        align="start"
+        className={cn('min-w-56 rounded-lg', className)}
+        {...props}
+      >
+        {children}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+
+export function HeaderBadge({
+  href,
+  className,
+  variant = 'secondary',
+  ...props
+}: BadgeProps & { href?: string }) {
+  return href ? (
+    <Link href={href}>
+      <Badge className={cn('mt-1', className)} variant={variant} {...props}>
+        {props.children}
+      </Badge>
+    </Link>
+  ) : (
+    <Badge className={cn('mt-1', className)} variant={variant} {...props}>
+      {props.children}
+    </Badge>
+  )
+}
+
+export function HeaderDescription({
+  children,
+  className,
+  ...props
+}: ComponentProps<'p'>) {
+  return (
+    <p className={cn('text-muted-foreground text-sm', className)} {...props}>
+      {children}
+    </p>
+  )
+}
+
+export function HeaderTabBar({ className, children, ...props }: TabsListProps) {
+  return (
+    <TabsList
+      className={cn('h-9 w-fit gap-0 bg-transparent p-0', className)}
+      {...props}
+    >
+      {children}
+    </TabsList>
+  )
+}
+
+export function HeaderTabBarItem({
+  className,
+  children,
+  icon,
+  ...props
+}: TabsTriggerProps & {
+  icon?: (props: React.SVGProps<SVGSVGElement>) => JSX.Element
+}) {
+  return (
+    <TabsTrigger
+      className={cn(
+        'data-[state=active]:!border-b-2 h-full gap-1.5 rounded-none border-0 border-primary data-[state=active]:shadow-none',
+        className,
+      )}
+      {...props}
+    >
+      {icon?.({ className: 'my-auto size-4' })}
+      {children}
+    </TabsTrigger>
+  )
+}
+
+export function HeaderActions({
+  children,
+  className,
+  ...props
+}: ComponentProps<'div'>) {
+  return (
+    <div
+      className={cn(
+        'flex w-fit shrink-0 items-end justify-start gap-2 md:justify-end',
         className,
       )}
     >
-      <NavBreadcrumbs
-        className={cn('hidden pl-1.5', showBreadcrumbs && 'md:flex')}
-      />
-      <div className="flex w-full flex-col justify-between gap-4 sm:flex-row sm:gap-2">
-        <div className="flex items-center gap-3">
-          {icon && <div className="aspect-square h-full shrink-0">{icon}</div>}
-          <H1 className="line-clamp-1 h-11 text-ellipsis border border-background px-1 pt-0.5 font-bold text-4xl">
-            {title}
-          </H1>
-          {badge ? (
-            badge.link ? (
-              <Link href={badge.link}>
-                <Badge variant={badge?.variant} className="mt-1">
-                  {badge?.text}
-                </Badge>
-              </Link>
-            ) : (
-              <Badge variant={badge?.variant} className="mt-1">
-                {badge?.text}
-              </Badge>
-            )
-          ) : null}
-        </div>
-        <div className="flex w-fit items-end justify-start gap-2 md:justify-end">
-          {children}
-        </div>
-      </div>
-      {tabs && (
-        <TabsList className="h-9 w-fit gap-0 bg-transparent p-0">
-          {tabs.map((tab) => (
-            <TabsTrigger
-              key={tab.value}
-              value={tab.value}
-              className="data-[state=active]:!border-b-2 h-full gap-1.5 rounded-none border-0 border-primary data-[state=active]:shadow-none"
-            >
-              {tab.Icon({ className: 'my-auto h-4 w-4' })}
-              {tab.label}
-            </TabsTrigger>
-          ))}
-        </TabsList>
-      )}
-    </header>
+      {children}
+    </div>
   )
 }

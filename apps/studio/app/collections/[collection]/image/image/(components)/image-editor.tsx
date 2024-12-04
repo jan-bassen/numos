@@ -3,7 +3,7 @@
 import type { Attribute, LayerTree, Version } from '@/types/database.types'
 import type { AutoSaveFunctions, Editor } from '@/types/editor.types'
 import type { SavedGraph } from '@repo/engine/types/graph-types'
-import NodeEditor from '../../../../../../components/node-editor/editor/base-editor'
+import NodeEditor from '@/components/node-editor/editor/base-editor'
 import { useState } from 'react'
 import type { SimulationCheck } from '@/lib/errors'
 import {

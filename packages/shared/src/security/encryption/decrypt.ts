@@ -1,9 +1,8 @@
 import {
-  createCipheriv,
   createDecipheriv,
   createHash,
-  randomBytes,
-} from 'node:crypto'
+  // biome-ignore lint/style/useNodejsImportProtocol: <explanation>
+} from 'crypto'
 
 export function decrypt(aesKey: string, data: string, iv: string): string {
   // Ensure the client secret is exactly 32 bytes (AES-256 key requirement)

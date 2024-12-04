@@ -4,19 +4,22 @@ import AttributeCard from '@/app/collections/[collection]/attributes/(components
 import { NewAttributeDialog } from '@/app/collections/[collection]/attributes/(components)/new-attribute-dialog'
 import CardRow from '@/components/layouts/simple/card-row'
 import Section from '@/components/layouts/simple/section'
-import Header from '@/components/page/header'
+import {
+  Header,
+  HeaderActions,
+  HeaderContent,
+  HeaderIcon,
+  HeaderMain,
+  HeaderTitle,
+} from '@/components/page/header'
 import Main from '@/components/page/main'
 import type { BadgeVariant } from '@repo/ui/components/ui/badge'
 import { getLatestActions } from '@/lib/supabase/db/actions'
 import { getLatestAttributes } from '@/lib/supabase/db/attributes'
-import {
-  deleteCollection,
-  getExtendedCollectionFromSlug,
-} from '@/lib/supabase/db/collections'
+import { getExtendedCollectionFromSlug } from '@/lib/supabase/db/collections'
 import { SupabaseImage } from '@/components/supabase/supabase-image'
-import DeleteButton from '@/components/forms/buttons/delete-button'
-import { handleReturnInfo } from '@repo/ui/lib/utils'
 import DeleteCollectionButton from './(components)/delete-collection-button'
+import { Page } from '@/components/page/page'
 
 export default async function Collection(props: {
   params: Promise<{ collection: string }>
@@ -31,24 +34,27 @@ export default async function Collection(props: {
   const attributes = await getLatestAttributes(version.id, 3)
   const actions = await getLatestActions(version.id, 3)
   return (
-    <>
-      <Header
-        title={collection.name || 'Unnamed Collection'}
-        subtitle={collection.description || ''}
-        /* badge={badge} */
-        icon={
-          collection?.image ? (
-            <SupabaseImage
-              height={48}
-              width={48}
-              className="aspect-square rounded-md object-cover"
-              alt="Collection Image"
-              src={`collection-images/${collection.image}`}
-            />
-          ) : null
-        }
-      >
-        <DeleteCollectionButton collection={collection.id} />
+    <Page>
+      <Header>
+        <HeaderContent>
+          <HeaderMain>
+            {collection?.image && (
+              <HeaderIcon>
+                <SupabaseImage
+                  height={48}
+                  width={48}
+                  className="aspect-square rounded-md object-cover"
+                  alt="Collection Image"
+                  src={`collection-images/${collection.image}`}
+                />
+              </HeaderIcon>
+            )}
+            <HeaderTitle>{collection.name || 'Unnamed Collection'}</HeaderTitle>
+          </HeaderMain>
+          <HeaderActions>
+            <DeleteCollectionButton collection={collection.id} />
+          </HeaderActions>
+        </HeaderContent>
       </Header>
       <Main>
         <Section
@@ -116,6 +122,6 @@ export default async function Collection(props: {
           />
         </Section>
       </Main>
-    </>
+    </Page>
   )
 }

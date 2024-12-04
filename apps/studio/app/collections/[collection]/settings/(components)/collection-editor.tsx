@@ -25,11 +25,32 @@ import {
 } from '@/lib/supabase/db/collections'
 import { useRouter } from 'next/navigation'
 import { collectionSchema } from '@/lib/schemas/collection-schema'
-import Header from '@/components/page/header'
+import {
+  Header,
+  HeaderActions,
+  HeaderContent,
+  HeaderMain,
+  HeaderTitle,
+} from '@/components/page/header'
 import { EditableImage } from '@/components/supabase/editable-image'
 import Main from '@/components/page/main'
 import SegmentedLayout from '@/components/layouts/segmented/segmented-layout'
-import LockButton from '@/components/forms/buttons/lock-button'
+import LockButton from '@/components/forms/buttons/lock-button-legacy'
+import ApiKeys from './api-keys'
+import { Page } from '@/components/page/page'
+
+const sampleData = [
+  {
+    id: '45cf5349-8e56-4bce-8a0a-b89ee84ad0d0',
+    created: '2023-01-01T00:00:00.000Z',
+    label: 'Website',
+  },
+  {
+    id: '9df7aeb5-c761-4295-b9d3-f70b68083e4b',
+    created: '2023-01-01T00:00:00.000Z',
+    label: 'Backend',
+  },
+]
 
 export default function CollectionEditor({
   collection,
@@ -83,17 +104,21 @@ export default function CollectionEditor({
   }
 
   return (
-    <>
-      <Header
-        title={collection.name || 'Unnamed Attribute'}
-        subtitle={collection.description || ''}
-      >
-        <LockButton
-          element="collection-settings"
-          id={collection.id}
-          locked={locked}
-          setLocked={setLocked}
-        />
+    <Page>
+      <Header>
+        <HeaderContent>
+          <HeaderMain>
+            <HeaderTitle>{collection.name || 'Unnamed Attribute'}</HeaderTitle>
+          </HeaderMain>
+          <HeaderActions>
+            <LockButton
+              element="collection-settings"
+              id={collection.id}
+              locked={locked}
+              setLocked={setLocked}
+            />
+          </HeaderActions>
+        </HeaderContent>
       </Header>
       <Main>
         <Form {...form}>
@@ -205,10 +230,16 @@ export default function CollectionEditor({
                   )}
                 />
               </FormSegment> */}
+              <Segment
+                title="API-Keys"
+                description="Manage the API-Keys for the collection. These keys can be used to access the collection via the API."
+              >
+                <ApiKeys locked={locked} />
+              </Segment>
             </SegmentedLayout>
           </form>
         </Form>
       </Main>
-    </>
+    </Page>
   )
 }

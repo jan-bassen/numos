@@ -56,22 +56,26 @@ import {
 } from '@repo/ui/components/ui/select'
 import { toast } from 'sonner'
 import { dataTypes } from '@/lib/supabase/constants/datatypes'
-import {
-  listOptionMap,
-  listOptions,
-} from '../../../../../../lib/schemas/attribute-schema'
+import { listOptionMap, listOptions } from '@/lib/schemas/attribute-schema'
 import { removeActionParameterFromLocalForm } from '../../(functions)/utils'
 import CronInput from './cron-input'
 import slugify from 'slugify'
 import type { ActionTrigger } from '@/types/actions.types'
 import Main from '@/components/page/main'
-import Header from '@/components/page/header'
+import {
+  Header,
+  HeaderActions,
+  HeaderContent,
+  HeaderMain,
+  HeaderTitle,
+} from '@/components/page/header'
 import SegmentedLayout from '@/components/layouts/segmented/segmented-layout'
-import LockButton from '@/components/forms/buttons/lock-button'
+import LockButton from '@/components/forms/buttons/lock-button-legacy'
 import ResetButton from '@/components/forms/buttons/reset-button'
 import DeleteButton from '@/components/forms/buttons/delete-button'
 import SaveButton from '@/components/forms/buttons/save-button'
 import { Textarea } from '@repo/ui/components/ui/textarea'
+import { Page } from '@/components/page/page'
 
 function getDefaultValuesFromAction(
   action: Action,
@@ -150,30 +154,34 @@ export default function ActionEditor({
   }
 
   return (
-    <>
-      <Header
-        title={action.name || 'Unnamed Attribute'}
-        subtitle={action.description || ''}
-      >
-        <DeleteButton
-          title="action"
-          onDelete={() => {
-            deleteAction(action.id, collectionSlug)
-          }}
-        />
-        {form.formState.isDirty ? (
-          <>
-            <ResetButton onClick={() => onReset()} />
-            <SaveButton type="submit" form="action-form" />
-          </>
-        ) : (
-          <LockButton
-            element="action"
-            id={action.id}
-            locked={locked}
-            setLocked={setLocked}
-          />
-        )}
+    <Page>
+      <Header>
+        <HeaderContent>
+          <HeaderMain>
+            <HeaderTitle>{action.name || 'Unnamed Attribute'}</HeaderTitle>
+          </HeaderMain>
+          <HeaderActions>
+            <DeleteButton
+              title="action"
+              onDelete={() => {
+                deleteAction(action.id, collectionSlug)
+              }}
+            />
+            {form.formState.isDirty ? (
+              <>
+                <ResetButton onClick={() => onReset()} />
+                <SaveButton type="submit" form="action-form" />
+              </>
+            ) : (
+              <LockButton
+                element="action"
+                id={action.id}
+                locked={locked}
+                setLocked={setLocked}
+              />
+            )}
+          </HeaderActions>
+        </HeaderContent>
       </Header>
       <Main>
         <Form {...form}>
@@ -655,6 +663,6 @@ export default function ActionEditor({
           </form>
         </Form>
       </Main>
-    </>
+    </Page>
   )
 }

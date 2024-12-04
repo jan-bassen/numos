@@ -1,0 +1,14 @@
+import { getAttributeBySlugs } from '@/lib/supabase/db/attributes/read'
+import { AttributeProvider } from './context'
+
+export default async function Attribute({
+  params,
+  children,
+}: {
+  params: Promise<{ collection: string; attribute: string }>
+  children: React.ReactNode
+}) {
+  const { collection: collectionSlug, attribute: attributeSlug } = await params
+  const attribute = await getAttributeBySlugs(collectionSlug, attributeSlug)
+  return <AttributeProvider attribute={attribute}>{children}</AttributeProvider>
+}

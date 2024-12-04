@@ -1,11 +1,14 @@
 'use client'
 
 import {
+  PiCheckTickSquareStroke,
   PiLinkHorizontalStroke,
+  PiListCheckStroke,
   PiRocketShipSolid,
   PiRocketShipStroke,
   PiSettings02Solid,
   PiSettings02Stroke,
+  PiCheckTickSquareSolid,
 } from '@repo/ui/icons/pika'
 import {
   SidebarGroup,
@@ -28,6 +31,14 @@ const items = [
     },
   }, */
   {
+    title: 'Testing',
+    slug: 'testing',
+    icons: {
+      stroke: PiCheckTickSquareStroke,
+      fill: PiCheckTickSquareSolid,
+    },
+  },
+  {
     title: 'Settings',
     slug: 'settings',
     icons: {
@@ -43,7 +54,7 @@ export function CollectionSettings({
   const segments = useSelectedLayoutSegments()
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Settings</SidebarGroupLabel>
+      <SidebarGroupLabel>General</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => {
           const isActive = item.slug === segments[0]

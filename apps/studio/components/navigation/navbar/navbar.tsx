@@ -12,14 +12,11 @@ import { NavUser } from './user/nav-user'
 import { Suspense } from 'react'
 import { NavUserSkeleton } from './user/nav-user-skeleton'
 import { CollectionParts } from './collection/collection-parts/collection-parts'
-import { CollectionSwitcher } from './collection/collection-switcher/collection-switcher'
 import { NumosButton } from './numos-button'
 import { Collections } from './collections/collections'
 import { CollectionsSkeleton } from './collections/collections-skeleton'
-import { CollectionSettings } from './collection/collection-settings'
-import { CollectionSwitcherSkeleton } from './collection/collection-switcher/collection-switcher-skeleton'
+import { CollectionSettings } from './collection/collection-general'
 import { CollectionPartsSkeleton } from './collection/collection-parts/collection-parts-skeleton'
-import { cn } from '@repo/ui/lib/utils'
 
 type SidebarProps = React.ComponentProps<typeof Sidebar> & {
   collection?: string

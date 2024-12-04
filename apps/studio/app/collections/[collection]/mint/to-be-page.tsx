@@ -1,30 +1,35 @@
-import Header from '@/components/page/header'
+import {
+  Header,
+  HeaderContent,
+  HeaderMain,
+  HeaderTitle,
+} from '@/components/page/header'
 import Main from '@/components/page/main'
 import Segment from '@/components/layouts/segmented/segment'
 import SegmentedLayout from '@/components/layouts/segmented/segmented-layout'
 import { getExtendedCollectionFromSlug } from '@/lib/supabase/db/collections'
-import ApiKeys from './(components)/api-keys'
+import { Page } from '@/components/page/page'
 
-export default async function DeploymentPage(props: {
+export default async function MintSettingsPage(props: {
   params: Promise<{ collection: string }>
 }) {
   const params = await props.params
   const collection = await getExtendedCollectionFromSlug(params.collection)
 
   return (
-    <>
-      <Header
-        title="Integration"
-        subtitle="Configure the interfaces to your collection"
-      />
+    <Page>
+      <Header>
+        <HeaderContent>
+          <HeaderMain>
+            <HeaderTitle>Mint</HeaderTitle>
+          </HeaderMain>
+        </HeaderContent>
+      </Header>
       <Main>
         <SegmentedLayout>
-          <Segment title="API-Keys">
-            <ApiKeys />
-          </Segment>
-          <Segment title="Smart Contract">Coming soon!</Segment>
+          <Segment title="Allowlist">Coming soon!</Segment>
         </SegmentedLayout>
       </Main>
-    </>
+    </Page>
   )
 }

@@ -1,4 +1,3 @@
-import Header from '@/components/page/header'
 import Main from '@/components/page/main'
 import { getAllAttributes } from '@/lib/supabase/db/attributes'
 import {
@@ -22,6 +21,16 @@ import {
 import AttributeGrid from '@/app/collections/[collection]/attributes/(components)/attribute-grid'
 import { Button } from '@repo/ui/components/ui/button'
 import { NewAttributeDialog } from '@/app/collections/[collection]/attributes/(components)/new-attribute-dialog'
+import {
+  Header,
+  HeaderActions,
+  HeaderContent,
+  HeaderMain,
+  HeaderTitle,
+  HeaderTabBar,
+  HeaderTabBarItem,
+} from '@/components/page/header'
+import { TabsPage } from '@/components/page/page'
 
 export default async function AttributesPage(props: {
   params: Promise<{ collection: string; attribute: string }>
@@ -42,48 +51,48 @@ export default async function AttributesPage(props: {
     },
   }
   return (
-    <Tabs defaultValue="grid">
-      <Header
-        title="Attributes"
-        subtitle="Define the traits tokens in the collection can have."
-        tabs={[
-          {
-            value: 'grid',
-            label: 'Grid',
-            Icon: PiGridDashboard02Stroke,
-          },
-          {
-            value: 'table',
-            label: 'Table',
-            Icon: PiGridTableStroke,
-          },
-        ]}
-      >
-        <NewAttributeDialog
-          button={
-            <Button className="gap-1.5 pl-3">
-              <PiAddAddStroke className="size-4" />
-              New Attribute
-            </Button>
-          }
-          versionId={version}
-          collectionSlug={collection}
-        />
+    <TabsPage defaultValue="grid">
+      <Header>
+        <HeaderContent>
+          <HeaderMain>
+            <HeaderTitle>Attributes</HeaderTitle>
+          </HeaderMain>
+          <HeaderActions>
+            <NewAttributeDialog
+              button={
+                <Button className="gap-1.5 pl-3">
+                  <PiAddAddStroke className="size-4" />
+                  New Attribute
+                </Button>
+              }
+              versionId={version}
+              collectionSlug={collection}
+            />
+          </HeaderActions>
+        </HeaderContent>
+        <HeaderTabBar>
+          <HeaderTabBarItem value="grid" icon={PiGridDashboard02Stroke}>
+            Grid
+          </HeaderTabBarItem>
+          <HeaderTabBarItem value="table" icon={PiGridTableStroke}>
+            Table
+          </HeaderTabBarItem>
+        </HeaderTabBar>
       </Header>
-      <Main tabValue="grid">
+      <Main value="grid">
         <AttributeGrid
           attributes={attributeRows}
           collectionSlug={collection}
           versionId={version}
         />
       </Main>
-      <Main className="p-0" tabValue="table">
+      <Main className="p-0" value="table">
         <DataTable
           columns={columns}
           data={attributeRows}
           options={tableOptions}
         />
       </Main>
-    </Tabs>
+    </TabsPage>
   )
 }

@@ -3,7 +3,12 @@
 import { TabToggle } from '@/components/forms/tab-inputs/tab-toggle'
 import SegmentedLayout from '@/components/layouts/segmented/segmented-layout'
 import Segment from '@/components/layouts/segmented/segment'
-import Header from '@/components/page/header'
+import {
+  Header,
+  HeaderContent,
+  HeaderMain,
+  HeaderTitle,
+} from '@/components/page/header'
 import Main from '@/components/page/main'
 import type { SVGProps } from 'react'
 
@@ -16,10 +21,13 @@ export default function ImageSettingsEditor() {
 
   return (
     <>
-      <Header
-        title="Image Settings"
-        subtitle="Configure the settings for the images in this collection"
-      />
+      <Header>
+        <HeaderContent>
+          <HeaderMain>
+            <HeaderTitle>Image Settings</HeaderTitle>
+          </HeaderMain>
+        </HeaderContent>
+      </Header>
       <Main>
         <SegmentedLayout>
           <Segment title="Test">

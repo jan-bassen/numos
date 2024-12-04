@@ -1,6 +1,7 @@
 import { AddNodeMenu } from '@/components/node-editor/menus/add-node-menu'
 import { useSecondarySidebar } from '@repo/ui/components/ui/sidebar-secondary'
 import {
+  PiCheckTick,
   PiChevronBigLeftStroke,
   PiChevronBigRightStroke,
   PiCrossCross,
@@ -14,6 +15,7 @@ import { Button } from '@repo/ui/components/ui/button'
 import type { Editor } from '@/types/editor.types'
 import BackButton from './back-button'
 import TopBar from './top-bar'
+import { validateMapGraph } from '@/lib/validation/validate-graph'
 
 export default function EditorInterface({
   parentUrl,

@@ -1,7 +1,4 @@
-import type {
-  SocketInterface,
-  NodeInterface,
-} from '@repo/engine/types/node-types'
+import type { NodeInterface } from '@repo/engine/types/node-types'
 import type { ValueType } from '@repo/engine/types/value-types'
 
 export interface ActionRootNode extends NodeInterface<'hybrid', true> {

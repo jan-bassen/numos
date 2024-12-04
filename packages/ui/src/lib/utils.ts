@@ -6,6 +6,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
+// TODO: Move all below to shared
 export type ReturnInfo = {
   ok: boolean
   message: string | null
@@ -35,3 +36,5 @@ export function getHost() {
   url = url.charAt(url.length - 1) === '/' ? url : `${url}/`
   return url
 }
+
+export const hrefRegex = /^[a-z0-9]+(?:-[a-z0-9]+)*$/

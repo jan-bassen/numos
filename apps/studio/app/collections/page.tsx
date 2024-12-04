@@ -5,12 +5,21 @@ import CardRow from '@/components/layouts/simple/card-row'
 import type { ExtendedCollection } from '@/types/database.types'
 import { getProfile, getUser } from '@/lib/supabase/db/profile'
 import { Navbar } from '@/components/navigation/navbar/navbar'
-import Header from '@/components/page/header'
+import {
+  Header,
+  HeaderActions,
+  HeaderContent,
+  HeaderDropdown,
+  HeaderMain,
+  HeaderTabBar,
+  HeaderTabBarItem,
+  HeaderTitle,
+} from '@/components/page/header'
 import EmptyCollectionsView from '@/app/collections/(components)/empty-collections-view'
 import { NewCollectionDialog } from '@/app/collections/(components)/new-collection-dialog'
 import { Button } from '@repo/ui/components/ui/button'
 import { PiAddAddStroke } from '@repo/ui/icons/pika'
-import Page from '@/components/page/page'
+import { Page } from '@/components/page/page'
 
 export default async function HomePage() {
   const collections: ExtendedCollection[] = await getAllExtendedCollections()
@@ -21,22 +30,24 @@ export default async function HomePage() {
     <>
       <Navbar />
       <Page>
-        <Header
-          title={name ? `Welcome, ${name}!` : 'Welcome!'}
-          subtitle="While we're working hard to iron out any bugs, but you'll
-        probably find some issues. Please bear with us and don't hesitate
-        to reach out for questions or feedback on anything you'd like to
-        see improved."
-          showBreadcrumbs={false}
-        >
-          <NewCollectionDialog
-            button={
-              <Button className="gap-1.5 pl-3">
-                <PiAddAddStroke className="size-4" />
-                New Collection
-              </Button>
-            }
-          />
+        <Header hideBreadcrumbs>
+          <HeaderContent>
+            <HeaderMain>
+              <HeaderTitle>
+                {name ? `Welcome, ${name}!` : 'Welcome!'}
+              </HeaderTitle>
+            </HeaderMain>
+            <HeaderActions>
+              <NewCollectionDialog
+                button={
+                  <Button className="gap-1.5 pl-3">
+                    <PiAddAddStroke className="size-4" />
+                    New Collection
+                  </Button>
+                }
+              />
+            </HeaderActions>
+          </HeaderContent>
         </Header>
         <Main>
           {collections.length === 0 ? (

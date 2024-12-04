@@ -21,6 +21,7 @@ const createApiKeyHandler: InternalHandler<
 
   const item: ApiKeyEntry = {
     id,
+    active: true,
     collection: collection_id,
     createdAt: new Date().toISOString(),
     label: label,

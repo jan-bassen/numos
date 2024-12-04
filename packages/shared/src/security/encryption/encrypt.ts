@@ -1,4 +1,8 @@
-import { createCipheriv, createHash, randomBytes } from 'node:crypto'
+import {
+  createCipheriv,
+  createHash,
+  randomBytes, // biome-ignore lint/style/useNodejsImportProtocol: <explanation>
+} from 'crypto'
 
 export function encrypt(
   aesKey: string,

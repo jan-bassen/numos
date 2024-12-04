@@ -29,35 +29,30 @@ import {
   FormMessage,
 } from '@repo/ui/components/ui/form'
 import GenericInput from '@/components/datatypes/generic-input'
-import {
-  deleteAttribute,
-  insertAttribute,
-  updateAttribute,
-} from '@/lib/supabase/db/attributes'
+import { deleteAttribute, updateAttribute } from '@/lib/supabase/db/attributes'
 import { handleReturnInfo } from '@repo/ui/lib/utils'
 import { useRouter } from 'next/navigation'
-import {
-  attributeSchema,
-  displayOptions,
-} from '../../../../../../lib/schemas/attribute-schema'
+import { attributeSchema, displayOptions } from '@/lib/schemas/attribute-schema'
 import { Button } from '@repo/ui/components/ui/button'
 import { Input } from '@repo/ui/components/ui/input'
-import { dataTypes } from '@/lib/supabase/constants/datatypes'
-import { at, isArray } from 'lodash'
 import ListFormInput from '@/components/datatypes/list-input-form'
 import { removeAttributeFromLocalForm } from '../../(functions)/utils'
 import { slugify } from '@/lib/utils'
 import type { ValueSettings, ValueType } from '@repo/engine/types/value-types'
 import NumberInput from '@/components/datatypes/number/number-input'
-import Header from '@/components/page/header'
+import {
+  Header,
+  HeaderActions,
+  HeaderContent,
+  HeaderMain,
+} from '@/components/page/header'
 import Main from '@/components/page/main'
 import SegmentedLayout from '@/components/layouts/segmented/segmented-layout'
-import LockButton from '@/components/forms/buttons/lock-button'
+import LockButton from '@/components/forms/buttons/lock-button-legacy'
 import SaveButton from '@/components/forms/buttons/save-button'
 import ResetButton from '@/components/forms/buttons/reset-button'
 import DeleteButton from '@/components/forms/buttons/delete-button'
-import { Textarea } from '@repo/ui/components/ui/textarea'
-
+import { Page } from '@/components/page/page'
 function getDefaultValuesFromAttribute(
   attribute: Attribute,
   updatedAttribute?: UpdateAttribute,
@@ -83,17 +78,10 @@ export default function AttributeEditor({
   collectionSlug: string
   version: Version
 }) {
+  console.log('locked', attribute.locked)
   const router = useRouter()
   const [locked, setLocked] = useState(attribute.locked)
-  /* const [type, setType] = useState<DataType>(attribute?.type || "enum"); */
   const { type, list } = attribute
-
-  const badge = type
-    ? {
-        text: `${list ? 'List of ' : ''}${dataTypes[type].title}${list ? 's' : ''}`,
-        variant: 'secondary' as BadgeVariant,
-      }
-    : undefined
 
   const schema = attributeSchema(type, list)
 
@@ -126,7 +114,7 @@ export default function AttributeEditor({
       slug,
       version: version.id,
       description: data.description || null,
-      type: data.badge as ValueType,
+      type: attribute.type,
       list: attribute.list,
       token_specific: true,
       display: data.display,
@@ -173,40 +161,44 @@ export default function AttributeEditor({
   }
 
   return (
-    <>
-      <Header
-        title={attribute.name || attribute.slug}
-        subtitle={attribute.description || ''}
-        badge={badge}
-      >
-        <DeleteButton
-          title="attribute"
-          onDelete={async () => {
-            const res = await deleteAttribute(
-              attribute.id,
-              collectionSlug,
-              attribute.version,
-              attribute.slug,
-            )
-            handleReturnInfo(res, () => {
-              removeAttributeFromLocalForm(collectionSlug, attribute.slug)
-              router.push(`/collections/${collectionSlug}/attributes`)
-            })
-          }}
-        />
-        {form.formState.isDirty ? (
-          <>
-            <ResetButton onClick={() => onReset()} />
-            <SaveButton type="submit" form="attribute-form" />
-          </>
-        ) : (
-          <LockButton
-            element="attribute"
-            id={attribute.id}
-            locked={locked}
-            setLocked={setLocked}
-          />
-        )}
+    <Page>
+      <Header>
+        <HeaderContent>
+          <HeaderMain>
+            {/* <HeaderTitle>{attribute.name || attribute.slug}</HeaderTitle>
+            <HeaderBadge>{`${list ? 'List of ' : ''}${dataTypes[type].title}${list ? 's' : ''}`}</HeaderBadge> */}
+          </HeaderMain>
+          <HeaderActions>
+            <DeleteButton
+              title="attribute"
+              onDelete={async () => {
+                const res = await deleteAttribute(
+                  attribute.id,
+                  collectionSlug,
+                  attribute.version,
+                  attribute.slug,
+                )
+                handleReturnInfo(res, () => {
+                  removeAttributeFromLocalForm(collectionSlug, attribute.slug)
+                  router.push(`/collections/${collectionSlug}/attributes`)
+                })
+              }}
+            />
+            {form.formState.isDirty ? (
+              <>
+                <ResetButton onClick={() => onReset()} />
+                <SaveButton type="submit" form="attribute-form" />
+              </>
+            ) : (
+              <LockButton
+                element="attribute"
+                id={attribute.id}
+                locked={locked}
+                setLocked={setLocked}
+              />
+            )}
+          </HeaderActions>
+        </HeaderContent>
       </Header>
       <Main>
         <Form {...form}>
@@ -216,7 +208,7 @@ export default function AttributeEditor({
             className="space-y-8 pb-8 lg:space-y-10"
           >
             <SegmentedLayout>
-              <Segment
+              {/* <Segment
                 title="Information"
                 description="Change the basic information of the attribute."
                 options={[
@@ -266,7 +258,7 @@ export default function AttributeEditor({
                     </FormItem>
                   )}
                 />
-              </Segment>
+              </Segment> */}
               <Segment
                 title="Display"
                 description="Only private attributes are secret and not added to the metadata. Shadowed attributes are still public, but not necessarily visible on frontends."
@@ -488,6 +480,6 @@ export default function AttributeEditor({
           </form>
         </Form>
       </Main>
-    </>
+    </Page>
   )
 }

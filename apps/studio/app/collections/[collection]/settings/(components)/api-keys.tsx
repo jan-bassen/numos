@@ -15,7 +15,7 @@ const sampleData = [
   },
 ]
 
-export default function ApiKeys() {
+export default function ApiKeys({ locked }: { locked: boolean }) {
   return (
     <>
       <div className="divide-y divide-border md:max-w-form-input">

@@ -1,4 +1,4 @@
-/* import { describe, expect } from '@jest/globals'
+import { describe, expect } from '@jest/globals'
 import { mockClient } from 'aws-sdk-client-mock'
 import { handler } from '@/functions/delete-api-key'
 import {
@@ -20,9 +20,9 @@ describe('Testing lamda function delete-api-key()', () => {
     test('Requesting to delete an API key', async () => {
       ddbMock.on(DeleteCommand).resolves({})
       const { result, error } = await handler(validRequestBody)
-      expect(result.success).toBe(true)
-      expect(typeof result.message).toBe('string')
       expect(error).toBeUndefined()
+      expect(result?.success).toBe(true)
+      expect(typeof result?.message).toBe('string')
     })
   })
 
@@ -32,14 +32,7 @@ describe('Testing lamda function delete-api-key()', () => {
       ddbMock.on(PutCommand).resolves({})
       const { result, error } = await handler(invalidRequestBody as any)
       expect(result).toBeUndefined()
-      expect(error.statusCode).toBe(400)
-      expect(typeof error.message).toBe('string')
+      expect(typeof error).toBe('string')
     })
   })
 })
- */
-/* 
-TODO: 
-- validate responses
-- remove old aws && sdk stuff
- */

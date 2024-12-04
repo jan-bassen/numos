@@ -45,6 +45,9 @@
           "options": {
             "functions": ["clsx", "cva", "tw", "cn"]
           }
+        },
+        "useImportRestrictions": {
+          "level": "warn"
         }
       },
       "complexity": {

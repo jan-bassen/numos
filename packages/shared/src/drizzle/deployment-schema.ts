@@ -16,7 +16,6 @@ import {
 import { array, z } from 'zod'
 
 //TODO: How to track current version without recursive dependency?
-
 //TODO: Database table for supported chains?
 export const supportedChains = [11155111]
 
@@ -37,7 +36,7 @@ export const collections = pgTable(
   }),
 )
 
-export const imageGraphSchema = z.object({})
+type Collection = typeof collections.$inferSelect
 
 export const deployments = pgTable(
   'deployments',
@@ -50,10 +49,75 @@ export const deployments = pgTable(
     minor: integer('minor').notNull(),
     patch: integer('patch').notNull(),
     created_at: timestamp('created_at').defaultNow(),
-    image_graph: jsonb('image_graph').notNull(), //Verify
   },
   (table) => ({
     collection: index('deployment_collection_idx').on(table.collection),
+  }),
+)
+
+export const layerTypes = pgEnum('layerType', ['custom'])
+export const directions = pgEnum('direction', [
+  'top',
+  'top-right',
+  'right',
+  'bottom-right',
+  'bottom',
+  'bottom-left',
+  'left',
+  'top-left',
+  'center',
+]) //TODO: Combine with directions from datatypes
+export const blendModes = pgEnum('blendMode', [
+  'clear',
+  'source',
+  'over',
+  'in',
+  'out',
+  'atop',
+  'dest',
+  'dest-over',
+  'dest-in',
+  'dest-out',
+  'dest-atop',
+  'xor',
+  'add',
+  'saturate',
+  'multiply',
+  'screen',
+  'overlay',
+  'darken',
+  'lighten',
+  'colour-dodge',
+  'color-dodge',
+  'colour-burn',
+  'color-burn',
+  'hard-light',
+  'soft-light',
+  'difference',
+  'exclusion',
+])
+
+export const layerConfigSchema = z.object({})
+export const layers = pgTable(
+  'layers',
+  {
+    id: serial('id').primaryKey(),
+    created_at: timestamp('created_at').defaultNow(),
+    deployment: serial('deployment')
+      .notNull()
+      .references(() => deployments.id),
+    index: integer('index').notNull(),
+    blend: blendModes('blend').notNull(),
+    type: layerTypes('type').notNull(),
+    config: jsonb('config').notNull(), //Verify -> Includes graph
+    width: integer('width').notNull(),
+    height: integer('height').notNull(),
+    gravity: directions('gravity').notNull(),
+    top: integer('top').notNull(),
+    left: integer('left').notNull(),
+  },
+  (table) => ({
+    deployment: index('deployment_layer_idx').on(table.deployment),
   }),
 )
 
@@ -111,18 +175,20 @@ export const attributes = pgTable(
   }),
 )
 
-export const actionGraphSchema = z.object({})
+export const actionTypes = pgEnum('actionType', ['custom'])
+export const actionConfigSchema = z.object({})
 
 export const actions = pgTable(
   'actions',
   {
     id: serial('id').primaryKey(),
-    key: varchar('slug').notNull(),
-    created_at: timestamp('created_at').defaultNow(),
     deployment: serial('deployment')
       .notNull()
       .references(() => deployments.id),
-    graph: jsonb('graph').notNull(), //Verify
+    key: varchar('slug').notNull(),
+    type: actionTypes('type').notNull(),
+    config: jsonb('config').notNull(), //Verify -> Includes graph
+    created_at: timestamp('created_at').defaultNow(),
     description: text('description'),
   },
   (table) => ({
@@ -224,8 +290,8 @@ export const folders = pgTable(
   },
 )
 
-export const layers = pgTable(
-  'layers',
+export const uploads = pgTable(
+  'uploads',
   {
     id: serial('id').primaryKey(),
     studio_id: uuid('studio_id').notNull().unique(),
@@ -244,7 +310,7 @@ export const layers = pgTable(
     tags: varchar('tags').array().default([]),
   },
   (table) => ({
-    deployment: index('layers_deployment_idx').on(table.deployment),
-    folder: index('layers_folder_idx').on(table.folder),
+    deployment: index('uploads_deployment_idx').on(table.deployment),
+    folder: index('uploads_folder_idx').on(table.folder),
   }),
 )

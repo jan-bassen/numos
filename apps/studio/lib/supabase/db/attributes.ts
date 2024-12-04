@@ -192,6 +192,7 @@ export async function setAttributeLock(id: string, locked: boolean) {
   if (error) {
     throw new FetchError('Error with updating attribute')
   }
+  revalidatePath('/collections/[collection]/attributes/[attribute]')
 }
 
 /* export async function upsertBasicAttribute(

@@ -6,7 +6,9 @@
     "./types/*": "./src/types/*.ts",
     "./schemas/*": "./src/schemas/*.ts",
     "./utils/*": "./src/utils/*.ts",
-    "./security/*": ["./src/security/*.ts"]
+    "./security/*": [
+      "./src/security/*.ts"
+    ]
   },
   "scripts": {
     "build": "tsc",
@@ -19,6 +21,7 @@
     "typescript": "^5.6.3"
   },
   "dependencies": {
+    "drizzle-orm": "^0.33.0",
     "zod": "^3.23.8"
   }
 }

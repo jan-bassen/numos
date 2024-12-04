@@ -3,9 +3,9 @@
 export type Result<ResultType, ErrorType = string> =
   | {
       result: ResultType
-      error: undefined
+      error?: undefined
     }
   | {
-      result: undefined
+      result?: undefined
       error: ErrorType
     }
