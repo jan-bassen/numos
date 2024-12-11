@@ -9,21 +9,11 @@ import type { Result } from '@repo/shared/types/result'
 import { type SetStateAction, useCallback } from 'react'
 import { ZodError, type ZodType } from 'zod'
 
-function validateSchema<
-  T extends Record<string, any>,
-  S extends SchemaEntry<(...args: any) => ZodType>,
-  K extends keyof T,
->(
+function validateSchema<T extends Record<string, any>, K extends keyof T>(
   value: any,
-  schema: S,
-  params?: Array<T[keyof T]>,
+  schema: ZodType,
 ): Result<T[K], ZodError | string> {
   try {
-    if (typeof schema === 'function') {
-      const _params = params || []
-      const zodSchema = schema(..._params)
-      return { result: zodSchema.parse(value) }
-    }
     return { result: schema.parse(value) }
   } catch (e) {
     if (e instanceof ZodError) {
@@ -46,13 +36,10 @@ export function createValidateValue<
     async (key, value, options) => {
       const schemaEntry = schema[key]
       if (!schemaEntry) return { error: 'No schema found for key' }
-      const schemaParamKeys = options?.schemaParams || []
-      const schemaParams = schemaParamKeys.map((key) => state[key])
 
       const { error: validationError, result: validatedValue } = validateSchema(
         value,
         schemaEntry,
-        schemaParams,
       )
 
       if (validationError) {

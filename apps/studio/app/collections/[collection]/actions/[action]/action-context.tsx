@@ -1,66 +1,57 @@
 'use client'
 
-import {
-  updateAttribute,
-  updateAttributeValue,
-} from '@/lib/supabase/db/attributes/update'
-import type { Attribute, UpdateAttribute } from '@/types/database.types'
 import { createContext, useContext, useMemo } from 'react'
 import { useContextState } from '@/lib/state/use-context-state'
 import type { ReturnInfo } from '@repo/ui/lib/utils'
 import { useCollection } from '../../context'
-import {
-  attributeSchema,
-  type AttributeSchema,
-} from '@/lib/schemas/attribute-schema-new'
+
 import type {
   ContextStateConfig,
   NestedErrors,
   Validate,
   ValidateValue,
 } from '@/types/state.types'
+import type { Action, UpdateAction } from '@/types/database.types'
+import type { ActionSchema } from '@/lib/schemas/actions/action-schema-new'
 
-type AttributeContext = {
-  attribute: Attribute
-  updateAttribute: (value: UpdateAttribute) => Promise<ReturnInfo>
-  updateAttributeValue: <
+type ActionContext = {
+  attribute: Action
+  updateAction: (value: UpdateAction) => Promise<ReturnInfo>
+  updateActionValue: <
     K extends keyof Omit<
-      Attribute,
-      'id' | 'updated_at' | 'created_at' | 'version' | 'type' | 'list'
+      Action,
+      'id' | 'updated_at' | 'created_at' | 'version' | 'trigger'
     >,
   >(
     key: K,
-    value: Attribute[K],
+    value: Action[K],
   ) => Promise<ReturnInfo>
-  validateAttribute: Validate<Attribute>
-  validateAttributeValue: ValidateValue<Attribute>
+  validateAction: Validate<Action>
+  validateActionValue: ValidateValue<Action>
   getError: (path: string) => string | undefined
 }
 
-type AttributeProviderProps = {
+type ActionProviderProps = {
   children: React.ReactNode
-  attribute: Attribute
+  action: Action
 }
 
-const AttributeContext = createContext<AttributeContext | null>(null)
+const ActionContext = createContext<ActionContext | null>(null)
 
-export function AttributeProvider({
-  children,
-  attribute,
-}: AttributeProviderProps) {
+export function ActionProvider({ children, action }: ActionProviderProps) {
   //TODO: Make context update function guaranteed to be typescript safe
   const { slug: collectionSlug } = useCollection()
 
-  const config: ContextStateConfig<Attribute> = {
+  const config: ContextStateConfig<Action> = {
     root: {
-      basePath: `/collections/${collectionSlug}/attributes`,
-      schemaParams: ['type', 'list'],
+      basePath: `/collections/${collectionSlug}/actions`,
+      schemaParams: ['trigger_type'],
     },
     name: {
       debounce: 1000,
       revalidate: [
         {
-          path: '/collections/[collection]/attributes/[attribute]',
+          path: '/collections/[collection]/actions/[action]',
           type: 'layout',
         },
       ],
@@ -68,48 +59,45 @@ export function AttributeProvider({
     description: {
       debounce: 1000,
     },
-    settings: {
-      schemaParams: ['type', 'list'],
+    trigger: {
+      schemaParams: ['trigger_type'],
       debounce: 500,
     },
-    list: {
-      isDependent: true,
-    },
-    type: {
+    trigger_type: {
       isDependent: true,
     },
   }
 
   const { state, update, updateValue, validate, validateValue, getError } =
-    useContextState<Attribute, AttributeSchema>(
-      attribute.id,
-      attribute,
-      updateAttribute,
-      updateAttributeValue,
-      attributeSchema,
+    useContextState<Action, ActionSchema>(
+      action.id,
+      action,
+      updateAction,
+      updateActionValue,
+      actionSchema,
       config,
     )
 
-  const contextValue = useMemo<AttributeContext>(() => {
+  const contextValue = useMemo<ActionContext>(() => {
     return {
       attribute: state,
-      updateAttribute: update,
-      updateAttributeValue: updateValue,
-      validateAttribute: validate,
-      validateAttributeValue: validateValue,
+      updateAction: update,
+      updateActionValue: updateValue,
+      validateAction: validate,
+      validateActionValue: validateValue,
       getError,
     }
   }, [state, update, updateValue, validate, validateValue, getError])
 
   return (
-    <AttributeContext.Provider value={contextValue}>
+    <ActionContext.Provider value={contextValue}>
       {children}
-    </AttributeContext.Provider>
+    </ActionContext.Provider>
   )
 }
 
 export function useAttribute() {
-  const context = useContext(AttributeContext)
+  const context = useContext(ActionContext)
   if (!context) {
     throw new Error('No attribute context found')
   }

@@ -18,6 +18,7 @@ export const numberSchema = z.number({
 })
 export const integerSchema = numberSchema.int('Must be a whole number')
 
+export type NumberRestrictions = z.infer<typeof numberRestrictionsSchema>
 export const numberRestrictionsSchema = z.object({
   min: z.preprocess((value) => {
     if (typeof value === 'string' && value === '') {

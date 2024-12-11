@@ -25,11 +25,10 @@ export function createSetState<T extends Record<string, any>>(
         return { ...prev, ...value }
       })
 
-      const updateOptions: UpdateValueOptions<T> = {
+      const updateOptions: UpdateValueOptions = {
         basePath: config.root.basePath,
         revalidate: configEntry?.revalidate,
         redirect: configEntry?.redirect,
-        schemaParams: configEntry?.schemaParams,
       }
 
       const res = await validatedUpdate(id, value, updateOptions)
