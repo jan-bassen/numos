@@ -52,6 +52,7 @@
       ],
       "inputs": ["$TURBO_DEFAULT$", ".env*"]
     },
+    "studio#scan": {},
     "web#typegen": {
       "env": ["DATABASE_URI"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"]

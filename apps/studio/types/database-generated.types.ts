@@ -205,6 +205,7 @@ export type Database = {
           name: string | null
           slug: string
           trigger: Json | null
+          trigger_type: Database["public"]["Enums"]["trigger-type"] | null
           updated_at: string | null
           version: string
         }
@@ -216,6 +217,7 @@ export type Database = {
           name?: string | null
           slug: string
           trigger?: Json | null
+          trigger_type?: Database["public"]["Enums"]["trigger-type"] | null
           updated_at?: string | null
           version: string
         }
@@ -227,6 +229,7 @@ export type Database = {
           name?: string | null
           slug?: string
           trigger?: Json | null
+          trigger_type?: Database["public"]["Enums"]["trigger-type"] | null
           updated_at?: string | null
           version?: string
         }
@@ -254,6 +257,7 @@ export type Database = {
           token_specific: boolean
           type: Database["public"]["Enums"]["datatype"]
           updated_at: string | null
+          value: Json | null
           version: string
         }
         Insert: {
@@ -269,6 +273,7 @@ export type Database = {
           token_specific?: boolean
           type: Database["public"]["Enums"]["datatype"]
           updated_at?: string | null
+          value?: Json | null
           version: string
         }
         Update: {
@@ -284,6 +289,7 @@ export type Database = {
           token_specific?: boolean
           type?: Database["public"]["Enums"]["datatype"]
           updated_at?: string | null
+          value?: Json | null
           version?: string
         }
         Relationships: [
@@ -674,6 +680,7 @@ export type Database = {
           token_specific: boolean
           type: Database["public"]["Enums"]["datatype"]
           updated_at: string | null
+          value: Json | null
           version: string
         }
       }

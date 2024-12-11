@@ -1,12 +1,11 @@
 'use client'
 
-import type { LocationInputProps } from '../generic-input'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@repo/ui/components/ui/popover'
-import { type FormEvent, useEffect, useMemo, useRef, useState } from 'react'
+import { type FormEvent, useEffect, useRef, useState } from 'react'
 import { Button, buttonVariants } from '@repo/ui/components/ui/button'
 import {
   APIProvider,
@@ -21,27 +20,31 @@ import { Drag } from 'rete-react-plugin'
 import { getAddressFromGeocoder } from './address'
 import { locationSchema } from '@repo/engine/datatypes/schemas'
 import type { Location } from '@repo/engine/types/value-types'
+import type { SingleDataTypeInputProps } from '../single-datatype-input'
+import { toast } from 'sonner'
 
-export default function LocationInput({
+export function LocationInput({
   value,
-  onValueChange,
   onChange,
   locked,
   className,
   environment,
   valid,
   ...props
-}: LocationInputProps) {
-  const location: Location | null = useMemo(() => {
-    return locationSchema.optional().nullable().parse(value) || null
-  }, [value])
+}: SingleDataTypeInputProps<'location'>) {
+  const dragRef = useRef<any>(null)
+  Drag.useNoDrag(dragRef)
+
+  let location: Location | null = null
+  try {
+    location = locationSchema.optional().nullable().parse(value.value) || null
+  } catch {
+    toast.error('invalid location')
+  }
 
   const [zoom, setZoom] = useState(2)
   const [address, setAddress] = useState<string>('')
   const [center, setCenter] = useState<Location | null>(location)
-
-  const dragRef = useRef<any>(null)
-  Drag.useNoDrag(dragRef)
 
   useEffect(() => {
     if (!location) {
@@ -78,8 +81,7 @@ export default function LocationInput({
           lat: location.lat,
           lng: location.lng,
         }
-        onValueChange?.(newLocation)
-        onChange?.(newLocation)
+        onChange?.({ value: newLocation, type: 'location', format: 'single' })
         setCenter({
           lat: location.lat,
           lng: location.lng,
@@ -93,75 +95,77 @@ export default function LocationInput({
 
   return (
     <Popover>
-      <span ref={environment === 'node' ? dragRef : undefined}>
-        <PopoverTrigger
-          id={props.id}
-          disabled={locked}
-          className={cn(
-            buttonVariants({ variant: 'outline' }),
-            '!line-clamp-1 h-10 w-full overflow-hidden text-ellipsis text-nowrap font-normal',
-            environment === 'node' &&
-              'h-7 min-w-36 max-w-52 items-center rounded-lg px-2 py-0 text-sm',
-            valid === false && 'border-warning bg-warning/10',
-            className,
-          )}
-        >
-          {address || 'Set Location'}
-        </PopoverTrigger>
-        <PopoverContent
-          side="top"
-          sideOffset={6}
-          className="m-1 w-fit max-w-[100vw] overflow-hidden rounded-lg border-none p-0"
-        >
-          <APIProvider apiKey={apiKey}>
-            <GoogleMap
-              style={{ width: '25rem', height: '20rem' }}
-              defaultCenter={location || undefined}
-              center={center || undefined}
-              onCenterChanged={(e) => {
-                setCenter({
-                  lat: e.detail.center?.lat || 0,
-                  lng: e.detail.center?.lng || 0,
-                })
-              }}
-              onClick={(e) => {
-                if (locked) return
-                const newLocation: Location = {
-                  lat: e.detail.latLng?.lat || 0,
-                  lng: e.detail.latLng?.lng || 0,
-                }
-                onValueChange?.(newLocation)
-                onChange?.(newLocation)
-              }}
-              defaultZoom={3}
-              zoom={zoom}
-              onZoomChanged={(e) => setZoom(e.detail.zoom)}
-              gestureHandling={'greedy'}
-              disableDefaultUI={true}
-            >
-              <Marker position={location} />
-            </GoogleMap>
-          </APIProvider>
-          <form
-            className="flex"
-            id="searchAddress"
-            onSubmit={handleAddressInput}
+      <PopoverTrigger
+        id={props.id}
+        ref={environment === 'node' ? dragRef : undefined}
+        disabled={locked}
+        className={cn(
+          buttonVariants({ variant: 'outline' }),
+          '!line-clamp-1 h-10 w-full overflow-hidden text-ellipsis text-nowrap font-normal',
+          environment === 'node' &&
+            'h-7 min-w-36 max-w-52 items-center rounded-lg px-2 py-0 text-sm',
+          valid === false
+            ? environment === 'node'
+              ? 'border-warning bg-warning/10'
+              : 'border-destructive bg-destructive/10'
+            : '',
+          className,
+        )}
+      >
+        {address || 'Set Location'}
+      </PopoverTrigger>
+      <PopoverContent
+        side="top"
+        sideOffset={6}
+        className="m-1 w-fit max-w-[100vw] overflow-hidden rounded-lg border-none p-0"
+      >
+        <APIProvider apiKey={apiKey}>
+          <GoogleMap
+            style={{ width: '25rem', height: '20rem' }}
+            defaultCenter={location || undefined}
+            center={center || undefined}
+            onCenterChanged={(e) => {
+              setCenter({
+                lat: e.detail.center?.lat || 0,
+                lng: e.detail.center?.lng || 0,
+              })
+            }}
+            onClick={(e) => {
+              if (locked) return
+              const newLocation: Location = {
+                lat: e.detail.latLng?.lat || 0,
+                lng: e.detail.latLng?.lng || 0,
+              }
+              onChange?.({
+                value: newLocation,
+                type: 'location',
+                format: 'single',
+              })
+            }}
+            defaultZoom={3}
+            zoom={zoom}
+            onZoomChanged={(e) => setZoom(e.detail.zoom)}
+            gestureHandling={'greedy'}
+            disableDefaultUI={true}
           >
-            <Input
-              className="w-full rounded-none border-none"
-              placeholder={address}
-            />
-            <Button
-              className="flex h-10 items-center rounded-none"
-              variant={'ghost'}
-              type="submit"
-              form="searchAddress"
-            >
-              <PiSearchDefaultStroke className="size-5" />
-            </Button>
-          </form>
-        </PopoverContent>
-      </span>
+            <Marker position={location} />
+          </GoogleMap>
+        </APIProvider>
+        <form className="flex" id="searchAddress" onSubmit={handleAddressInput}>
+          <Input
+            className="w-full rounded-none border-none"
+            placeholder={address}
+          />
+          <Button
+            className="flex h-10 items-center rounded-none"
+            variant={'ghost'}
+            type="submit"
+            form="searchAddress"
+          >
+            <PiSearchDefaultStroke className="size-5" />
+          </Button>
+        </form>
+      </PopoverContent>
     </Popover>
   )
 }

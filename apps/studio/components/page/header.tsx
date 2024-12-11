@@ -183,12 +183,12 @@ export function HeaderTabBarItem({
   return (
     <TabsTrigger
       className={cn(
-        'data-[state=active]:!border-b-2 h-full gap-1.5 rounded-none border-0 border-primary data-[state=active]:shadow-none',
+        'data-[state=active]:!border-b-2 h-full gap-1 rounded-none border-0 border-primary data-[state=active]:shadow-none',
         className,
       )}
       {...props}
     >
-      {icon?.({ className: 'my-auto size-4' })}
+      {icon?.({ className: 'my-auto size-3.5' })}
       {children}
     </TabsTrigger>
   )

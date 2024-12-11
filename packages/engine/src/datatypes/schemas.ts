@@ -1,7 +1,7 @@
 import { type ZodType, z } from 'zod'
 import type { ValueFormat, ValueType } from '@repo/engine/types/value-types'
-import { directions } from '@repo/engine/datatypes/directions'
-import { weatherCodes } from '@repo/engine/datatypes/weather-codes'
+import { directions } from '@repo/engine/datatypes/constants/directions.js'
+import { weatherCodes } from '@repo/engine/datatypes/constants/weather-codes.js'
 
 export const enumSchema = z.string({
   required_error: 'Value is required',
@@ -63,7 +63,7 @@ export const weatherSchema = z.enum(weatherCodes, {
 })
 
 export const addressSchema = stringSchema.regex(
-  /^(0x)?[0-9a-fA-F]{40}$/,
+  /^(0x)?[0-9a-fA-F]{40}$|^$/,
   'Must be a valid address',
 )
 

@@ -7,14 +7,14 @@ import {
   HeaderTitle,
 } from '@/components/page/header'
 import Main from '@/components/page/main'
-import { TabsPage } from '@/components/page/page'
+import { Page } from '@/components/page/page'
 import { TestButton } from './test-button'
 
 export default function TestPage() {
   return (
     <>
       <Navbar />
-      <TabsPage defaultValue={'test'}>
+      <Page tabs tabsProps={{ defaultValue: 'test' }}>
         <Header>
           <HeaderContent>
             <HeaderMain>
@@ -30,7 +30,7 @@ export default function TestPage() {
           {/* <WalletButton />
           <AbiButton /> */}
         </Main>
-      </TabsPage>
+      </Page>
     </>
   )
 }

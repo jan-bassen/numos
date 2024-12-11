@@ -8,9 +8,6 @@ import {
   FormMessage,
 } from '@repo/ui/components/ui/form'
 import Link from 'next/link'
-import GenericInput, {
-  type GenericInputProps,
-} from '@/components/datatypes/generic-input'
 import { type Path, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -53,17 +50,26 @@ import {
   annotateMetadata,
   optionalMetadataSchema,
 } from '../../../lib/schemas/metadata-schema'
-import StringInput from '@/components/datatypes/string/string-input'
+import { StringInput } from '@/components/datatypes/string/string-input'
 import { Button } from '@repo/ui/components/ui/button'
-import NumberInput from '@/components/datatypes/number/number-input'
+import { NumberInput } from '@/components/datatypes/number/number-input'
 import { useEffect, useState } from 'react'
-import ListFormInput from '@/components/datatypes/list-input-form'
+import { ListFormInput } from '@/components/datatypes/list/list-input-form'
 import { toast } from 'sonner'
-import type { ValueSettings, ValueType } from '@repo/engine/types/value-types'
+import type {
+  Value,
+  ValueSettings,
+  ValueType,
+} from '@repo/engine/types/value-types'
 import type { ActionTrigger } from '@/types/actions.types'
 import type { SimulationData } from '@repo/engine/types/engine-types'
 import { generateValueMap } from '@repo/engine/datatypes/utils'
 import { useEditorContext } from '@/components/node-editor/editor/editor-provider'
+import {
+  getDataTypeInput,
+  type SingleDataTypeInputProps,
+} from '@/components/datatypes/single-datatype-input'
+import { DataType } from '@/types/database.types'
 
 export default function SimulationForm({
   id,
@@ -308,7 +314,18 @@ export default function SimulationForm({
                         )}
                       </div>
                       <FormControl>
-                        <NumberInput datatype="number" {...field} />
+                        <NumberInput
+                          type="number"
+                          value={{
+                            type: 'number',
+                            format: 'single',
+                            value: field.value,
+                          }}
+                          onChange={(v) => {
+                            field.onChange(v.value)
+                          }}
+                          onBlur={field.onBlur}
+                        />
                       </FormControl>
                     </div>
                     <FormMessage className="w-full" />
@@ -341,7 +358,18 @@ export default function SimulationForm({
                         )}
                       </div>
                       <FormControl>
-                        <StringInput datatype="string" {...field} />
+                        <StringInput
+                          type="string"
+                          value={{
+                            type: 'string',
+                            format: 'single',
+                            value: field.value,
+                          }}
+                          onChange={(v) => {
+                            field.onChange(v.value)
+                          }}
+                          onBlur={field.onBlur}
+                        />
                       </FormControl>
                     </div>
                     <FormMessage className="w-full" />
@@ -374,7 +402,18 @@ export default function SimulationForm({
                         )}
                       </div>
                       <FormControl>
-                        <StringInput datatype="string" {...field} />
+                        <StringInput
+                          type="string"
+                          value={{
+                            type: 'string',
+                            format: 'single',
+                            value: field.value,
+                          }}
+                          onChange={(v) => {
+                            field.onChange(v.value)
+                          }}
+                          onBlur={field.onBlur}
+                        />
                       </FormControl>
                     </div>
                     <FormMessage className="w-full" />
@@ -436,14 +475,11 @@ export default function SimulationForm({
                         )}
                       </div>
                       <ListFormInput
-                        inputProps={
-                          {
-                            datatype: attribute.type as ValueType,
-                            settings: attribute.settings as ValueSettings,
-                            placeholder: attribute.name || undefined,
-                            locked: false,
-                          } as GenericInputProps
-                        }
+                        inputProps={{
+                          type: attribute.type as ValueType,
+                          settings: attribute.settings as ValueSettings,
+                          locked: false,
+                        }}
                         form={form}
                         itemKey={`attributes.${attribute.slug}`}
                         defaultItemValue={{ value: undefined }}
@@ -466,12 +502,36 @@ export default function SimulationForm({
                     name={`attributes.${attribute.slug}`}
                     key={`attributes.${attribute.slug}`}
                     render={({ field }) => {
-                      const props = {
+                      /*                       const props = {
                         datatype: attribute.type as ValueType,
                         settings: attribute.settings as ValueSettings,
                         placeholder: attribute.name || undefined,
                         locked: false,
                       } as GenericInputProps
+                      const DataTypeInput = getDataTypeInput<
+                        typeof attribute.type
+                      >(attribute.type) */
+                      const DataTypeInput = getDataTypeInput<
+                        typeof attribute.type | 'buffer'
+                      >(attribute.type)
+                      const props: SingleDataTypeInputProps<
+                        typeof attribute.type | 'buffer'
+                      > = {
+                        type: attribute.type,
+                        settings: attribute.settings || undefined,
+                        placeholder: attribute.name || undefined,
+                        locked: false,
+                        value: {
+                          type: attribute.type,
+                          format: 'single',
+                          value: field.value,
+                        } as Value<typeof attribute.type, 'single', true>,
+                        onChange: (v) => {
+                          field.onChange(v.value)
+                        },
+                        environment: 'form',
+                        id: `attribute-${attribute.slug}`,
+                      }
                       return (
                         <FormItem>
                           <div
@@ -508,7 +568,8 @@ export default function SimulationForm({
                               )}
                             </div>
                             <FormControl>
-                              <GenericInput {...props} {...field} />
+                              <DataTypeInput {...props} />
+                              {/* <GenericInput {...props} {...field} /> */}
                             </FormControl>
                           </div>
                           <FormMessage className="w-full" />
@@ -572,9 +633,8 @@ export default function SimulationForm({
                           </div>
                           <ListFormInput
                             inputProps={{
-                              datatype: parameter.type as ValueType,
+                              type: parameter.type as ValueType,
                               settings: undefined,
-                              placeholder: parameter.key,
                               locked: false,
                             }}
                             form={form}
@@ -599,12 +659,27 @@ export default function SimulationForm({
                         name={`parameters.${parameter.key}`}
                         key={`parameters.${parameter.key}`}
                         render={({ field }) => {
-                          const props = {
-                            datatype: parameter.type as ValueType,
+                          const DataTypeInput = getDataTypeInput<
+                            typeof parameter.type
+                          >(parameter.type)
+                          const props: SingleDataTypeInputProps<
+                            typeof parameter.type
+                          > = {
+                            type: parameter.type,
                             settings: undefined,
                             placeholder: parameter.key,
                             locked: false,
-                          } as GenericInputProps
+                            value: {
+                              type: parameter.type,
+                              format: 'single',
+                              value: field.value,
+                            } as Value<typeof parameter.type, 'single', true>,
+                            onChange: (v) => {
+                              field.onChange(v.value)
+                            },
+                            environment: 'form',
+                            id: `parameter-${parameter.key}`,
+                          }
                           return (
                             <FormItem>
                               <div
@@ -634,7 +709,7 @@ export default function SimulationForm({
                                   )}
                                 </div>
                                 <FormControl>
-                                  <GenericInput {...props} {...field} />
+                                  <DataTypeInput {...props} />
                                 </FormControl>
                               </div>
                               <FormMessage className="w-full" />

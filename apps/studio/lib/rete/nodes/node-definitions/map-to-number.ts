@@ -33,7 +33,7 @@ export const mapToNumberDefinition: SpecificNodeDefinition<MapToNumberNode> = {
       type: 'enum',
       label: 'Breakpoint counts to',
       settings: {
-        default: 'up',
+        default: { value: 'up', type: 'enum', format: 'single' },
         options: [
           { value: 'up', label: 'the range above' },
           { value: 'down', label: 'the range below' },

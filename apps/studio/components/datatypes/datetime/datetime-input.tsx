@@ -1,4 +1,3 @@
-import type { DatetimeInputProps } from '../generic-input'
 import {
   Popover,
   PopoverContent,
@@ -12,6 +11,7 @@ import { Input } from '@repo/ui/components/ui/input'
 import { cn } from '@repo/ui/lib/utils'
 import { Drag } from 'rete-react-plugin'
 import { datetimeSchema } from '@repo/engine/datatypes/schemas'
+import type { SingleDataTypeInputProps } from '../single-datatype-input'
 
 function dateToDateString(date: Date) {
   return date.toLocaleDateString('en-EN', {
@@ -29,9 +29,8 @@ function dateToTimeString(date: Date) {
   })
 }
 
-export default function DatetimeInput({
+export function DatetimeInput({
   value,
-  onValueChange,
   onChange,
   onBlur,
   locked,
@@ -39,9 +38,17 @@ export default function DatetimeInput({
   environment,
   valid,
   ...props
-}: DatetimeInputProps) {
-  const timestamp = datetimeSchema.optional().nullable().parse(value) || null
-  const date = timestamp ? new Date(timestamp) : null
+}: SingleDataTypeInputProps<'datetime'>) {
+  const dragRef = useRef<any>(null)
+  Drag.useNoDrag(dragRef)
+  let date: Date | null = null
+  try {
+    const timestamp =
+      datetimeSchema.optional().nullable().parse(value.value) || null
+    date = timestamp ? new Date(timestamp) : null
+  } catch {
+    date = null
+  }
 
   const todayDateString = new Date().toLocaleDateString('en-EN', {
     year: 'numeric',
@@ -68,66 +75,63 @@ export default function DatetimeInput({
   useEffect(() => {
     const d = getDate()
     if (!d) return
-    onValueChange?.(d.getTime())
-    onChange?.(d.getTime())
+    onChange?.({ value: d.getTime(), type: 'datetime', format: 'single' })
   }, [dateString, timeString])
 
   function _onBlur(e: ChangeEvent<Element>) {
     if (!locked && onBlur) onBlur(e)
   }
 
-  const dragRef = useRef<any>(null)
-  Drag.useNoDrag(dragRef)
   return (
     <Popover>
-      <div
+      <PopoverTrigger
+        id={props.id}
         ref={environment === 'node' ? dragRef : undefined}
-        className="w-full"
+        disabled={locked}
+        className={cn(
+          buttonVariants({ variant: 'outline' }),
+          'flex w-full min-w-40 border border-border bg-background font-normal',
+          environment !== 'node' && 'h-10 rounded-md py-3',
+          environment === 'node' &&
+            'flex h-7 min-w-36 items-center rounded-lg px-2 text-sm',
+          valid === false
+            ? environment === 'node'
+              ? 'border-warning bg-warning/10'
+              : 'border-destructive bg-destructive/10'
+            : '',
+          className,
+        )}
       >
-        <PopoverTrigger
-          id={props.id}
-          disabled={locked}
-          className={cn(
-            buttonVariants({ variant: 'outline' }),
-            'flex w-full min-w-40 border border-border bg-background font-normal',
-            environment !== 'node' && 'h-10 rounded-md py-3',
-            environment === 'node' &&
-              'flex h-7 min-w-36 items-center rounded-lg px-2 text-sm',
-            valid === false && 'border-warning bg-warning/10',
-            className,
-          )}
-        >
-          {date ? date.toLocaleString('de-DE') : 'Select Date'}
-        </PopoverTrigger>
-        <PopoverContent
-          side="top"
-          sideOffset={10}
-          className="m-1 max-w-[100vw] space-y-1 p-1"
-        >
-          <Calendar
-            mode="single"
-            selected={date || undefined}
-            onSelect={(d) => {
-              if (!locked && d instanceof Date) {
-                setDateString(dateToDateString(d))
-              }
-            }}
-            initialFocus
-          />
-          <Separator />
-          <Input
-            type="time"
-            className="flex w-full justify-center border-none text-center"
-            value={timeString || ''}
-            onBlur={_onBlur}
-            onChange={(e) => {
-              if (!locked) {
-                setTimeString(e.target.value)
-              }
-            }}
-          />
-        </PopoverContent>
-      </div>
+        {date ? date.toLocaleString('de-DE') : 'Select Date'}
+      </PopoverTrigger>
+      <PopoverContent
+        side="top"
+        sideOffset={10}
+        className="m-1 max-w-[100vw] space-y-1 p-1"
+      >
+        <Calendar
+          mode="single"
+          selected={date || undefined}
+          onSelect={(d) => {
+            if (!locked && d instanceof Date) {
+              setDateString(dateToDateString(d))
+            }
+          }}
+          initialFocus
+        />
+        <Separator />
+        <Input
+          type="time"
+          className="flex w-full justify-center border-none text-center"
+          value={timeString || ''}
+          onBlur={_onBlur}
+          onChange={(e) => {
+            if (!locked) {
+              setTimeString(e.target.value)
+            }
+          }}
+        />
+      </PopoverContent>
     </Popover>
   )
 }

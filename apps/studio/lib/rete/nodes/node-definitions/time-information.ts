@@ -29,7 +29,7 @@ export const timeInformationDefinition: SpecificNodeDefinition<TimeInformationNo
             { value: 'month', label: 'Month of the year' },
             { value: 'year', label: 'Year' },
           ],
-          default: 'seconds',
+          default: { value: 'second', type: 'enum', format: 'single' },
         },
       },
     ],

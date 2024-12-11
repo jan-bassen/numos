@@ -95,7 +95,7 @@ export async function getAttributeBySlug(
 export async function getAttributeBySlugs(
   collection: string,
   attribute: string,
-): Promise<Attribute> {
+): Promise<Attribute | null> {
   if (!attribute || !collection) {
     throw new FetchError('No attribute or collection defined')
   }
@@ -112,8 +112,7 @@ export async function getAttributeBySlugs(
     throw new FetchError('error with fetch')
   }
 
-  if (!data) throw new FetchError('Attribute not found')
-
+  if (!data || !data.id) return null
   return data
 }
 

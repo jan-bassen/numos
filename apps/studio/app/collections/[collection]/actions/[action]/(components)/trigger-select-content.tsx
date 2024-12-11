@@ -1,14 +1,14 @@
+import { triggerOptionsArray } from '@/lib/constants/triggers'
 import {
   SelectContent,
   type SelectContentProps,
   SelectItem,
 } from '@repo/ui/components/ui/select'
-import { triggerOptions } from '../../../../../../lib/schemas/action-schema'
 
 export function TriggerSelectContent(props: SelectContentProps) {
   return (
     <SelectContent className="min-w-44" scrollable>
-      {triggerOptions.map((option, index) => {
+      {triggerOptionsArray.map((option, index) => {
         return (
           <SelectItem
             key={`key-${option.value}`}

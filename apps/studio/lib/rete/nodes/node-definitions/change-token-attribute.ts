@@ -1,5 +1,7 @@
 import type {
   ControlDefinition,
+  DataSocketDefinition,
+  DefinitionInterface,
   SpecificNodeDefinition,
 } from '@/types/nodes.types'
 import type { ChangeTokenAttributeNode } from '@repo/engine/nodes/change-token-attribute/interface'
@@ -55,7 +57,7 @@ export const changeTokenAttributeDefinition: SpecificNodeDefinition<ChangeTokenA
                 { value: 'incr', label: 'Incr' },
                 { value: 'decr', label: 'Decr' },
               ],
-              default: 'set',
+              default: { type: 'enum', format: 'single', value: 'set' },
             },
           })
         }
@@ -66,16 +68,21 @@ export const changeTokenAttributeDefinition: SpecificNodeDefinition<ChangeTokenA
       const attributeKey = getControlValue('attribute')
       if (!attributeKey?.value) return []
       const attribute = getTokenAttribute(attributeKey.value)
+      console.log(attribute)
       if (!attribute) return []
-      return [
+      const inputs: DataSocketDefinition<
+        ChangeTokenAttributeNode,
+        'inputs',
+        'value'
+      >[] = [
         {
           key: 'value',
           type: attribute.type,
-          format: attribute.list ? 'objectarray' : 'single',
+          list: attribute.list,
           label: 'Attribute',
-          placeholder: 'New Value',
           settings: attribute.settings,
         },
       ]
+      return inputs
     },
   }

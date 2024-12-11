@@ -8,7 +8,7 @@ import WeatherDisplay from './weather/weather-display'
 import DirectionDisplay from './direction/direction-display'
 import ImageDisplay from './image/image-display'
 import { cn } from '@repo/ui/lib/utils'
-import { dataTypes } from '@/lib/supabase/constants/datatypes'
+import { dataTypes } from '@/lib/constants/datatypes'
 import { Button } from '@repo/ui/components/ui/button'
 import {
   Popover,

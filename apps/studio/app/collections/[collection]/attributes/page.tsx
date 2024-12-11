@@ -30,7 +30,7 @@ import {
   HeaderTabBar,
   HeaderTabBarItem,
 } from '@/components/page/header'
-import { TabsPage } from '@/components/page/page'
+import { Page } from '@/components/page/page'
 
 export default async function AttributesPage(props: {
   params: Promise<{ collection: string; attribute: string }>
@@ -51,7 +51,7 @@ export default async function AttributesPage(props: {
     },
   }
   return (
-    <TabsPage defaultValue="grid">
+    <Page tabs tabsProps={{ defaultValue: 'grid' }}>
       <Header>
         <HeaderContent>
           <HeaderMain>
@@ -93,6 +93,6 @@ export default async function AttributesPage(props: {
           options={tableOptions}
         />
       </Main>
-    </TabsPage>
+    </Page>
   )
 }

@@ -5,7 +5,7 @@ import * as SwitchPrimitives from '@radix-ui/react-switch'
 
 import { cn } from '@repo/ui/lib/utils'
 
-type SwitchProps = React.ComponentProps<typeof SwitchPrimitives.Root> & {
+export type SwitchProps = React.ComponentProps<typeof SwitchPrimitives.Root> & {
   thumbClassName?: string
 }
 const Switch = ({ className, thumbClassName, ...props }: SwitchProps) => (

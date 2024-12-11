@@ -39,6 +39,9 @@
         "noExplicitAny": "info"
       },
       "nursery": {
+        "useImportRestrictions": {
+          "level": "info"
+        },
         "useSortedClasses": {
           "fix": "unsafe",
           "level": "info",
@@ -47,6 +50,11 @@
           }
         },
         "useImportRestrictions": {
+          "level": "warn"
+        }
+      },
+      "correctness": {
+        "useExhaustiveDependencies": {
           "level": "warn"
         }
       },

@@ -1,7 +1,10 @@
 // ----------- BASETYPES -------------
 
-import type { Direction } from '@repo/engine/datatypes/directions'
-import type { WeatherCode } from '@repo/engine/datatypes/weather-codes'
+import type { Direction } from '@repo/engine/datatypes/constants/directions'
+import type { WeatherCode } from '@repo/engine/datatypes/constants/weather-codes'
+import { number, z } from 'zod'
+import type { NumberRestrictions } from '../datatypes/schemas/datatype-schemas/number-schema.js'
+import type { StringRestrictions } from '../datatypes/schemas/datatype-schemas/string-schema.js'
 
 export type Color = { r: number; g: number; b: number; a: number }
 export type Location = { lat: number; lng: number }
@@ -75,22 +78,67 @@ export type ValueInterface<
       ? { type: DT; format: 'objectarray'; value: ObjectValue<DTV, Optional>[] }
       : never
 
+export interface RawValueTypesMap {
+  enum: string
+  number: number
+  string: string
+  boolean: boolean
+  address: string
+  color: Color
+  datetime: number
+  location: Location
+  weather: WeatherCode
+  buffer: Buffer
+  image: string
+  direction: Direction
+}
+
 interface DataTypesMap<
   Format extends 'single' | 'array' | 'objectarray' | undefined = undefined,
   Optional extends boolean = false,
 > {
-  enum: ValueInterface<'enum', string, Format, Optional>
-  number: ValueInterface<'number', number, Format, Optional>
-  string: ValueInterface<'string', string, Format, Optional>
-  boolean: ValueInterface<'boolean', boolean, Format, Optional>
-  address: ValueInterface<'address', string, Format, Optional>
-  color: ValueInterface<'color', Color, Format, Optional>
-  datetime: ValueInterface<'datetime', number, Format, Optional>
-  location: ValueInterface<'location', Location, Format, Optional>
-  weather: ValueInterface<'weather', WeatherCode, Format, Optional>
-  image: ValueInterface<'image', string, Format, Optional>
-  direction: ValueInterface<'direction', Direction, Format, Optional>
-  buffer: ValueInterface<'buffer', Buffer, Format, Optional>
+  enum: ValueInterface<'enum', RawValueTypesMap['enum'], Format, Optional>
+  number: ValueInterface<'number', RawValueTypesMap['number'], Format, Optional>
+  string: ValueInterface<'string', RawValueTypesMap['string'], Format, Optional>
+  boolean: ValueInterface<
+    'boolean',
+    RawValueTypesMap['boolean'],
+    Format,
+    Optional
+  >
+  address: ValueInterface<
+    'address',
+    RawValueTypesMap['address'],
+    Format,
+    Optional
+  >
+  color: ValueInterface<'color', RawValueTypesMap['color'], Format, Optional>
+  datetime: ValueInterface<
+    'datetime',
+    RawValueTypesMap['datetime'],
+    Format,
+    Optional
+  >
+  location: ValueInterface<
+    'location',
+    RawValueTypesMap['location'],
+    Format,
+    Optional
+  >
+  weather: ValueInterface<
+    'weather',
+    RawValueTypesMap['weather'],
+    Format,
+    Optional
+  >
+  image: ValueInterface<'image', RawValueTypesMap['image'], Format, Optional>
+  direction: ValueInterface<
+    'direction',
+    RawValueTypesMap['direction'],
+    Format,
+    Optional
+  >
+  buffer: ValueInterface<'buffer', RawValueTypesMap['buffer'], Format, Optional>
   // Add new types here as needed
 }
 
@@ -102,12 +150,15 @@ interface OptionalDataTypesMap<
 }
 
 export type ValueType = keyof DataTypesMap
+export type ValueTypeLiteral = keyof RawValueTypesMap
+
 export type OptionalValueType = keyof OptionalDataTypesMap
 
 export type DataType = ValueType | 'exec'
 export type OptionalDataType = OptionalValueType | 'exec'
 
-export type ValueFormat = 'single' | 'array' | 'objectarray'
+export const valueFormats = ['single', 'array', 'objectarray'] as const
+export type ValueFormat = (typeof valueFormats)[number]
 
 export type Value<
   T extends ValueType = ValueType,
@@ -150,13 +201,14 @@ export type RawValueMap = Record<string, RawValue>
 
 // ----------- SETTINGS -------------
 
-export type SelectOption = {
+export type BasicSelectOption = {
+  id?: string
   value: string
   label: string
 }
 
 export type BaseSettings = {
-  default?: RawSingleValue | Array<RawSingleValue>
+  default?: Value<ValueType, 'single' | 'objectarray', true>
 }
 export type NumberSettings = {
   max?: number
@@ -170,7 +222,7 @@ export type StringSettings = {
 } & BaseSettings
 
 export type EnumSettings = {
-  options?: SelectOption[]
+  options?: BasicSelectOption[]
   adaptOptions?: boolean
 } & BaseSettings
 
@@ -191,3 +243,48 @@ export type ValueSettings<
         : VT extends 'number'
           ? NumberSettings
           : GenericSettings
+
+// Value
+export type FullValue<
+  VT extends ValueType = ValueType,
+  L extends boolean = boolean,
+> = {
+  type: L
+  list: boolean
+  default?: Value<VT, L extends true ? 'objectarray' : 'single', true>
+  restrictions?: ValueRestrictions<VT, L>
+}
+
+export type SingleValueBaseRestrictions<VT extends ValueType = ValueType> = {
+  options?: Value<VT, 'objectarray', true>
+}
+
+// biome-ignore lint/complexity/noBannedTypes: <explanation>
+export type ListValueExtraRestrictions<VT extends ValueType = ValueType> = {}
+
+export type BaseRestrictions<
+  VT extends ValueType = ValueType,
+  L extends boolean = boolean,
+> = L extends true
+  ? SingleValueBaseRestrictions<VT> & ListValueExtraRestrictions<VT>
+  : SingleValueBaseRestrictions<VT>
+
+export type ValueRestrictionsMap<L extends boolean = boolean> = {
+  number: BaseRestrictions<'number', L> & NumberRestrictions
+  string: BaseRestrictions<'string', L> & StringRestrictions
+  enum: BaseRestrictions<'enum', L>
+  boolean: BaseRestrictions<'boolean', L>
+  address: BaseRestrictions<'address', L>
+  color: BaseRestrictions<'color', L>
+  datetime: BaseRestrictions<'datetime', L>
+  location: BaseRestrictions<'location', L>
+  weather: BaseRestrictions<'weather', L>
+  image: BaseRestrictions<'image', L>
+  direction: BaseRestrictions<'direction', L>
+  buffer: BaseRestrictions<'buffer', L>
+}
+
+export type ValueRestrictions<
+  VT extends ValueType = ValueType,
+  L extends boolean = boolean,
+> = ValueRestrictionsMap<L>[VT]

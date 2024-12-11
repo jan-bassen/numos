@@ -1,49 +1,39 @@
-import type { EnumInputProps } from '../generic-input'
 import { cn } from '@repo/ui/lib/utils'
 import {
   Select,
   SelectContent,
   SelectGroup,
-  SelectItem,
   SelectTrigger,
-  SelectValue,
 } from '@repo/ui/components/ui/select'
-import {
-  type ChangeEvent,
-  forwardRef,
-  use,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
+import { type ChangeEvent, useRef } from 'react'
 import { Drag } from 'rete-react-plugin'
 import SelectOptionItem from '../select-option'
+import type { SingleDataTypeInputProps } from '../single-datatype-input'
 
-export default function EnumInput({
+export function EnumInput({
   settings,
-  staticoptions,
   value,
   className,
-  onValueChange,
   onChange,
   placeholder,
   onBlur,
   locked,
   environment,
   valid,
-  defaultValue,
+  type,
   ...props
-}: EnumInputProps) {
+}: SingleDataTypeInputProps<'enum'>) {
+  const dragRef = useRef<any>(null)
+  Drag.useNoDrag(dragRef)
+
   function _onBlur(e: ChangeEvent<Element>) {
     if (!locked && onBlur) onBlur(e)
   }
 
-  const options =
-    settings && 'options' in settings ? settings.options : staticoptions || []
+  const options = settings?.options || []
 
-  if (value && !options?.find((option) => option.value === value)) {
-    onValueChange?.(null)
-    onChange?.(null)
+  if (value.value && !options?.find((option) => option.value === value.value)) {
+    onChange?.({ type: 'enum', value: null, format: 'single' })
   }
 
   const labelMap = options?.reduce((acc: { [key: string]: string }, option) => {
@@ -51,59 +41,57 @@ export default function EnumInput({
     return acc
   }, {})
 
-  const dragRef = useRef<any>(null)
-  Drag.useNoDrag(dragRef)
-
   return (
     <Select
-      defaultValue={value || undefined}
+      defaultValue={value.value || undefined}
       onValueChange={(e) => {
         if (locked) return
-        onValueChange?.(e)
-        onChange?.(e)
+        onChange?.({ type: 'enum', value: e, format: 'single' })
       }}
       disabled={locked}
     >
-      <div
+      <SelectTrigger
+        id={props.id}
         ref={environment === 'node' ? dragRef : undefined}
-        className="w-full"
+        className={cn(
+          'w-full disabled:cursor-default',
+          environment === 'node' && 'h-7 rounded-lg px-2 py-1 text-sm',
+          valid === false
+            ? environment === 'node'
+              ? 'border-warning bg-warning/10'
+              : 'border-destructive bg-destructive/10'
+            : '',
+          className,
+        )}
+        disabled={locked}
+        onBlur={_onBlur}
       >
-        <SelectTrigger
-          id={props.id}
-          className={cn(
-            'w-full disabled:cursor-default',
-            environment === 'node' && 'h-7 rounded-lg px-2 py-1 text-sm',
-            valid === false && 'border-warning bg-warning/10',
-            className,
-          )}
-          disabled={locked}
-          onBlur={_onBlur}
-        >
-          <p className="w-full text-left">
-            {value && labelMap?.[value] ? labelMap[value] : placeholder}
-          </p>
-        </SelectTrigger>
-        <SelectContent className={cn('min-h-8')}>
-          <SelectGroup>
-            {options?.map((option, index) => {
-              if (option.value === '' || option.value === undefined) {
-                return null
-              }
-              if (typeof option === 'string') {
-                const _option = { value: option, label: option }
-                return (
-                  // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-                  <SelectOptionItem option={_option} key={option + index} />
-                )
-              }
+        <p className="w-full text-left">
+          {value.value && labelMap?.[value.value]
+            ? labelMap[value.value]
+            : placeholder}
+        </p>
+      </SelectTrigger>
+      <SelectContent className={cn('min-h-8')}>
+        <SelectGroup>
+          {options?.map((option, index) => {
+            if (option.value === '' || option.value === undefined) {
+              return null
+            }
+            if (typeof option === 'string') {
+              const _option = { value: option, label: option }
               return (
                 // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-                <SelectOptionItem option={option} key={option.value + index} />
+                <SelectOptionItem option={_option} key={option + index} />
               )
-            })}
-          </SelectGroup>
-        </SelectContent>
-      </div>
+            }
+            return (
+              // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+              <SelectOptionItem option={option} key={option.value + index} />
+            )
+          })}
+        </SelectGroup>
+      </SelectContent>
     </Select>
   )
 }

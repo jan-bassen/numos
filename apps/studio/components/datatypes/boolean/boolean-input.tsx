@@ -1,4 +1,3 @@
-import type { BooleanInputProps } from '../generic-input'
 import { Switch } from '@repo/ui/components/ui/switch'
 import { type FocusEvent, useRef } from 'react'
 import { cn } from '@repo/ui/lib/utils'
@@ -10,25 +9,25 @@ import {
 } from '@repo/ui/icons/pika'
 import { TabSelect } from '@/components/forms/tab-inputs/tab-select'
 import { Button } from '@repo/ui/components/ui/button'
+import type { SingleDataTypeInputProps } from '../single-datatype-input'
 
-export default function BooleanInput({
+export function BooleanInput({
   value,
   className,
-  onCheckedChange,
-  onValueChange,
   onChange,
   onBlur,
   locked,
   environment,
   valid,
   settings,
+  type,
   ...props
-}: BooleanInputProps) {
+}: SingleDataTypeInputProps<'boolean'>) {
+  const dragRef = useRef<any>(null)
+  Drag.useNoDrag(dragRef)
   function _onBlur(e: FocusEvent<HTMLButtonElement, Element>) {
     if (!locked && onBlur) onBlur(e)
   }
-  const dragRef = useRef<any>(null)
-  Drag.useNoDrag(dragRef)
 
   function convertBooleanToString(value?: boolean | null) {
     return value === undefined || value === null
@@ -44,15 +43,13 @@ export default function BooleanInput({
 
   const setValue = (value: boolean | null) => {
     if (locked) return
-    onValueChange?.(value)
-    onChange?.(value)
-    onCheckedChange?.(value === undefined ? null : value)
+    onChange?.({ type: 'boolean', value, format: 'single' })
   }
 
   if (environment === 'form') {
     return (
       <TabSelect
-        value={convertBooleanToString(value)}
+        value={convertBooleanToString(value.value)}
         options={[
           {
             value: 'undefined',
@@ -73,11 +70,12 @@ export default function BooleanInput({
             Icon: PiCrossCrossSquare,
           },
         ]}
-        onChange={(v) => {
+        onValueChange={(v) => {
           const newValue = convertStringToBoolean(v)
           setValue(newValue === undefined ? null : newValue)
         }}
-        locked={locked || false}
+        disabled={locked || false}
+        className={cn(className)}
       />
     )
   }

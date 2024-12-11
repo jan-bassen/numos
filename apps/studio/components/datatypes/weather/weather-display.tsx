@@ -1,6 +1,6 @@
 import type { WeatherCode } from '@/types/database.types'
 import type { GenericDisplayProps } from '../generic-display'
-import { weatherConditions } from '@/lib/supabase/constants/weather'
+import { weatherConditions } from '@/lib/constants/weather'
 import type { OptionalValue } from '@repo/engine/types/value-types'
 
 export type WeatherDisplayProps = Omit<GenericDisplayProps, 'value'> & {

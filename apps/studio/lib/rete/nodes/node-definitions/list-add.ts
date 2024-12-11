@@ -52,7 +52,7 @@ export const listAddDefinition: SpecificNodeDefinition<ListAddNode> = {
       type: 'enum',
       label: 'Position',
       settings: {
-        default: 'start',
+        default: { value: 'start', type: 'enum', format: 'single' },
         options: [
           { value: 'start', label: 'Start' },
           { value: 'end', label: 'End' },

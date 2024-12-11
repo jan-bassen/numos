@@ -29,8 +29,7 @@ import {
 
 import { useState, type SVGProps } from 'react'
 import type { Collection } from '@/types/database.types'
-import { dataTypes } from '@/lib/supabase/constants/datatypes'
-import { triggerOptions } from '@/lib/schemas/action-schema'
+import { dataTypes } from '@/lib/constants/datatypes'
 import type { NavItems } from '../../navbar'
 import { useSelectedLayoutSegments } from 'next/navigation'
 import { cn } from '@repo/ui/lib/utils'
@@ -48,6 +47,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@repo/ui/components/ui/dropdown-menu'
+import { triggerOptionsArray } from '@/lib/constants/triggers'
 
 const getItems = (items: NavItems): SidebarItem[] => {
   const [attributes, actions] = items
@@ -74,7 +74,7 @@ const getItems = (items: NavItems): SidebarItem[] => {
       items: actions.map((action) => ({
         title:
           action.name ||
-          `Unnamed ${triggerOptions.find((option) => option.value === action.type)?.label || 'Action'}`,
+          `Unnamed ${triggerOptionsArray.find((option) => option.value === action.type)?.label || 'Action'}`,
         slug: action.slug,
       })),
     },

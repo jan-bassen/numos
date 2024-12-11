@@ -24,7 +24,7 @@ import {
 } from '@repo/ui/icons/pika'
 import { deleteAttribute } from '@/lib/supabase/db/attributes'
 import type { Attribute, ValueDataType } from '@/types/database.types'
-import { dataTypes } from '@/lib/supabase/constants/datatypes'
+import { dataTypes } from '@/lib/constants/datatypes'
 import { forwardRef } from 'react'
 import DeleteDialogContent from '@repo/ui/components/dialogs/delete-dialog'
 import { removeAttributeFromLocalForm } from '../(functions)/utils'
@@ -105,7 +105,6 @@ const AttributeCard = forwardRef<HTMLButtonElement, AttributeCardProps>(
           onDelete={async () => {
             const res = await deleteAttribute(
               attribute.id,
-              collectionSlug,
               attribute.version,
               attribute.slug,
             )

@@ -32,9 +32,9 @@ import {
 } from '@repo/ui/icons/pika'
 import type { Action } from '@/types/database.types'
 import { deleteAction } from '@/lib/supabase/db/actions'
-import { actionTypes } from '../../../../../lib/schemas/action-schema'
 import { forwardRef } from 'react'
 import type { ActionTrigger } from '@/types/actions.types'
+import { triggerOptions } from '@/lib/constants/triggers'
 
 export type ExtendedAction = Action & { collection_slug: string }
 interface ActionCardProps extends ButtonProps {
@@ -77,7 +77,7 @@ const ActionCard = forwardRef<HTMLButtonElement, ActionCardProps>(
               )}
             >
               <div className="flex h-fit w-full items-center justify-start gap-3">
-                {actionTypes[trigger?.type || 'api'].icon({
+                {triggerOptions[trigger?.type || 'api'].icons?.stroke({
                   className: ' size-4.5 [&>path]:!stroke-2.5',
                 })}
                 <h3 className="!line-clamp-1 flex w-[80%] justify-between overflow-hidden text-ellipsis pr-1 text-left font-semibold text-lg">

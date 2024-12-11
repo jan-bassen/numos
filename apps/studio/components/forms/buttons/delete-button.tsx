@@ -20,6 +20,7 @@ export default function DeleteButton({
   title,
   onDelete,
   secure,
+  key,
   ...props
 }: DeleteButtonProps) {
   return (

@@ -1,12 +1,49 @@
 'use server'
 
 import 'server-only'
-import { FetchError } from '@/lib/errors'
+
 import type { Attribute, UpdateAttribute } from '@/types/database.types'
 import { createSupabaseServerComponentClient } from '@/lib/supabase/clients/server-client'
 import type { ReturnInfo } from '@repo/ui/lib/utils'
 import { revalidatePath } from 'next/cache'
 import { updateAttributeNodeControls } from '../nodes'
+import { updateAttributeSlugInNodes } from './nodes/update'
+import { redirect } from 'next/navigation'
+import type { UpdateOptions } from '@/types/state.types'
+import { ZodError, type ZodType } from 'zod'
+import type { PostgrestSingleResponse } from '@supabase/supabase-js'
+import { updateAttributeSchema } from '@/lib/schemas/attribute-schema-new'
+import { createSafeUpdate } from '../create-safe-update'
+
+export async function updateAttributeBase(id: string, values: UpdateAttribute) {
+  if (values.slug) {
+    if (typeof values.slug !== 'string' || values.slug.length === 0) {
+      return { ok: false, message: 'Slug cannot be empty' }
+    }
+    const res = await updateAttributeSlugInNodes(id, values.slug)
+    if (!res.ok) {
+      return res
+    }
+  }
+
+  const supabase = await createSupabaseServerComponentClient()
+
+  const { error } = await supabase
+    .from('attributes')
+    .update(values)
+    .eq('id', id)
+  if (error) {
+    return { ok: false, message: error.message }
+  }
+  return { ok: true, message: 'Attribute updated' }
+}
+
+export const updateAttribute = createSafeUpdate<UpdateAttribute>(
+  updateAttributeBase,
+  updateAttributeSchema,
+)
+
+// -----------------------------------------------------------------------------
 
 export async function updateAttributeLegacy(
   attribute: UpdateAttribute,
@@ -58,7 +95,7 @@ export async function updateAttributeLegacy(
   }
 }
 
-export async function updateAttribute(
+export async function updateAttributeLegacy2(
   id: string,
   attribute: UpdateAttribute,
 ): Promise<ReturnInfo> {
@@ -98,34 +135,67 @@ export async function updateAttribute(
   }
 }
 
-export async function updateAttributeValue<K extends keyof Attribute>(
+// -----------------------------------------------------------------------------
+
+/* export async function updateAttributeValue<K extends keyof Attribute>(
   id: string,
   key: K,
-  value: Attribute[K],
-  options?: {
-    revalidate?: boolean
-  },
+  value: Attribute[K] | undefined,
+  options?: UpdateValueOptions<Attribute>,
 ) {
+
+
   const attribute: UpdateAttribute = {
     [key]: value,
   }
+
+  return updateAttribute(id, attribute, options)
+} */
+
+/* export async function updateAttribute(
+  id: string,
+  values: UpdateAttribute,
+  options?: UpdateOptions,
+) {
   try {
-    //TODO: HANDLE SLUG CHANGES --- NODE CONTROLS VIA ID!!!!!
+    const validValues = (await updateAttributeSchema.parseAsync(
+      values,
+    )) as UpdateAttribute
+
+    if (validValues.slug) {
+      if (
+        typeof validValues.slug !== 'string' ||
+        validValues.slug.length === 0
+      ) {
+        return { ok: false, message: 'Slug cannot be empty' }
+      }
+      const res = await updateAttributeSlugInNodes(id, validValues.slug)
+      if (!res.ok) {
+        return res
+      }
+    }
 
     const supabase = await createSupabaseServerComponentClient()
+
     const { error } = await supabase
       .from('attributes')
-      .update(attribute)
+      .update(validValues)
       .eq('id', id)
 
     if (error) {
       return { ok: false, message: error.message }
     }
     if (options?.revalidate) {
-      revalidatePath('/collections/[collection]/attributes/[attribute]')
+      for (const { path, type } of options.revalidate) {
+        revalidatePath(path, type)
+      }
     }
-    return { ok: true, message: 'Attribute renamed' }
   } catch (error) {
-    return { ok: false, message: 'Unkown error' }
+    return { ok: false, message: 'Error updating attribute' }
   }
+  if (options?.redirect) {
+    redirect(`${options.redirect}`)
+  }
+  return { ok: true, message: 'Attribute updated' }
 }
+ */

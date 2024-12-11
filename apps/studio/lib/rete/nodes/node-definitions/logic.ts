@@ -28,7 +28,7 @@ export const logicDefinition: SpecificNodeDefinition<LogicNode> = {
         node.updateInputs()
       },
       settings: {
-        default: 'and',
+        default: { value: 'and', type: 'enum', format: 'single' },
         options: [
           { value: 'and', label: 'And' },
           { value: 'or', label: 'Or' },

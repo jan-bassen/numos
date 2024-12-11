@@ -4,14 +4,10 @@ import Segment from '@/components/layouts/segmented/segment'
 import { TabSelect } from '@/components/forms/tab-inputs/tab-select'
 import type {
   Attribute,
-  ValueDataType,
-  ReturnInfo,
-  InsertAttribute,
   Version,
   UpdateAttribute,
 } from '@/types/database.types'
 import { useEffect, useState } from 'react'
-import type { BadgeVariant } from '@repo/ui/components/ui/badge'
 import {
   PiAddAddStroke,
   PiCrossCross,
@@ -28,18 +24,21 @@ import {
   FormLabel,
   FormMessage,
 } from '@repo/ui/components/ui/form'
-import GenericInput from '@/components/datatypes/generic-input'
 import { deleteAttribute, updateAttribute } from '@/lib/supabase/db/attributes'
 import { handleReturnInfo } from '@repo/ui/lib/utils'
 import { useRouter } from 'next/navigation'
 import { attributeSchema, displayOptions } from '@/lib/schemas/attribute-schema'
 import { Button } from '@repo/ui/components/ui/button'
 import { Input } from '@repo/ui/components/ui/input'
-import ListFormInput from '@/components/datatypes/list-input-form'
+import { ListFormInput } from '@/components/datatypes/list/list-input-form'
 import { removeAttributeFromLocalForm } from '../../(functions)/utils'
 import { slugify } from '@/lib/utils'
-import type { ValueSettings, ValueType } from '@repo/engine/types/value-types'
-import NumberInput from '@/components/datatypes/number/number-input'
+import type {
+  Value,
+  ValueSettings,
+  ValueType,
+} from '@repo/engine/types/value-types'
+import { NumberInput } from '@/components/datatypes/number/number-input'
 import {
   Header,
   HeaderActions,
@@ -53,6 +52,11 @@ import SaveButton from '@/components/forms/buttons/save-button'
 import ResetButton from '@/components/forms/buttons/reset-button'
 import DeleteButton from '@/components/forms/buttons/delete-button'
 import { Page } from '@/components/page/page'
+import { isArray } from 'lodash'
+import {
+  getDataTypeInput,
+  type SingleDataTypeInputProps,
+} from '@/components/datatypes/single-datatype-input'
 function getDefaultValuesFromAttribute(
   attribute: Attribute,
   updatedAttribute?: UpdateAttribute,
@@ -174,7 +178,6 @@ export default function AttributeEditor({
               onDelete={async () => {
                 const res = await deleteAttribute(
                   attribute.id,
-                  collectionSlug,
                   attribute.version,
                   attribute.slug,
                 )
@@ -271,7 +274,7 @@ export default function AttributeEditor({
                       <FormControl>
                         <TabSelect
                           {...field}
-                          locked={locked}
+                          disabled={locked}
                           options={displayOptions}
                           className="w-full max-w-form-input"
                         />
@@ -360,7 +363,7 @@ export default function AttributeEditor({
                     form={form}
                     itemKey="settings.default"
                     inputProps={{
-                      datatype: type as ValueType,
+                      type: type as ValueType,
                       settings: getSettings(),
                       locked: locked,
                     }}
@@ -380,19 +383,30 @@ export default function AttributeEditor({
                     control={form.control}
                     name="settings.default"
                     render={({ field }) => {
+                      const DataTypeInput = getDataTypeInput<
+                        typeof attribute.type
+                      >(attribute.type)
+                      const props: SingleDataTypeInputProps<
+                        typeof attribute.type
+                      > = {
+                        type: attribute.type,
+                        settings: getSettings(),
+                        locked: locked,
+                        placeholder: 'No default value',
+                        value: {
+                          type: attribute.type,
+                          format: 'single',
+                          value: field.value,
+                        } as Value<typeof attribute.type, 'single', true>,
+                        onChange: (v) => {
+                          field.onChange(v.value)
+                        },
+                      }
                       return (
                         <FormItem>
                           <FormControl>
                             <div className="flex w-full max-w-form-input gap-2">
-                              <GenericInput
-                                environment="form"
-                                datatype={type as ValueDataType}
-                                locked={locked}
-                                settings={getSettings()}
-                                placeholder="No default value"
-                                className="w-full"
-                                {...field}
-                              />
+                              <DataTypeInput {...props} />
                               {(!!form.getValues().settings.default ||
                                 form.getValues().settings.default === false) &&
                                 !locked && (
@@ -434,11 +448,18 @@ export default function AttributeEditor({
                             <FormLabel>Min</FormLabel>
                             <FormControl>
                               <NumberInput
-                                datatype="number"
+                                type="number"
                                 locked={locked}
                                 placeholder="No lower limit"
                                 className="w-full"
-                                {...field}
+                                value={{
+                                  type: 'number',
+                                  format: 'single',
+                                  value: field.value,
+                                }}
+                                onChange={(v) => {
+                                  field.onChange(v.value)
+                                }}
                                 onBlur={(e) => {
                                   form.trigger('settings.max')
                                   // @ts-ignore
@@ -461,11 +482,19 @@ export default function AttributeEditor({
                             <FormLabel>Max</FormLabel>
                             <FormControl>
                               <NumberInput
-                                datatype="number"
+                                type="number"
+                                value={{
+                                  type: 'number',
+                                  format: 'single',
+                                  value: field.value,
+                                }}
+                                onChange={(v) => {
+                                  field.onChange(v.value)
+                                }}
                                 locked={locked}
                                 className="w-full"
                                 placeholder="No upper limit"
-                                {...rest}
+                                onBlur={field.onBlur}
                               />
                             </FormControl>
                             <FormMessage />

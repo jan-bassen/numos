@@ -1,39 +1,43 @@
 import { Input } from '@repo/ui/components/ui/input'
 import { cn } from '@repo/ui/lib/utils'
 import { type FocusEvent, useRef } from 'react'
-import type { NumberInputProps } from '../generic-input'
 import { Drag } from 'rete-react-plugin'
+import type { SingleDataTypeInputProps } from '../single-datatype-input'
 
-export default function NumberInput({
+export function NumberInput({
   className,
   onBlur,
   onChange,
-  onValueChange,
   locked,
   environment,
   valid,
   value,
   placeholder,
   ...props
-}: NumberInputProps) {
+}: SingleDataTypeInputProps<'number'>) {
   function _onBlur(e: FocusEvent<HTMLInputElement, Element>) {
     if (!locked && onBlur) onBlur(e)
   }
   const dragRef = useRef<any>(null)
   Drag.useNoDrag(dragRef)
-  const _value = value === null || value === undefined ? '' : value
+  const _value =
+    value.value === null || value.value === undefined ? '' : value.value
   return (
     <Input
       onChange={(e) => {
         if (locked) return
-        onValueChange?.(e.target.value === '' ? null : e.target.value)
-        onChange?.(e)
+        // @ts-ignore TODO: Fix with parsing somehow?!
+        onChange?.({ value: e.target.value, type: 'number', format: 'single' })
       }}
       disabled={locked}
       inputMode="numeric"
       className={cn(
         'w-full',
-        valid === false && 'border-warning bg-warning/10',
+        valid === false
+          ? environment === 'node'
+            ? 'border-warning bg-warning/10'
+            : 'border-destructive bg-destructive/10'
+          : '',
         environment === 'node' &&
           'flex h-7 w-44 items-center rounded-lg px-2 text-sm',
         className,

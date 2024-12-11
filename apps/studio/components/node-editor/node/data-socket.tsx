@@ -6,7 +6,7 @@ import {
   TooltipTrigger,
 } from '@repo/ui/components/ui/tooltip'
 import type { OptionalDataType } from '@repo/engine/types/value-types'
-import { dataTypes } from '@/lib/supabase/constants/datatypes'
+import { dataTypes } from '@/lib/constants/datatypes'
 import type { Socket } from '@/lib/rete/classes/connectors/socket'
 
 export type DataSocketComponentProps = { data: Socket }

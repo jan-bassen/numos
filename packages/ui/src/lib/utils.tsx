@@ -1,6 +1,12 @@
 import { type ClassValue, clsx } from 'clsx'
+import type { LucideIcon } from 'lucide-react'
+import type { SVGProps } from 'react'
 import { toast } from 'sonner'
 import { twMerge } from 'tailwind-merge'
+
+export function lucideToJSX(Icon: LucideIcon) {
+  return (props: SVGProps<SVGSVGElement>) => <Icon {...props} />
+}
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))

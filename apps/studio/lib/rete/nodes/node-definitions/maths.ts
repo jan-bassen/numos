@@ -27,7 +27,7 @@ export const mathsDefinition: SpecificNodeDefinition<MathsNode> = {
           { value: 'mul', label: 'Multiply' },
           { value: 'div', label: 'Divide' },
         ],
-        default: 'add',
+        default: { value: 'add', type: 'enum', format: 'single' },
       },
     },
   ],

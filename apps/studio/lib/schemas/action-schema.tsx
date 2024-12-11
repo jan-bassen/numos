@@ -1,101 +1,14 @@
-import {
-  PiCalendarFilledStroke,
-  PiLinkChainHorizontalStroke,
-  PiNftBoltMintStroke,
-  PiTimerDefaultStroke,
-} from '@repo/ui/icons/pika'
-import type {
-  IntervalUnit,
-  TriggerType,
-  ValueDataType,
-} from '@/types/database.types'
-import type { SelectOptions } from '@/types/nodes.types'
+import type { TriggerType } from '@/types/database.types'
 import { z } from 'zod'
 import cron from 'cron-validate'
-import type {
-  ValueType,
-  Value,
-  ValueMap,
-  ValueTypeMap,
-} from '@repo/engine/types/value-types'
-import { valueTypeKeys } from '@/lib/supabase/constants/datatypes'
+import type { ValueMap, ValueTypeMap } from '@repo/engine/types/value-types'
 import type {
   ActionTrigger,
   ParameterInfo,
   ParameterState,
 } from '@/types/actions.types'
 import { datatypeSchema } from '@repo/engine/datatypes/schemas'
-
-import type { JSX } from 'react'
-
-export const actionTypes: Record<
-  TriggerType,
-  { name: string; icon: (props: JSX.IntrinsicElements['svg']) => JSX.Element }
-> = {
-  api: {
-    name: 'API',
-    icon: PiLinkChainHorizontalStroke,
-  },
-  interval: {
-    name: 'Interval',
-    icon: PiTimerDefaultStroke,
-  },
-  schedule: {
-    name: 'Schedule',
-    icon: PiCalendarFilledStroke,
-  },
-  token: {
-    name: 'Token',
-    icon: PiNftBoltMintStroke,
-  },
-}
-
-export const triggerOptions: SelectOptions = [
-  {
-    value: 'api',
-    label: 'API',
-    subtext: 'Call from your app',
-    description:
-      'Trigger via an API call from your app or website (e.g. on button click)',
-    icons: { stroke: PiLinkChainHorizontalStroke },
-  },
-  {
-    value: 'interval',
-    label: 'Interval',
-    subtext: 'Every X minutes',
-    description: 'Trigger automatically at a set interval (e.g. every 3 days)',
-    icons: { stroke: PiTimerDefaultStroke },
-  },
-  {
-    value: 'schedule',
-    label: 'Schedule',
-    subtext: 'Custom Schedule',
-    icons: { stroke: PiCalendarFilledStroke },
-    description:
-      'Trigger automatically at a schedule (e.g. every first day of the month)',
-  },
-  {
-    value: 'token',
-    label: 'Token',
-    subtext: 'On mint, transfer, ...',
-    description:
-      'Trigger automatically when a token event occurs (e.g. on transfer)',
-    icons: { stroke: PiNftBoltMintStroke },
-  },
-]
-
-export const tokenEventOptions: SelectOptions = [
-  { value: 'mint', label: 'On Mint' },
-  { value: 'transfer', label: 'On Transfer' },
-  { value: 'burn', label: 'On Burn' },
-  { value: 'approve', label: 'On Approval' },
-]
-
-export const intervalUnitOptions: SelectOptions = [
-  { value: 'minutes', label: 'Minutes' },
-  { value: 'hours', label: 'Hours' },
-  { value: 'days', label: 'Days' },
-]
+import { valueTypeKeys } from '@repo/engine/datatypes/constants/value-types'
 
 export const newActionSchema = z.object({
   trigger: z.enum(['api', 'interval', 'token', 'schedule'], {

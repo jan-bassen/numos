@@ -4,35 +4,42 @@ import { Plus } from 'lucide-react'
 import { Button } from '@repo/ui/components/ui/button'
 import { PiCrossCross, PiThreeByTwoDotsVertical } from '@repo/ui/icons/pika'
 import { cn } from '@repo/ui/lib/utils'
-import { dataTypes } from '@/lib/supabase/constants/datatypes'
-import GenericInput from './generic-input'
+import { dataTypes } from '@/lib/constants/datatypes'
 import { DndContext } from '@dnd-kit/core'
-import { SortableContext, useSortable, arrayMove } from '@dnd-kit/sortable'
+import { SortableContext } from '@dnd-kit/sortable'
 import {
   restrictToVerticalAxis,
   restrictToParentElement,
   restrictToHorizontalAxis,
 } from '@dnd-kit/modifiers'
-import { CSS } from '@dnd-kit/utilities'
-import { type ChangeEvent, useMemo } from 'react'
+import { useMemo } from 'react'
 import type { ZodIssue } from 'zod'
 import type {
   ObjectValue,
-  OptionalValue,
   RawSingleValue,
+  RawValue,
   Value,
-  ValueSettings,
   ValueType,
 } from '@repo/engine/types/value-types'
+import {
+  getDataTypeInput,
+  type SingleDataTypeInputProps,
+} from '../single-datatype-input'
+import dynamic from 'next/dynamic'
 
-export type ListInputProps = {
-  value: Value<ValueType, 'objectarray', true>
-  settings?: ValueSettings
-  placeholder?: string
-  locked?: boolean
-  onChange?: (value: Value<ValueType, 'objectarray', true>) => void
-  onValueChange?: (value: Value<ValueType, 'objectarray', true>) => void
-  onBlur?: (e: ChangeEvent<Element>) => void
+const SortableItem = dynamic(
+  () => import('@/components/datatypes/list/sortable-item'),
+  {
+    ssr: false,
+  },
+)
+
+export type ListInputProps<T extends ValueType = ValueType> = Omit<
+  SingleDataTypeInputProps<T>,
+  'value' | 'onChange' | 'className' | 'id'
+> & {
+  value: Value<T, 'objectarray', true>
+  onChange?: (value: Value<T, 'objectarray', true>) => void
   classNames?: {
     container?: string
     item?: string
@@ -42,63 +49,42 @@ export type ListInputProps = {
     deleteButton?: string
   }
   limitAxis?: 'x' | 'y'
-  valid?: boolean
   issues?: ZodIssue[]
+  addButtonLabel?: string
 }
 
-type UseSortableReturn = Omit<
-  ReturnType<typeof useSortable>,
-  'setNodeRef' | 'transform' | 'transition'
->
-
-function SortableItem(props: {
-  id: string
-  children: (args: UseSortableReturn) => React.ReactNode
-}) {
-  const { setNodeRef, transform, transition, ...rest } = useSortable({
-    id: props.id,
-  })
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  }
-
-  return (
-    <div ref={setNodeRef} style={style}>
-      {props.children({ ...rest })}
-    </div>
-  )
-}
-
-export default function ListInput({
+export default function ListInput<T extends ValueType>({
   value,
   settings,
-  placeholder,
   locked = false,
   classNames,
   limitAxis,
   issues = [],
-  onValueChange,
-}: ListInputProps) {
+  environment,
+  addButtonLabel,
+  onChange,
+}: ListInputProps<T>) {
   const valueArray = useMemo(() => value.value || [], [value])
 
-  const changeValue = (v: OptionalValue, index: number) => {
-    if (!onValueChange) return
+  const onSingleValueChange = (
+    v: Value<ValueType, 'single', true>,
+    index: number,
+  ) => {
+    if (!onChange) return
     const newValueArray = valueArray ? [...valueArray] : []
+    const newSingleValue = v.value as RawValue<'single', true>
     if (newValueArray[index]) {
-      // @ts-ignore
-      newValueArray[index].value = v
+      newValueArray[index].value = newSingleValue
       const newValue = {
         ...value,
         value: newValueArray,
-      } as Value<ValueType, 'objectarray', true>
-      onValueChange(newValue)
+      } as Value<T, 'objectarray', true>
+      onChange(newValue)
     }
   }
 
   const move = (from: number, to: number) => {
-    if (!onValueChange) return
+    if (!onChange) return
     if (
       from < 0 ||
       from >= valueArray.length ||
@@ -113,23 +99,23 @@ export default function ListInput({
     const newValue = {
       ...value,
       value: newValueArray,
-    } as Value<ValueType, 'objectarray', true>
-    onValueChange(newValue)
+    } as Value<T, 'objectarray', true>
+    onChange(newValue)
   }
 
   const remove = (index: number) => {
-    if (!onValueChange) return
+    if (!onChange) return
     const newValueArray = valueArray ? [...valueArray] : []
     newValueArray.splice(index, 1)
     const newValue = {
       ...value,
       value: newValueArray,
-    } as Value<ValueType, 'objectarray', true>
-    onValueChange(newValue)
+    } as Value<T, 'objectarray', true>
+    onChange(newValue)
   }
 
   const append = (v: ObjectValue<RawSingleValue, true>) => {
-    if (!onValueChange) return
+    if (!onChange) return
     const newValueArray: ObjectValue<RawSingleValue, true>[] = valueArray
       ? [...valueArray]
       : []
@@ -137,8 +123,8 @@ export default function ListInput({
     const newValue = {
       ...value,
       value: newValueArray,
-    } as Value<ValueType, 'objectarray', true>
-    onValueChange(newValue)
+    } as Value<T, 'objectarray', true>
+    onChange(newValue)
   }
 
   const modifiers = [restrictToParentElement]
@@ -152,6 +138,9 @@ export default function ListInput({
     default:
       break
   }
+
+  const SingleDatatypeInput = getDataTypeInput<typeof value.type>(value.type)
+  if (!SingleDatatypeInput) return null
 
   return (
     <div
@@ -195,16 +184,20 @@ export default function ListInput({
                           />
                         </div>
                       )}
-                      {/* @ts-ignore */}
-                      <GenericInput
-                        datatype={value.type}
-                        value={arrayItem.value}
-                        onValueChange={(v) => changeValue(v, index)}
+                      <SingleDatatypeInput
+                        type={value.type as T}
+                        value={
+                          {
+                            value: arrayItem.value,
+                            type: value.type,
+                            format: 'single',
+                          } as Value<T, 'single', true>
+                        }
+                        onChange={(v) => onSingleValueChange(v, index)}
                         settings={settings}
-                        placeholder={placeholder}
                         locked={locked}
                         valid={!issues.some((issue) => issue.path[0] === index)}
-                        environment="node"
+                        environment={environment}
                         className={cn(
                           'w-full rounded-md',
                           false &&
@@ -241,11 +234,11 @@ export default function ListInput({
         <Button
           onClick={() => append({ id: crypto.randomUUID(), value: undefined })}
           variant={'outline'}
-          className={cn('w-full gap-1', classNames?.button)}
+          className={cn('w-full h-10 rounded-md gap-1', classNames?.button)}
           type="button"
         >
           <Plus className="size-3.5" />
-          Add {dataTypes[value.type].title}
+          {addButtonLabel || `Add ${dataTypes[value.type].title}`}
         </Button>
       )}
     </div>

@@ -22,7 +22,7 @@ export const textCombineDefinition: SpecificNodeDefinition<TextCombineNode> = {
       label: 'Separator',
       placeholder: 'Seperator',
       settings: {
-        default: ' ',
+        default: { value: ' ', type: 'enum', format: 'single' },
       },
     },
   ],

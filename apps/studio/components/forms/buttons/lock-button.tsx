@@ -9,23 +9,23 @@ export function LockButton({
   setLocked,
   className,
 }: ButtonProps & { locked: boolean; setLocked: (value: boolean) => void }) {
-  return locked ? (
-    <Button
-      variant="default"
-      className={cn('gap-1.5 pl-3', className)}
-      onClick={() => setLocked(false)}
-    >
-      <PiLockOpenStroke className="size-4" />
-      Unlock
-    </Button>
-  ) : (
+  return (
     <Button
       variant={'outline'}
-      className={cn('gap-1.5 pl-3', className)}
-      onClick={() => setLocked(true)}
+      className={cn('gap-1.5 pl-3 min-w-24', className)}
+      onClick={() => setLocked(!locked)}
     >
-      <PiLockCloseStroke className="size-4" />
-      Lock
+      {locked ? (
+        <>
+          <PiLockOpenStroke className="size-4" />
+          Unlock
+        </>
+      ) : (
+        <>
+          <PiLockCloseStroke className="size-4" />
+          Lock
+        </>
+      )}
     </Button>
   )
 }

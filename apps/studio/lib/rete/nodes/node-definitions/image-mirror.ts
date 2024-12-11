@@ -18,7 +18,7 @@ export const imageMirrorDefinition: SpecificNodeDefinition<ImageMirrorNode> = {
       label: 'Mirror',
       placeholder: 'Select Direction',
       settings: {
-        default: 'horizontal',
+        default: { value: 'horizontal', type: 'enum', format: 'single' },
         options: [
           { value: 'horizontal', label: 'Horizontal' },
           { value: 'vertical', label: 'Vertical' },

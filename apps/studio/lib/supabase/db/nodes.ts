@@ -4,7 +4,6 @@ import type { OLDSavedControl, SavedNode } from '@repo/engine/types/graph-types'
 import { createSupabaseServerComponentClient } from '../clients/server-client'
 import type { ReturnInfo } from '@/types/database.types'
 import { attributeNodeDependency } from '@/lib/rete/nodes/node-dependencies'
-import { NodeValueMap } from '@repo/engine/types/value-types'
 
 export async function updateAttributeNodeControls(
   versionId: string,

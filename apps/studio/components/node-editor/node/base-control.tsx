@@ -2,26 +2,27 @@
 
 import type { Schemes } from '@/types/editor.types'
 import { Drag, Presets, type ReactArea2D } from 'rete-react-plugin'
-import GenericInput, {
-  type GenericInputProps,
-} from '@/components/datatypes/generic-input'
 import type { Control as ControlClass } from '@/lib/rete/classes/control'
 import { cn } from '@repo/ui/lib/utils'
 import { buttonVariants } from '@repo/ui/components/ui/button'
-import { dataTypes } from '@/lib/supabase/constants/datatypes'
+import { dataTypes } from '@/lib/constants/datatypes'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@repo/ui/components/ui/popover'
 import { useRef } from 'react'
-import ListInput from '@/components/datatypes/list-input'
+import ListInput from '@/components/datatypes/list/list-input'
 import type {
   RawSingleValue,
   Value,
   ValueMap,
   ValueType,
 } from '@repo/engine/types/value-types'
+import {
+  getDataTypeInput,
+  type SingleDataTypeInputProps,
+} from '@/components/datatypes/single-datatype-input'
 
 declare type ControlProps = {
   className: string
@@ -42,7 +43,8 @@ export function ControlComponent(payload: { data: ControlClass }) {
 
   if (!control) return null
 
-  if (control.value.format !== 'single') {
+  console.log(control.value, control.definition.list)
+  if (control.definition.list && control.value.format !== 'single') {
     return (
       <Popover>
         <span ref={dragRef}>
@@ -64,8 +66,9 @@ export function ControlComponent(payload: { data: ControlClass }) {
             className="w-56 space-y-1 p-1 "
           >
             <ListInput
+              type={control.value.type}
               value={control.value}
-              onValueChange={(v: Value<ValueType, 'objectarray', true>) => {
+              onChange={(v: Value<ValueType, 'objectarray', true>) => {
                 control.setValue(v)
               }}
               valid={control.valid}
@@ -86,7 +89,7 @@ export function ControlComponent(payload: { data: ControlClass }) {
       </Popover>
     )
   }
-  const props = {
+  /* const props = {
     datatype: control.value.type,
     valid: control.valid,
     value: payload.data.value.value,
@@ -102,13 +105,37 @@ export function ControlComponent(payload: { data: ControlClass }) {
         format: control.value.format,
       } as Value<ValueType, 'single' | 'objectarray', true>)
     },
-  } as GenericInputProps
+  } as GenericInputProps */
+
+  const DataTypeInput = getDataTypeInput<typeof control.value.type>(
+    control.value.type,
+  )
+  const props: SingleDataTypeInputProps<typeof control.value.type> = {
+    type: control.value.type,
+    valid: control.valid,
+    value: payload.data.value as Value<
+      typeof control.value.type,
+      'single',
+      true
+    >,
+    settings: control.settings,
+    layertree:
+      control.value.type === 'image'
+        ? payload.data.node.context.editor.context.layers
+        : undefined,
+    onChange: (v) => {
+      control.setValue(v)
+    },
+    environment: 'node',
+    id: `control-${control.id}`,
+  }
   return (
-    <GenericInput
+    <DataTypeInput {...props} />
+    /*     <GenericInput
       {...props}
       environment="node"
       id={`control-${control.id}`}
       className={cn('peer', props.className)}
-    />
+    /> */
   )
 }

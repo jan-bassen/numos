@@ -12,7 +12,7 @@ import Main from '@/components/page/main'
 import { PiBugStroke, PiListCheckStroke } from '@repo/ui/icons/pika'
 import { getActionIssues } from '@/lib/supabase/db/action-issues'
 import IssuesButton from './(components)/issues-button'
-import { TabsPage } from '@/components/page/page'
+import { Page } from '@/components/page/page'
 
 export default async function MintSettingsPage(props: {
   params: Promise<{ collection: string }>
@@ -22,7 +22,7 @@ export default async function MintSettingsPage(props: {
   const issues = await getActionIssues(collection.editable_version.id)
 
   return (
-    <TabsPage defaultValue="issues">
+    <Page tabs tabsProps={{ defaultValue: 'issues' }}>
       <Header>
         <HeaderContent>
           <HeaderMain>
@@ -46,6 +46,6 @@ export default async function MintSettingsPage(props: {
       </Header>
       <Main value="issues">Hi</Main>
       <Main value="tests">Hi2</Main>
-    </TabsPage>
+    </Page>
   )
 }

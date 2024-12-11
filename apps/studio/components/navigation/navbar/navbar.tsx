@@ -17,6 +17,9 @@ import { Collections } from './collections/collections'
 import { CollectionsSkeleton } from './collections/collections-skeleton'
 import { CollectionSettings } from './collection/collection-general'
 import { CollectionPartsSkeleton } from './collection/collection-parts/collection-parts-skeleton'
+import { CollectionSwitcherSkeleton } from './collection/collection-switcher/collection-switcher-skeleton'
+import { CollectionSwitcher } from './collection/collection-switcher/collection-switcher'
+import { cn } from '@repo/ui/lib/utils'
 
 type SidebarProps = React.ComponentProps<typeof Sidebar> & {
   collection?: string
@@ -33,7 +36,7 @@ export async function Navbar({ collection, ...props }: SidebarProps) {
       <SidebarContent className="scrollbar-thin scrollbar-thumb-sidebar-border scrollbar-track-transparent">
         {collection ? (
           <>
-            {/* <div className="p-2">
+            {/*  <div className="p-2">
               <Suspense fallback={<CollectionSwitcherSkeleton />}>
                 <CollectionSwitcher collection_slug={collection} />
               </Suspense>

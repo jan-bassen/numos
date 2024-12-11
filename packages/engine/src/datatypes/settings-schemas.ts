@@ -24,7 +24,7 @@ import type {
   ValueType,
 } from '@repo/engine/types/value-types'
 
-export function getBaseValueSchema(
+export function getRawBaseValueSchema(
   baseSchema: ZodType,
   format: ValueFormat,
 ): ZodType {
@@ -45,13 +45,48 @@ export function getBaseValueSchema(
   }
 }
 
+export function getBaseValueSchema(
+  type: ValueType,
+  baseSchema: ZodType,
+  format: ValueFormat,
+): ZodType {
+  switch (format) {
+    case 'single':
+      return z.object({
+        value: baseSchema.nullable().optional(),
+        format: z.literal('single'),
+        type: z.literal(type),
+      })
+    case 'array':
+      return z.object({
+        value: z.array(baseSchema.nullable().optional()),
+        format: z.literal('array'),
+        type: z.literal(type),
+      })
+    case 'objectarray':
+      return z.object({
+        value: z.array(
+          z.object({
+            id: z.string().optional(),
+            value: baseSchema.nullable().optional(),
+          }),
+        ),
+        format: z.literal('objectarray'),
+        type: z.literal(type),
+      })
+    default:
+      throw new Error('Invalid format')
+  }
+}
+
 export const getEnumSettingsSchema = (format: ValueFormat): ZodType => {
-  const defaultValue = getBaseValueSchema(enumSchema, format)
+  const defaultValue = getBaseValueSchema('enum', enumSchema, format)
   return z.object({
-    default: defaultValue,
+    default: defaultValue.optional(),
     options: z
       .array(
         z.object({
+          id: z.string().optional(),
           value: z
             .string({
               required_error: "Options can't be empty",
@@ -71,7 +106,7 @@ export const getEnumSettingsSchema = (format: ValueFormat): ZodType => {
 }
 
 export const getNumberSettingsSchema = (format: ValueFormat): ZodType => {
-  const defaultValue = getBaseValueSchema(numberSchema, format)
+  const defaultValue = getBaseValueSchema('number', numberSchema, format)
   return z.object({
     default: defaultValue,
     min: z.preprocess((value) => {
@@ -96,7 +131,7 @@ export const getNumberSettingsSchema = (format: ValueFormat): ZodType => {
 }
 
 export const getStringSettingsSchema = (format: ValueFormat): ZodType => {
-  const defaultValue = getBaseValueSchema(stringSchema, format)
+  const defaultValue = getBaseValueSchema('string', stringSchema, format)
   return z.object({
     default: defaultValue,
     min_length: z.preprocess((value) => {
@@ -114,10 +149,21 @@ export const getStringSettingsSchema = (format: ValueFormat): ZodType => {
   })
 }
 
+export const getBaseSettingsSchema = (
+  type: ValueType,
+  baseSchema: ZodType,
+  format: ValueFormat,
+): ZodType => {
+  return z.object({
+    default: getBaseValueSchema(type, baseSchema, format),
+  })
+}
+
 export const getSettingsSchema = (
   type: ValueType,
   format: ValueFormat,
 ): ZodType => {
+  let schema: ZodType
   switch (type) {
     case 'enum':
       return getEnumSettingsSchema(format)
@@ -126,23 +172,23 @@ export const getSettingsSchema = (
     case 'string':
       return getStringSettingsSchema(format)
     case 'boolean':
-      return getBaseValueSchema(booleanSchema, format)
+      return getBaseSettingsSchema('boolean', booleanSchema, format)
     case 'color':
-      return getBaseValueSchema(colorSchema, format)
+      return getBaseSettingsSchema('color', colorSchema, format)
     case 'location':
-      return getBaseValueSchema(locationSchema, format)
+      return getBaseSettingsSchema('location', locationSchema, format)
     case 'datetime':
-      return getBaseValueSchema(datetimeSchema, format)
+      return getBaseSettingsSchema('datetime', datetimeSchema, format)
     case 'direction':
-      return getBaseValueSchema(directionSchema, format)
+      return getBaseSettingsSchema('direction', directionSchema, format)
     case 'weather':
-      return getBaseValueSchema(weatherSchema, format)
+      return getBaseSettingsSchema('weather', weatherSchema, format)
     case 'address':
-      return getBaseValueSchema(addressSchema, format)
+      return getBaseSettingsSchema('address', addressSchema, format)
     case 'image':
-      return getBaseValueSchema(stringSchema, format)
+      return getBaseSettingsSchema('string', stringSchema, format)
     case 'buffer':
-      return getBaseValueSchema(bufferSchema, format)
+      return getBaseSettingsSchema('buffer', bufferSchema, format)
     default:
       return z.never()
   }

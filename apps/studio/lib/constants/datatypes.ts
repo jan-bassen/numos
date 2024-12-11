@@ -24,22 +24,7 @@ import {
 } from '@repo/ui/icons/pika'
 import type { ValueTypeDefinition } from '@/types/database.types'
 import type { DataType, OptionalDataType } from '@repo/engine/types/value-types'
-
-// TODO: Check if we can remove generic
-export const valueTypeKeys = [
-  'enum',
-  'number',
-  'string',
-  'boolean',
-  'address',
-  'color',
-  'datetime',
-  'location',
-  'weather',
-  'direction',
-  'buffer',
-  'image',
-] as const
+import type { TabOption } from '@/components/forms/tab-inputs/tab-option'
 
 export const dataTypes: Record<OptionalDataType, ValueTypeDefinition> = {
   exec: {
@@ -151,3 +136,16 @@ export const dataTypes: Record<OptionalDataType, ValueTypeDefinition> = {
     parameter: true,
   },
 }
+
+export const attributeTypeOptions: TabOption<DataType>[] = Object.entries(
+  dataTypes,
+)
+  .filter(([key, def]) => def.attribute)
+  .map(([key, def]) => {
+    return {
+      value: key as DataType,
+      label: def.title,
+      subtext: def.description,
+      Icon: def.icons.stroke,
+    }
+  })

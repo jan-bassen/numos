@@ -28,7 +28,7 @@ export const timeDifferenceDefinition: SpecificNodeDefinition<TimeDifferenceNode
             { value: 'months', label: 'Months' },
             { value: 'years', label: 'Years' },
           ],
-          default: 'seconds',
+          default: { value: 'seconds', type: 'enum', format: 'single' },
         },
       },
     ],

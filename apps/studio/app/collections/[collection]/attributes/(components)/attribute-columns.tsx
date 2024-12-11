@@ -30,7 +30,7 @@ import {
   attributeDisplayOptions,
   attributeScopeOptions,
 } from '../../../../../lib/schemas/attribute-schema'
-import { dataTypes } from '@/lib/supabase/constants/datatypes'
+import { dataTypes } from '@/lib/constants/datatypes'
 import {
   Tooltip,
   TooltipContent,
@@ -216,7 +216,6 @@ export const columns: ColumnDef<ExtendedAttribute>[] = [
             onDelete={async () => {
               const res = await deleteAttribute(
                 attribute.id,
-                attribute.collection_slug,
                 attribute.version,
                 attribute.slug,
               )

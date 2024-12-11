@@ -3,6 +3,7 @@ import type { ZodType } from 'zod'
 import type { MergeDeep } from 'type-fest'
 import type { Database as DatabaseGenerated } from './database-generated.types'
 import type {
+  FullValue,
   Value,
   ValueFormat,
   ValueMap,
@@ -41,14 +42,17 @@ export type Database = MergeDeep<
           Row: {
             type: ValueType
             settings: ValueSettings | null
+            value: FullValue
           }
           Insert: {
             type: ValueType
             settings?: ValueSettings | null
+            value?: FullValue | null
           }
           Update: {
             type?: ValueType
             settings?: ValueSettings | null
+            value?: FullValue | null
           }
         }
         action_nodes: {

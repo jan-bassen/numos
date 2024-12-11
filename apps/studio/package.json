@@ -10,7 +10,8 @@
     "check-types": "tsc --noEmit",
     "lint": "biome lint",
     "typegen": "supabase gen types typescript --project-id ncqfkhposkxidjcaghvj > types/database-generated.types.ts",
-    "email": "email dev --dir lib/emails"
+    "email": "email dev --dir lib/emails",
+    "scan": "next dev --turbopack & npx react-scan@latest localhost:3000"
   },
   "peerDependencies": {
     "react": "^18"
@@ -28,6 +29,7 @@
     "@hubspot/api-client": "^11.1.0",
     "@react-email/components": "^0.0.23",
     "@repo/engine": "workspace:*",
+    "@repo/shared": "workspace:*",
     "@repo/ui": "workspace:*",
     "@supabase/ssr": "^0.0.10",
     "@supabase/storage-js": "^2.5.5",
@@ -107,6 +109,7 @@
     "pg": "^8.11.1",
     "postcss": "^8.4.27",
     "react-email": "^3.0.1",
+    "react-scan": "^0.0.36",
     "supabase": "^1.127.3",
     "tailwindcss": "^3.4.0",
     "typescript": "^5.5.4"

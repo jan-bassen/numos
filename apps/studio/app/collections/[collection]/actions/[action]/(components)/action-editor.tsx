@@ -30,12 +30,7 @@ import {
 import { cn, handleReturnInfo } from '@repo/ui/lib/utils'
 import { useRouter } from 'next/navigation'
 import { Button, buttonVariants } from '@repo/ui/components/ui/button'
-import {
-  actionSchema,
-  intervalUnitOptions,
-  tokenEventOptions,
-  triggerOptions,
-} from '../../../../../../lib/schemas/action-schema'
+import { actionSchema } from '../../../../../../lib/schemas/action-schema'
 import {
   deleteAction,
   editAction,
@@ -43,9 +38,9 @@ import {
   setActionLock,
 } from '@/lib/supabase/db/actions'
 import Link from 'next/link'
-import DatetimeInput from '@/components/datatypes/datetime/datetime-input'
-import NumberInput from '@/components/datatypes/number/number-input'
-import EnumInput from '@/components/datatypes/enum/enum-input'
+import { DatetimeInput } from '@/components/datatypes/datetime/datetime-input'
+import { NumberInput } from '@/components/datatypes/number/number-input'
+import { EnumInput } from '@/components/datatypes/enum/enum-input'
 import { Input } from '@repo/ui/components/ui/input'
 import {
   Select,
@@ -55,7 +50,7 @@ import {
   SelectValue,
 } from '@repo/ui/components/ui/select'
 import { toast } from 'sonner'
-import { dataTypes } from '@/lib/supabase/constants/datatypes'
+import { dataTypes } from '@/lib/constants/datatypes'
 import { listOptionMap, listOptions } from '@/lib/schemas/attribute-schema'
 import { removeActionParameterFromLocalForm } from '../../(functions)/utils'
 import CronInput from './cron-input'
@@ -76,6 +71,11 @@ import DeleteButton from '@/components/forms/buttons/delete-button'
 import SaveButton from '@/components/forms/buttons/save-button'
 import { Textarea } from '@repo/ui/components/ui/textarea'
 import { Page } from '@/components/page/page'
+import {
+  intervalUnitOptions,
+  tokenEventOptions,
+  triggerOptionsArray,
+} from '@/lib/constants/triggers'
 
 function getDefaultValuesFromAction(
   action: Action,
@@ -263,17 +263,19 @@ export default function ActionEditor({
               <Segment
                 title="Trigger"
                 description="Define how the action gets triggered and starts executing."
-                options={triggerOptions.map(({ label, description }) => ({
+                options={triggerOptionsArray.map(({ label, description }) => ({
                   label,
                   explanation: description || '',
                 }))}
               >
                 <EnumInput
-                  datatype="enum"
-                  value={type}
-                  onChange={(v) => setType(v as TriggerType)}
+                  type="enum"
+                  value={{ type: 'enum', format: 'single', value: type }}
+                  onChange={(v) => setType(v.value as TriggerType)}
                   locked={locked}
-                  staticoptions={triggerOptions}
+                  settings={{
+                    options: triggerOptionsArray,
+                  }}
                   className="w-full md:max-w-form-input"
                 />
               </Segment>
@@ -291,9 +293,17 @@ export default function ActionEditor({
                           <FormLabel>Start</FormLabel>
                           <FormControl>
                             <DatetimeInput
-                              {...field}
-                              datatype="datetime"
+                              value={{
+                                type: 'datetime',
+                                format: 'single',
+                                value: field.value,
+                              }}
+                              onChange={(v) => {
+                                field.onChange(v.value)
+                              }}
+                              type="datetime"
                               locked={locked}
+                              onBlur={field.onBlur}
                             />
                           </FormControl>
                           <FormMessage />
@@ -308,9 +318,17 @@ export default function ActionEditor({
                           <FormLabel>End</FormLabel>
                           <FormControl>
                             <DatetimeInput
-                              {...field}
-                              datatype="datetime"
+                              value={{
+                                type: 'datetime',
+                                format: 'single',
+                                value: field.value,
+                              }}
+                              onChange={(v) => {
+                                field.onChange(v.value)
+                              }}
+                              type="datetime"
                               locked={locked}
+                              onBlur={field.onBlur}
                             />
                           </FormControl>
                           <FormMessage />
@@ -327,10 +345,18 @@ export default function ActionEditor({
                           <FormLabel>Interval (every...)</FormLabel>
                           <FormControl>
                             <NumberInput
-                              {...field}
-                              datatype="number"
+                              value={{
+                                type: 'number',
+                                format: 'single',
+                                value: field.value,
+                              }}
+                              onChange={(v) => {
+                                field.onChange(v.value)
+                              }}
+                              type="number"
                               locked={locked}
                               className="w-full"
+                              onBlur={field.onBlur}
                             />
                           </FormControl>
                           <FormMessage />
@@ -345,10 +371,20 @@ export default function ActionEditor({
                           <FormLabel>Unit</FormLabel>
                           <FormControl>
                             <EnumInput
-                              {...field}
-                              datatype="enum"
-                              staticoptions={intervalUnitOptions}
+                              value={{
+                                type: 'enum',
+                                format: 'single',
+                                value: field.value,
+                              }}
+                              onChange={(v) => {
+                                field.onChange(v.value)
+                              }}
+                              type="enum"
+                              settings={{
+                                options: intervalUnitOptions,
+                              }}
                               locked={locked}
+                              onBlur={field.onBlur}
                             />
                           </FormControl>
                           <FormMessage />
@@ -377,9 +413,17 @@ export default function ActionEditor({
                           <FormLabel>Start</FormLabel>
                           <FormControl>
                             <DatetimeInput
-                              {...field}
-                              datatype="datetime"
+                              value={{
+                                type: 'datetime',
+                                format: 'single',
+                                value: field.value,
+                              }}
+                              onChange={(v) => {
+                                field.onChange(v.value)
+                              }}
+                              type="datetime"
                               locked={locked}
+                              onBlur={field.onBlur}
                             />
                           </FormControl>
                           <FormMessage />
@@ -394,9 +438,17 @@ export default function ActionEditor({
                           <FormLabel>End</FormLabel>
                           <FormControl>
                             <DatetimeInput
-                              {...field}
-                              datatype="datetime"
+                              value={{
+                                type: 'datetime',
+                                format: 'single',
+                                value: field.value,
+                              }}
+                              onChange={(v) => {
+                                field.onChange(v.value)
+                              }}
+                              type="datetime"
                               locked={locked}
+                              onBlur={field.onBlur}
                             />
                           </FormControl>
                           <FormMessage />
@@ -455,11 +507,21 @@ export default function ActionEditor({
                         <FormLabel>Event</FormLabel>
                         <FormControl>
                           <EnumInput
-                            {...field}
-                            datatype="enum"
-                            staticoptions={tokenEventOptions}
+                            value={{
+                              type: 'enum',
+                              format: 'single',
+                              value: field.value,
+                            }}
+                            onChange={(v) => {
+                              field.onChange(v.value)
+                            }}
+                            type="enum"
+                            settings={{
+                              options: tokenEventOptions,
+                            }}
                             locked={locked}
                             className="w-fit md:max-w-form-input"
+                            onBlur={field.onBlur}
                           />
                         </FormControl>
                         <FormMessage />

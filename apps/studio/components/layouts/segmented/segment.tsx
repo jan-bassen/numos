@@ -22,7 +22,7 @@ export default function Segment({
   }
 }) {
   return (
-    <section className="flex w-full flex-col gap-1.5 py-5 first:pt-0 last:pb-0 md:gap-3 lg:flex-row">
+    <section className="flex w-full flex-col gap-1.5 pt-5 first:pt-0 last:pb-0 md:gap-3 lg:flex-row lg:gap-4">
       <h3 className="flex h-fit w-full items-center gap-2 pl-1 font-medium text-base lg:w-1/3">
         {title}
         {description && (
@@ -36,7 +36,7 @@ export default function Segment({
       </h3>
       <div
         className={cn(
-          'flex w-full max-w-full flex-col gap-3 px-2 py-2 md:py-4 lg:w-2/3',
+          'flex w-full max-w-input flex-col gap-3 md:px-2 py-2 md:py-4 lg:w-2/3',
           className,
         )}
       >

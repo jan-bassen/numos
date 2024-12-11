@@ -8,7 +8,7 @@ import {
 import { Button } from '@repo/ui/components/ui/button'
 import { PiDeleteDustbin02Stroke } from '@repo/ui/icons/pika'
 
-export function DeleteKeyButton({ key }: { key: string }) {
+export function DeleteKeyButton() {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>

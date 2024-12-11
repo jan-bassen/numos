@@ -18,7 +18,6 @@ import {
 import { PiCrossCross, PiThreeByTwoDotsVertical } from '@repo/ui/icons/pika'
 import { cn } from '@repo/ui/lib/utils'
 import { dataTypes } from '@/lib/supabase/constants/datatypes'
-import GenericInput, { type GenericInputProps } from './generic-input'
 import { DndContext } from '@dnd-kit/core'
 import { SortableContext, useSortable } from '@dnd-kit/sortable'
 import {
@@ -27,12 +26,19 @@ import {
   restrictToHorizontalAxis,
 } from '@dnd-kit/modifiers'
 import { CSS } from '@dnd-kit/utilities'
+import {
+  type SingleDataTypeInputProps,
+  getDataTypeInput,
+} from '../single-datatype-input'
 
 export type ListInputProps<
   SchemaType extends Record<string, any>,
   Key extends ArrayPath<SchemaType>,
 > = {
-  inputProps: GenericInputProps
+  inputProps: Omit<
+    SingleDataTypeInputProps,
+    'value' | 'onChange' | 'environment' | 'onBlur'
+  >
   form: UseFormReturn<SchemaType>
   itemKey: Key
   defaultValue?: Array<any>
@@ -73,7 +79,7 @@ function SortableItem(props: {
   )
 }
 
-export default function ListFormInput<
+export function ListFormInput<
   SchemaType extends Record<string, any>,
   ListKey extends ArrayPath<SchemaType>,
 >({
@@ -132,6 +138,7 @@ export default function ListFormInput<
                 form.getFieldState(
                   `${itemKey}.${index}.value` as Path<SchemaType>,
                 )
+
               return (
                 <SortableItem key={field.id} id={field.id}>
                   {({ attributes, listeners }) => (
@@ -157,7 +164,10 @@ export default function ListFormInput<
                           control={form.control}
                           name={`${itemKey}.${index}.value` as Path<SchemaType>}
                           render={({ field }) => {
-                            const { ref, ...rest } = field
+                            const { ref } = field
+                            const DataTypeInput = getDataTypeInput<
+                              typeof inputProps.type
+                            >(inputProps.type)
                             return (
                               <FormItem
                                 className={cn(
@@ -166,10 +176,17 @@ export default function ListFormInput<
                                 )}
                               >
                                 <FormControl>
-                                  <GenericInput
+                                  <DataTypeInput
                                     {...inputProps}
-                                    {...rest}
                                     environment="list"
+                                    value={{
+                                      type: inputProps.type,
+                                      format: 'single',
+                                      value: field.value,
+                                    }}
+                                    onChange={(v) => {
+                                      field.onChange(v.value)
+                                    }}
                                     className={cn(
                                       'rounded-md',
                                       invalid &&
@@ -218,7 +235,7 @@ export default function ListFormInput<
             type="button"
           >
             <Plus className="size-3.5" />
-            Add {dataTypes[inputProps.datatype].title}
+            Add {dataTypes[inputProps.type].title}
           </Button>
         )}
       </div>

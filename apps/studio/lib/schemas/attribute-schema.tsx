@@ -20,8 +20,8 @@ import type {
   ValueType,
   ValueTypeMap,
 } from '@repo/engine/types/value-types'
-import { valueTypeKeys } from '@/lib/supabase/constants/datatypes'
 import type { TabOption } from '@/components/forms/tab-inputs/tab-option'
+import { valueTypeKeys } from '@repo/engine/datatypes/constants/value-types'
 
 export const displayOptions: TabOption[] = [
   {
@@ -209,8 +209,11 @@ export function getDefaultValuesFromAttributes(
       const settings = attribute.settings as ValueSettings | undefined
       if (value !== undefined && value !== null) {
         acc[attribute.slug] = value
-      } else if (settings?.default !== undefined && settings.default !== null) {
-        acc[attribute.slug] = settings.default
+      } else if (
+        settings?.default?.value !== undefined &&
+        settings.default?.value !== null
+      ) {
+        acc[attribute.slug] = settings.default.value
       }
       return acc
     },

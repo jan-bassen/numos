@@ -12,6 +12,7 @@ import {
 import { cn } from '@repo/ui/lib/utils'
 
 const Select = SelectPrimitive.Root
+export type RootSelectProps = React.ComponentProps<typeof SelectPrimitive.Root>
 
 const SelectGroup = SelectPrimitive.Group
 

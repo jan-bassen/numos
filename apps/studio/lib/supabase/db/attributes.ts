@@ -337,7 +337,6 @@ export async function duplicateAttribute(id: string): Promise<ReturnInfo> {
 
 export async function deleteAttribute(
   id: string,
-  collectionSlug: string,
   versionId: string,
   slug: string,
 ): Promise<ReturnInfo> {
