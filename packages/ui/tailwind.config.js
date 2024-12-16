@@ -103,7 +103,8 @@ module.exports = {
   			outfit: ["var(--font-outfit)", "var(--font-inter)", ...fontFamily.sans],
   			sans: ["var(--font-outfit)", "var(--font-inter)", "sans-serif", ...fontFamily.sans],
   			inter: ["var(--font-inter)", "sans-serif", ...fontFamily.sans],
-  			mono: ["var(--font-fira)", ...fontFamily.mono]
+  			mono: ["var(--font-fira)", ...fontFamily.mono],
+			poppins: ["var(--font-poppins)", "var(--font-inter)", "sans-serif", ...fontFamily.sans],
   		},
   		colors: {
   			border: {

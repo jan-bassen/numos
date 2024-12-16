@@ -15,7 +15,7 @@ import Footer from '@/components/landing-page/nav/footer'
 export default async function Home() {
   return (
     <div className="mx-auto max-w-[1240px]">
-      <Navbar />
+      {/* <Navbar /> */}
       <div>
         <AnimateIn className="pb-32 md:pb-52">
           <Hero />
