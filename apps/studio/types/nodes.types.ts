@@ -16,6 +16,7 @@ import type {
   OptionalDataType,
   OptionalValueType,
   Value,
+  ValueRestrictions,
   ValueSettings,
   ValueType,
 } from '@repo/engine/types/value-types'
@@ -48,13 +49,26 @@ export type Controls = { [key: string]: Control }
 
 export type SelectOption = {
   value: string
-  label: string
+  id?: string
+  label?: string
   subtext?: string
   description?: string
   icons?: { stroke: (props: JSX.IntrinsicElements['svg']) => JSX.Element }
 }
 
 export type SelectOptions = SelectOption[]
+export type EditableValue<
+  VT extends ValueType = ValueType,
+  L extends boolean | undefined = undefined,
+> = Value<
+  VT,
+  L extends true
+    ? 'objectarray'
+    : L extends false
+      ? 'single'
+      : 'objectarray' | 'single',
+  true
+>
 
 export type ControlDefinition<
   I extends NodeInterface<NodeCategory>,
@@ -66,19 +80,15 @@ export type ControlDefinition<
   state?: string
   type: InferredControlType<I, K>
   list?: InferredControlList<I, K>
-  settings?: ValueSettings<InferredControlType<I, K>>
+  restrictions?: ValueRestrictions<
+    InferredControlType<I, K>,
+    InferredControlList<I, K>
+  >
+  default?: EditableValue<InferredControlType<I, K>, InferredControlList<I, K>>
   placeholder?: string
   onChange?: (
     node: NodeInteractionInterface<I>,
-    value: Value<
-      InferredControlType<I, K>,
-      InferredControlList<I, K> extends true
-        ? 'objectarray'
-        : InferredControlList<I, K> extends false
-          ? 'single'
-          : 'single' | 'objectarray',
-      true
-    >,
+    value: EditableValue<InferredControlType<I, K>, InferredControlList<I, K>>,
   ) => void
   readonly?: boolean
 }
@@ -95,7 +105,14 @@ export type DataSocketDefinition<
   list?: InferredSocketList<I, T, K>
   canBeList?: boolean
   key: K
-  settings?: ValueSettings<InferredSocketType<I, T, K>>
+  restrictions?: ValueRestrictions<
+    InferredSocketType<I, T, K>,
+    InferredSocketList<I, T, K>
+  >
+  default?: EditableValue<
+    InferredSocketType<I, T, K>,
+    InferredSocketList<I, T, K>
+  >
   state?: string
   label: string
   multipleConnections?: boolean
@@ -208,18 +225,22 @@ export type NodeInteractionInterface<I extends NodeInterface<NodeCategory>> = {
 
 export type DefinitionInterface<I extends NodeInterface<NodeCategory>> = {
   getConnectedInputKeys: () => Array<keyof I['inputs']>
-  getInfoFromInputConnection: (key: keyof I['inputs']) =>
+  getInfoFromInputConnection: <VT extends ValueType, L extends boolean>(
+    key: keyof I['inputs'],
+  ) =>
     | {
-        type: ValueType
+        type: VT
         list: boolean
-        settings?: ValueSettings
+        restrictions?: ValueRestrictions<VT, L>
       }
     | undefined
-  getInfoFromInputConnections: (keys: Array<keyof I['inputs']>) =>
+  getInfoFromInputConnections: <VT extends ValueType, L extends boolean>(
+    keys: Array<keyof I['inputs']>,
+  ) =>
     | {
-        type: ValueType
+        type: VT
         list: boolean
-        settings?: ValueSettings
+        restrictions?: ValueRestrictions<VT, L>
       }
     | undefined
   getControlValue: <K extends keyof I['controls']>(

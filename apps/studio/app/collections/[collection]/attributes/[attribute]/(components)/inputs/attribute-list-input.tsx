@@ -42,8 +42,13 @@ export function AttributeListInput() {
       onChange={async (v) => {
         updateAttribute({
           list: v,
-          value: { list: v, type: value.type },
-        } as InsertAttribute)
+          value: {
+            ...value,
+            list: v ?? false,
+            default: undefined,
+            restrictions: undefined,
+          },
+        })
         removeAttributeFromLocalForm(collection, slug)
       }}
     />

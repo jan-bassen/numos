@@ -2,9 +2,9 @@
 
 import type { Direction } from '@repo/engine/datatypes/constants/directions'
 import type { WeatherCode } from '@repo/engine/datatypes/constants/weather-codes'
-import { number, z } from 'zod'
-import type { NumberRestrictions } from '../datatypes/schemas/datatype-schemas/number-schema.js'
-import type { StringRestrictions } from '../datatypes/schemas/datatype-schemas/string-schema.js'
+import type { NumberRestrictions } from '@repo/engine/datatypes/schemas/datatype-schemas/number-schema'
+import type { StringRestrictions } from '@repo/engine/datatypes/schemas/datatype-schemas/string-schema'
+import type { EnumRestrictions } from '@repo/engine/datatypes/schemas/datatype-schemas/enum-schema'
 
 export type Color = { r: number; g: number; b: number; a: number }
 export type Location = { lat: number; lng: number }
@@ -93,7 +93,7 @@ export interface RawValueTypesMap {
   direction: Direction
 }
 
-interface DataTypesMap<
+export interface DataTypesMap<
   Format extends 'single' | 'array' | 'objectarray' | undefined = undefined,
   Optional extends boolean = false,
 > {
@@ -249,15 +249,14 @@ export type FullValue<
   VT extends ValueType = ValueType,
   L extends boolean = boolean,
 > = {
-  type: L
-  list: boolean
+  type: VT
+  list: L
   default?: Value<VT, L extends true ? 'objectarray' : 'single', true>
   restrictions?: ValueRestrictions<VT, L>
 }
 
-export type SingleValueBaseRestrictions<VT extends ValueType = ValueType> = {
-  options?: Value<VT, 'objectarray', true>
-}
+// biome-ignore lint/complexity/noBannedTypes: <explanation>
+export type SingleValueBaseRestrictions<VT extends ValueType = ValueType> = {}
 
 // biome-ignore lint/complexity/noBannedTypes: <explanation>
 export type ListValueExtraRestrictions<VT extends ValueType = ValueType> = {}
@@ -272,7 +271,7 @@ export type BaseRestrictions<
 export type ValueRestrictionsMap<L extends boolean = boolean> = {
   number: BaseRestrictions<'number', L> & NumberRestrictions
   string: BaseRestrictions<'string', L> & StringRestrictions
-  enum: BaseRestrictions<'enum', L>
+  enum: BaseRestrictions<'enum', L> & EnumRestrictions
   boolean: BaseRestrictions<'boolean', L>
   address: BaseRestrictions<'address', L>
   color: BaseRestrictions<'color', L>

@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { weatherCodes } from '@repo/engine/datatypes/constants/weather-codes'
-import { valueSchemas } from '@repo/engine/datatypes/schemas/value-schema.js'
+import { valueSchemas } from '@repo/engine/datatypes/schemas/value-schema'
 import { validateDefaultFormat } from '../refinements.js'
 
 export const weatherSchema = z.enum(weatherCodes, {

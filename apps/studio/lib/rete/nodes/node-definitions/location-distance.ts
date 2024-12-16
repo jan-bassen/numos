@@ -16,8 +16,8 @@ export const locationDistanceDefinition: SpecificNodeDefinition<LocationDistance
         key: 'unit',
         type: 'enum',
         label: 'Unit',
-        settings: {
-          default: { value: 'km', type: 'enum', format: 'single' },
+        default: { value: 'km', type: 'enum', format: 'single' },
+        restrictions: {
           options: [
             { value: 'km', label: 'Kilometers' },
             { value: 'meter', label: 'Meters' },

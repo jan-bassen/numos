@@ -21,9 +21,7 @@ export const textCombineDefinition: SpecificNodeDefinition<TextCombineNode> = {
       type: 'string',
       label: 'Separator',
       placeholder: 'Seperator',
-      settings: {
-        default: { value: ' ', type: 'enum', format: 'single' },
-      },
+      default: { value: ' ', type: 'string', format: 'single' },
     },
   ],
   outputs: [{ key: 'output', type: 'string', label: 'Output' }],

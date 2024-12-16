@@ -1,7 +1,8 @@
-import type { NestedErrors, Validate } from '@/types/state.types'
+import type { ZodErrorInfo, NestedErrors, Validate } from '@/types/state.types'
 import { type SetStateAction, useCallback } from 'react'
 import { ZodError, type ZodType } from 'zod'
 import type { Result } from '@repo/shared/types/result'
+import { setValueAtPath } from '@/lib/state/validation/traverse-object'
 
 export function validateStateSchema<T extends Record<string, any>>(
   value: Partial<T>,
@@ -18,50 +19,41 @@ export function validateStateSchema<T extends Record<string, any>>(
 }
 
 // TODO: Handle Array Paths
-export function createValidate<T extends Record<string, any>>(
+export function createValidate<UT extends Record<string, any>>(
   schema: ZodType,
   errors: NestedErrors,
   setErrors: (value: SetStateAction<NestedErrors>) => void,
-): Validate<T> {
+): Validate<UT> {
   return useCallback(
     async (value) => {
       try {
-        return { result: await schema.parseAsync(value) }
+        const changedKeys = Object.keys(value)
+        const res = { result: await schema.parseAsync(value) }
+        const newErrorState = { ...errors }
+        for (const key of changedKeys) {
+          newErrorState[key] = null
+        }
+        setErrors(newErrorState)
+        return res
       } catch (error) {
         if (error instanceof ZodError) {
-          const newErrorState = errors
-
+          let newErrorState = errors
           const changedKeys = Object.keys(value)
           for (const key of changedKeys) {
-            newErrorState[key] = undefined
+            newErrorState[key] = null
           }
 
           if (error) {
             for (const issue of error.issues) {
-              let current = newErrorState
-
-              issue.path.forEach((key, index) => {
-                if (index === issue.path.length - 1) {
-                  current[key] = issue.message
-                } else {
-                  if (
-                    typeof current[key] !== 'object' ||
-                    current[key] === undefined
-                  ) {
-                    current[key] = {}
-                  }
-                  current = current[key] as NestedErrors
-                }
+              const n = setValueAtPath(newErrorState, issue.path, {
+                message: issue.message,
+                code: issue.code,
               })
-            }
-
-            setErrors(newErrorState)
-
-            return {
-              error: 'Not saved',
+              newErrorState = n
             }
           }
           setErrors(newErrorState)
+          return { error: 'Not saved due to invalid inputs' }
         }
         throw error
       }

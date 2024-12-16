@@ -1,9 +1,23 @@
 import type { Result } from '@repo/shared/types/result'
 import type { ReturnInfo } from '@repo/ui/lib/utils'
+import type { ZodIssueCode } from 'zod'
 
 // Schema
 
-export type NestedErrors = { [key: string]: string | NestedErrors | undefined }
+export type ZodErrorInfo = {
+  message: string
+  code: ZodIssueCode | null
+  validation: string | null
+}
+
+export type NestedErrors = {
+  [key: string]:
+    | ZodErrorInfo
+    | ZodErrorInfo[]
+    | NestedErrors
+    | NestedErrors[]
+    | null
+}
 
 export type ContextStateConfig = {
   debounce?: number
@@ -18,26 +32,26 @@ export type UpdateOptions = {
   redirect?: string
 }
 
-export type Update<U extends Record<string, any>> = (
+export type Update<UT extends Record<string, any>> = (
   id: string,
-  values: Partial<U>,
+  values: UT,
   options?: UpdateOptions,
 ) => Promise<ReturnInfo>
 
-export type SetState<S extends Record<string, any>> = (
-  value: Partial<S>,
+export type SetState<UT extends Record<string, any>> = (
+  value: UT,
   options?: UpdateOptions,
 ) => Promise<ReturnInfo>
 
-export type ValidateUpdate<T extends Record<string, any>> = (
+export type ValidateUpdate<UT extends Record<string, any>> = (
   id: string,
-  value: Partial<T>,
+  value: UT,
   options?: UpdateOptions,
 ) => Promise<ReturnInfo>
 
-export type Validate<T extends Record<string, any>> = (
-  value: Partial<T>,
-) => Promise<Result<Partial<T>, string>>
+export type Validate<UT extends Record<string, any>> = (
+  value: UT,
+) => Promise<Result<UT, string>>
 
 /* export type ContextStateConfigEntry = {
   debounce?: number

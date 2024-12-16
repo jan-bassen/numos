@@ -24,9 +24,7 @@ export function getInfoFromAttribute(attribute: Attribute): AttributeInfo {
     description: attribute.description || undefined,
     slug: attribute.slug,
     token_specific: attribute.token_specific,
-    type: attribute.type,
-    list: attribute.list,
-    settings: attribute.settings || undefined,
+    value: attribute.value,
     display: attribute.display,
   }
 }

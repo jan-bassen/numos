@@ -27,7 +27,6 @@ import { locationDistanceLogic } from '@repo/engine/nodes/location-distance/logi
 import { locationInputLogic } from '@repo/engine/nodes/location-input/logic'
 import { logLogic } from '@repo/engine/nodes/log/logic'
 import { logicLogic } from '@repo/engine/nodes/logic/logic'
-import { mapToChoiceLogic } from '@repo/engine/nodes/map-to-choice/logic'
 import { mapToDateLogic } from '@repo/engine/nodes/map-to-date/logic'
 import { mapToNumberLogic } from '@repo/engine/nodes/map-to-number/logic'
 import { mathsLogic } from '@repo/engine/nodes/maths/logic'
@@ -84,7 +83,6 @@ export const nodeTypes = [
   'token-attribute',
   'weather-input',
   'map-to-number',
-  'map-to-choice',
   'map-to-date',
   'direction-input',
   'time-difference',
@@ -136,7 +134,6 @@ export const nodeLogic: Record<NodeType, AnyNodeLogic> = {
   'token-attribute': tokenAttributeLogic,
   'weather-input': weatherInputLogic,
   'map-to-number': mapToNumberLogic,
-  'map-to-choice': mapToChoiceLogic,
   'map-to-date': mapToDateLogic,
   'direction-input': directionInputLogic,
   'time-difference': timeDifferenceLogic,

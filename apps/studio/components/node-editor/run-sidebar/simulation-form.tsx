@@ -17,7 +17,7 @@ import {
   getAttributeTypes,
   getDefaultValuesFromAttributes,
   getSchemaFromAttributes,
-} from '@/lib/schemas/attribute-schema'
+} from '@/lib/schemas/attributes/attribute-schema'
 import {
   getDefaultValuesFromParameters,
   getParametersSchema,
@@ -49,7 +49,7 @@ import {
 import {
   annotateMetadata,
   optionalMetadataSchema,
-} from '../../../lib/schemas/metadata-schema'
+} from '@/lib/schemas/metadata-schema'
 import { StringInput } from '@/components/datatypes/string/string-input'
 import { Button } from '@repo/ui/components/ui/button'
 import { NumberInput } from '@/components/datatypes/number/number-input'
@@ -58,7 +58,6 @@ import { ListFormInput } from '@/components/datatypes/list/list-input-form'
 import { toast } from 'sonner'
 import type {
   Value,
-  ValueSettings,
   ValueType,
 } from '@repo/engine/types/value-types'
 import type { ActionTrigger } from '@/types/actions.types'
@@ -69,7 +68,6 @@ import {
   getDataTypeInput,
   type SingleDataTypeInputProps,
 } from '@/components/datatypes/single-datatype-input'
-import { DataType } from '@/types/database.types'
 
 export default function SimulationForm({
   id,
@@ -476,8 +474,8 @@ export default function SimulationForm({
                       </div>
                       <ListFormInput
                         inputProps={{
-                          type: attribute.type as ValueType,
-                          settings: attribute.settings as ValueSettings,
+                          type: attribute.value.type,
+                          restrictions: attribute.value.restrictions,
                           locked: false,
                         }}
                         form={form}
@@ -517,15 +515,15 @@ export default function SimulationForm({
                       const props: SingleDataTypeInputProps<
                         typeof attribute.type | 'buffer'
                       > = {
-                        type: attribute.type,
-                        settings: attribute.settings || undefined,
+                        type: attribute.value.type,
+                        restrictions: attribute.value.restrictions,
                         placeholder: attribute.name || undefined,
                         locked: false,
                         value: {
-                          type: attribute.type,
+                          type: attribute.value.type,
                           format: 'single',
                           value: field.value,
-                        } as Value<typeof attribute.type, 'single', true>,
+                        } as Value<typeof attribute.value.type, 'single', true>,
                         onChange: (v) => {
                           field.onChange(v.value)
                         },
@@ -634,7 +632,7 @@ export default function SimulationForm({
                           <ListFormInput
                             inputProps={{
                               type: parameter.type as ValueType,
-                              settings: undefined,
+                              restrictions: undefined,
                               locked: false,
                             }}
                             form={form}
@@ -666,7 +664,7 @@ export default function SimulationForm({
                             typeof parameter.type
                           > = {
                             type: parameter.type,
-                            settings: undefined,
+                            restrictions: undefined,
                             placeholder: parameter.key,
                             locked: false,
                             value: {

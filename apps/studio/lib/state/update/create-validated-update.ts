@@ -1,10 +1,10 @@
 import type { Update, Validate, ValidateUpdate } from '@/types/state.types'
 import { useCallback } from 'react'
 
-export function createValidatedUpdate<T extends Record<string, any>>(
-  update: Update<T>,
-  validate: Validate<T>,
-): ValidateUpdate<T> {
+export function createValidatedUpdate<UT extends Record<string, any>>(
+  update: Update<UT>,
+  validate: Validate<UT>,
+): ValidateUpdate<UT> {
   return useCallback(
     async (id, value, options) => {
       const res = await validate(value)

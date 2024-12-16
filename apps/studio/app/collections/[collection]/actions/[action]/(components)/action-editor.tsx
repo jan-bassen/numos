@@ -30,7 +30,7 @@ import {
 import { cn, handleReturnInfo } from '@repo/ui/lib/utils'
 import { useRouter } from 'next/navigation'
 import { Button, buttonVariants } from '@repo/ui/components/ui/button'
-import { actionSchema } from '../../../../../../lib/schemas/action-schema'
+import { actionSchema } from '@/lib/schemas/action-schema'
 import {
   deleteAction,
   editAction,
@@ -51,8 +51,8 @@ import {
 } from '@repo/ui/components/ui/select'
 import { toast } from 'sonner'
 import { dataTypes } from '@/lib/constants/datatypes'
-import { listOptionMap, listOptions } from '@/lib/schemas/attribute-schema'
-import { removeActionParameterFromLocalForm } from '../../(functions)/utils'
+import { listOptionMap, listOptions } from '@/lib/constants/list-options'
+import { removeActionParameterFromLocalForm } from '@/app/collections/[collection]/actions/(functions)/utils'
 import CronInput from './cron-input'
 import slugify from 'slugify'
 import type { ActionTrigger } from '@/types/actions.types'
@@ -65,7 +65,6 @@ import {
   HeaderTitle,
 } from '@/components/page/header'
 import SegmentedLayout from '@/components/layouts/segmented/segmented-layout'
-import LockButton from '@/components/forms/buttons/lock-button-legacy'
 import ResetButton from '@/components/forms/buttons/reset-button'
 import DeleteButton from '@/components/forms/buttons/delete-button'
 import SaveButton from '@/components/forms/buttons/save-button'

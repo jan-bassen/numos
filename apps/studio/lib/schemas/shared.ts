@@ -37,15 +37,24 @@ export const slug = z
       'Identifiers can only contain letters, numbers, dashes, or underscores.',
   })
 
+//TODO: Make slug unique for schemas to verify individually
 export const sharedUpdateSchema = {
   id: id.optional(),
   updated_at: updated_at.optional(),
   created_at: created_at.optional(),
   version: version.optional(),
-  name: name.optional(),
+  name: name,
   description: description.optional(),
   locked: locked.optional(),
   slug: slug.optional(),
+}
+
+export const sharedInsertSchema = {
+  version: version,
+  name: name,
+  description: description.optional(),
+  locked: locked,
+  slug: slug,
 }
 
 export const sharedSchema = {

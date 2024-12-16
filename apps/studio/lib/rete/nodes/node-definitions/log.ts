@@ -12,13 +12,14 @@ export const logDefinition: SpecificNodeDefinition<LogNode> = {
     link: '#',
   },
   inputs: ({ getInfoFromInputConnection }) => {
-    const { type, list, settings } = getInfoFromInputConnection('value') || {}
+    const { type, list, restrictions } =
+      getInfoFromInputConnection('value') || {}
     return [
       {
         key: 'value',
         type,
         list,
-        settings,
+        restrictions,
         canBeList: true,
         label: 'Value',
         hideControl: true,

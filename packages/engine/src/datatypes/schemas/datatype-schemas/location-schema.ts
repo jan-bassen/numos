@@ -1,7 +1,7 @@
 import { z } from 'zod'
-import { numberSchema } from '@repo/engine/datatypes/schemas/datatype-schemas/number-schema.js'
-import { valueSchemas } from '@repo/engine/datatypes/schemas/value-schema.js'
-import { validateDefaultFormat } from '../refinements.js'
+import { numberSchema } from '@repo/engine/datatypes/schemas/datatype-schemas/number-schema'
+import { valueSchemas } from '@repo/engine/datatypes/schemas/value-schema'
+import { validateDefaultFormat } from '@repo/engine/datatypes/schemas/refinements'
 
 export const locationSchema = z.object({
   lat: numberSchema

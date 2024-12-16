@@ -11,7 +11,9 @@ export function LockAttributeButton() {
   return (
     <LockButton
       locked={locked}
-      setLocked={(l) => updateAttribute({ locked: l })}
+      setLocked={async (l) => {
+        updateAttribute({ locked: l })
+      }}
     />
   )
 }

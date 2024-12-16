@@ -14,7 +14,7 @@ export const isInListDefinition: SpecificNodeDefinition<IsInListNode> = {
     example: '(List: [1, 2, 3], Value: 2) = true',
   },
   inputs: ({ getInfoFromInputConnections }) => {
-    const { type, settings } =
+    const { type, restrictions } =
       getInfoFromInputConnections(['list', 'value']) || {}
     return [
       {
@@ -22,7 +22,7 @@ export const isInListDefinition: SpecificNodeDefinition<IsInListNode> = {
         type,
         list: true,
         label: 'List',
-        settings,
+        restrictions,
         hideControl: true,
         onConnect: (node) => {
           node.updateInputs()
@@ -36,7 +36,7 @@ export const isInListDefinition: SpecificNodeDefinition<IsInListNode> = {
       {
         key: 'value',
         type,
-        settings,
+        restrictions,
         label: 'Value',
         hideControl: true,
         onConnect: (node) => {

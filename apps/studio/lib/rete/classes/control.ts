@@ -10,13 +10,14 @@ import type {
 } from '@repo/engine/types/value-types'
 import { getDataTypeSchema } from '@repo/engine/datatypes/schemas'
 import { resolveObjectArrayValue } from '@repo/engine/datatypes/utils'
+import { ValueRestrictions } from '@repo/engine/types/value-types'
 
 export class Control {
   id: string
   value: Value<ValueType, 'single' | 'objectarray', true>
   valid = true
   issues: ZodIssue[] = []
-  settings?: ValueSettings
+  restrictions?: ValueRestrictions
   index?: number
   constructor(
     public node: Node,
@@ -31,7 +32,7 @@ export class Control {
         format: definition.list ? 'objectarray' : 'single',
         value: undefined,
       } as Value<ValueType, 'single' | 'objectarray', true>)
-    this.settings = definition.settings
+    this.restrictions = definition.restrictions
     this.index = definition.index
     this.validate()
     this.saveNode = this.saveNode.bind(this)

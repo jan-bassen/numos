@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { ZodType } from 'zod'
 import type {
+  ZodErrorInfo,
   NestedErrors,
   SetState,
   Update,
@@ -8,39 +9,45 @@ import type {
   Validate,
   ValidateUpdate,
 } from '@/types/state.types'
-import { createValidatedUpdate } from './update/create-validated-update'
+import { createValidatedUpdate } from '@/lib/state/update/create-validated-update'
 import { asyncDebounce } from '@repo/shared/utils/async-debounce'
-import { createGetError } from './validation/create-get-error'
-import { createValidate } from './validation/create-validate'
+import { createGetError } from '@/lib/state/validation/create-get-error'
+import { createValidate } from '@/lib/state/validation/create-validate'
 
-export type ContextState<T extends Record<string, any>> = {
+export type ContextState<
+  T extends Record<string, any>,
+  UT extends Record<string, any>,
+> = {
   state: T
-  update: SetState<T>
-  validate: Validate<T>
-  getError: (path: string) => string | undefined
+  update: SetState<UT>
+  validate: Validate<UT>
+  getError: (path: Array<string | number>) => NestedErrors | undefined
 }
 
-export function useContextState<T extends Record<string, any>>(
+export function useContextState<
+  T extends Record<string, any>,
+  UT extends Record<string, any>,
+>(
   initialValue: T,
-  update: Update<T>,
+  update: Update<UT>,
   schema: ZodType,
   config?: { debounce?: number },
-): ContextState<T> {
+): ContextState<T, UT> {
   const [state, setState] = useState(initialValue)
   const [errors, setErrors] = useState<NestedErrors>({})
 
   // Update
 
-  const validate = createValidate<T>(schema, errors, setErrors)
+  const validate = createValidate<UT>(schema, errors, setErrors)
 
   const validatedUpdate = createValidatedUpdate(update, validate)
 
-  const debouncedUpdate = asyncDebounce<ValidateUpdate<T>>(
+  const debouncedUpdate = asyncDebounce<ValidateUpdate<UT>>(
     validatedUpdate,
     config?.debounce || 1000,
   )
 
-  const _update = async (value: Partial<T>, options?: UpdateOptions) => {
+  const _update = async (value: UT, options?: UpdateOptions) => {
     const prev = state
     try {
       setState((prev) => {
@@ -51,7 +58,7 @@ export function useContextState<T extends Record<string, any>>(
       return res
     } catch (e) {
       setState(prev)
-      return { ok: false, message: 'Unable to update state' }
+      return { ok: false, message: 'Resetting: Unable to update state' }
     }
   }
 

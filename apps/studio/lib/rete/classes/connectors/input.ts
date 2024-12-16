@@ -41,7 +41,7 @@ export class Input {
         type: definition.type,
         list: definition.list || false,
         key: definition.key,
-        settings: definition.settings,
+        restrictions: definition.restrictions,
       }
       this.control = new Control(
         node,

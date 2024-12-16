@@ -1,7 +1,7 @@
 import { getActionsForNav } from '@/lib/supabase/db/actions'
-import { getAttributesForNav } from '@/lib/supabase/db/attributes'
 import { getCollectionFromSlug } from '@/lib/supabase/db/collections'
 import { CollectionItems } from './collection-items'
+import { getAttributesForNav } from '@/lib/supabase/db/attributes/read'
 
 export async function CollectionParts({
   collection_slug,

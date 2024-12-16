@@ -1,9 +1,6 @@
 import Main from '@/components/page/main'
-import { getAllAttributes } from '@/lib/supabase/db/attributes'
-import {
-  getCollectionFromSlug,
-  getVersionIdFromCollectionSlug,
-} from '@/lib/supabase/db/collections'
+import { getAllAttributes } from '@/lib/supabase/db/attributes/read'
+import { getVersionIdFromCollectionSlug } from '@/lib/supabase/db/collections'
 import {
   DataTable,
   type DataTableOptions,

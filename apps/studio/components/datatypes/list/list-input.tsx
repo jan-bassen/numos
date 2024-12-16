@@ -26,6 +26,8 @@ import {
   type SingleDataTypeInputProps,
 } from '../single-datatype-input'
 import dynamic from 'next/dynamic'
+import type { ZodErrorInfo } from '@/types/state.types'
+import ErrorMessage from '@/components/state/error-message'
 
 const SortableItem = dynamic(
   () => import('@/components/datatypes/list/sortable-item'),
@@ -36,10 +38,11 @@ const SortableItem = dynamic(
 
 export type ListInputProps<T extends ValueType = ValueType> = Omit<
   SingleDataTypeInputProps<T>,
-  'value' | 'onChange' | 'className' | 'id'
+  'value' | 'onChange' | 'className' | 'id' | 'valid'
 > & {
   value: Value<T, 'objectarray', true>
   onChange?: (value: Value<T, 'objectarray', true>) => void
+  errors?: Array<ZodErrorInfo | undefined>
   classNames?: {
     container?: string
     item?: string
@@ -55,11 +58,11 @@ export type ListInputProps<T extends ValueType = ValueType> = Omit<
 
 export default function ListInput<T extends ValueType>({
   value,
-  settings,
+  restrictions,
   locked = false,
   classNames,
   limitAxis,
-  issues = [],
+  errors = [],
   environment,
   addButtonLabel,
   onChange,
@@ -194,9 +197,9 @@ export default function ListInput<T extends ValueType>({
                           } as Value<T, 'single', true>
                         }
                         onChange={(v) => onSingleValueChange(v, index)}
-                        settings={settings}
+                        restrictions={restrictions}
                         locked={locked}
-                        valid={!issues.some((issue) => issue.path[0] === index)}
+                        valid={!errors?.[index]}
                         environment={environment}
                         className={cn(
                           'w-full rounded-md',
@@ -207,6 +210,12 @@ export default function ListInput<T extends ValueType>({
                         )}
                       />
                     </div>
+                    {errors?.[index] && (
+                      <ErrorMessage
+                        error={errors?.[index].message}
+                        className={cn('mt-1', !locked && 'ml-6')}
+                      />
+                    )}
                     {!locked && (
                       <Button
                         variant={'outline'}

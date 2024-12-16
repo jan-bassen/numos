@@ -23,6 +23,7 @@ export function validateDefaultFormat<
   if (schema.list === false && schema.default) {
     return schema.default.format === 'single'
   }
+  return true
 }
 
 export function validateDefaultValue<

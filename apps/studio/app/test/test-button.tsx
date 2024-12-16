@@ -1,13 +1,7 @@
 'use client'
 
-import { getAttributeBySlugs } from '@/lib/supabase/db/attributes/read'
 import { Button } from '@repo/ui/components/ui/button'
-import { fullDatatypeSchema } from '@repo/engine/datatypes/schemas-new/datatype-schema'
-import {
-  fullBooleanSchema,
-  booleanSchema,
-} from '@repo/engine/datatypes/schemas-new/datatype-schemas/boolean-schema'
-import { updateAttributeSchema } from '@/lib/schemas/attribute-schema-new'
+import { updateAttributeSchema } from '@/lib/schemas/attributes/attribute-schema'
 
 export function TestButton() {
   async function handleClick() {

@@ -16,9 +16,9 @@ import {
   PiDeleteDustbin02Stroke,
   PiPencilEditBoxStroke,
 } from '@repo/ui/icons/pika'
-import { deleteAttributeBySlug } from '@/lib/supabase/db/attributes'
+import { deleteAttributeBySlug } from '@/lib/supabase/db/attributes/delete'
 import DeleteDialogContent from '@repo/ui/components/dialogs/delete-dialog'
-import { removeAttributeFromLocalForm } from '../(functions)/utils'
+import { removeAttributeFromLocalForm } from '@/app/collections/[collection]/attributes/(functions)/utils'
 
 interface AttributeContextMenuProps {
   children?: React.ReactNode

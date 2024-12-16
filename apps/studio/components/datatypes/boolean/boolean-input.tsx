@@ -19,7 +19,6 @@ export function BooleanInput({
   locked,
   environment,
   valid,
-  settings,
   type,
   ...props
 }: SingleDataTypeInputProps<'boolean'>) {

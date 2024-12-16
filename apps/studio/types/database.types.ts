@@ -9,6 +9,7 @@ import type {
   ValueMap,
   ValueSettings,
   ValueType,
+  ValueTypeLiteral,
 } from '@repo/engine/types/value-types'
 import type { ActionTrigger } from './actions.types'
 import type {
@@ -40,17 +41,17 @@ export type Database = MergeDeep<
         }
         attributes: {
           Row: {
-            type: ValueType
+            type: ValueTypeLiteral
             settings: ValueSettings | null
             value: FullValue
           }
           Insert: {
-            type: ValueType
+            type: ValueTypeLiteral
             settings?: ValueSettings | null
-            value?: FullValue | null
+            value: FullValue
           }
           Update: {
-            type?: ValueType
+            type?: ValueTypeLiteral
             settings?: ValueSettings | null
             value?: FullValue | null
           }

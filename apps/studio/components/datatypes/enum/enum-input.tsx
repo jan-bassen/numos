@@ -11,7 +11,7 @@ import SelectOptionItem from '../select-option'
 import type { SingleDataTypeInputProps } from '../single-datatype-input'
 
 export function EnumInput({
-  settings,
+  restrictions,
   value,
   className,
   onChange,
@@ -30,16 +30,21 @@ export function EnumInput({
     if (!locked && onBlur) onBlur(e)
   }
 
-  const options = settings?.options || []
-
-  if (value.value && !options?.find((option) => option.value === value.value)) {
+  if (
+    value.value &&
+    !restrictions?.options?.find((option) => option.value === value.value)
+  ) {
     onChange?.({ type: 'enum', value: null, format: 'single' })
   }
 
-  const labelMap = options?.reduce((acc: { [key: string]: string }, option) => {
-    acc[option.value] = option.label || option.value
-    return acc
-  }, {})
+  /* const labelMap = options?.value.reduce(
+    (acc: { [key: string]: string }, option) => {
+      if (!option.value) return acc
+      acc[option.value] = option.value
+      return acc
+    },
+    {},
+  ) */
 
   return (
     <Select
@@ -66,16 +71,12 @@ export function EnumInput({
         disabled={locked}
         onBlur={_onBlur}
       >
-        <p className="w-full text-left">
-          {value.value && labelMap?.[value.value]
-            ? labelMap[value.value]
-            : placeholder}
-        </p>
+        <p className="w-full text-left">{value.value}</p>
       </SelectTrigger>
       <SelectContent className={cn('min-h-8')}>
         <SelectGroup>
-          {options?.map((option, index) => {
-            if (option.value === '' || option.value === undefined) {
+          {restrictions?.options?.map((option, index) => {
+            if (option.value === '' || !option.value) {
               return null
             }
             if (typeof option === 'string') {
@@ -86,8 +87,11 @@ export function EnumInput({
               )
             }
             return (
-              // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-              <SelectOptionItem option={option} key={option.value + index} />
+              <SelectOptionItem
+                option={option}
+                // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+                key={option.value + index}
+              />
             )
           })}
         </SelectGroup>

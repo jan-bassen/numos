@@ -3,6 +3,7 @@ import type {
   SpecificNodeDefinition,
 } from '@/types/nodes.types'
 import type { EnumInputNode } from '@repo/engine/nodes/enum-input/interface'
+import type { ValueRestrictions } from '@repo/engine/types/value-types'
 
 export const enumInputDefinition: SpecificNodeDefinition<EnumInputNode> = {
   type: 'enum-input',
@@ -16,7 +17,7 @@ export const enumInputDefinition: SpecificNodeDefinition<EnumInputNode> = {
   controls: ({ getTokenAttributes, getControlValue }) => {
     const attributes = getTokenAttributes() || []
     const enumAttributes = attributes.filter(
-      (attribute) => attribute.type === 'enum',
+      (attribute) => attribute.value.type === 'enum',
     )
     const options = enumAttributes?.map((attribute) => {
       return {
@@ -33,7 +34,7 @@ export const enumInputDefinition: SpecificNodeDefinition<EnumInputNode> = {
         type: 'enum',
         label: 'Attribute',
         placeholder: 'Select Choice Attribute',
-        settings: { options },
+        restrictions: { options },
         onChange: (node) => {
           node.updateControls()
           node.updateControl('output', {
@@ -47,13 +48,13 @@ export const enumInputDefinition: SpecificNodeDefinition<EnumInputNode> = {
     ]
     const value = getControlValue('attribute')?.value
     if (value) {
-      const settings = enumAttributes?.find(
+      const restrictions = enumAttributes?.find(
         (attribute) => attribute.slug === value,
-      )?.settings
+      )?.value.restrictions as ValueRestrictions<'enum'>
       controls.push({
         key: 'output',
         type: 'enum',
-        settings,
+        restrictions,
         label: 'Choice',
       })
     }
@@ -70,7 +71,8 @@ export const enumInputDefinition: SpecificNodeDefinition<EnumInputNode> = {
           key: 'output',
           type: 'enum',
           label: 'Choice',
-          settings: attribute.settings || undefined,
+          restrictions: attribute.value
+            .restrictions as ValueRestrictions<'enum'>,
         },
       ]
     }

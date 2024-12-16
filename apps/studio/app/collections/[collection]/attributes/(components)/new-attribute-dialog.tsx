@@ -24,8 +24,8 @@ import {
   type StageDefinition,
   StagedForm,
 } from '@/components/forms/staged-form'
-import { newAttributeSchema } from '../../../../../lib/schemas/attribute-schema'
-import { insertAttribute } from '@/lib/supabase/db/attributes'
+import { newAttributeSchema } from '@/lib/schemas/attributes/attribute-schema'
+import { insertAttribute } from '@/lib/supabase/db/attributes/create'
 import { DatatypeSelectContent } from '@/components/datatypes/datatype-picker'
 import type { NewItemDialogProps } from '@/types/props.types'
 import {
@@ -159,10 +159,14 @@ export function NewAttributeDialog({
 
   async function onSubmit(values: SchemaType) {
     const newAttribute: InsertAttribute = {
+      ...values,
+      value: {
+        type: values.type,
+        list: values.list,
+      },
       version: versionId,
       token_specific: true,
       display: 'public',
-      ...values,
     }
 
     const res = await insertAttribute(newAttribute)

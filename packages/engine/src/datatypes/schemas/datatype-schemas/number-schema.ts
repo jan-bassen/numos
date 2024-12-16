@@ -1,16 +1,9 @@
 import { z } from 'zod'
-import { valueSchemas } from '@repo/engine/datatypes/schemas/value-schema.js'
+import { valueSchemas } from '@repo/engine/datatypes/schemas/value-schema'
 import {
   validateDefaultFormat,
   validateDefaultValue,
-} from '@repo/engine/datatypes/schemas/refinements.js'
-import { isArray } from 'lodash'
-import type {
-  ObjectValue,
-  RawSingleValue,
-  ValueFormat,
-  ValueTypeLiteral,
-} from '@repo/engine/types/value-types.js'
+} from '@repo/engine/datatypes/schemas/refinements'
 
 export const numberSchema = z.number({
   required_error: 'Value is required',
@@ -39,7 +32,7 @@ export const fullNumberSchema = z
     type: z.literal('number'),
     list: z.boolean(),
     default: valueSchemas('number', numberSchema).optional(),
-    restrictions: numberRestrictionsSchema,
+    restrictions: numberRestrictionsSchema.optional(),
   })
   .refine((schema) => {
     return validateDefaultFormat<typeof schema>(schema)

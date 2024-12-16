@@ -1,20 +1,10 @@
 import type { NestedErrors } from '@/types/state.types'
+import { getValueAtPath } from '@/lib/state/validation/traverse-object'
 
 export const createGetError = (
   errors: NestedErrors,
-): ((path: string) => string | undefined) => {
-  return (path: string) => {
-    const paths = path.split('.')
-    let current: string | NestedErrors | undefined = errors
-    let result: string | undefined = undefined
-    paths.forEach((key, index) => {
-      if (typeof current === 'object') {
-        current = current[key]
-      }
-      if (typeof current === 'string') {
-        result = current
-      }
-    })
-    return result
+): ((path: Array<string | number>) => NestedErrors | undefined) => {
+  return (path: Array<string | number>) => {
+    return getValueAtPath(errors, path) as NestedErrors | undefined
   }
 }

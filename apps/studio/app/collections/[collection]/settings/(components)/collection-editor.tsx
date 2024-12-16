@@ -35,7 +35,6 @@ import {
 import { EditableImage } from '@/components/supabase/editable-image'
 import Main from '@/components/page/main'
 import SegmentedLayout from '@/components/layouts/segmented/segmented-layout'
-import LockButton from '@/components/forms/buttons/lock-button-legacy'
 import ApiKeys from './api-keys'
 import { Page } from '@/components/page/page'
 
@@ -110,14 +109,7 @@ export default function CollectionEditor({
           <HeaderMain>
             <HeaderTitle>{collection.name || 'Unnamed Attribute'}</HeaderTitle>
           </HeaderMain>
-          <HeaderActions>
-            <LockButton
-              element="collection-settings"
-              id={collection.id}
-              locked={locked}
-              setLocked={setLocked}
-            />
-          </HeaderActions>
+          <HeaderActions />
         </HeaderContent>
       </Header>
       <Main>

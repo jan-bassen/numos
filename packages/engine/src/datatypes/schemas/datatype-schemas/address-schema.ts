@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { stringSchema } from '@repo/engine/datatypes/schemas'
-import { valueSchemas } from '@repo/engine/datatypes/schemas/value-schema.js'
+import { valueSchemas } from '@repo/engine/datatypes/schemas/value-schema'
 import { validateDefaultFormat } from '../refinements.js'
 
 export const addressSchema = stringSchema.regex(

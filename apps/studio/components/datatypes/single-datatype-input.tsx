@@ -4,18 +4,19 @@ import type {
   ValueSettings,
   Value,
   ValueType,
+  ValueRestrictions,
 } from '@repo/engine/types/value-types'
-import { EnumInput } from './enum/enum-input'
-import { ColorInput } from './color/color-input'
-import { DatetimeInput } from './datetime/datetime-input'
-import { LocationInput } from './location/location-input'
-import { WeatherInput } from './weather/weather-input'
-import { ImageInput } from './image/image-input'
-import { DirectionInput } from './direction/direction-input'
-import { StringInput } from './string/string-input'
-import { NumberInput } from './number/number-input'
-import { AddressInput } from './address/address-input'
-import { BooleanInput } from './boolean/boolean-input'
+import { EnumInput } from '@/components/datatypes/enum/enum-input'
+import { ColorInput } from '@/components/datatypes/color/color-input'
+import { DatetimeInput } from '@/components/datatypes/datetime/datetime-input'
+import { LocationInput } from '@/components/datatypes/location/location-input'
+import { WeatherInput } from '@/components/datatypes/weather/weather-input'
+import { ImageInput } from '@/components/datatypes/image/image-input'
+import { DirectionInput } from '@/components/datatypes/direction/direction-input'
+import { StringInput } from '@/components/datatypes/string/string-input'
+import { NumberInput } from '@/components/datatypes/number/number-input'
+import { AddressInput } from '@/components/datatypes/address/address-input'
+import { BooleanInput } from '@/components/datatypes/boolean/boolean-input'
 import type { ChangeEvent } from 'react'
 import type { LayerTree } from '@/types/database.types'
 
@@ -24,7 +25,7 @@ export type SingleDataTypeInputProps<T extends ValueType = ValueType> = {
   value: Value<T, 'single', true>
   onChange: (value: Value<T, 'single', true>) => void
   onBlur?: (e: ChangeEvent<Element>) => void
-  settings?: ValueSettings<T>
+  restrictions?: ValueRestrictions<T, false> | null
   className?: string
   placeholder?: string
   locked?: boolean

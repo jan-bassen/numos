@@ -2,11 +2,11 @@
 
 import DeleteButton from '@/components/forms/buttons/delete-button'
 import { useRouter } from 'next/navigation'
-import { useAttribute } from '../attribute-context'
-import { deleteAttribute } from '@/lib/supabase/db/attributes'
+import { useAttribute } from '@/app/collections/[collection]/attributes/[attribute]/attribute-context'
+import { deleteAttribute } from '@/lib/supabase/db/attributes/delete'
 import { handleReturnInfo } from '@repo/ui/lib/utils'
-import { removeAttributeFromLocalForm } from '../../(functions)/utils'
-import { useCollection } from '../../../context'
+import { useCollection } from '@/app/collections/[collection]/context'
+import { removeAttributeFromLocalForm } from '@/app/collections/[collection]/attributes/(functions)/utils'
 
 export function DeleteAttributeButton() {
   const router = useRouter()
@@ -20,7 +20,7 @@ export function DeleteAttributeButton() {
       title="attribute"
       disabled={locked}
       onDelete={async () => {
-        const res = await deleteAttribute(id, version, slug)
+        const res = await deleteAttribute(id)
         handleReturnInfo(res, () => {
           removeAttributeFromLocalForm(collection, slug)
           router.push(`/collections/${collection}/attributes`)

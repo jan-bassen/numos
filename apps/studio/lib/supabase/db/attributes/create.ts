@@ -84,6 +84,7 @@ export async function duplicateAttribute(id: string): Promise<ReturnInfo> {
     display: attribute.display,
     token_specific: attribute.token_specific,
     settings: attribute.settings,
+    value: attribute.value,
   }
 
   const { error } = await supabase.from('attributes').insert(copiedAttribute)

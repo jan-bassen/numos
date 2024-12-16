@@ -20,14 +20,14 @@ export const mathsDefinition: SpecificNodeDefinition<MathsNode> = {
       type: 'enum',
       label: 'Mode',
       placeholder: 'Select Mode',
-      settings: {
+      default: { value: 'add', type: 'enum', format: 'single' },
+      restrictions: {
         options: [
           { value: 'add', label: 'Add' },
           { value: 'sub', label: 'Subtract' },
           { value: 'mul', label: 'Multiply' },
           { value: 'div', label: 'Divide' },
         ],
-        default: { value: 'add', type: 'enum', format: 'single' },
       },
     },
   ],

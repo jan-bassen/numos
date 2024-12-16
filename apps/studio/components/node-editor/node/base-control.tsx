@@ -71,9 +71,8 @@ export function ControlComponent(payload: { data: ControlClass }) {
               onChange={(v: Value<ValueType, 'objectarray', true>) => {
                 control.setValue(v)
               }}
-              valid={control.valid}
               issues={control.getIssues()}
-              settings={control.definition?.settings}
+              restrictions={control.definition?.restrictions}
               placeholder={control.definition?.placeholder}
               locked={false}
               classNames={{
@@ -118,7 +117,7 @@ export function ControlComponent(payload: { data: ControlClass }) {
       'single',
       true
     >,
-    settings: control.settings,
+    restrictions: control.definition.restrictions,
     layertree:
       control.value.type === 'image'
         ? payload.data.node.context.editor.context.layers

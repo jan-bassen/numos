@@ -18,7 +18,8 @@ export const timeInformationDefinition: SpecificNodeDefinition<TimeInformationNo
         key: 'unit',
         type: 'enum',
         label: 'Unit',
-        settings: {
+        default: { value: 'second', type: 'enum', format: 'single' },
+        restrictions: {
           options: [
             { value: 'second', label: 'Second of the minute' },
             { value: 'minute', label: 'Minute of the hour' },
@@ -29,7 +30,6 @@ export const timeInformationDefinition: SpecificNodeDefinition<TimeInformationNo
             { value: 'month', label: 'Month of the year' },
             { value: 'year', label: 'Year' },
           ],
-          default: { value: 'second', type: 'enum', format: 'single' },
         },
       },
     ],

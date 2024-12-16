@@ -1,7 +1,7 @@
 import ActionNodeEditor from '@/app/collections/[collection]/actions/[action]/logic/(components)/action-node-editor'
 import { getActionGraph } from '@/lib/supabase/db/action-graph'
 import { getActionBySlug } from '@/lib/supabase/db/actions'
-import { getAllAttributes } from '@/lib/supabase/db/attributes'
+import { getAllAttributes } from '@/lib/supabase/db/attributes/read'
 import { getExtendedCollectionFromSlug } from '@/lib/supabase/db/collections'
 
 export default async function ActionPage(props: {

@@ -1,7 +1,7 @@
 import { type ZodType, z } from 'zod'
 import type { ValueFormat, ValueType } from '@repo/engine/types/value-types'
-import { directions } from '@repo/engine/datatypes/constants/directions.js'
-import { weatherCodes } from '@repo/engine/datatypes/constants/weather-codes.js'
+import { directions } from '@repo/engine/datatypes/constants/directions'
+import { weatherCodes } from '@repo/engine/datatypes/constants/weather-codes'
 
 export const enumSchema = z.string({
   required_error: 'Value is required',

@@ -60,7 +60,8 @@ const getItems = (items: NavItems): SidebarItem[] => {
         fill: PiBarchartDefaultSolid,
       },
       items: attributes.map((attribute) => ({
-        title: attribute.name || `Unnamed ${dataTypes[attribute.type].title}`,
+        title:
+          attribute.name || `Unnamed ${dataTypes[attribute.value.type].title}`,
         slug: attribute.slug,
       })),
     },

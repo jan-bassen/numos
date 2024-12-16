@@ -14,6 +14,7 @@ export function createSafeUpdate<T extends Record<string, any>>(
       const validValues = (await schema.parseAsync(values)) as T
 
       const res = await update(id, validValues)
+      console.log(res)
       if (!res.ok) {
         return res
       }
@@ -24,6 +25,7 @@ export function createSafeUpdate<T extends Record<string, any>>(
         }
       }
     } catch (error) {
+      console.log(error)
       if (error instanceof ZodError)
         return { ok: false, message: error.message }
       return { ok: false, message: 'Error updating attribute' }

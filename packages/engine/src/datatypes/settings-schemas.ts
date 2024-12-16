@@ -1,4 +1,4 @@
-import { type ZodType, z } from 'zod'
+import { type ZodType, optional, z } from 'zod'
 import {
   addressSchema,
   booleanSchema,
@@ -16,216 +16,50 @@ import {
 import type {
   BaseSettings,
   EnumSettings,
+  FullValue,
   NumberSettings,
   StringSettings,
   Value,
   ValueFormat,
+  ValueRestrictions,
   ValueSettings,
   ValueType,
 } from '@repo/engine/types/value-types'
 
-export function getRawBaseValueSchema(
-  baseSchema: ZodType,
-  format: ValueFormat,
-): ZodType {
-  switch (format) {
-    case 'single':
-      return baseSchema.nullable().optional()
-    case 'array':
-      return z.array(baseSchema.nullable().optional())
-    case 'objectarray':
-      return z.array(
-        z.object({
-          id: z.string().optional(),
-          value: baseSchema.nullable().optional(),
-        }),
-      )
-    default:
-      throw new Error('Invalid format')
-  }
-}
-
-export function getBaseValueSchema(
-  type: ValueType,
-  baseSchema: ZodType,
-  format: ValueFormat,
-): ZodType {
-  switch (format) {
-    case 'single':
-      return z.object({
-        value: baseSchema.nullable().optional(),
-        format: z.literal('single'),
-        type: z.literal(type),
-      })
-    case 'array':
-      return z.object({
-        value: z.array(baseSchema.nullable().optional()),
-        format: z.literal('array'),
-        type: z.literal(type),
-      })
-    case 'objectarray':
-      return z.object({
-        value: z.array(
-          z.object({
-            id: z.string().optional(),
-            value: baseSchema.nullable().optional(),
-          }),
-        ),
-        format: z.literal('objectarray'),
-        type: z.literal(type),
-      })
-    default:
-      throw new Error('Invalid format')
-  }
-}
-
-export const getEnumSettingsSchema = (format: ValueFormat): ZodType => {
-  const defaultValue = getBaseValueSchema('enum', enumSchema, format)
-  return z.object({
-    default: defaultValue.optional(),
-    options: z
-      .array(
-        z.object({
-          id: z.string().optional(),
-          value: z
-            .string({
-              required_error: "Options can't be empty",
-              invalid_type_error: "Options can't be empty",
-            })
-            .min(1, "Options can't be empty")
-            .max(50, "Options can't be longer than 50 characters"),
-        }),
-      )
-      .min(1, 'At least one option is required')
-      .refine((arr) => {
-        const options = arr.map((option) => option.value)
-        const unique = new Set(options)
-        return unique.size === options.length
-      }, 'Options must be unique'),
-  })
-}
-
-export const getNumberSettingsSchema = (format: ValueFormat): ZodType => {
-  const defaultValue = getBaseValueSchema('number', numberSchema, format)
-  return z.object({
-    default: defaultValue,
-    min: z.preprocess((value) => {
-      if (typeof value === 'string' && value === '') {
-        return undefined
-      }
-      return value
-    }, numberSchema.optional()),
-    max: z.preprocess((value) => {
-      if (typeof value === 'string' && value === '') {
-        return undefined
-      }
-      return value
-    }, numberSchema.optional()),
-    step: z.preprocess((value) => {
-      if (typeof value === 'string' && value === '') {
-        return undefined
-      }
-      return value
-    }, numberSchema.min(0, 'Must be positive').optional()),
-  })
-}
-
-export const getStringSettingsSchema = (format: ValueFormat): ZodType => {
-  const defaultValue = getBaseValueSchema('string', stringSchema, format)
-  return z.object({
-    default: defaultValue,
-    min_length: z.preprocess((value) => {
-      if (typeof value === 'string' && value === '') {
-        return undefined
-      }
-      return value
-    }, z.coerce.number().int().positive().optional()),
-    max_length: z.preprocess((value) => {
-      if (typeof value === 'string' && value === '') {
-        return undefined
-      }
-      return value
-    }, integerSchema.positive('Must be positive').optional()),
-  })
-}
-
-export const getBaseSettingsSchema = (
-  type: ValueType,
-  baseSchema: ZodType,
-  format: ValueFormat,
-): ZodType => {
-  return z.object({
-    default: getBaseValueSchema(type, baseSchema, format),
-  })
-}
-
-export const getSettingsSchema = (
-  type: ValueType,
-  format: ValueFormat,
-): ZodType => {
-  let schema: ZodType
-  switch (type) {
-    case 'enum':
-      return getEnumSettingsSchema(format)
-    case 'number':
-      return getNumberSettingsSchema(format)
-    case 'string':
-      return getStringSettingsSchema(format)
-    case 'boolean':
-      return getBaseSettingsSchema('boolean', booleanSchema, format)
-    case 'color':
-      return getBaseSettingsSchema('color', colorSchema, format)
-    case 'location':
-      return getBaseSettingsSchema('location', locationSchema, format)
-    case 'datetime':
-      return getBaseSettingsSchema('datetime', datetimeSchema, format)
-    case 'direction':
-      return getBaseSettingsSchema('direction', directionSchema, format)
-    case 'weather':
-      return getBaseSettingsSchema('weather', weatherSchema, format)
-    case 'address':
-      return getBaseSettingsSchema('address', addressSchema, format)
-    case 'image':
-      return getBaseSettingsSchema('string', stringSchema, format)
-    case 'buffer':
-      return getBaseSettingsSchema('buffer', bufferSchema, format)
-    default:
-      return z.never()
-  }
-}
-
-export function getNumberSettingsValidation(settings: NumberSettings) {
+export function getNumberRestrictionsValidation(
+  restrictions: ValueRestrictions<'number'>,
+) {
   let schema = numberSchema
-  if (settings?.min)
-    schema = schema.gte(settings.min, {
-      message: `Must be greater than or equal to ${settings.min}`,
+  if (restrictions?.min)
+    schema = schema.gte(restrictions.min, {
+      message: `Must be greater than or equal to ${restrictions.min}`,
     })
-  if (settings?.max)
-    schema = schema.lte(settings.max, {
-      message: `Must be less than or equal to ${settings.max}`,
-    })
-  if (settings?.step)
-    schema = schema.step(settings.step, {
-      message: `Must be a multiple of ${settings.step}`,
+  if (restrictions?.max)
+    schema = schema.lte(restrictions.max, {
+      message: `Must be less than or equal to ${restrictions.max}`,
     })
   return schema
 }
 
-export function getStringSettingsValidation(settings: StringSettings) {
+export function getStringRestrictionsValidation(
+  restrictions: ValueRestrictions<'string'>,
+) {
   let schema = stringSchema
-  if (settings?.min_length)
-    schema = schema.min(settings.min_length, {
-      message: `Must be at least ${settings.min_length} characters`,
+  if (restrictions?.min_length)
+    schema = schema.min(restrictions.min_length, {
+      message: `Must be at least ${restrictions.min_length} characters`,
     })
-  if (settings?.max_length)
-    schema = schema.max(settings.max_length, {
-      message: `Must be at most ${settings.max_length} characters`,
+  if (restrictions?.max_length)
+    schema = schema.max(restrictions.max_length, {
+      message: `Must be at most ${restrictions.max_length} characters`,
     })
   return schema
 }
 
-export function getEnumSettingsValidation(settings: EnumSettings) {
-  const options = settings?.options?.map((option) => {
+export function getEnumRestrictionsValidation(
+  restrictions: ValueRestrictions<'enum'>,
+) {
+  const options = restrictions?.options?.map((option) => {
     return option.value
   })
   return z.string().refine((data) => {
@@ -236,83 +70,99 @@ export function getEnumSettingsValidation(settings: EnumSettings) {
   })
 }
 
-export function getBaseSettingsValidation(
+export function getBaseRestrictionsValidation<VT extends ValueType>(
   baseSchema: ZodType,
-  settings: BaseSettings,
+  restrictions: ValueRestrictions<VT>,
 ) {
   return baseSchema
 }
 
-export function getSettingsValidation(
-  type: ValueType,
-  format: ValueFormat,
-  optional: boolean,
-  settings: ValueSettings,
+export function getRestrictionsValidation(
+  value: FullValue,
+  settings: {
+    optional: boolean
+    format: ValueFormat
+  },
 ): ZodType {
   let schema: ZodType
-  switch (type) {
+  switch (value.type) {
     case 'enum':
-      schema = getEnumSettingsValidation(settings as EnumSettings)
+      schema = getEnumRestrictionsValidation(
+        value.restrictions as ValueRestrictions<'enum'>,
+      )
       break
     case 'number':
-      schema = getNumberSettingsValidation(settings as NumberSettings)
+      schema = getNumberRestrictionsValidation(
+        value.restrictions as ValueRestrictions<'number'>,
+      )
       break
     case 'string':
-      schema = getStringSettingsValidation(settings as StringSettings)
+      schema = getStringRestrictionsValidation(
+        value.restrictions as ValueRestrictions<'string'>,
+      )
       break
     case 'boolean':
-      schema = getBaseSettingsValidation(
+      schema = getBaseRestrictionsValidation(
         booleanSchema,
-        settings as BaseSettings,
+        value.restrictions as ValueRestrictions<'boolean'>,
       )
       break
     case 'color':
-      schema = getBaseSettingsValidation(colorSchema, settings as BaseSettings)
+      schema = getBaseRestrictionsValidation(
+        colorSchema,
+        value.restrictions as ValueRestrictions<'color'>,
+      )
       break
     case 'location':
-      schema = getBaseSettingsValidation(
+      schema = getBaseRestrictionsValidation(
         locationSchema,
-        settings as BaseSettings,
+        value.restrictions as ValueRestrictions<'location'>,
       )
       break
     case 'direction':
-      schema = getBaseSettingsValidation(
+      schema = getBaseRestrictionsValidation(
         directionSchema,
-        settings as BaseSettings,
+        value.restrictions as ValueRestrictions<'direction'>,
       )
       break
     case 'weather':
-      schema = getBaseSettingsValidation(
+      schema = getBaseRestrictionsValidation(
         weatherSchema,
-        settings as BaseSettings,
+        value.restrictions as ValueRestrictions<'weather'>,
       )
       break
     case 'address':
-      schema = getBaseSettingsValidation(
+      schema = getBaseRestrictionsValidation(
         addressSchema,
-        settings as BaseSettings,
+        value.restrictions as ValueRestrictions<'address'>,
       )
       break
     case 'datetime':
-      schema = getBaseSettingsValidation(
+      schema = getBaseRestrictionsValidation(
         datetimeSchema,
-        settings as BaseSettings,
+        value.restrictions as ValueRestrictions<'datetime'>,
       )
       break
     case 'image':
-      schema = getStringSettingsValidation(settings as StringSettings)
+      schema = getBaseRestrictionsValidation(
+        stringSchema,
+        value.restrictions as ValueRestrictions<'image'>,
+      )
       break
     case 'buffer':
-      schema = getBaseSettingsValidation(bufferSchema, settings as BaseSettings)
+      schema = getBaseRestrictionsValidation(
+        bufferSchema,
+        value.restrictions as ValueRestrictions<'buffer'>,
+      )
       break
     default:
       throw new Error('Invalid type')
   }
-  if (optional) schema = schema.nullable().optional()
-  if (format === 'array') {
+  if (settings.optional) schema = schema.nullable().optional()
+  if (settings.format === 'array') {
     schema = z.array(schema)
   }
-  if (format === 'objectarray') {
+  if (settings.format === 'objectarray') {
     schema = z.array(
       z.object({
         id: z.string().optional(),

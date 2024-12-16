@@ -8,77 +8,89 @@ import ListInput from '@/components/datatypes/list/list-input'
 import { getDataTypeInput } from '@/components/datatypes/single-datatype-input'
 import type { InsertAttribute } from '@/types/database.types'
 import ErrorMessage from '@/components/state/error-message'
+import { isArray } from 'lodash'
+import type { ZodErrorInfo } from '@/types/state.types'
 
 export function AttributeDefaultValueInput() {
   const {
-    attribute: { list, type, settings, locked },
+    attribute: { settings, locked, value },
     updateAttribute,
     getError,
   } = useAttribute()
 
-  const error = getError('settings.default.value')
-  if (list) {
-    const value: Value<ValueType, 'objectarray', true> =
-      settings?.default && settings?.default.format === 'objectarray'
-        ? settings.default
-        : { type, format: 'objectarray', value: [] }
-
+  if (value.list) {
+    const valueErrorArray = getError(['value', 'default', 'value'])
+    let errors: Array<ZodErrorInfo | undefined> = []
+    if (isArray(valueErrorArray)) {
+      errors = valueErrorArray.map((e) => e?.value)
+    }
     return (
       <>
         <ListInput
-          valid={!error}
-          type={type}
+          type={value.type}
+          errors={errors}
           locked={locked}
-          settings={settings || {}}
+          restrictions={value.restrictions}
           placeholder="No default value"
           environment="form"
           classNames={{ container: 'w-full max-w-input' }}
-          value={value}
+          value={
+            (value.default as Value<
+              typeof value.type,
+              'objectarray',
+              true
+            >) || {
+              type: value.type,
+              format: 'objectarray',
+              value: [],
+            }
+          }
           onChange={async (v) => {
             const res = await updateAttribute({
-              settings: {
-                ...settings,
+              value: {
+                ...value,
                 default: v,
               },
             })
           }}
         />
-        <ErrorMessage error={error} />
       </>
     )
   }
-  const value =
-    settings?.default &&
-    settings.default.format === 'single' &&
-    settings.default.type === type
-      ? settings.default
-      : undefined
+  const error = getError(['value', 'default', 'value'])
+  const errorMessage = typeof error === 'string' ? error : undefined
 
-  const Input = getDataTypeInput<typeof type>(type)
+  const Input = getDataTypeInput<typeof value.type>(value.type)
   if (!Input) return null
   return (
     <>
       <div className="flex w-full max-w-input gap-2">
         <Input
           valid={!error}
-          type={type}
+          type={value.type}
           environment="form"
           locked={locked}
-          settings={{ type, ...settings }}
+          restrictions={value.restrictions}
           placeholder="No default value"
-          value={value || { type, format: 'single', value: undefined }}
+          value={
+            (value.default as Value<typeof value.type, 'single', true>) || {
+              type: value.type,
+              format: 'single',
+              value: undefined,
+            }
+          }
           onChange={async (v) => {
             const res = await updateAttribute({
-              settings: {
-                ...settings,
+              value: {
+                ...value,
                 default: v,
               },
-            } as InsertAttribute)
+            })
           }}
         />
         {(settings?.default?.value || settings?.default?.value === false) &&
           !locked &&
-          type !== 'boolean' && (
+          value.type !== 'boolean' && (
             <Button
               variant="outline"
               type="button"
@@ -89,9 +101,9 @@ export function AttributeDefaultValueInput() {
                   settings: {
                     ...settings,
                     default: {
-                      type: type,
+                      type: value.type,
                       value: null,
-                      format: list ? 'objectarray' : 'single',
+                      format: value.list ? 'objectarray' : 'single',
                     },
                   },
                 } as InsertAttribute)
@@ -101,7 +113,7 @@ export function AttributeDefaultValueInput() {
             </Button>
           )}
       </div>
-      <ErrorMessage error={error} />
+      <ErrorMessage error={errorMessage} />
     </>
   )
 }

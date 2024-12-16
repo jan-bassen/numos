@@ -118,7 +118,7 @@ export async function getAttributeBySlugs(
 
 export type AttributeNavItem = Pick<
   Attribute,
-  'name' | 'slug' | 'type' | 'list'
+  'name' | 'slug' | 'type' | 'list' | 'value'
 >
 export async function getAttributesForNav(
   version: string,
@@ -131,7 +131,7 @@ export async function getAttributesForNav(
 
   const { data: attributes, error } = await supabase
     .from('attributes')
-    .select('name, slug, type, list')
+    .select('name, slug, type, list, value')
     .eq('version', version)
     .order('name', { ascending: true })
 

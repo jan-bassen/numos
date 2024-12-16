@@ -1,9 +1,9 @@
 import { z } from 'zod'
-import { valueSchemas } from '@repo/engine/datatypes/schemas/value-schema.js'
+import { valueSchemas } from '@repo/engine/datatypes/schemas/value-schema'
 import {
   validateDefaultFormat,
   validateDefaultValue,
-} from '@repo/engine/datatypes/schemas/refinements.js'
+} from '@repo/engine/datatypes/schemas/refinements'
 
 export const enumSchema = z.string({
   required_error: 'Value is required',
@@ -14,6 +14,7 @@ const enumOptionsSchema = z
   .array(
     z.object({
       id: z.string().optional(),
+      label: z.string().optional(),
       value: z
         .string({
           required_error: "Options can't be empty",
@@ -30,18 +31,28 @@ const enumOptionsSchema = z
     return unique.size === options.length
   }, 'Options must be unique')
 
+export type EnumRestrictions = z.infer<typeof enumRestrictionsSchema>
+export const enumRestrictionsSchema = z.object({
+  options: enumOptionsSchema,
+  adaptOptions: z.boolean().optional(),
+})
+
 export const fullEnumSchema = z
   .object({
     type: z.literal('enum'),
     list: z.boolean(),
     default: valueSchemas('enum', enumSchema).optional(),
-    restrictions: z.object({ options: enumOptionsSchema }),
+    restrictions: enumRestrictionsSchema.optional().nullable(),
   })
   .refine((schema) => {
     return validateDefaultFormat<typeof schema>(schema)
   }, 'Default value has wrong format')
   .refine((schema) => {
     return validateDefaultValue<'enum', typeof schema>(schema, (value) => {
-      return schema.restrictions.options.some((opt) => opt.value === value)
+      if (schema.restrictions) {
+        const r = schema.restrictions
+        return r.options.some((opt) => opt.value === value)
+      }
+      return true
     })
   }, 'Default value needs to be one of the options')

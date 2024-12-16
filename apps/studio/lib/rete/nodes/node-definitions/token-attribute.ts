@@ -39,10 +39,10 @@ export const tokenAttributeDefinition: SpecificNodeDefinition<TokenAttributeNode
       return [
         {
           key: 'attribute',
-          type: attribute.type,
-          list: attribute.list,
+          type: attribute.value.type,
+          list: attribute.value.list,
           label: attribute.name || 'Unnamed Attribute',
-          settings: attribute.settings,
+          restrictions: attribute.value.restrictions,
         },
       ]
     },

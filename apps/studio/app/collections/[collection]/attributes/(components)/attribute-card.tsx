@@ -22,12 +22,12 @@ import {
   PiDeleteDustbin02Stroke,
   PiPencilEditBoxStroke,
 } from '@repo/ui/icons/pika'
-import { deleteAttribute } from '@/lib/supabase/db/attributes'
+import { deleteAttribute } from '@/lib/supabase/db/attributes/delete'
 import type { Attribute, ValueDataType } from '@/types/database.types'
 import { dataTypes } from '@/lib/constants/datatypes'
 import { forwardRef } from 'react'
 import DeleteDialogContent from '@repo/ui/components/dialogs/delete-dialog'
-import { removeAttributeFromLocalForm } from '../(functions)/utils'
+import { removeAttributeFromLocalForm } from '@/app/collections/[collection]/attributes/(functions)/utils'
 import { useRouter } from 'next/navigation'
 
 interface AttributeCardProps extends ButtonProps {
@@ -103,11 +103,7 @@ const AttributeCard = forwardRef<HTMLButtonElement, AttributeCardProps>(
         <DeleteDialogContent
           title="attribute"
           onDelete={async () => {
-            const res = await deleteAttribute(
-              attribute.id,
-              attribute.version,
-              attribute.slug,
-            )
+            const res = await deleteAttribute(attribute.id)
             handleReturnInfo(res, () => {
               removeAttributeFromLocalForm(collectionSlug, attribute.slug)
               router.push(`/collections/${collectionSlug}/attributes`)

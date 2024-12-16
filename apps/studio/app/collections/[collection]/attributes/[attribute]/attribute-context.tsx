@@ -5,8 +5,8 @@ import type { Attribute, UpdateAttribute } from '@/types/database.types'
 import { createContext, useContext, useMemo } from 'react'
 import { useContextState } from '@/lib/state/use-context-state'
 import type { ReturnInfo } from '@repo/ui/lib/utils'
-import type { UpdateOptions, Validate } from '@/types/state.types'
-import { updateAttributeSchema } from '@/lib/schemas/attribute-schema-new'
+import type { NestedErrors, UpdateOptions, Validate } from '@/types/state.types'
+import { updateAttributeSchema } from '@/lib/schemas/attributes/attribute-schema'
 
 type AttributeContext = {
   attribute: Attribute
@@ -14,8 +14,8 @@ type AttributeContext = {
     value: UpdateAttribute,
     options?: UpdateOptions,
   ) => Promise<ReturnInfo>
-  validateAttribute: Validate<Attribute>
-  getError: (path: string) => string | undefined
+  validateAttribute: Validate<UpdateAttribute>
+  getError: (path: Array<string | number>) => NestedErrors | undefined
 }
 
 type AttributeProviderProps = {
@@ -36,11 +36,10 @@ export function AttributeProvider({
     console.error(error)
   } */
 
-  const { state, update, validate, getError } = useContextState<Attribute>(
-    attribute,
-    updateAttribute,
-    updateAttributeSchema,
-  )
+  const { state, update, validate, getError } = useContextState<
+    Attribute,
+    UpdateAttribute
+  >(attribute, updateAttribute, updateAttributeSchema)
 
   const contextValue = useMemo<AttributeContext>(() => {
     return {

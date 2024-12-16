@@ -28,13 +28,14 @@ export const changeTokenAttributeDefinition: SpecificNodeDefinition<ChangeTokenA
           type: 'enum',
           label: 'Attribute',
           placeholder: 'Select Attribute',
-          settings: {
-            options: attributes?.map((attr) => {
-              return {
-                value: attr.slug,
-                label: attr.name || 'Unnamed Attribute',
-              }
-            }),
+          restrictions: {
+            options:
+              attributes?.map((attr) => {
+                return {
+                  value: attr.slug,
+                  label: attr.name || 'Unnamed Attribute',
+                }
+              }) || [],
           },
           onChange: (node) => {
             node.updateInputs()
@@ -44,20 +45,21 @@ export const changeTokenAttributeDefinition: SpecificNodeDefinition<ChangeTokenA
       ]
       const attributeControlValue = getControlValue('attribute')?.value
       if (attributeControlValue) {
-        const attributeType = getTokenAttribute(attributeControlValue)?.type
+        const attributeType = getTokenAttribute(attributeControlValue)?.value
+          .type
         if (attributeType === 'number') {
           controls.push({
             key: 'mode',
             type: 'enum',
             label: 'Mode',
             placeholder: 'Select Mode',
-            settings: {
+            default: { type: 'enum', format: 'single', value: 'set' },
+            restrictions: {
               options: [
                 { value: 'set', label: 'Set' },
                 { value: 'incr', label: 'Incr' },
                 { value: 'decr', label: 'Decr' },
               ],
-              default: { type: 'enum', format: 'single', value: 'set' },
             },
           })
         }
@@ -76,11 +78,11 @@ export const changeTokenAttributeDefinition: SpecificNodeDefinition<ChangeTokenA
         'value'
       >[] = [
         {
+          type: attribute.value.type,
+          list: attribute.value.list,
           key: 'value',
-          type: attribute.type,
-          list: attribute.list,
           label: 'Attribute',
-          settings: attribute.settings,
+          restrictions: attribute.value.restrictions,
         },
       ]
       return inputs

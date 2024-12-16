@@ -19,7 +19,9 @@ export function AttributeSlugInput() {
     getError,
   } = useAttribute()
   const [value, setValue] = useState(slug)
-  const error = getError('slug')
+  const errorEntry = getError(['slug'])?.message || undefined
+  const error = typeof errorEntry === 'string' ? errorEntry : undefined
+
   return (
     <>
       {/* <label

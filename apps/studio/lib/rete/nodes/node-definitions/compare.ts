@@ -14,7 +14,7 @@ export const compareDefinition: SpecificNodeDefinition<CompareNode> = {
     link: '#math-compare',
   },
   inputs: ({ getInfoFromInputConnections }) => {
-    const { type, list, settings } =
+    const { type, list, restrictions } =
       getInfoFromInputConnections(['value1', 'value2']) || {}
     return [
       {
@@ -23,7 +23,7 @@ export const compareDefinition: SpecificNodeDefinition<CompareNode> = {
         list: list,
         canBeList: true,
         label: 'Value 1',
-        settings,
+        restrictions,
         onConnect: (node) => {
           node.updateInputs()
           node.updateControls()
@@ -39,7 +39,7 @@ export const compareDefinition: SpecificNodeDefinition<CompareNode> = {
         list: list,
         canBeList: true,
         label: 'Value 2',
-        settings,
+        restrictions,
         onConnect: (node) => {
           node.updateInputs()
           node.updateControls()

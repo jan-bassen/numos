@@ -11,7 +11,7 @@ export const dataSwitchDefinition: SpecificNodeDefinition<DataSwitchNode> = {
     link: '#data-switch',
   },
   inputs: ({ getInfoFromInputConnections }) => {
-    const { type, settings, list } =
+    const { type, restrictions, list } =
       getInfoFromInputConnections(['true', 'false']) || {}
     return [
       {
@@ -25,7 +25,7 @@ export const dataSwitchDefinition: SpecificNodeDefinition<DataSwitchNode> = {
         list: list,
         label: 'If Yes',
         canBeList: true,
-        settings,
+        restrictions,
         onConnect: (node) => {
           node.updateInputs()
           node.updateOutputs()
@@ -41,7 +41,7 @@ export const dataSwitchDefinition: SpecificNodeDefinition<DataSwitchNode> = {
         list: list,
         label: 'If No',
         canBeList: true,
-        settings,
+        restrictions,
         onConnect: (node) => {
           node.updateInputs()
           node.updateOutputs()
@@ -54,8 +54,8 @@ export const dataSwitchDefinition: SpecificNodeDefinition<DataSwitchNode> = {
     ]
   },
   outputs: ({ getInfoFromInputConnections }) => {
-    const { type, list, settings } =
+    const { type, list, restrictions } =
       getInfoFromInputConnections(['true', 'false']) || {}
-    return [{ key: 'output', type, list, label: 'Result', settings }]
+    return [{ key: 'output', type, list, label: 'Result', restrictions }]
   },
 }

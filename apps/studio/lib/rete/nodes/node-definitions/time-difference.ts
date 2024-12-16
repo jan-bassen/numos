@@ -18,7 +18,8 @@ export const timeDifferenceDefinition: SpecificNodeDefinition<TimeDifferenceNode
         key: 'unit',
         type: 'enum',
         label: 'Unit',
-        settings: {
+        default: { value: 'seconds', type: 'enum', format: 'single' },
+        restrictions: {
           options: [
             { value: 'seconds', label: 'Seconds' },
             { value: 'minutes', label: 'Minutes' },
@@ -28,7 +29,6 @@ export const timeDifferenceDefinition: SpecificNodeDefinition<TimeDifferenceNode
             { value: 'months', label: 'Months' },
             { value: 'years', label: 'Years' },
           ],
-          default: { value: 'seconds', type: 'enum', format: 'single' },
         },
       },
     ],

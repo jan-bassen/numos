@@ -10,13 +10,13 @@ export const listAddDefinition: SpecificNodeDefinition<ListAddNode> = {
     link: '#',
   },
   inputs: ({ getInfoFromInputConnections }) => {
-    const { type, settings } =
+    const { type, restrictions } =
       getInfoFromInputConnections(['list', 'value']) || {}
     return [
       {
         key: 'list',
         type,
-        settings,
+        restrictions,
         list: true,
         label: 'List',
         hideControl: true,
@@ -32,7 +32,7 @@ export const listAddDefinition: SpecificNodeDefinition<ListAddNode> = {
       {
         key: 'value',
         type,
-        settings,
+        restrictions,
         label: 'Value',
         hideControl: true,
         onConnect: (node) => {
@@ -51,8 +51,8 @@ export const listAddDefinition: SpecificNodeDefinition<ListAddNode> = {
       key: 'position',
       type: 'enum',
       label: 'Position',
-      settings: {
-        default: { value: 'start', type: 'enum', format: 'single' },
+      default: { value: 'start', type: 'enum', format: 'single' },
+      restrictions: {
         options: [
           { value: 'start', label: 'Start' },
           { value: 'end', label: 'End' },

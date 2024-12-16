@@ -2,18 +2,14 @@
 
 import 'server-only'
 
-import type { Attribute, UpdateAttribute } from '@/types/database.types'
+import type { UpdateAttribute } from '@/types/database.types'
 import { createSupabaseServerComponentClient } from '@/lib/supabase/clients/server-client'
 import type { ReturnInfo } from '@repo/ui/lib/utils'
 import { revalidatePath } from 'next/cache'
-import { updateAttributeNodeControls } from '../nodes'
-import { updateAttributeSlugInNodes } from './nodes/update'
-import { redirect } from 'next/navigation'
-import type { UpdateOptions } from '@/types/state.types'
-import { ZodError, type ZodType } from 'zod'
-import type { PostgrestSingleResponse } from '@supabase/supabase-js'
-import { updateAttributeSchema } from '@/lib/schemas/attribute-schema-new'
-import { createSafeUpdate } from '../create-safe-update'
+import { clearAttributeNodeControls } from '@/lib/supabase/db/attributes/nodes/update'
+import { updateAttributeSlugInNodes } from '@/lib/supabase/db/attributes/nodes/update'
+import { updateAttributeSchema } from '@/lib/schemas/attributes/attribute-schema'
+import { createSafeUpdate } from '@/lib/supabase/db/create-safe-update'
 
 export async function updateAttributeBase(id: string, values: UpdateAttribute) {
   if (values.slug) {
@@ -22,6 +18,7 @@ export async function updateAttributeBase(id: string, values: UpdateAttribute) {
     }
     const res = await updateAttributeSlugInNodes(id, values.slug)
     if (!res.ok) {
+      console.log(res)
       return res
     }
   }
@@ -33,8 +30,10 @@ export async function updateAttributeBase(id: string, values: UpdateAttribute) {
     .update(values)
     .eq('id', id)
   if (error) {
+    console.log(error)
     return { ok: false, message: error.message }
   }
+  console.log('Attribute updated')
   return { ok: true, message: 'Attribute updated' }
 }
 
@@ -73,12 +72,7 @@ export async function updateAttributeLegacy(
       attribute.slug &&
       attribute.slug !== oldSlug
     ) {
-      const res = await updateAttributeNodeControls(
-        attribute.version,
-        oldSlug,
-        attribute.slug,
-      )
-      console.log(res)
+      const res = await clearAttributeNodeControls(attribute.id)
     }
 
     revalidatePath('/collections/[collection]/attributes/[attribute]')

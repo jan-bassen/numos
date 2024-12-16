@@ -12,12 +12,12 @@ export const listLengthDefinition: SpecificNodeDefinition<ListLengthNode> = {
     link: '#list-length',
   },
   inputs: ({ getInfoFromInputConnection }) => {
-    const { settings, type } = getInfoFromInputConnection('list') || {}
+    const { restrictions, type } = getInfoFromInputConnection('list') || {}
     return [
       {
         key: 'list',
         type,
-        settings,
+        restrictions,
         list: true,
         label: 'List',
         onConnect: (node) => {

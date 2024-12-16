@@ -15,10 +15,10 @@ import {
 import Main from '@/components/page/main'
 import type { BadgeVariant } from '@repo/ui/components/ui/badge'
 import { getLatestActions } from '@/lib/supabase/db/actions'
-import { getLatestAttributes } from '@/lib/supabase/db/attributes'
+import { getLatestAttributes } from '@/lib/supabase/db/attributes/read'
 import { getExtendedCollectionFromSlug } from '@/lib/supabase/db/collections'
 import { SupabaseImage } from '@/components/supabase/supabase-image'
-import DeleteCollectionButton from './(components)/delete-collection-button'
+import DeleteCollectionButton from '@/app/collections/[collection]/(components)/delete-collection-button'
 import { Page } from '@/components/page/page'
 
 export default async function Collection(props: {

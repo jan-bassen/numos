@@ -24,13 +24,14 @@ import type {
   NodeValueMap,
   OptionalValueType,
   Value,
+  ValueRestrictions,
   ValueSettings,
   ValueType,
 } from '@repo/engine/types/value-types'
 import type { AnyNode } from '@repo/engine/types/node-types'
 import { getInfoFromAttribute } from '@/app/collections/[collection]/attributes/(functions)/utils'
-import { Input } from './connectors/input'
-import { Output } from './connectors/output'
+import { Input } from '@/lib/rete/classes/connectors/input'
+import { Output } from '@/lib/rete/classes/connectors/output'
 import type { GraphErrorData } from '@repo/engine/types/engine-types'
 export class Node extends NodePreset {
   width?: number
@@ -90,7 +91,9 @@ export class Node extends NodePreset {
       getConnectedInputKeys: () => {
         return this.getConnectedInputs().map((input) => input.key)
       },
-      getInfoFromInputConnection: (key: string) => {
+      getInfoFromInputConnection: <VT extends ValueType, L extends boolean>(
+        key: string,
+      ) => {
         const connectedOutput = this.getConnectedOutput(key)
         if (!connectedOutput) return
         if (
@@ -100,14 +103,15 @@ export class Node extends NodePreset {
           return undefined
         }
         return {
-          type: connectedOutput.socket.type as ValueType,
+          type: connectedOutput.socket.type as VT,
           list: connectedOutput.socket.list,
-          settings: connectedOutput.socket.definition?.settings as
-            | ValueSettings<ValueType>
-            | undefined,
+          restrictions: connectedOutput.socket.definition
+            ?.restrictions as ValueRestrictions<VT, L>,
         }
       },
-      getInfoFromInputConnections: (keys: string[]) => {
+      getInfoFromInputConnections: <VT extends ValueType, L extends boolean>(
+        keys: string[],
+      ) => {
         const output = keys
           .map((key) => this.getConnectedOutput(key))
           .find((o) => o !== undefined)
@@ -119,9 +123,10 @@ export class Node extends NodePreset {
           return undefined
         }
         return {
-          type: output.socket.type as ValueType,
+          type: output.socket.type as VT,
           list: output.socket.list,
-          settings: output.socket.definition?.settings,
+          restrictions: output.socket.definition
+            ?.restrictions as ValueRestrictions<VT, L>,
         }
       },
       getControlValue: (key: string) => {
@@ -462,15 +467,15 @@ export class Node extends NodePreset {
           //TODO: Clean up these checks
           currentOutput?.socket.type === 'enum' &&
           outputDef.type === 'enum' &&
-          currentOutput.socket.definition.settings &&
-          'options' in currentOutput.socket.definition.settings &&
-          outputDef.settings &&
-          'options' in outputDef.settings
+          currentOutput.socket.definition.restrictions &&
+          'options' in currentOutput.socket.definition.restrictions &&
+          outputDef.restrictions &&
+          'options' in outputDef.restrictions
         ) {
           if (
             !isEqual(
-              currentOutput.socket.definition.settings.options,
-              outputDef.settings.options,
+              currentOutput.socket.definition.restrictions.options,
+              outputDef.restrictions.options,
             )
           ) {
             differentOptions = true
