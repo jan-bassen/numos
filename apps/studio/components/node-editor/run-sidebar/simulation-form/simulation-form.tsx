@@ -16,13 +16,12 @@ import { useParams } from 'next/navigation'
 import {
   getAttributeTypes,
   getDefaultValuesFromAttributes,
-  getSchemaFromAttributes,
-} from '@/lib/schemas/attributes/attribute-schema'
+} from '@/components/node-editor/run-sidebar/simulation-form/get-attributes'
 import {
   getDefaultValuesFromParameters,
-  getParametersSchema,
   getParameterTypes,
-} from '@/lib/schemas/action-schema'
+} from '@/components/node-editor/run-sidebar/simulation-form/get-parameters'
+import { getSchemaFromParameters } from '@/lib/schemas/actions/get-schema-from-parameters'
 import {
   Accordion,
   AccordionContent,
@@ -56,10 +55,7 @@ import { NumberInput } from '@/components/datatypes/number/number-input'
 import { useEffect, useState } from 'react'
 import { ListFormInput } from '@/components/datatypes/list/list-input-form'
 import { toast } from 'sonner'
-import type {
-  Value,
-  ValueType,
-} from '@repo/engine/types/value-types'
+import type { Value } from '@repo/engine/types/value-types'
 import type { ActionTrigger } from '@/types/actions.types'
 import type { SimulationData } from '@repo/engine/types/engine-types'
 import { generateValueMap } from '@repo/engine/datatypes/utils'
@@ -68,6 +64,7 @@ import {
   getDataTypeInput,
   type SingleDataTypeInputProps,
 } from '@/components/datatypes/single-datatype-input'
+import { getSchemaFromAttributes } from '@/lib/schemas/attributes/get-schema-from-attributes'
 
 export default function SimulationForm({
   id,
@@ -145,7 +142,7 @@ export default function SimulationForm({
     metadata: optionalMetadataSchema,
     attributes: getSchemaFromAttributes(attributes, true),
     parameters: hasParams
-      ? getParametersSchema(trigger.settings.params, true)
+      ? getSchemaFromParameters(trigger.settings.params, true)
       : z.undefined(),
   })
 
@@ -595,7 +592,7 @@ export default function SimulationForm({
               <AccordionContent className="space-y-4 border-b bg-muted/20 p-3 pt-5 pb-7">
                 {hasParams &&
                   trigger?.settings.params.map((parameter) => {
-                    if (parameter.list) {
+                    if (parameter.value.list) {
                       const itemKey = `parameter.${parameter.key}` as Path<
                         z.infer<typeof schema>
                       >
@@ -631,7 +628,7 @@ export default function SimulationForm({
                           </div>
                           <ListFormInput
                             inputProps={{
-                              type: parameter.type as ValueType,
+                              type: parameter.value.type,
                               restrictions: undefined,
                               locked: false,
                             }}
@@ -658,20 +655,24 @@ export default function SimulationForm({
                         key={`parameters.${parameter.key}`}
                         render={({ field }) => {
                           const DataTypeInput = getDataTypeInput<
-                            typeof parameter.type
-                          >(parameter.type)
+                            typeof parameter.value.type
+                          >(parameter.value.type)
                           const props: SingleDataTypeInputProps<
-                            typeof parameter.type
+                            typeof parameter.value.type
                           > = {
-                            type: parameter.type,
+                            type: parameter.value.type,
                             restrictions: undefined,
                             placeholder: parameter.key,
                             locked: false,
                             value: {
-                              type: parameter.type,
+                              type: parameter.value.type,
                               format: 'single',
                               value: field.value,
-                            } as Value<typeof parameter.type, 'single', true>,
+                            } as Value<
+                              typeof parameter.value.type,
+                              'single',
+                              true
+                            >,
                             onChange: (v) => {
                               field.onChange(v.value)
                             },
@@ -683,7 +684,7 @@ export default function SimulationForm({
                               <div
                                 className={cn(
                                   'flex w-full space-y-2',
-                                  parameter.type === 'boolean'
+                                  parameter.value.type === 'boolean'
                                     ? 'my-1 flex-row items-center justify-between'
                                     : 'flex-col',
                                 )}

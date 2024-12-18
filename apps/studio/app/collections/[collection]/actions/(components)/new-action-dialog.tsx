@@ -6,16 +6,10 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { handleReturnInfo } from '@repo/ui/lib/utils'
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from '@repo/ui/components/ui/form'
+import { FormControl, FormItem, FormMessage } from '@repo/ui/components/ui/form'
 import { toast } from 'sonner'
 import { Input } from '@repo/ui/components/ui/input'
 import { useRouter } from 'next/navigation'
-import { Textarea } from '@repo/ui/components/ui/textarea'
 import {
   Dialog,
   DialogContent,
@@ -24,23 +18,20 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@repo/ui/components/ui/dialog'
-import { Fingerprint, Info, Tag, Zap } from 'lucide-react'
+import { Fingerprint, Tag, Zap } from 'lucide-react'
 import {
   type StageDefinition,
   StagedForm,
 } from '@/components/forms/staged-form'
 import type { NewItemDialogProps } from '@/types/props.types'
-import {
-  getDefaultTriggerSettings,
-  newActionSchema,
-} from '../../../../../lib/schemas/action-schema'
+import { newActionSchema } from '@/lib/schemas/actions/action-schema'
 import { insertAction } from '@/lib/supabase/db/actions'
 import {
   SelectValue,
   Select,
   SelectTrigger,
 } from '@repo/ui/components/ui/select'
-import { TriggerSelectContent } from '../[action]/(components)/trigger-select-content'
+import { TriggerSelectContent } from '@/app/collections/[collection]/actions/[action]/(components)/trigger-select-content'
 import { slugify } from '@/lib/utils'
 
 export function NewActionDialog({
@@ -73,14 +64,14 @@ export function NewActionDialog({
 
   const stages: StageDefinition<SchemaType>[] = [
     {
-      key: 'trigger',
+      key: 'trigger.type',
       title: 'Select what triggers the action',
       description:
         'Actions can be triggered by a number of different events. Select the one that best fits your use case.',
       icon: Zap,
       field: (field) => (
         <FormItem className="min-h-18 w-full">
-          <Select onValueChange={field.onChange} defaultValue={field.value}>
+          <Select onValueChange={field.onChange} defaultValue={field}>
             <FormControl>
               <SelectTrigger className={field.value && 'h-14'}>
                 <SelectValue placeholder="Select Trigger" />

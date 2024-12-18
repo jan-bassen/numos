@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { weatherCodes } from '@repo/engine/datatypes/constants/weather-codes'
 import { valueSchemas } from '@repo/engine/datatypes/schemas/value-schema'
-import { validateDefaultFormat } from '../refinements.js'
+import { validateDefaultFormat } from '@repo/engine/datatypes/schemas/refinements'
 
 export const weatherSchema = z.enum(weatherCodes, {
   invalid_type_error: 'Must be a valid weather condition',

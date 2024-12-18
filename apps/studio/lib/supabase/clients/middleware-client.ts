@@ -5,7 +5,7 @@ import { type NextRequest, NextResponse } from 'next/server'
 export async function createSupabaseMiddlewareClient(
   request: NextRequest,
   response: NextResponse,
-) {
+): Promise<ReturnType<typeof createServerClient<Database>>> {
   if (
     !process.env.NEXT_PUBLIC_SUPABASE_URL ||
     !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY

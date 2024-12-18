@@ -120,7 +120,7 @@ export class SimulationEngine extends EngineBase {
   async getRootNodeOutput(): Promise<
     Value<ValueType, 'single' | 'array', false>
   > {
-    const [rootId, rootNode] = this.findRootNode()
+    const [rootId] = this.findRootNode()
     const logic = this.getNodeLogic(rootId)
     if (!logic)
       throw new GraphError('Root node has no data logic', { node: rootId })
@@ -369,7 +369,7 @@ export class SimulationEngine extends EngineBase {
   ): Promise<ActionSimulationResult> {
     this.setSimulationData(simulationData)
     this.resetSimulatedResult()
-    const [rootId, rootNode] = this.findRootNode()
+    const [rootId] = this.findRootNode()
 
     const alreadyRunNodes: Record<string, boolean> = {}
     let shouldContinue = true
@@ -441,7 +441,7 @@ export class SimulationEngine extends EngineBase {
         res,
       )
       if (error) {
-        const [rootId, rootNode] = this.findRootNode()
+        const [rootId] = this.findRootNode()
         throw new GraphError(`Output invalid: ${error.message}`, {
           node: rootId,
         })
@@ -449,7 +449,7 @@ export class SimulationEngine extends EngineBase {
       const result = {
         type: 'image',
         format: 'single',
-        value: Buffer.from(validated.value).toString('base64'),
+        value: validated.value.toString('base64'),
       } as Value<'image', 'single', false>
       return { result, error: undefined }
     } catch (err) {

@@ -1,12 +1,7 @@
 import { TabsTrigger, type TabsTriggerProps } from '@repo/ui/components/ui/tabs'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@repo/ui/components/ui/tooltip'
 import { PiCheckTickCircleBrokenStroke } from '@repo/ui/icons/pika'
 import { cn } from '@repo/ui/lib/utils'
-import type { SVGProps } from 'react'
+import type { JSX, SVGProps } from 'react'
 
 export type TabOption<Type extends string | boolean = string> = {
   value: Type

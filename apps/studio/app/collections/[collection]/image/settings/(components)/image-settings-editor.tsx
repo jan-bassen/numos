@@ -10,12 +10,10 @@ import {
   HeaderTitle,
 } from '@/components/page/header'
 import Main from '@/components/page/main'
-import type { SVGProps } from 'react'
+import type { JSX } from 'react'
 
 export default function ImageSettingsEditor() {
-  function PiCheckMarkCircleBrokenStroke(
-    props: SVGProps<SVGSVGElement>,
-  ): JSX.Element {
+  function PiCheckMarkCircleBrokenStroke(): JSX.Element {
     throw new Error('Function not implemented.')
   }
 

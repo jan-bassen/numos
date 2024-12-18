@@ -29,13 +29,6 @@ export function AttributeProvider({
   children,
   attribute,
 }: AttributeProviderProps) {
-  /* try {
-    const res = updateAttributeSchema.parse(attribute)
-    console.log(res)
-  } catch (error) {
-    console.error(error)
-  } */
-
   const { state, update, validate, getError } = useContextState<
     Attribute,
     UpdateAttribute
@@ -60,7 +53,7 @@ export function AttributeProvider({
 export function useAttribute() {
   const context = useContext(AttributeContext)
   if (!context) {
-    throw new Error('No attribute context found')
+    throw new Error('useAttribute must be used within an AttributeProvider')
   }
   return context
 }

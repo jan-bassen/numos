@@ -1,7 +1,6 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import type { ZodType } from 'zod'
 import type {
-  ZodErrorInfo,
   NestedErrors,
   SetState,
   Update,
@@ -38,31 +37,43 @@ export function useContextState<
 
   // Update
 
-  const validate = createValidate<UT>(schema, errors, setErrors)
-
-  const validatedUpdate = createValidatedUpdate(update, validate)
-
-  const debouncedUpdate = asyncDebounce<ValidateUpdate<UT>>(
-    validatedUpdate,
-    config?.debounce || 1000,
+  const validate = useCallback(
+    createValidate<UT>(schema, errors, setErrors),
+    [],
   )
 
-  const _update = async (value: UT, options?: UpdateOptions) => {
-    const prev = state
-    try {
-      setState((prev) => {
-        return { ...prev, ...value }
-      })
-      if (!state.id) return { ok: false, message: 'No id specified' }
-      const res = await debouncedUpdate(state.id, value, options)
-      return res
-    } catch (e) {
-      setState(prev)
-      return { ok: false, message: 'Resetting: Unable to update state' }
-    }
-  }
+  const validatedUpdate = useCallback(
+    createValidatedUpdate(update, validate),
+    [],
+  )
 
-  const getError = createGetError(errors)
+  const debouncedUpdate = useCallback(
+    asyncDebounce<ValidateUpdate<UT>>(
+      validatedUpdate,
+      config?.debounce || 1000,
+    ),
+    [],
+  )
+
+  const _update = useCallback(
+    async (value: UT, options?: UpdateOptions) => {
+      const prev = state
+      try {
+        setState((prev) => {
+          return { ...prev, ...value }
+        })
+        if (!state.id) return { ok: false, message: 'No id specified' }
+        const res = await debouncedUpdate(state.id, value, options)
+        return res
+      } catch (e) {
+        setState(prev)
+        return { ok: false, message: 'Resetting: Unable to update state' }
+      }
+    },
+    [debouncedUpdate, state],
+  )
+
+  const getError = useCallback(createGetError(errors), [])
 
   return {
     state,

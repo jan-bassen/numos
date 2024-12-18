@@ -36,8 +36,8 @@ export const parameterDefinition: SpecificNodeDefinition<ParameterNode> = {
     return [
       {
         key: 'parameter',
-        list: parameter.list,
-        type: parameter.type,
+        list: parameter.value.list,
+        type: parameter.value.type,
         label: parameter.key,
       },
     ]

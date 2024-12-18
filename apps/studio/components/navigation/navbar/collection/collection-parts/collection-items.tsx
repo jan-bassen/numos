@@ -27,7 +27,7 @@ import {
   useSidebar,
 } from '@repo/ui/components/ui/sidebar'
 
-import { useState, type SVGProps } from 'react'
+import { type JSX, useState, type SVGProps } from 'react'
 import type { Collection } from '@/types/database.types'
 import { dataTypes } from '@/lib/constants/datatypes'
 import type { NavItems } from '../../navbar'

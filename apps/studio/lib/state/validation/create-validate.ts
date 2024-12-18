@@ -1,4 +1,4 @@
-import type { ZodErrorInfo, NestedErrors, Validate } from '@/types/state.types'
+import type { NestedErrors, Validate } from '@/types/state.types'
 import { type SetStateAction, useCallback } from 'react'
 import { ZodError, type ZodType } from 'zod'
 import type { Result } from '@repo/shared/types/result'

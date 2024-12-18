@@ -4,7 +4,9 @@ import type { Database } from '@/types/database.types'
 import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 
-export async function createSupabaseServerClient() {
+export async function createSupabaseServerClient(): Promise<
+  ReturnType<typeof createServerClient<Database>>
+> {
   const cookieStore = await cookies()
   if (
     !process.env.NEXT_PUBLIC_SUPABASE_URL ||
@@ -31,7 +33,9 @@ export async function createSupabaseServerClient() {
   )
 }
 
-export async function createSupabaseServerComponentClient() {
+export async function createSupabaseServerComponentClient(): Promise<
+  ReturnType<typeof createServerClient<Database>>
+> {
   const cookieStore = await cookies()
   if (
     !process.env.NEXT_PUBLIC_SUPABASE_URL ||

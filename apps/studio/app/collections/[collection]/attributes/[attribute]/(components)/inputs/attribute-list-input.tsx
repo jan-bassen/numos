@@ -4,9 +4,8 @@ import { PiListDefaultStroke, PiSquareDotStroke } from '@repo/ui/icons/pika'
 import { useAttribute } from '../../attribute-context'
 import type { TabOption } from '@/components/forms/tab-inputs/tab-option'
 import { TabToggle } from '@/components/forms/tab-inputs/tab-toggle'
-import { removeAttributeFromLocalForm } from '../../../(functions)/utils'
+import { removeAttributeFromLocalForm } from '@/app/collections/[collection]/attributes/(functions)/utils'
 import { useCollection } from '@/app/collections/[collection]/context'
-import type { InsertAttribute } from '@/types/database.types'
 
 export const listOptionMap = {
   single: {

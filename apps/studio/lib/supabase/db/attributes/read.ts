@@ -144,3 +144,20 @@ export async function getAttributesForNav(
 
   return attributes
 }
+
+/* export const isAttributeSlugTaken = async (slug: string) => {
+  const supabase = await createSupabaseServerComponentClient()
+  const { count, data, error } = await supabase
+    .from('attributes')
+    .select('slug, version', { count: 'exact'})
+    .eq('slug', slug)
+
+  if (error) {
+    throw new FetchError('Error with fetching collection')
+  }
+
+  if (count === 0) return false
+  
+
+  return !!data
+} */

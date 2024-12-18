@@ -12,7 +12,7 @@ import {
   PopoverTrigger,
 } from '@repo/ui/components/ui/popover'
 import { useRef } from 'react'
-import ListInput from '@/components/datatypes/list/list-input'
+import ListInput from '@/components/datatypes/list/datatype-list-input'
 import type {
   RawSingleValue,
   Value,
@@ -71,7 +71,10 @@ export function ControlComponent(payload: { data: ControlClass }) {
               onChange={(v: Value<ValueType, 'objectarray', true>) => {
                 control.setValue(v)
               }}
-              issues={control.getIssues()}
+              errors={control.getIssues().map((issue) => ({
+                message: issue.message,
+                code: issue.code,
+              }))}
               restrictions={control.definition?.restrictions}
               placeholder={control.definition?.placeholder}
               locked={false}

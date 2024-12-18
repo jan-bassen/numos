@@ -11,38 +11,32 @@ export type Location = { lat: number; lng: number }
 
 // ----------- VALUES -------------
 
-export type RawSingleValue =
-  | string
-  | number
-  | boolean
-  | Color
-  | Location
-  | Direction
-  | WeatherCode
-  | Buffer
+export type RawSingleValue<T extends ValueType = ValueType> =
+  RawValueTypesMap[T]
 
 export type RawValue<
+  T extends ValueType = ValueType,
   format extends ValueFormat = ValueFormat,
   Optional extends boolean = false,
 > = format extends 'single'
   ? Optional extends true
-    ? OptionalValue<RawSingleValue>
-    : RawSingleValue
+    ? OptionalValue<RawSingleValue<T>>
+    : RawSingleValue<T>
   : format extends 'array'
     ? Optional extends true
-      ? OptionalValue<RawSingleValue>[]
-      : RawSingleValue[]
+      ? OptionalValue<RawSingleValue<T>>[]
+      : RawSingleValue<T>[]
     : format extends 'objectarray'
-      ? ObjectValue<RawSingleValue, Optional>[]
+      ? ObjectValue<RawSingleValue<T>, Optional>[]
       : Optional extends true
         ?
-            | OptionalValue<RawSingleValue>
-            | OptionalValue<RawSingleValue>[]
-            | ObjectValue<RawSingleValue, true>[]
+            | OptionalValue<RawSingleValue<T>>
+            | OptionalValue<RawSingleValue<T>>[]
+            | ObjectValue<RawSingleValue<T>, true>[]
         :
-            | RawSingleValue
-            | RawSingleValue[]
-            | ObjectValue<RawSingleValue, false>[]
+            | RawSingleValue<T>
+            | RawSingleValue<T>[]
+            | ObjectValue<RawSingleValue<T>, false>[]
 
 export type OptionalValue<DTV extends RawSingleValue = RawSingleValue> =
   | DTV

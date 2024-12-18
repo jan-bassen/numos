@@ -27,6 +27,7 @@ export function StringInput({
       disabled={locked}
       className={cn(
         '!min-h-0 scrollbar-none h-10 w-full',
+        locked && 'resize-none',
         environment === 'node' &&
           'flex h-7 w-44 items-center rounded-lg px-2 py-1 text-sm',
         environment === 'list' && 'items-center py-1.5 pl-2',

@@ -2,7 +2,7 @@
 
 import { useAttribute } from '../../attribute-context'
 import type { FullValue, Value } from '@repo/engine/types/value-types'
-import ListInput from '@/components/datatypes/list/list-input'
+import ListInput from '@/components/datatypes/list/datatype-list-input'
 import Segment from '@/components/layouts/segmented/segment'
 import { isArray } from 'lodash'
 import type { ZodErrorInfo } from '@/types/state.types'
@@ -13,7 +13,7 @@ import {
 
 export function AttributeOptionsInput() {
   const {
-    attribute: { list, type, value: _value, locked },
+    attribute: { value: _value, locked },
     updateAttribute,
     getError,
   } = useAttribute()
@@ -24,13 +24,13 @@ export function AttributeOptionsInput() {
     errors = errorArray.map((e) => e?.value)
   }
 
-  if (type !== 'enum') {
+  if (_value.type !== 'enum') {
     return null
   }
 
-  const attributeValue = _value as FullValue<typeof type, boolean>
+  const attributeValue = _value as FullValue<typeof _value.type, boolean>
 
-  const value: Value<'enum', 'objectarray', true> = optionsToValue(
+  const value: Value<'string', 'objectarray', true> = optionsToValue(
     attributeValue.restrictions?.options || [],
   )
 
@@ -51,25 +51,25 @@ export function AttributeOptionsInput() {
     >
       <ListInput
         errors={errors}
-        type="enum"
+        type="string"
         locked={locked}
-        placeholder="No default value"
+        placeholder="Option"
         environment="form"
         classNames={{ container: 'w-full max-w-input' }}
         value={value}
         onChange={async (v) => {
-          const res = await updateAttribute(
-            {
-              value: {
-                ...attributeValue,
-                restrictions: {
-                  ...attributeValue.restrictions,
-                  options: valueToOptions(v),
-                },
-              },
+          const newValue = {
+            ...attributeValue,
+            restrictions: {
+              ...attributeValue.restrictions,
+              options: valueToOptions(v),
             },
+          }
+          const res = await updateAttribute(
+            { value: newValue },
             { debounce: true },
           )
+          console.log(res)
         }}
         addButtonLabel="Add Option"
       />

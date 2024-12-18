@@ -2,7 +2,7 @@ import { getAttributeBySlugs } from '@/lib/supabase/db/attributes/read'
 import { AttributeProvider } from './attribute-context'
 import { notFound } from 'next/navigation'
 
-export default async function Attribute({
+export default async function AttributeLayout({
   params,
   children,
 }: {

@@ -8,11 +8,9 @@ import {
 import { cn } from '@repo/ui/lib/utils'
 import type { TabOption } from './tab-option'
 import TabOptionElement from './tab-option'
-import { Button } from '@repo/ui/components/ui/button'
-import { useEffect, useState } from 'react'
-import TabOptionButton from './tab-option-button'
 
 export type TabSelectProps = TabsProps & {
+  size?: 'sm' | 'md'
   options: TabOption[]
   disabled?: boolean
   list?: Omit<TabsListProps, 'className'>
@@ -20,6 +18,7 @@ export type TabSelectProps = TabsProps & {
 }
 
 export function TabSelect({
+  size,
   options,
   disabled,
   className,
@@ -29,29 +28,6 @@ export function TabSelect({
   onChange,
   ...props
 }: TabSelectProps) {
-  /*
-  const [open, setOpen] = useState(!!value)
-  useEffect(() => {
-    setOpen(false)
-  }, [value])
-
-   if (!open) {
-    const option = options.find((o) => o.value === value)
-    if (!option) throw new Error('Option not found')
-    return (
-      <div className={cn('p-1 pt-1.5 pl-1.5 sm:gap-2 md:p-1.5', className)}>
-        <TabOptionButton
-          data-state={'inactive'}
-          option={option}
-          disabled={disabled}
-          className={cn('w-full', trigger?.className)}
-          onClick={() => setOpen(true)}
-          component={options.length > 3 ? 'sm' : 'md'}
-        />
-      </div>
-    )
-  } */
-
   return (
     <Tabs {...props} value={value} className={'w-full'}>
       <TabsList
@@ -63,10 +39,10 @@ export function TabSelect({
           className,
         )}
       >
-        {options.map((option, i) => (
+        {options.map((option) => (
           <TabOptionElement
             {...trigger}
-            size={options.length > 3 ? 'sm' : 'md'}
+            size={size || (options.length > 3 ? 'sm' : 'md')}
             className={cn('-xs:!w-full', trigger?.className)}
             option={option}
             key={option.value}

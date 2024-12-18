@@ -1,33 +1,19 @@
-'use client'
-
+import 'client-only'
 import { Plus } from 'lucide-react'
 import { Button } from '@repo/ui/components/ui/button'
 import { PiCrossCross, PiThreeByTwoDotsVertical } from '@repo/ui/icons/pika'
 import { cn } from '@repo/ui/lib/utils'
-import { dataTypes } from '@/lib/constants/datatypes'
 import { DndContext } from '@dnd-kit/core'
 import { SortableContext } from '@dnd-kit/sortable'
-import {
-  restrictToVerticalAxis,
-  restrictToParentElement,
-  restrictToHorizontalAxis,
-} from '@dnd-kit/modifiers'
-import { useMemo } from 'react'
-import type { ZodIssue } from 'zod'
-import type {
-  ObjectValue,
-  RawSingleValue,
-  RawValue,
-  Value,
-  ValueType,
-} from '@repo/engine/types/value-types'
-import {
-  getDataTypeInput,
-  type SingleDataTypeInputProps,
-} from '../single-datatype-input'
 import dynamic from 'next/dynamic'
 import type { ZodErrorInfo } from '@/types/state.types'
 import ErrorMessage from '@/components/state/error-message'
+import { getChangeValue } from '@/components/datatypes/list/functions/change-value'
+import { getMoveValue } from '@/components/datatypes/list/functions/move-value'
+import { getRemoveValue } from '@/components/datatypes/list/functions/remove-value'
+import { getAppendValue } from '@/components/datatypes/list/functions/append-value'
+import { getModifiers } from '@/components/datatypes/list/functions/modifiers'
+import { getEndDrag } from '@/components/datatypes/list/functions/end-drag'
 
 const SortableItem = dynamic(
   () => import('@/components/datatypes/list/sortable-item'),
@@ -36,114 +22,49 @@ const SortableItem = dynamic(
   },
 )
 
-export type ListInputProps<T extends ValueType = ValueType> = Omit<
-  SingleDataTypeInputProps<T>,
-  'value' | 'onChange' | 'className' | 'id' | 'valid'
-> & {
-  value: Value<T, 'objectarray', true>
-  onChange?: (value: Value<T, 'objectarray', true>) => void
+export type ListInputProps<V> = {
+  value: ListItem<V>[]
+  onChange?: (value: ListItem<V>[]) => void
+  input: (props: {
+    id: string
+    index: number
+    value: V | null
+    onChange: (value: V | null) => void
+  }) => React.ReactNode
   errors?: Array<ZodErrorInfo | undefined>
+  limitAxis?: 'x' | 'y'
+  addButtonLabel?: string
+  locked?: boolean
   classNames?: {
     container?: string
-    item?: string
     button?: string
-    input?: string
     handle?: string
     deleteButton?: string
   }
-  limitAxis?: 'x' | 'y'
-  issues?: ZodIssue[]
-  addButtonLabel?: string
 }
 
-export default function ListInput<T extends ValueType>({
+export type ListItem<V> = {
+  id: string
+  value: V | null
+}
+
+export default function ListInput<V>({
   value,
-  restrictions,
+  onChange,
+  input,
   locked = false,
   classNames,
   limitAxis,
   errors = [],
-  environment,
   addButtonLabel,
-  onChange,
-}: ListInputProps<T>) {
-  const valueArray = useMemo(() => value.value || [], [value])
+}: ListInputProps<V>) {
+  const changeValue = getChangeValue(value, onChange)
+  const move = getMoveValue(value, onChange)
+  const remove = getRemoveValue(value, onChange)
+  const append = getAppendValue(value, onChange)
 
-  const onSingleValueChange = (
-    v: Value<ValueType, 'single', true>,
-    index: number,
-  ) => {
-    if (!onChange) return
-    const newValueArray = valueArray ? [...valueArray] : []
-    const newSingleValue = v.value as RawValue<'single', true>
-    if (newValueArray[index]) {
-      newValueArray[index].value = newSingleValue
-      const newValue = {
-        ...value,
-        value: newValueArray,
-      } as Value<T, 'objectarray', true>
-      onChange(newValue)
-    }
-  }
-
-  const move = (from: number, to: number) => {
-    if (!onChange) return
-    if (
-      from < 0 ||
-      from >= valueArray.length ||
-      to < 0 ||
-      to >= valueArray.length
-    )
-      return
-    const newValueArray = valueArray ? [...valueArray] : []
-    const [removed] = newValueArray.splice(from, 1)
-    if (removed === undefined) return
-    newValueArray.splice(to, 0, removed)
-    const newValue = {
-      ...value,
-      value: newValueArray,
-    } as Value<T, 'objectarray', true>
-    onChange(newValue)
-  }
-
-  const remove = (index: number) => {
-    if (!onChange) return
-    const newValueArray = valueArray ? [...valueArray] : []
-    newValueArray.splice(index, 1)
-    const newValue = {
-      ...value,
-      value: newValueArray,
-    } as Value<T, 'objectarray', true>
-    onChange(newValue)
-  }
-
-  const append = (v: ObjectValue<RawSingleValue, true>) => {
-    if (!onChange) return
-    const newValueArray: ObjectValue<RawSingleValue, true>[] = valueArray
-      ? [...valueArray]
-      : []
-    newValueArray.push(v)
-    const newValue = {
-      ...value,
-      value: newValueArray,
-    } as Value<T, 'objectarray', true>
-    onChange(newValue)
-  }
-
-  const modifiers = [restrictToParentElement]
-  switch (limitAxis) {
-    case 'x':
-      modifiers.push(restrictToHorizontalAxis)
-      break
-    case 'y':
-      modifiers.push(restrictToVerticalAxis)
-      break
-    default:
-      break
-  }
-
-  const SingleDatatypeInput = getDataTypeInput<typeof value.type>(value.type)
-  if (!SingleDatatypeInput) return null
+  const modifiers = getModifiers(limitAxis)
+  const endDrag = getEndDrag(move)
 
   return (
     <div
@@ -152,21 +73,12 @@ export default function ListInput<T extends ValueType>({
         classNames?.container,
       )}
     >
-      <DndContext
-        modifiers={modifiers}
-        onDragEnd={(event) => {
-          const { active, over } = event
-          if (over && active.id !== over?.id) {
-            const activeIndex = active.data.current?.sortable?.index
-            const overIndex = over.data.current?.sortable?.index
-            if (activeIndex !== undefined && overIndex !== undefined) {
-              move(activeIndex, overIndex)
+      <DndContext modifiers={modifiers} onDragEnd={endDrag}>
+        <SortableContext items={value}>
+          {value.map((arrayItem, index) => {
+            const onChange = (value: V | null) => {
+              changeValue({ ...arrayItem, value }, index)
             }
-          }
-        }}
-      >
-        <SortableContext items={valueArray}>
-          {valueArray.map((arrayItem, index) => {
             return (
               <SortableItem key={arrayItem.id} id={arrayItem.id}>
                 {({ attributes, listeners }) => (
@@ -187,28 +99,12 @@ export default function ListInput<T extends ValueType>({
                           />
                         </div>
                       )}
-                      <SingleDatatypeInput
-                        type={value.type as T}
-                        value={
-                          {
-                            value: arrayItem.value,
-                            type: value.type,
-                            format: 'single',
-                          } as Value<T, 'single', true>
-                        }
-                        onChange={(v) => onSingleValueChange(v, index)}
-                        restrictions={restrictions}
-                        locked={locked}
-                        valid={!errors?.[index]}
-                        environment={environment}
-                        className={cn(
-                          'w-full rounded-md',
-                          false &&
-                            'border-destructive/50 bg-destructive/10 focus-visible:ring-destructive/50',
-                          !locked && 'rounded-l-none',
-                          classNames?.input,
-                        )}
-                      />
+                      {input({
+                        index,
+                        id: arrayItem.id,
+                        value: arrayItem.value,
+                        onChange,
+                      })}
                     </div>
                     {errors?.[index] && (
                       <ErrorMessage
@@ -241,13 +137,13 @@ export default function ListInput<T extends ValueType>({
       </DndContext>
       {!locked && (
         <Button
-          onClick={() => append({ id: crypto.randomUUID(), value: undefined })}
+          onClick={() => append({ id: crypto.randomUUID(), value: null })}
           variant={'outline'}
-          className={cn('w-full h-10 rounded-md gap-1', classNames?.button)}
+          className={cn('h-10 w-full gap-1 rounded-md', classNames?.button)}
           type="button"
         >
           <Plus className="size-3.5" />
-          {addButtonLabel || `Add ${dataTypes[value.type].title}`}
+          {addButtonLabel || 'Add new value'}
         </Button>
       )}
     </div>

@@ -205,7 +205,6 @@ export type Database = {
           name: string | null
           slug: string
           trigger: Json | null
-          trigger_type: Database["public"]["Enums"]["trigger-type"] | null
           updated_at: string | null
           version: string
         }
@@ -217,7 +216,6 @@ export type Database = {
           name?: string | null
           slug: string
           trigger?: Json | null
-          trigger_type?: Database["public"]["Enums"]["trigger-type"] | null
           updated_at?: string | null
           version: string
         }
@@ -229,7 +227,6 @@ export type Database = {
           name?: string | null
           slug?: string
           trigger?: Json | null
-          trigger_type?: Database["public"]["Enums"]["trigger-type"] | null
           updated_at?: string | null
           version?: string
         }
@@ -662,6 +659,13 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      action_from_slugs: {
+        Args: {
+          collection_slug: string
+          action_slug: string
+        }
+        Returns: Record<string, unknown>
+      }
       attribute_from_slugs: {
         Args: {
           collection_slug: string

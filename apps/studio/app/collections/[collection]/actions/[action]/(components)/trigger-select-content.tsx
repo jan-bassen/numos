@@ -1,14 +1,10 @@
 import { triggerOptionsArray } from '@/lib/constants/triggers'
-import {
-  SelectContent,
-  type SelectContentProps,
-  SelectItem,
-} from '@repo/ui/components/ui/select'
+import { SelectContent, SelectItem } from '@repo/ui/components/ui/select'
 
-export function TriggerSelectContent(props: SelectContentProps) {
+export function TriggerSelectContent() {
   return (
     <SelectContent className="min-w-44" scrollable>
-      {triggerOptionsArray.map((option, index) => {
+      {triggerOptionsArray.map((option) => {
         return (
           <SelectItem
             key={`key-${option.value}`}
@@ -16,7 +12,7 @@ export function TriggerSelectContent(props: SelectContentProps) {
             className="flex-col items-start justify-center py-2 pl-9"
           >
             <h3 className="flex items-center gap-2 pb-0.5 font-semibold">
-              {option.icons?.stroke({
+              {option.Icon?.({
                 className: 'size-4',
               })}
               {option.label}

@@ -1,4 +1,8 @@
-import type { Value, ValueType } from '@repo/engine/types/value-types'
+import type {
+  FullValue,
+  Value,
+  ValueType,
+} from '@repo/engine/types/value-types'
 import type { IntervalUnit } from './database.types'
 
 export type TokenEvent = 'mint' | 'transfer' | 'burn' | 'approve'
@@ -8,9 +12,8 @@ export type ActionTrigger =
       type: 'api'
       settings: {
         params: {
-          type: ValueType
-          list: boolean
           key: string
+          value: FullValue
         }[]
       }
     }
@@ -38,7 +41,7 @@ export type ActionTrigger =
       }
     }
 
-export type ParameterInfo = { type: ValueType; key: string; list: boolean }
+export type ParameterInfo = { key: string; value: FullValue }
 export type ParameterState = Record<
   string,
   Value<ValueType, 'objectarray' | 'single'>

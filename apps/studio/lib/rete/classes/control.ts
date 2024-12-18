@@ -10,7 +10,7 @@ import type {
 } from '@repo/engine/types/value-types'
 import { getDataTypeSchema } from '@repo/engine/datatypes/schemas'
 import { resolveObjectArrayValue } from '@repo/engine/datatypes/utils'
-import { ValueRestrictions } from '@repo/engine/types/value-types'
+import type { ValueRestrictions } from '@repo/engine/types/value-types'
 
 export class Control {
   id: string
@@ -57,7 +57,7 @@ export class Control {
     return resolvedValue
   }
 
-  setRawValue(value: RawValue<'objectarray' | 'single'>) {
+  setRawValue(value: RawValue<ValueType, 'objectarray' | 'single'>) {
     const newValue = {
       type: this.value.type,
       list: this.value.format,

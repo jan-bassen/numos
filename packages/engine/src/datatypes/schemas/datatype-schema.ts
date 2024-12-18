@@ -60,20 +60,6 @@ export const datatypeSchema = z.union([
   weatherSchema,
 ])
 
-/* export const fullDatatypeSchema = z.discriminatedUnion('type', [
-  fullAddressSchema,
-  fullBooleanSchema,
-  fullBufferSchema,
-  fullColorSchema,
-  fullDatetimeSchema,
-  fullDirectionSchema,
-  fullEnumSchema,
-  fullLocationSchema,
-  fullNumberSchema,
-  fullStringSchema,
-  fullWeatherSchema,
-]) */
-
 export const fullDatatypeSchema = zDiscriminatedUnion('type', [
   fullAddressSchema,
   fullBooleanSchema,

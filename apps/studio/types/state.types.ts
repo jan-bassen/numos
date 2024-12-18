@@ -7,7 +7,7 @@ import type { ZodIssueCode } from 'zod'
 export type ZodErrorInfo = {
   message: string
   code: ZodIssueCode | null
-  validation: string | null
+  validation?: string | null
 }
 
 export type NestedErrors = {

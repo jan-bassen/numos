@@ -102,7 +102,7 @@ export function validateRawValue<
   type: T,
   format: F,
   optional: Optional,
-  value: RawValue<F, Optional>,
+  value: RawValue<T, F, Optional>,
 ):
   | {
       result: undefined

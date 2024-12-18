@@ -14,7 +14,8 @@
     "scan": "next dev --turbopack & npx react-scan@latest localhost:3000"
   },
   "peerDependencies": {
-    "react": "^18"
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
   },
   "dependencies": {
     "@ai-sdk/openai": "^0.0.58",
@@ -27,7 +28,6 @@
     "@dnd-kit/utilities": "^3.2.2",
     "@hookform/resolvers": "^3.1.1",
     "@hubspot/api-client": "^11.1.0",
-    "@react-email/components": "^0.0.23",
     "@repo/engine": "workspace:*",
     "@repo/shared": "workspace:*",
     "@repo/ui": "workspace:*",
@@ -40,7 +40,7 @@
     "@uppy/react": "^4.0.1",
     "@uppy/tus": "^4.0.0",
     "@vis.gl/react-google-maps": "^0.9.0",
-    "ai": "^3.3.30",
+    "ai": "4.0.2",
     "cmdk": "^0.2.0",
     "color": "^4.2.3",
     "cron-validate": "^1.4.5",
@@ -54,19 +54,19 @@
     "lodash": "^4.17.21",
     "lucide-react": "^0.272.0",
     "luxon": "^3.4.0",
-    "next": "15.0.2",
+    "next": "15.1.1",
     "next-themes": "^0.4.3",
     "path": "^0.12.7",
     "poly-decomp": "^0.3.0",
     "posthog-js": "^1.200.1",
     "posthog-node": "^4.2.1",
-    "react": "19.0.0-rc-66855b96-20241106",
+    "react": "19.0.0",
     "react-canvas-confetti": "^2.0.7",
     "react-color": "^2.19.3",
     "react-colorful": "^5.6.1",
     "react-datepicker": "^4.16.0",
     "react-device-detect": "^2.2.3",
-    "react-dom": "19.0.0-rc-66855b96-20241106",
+    "react-dom": "19.0.0",
     "react-geocode": "1.0.0-alpha.1",
     "react-hook-form": "^7.53.1",
     "react-hotkeys-hook": "^4.4.1",
@@ -101,23 +101,16 @@
     "@types/lodash": "^4.17.7",
     "@types/luxon": "^3.4.2",
     "@types/node": "^20.14.11",
-    "@types/react": "npm:types-react@19.0.0-rc.1",
+    "@types/react": "19.0.2",
     "@types/react-color": "^3.0.6",
-    "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1",
+    "@types/react-dom": "19.0.2",
     "autoprefixer": "^10.4.15",
     "cross-env": "^7.0.3",
     "pg": "^8.11.1",
     "postcss": "^8.4.27",
-    "react-email": "^3.0.1",
     "react-scan": "^0.0.36",
     "supabase": "^1.127.3",
     "tailwindcss": "^3.4.0",
-    "typescript": "^5.5.4"
-  },
-  "pnpm": {
-    "overrides": {
-      "@types/react": "npm:types-react@19.0.0-rc.1",
-      "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1"
-    }
+    "typescript": "5.7.2"
   }
 }

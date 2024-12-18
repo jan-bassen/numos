@@ -51,8 +51,8 @@ export const actionRootDefinition: SpecificNodeDefinition<ActionRootNode> = {
         ...trigger.settings.params.map((param) => {
           return {
             key: param.key,
-            type: param.type,
-            list: param.list,
+            type: param.value.type,
+            list: param.value.list,
             label: param.key,
           }
         }),

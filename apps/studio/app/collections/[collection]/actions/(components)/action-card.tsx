@@ -77,7 +77,7 @@ const ActionCard = forwardRef<HTMLButtonElement, ActionCardProps>(
               )}
             >
               <div className="flex h-fit w-full items-center justify-start gap-3">
-                {triggerOptions[trigger?.type || 'api'].icons?.stroke({
+                {triggerOptions[trigger?.type || 'api'].Icon({
                   className: ' size-4.5 [&>path]:!stroke-2.5',
                 })}
                 <h3 className="!line-clamp-1 flex w-[80%] justify-between overflow-hidden text-ellipsis pr-1 text-left font-semibold text-lg">

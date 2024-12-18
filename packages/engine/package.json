@@ -22,7 +22,7 @@
     "@repo/shared": "workspace:*",
     "@types/lodash": "^4.17.7",
     "@types/luxon": "^3.4.2",
-    "typescript": "^5.5.4"
+    "typescript": "5.7.2"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.39.8",

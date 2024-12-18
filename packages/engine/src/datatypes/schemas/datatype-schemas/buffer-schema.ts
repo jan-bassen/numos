@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { valueSchemas } from '@repo/engine/datatypes/schemas/value-schema'
-import { validateDefaultFormat } from '../refinements.js'
+import { validateDefaultFormat } from '@repo/engine/datatypes/schemas/refinements'
 
 export const bufferSchema = z.instanceof(Buffer)
 

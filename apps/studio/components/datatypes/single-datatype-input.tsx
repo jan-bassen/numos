@@ -17,7 +17,7 @@ import { StringInput } from '@/components/datatypes/string/string-input'
 import { NumberInput } from '@/components/datatypes/number/number-input'
 import { AddressInput } from '@/components/datatypes/address/address-input'
 import { BooleanInput } from '@/components/datatypes/boolean/boolean-input'
-import type { ChangeEvent } from 'react'
+import type { ChangeEvent, JSX } from 'react'
 import type { LayerTree } from '@/types/database.types'
 
 export type SingleDataTypeInputProps<T extends ValueType = ValueType> = {

@@ -6,9 +6,7 @@
     "./types/*": "./src/types/*.ts",
     "./schemas/*": "./src/schemas/*.ts",
     "./utils/*": "./src/utils/*.ts",
-    "./security/*": [
-      "./src/security/*.ts"
-    ]
+    "./security/*": ["./src/security/*.ts"]
   },
   "scripts": {
     "build": "tsc",
@@ -19,7 +17,7 @@
     "@turbo/gen": "^1.13.4",
     "@types/lodash": "^4.17.7",
     "@types/node": "^20.17.6",
-    "typescript": "^5.6.3"
+    "typescript": "5.7.2"
   },
   "dependencies": {
     "drizzle-orm": "^0.33.0",

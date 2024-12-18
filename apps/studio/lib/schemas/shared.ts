@@ -1,11 +1,13 @@
 import { z } from 'zod'
 
-const id = z.never()
-const updated_at = z.never()
-const created_at = z.never()
-const version = z.never()
+const noId = z.never().optional()
+const id = z.string().uuid().optional()
 
-export const name = z
+const updated_at = z.never().optional()
+const created_at = z.never().optional()
+const version = z.never().optional()
+
+const name = z
   .string()
   .min(2, {
     message: 'Name must be at least 2 characters.',
@@ -14,17 +16,19 @@ export const name = z
     message: 'Name must be less than 40 characters.',
   })
   .optional()
+  .nullable()
 
-export const description = z
+const description = z
   .string()
   .max(300, {
     message: 'Description must be less than 300 characters.',
   })
+  .optional()
   .nullable()
 
-export const locked = z.boolean().default(false)
+const locked = z.boolean().default(false)
 
-export const slug = z
+export const sharedSlugSchema = z
   .string({
     required_error:
       'We need a unique identifier to differentiate this attribute',
@@ -39,31 +43,21 @@ export const slug = z
 
 //TODO: Make slug unique for schemas to verify individually
 export const sharedUpdateSchema = {
-  id: id.optional(),
-  updated_at: updated_at.optional(),
-  created_at: created_at.optional(),
+  id: noId,
+  updated_at: updated_at,
+  created_at: created_at,
   version: version.optional(),
   name: name,
   description: description.optional(),
   locked: locked.optional(),
-  slug: slug.optional(),
 }
 
 export const sharedInsertSchema = {
+  id: id,
   version: version,
   name: name,
   description: description.optional(),
   locked: locked,
-  slug: slug,
-}
-
-export const sharedSchema = {
-  id,
-  updated_at,
-  created_at,
-  version,
-  name,
-  description,
-  locked,
-  slug,
+  updated_at: updated_at,
+  created_at: created_at,
 }

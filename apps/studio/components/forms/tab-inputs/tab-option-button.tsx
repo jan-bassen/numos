@@ -57,7 +57,7 @@ export default function TabOptionButton({
       <div className="flex flex-col gap-1">
         <h3>{option.label}</h3>
         {option.subtext && (
-          <p className="w-18 whitespace-normal text-center font-light text-2xs leading-tight sm:w-20 xl:w-32">
+          <p className="w-full whitespace-normal text-center font-light text-2xs leading-tight">
             {option.subtext}
           </p>
         )}

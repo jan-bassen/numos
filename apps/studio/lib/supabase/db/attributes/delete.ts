@@ -2,9 +2,11 @@ import type { ReturnInfo } from '@repo/ui/lib/utils'
 import { clearAttributeNodeControls } from '@/lib/supabase/db/attributes/nodes/update'
 import { createSupabaseServerComponentClient } from '@/lib/supabase/clients/server-client'
 import { revalidatePath } from 'next/cache'
+import { redirect as nextRedirect } from 'next/navigation'
 
 export async function deleteAttribute(
   attributeId: string,
+  redirect?: string,
 ): Promise<ReturnInfo> {
   if (!attributeId) {
     return { ok: false, message: 'Unknown attribute' }
@@ -21,6 +23,10 @@ export async function deleteAttribute(
     return { ok: false, message: error.message }
   }
   const res = await clearAttributeNodeControls(attributeId)
+  if (redirect) {
+    nextRedirect(redirect)
+  }
+
   revalidatePath('/collections/[collection]/attributes')
   return res
 }

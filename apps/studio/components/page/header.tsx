@@ -1,7 +1,7 @@
 import NavBreadcrumbs from '@/components/navigation/nav-breadcrumbs'
 import { Badge, type BadgeProps } from '@repo/ui/components/ui/badge'
 import { cn } from '@repo/ui/lib/utils'
-import type { ComponentProps } from 'react'
+import type { ComponentProps, JSX } from 'react'
 import { H1 } from './headings'
 import Link from 'next/link'
 import {
@@ -18,7 +18,6 @@ import {
   type DropdownMenuContentProps,
   DropdownMenuTrigger,
 } from '@repo/ui/components/ui/dropdown-menu'
-import { Input, type InputProps } from '@repo/ui/components/ui/input'
 
 export function Header({
   children,
@@ -194,11 +193,7 @@ export function HeaderTabBarItem({
   )
 }
 
-export function HeaderActions({
-  children,
-  className,
-  ...props
-}: ComponentProps<'div'>) {
+export function HeaderActions({ children, className }: ComponentProps<'div'>) {
   return (
     <div
       className={cn(

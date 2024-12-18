@@ -10,7 +10,6 @@ import { FormControl, FormItem, FormMessage } from '@repo/ui/components/ui/form'
 import { toast } from 'sonner'
 import { Input } from '@repo/ui/components/ui/input'
 import { useRouter } from 'next/navigation'
-import { Textarea } from '@repo/ui/components/ui/textarea'
 import {
   Dialog,
   DialogContent,
@@ -19,7 +18,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@repo/ui/components/ui/dialog'
-import { Fingerprint, Info, List, Milestone, Tag } from 'lucide-react'
+import { Fingerprint, List, Milestone, Tag } from 'lucide-react'
 import {
   type StageDefinition,
   StagedForm,
@@ -117,12 +116,13 @@ export function NewAttributeDialog({
     description:
       'The name will show up throughout the studio and wherever your attribute is displayed. You can change it later.',
     icon: Tag,
-    field: (field) => (
+    field: ({ value, ...field }) => (
       <FormItem className="min-h-18 w-full">
         <FormControl>
           <Input
             {...field}
             placeholder="Name"
+            value={value || undefined}
             onChange={(e) => {
               inferSlug(e.target.value)
               field.onChange(e)

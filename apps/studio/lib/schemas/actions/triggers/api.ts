@@ -1,4 +1,4 @@
-import { valueTypeKeys } from '@repo/engine/datatypes/constants/value-types'
+import { fullDatatypeSchema } from '@repo/engine/datatypes/schemas/datatype-schema'
 import { z } from 'zod'
 
 export const apiTriggerSchema = z.object({
@@ -12,8 +12,7 @@ export const apiTriggerSchema = z.object({
             invalid_type_error: 'Key must be a string',
           })
           .min(1, 'Every parameter needs a key'),
-        type: z.enum(valueTypeKeys),
-        list: z.boolean().default(false),
+        value: fullDatatypeSchema,
       }),
     )
     .refine((params) => {

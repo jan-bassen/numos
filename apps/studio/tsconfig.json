@@ -1,5 +1,5 @@
 {
-  "extends": "@repo/tsconfig/nextjs.json",
+  "extends": "@repo/tsconfig/tsconfig.json",
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
@@ -11,6 +11,6 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-   "app/reset-password", "lib/rete/nodes/configs/script.js", "components/node-editor/run-sidebar", "../../packages/shared/src/types/result.types.ts"  ],
+   "app/reset-password", "lib/rete/nodes/configs/script.js" ],
   "exclude": ["node_modules"]
 }
