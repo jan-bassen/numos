@@ -9,6 +9,8 @@ import {
   PiSettings02Solid,
   PiSettings02Stroke,
   PiCheckTickSquareSolid,
+  PiFolderArrowUpStroke,
+  PiFolderArrowUpSolid,
 } from '@repo/ui/icons/pika'
 import {
   SidebarGroup,
@@ -31,6 +33,14 @@ const items = [
     },
   }, */
   {
+    title: 'Uploads',
+    slug: 'uploads',
+    icons: {
+      stroke: PiFolderArrowUpStroke,
+      fill: PiFolderArrowUpSolid,
+    },
+  },
+  {
     title: 'Testing',
     slug: 'testing',
     icons: {
@@ -38,14 +48,14 @@ const items = [
       fill: PiCheckTickSquareSolid,
     },
   },
-  {
-    title: 'Settings',
-    slug: 'settings',
+  /* {
+    title: 'Deploy',
+    slug: 'deploy',
     icons: {
-      stroke: PiSettings02Stroke,
-      fill: PiSettings02Solid,
+      stroke: PiRocketShipStroke,
+      fill: PiRocketShipSolid,
     },
-  },
+  }, */
 ]
 
 export function CollectionSettings({

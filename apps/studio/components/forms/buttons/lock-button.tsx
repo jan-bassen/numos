@@ -1,5 +1,3 @@
-'use client'
-
 import { Button, type ButtonProps } from '@repo/ui/components/ui/button'
 import { PiLockCloseStroke, PiLockOpenStroke } from '@repo/ui/icons/pika'
 import { cn } from '@repo/ui/lib/utils'
@@ -8,7 +6,14 @@ export function LockButton({
   locked,
   setLocked,
   className,
-}: ButtonProps & { locked: boolean; setLocked: (value: boolean) => void }) {
+  unlock_text,
+  lock_text,
+}: ButtonProps & {
+  locked: boolean
+  setLocked: (value: boolean) => void
+  unlock_text?: string
+  lock_text?: string
+}) {
   return (
     <Button
       variant={'outline'}
@@ -18,12 +23,12 @@ export function LockButton({
       {locked ? (
         <>
           <PiLockOpenStroke className="size-4" />
-          Unlock
+          {unlock_text || 'Unlock'}
         </>
       ) : (
         <>
           <PiLockCloseStroke className="size-4" />
-          Lock
+          {lock_text || 'Lock'}
         </>
       )}
     </Button>

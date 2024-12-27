@@ -6,7 +6,6 @@ import { useAction } from '@/app/collections/[collection]/actions/[action]/actio
 export function LockActionButton() {
   const {
     action: { locked },
-    getError,
     updateAction,
   } = useAction()
   return (

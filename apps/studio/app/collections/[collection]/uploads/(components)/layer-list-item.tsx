@@ -20,18 +20,14 @@ import {
   PiPhotoImageDefaultContrast,
   PiPhotoImageDefaultStroke,
 } from '@repo/ui/icons/pika'
-import { deleteLayer, updateLayer } from '@/lib/supabase/db/layers'
+import { updateLayer } from '@/lib/supabase/db/layers'
 import { SupabaseImage } from '@/components/supabase/supabase-image'
-import type {
-  LayerTree,
-  LegacyResolvedFolder,
-  LegacyResolvedLayer,
-} from '@/types/database.types'
+import type { LayerTree } from '@/types/database.types'
 import Decimal from 'decimal.js'
 import { type DragEvent, type MouseEvent, useRef, useState } from 'react'
 import { toast } from 'sonner'
 import { childrenOffset, type TreeContext, type TreeElement } from './tree'
-import { cn, handleReturnInfo } from '@repo/ui/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 
 export default function LayerListItem({
   layerId,

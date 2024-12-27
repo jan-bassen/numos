@@ -9,17 +9,33 @@ import {
 } from '@/components/page/header'
 import { Page } from '@/components/page/page'
 import { ActionTitle } from '@/app/collections/[collection]/actions/[action]/(components)/action-title'
-import { PiPlaySquareSolid, PiAutomationSolid } from '@repo/ui/icons/pika'
+import {
+  PiPlaySquareSolid,
+  PiAutomationSolid,
+  PiSettings02Solid,
+} from '@repo/ui/icons/pika'
 import SegmentedLayout from '@/components/layouts/segmented/segmented-layout'
 import Main from '@/components/page/main'
 import { DeleteActionButton } from '@/app/collections/[collection]/actions/[action]/(components)/delete-action-button'
 import { LockActionButton } from '@/app/collections/[collection]/actions/[action]/(components)/lock-action-button'
 import { ActionTriggerTypeInput } from '@/app/collections/[collection]/actions/[action]/(components)/inputs/action-trigger-type-input'
 import { triggerOptionsArray } from '@/lib/constants/triggers'
+import { ComingSoonBadge } from '@/components/misc/coming-soon-badge'
+import { CustomLogicButton } from '@/app/collections/[collection]/actions/[action]/(components)/logic-button'
+import {
+  Select,
+  SelectItem,
+  SelectContent,
+  SelectTrigger,
+  SelectValue,
+} from '@repo/ui/components/ui/select'
+import { TriggerSettingsSegment } from '@/app/collections/[collection]/actions/[action]/(components)/inputs/trigger-settings/trigger-settings-segment'
+import { ActionSlugInput } from '@/app/collections/[collection]/actions/[action]/(components)/inputs/action-slug-input'
+import { ActionDescriptionInput } from '@/app/collections/[collection]/actions/[action]/(components)/inputs/action-description-input'
 
 export default function ActionPage() {
   return (
-    <Page tabs tabsProps={{ defaultValue: 'trigger' }}>
+    <Page tabs tabsProps={{ defaultValue: 'trigger', pageid: 'action' }}>
       <Header>
         <HeaderContent>
           <HeaderMain>
@@ -37,6 +53,9 @@ export default function ActionPage() {
           <HeaderTabBarItem value="action" icon={PiAutomationSolid}>
             Action
           </HeaderTabBarItem>
+          <HeaderTabBarItem value="settings" icon={PiSettings02Solid}>
+            Settings
+          </HeaderTabBarItem>
         </HeaderTabBar>
       </Header>
       <Main value="trigger">
@@ -51,9 +70,49 @@ export default function ActionPage() {
           >
             <ActionTriggerTypeInput />
           </Segment>
+          <TriggerSettingsSegment />
         </SegmentedLayout>
       </Main>
-      <Main value="action">Hi</Main>
+      <Main value="action">
+        <SegmentedLayout>
+          <Segment title="Action Type">
+            <Select value="custom">
+              <SelectTrigger disabled>
+                <SelectValue>Custom Logic</SelectValue>
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="custom">Custom Logic</SelectItem>
+              </SelectContent>
+            </Select>
+            <ComingSoonBadge
+              title="More types coming soon!"
+              description="We are working hard to bring you more types of actions. Stay tuned for updates!"
+            />
+          </Segment>
+          <Segment
+            title="Execution Logic"
+            description="Define what the action does when triggered."
+          >
+            <CustomLogicButton />
+          </Segment>
+        </SegmentedLayout>
+      </Main>
+      <Main value="settings">
+        <SegmentedLayout>
+          <Segment
+            title="Identifier"
+            description="The identifier is a unique name of the action within your collection."
+          >
+            <ActionSlugInput />
+          </Segment>
+          <Segment
+            title="Description"
+            description="Describe your action in a few sentences."
+          >
+            <ActionDescriptionInput />
+          </Segment>
+        </SegmentedLayout>
+      </Main>
     </Page>
   )
 }

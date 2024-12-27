@@ -1,6 +1,9 @@
+'use client'
+
 import { PiKeyLeftStroke } from '@repo/ui/icons/pika'
 import { DeleteKeyButton } from './delete-key-button'
 import { CreateKeyButton } from './create-key-button'
+import { useCollection } from '../collection-context'
 
 const sampleData = [
   {
@@ -15,7 +18,10 @@ const sampleData = [
   },
 ]
 
-export default function ApiKeys({ locked }: { locked: boolean }) {
+export default function ApiKeys() {
+  const {
+    collection: { settings_locked },
+  } = useCollection()
   return (
     <>
       <div className="divide-y divide-border md:max-w-form-input">
@@ -24,7 +30,7 @@ export default function ApiKeys({ locked }: { locked: boolean }) {
           return (
             <div
               key={item.id}
-              className="flex items-center justify-between gap-2 p-2"
+              className="flex min-h-12 items-center justify-between gap-2 p-2"
             >
               <div className="flex items-center gap-2">
                 <PiKeyLeftStroke className="size-5 translate-y-px" />
@@ -35,12 +41,12 @@ export default function ApiKeys({ locked }: { locked: boolean }) {
                   </div>
                 </div>
               </div>
-              <DeleteKeyButton key={item.id} />
+              {!settings_locked && <DeleteKeyButton key={item.id} />}
             </div>
           )
         })}
       </div>
-      <CreateKeyButton />
+      {!settings_locked && <CreateKeyButton />}
     </>
   )
 }

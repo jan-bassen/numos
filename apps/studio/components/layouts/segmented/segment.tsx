@@ -36,7 +36,7 @@ export default function Segment({
       </h3>
       <div
         className={cn(
-          'flex w-full max-w-input flex-col gap-3 md:px-2 py-2 md:py-4 lg:w-2/3',
+          'flex w-full max-w-input flex-col gap-3 py-2 md:px-2 md:py-4 lg:w-2/3',
           className,
         )}
       >

@@ -9,7 +9,7 @@ import { cn } from '@repo/ui/lib/utils'
 import type { TabOption } from './tab-option'
 import TabOptionElement from './tab-option'
 
-export type TabSelectProps = TabsProps & {
+export type TabSelectProps = Omit<TabsProps, 'onChange'> & {
   size?: 'sm' | 'md'
   options: TabOption[]
   disabled?: boolean
@@ -25,7 +25,6 @@ export function TabSelect({
   list,
   trigger,
   value,
-  onChange,
   ...props
 }: TabSelectProps) {
   return (

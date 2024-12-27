@@ -12,7 +12,7 @@ import {
   PopoverTrigger,
 } from '@repo/ui/components/ui/popover'
 import { useRef } from 'react'
-import ListInput from '@/components/datatypes/list/datatype-list-input'
+import DatatypeListInput from '@/components/datatypes/list/datatype-list-input'
 import type {
   RawSingleValue,
   Value,
@@ -65,7 +65,7 @@ export function ControlComponent(payload: { data: ControlClass }) {
             sideOffset={10}
             className="w-56 space-y-1 p-1 "
           >
-            <ListInput
+            <DatatypeListInput
               type={control.value.type}
               value={control.value}
               onChange={(v: Value<ValueType, 'objectarray', true>) => {

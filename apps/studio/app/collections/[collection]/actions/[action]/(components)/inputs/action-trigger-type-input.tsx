@@ -23,7 +23,10 @@ const defaultTriggerSettings: Record<TriggerType, ActionTrigger> = {
   schedule: {
     type: 'schedule',
     settings: {
-      schedule: '0 0 * * *',
+      schedule: {
+        schedule: '0 0 * * *',
+        description: 'Every day at midnight',
+      },
     },
   },
   token: {

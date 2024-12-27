@@ -5,7 +5,7 @@ import {
   SelectGroup,
   SelectTrigger,
 } from '@repo/ui/components/ui/select'
-import { type ChangeEvent, useRef } from 'react'
+import { type ChangeEvent, useMemo, useRef } from 'react'
 import { Drag } from 'rete-react-plugin'
 import SelectOptionItem from '../select-option'
 import type { SingleDataTypeInputProps } from '../single-datatype-input'
@@ -37,14 +37,18 @@ export function EnumInput({
     onChange?.({ type: 'enum', value: null, format: 'single' })
   }
 
-  /* const labelMap = options?.value.reduce(
-    (acc: { [key: string]: string }, option) => {
-      if (!option.value) return acc
-      acc[option.value] = option.value
-      return acc
-    },
-    {},
-  ) */
+  const labelMap = useMemo(
+    () =>
+      restrictions?.options?.reduce(
+        (acc: { [key: string]: string | undefined }, option) => {
+          if (!option.value) return acc
+          acc[option.value] = option.label
+          return acc
+        },
+        {},
+      ),
+    [restrictions?.options],
+  )
 
   return (
     <Select
@@ -71,7 +75,9 @@ export function EnumInput({
         disabled={locked}
         onBlur={_onBlur}
       >
-        <p className="w-full text-left">{value.value}</p>
+        <p className="w-full text-left">
+          {value.value ? labelMap?.[value.value] || value.value : ''}
+        </p>
       </SelectTrigger>
       <SelectContent className={cn('min-h-8')}>
         <SelectGroup>

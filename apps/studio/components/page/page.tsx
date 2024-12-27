@@ -1,3 +1,5 @@
+'use client'
+
 import { Tabs, type TabsProps } from '@repo/ui/components/ui/tabs'
 import { cn } from '@repo/ui/lib/utils'
 import type { ComponentProps } from 'react'
@@ -12,18 +14,27 @@ const BasePage = (props: ComponentProps<'div'>) => (
   />
 )
 
-type PageProps = ComponentProps<'div'> & { tabs?: true; tabsProps?: TabsProps }
-export function Page({
-  children,
-  className,
-  tabs,
-  tabsProps,
-  ...props
-}: PageProps) {
+type PageProps = ComponentProps<'div'> & {
+  tabs?: true
+  tabsProps?: TabsProps & { defaultValue?: string; pageid: string }
+}
+export function Page({ children, tabs, tabsProps, ...props }: PageProps) {
   if (tabs) {
+    /* /* 
+    const { pageId, defaultValue, onValueChange, ...rest } = tabsProps || {}
+    if (!pageId) {
+      throw new Error('pageId is required')
+    }
+    const _defaultValue =
+      localStorage.getItem(`last-opened-tab-${pageId}`) || defaultValue
+
+    const _onValueChange = (value: string) => {
+      localStorage.setItem(`last-opened-tab-${pageId}`, value)
+      onValueChange?.(value)
+    } */
     return (
       <BasePage {...props}>
-        <Tabs {...tabsProps}>{children}</Tabs>
+        <Tabs defaultValue={tabsProps?.defaultValue}>{children}</Tabs>
       </BasePage>
     )
   }

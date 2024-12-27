@@ -16,6 +16,7 @@ type AttributeContext = {
   ) => Promise<ReturnInfo>
   validateAttribute: Validate<UpdateAttribute>
   getError: (path: Array<string | number>) => NestedErrors | undefined
+  getErrorMessage: (path: Array<string | number>) => string | undefined
 }
 
 type AttributeProviderProps = {
@@ -29,10 +30,12 @@ export function AttributeProvider({
   children,
   attribute,
 }: AttributeProviderProps) {
-  const { state, update, validate, getError } = useContextState<
-    Attribute,
-    UpdateAttribute
-  >(attribute, updateAttribute, updateAttributeSchema)
+  const { state, update, validate, getError, getErrorMessage } =
+    useContextState<Attribute, UpdateAttribute>(
+      attribute,
+      updateAttribute,
+      updateAttributeSchema,
+    )
 
   const contextValue = useMemo<AttributeContext>(() => {
     return {
@@ -40,8 +43,9 @@ export function AttributeProvider({
       updateAttribute: update,
       validateAttribute: validate,
       getError,
+      getErrorMessage,
     }
-  }, [state, update, validate, getError])
+  }, [state, update, validate, getError, getErrorMessage])
 
   return (
     <AttributeContext.Provider value={contextValue}>

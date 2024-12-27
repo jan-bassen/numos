@@ -35,7 +35,7 @@ import {
 import { EditableImage } from '@/components/supabase/editable-image'
 import Main from '@/components/page/main'
 import SegmentedLayout from '@/components/layouts/segmented/segmented-layout'
-import ApiKeys from './api-keys'
+import ApiKeys from '../../(components)/api-keys'
 import { Page } from '@/components/page/page'
 
 const sampleData = [

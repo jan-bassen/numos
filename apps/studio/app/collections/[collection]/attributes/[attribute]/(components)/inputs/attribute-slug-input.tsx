@@ -2,16 +2,17 @@
 
 import { Input } from '@repo/ui/components/ui/input'
 import { useAttribute } from '../../attribute-context'
-import { useCollection } from '@/app/collections/[collection]/context'
+import { useCollection } from '@/app/collections/[collection]/collection-context'
 import ErrorMessage from '@/components/state/error-message'
 import { useState } from 'react'
-import { set } from 'lodash'
 import { cn, handleReturnInfo } from '@repo/ui/lib/utils'
 import { Button } from '@repo/ui/components/ui/button'
 import { PiCheckTick } from '@repo/ui/icons/pika'
 
 export function AttributeSlugInput() {
-  const { slug: collectionSlug } = useCollection()
+  const {
+    collection: { slug: collectionSlug },
+  } = useCollection()
   const {
     attribute: { slug, locked },
     updateAttribute,

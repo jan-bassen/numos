@@ -13,7 +13,8 @@ import {
   type SingleDataTypeInputProps,
 } from '../single-datatype-input'
 import type { ZodErrorInfo } from '@/types/state.types'
-import AnyListInput, { type ListItem } from './list-input'
+import ListInput, { type ListItem } from './list-input'
+import { DefaultListItemWrapper } from './default-list-item-wrapper'
 
 export type ListInputProps<T extends ValueType = ValueType> = Omit<
   SingleDataTypeInputProps<T>,
@@ -34,7 +35,7 @@ export type ListInputProps<T extends ValueType = ValueType> = Omit<
   addButtonLabel?: string
 }
 
-export default function ListInput<T extends ValueType>({
+export default function DatatypeListInput<T extends ValueType>({
   value: listValue,
   restrictions,
   locked = false,
@@ -62,38 +63,45 @@ export default function ListInput<T extends ValueType>({
   }
 
   return (
-    <AnyListInput<RawValue<T, 'single', true>>
+    <ListInput<RawValue<T, 'single', true>>
       {...props}
       locked={locked}
       errors={errors}
       onChange={onListChange}
       value={valueArray}
-      input={({ index, id, value, onChange }) => (
-        <SingleDatatypeInput
-          id={id}
-          key={id}
-          type={listValue.type as T}
-          value={
-            {
-              value: value,
-              type: listValue.type,
-              format: 'single',
-            } as Value<T, 'single', true>
-          }
-          onChange={(v) => onChange(v.value as RawValue<T, 'single', true>)}
-          restrictions={restrictions}
-          locked={locked}
-          valid={!errors?.[index]}
-          environment={environment}
-          placeholder={placeholder}
-          className={cn(
-            'w-full rounded-md',
-            false &&
-              'border-destructive/50 bg-destructive/10 focus-visible:ring-destructive/50',
-            !locked && 'rounded-l-none',
-            classNames?.input,
-          )}
-        />
+      input={(props) => (
+        <DefaultListItemWrapper<RawValue<T, 'single', true>>
+          {...props}
+          errors={errors}
+        >
+          <SingleDatatypeInput
+            id={props.id}
+            key={props.id}
+            type={listValue.type as T}
+            value={
+              {
+                value: props.value,
+                type: listValue.type,
+                format: 'single',
+              } as Value<T, 'single', true>
+            }
+            onChange={(v) =>
+              props.onChange(v.value as RawValue<T, 'single', true>)
+            }
+            restrictions={restrictions}
+            locked={locked}
+            valid={!errors?.[props.index]}
+            environment={environment}
+            placeholder={placeholder}
+            className={cn(
+              'w-full rounded-md',
+              false &&
+                'border-destructive/50 bg-destructive/10 focus-visible:ring-destructive/50',
+              !locked && 'rounded-l-none',
+              classNames?.input,
+            )}
+          />
+        </DefaultListItemWrapper>
       )}
     />
   )

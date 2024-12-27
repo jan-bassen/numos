@@ -6,6 +6,8 @@ import {
   PiAutomationStroke,
   PiBarchartDefaultSolid,
   PiBarchartDefaultStroke,
+  PiFolderArrowUpSolid,
+  PiFolderArrowUpStroke,
   PiPhotoImageDefaultSolid,
   PiPhotoImageDefaultStroke,
 } from '@repo/ui/icons/pika'
@@ -26,7 +28,6 @@ import {
   SidebarMenuSubItem,
   useSidebar,
 } from '@repo/ui/components/ui/sidebar'
-
 import { type JSX, useState, type SVGProps } from 'react'
 import type { Collection } from '@/types/database.types'
 import { dataTypes } from '@/lib/constants/datatypes'
@@ -88,14 +89,17 @@ const getItems = (items: NavItems): SidebarItem[] => {
       },
       items: [
         {
-          title: 'Layers',
-          slug: 'layers',
+          title: 'Hat',
+          slug: 'hat',
         },
         {
-          title: 'Image',
-          slug: 'image',
-        } /* 
-        { title: 'Settings', slug: 'settings' }, */,
+          title: 'Hair',
+          slug: 'hair',
+        },
+        {
+          title: 'Face',
+          slug: 'face',
+        },
       ],
     },
   ]

@@ -32,7 +32,7 @@ import { Page } from '@/components/page/page'
 export default async function AttributesPage(props: {
   params: Promise<{ collection: string; attribute: string }>
 }) {
-  const { collection, attribute } = await props.params
+  const { collection } = await props.params
   const version = await getVersionIdFromCollectionSlug(collection)
   const attributes = await getAllAttributes(version)
 
@@ -48,7 +48,7 @@ export default async function AttributesPage(props: {
     },
   }
   return (
-    <Page tabs tabsProps={{ defaultValue: 'grid' }}>
+    <Page tabs tabsProps={{ pageid: 'attributes', defaultValue: 'grid' }}>
       <Header>
         <HeaderContent>
           <HeaderMain>
@@ -83,7 +83,7 @@ export default async function AttributesPage(props: {
           versionId={version}
         />
       </Main>
-      <Main className="p-0" value="table">
+      <Main className="p-0 md:p-0" value="table">
         <DataTable
           columns={columns}
           data={attributeRows}

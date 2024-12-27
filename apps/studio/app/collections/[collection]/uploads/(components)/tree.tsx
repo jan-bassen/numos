@@ -16,7 +16,7 @@ import {
   PiPhotoImageArrowUpStroke,
 } from '@repo/ui/icons/pika'
 import { cn } from '@repo/ui/lib/utils'
-import { handleFileUpload } from '../(functions)/upload'
+import { handleFileUpload } from '@/app/collections/[collection]/uploads/(functions)/upload'
 import LayerFolderView from './layer-folder-view'
 import {
   ContextMenu,
@@ -25,7 +25,7 @@ import {
   ContextMenuTrigger,
 } from '@repo/ui/components/ui/context-menu'
 import { useHotkeys } from 'react-hotkeys-hook'
-import { imageAcceptString } from '../(functions)/file-types'
+import { imageAcceptString } from '@/app/collections/[collection]/uploads/(functions)/file-types'
 import {
   deleteFolders,
   deleteLayers,
@@ -309,7 +309,7 @@ export default function LayerTreeView({
       <Header>
         <HeaderContent>
           <HeaderMain>
-            <HeaderTitle>Layers</HeaderTitle>
+            <HeaderTitle>Uploads</HeaderTitle>
           </HeaderMain>
           <HeaderActions>
             <Button

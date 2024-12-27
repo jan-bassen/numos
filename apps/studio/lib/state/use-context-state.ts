@@ -10,7 +10,10 @@ import type {
 } from '@/types/state.types'
 import { createValidatedUpdate } from '@/lib/state/update/create-validated-update'
 import { asyncDebounce } from '@repo/shared/utils/async-debounce'
-import { createGetError } from '@/lib/state/validation/create-get-error'
+import {
+  createGetError,
+  createGetErrorMessage,
+} from '@/lib/state/validation/create-get-error'
 import { createValidate } from '@/lib/state/validation/create-validate'
 
 export type ContextState<
@@ -21,6 +24,7 @@ export type ContextState<
   update: SetState<UT>
   validate: Validate<UT>
   getError: (path: Array<string | number>) => NestedErrors | undefined
+  getErrorMessage: (path: Array<string | number>) => string | undefined
 }
 
 export function useContextState<
@@ -73,12 +77,14 @@ export function useContextState<
     [debouncedUpdate, state],
   )
 
-  const getError = useCallback(createGetError(errors), [])
+  const getError = createGetError(errors)
+  const getErrorMessage = createGetErrorMessage(errors)
 
   return {
     state,
     update: _update,
     validate,
     getError,
+    getErrorMessage,
   }
 }

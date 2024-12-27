@@ -14,7 +14,7 @@ export default function TestPage() {
   return (
     <>
       <Navbar />
-      <Page tabs tabsProps={{ defaultValue: 'test' }}>
+      <Page tabs tabsProps={{ pageid: 'test', defaultValue: 'test' }}>
         <Header>
           <HeaderContent>
             <HeaderMain>

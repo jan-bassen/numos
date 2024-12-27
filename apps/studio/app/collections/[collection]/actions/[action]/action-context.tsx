@@ -3,7 +3,6 @@
 import { createContext, useContext, useMemo } from 'react'
 import { useContextState } from '@/lib/state/use-context-state'
 import type { ReturnInfo } from '@repo/ui/lib/utils'
-import { useCollection } from '../../context'
 import type { NestedErrors, UpdateOptions, Validate } from '@/types/state.types'
 import type { Action, UpdateAction } from '@/types/database.types'
 import { updateAction } from '@/lib/supabase/db/actions/update'
@@ -17,6 +16,7 @@ type ActionContext = {
   ) => Promise<ReturnInfo>
   validateAction: Validate<UpdateAction>
   getError: (path: Array<string | number>) => NestedErrors | undefined
+  getErrorMessage: (path: Array<string | number>) => string | undefined
 }
 
 type ActionProviderProps = {
@@ -27,10 +27,12 @@ type ActionProviderProps = {
 const ActionContext = createContext<ActionContext | null>(null)
 
 export function ActionProvider({ children, action }: ActionProviderProps) {
-  const { state, update, validate, getError } = useContextState<
-    Action,
-    UpdateAction
-  >(action, updateAction, updateActionSchema)
+  const { state, update, validate, getError, getErrorMessage } =
+    useContextState<Action, UpdateAction>(
+      action,
+      updateAction,
+      updateActionSchema,
+    )
 
   const contextValue = useMemo<ActionContext>(() => {
     return {
@@ -38,8 +40,9 @@ export function ActionProvider({ children, action }: ActionProviderProps) {
       updateAction: update,
       validateAction: validate,
       getError,
+      getErrorMessage,
     }
-  }, [state, update, validate, getError])
+  }, [state, update, validate, getError, getErrorMessage])
 
   return (
     <ActionContext.Provider value={contextValue}>

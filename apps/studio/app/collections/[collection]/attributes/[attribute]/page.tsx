@@ -11,21 +11,21 @@ import Main from '@/components/page/main'
 import SegmentedLayout from '@/components/layouts/segmented/segmented-layout'
 import { Page } from '@/components/page/page'
 import { PiInputFieldSolid, PiSettings02Solid } from '@repo/ui/icons/pika'
-import { AttributeTitle } from './(components)/attribute-title'
-import { DeleteAttributeButton } from './(components)/delete-attribute-button'
-import { LockAttributeButton } from './(components)/lock-attribute-button'
-import { AttributeDescriptionInput } from './(components)/inputs/attribute-description-input'
-import { AttributeDefaultValueInput } from './(components)/inputs/attribute-default-value-input'
-import { AttributeListInput } from './(components)/inputs/attribute-list-input'
-import { AttributeTypeInput } from './(components)/inputs/attribute-type-input'
+import { AttributeTitle } from '@/app/collections/[collection]/attributes/[attribute]/(components)/attribute-title'
+import { DeleteAttributeButton } from '@/app/collections/[collection]/attributes/[attribute]/(components)/delete-attribute-button'
+import { LockAttributeButton } from '@/app/collections/[collection]/attributes/[attribute]/(components)/lock-attribute-button'
+import { AttributeDescriptionInput } from '@/app/collections/[collection]/attributes/[attribute]/(components)/inputs/attribute-description-input'
+import { AttributeDefaultValueInput } from '@/app/collections/[collection]/attributes/[attribute]/(components)/inputs/attribute-default-value-input'
+import { AttributeListInput } from '@/app/collections/[collection]/attributes/[attribute]/(components)/inputs/attribute-list-input'
+import { AttributeTypeInput } from '@/app/collections/[collection]/attributes/[attribute]/(components)/inputs/attribute-type-input'
 import { attributeTypeOptions } from '@/lib/constants/datatypes'
-import { AttributeOptionsInput } from './(components)/inputs/attribute-options-input'
-import { AttributeSlugInput } from './(components)/inputs/attribute-slug-input'
-import { AttributeDisplayInput } from './(components)/inputs/attribute-display-input'
+import { AttributeOptionsInput } from '@/app/collections/[collection]/attributes/[attribute]/(components)/inputs/attribute-options-input'
+import { AttributeSlugInput } from '@/app/collections/[collection]/attributes/[attribute]/(components)/inputs/attribute-slug-input'
+import { AttributeDisplayInput } from '@/app/collections/[collection]/attributes/[attribute]/(components)/inputs/attribute-display-input'
 
 export default function AttributePage() {
   return (
-    <Page tabs tabsProps={{ defaultValue: 'value' }}>
+    <Page tabs tabsProps={{ pageid: 'attribute', defaultValue: 'value' }}>
       <Header>
         <HeaderContent>
           <HeaderMain>

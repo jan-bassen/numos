@@ -1,14 +1,8 @@
-import type {
-  LayerTree,
-  LegacyLayerTree,
-  LegacyResolvedFolder,
-  ResolvedFolder,
-} from '@/types/database.types'
+import type { LayerTree, ResolvedFolder } from '@/types/database.types'
 import FolderListItem from './folder-list-item'
 import LayerListItem from './layer-list-item'
 import NewFolderListItem from './new-folder-list-item'
 import { Accordion } from '@repo/ui/components/ui/accordion'
-import { cn } from '@repo/ui/lib/utils'
 import type { FolderState, TreeContext } from './tree'
 import {
   type Dispatch,
@@ -17,7 +11,6 @@ import {
   useEffect,
   useRef,
 } from 'react'
-import { isArray } from 'lodash'
 
 export default function LayerFolderView({
   version,

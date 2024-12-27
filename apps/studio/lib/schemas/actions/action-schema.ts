@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import {
   sharedInsertSchema,
-  sharedSlugSchema,
+  sharedSlug,
   sharedUpdateSchema,
 } from '@/lib/schemas/shared'
 import { apiTriggerSchema } from '@/lib/schemas/actions/triggers/api'
@@ -19,12 +19,12 @@ export const triggerSchema = zDiscriminatedUnion('type', [
 
 export const newActionSchema = z.object({
   ...sharedInsertSchema,
-  slug: sharedSlugSchema,
+  slug: sharedSlug,
   trigger: triggerSchema.optional(),
 })
 
 export const updateActionSchema = z.object({
   ...sharedUpdateSchema,
-  slug: sharedSlugSchema.optional(),
+  slug: sharedSlug.optional(),
   trigger: triggerSchema.optional(),
 })

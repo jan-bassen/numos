@@ -1,19 +1,41 @@
 import type { TabOption } from '@/components/forms/tab-inputs/tab-option'
+import type { TokenEvent } from '@/types/actions.types'
 import type { TriggerType } from '@/types/database.types'
 import type { SelectOption } from '@/types/nodes.types'
 import {
   PiCalendarFilledStroke,
   PiLinkChainHorizontalStroke,
+  PiNftArrowRightStroke,
   PiNftBoltMintStroke,
+  PiNftRemoveStroke,
   PiTimerDefaultStroke,
 } from '@repo/ui/icons/pika'
 
-export const tokenEventOptions: SelectOption[] = [
-  { value: 'mint', label: 'On Mint' },
-  { value: 'transfer', label: 'On Transfer' },
-  { value: 'burn', label: 'On Burn' },
-  { value: 'approve', label: 'On Approval' },
-]
+export const tokenEventOptions: Omit<
+  Record<TokenEvent, TabOption>,
+  'approve'
+> = {
+  mint: {
+    value: 'mint',
+    label: 'On Mint',
+    Icon: PiNftBoltMintStroke,
+    subtext: 'New token created',
+  },
+  transfer: {
+    value: 'transfer',
+    label: 'On Transfer',
+    Icon: PiNftArrowRightStroke,
+    subtext: 'Token changes wallet',
+  },
+  burn: {
+    value: 'burn',
+    label: 'On Burn',
+    Icon: PiNftRemoveStroke,
+    subtext: 'Token destroyed',
+  },
+}
+
+export const tokenEventOptionsArray = Object.values(tokenEventOptions)
 
 export const intervalUnitOptions: SelectOption[] = [
   { value: 'minutes', label: 'Minutes' },

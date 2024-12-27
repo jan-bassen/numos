@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import {
   sharedInsertSchema,
-  sharedSlugSchema,
+  sharedSlug,
   sharedUpdateSchema,
 } from '@/lib/schemas/shared'
 import { valueTypeKeys } from '@repo/engine/datatypes/constants/value-types'
@@ -14,7 +14,7 @@ const list = z.boolean().default(false)
 const type = z.enum(valueTypeKeys, {
   required_error: 'You need to select a data type',
 })
-const slug = sharedSlugSchema
+const slug = sharedSlug
 /* .refine(
         async (slug) => {
           return await !isAttributeSlugTaken(slug)

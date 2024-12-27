@@ -4,17 +4,21 @@ import type {
   ValueType,
 } from '@repo/engine/types/value-types'
 import type { IntervalUnit } from './database.types'
+import type { CronObject } from '@/app/collections/[collection]/actions/[action]/(components)/cron-input'
 
 export type TokenEvent = 'mint' | 'transfer' | 'burn' | 'approve'
+
+export type Parameter = {
+  id: string
+  key: string
+  value: FullValue
+}
 
 export type ActionTrigger =
   | {
       type: 'api'
       settings: {
-        params: {
-          key: string
-          value: FullValue
-        }[]
+        params: Parameter[]
       }
     }
   | {
@@ -31,7 +35,7 @@ export type ActionTrigger =
       settings: {
         start?: number
         end?: number
-        schedule: string
+        schedule: CronObject
       }
     }
   | {

@@ -1,13 +1,13 @@
 import { z } from 'zod'
 
-const noId = z.never().optional()
+export const noId = z.never().optional()
 const id = z.string().uuid().optional()
 
 const updated_at = z.never().optional()
 const created_at = z.never().optional()
 const version = z.never().optional()
 
-const name = z
+export const sharedName = z
   .string()
   .min(2, {
     message: 'Name must be at least 2 characters.',
@@ -18,7 +18,7 @@ const name = z
   .optional()
   .nullable()
 
-const description = z
+export const sharedDescription = z
   .string()
   .max(300, {
     message: 'Description must be less than 300 characters.',
@@ -26,9 +26,9 @@ const description = z
   .optional()
   .nullable()
 
-const locked = z.boolean().default(false)
+export const sharedLocked = z.boolean().default(false)
 
-export const sharedSlugSchema = z
+export const sharedSlug = z
   .string({
     required_error:
       'We need a unique identifier to differentiate this attribute',
@@ -47,17 +47,17 @@ export const sharedUpdateSchema = {
   updated_at: updated_at,
   created_at: created_at,
   version: version.optional(),
-  name: name,
-  description: description.optional(),
-  locked: locked.optional(),
+  name: sharedName,
+  description: sharedDescription,
+  locked: sharedLocked,
 }
 
 export const sharedInsertSchema = {
   id: id,
   version: version,
-  name: name,
-  description: description.optional(),
-  locked: locked,
+  name: sharedName,
+  description: sharedDescription,
+  locked: sharedLocked,
   updated_at: updated_at,
   created_at: created_at,
 }

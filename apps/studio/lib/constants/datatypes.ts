@@ -149,3 +149,16 @@ export const attributeTypeOptions: TabOption<DataType>[] = Object.entries(
       Icon: def.icons.stroke,
     }
   })
+
+export const parameterTypeOptions: TabOption<DataType>[] = Object.entries(
+  dataTypes,
+)
+  .filter(([key, def]) => def.parameter)
+  .map(([key, def]) => {
+    return {
+      value: key as DataType,
+      label: def.title,
+      subtext: def.description,
+      Icon: def.icons.stroke,
+    }
+  })

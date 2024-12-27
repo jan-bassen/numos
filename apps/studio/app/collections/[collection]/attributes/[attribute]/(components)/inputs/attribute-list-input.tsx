@@ -5,7 +5,7 @@ import { useAttribute } from '../../attribute-context'
 import type { TabOption } from '@/components/forms/tab-inputs/tab-option'
 import { TabToggle } from '@/components/forms/tab-inputs/tab-toggle'
 import { removeAttributeFromLocalForm } from '@/app/collections/[collection]/attributes/(functions)/utils'
-import { useCollection } from '@/app/collections/[collection]/context'
+import { useCollection } from '@/app/collections/[collection]/collection-context'
 
 export const listOptionMap = {
   single: {
@@ -27,7 +27,9 @@ export const listOptionMap = {
 export const listOptions: TabOption<boolean>[] = Object.values(listOptionMap)
 
 export function AttributeListInput() {
-  const { slug: collection } = useCollection()
+  const {
+    collection: { slug: collection },
+  } = useCollection()
   const {
     attribute: { locked, value, slug },
     updateAttribute,

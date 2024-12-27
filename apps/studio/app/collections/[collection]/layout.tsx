@@ -1,6 +1,6 @@
 import { Navbar } from '@/components/navigation/navbar/navbar'
 import { getExtendedCollectionFromSlug } from '@/lib/supabase/db/collections'
-import { CollectionProvider } from './context'
+import { CollectionProvider } from './collection-context'
 
 export default async function Layout({
   params,

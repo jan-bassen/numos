@@ -21,7 +21,7 @@ import {
   useState,
 } from 'react'
 import { useRef } from 'react'
-import { handleFileUpload } from '../(functions)/upload'
+import { handleFileUpload } from '@/app/collections/[collection]/uploads/(functions)/upload'
 import {
   ContextMenu,
   ContextMenuContent,
@@ -51,7 +51,7 @@ import {
   AlertDialogTrigger,
 } from '@repo/ui/components/ui/alert-dialog'
 import { cn, handleReturnInfo } from '@repo/ui/lib/utils'
-import { imageAcceptString } from '../(functions)/file-types'
+import { imageAcceptString } from '@/app/collections/[collection]/uploads/(functions)/file-types'
 
 export default function FolderListItem({
   folderId,

@@ -2,7 +2,7 @@
 
 import { useAttribute } from '../../attribute-context'
 import type { FullValue, Value } from '@repo/engine/types/value-types'
-import ListInput from '@/components/datatypes/list/datatype-list-input'
+import DatatypeListInput from '@/components/datatypes/list/datatype-list-input'
 import Segment from '@/components/layouts/segmented/segment'
 import { isArray } from 'lodash'
 import type { ZodErrorInfo } from '@/types/state.types'
@@ -49,7 +49,7 @@ export function AttributeOptionsInput() {
               },
             ]} */
     >
-      <ListInput
+      <DatatypeListInput
         errors={errors}
         type="string"
         locked={locked}
