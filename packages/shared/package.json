@@ -6,13 +6,16 @@
     "./types/*": "./src/types/*.ts",
     "./schemas/*": "./src/schemas/*.ts",
     "./utils/*": "./src/utils/*.ts",
-    "./security/*": ["./src/security/*.ts"]
+    "./security/*": [
+      "./src/security/*.ts"
+    ]
   },
   "scripts": {
     "build": "tsc",
     "lint": "biome lint"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
     "@repo/tsconfig": "workspace:*",
     "@turbo/gen": "^1.13.4",
     "@types/lodash": "^4.17.7",

@@ -8,9 +8,8 @@ import { handleReturnInfo } from '@repo/ui/lib/utils'
 import { toast } from 'sonner'
 import { Input } from '@repo/ui/components/ui/input'
 import { useRouter } from 'next/navigation'
-import { Textarea } from '@repo/ui/components/ui/textarea'
 import { insertCollection } from '@/lib/supabase/db/collections'
-import { collectionSchema } from '../../../lib/schemas/collection-schema'
+import { collectionSchema } from '@/lib/schemas/collection-schema'
 import {
   Dialog,
   DialogContent,
@@ -19,7 +18,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@repo/ui/components/ui/dialog'
-import { Fingerprint, Hash, Info, Tag } from 'lucide-react'
+import { Fingerprint, Tag } from 'lucide-react'
 import {
   type StageDefinition,
   StagedForm,

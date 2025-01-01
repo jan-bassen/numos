@@ -21,7 +21,10 @@ export function ApiSettings() {
   return (
     <Segment
       title="Parameters"
-      description="You can pass data to the action via the API trigger. Just give it a unique key, and select the type of data you want to pass."
+      info={{
+        description:
+          'You can pass data to the action via the API trigger. Just give it a unique key, and select the type of data you want to pass.',
+      }}
     >
       <ListInput<ParameterInfo>
         locked={locked}

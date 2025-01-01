@@ -18,8 +18,9 @@
     "./utils": "./src/utils.ts"
   },
   "devDependencies": {
-    "@repo/tsconfig": "workspace:*",
+    "@biomejs/biome": "^1.9.4",
     "@repo/shared": "workspace:*",
+    "@repo/tsconfig": "workspace:*",
     "@types/lodash": "^4.17.7",
     "@types/luxon": "^3.4.2",
     "typescript": "5.7.2"

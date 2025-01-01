@@ -18,7 +18,9 @@ export function TokenSettings() {
   return (
     <Segment
       title="Token Trigger"
-      description="Define the details of the token trigger."
+      info={{
+        description: 'Define the details of the token trigger.',
+      }}
     >
       <SegmentItem>
         <Label htmlFor="start">Event</Label>

@@ -9,10 +9,7 @@ import {
   Header,
   HeaderActions,
   HeaderContent,
-  HeaderDropdown,
   HeaderMain,
-  HeaderTabBar,
-  HeaderTabBarItem,
   HeaderTitle,
 } from '@/components/page/header'
 import EmptyCollectionsView from '@/app/collections/(components)/empty-collections-view'

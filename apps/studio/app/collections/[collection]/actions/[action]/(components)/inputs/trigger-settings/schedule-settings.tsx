@@ -24,7 +24,9 @@ export function ScheduleSettings() {
   return (
     <Segment
       title="Schedule Settings"
-      description="Define the details of the schedule trigger."
+      info={{
+        description: 'Define the details of the schedule trigger.',
+      }}
     >
       <div className="flex gap-3 ">
         <SegmentItem>

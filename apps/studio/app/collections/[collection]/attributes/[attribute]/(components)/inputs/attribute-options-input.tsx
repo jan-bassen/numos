@@ -37,7 +37,10 @@ export function AttributeOptionsInput() {
   return (
     <Segment
       title="Options"
-      description="Define which options are available for this attribute. The attribute will be restricted to the options you choose here."
+      info={{
+        description:
+          'Define which options are available for this attribute. The attribute will be restricted to the options you choose here.',
+      }}
       /*             options={[
               {
                 label: 'Single',

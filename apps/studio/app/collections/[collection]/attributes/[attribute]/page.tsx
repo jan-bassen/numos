@@ -49,34 +49,43 @@ export default function AttributePage() {
         <SegmentedLayout>
           <Segment
             title="List"
-            description="If the attribute is a list, it can hold a multiple values as a list."
-            options={[
-              {
-                label: 'Single',
-                explanation: 'Value1',
-              },
-              {
-                label: 'List',
-                explanation: '[ Value1, Value2, Value3 ]',
-              },
-            ]}
+            info={{
+              description:
+                'If the attribute is a list, it can hold a multiple values as a list.',
+              options: [
+                {
+                  label: 'Single',
+                  explanation: 'Value1',
+                },
+                {
+                  label: 'List',
+                  explanation: '[ Value1, Value2, Value3 ]',
+                },
+              ],
+            }}
           >
             <AttributeListInput />
           </Segment>
           <Segment
             title="Datatype"
-            description="Select the datatype of the attribute"
-            options={attributeTypeOptions.map((option) => ({
-              label: option.label,
-              explanation: option.subtext || '',
-            }))}
+            info={{
+              description: 'Select the datatype of the attribute',
+
+              options: attributeTypeOptions.map((option) => ({
+                label: option.label,
+                explanation: option.subtext || '',
+              })),
+            }}
           >
             <AttributeTypeInput />
           </Segment>
           <AttributeOptionsInput />
           <Segment
             title="Default Value"
-            description="At mint, every token needs to have a value for each attribute. If you don't set a default value here, the attribute will need to be set in an action that triggers on mint."
+            info={{
+              description:
+                "At mint, every token needs to have a value for each attribute. If you don't set a default value here, the attribute will need to be set in an action that triggers on mint.",
+            }}
           >
             <AttributeDefaultValueInput />
           </Segment>
@@ -86,19 +95,28 @@ export default function AttributePage() {
         <SegmentedLayout>
           <Segment
             title="Display"
-            description="Only private attributes are secret and not added to the metadata. Shadowed attributes are still public, but not necessarily visible on frontends."
+            info={{
+              description:
+                'Only private attributes are secret and not added to the metadata. Shadowed attributes are still public, but not necessarily visible on frontends.',
+            }}
           >
             <AttributeDisplayInput />
           </Segment>
           <Segment
             title="Identifier"
-            description="This will identify your collection in and outside the studio."
+            info={{
+              description:
+                'This will identify your collection in and outside the studio.',
+            }}
           >
             <AttributeSlugInput />
           </Segment>
           <Segment
             title="Description"
-            description="A description will help you and others remember what your attribute is about."
+            info={{
+              description:
+                'A description will help you and others remember what your attribute is about.',
+            }}
           >
             <AttributeDescriptionInput />
           </Segment>

@@ -192,19 +192,22 @@ export default function ActionEditor({
             <SegmentedLayout>
               <Segment
                 title="Information"
-                description="Change the basic information of the action."
-                options={[
-                  {
-                    label: 'Name',
-                    explanation:
-                      'The name will show up throughout the studio and wherever your action is displayed. You can change it later.',
-                  },
-                  {
-                    label: 'Description',
-                    explanation:
-                      'A description will help you and others remember what your action is about. This will also show up in marketplaces and other places.',
-                  },
-                ]}
+                info={{
+                  description: 'Change the basic information of the action.',
+
+                  options: [
+                    {
+                      label: 'Name',
+                      explanation:
+                        'The name will show up throughout the studio and wherever your action is displayed. You can change it later.',
+                    },
+                    {
+                      label: 'Description',
+                      explanation:
+                        'A description will help you and others remember what your action is about. This will also show up in marketplaces and other places.',
+                    },
+                  ],
+                }}
               >
                 <FormField
                   control={form.control}

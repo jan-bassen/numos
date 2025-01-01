@@ -35,21 +35,8 @@ import {
 import { EditableImage } from '@/components/supabase/editable-image'
 import Main from '@/components/page/main'
 import SegmentedLayout from '@/components/layouts/segmented/segmented-layout'
-import ApiKeys from '../../(components)/api-keys'
+import ApiKeys from '@/app/collections/[collection]/(components)/api-keys'
 import { Page } from '@/components/page/page'
-
-const sampleData = [
-  {
-    id: '45cf5349-8e56-4bce-8a0a-b89ee84ad0d0',
-    created: '2023-01-01T00:00:00.000Z',
-    label: 'Website',
-  },
-  {
-    id: '9df7aeb5-c761-4295-b9d3-f70b68083e4b',
-    created: '2023-01-01T00:00:00.000Z',
-    label: 'Backend',
-  },
-]
 
 export default function CollectionEditor({
   collection,
@@ -121,7 +108,10 @@ export default function CollectionEditor({
             <SegmentedLayout>
               <Segment
                 title="Collection Image"
-                description="The image that will be displayed in the collections list."
+                info={{
+                  description:
+                    'The image that will be displayed in the collections list.',
+                }}
               >
                 <EditableImage
                   location={{
@@ -140,7 +130,10 @@ export default function CollectionEditor({
               </Segment>
               <Segment
                 title="Identifier"
-                description="The unique identifier of this collection. Must be url-friendly and be unique across all collections."
+                info={{
+                  description:
+                    'The unique identifier of this collection. Must be url-friendly and be unique across all collections.',
+                }}
               >
                 <FormField
                   control={form.control}
@@ -159,74 +152,14 @@ export default function CollectionEditor({
                   )}
                 />
               </Segment>
-              {/* <FormSegment
-                title="Metadata"
-                description="Every NFT collection has a set of metadata that can be used to describe the collection. This metadata is used by marketplaces and other tools to display information about the collection."
-              >
-                <FormField
-                  control={form.control}
-                  name="symbol"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Symbol</FormLabel>
-                      <FormControl>
-                        <Input
-                          {...field}
-                          readOnly={locked}
-                          className=" max-w-form-input"
-                          placeholder="BAYC"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="external_link"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>External Link</FormLabel>
-                      <FormControl>
-                        <Input
-                          {...field}
-                          readOnly={locked}
-                          className=" max-w-form-input"
-                          placeholder="https://example.com"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </FormSegment>
-              <FormSegment
-                title="Supply"
-                description="The total amount of tokens in this collection. If this value is set to 0, there is no limit to the amount of tokens that can be minted."
-              >
-                <FormField
-                  control={form.control}
-                  name="max_supply"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Input
-                          {...field}
-                          readOnly={locked}
-                          className="max-w-[30rem]"
-                          placeholder="Unlimited"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </FormSegment> */}
               <Segment
                 title="API-Keys"
-                description="Manage the API-Keys for the collection. These keys can be used to access the collection via the API."
+                info={{
+                  description:
+                    'Manage the API-Keys for the collection. These keys can be used to access the collection via the API.',
+                }}
               >
-                <ApiKeys locked={locked} />
+                <ApiKeys />
               </Segment>
             </SegmentedLayout>
           </form>

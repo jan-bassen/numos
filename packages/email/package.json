@@ -17,6 +17,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
     "@repo/tsconfig": "workspace:*",
     "@turbo/gen": "^1.13.4",
     "@types/lodash": "^4.17.7",

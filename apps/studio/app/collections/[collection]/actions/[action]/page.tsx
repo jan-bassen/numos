@@ -62,11 +62,13 @@ export default function ActionPage() {
         <SegmentedLayout>
           <Segment
             title="Trigger Type"
-            description="Select how the action should be triggered."
-            options={triggerOptionsArray.map((o) => ({
-              label: o.label,
-              explanation: o.description || '',
-            }))}
+            info={{
+              description: 'Select how the action should be triggered.',
+              options: triggerOptionsArray.map((o) => ({
+                label: o.label,
+                explanation: o.description || '',
+              })),
+            }}
           >
             <ActionTriggerTypeInput />
           </Segment>
@@ -91,7 +93,9 @@ export default function ActionPage() {
           </Segment>
           <Segment
             title="Execution Logic"
-            description="Define what the action does when triggered."
+            info={{
+              description: 'Define what the action does when triggered.',
+            }}
           >
             <CustomLogicButton />
           </Segment>
@@ -101,13 +105,18 @@ export default function ActionPage() {
         <SegmentedLayout>
           <Segment
             title="Identifier"
-            description="The identifier is a unique name of the action within your collection."
+            info={{
+              description:
+                'The identifier is a unique name of the action within your collection.',
+            }}
           >
             <ActionSlugInput />
           </Segment>
           <Segment
             title="Description"
-            description="Describe your action in a few sentences."
+            info={{
+              description: 'Describe your action in a few sentences.',
+            }}
           >
             <ActionDescriptionInput />
           </Segment>

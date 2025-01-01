@@ -9,7 +9,6 @@ import {
   type ExtendedAttribute,
   columns,
 } from '@/app/collections/[collection]/attributes/(components)/attribute-columns'
-import { Tabs } from '@repo/ui/components/ui/tabs'
 import {
   PiAddAddStroke,
   PiGridDashboard02Stroke,
@@ -48,7 +47,7 @@ export default async function AttributesPage(props: {
     },
   }
   return (
-    <Page tabs tabsProps={{ pageid: 'attributes', defaultValue: 'grid' }}>
+    <Page>
       <Header>
         <HeaderContent>
           <HeaderMain>
@@ -67,29 +66,29 @@ export default async function AttributesPage(props: {
             />
           </HeaderActions>
         </HeaderContent>
-        <HeaderTabBar>
+        {/* <HeaderTabBar>
           <HeaderTabBarItem value="grid" icon={PiGridDashboard02Stroke}>
             Grid
           </HeaderTabBarItem>
           <HeaderTabBarItem value="table" icon={PiGridTableStroke}>
             Table
           </HeaderTabBarItem>
-        </HeaderTabBar>
+        </HeaderTabBar> */}
       </Header>
-      <Main value="grid">
+      <Main>
         <AttributeGrid
           attributes={attributeRows}
           collectionSlug={collection}
           versionId={version}
         />
       </Main>
-      <Main className="p-0 md:p-0" value="table">
+      {/* <Main className="p-0 md:p-0" value="table">
         <DataTable
           columns={columns}
           data={attributeRows}
           options={tableOptions}
         />
-      </Main>
+      </Main> */}
     </Page>
   )
 }

@@ -25,7 +25,9 @@ export function IntervalSettings() {
   return (
     <Segment
       title="Interval Settings"
-      description="Define the details of the interval trigger."
+      info={{
+        description: 'Define the details of the interval trigger.',
+      }}
     >
       <div className="flex gap-3 ">
         <SegmentItem>

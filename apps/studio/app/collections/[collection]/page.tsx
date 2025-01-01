@@ -31,7 +31,6 @@ import { CollectionImage } from '@/app/collections/[collection]/(components)/col
 import { LockCollectionButton } from '@/app/collections/[collection]/(components)/lock-collection-button'
 import { CollectionTitle } from '@/app/collections/[collection]/(components)/collection-title'
 import { CollectionSlugInput } from '@/app/collections/[collection]/(components)/collection-slug-input'
-import { CollectionMaxSupplyInput } from '@/app/collections/[collection]/(components)/collection-max-supply-input'
 import { CollectionExternalLinkInput } from '@/app/collections/[collection]/(components)/collection-external-link-input'
 import { CollectionDescriptionInput } from '@/app/collections/[collection]/(components)/collection-description-input'
 import { CollectionSymbolInput } from '@/app/collections/[collection]/(components)/collection-symbol-input'
@@ -41,8 +40,8 @@ export default async function Collection(props: {
   const params = await props.params
   const collection = await getExtendedCollectionFromSlug(params.collection)
   const version = collection.editable_version
-  const attributes = await getLatestAttributes(version.id, 3)
-  const actions = await getLatestActions(version.id, 3)
+  const attributes = await getLatestAttributes(version.id, 5)
+  const actions = await getLatestActions(version.id, 5)
   return (
     <Page tabs tabsProps={{ defaultValue: 'overview', pageid: 'collection' }}>
       <Header>
@@ -76,9 +75,13 @@ export default async function Collection(props: {
         <Section
           title="Attributes"
           link={`/collections/${collection.slug}/attributes`}
+          info={{
+            description:
+              'Attributes are basically the traits of all of your tokens. They are used to define the properties of the collection.',
+          }}
         >
           <CardRow
-            className="lg:grid-cols-2"
+            className="md:grid-cols-3 lg:grid-cols-2"
             cards={attributes.map((attribute) => {
               return {
                 component: (
@@ -86,6 +89,7 @@ export default async function Collection(props: {
                     key={attribute.id}
                     attribute={attribute}
                     collectionSlug={collection.slug}
+                    size="sm"
                   />
                 ),
                 key: attribute.id,
@@ -99,6 +103,7 @@ export default async function Collection(props: {
                   <AttributeCard
                     key="new-attribute"
                     collectionSlug={collection.slug}
+                    size="sm"
                   />
                 }
               />
@@ -108,6 +113,10 @@ export default async function Collection(props: {
         <Section
           title="Actions"
           link={`/collections/${collection.slug}/actions`}
+          info={{
+            description:
+              'Actions change the state of one or more tokens. They are used to make your collection dynamic.',
+          }}
         >
           <CardRow
             className="lg:grid-cols-2"
@@ -142,7 +151,10 @@ export default async function Collection(props: {
         <SegmentedLayout>
           <Segment
             title="Identifier"
-            description="Define a unique identifier for the collection. This will be used to reference the collection in the API."
+            info={{
+              description:
+                'Define a unique identifier for the collection. This will be used to reference the collection in the API.',
+            }}
           >
             <CollectionSlugInput />
           </Segment>
@@ -155,7 +167,10 @@ export default async function Collection(props: {
 
           <Segment
             title="API-Keys"
-            description="Manage the API-Keys for the collection. These keys can be used to access the collection via the API."
+            info={{
+              description:
+                'Manage the API-Keys for the collection. These keys can be used to access the collection via the API.',
+            }}
           >
             <ApiKeys />
           </Segment>
@@ -165,19 +180,28 @@ export default async function Collection(props: {
         <SegmentedLayout>
           <Segment
             title="Description"
-            description="Describe the collection in a few sentences. This will show up publicly e.g. on marketplaces."
+            info={{
+              description:
+                'Describe the collection in a few sentences. This will show up publicly e.g. on marketplaces.',
+            }}
           >
             <CollectionDescriptionInput />
           </Segment>
           <Segment
             title="External Link"
-            description="Link to the collection on an external website. This will show up publicly e.g. on marketplaces."
+            info={{
+              description:
+                'Link to the collection on an external website. This will show up publicly e.g. on marketplaces.',
+            }}
           >
             <CollectionExternalLinkInput />
           </Segment>
           <Segment
             title="Symbol"
-            description="The symbol of the collection. This will show up publicly e.g. on marketplaces."
+            info={{
+              description:
+                'The symbol of the collection. This will show up publicly e.g. on marketplaces.',
+            }}
           >
             <CollectionSymbolInput />
           </Segment>

@@ -150,7 +150,10 @@ export default function UserProfileEditor({
               </Segment>
               <Segment
                 title="Connections"
-                description="Manage the different ways you can log into your account with"
+                info={{
+                  description:
+                    'Manage the different ways you can log into your account with',
+                }}
               >
                 {user.identities && (
                   <Identities
