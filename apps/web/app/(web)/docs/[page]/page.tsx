@@ -1,10 +1,8 @@
 import { RichText } from '@/components/lexical/rich-text'
 import { payload } from '@/lib/payload/client'
 import { Separator } from '@repo/ui/components/ui/separator'
-import { DocsNavigation } from '@/app/(web)/docs/(components)/docs-navigation'
 import { OnThisPage } from '@/app/(web)/docs/(components)/docs-toc'
 import { notFound } from 'next/navigation'
-import { Page } from '@/components/layout/page'
 import {
   createNestedHeadings,
   type Heading,
@@ -47,7 +45,7 @@ export default async function DocsArticlePage({
         <Separator className="h-[2px]" />
         <RichText data={article.content} className="" />
       </main>
-      <div className="relative -lg:hidden w-56 shrink-0">
+      <div className="relative -lg:hidden w-56 shrink-0 mr-2">
         <OnThisPage nestedHeadings={nestedHeadings} />
       </div>
     </div>

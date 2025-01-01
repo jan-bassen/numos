@@ -79,7 +79,7 @@ export default function Providers({
 
   return (
     <PostHogProvider client={posthog}>
-      <ThemeProvider attribute="class" defaultTheme={'system'}>
+      <ThemeProvider attribute="class" defaultTheme={'light'}>
         <TooltipProvider delayDuration={500} skipDelayDuration={500}>
           <SidebarProvider>
             <ChatProvider>

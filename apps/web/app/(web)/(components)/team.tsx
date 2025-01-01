@@ -1,0 +1,73 @@
+import DoubleImage from '@/components/animation/double-image'
+import { PiLinkedinSolid, PiXComStroke } from '@repo/ui/icons/pika'
+import Link from 'next/link'
+
+const people = [
+  {
+    name: 'Jan Bassen',
+    role: 'Tech & Design',
+    front: '/images/people/5341.png',
+    back: '/images/people/jan.jpeg',
+    twitter: '_bassen_',
+  },
+  {
+    name: 'Colin Lieb',
+    role: 'Operations & PR',
+    front: '/images/people/3134.png',
+    back: '/images/people/colin.jpg',
+    twitter: 'colinlieb',
+    linkedin: 'colinlieb',
+  },
+  {
+    name: 'Michael Dücker',
+    role: 'Customers & Sales',
+    front: '/images/people/25702.png',
+    back: '/images/people/michael.png',
+    twitter: '0xMaloha',
+    linkedin: 'michaelduecker',
+  },
+]
+
+export function Team() {
+  return (
+    <div className="flex w-80 md:w-full max-w-5xl flex-col items-center justify-start gap-4 md:flex-row md:items-start md:justify-center">
+      {people.map((person, i) => (
+        <div
+          className="flex w-full -sm:flex-col gap-3 md:flex-col"
+          key={person.name}
+        >
+          <DoubleImage
+            className="lg:!w-full aspect-square w-full max-w-80 rounded-home sm:w-72 md:w-60"
+            front={person.front}
+            back={person.back}
+            alt={person.name}
+          />
+          <div className="flex -md:h-full flex-col -md:justify-end gap-2 -sm:pb-4 -sm:pl-2 sm:pt-6 md:gap-4 md:pt-0">
+            <div className="pl-2">
+              <h3 className="font-bold text-xl">{person.name}</h3>
+              <p className="text-muted-foreground ">{person.role}</p>
+            </div>
+            <div className="flex gap-2 pl-2">
+              <Link
+                target="_blank"
+                href={`https://twitter.com/${person.twitter}`}
+                className=" size-fit p-1 text-muted-foreground hover:text-foreground"
+              >
+                <PiXComStroke className="size-4" />
+              </Link>
+              {person.linkedin && (
+                <Link
+                  target="_blank"
+                  href={`https://linkedin.com/in/${person.linkedin}`}
+                  className=" size-fit p-1 text-muted-foreground hover:text-foreground"
+                >
+                  <PiLinkedinSolid className="size-4" />
+                </Link>
+              )}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}

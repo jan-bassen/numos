@@ -62,9 +62,7 @@ export default async function RootLayout({
           </Suspense>
           <div className="relative flex w-full flex-col items-center">
             <Navigation />
-            <div className="relative flex w-full justify-center">
-              {children}
-            </div>
+            {children}
             <Footer />
           </div>
           <CookieBanner />

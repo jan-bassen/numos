@@ -186,7 +186,9 @@ module.exports = {
   			xl: 'calc(var(--radius) + 2px)',
   			'2xl': 'calc(var(--radius) + 4px)',
   			full: '9999px',
-  			none: '0'
+  			none: '0',
+			home_mobile: 'calc(var(--radius) + 1rem)',
+			home: 'calc(var(--radius) + 2rem)'
   		},
   		dropShadow: {
   			light: '0 0 4px hsl(var(--foreground) /  0.04)',
@@ -277,5 +279,5 @@ module.exports = {
   		}
   	}
   },
-  plugins: [require("tailwindcss-animate"), require("tailwind-scrollbar")],
+  plugins: [require("tailwindcss-animate"), require('tailwindcss-motion'), require('tailwindcss-intersect'), require("tailwind-scrollbar")],
 };

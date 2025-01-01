@@ -67,7 +67,7 @@ export async function DocsNavigation() {
                 'hover:text-primary hover:underline',
                 page.active && 'text-primary underline',
               )}
-              href={`/docs/studio/${page.slug}`}
+              href={`/docs/${page.slug}`}
             >
               {page.title}
             </Link>

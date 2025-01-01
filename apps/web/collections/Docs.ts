@@ -26,12 +26,12 @@ export const Docs: CollectionConfig = {
       name: 'group',
       type: 'select',
       required: true,
-      options: [{ label: 'Studio', value: 'studio' }],
+      options: ['home', 'studio'],
     },
     {
       name: 'content',
       type: 'richText',
-      required: true,
+      required: false,
     },
   ],
 }

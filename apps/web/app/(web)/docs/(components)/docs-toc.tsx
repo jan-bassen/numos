@@ -51,6 +51,8 @@ export function OnThisPage({
   const scrollY = useScrollPosition()
   const { headings, ids } = nestedHeadings
   const activeHeadingId = useHeadingInView()
+
+  if (headings.length === 0) return null
   const index = ids.findIndex((id) => id === activeHeadingId)
 
   return (
