@@ -24,7 +24,6 @@ pnpm i package --filter=web
 This includes the following packages/apps:
 
 ### Apps and Packages
-
 - `web`: a Next.js site including the homepage and docs
 - `studio`: a Next.js app for creating and managing dynamic and interactive digital assets
 - `core`: an AWS cdk app for deploying the backend
@@ -37,7 +36,7 @@ This includes the following packages/apps:
 ## Tools
 The repo is build with the following tools and services:
 
-## Services
+### Services
 - [Vercel](https://vercel.com) for hosting
 - [Supabase](https://supabase.com/docs) as the PaaS of our choice
 - [AWS](https://aws.amazon.com/de/free/?sc_channel=ps) for email and hosting the core backend
@@ -47,9 +46,7 @@ The repo is build with the following tools and services:
 - [Sentry](sentry.io) for debugging
 - [Alchemy](alchemy.com) for RPC and blockchain webhooks
 
-## Main
-
-- [Supabase](https://supabase.com/docs) for the PaaS of our choice
+### Main
 - [Turborepo](https://turborepo.org/) for monorepo management
 - [Next.js](https://nextjs.org/) for frontend development
 - [Tailwind](https://tailwindcss.com/) for CSS styling
@@ -58,8 +55,7 @@ The repo is build with the following tools and services:
 - [shadcn/ui](https://ui.shadcn.com/docs) for reusable components
 - [Payload](https://payloadcms.com/docs/getting-started/what-is-payload) for the homepage CMS
 
-## Secondary
-
+### Secondary
 - [lodash](https://lodash.com/) for common utilities
 - [zod](https://zod.dev/) for validation
 - [drizzle](https://orm.drizzle.team/docs/overview) for db usage outside of the supabase SDK
