@@ -1,7 +1,7 @@
 import type { ReturnInfo } from '@/types/database.types'
 import type { AutoSaveFunctions, EditorEvents } from '@/types/editor.types'
 import { toast } from 'sonner'
-import type { NodeEditor } from './classes/editor'
+import type { NodeEditor } from '@/lib/rete/classes/editor'
 import type { OLDSavedControlMap } from '@repo/engine/types/graph-types'
 
 export function autosaveToEvents(
@@ -13,7 +13,7 @@ export function autosaveToEvents(
   ) => Promise<ReturnInfo>,
 ): EditorEvents {
   return {
-    onSelectionChanged: (selection) => {
+    onSelectionChanged: () => {
       if (!autosave.changeSelection) {
         return
       }

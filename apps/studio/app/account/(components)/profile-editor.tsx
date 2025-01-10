@@ -25,7 +25,6 @@ import Main from '@/components/page/main'
 import SegmentedLayout from '@/components/layouts/segmented/segmented-layout'
 import { EditableImage } from '@/components/supabase/editable-image'
 import SaveButton from '@/components/forms/buttons/save-button'
-import { useRouter } from 'next/navigation'
 import {
   Header,
   HeaderActions,
@@ -47,7 +46,6 @@ export default function UserProfileEditor({
   profile: Profile
 }) {
   const [passwordDialogOpen, setPasswordDialogOpen] = useState(false)
-  const router = useRouter()
 
   const defaultValues = {
     name: profile.full_name || user.user_metadata.name || undefined,

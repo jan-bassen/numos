@@ -249,11 +249,15 @@ export type FullValue<
   restrictions?: ValueRestrictions<VT, L>
 }
 
-// biome-ignore lint/complexity/noBannedTypes: <explanation>
-export type SingleValueBaseRestrictions<VT extends ValueType = ValueType> = {}
+// @ts-ignore
+export type SingleValueBaseRestrictions<VT extends ValueType = ValueType> =
+  // biome-ignore lint/complexity/noBannedTypes: <explanation>
+  {}
 
-// biome-ignore lint/complexity/noBannedTypes: <explanation>
-export type ListValueExtraRestrictions<VT extends ValueType = ValueType> = {}
+//@ts-ignore
+export type ListValueExtraRestrictions<VT extends ValueType = ValueType> =
+  // biome-ignore lint/complexity/noBannedTypes: <explanation>
+  {}
 
 export type BaseRestrictions<
   VT extends ValueType = ValueType,

@@ -1,8 +1,8 @@
 import { type NodeBase, getUID } from 'rete'
 import type { Controls, Inputs, Outputs } from '@/types/nodes.types'
 import type { Control } from './control'
-import type { Output } from './connectors/output'
-import type { Input } from './connectors/input'
+import type { Output } from '@/lib/rete/classes/connectors/output'
+import type { Input } from '@/lib/rete/classes/connectors/input'
 
 //TODO: Add sorting to elements
 export class NodePreset implements NodeBase {

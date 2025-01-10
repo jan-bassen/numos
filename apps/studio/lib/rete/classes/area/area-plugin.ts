@@ -312,6 +312,7 @@ export class AreaPlugin extends BaseAreaPlugin<
     const view = this.nodeViews.get(id)
 
     if (view) return await view.resize(width, height)
+    return
   }
 
   /**
@@ -323,6 +324,7 @@ export class AreaPlugin extends BaseAreaPlugin<
     const view = this.nodeViews.get(id)
 
     if (view) return await view.translate(x, y)
+    return
   }
 
   /**

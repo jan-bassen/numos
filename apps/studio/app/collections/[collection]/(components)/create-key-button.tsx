@@ -44,7 +44,7 @@ export function CreateKeyButton() {
     },
   })
 
-  async function onSubmit(data: z.infer<typeof apiKeySchema>) {
+  async function onSubmit(/* data: z.infer<typeof apiKeySchema> */) {
     setRes('zaCELgL.0imfnc8mVLWwsAawjYr4Rx-Af50DDqtlx')
   }
 

@@ -1,9 +1,8 @@
 import { cn } from '@repo/ui/lib/utils'
-import { Loader, Loader2 } from 'lucide-react'
+import { Loader2 } from 'lucide-react'
 
 export default function LoadingSpinner({
   containerClassName,
-  spinnerClassName,
 }: {
   containerClassName?: string
   spinnerClassName?: string

@@ -15,7 +15,7 @@ export default function GeneralError(props: {
   error: Error
   className?: string
 }) {
-  const { resetFunction, error, className } = props
+  const { error, className } = props
   const router = useRouter()
   return (
     <div

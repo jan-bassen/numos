@@ -30,9 +30,7 @@ export class EngineBase {
   }
 
   findRootNode() {
-    const rootNodes = Object.entries(this.graph).filter(
-      ([key, node]) => node.root,
-    )
+    const rootNodes = Object.entries(this.graph).filter(([, node]) => node.root)
     const rootNode = rootNodes[0]
     if (rootNodes.length === 0 || !rootNode)
       throw new Error('No root node found')

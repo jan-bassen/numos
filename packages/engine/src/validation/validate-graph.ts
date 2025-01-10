@@ -48,7 +48,7 @@ function validateAllNodes(
   context: ValidationContext,
 ): ValidationIssueData[] {
   const issues: ValidationIssueData[] = []
-  for (const [key, node] of Object.entries(graph)) {
+  for (const [, node] of Object.entries(graph)) {
     issues.push(...validateNode(graph, node, context))
   }
   return issues
@@ -59,7 +59,7 @@ function validateRootNode(
   graph: MapGraph,
   context: ValidationContext,
 ): Result<boolean, ValidationIssueData> {
-  const rootNodes = Object.entries(graph).filter(([key, node]) => node.root)
+  const rootNodes = Object.entries(graph).filter(([, node]) => node.root)
   const rootNode = rootNodes[0]
   const { origin } = context
   if (rootNodes.length === 0 || !rootNode)
@@ -74,7 +74,7 @@ function validateRootNode(
       level: 'critical',
       type: 'root-node-multiple',
     }).toResult()
-  const [key, node] = rootNode
+  const [, node] = rootNode
   if (node.type === 'image-root') {
     const res = validateConnection(graph, node, 'input', 'image', context)
     if (res.error) return res

@@ -1,4 +1,4 @@
-import type { EngineContext } from '@repo/engine/types/engine-types'
+/* import type { EngineContext } from '@repo/engine/types/engine-types'
 import type { MapGraph } from '@repo/engine/types/graph-types'
 import { ApplicationEngine } from '@repo/engine/engine/base/application-engine'
 
@@ -10,3 +10,4 @@ export class ImageEngine extends ApplicationEngine {
   setImage(key: string, value: Buffer) {}
   getNodeOutput(nodeId: string, key: string) {}
 }
+ */

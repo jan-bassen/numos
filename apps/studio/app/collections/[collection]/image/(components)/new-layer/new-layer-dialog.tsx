@@ -21,11 +21,10 @@ import {
   StagedForm,
 } from '@/components/forms/staged-form'
 import { newLayerSchema } from '@/lib/schemas/layers/layer-schema'
-import { layerTypeStage } from '@/app/collections/[collection]/image/(components)/new-layer/stages/layer-type'
 import { defaultLayerSettings } from '@/lib/defaults/actions/layer-definitions'
 import { insertLayerAtTop } from '@/lib/supabase/db/layers/create'
-import { nameStage } from '@/app/collections/[collection]/actions/(components)/new-action/stages/name'
-import { slugStage } from '@/app/collections/[collection]/actions/(components)/new-action/stages/slug'
+import { nameStage } from '@/app/collections/[collection]/image/(components)/new-layer/stages/name'
+import { slugStage } from '@/app/collections/[collection]/image/(components)/new-layer/stages/slug'
 import { useCollection } from '@/app/collections/[collection]/collection-context'
 import type { NewElementDialogProps } from '@/components/elements/new-dialog'
 

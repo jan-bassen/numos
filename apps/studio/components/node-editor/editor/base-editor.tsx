@@ -31,9 +31,9 @@ import type {
   GraphErrorData,
   SimulationData,
 } from '@repo/engine/types/engine-types'
-import RunSidebar from '../run-sidebar/run-sidebar'
-import EditorInterface from '../interface/editor-interface'
-import EditorProvider from './editor-provider'
+import RunSidebar from '@/components/node-editor/run-sidebar/run-sidebar'
+import EditorInterface from '@/components/node-editor/interface/editor-interface'
+import EditorProvider from '@/components/node-editor/editor/editor-provider'
 import { useSecondarySidebar } from '@repo/ui/components/ui/sidebar-secondary'
 
 //TODO: Clean up

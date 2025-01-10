@@ -7,10 +7,7 @@
     "./postcss.config": "./postcss.config.js",
     "./tailwind.config": "./tailwind.config.js",
     "./lib/*": "./src/lib/*.tsx",
-    "./hooks/*": [
-      "./src/hooks/*.ts",
-      "./src/hooks/*.tsx"
-    ],
+    "./hooks/*": "./src/hooks/*.tsx",
     "./components/*": "./src/components/*.tsx",
     "./icons/*": "./src/icons/*.tsx",
     "./types/*": "./src/types/*.ts"

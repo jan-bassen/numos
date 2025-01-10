@@ -669,6 +669,7 @@ export class Node extends NodePreset {
       }
       return false
     }
+    return false
   }
 
   getControlValues = (): NodeValueMap => {

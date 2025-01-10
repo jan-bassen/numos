@@ -226,7 +226,7 @@ export type DynamicNodeData<
 
 export type StaticNodeData<
   I extends NodeInterface<NodeCategory>,
-  Simulation extends boolean = boolean,
+  _Simulation extends boolean = boolean,
 > = {
   [K in keyof I['outputs']]: (
     state: DataInterface<I>,

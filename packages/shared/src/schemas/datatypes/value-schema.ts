@@ -69,13 +69,17 @@ export function getDataTypeSchema(
   format: ValueFormat,
   optional: boolean,
 ): ZodType {
+  const baseSchema = datatypeSchemasMap[type]
+  if (!baseSchema) {
+    throw new Error(`No base schema found for type ${type}`)
+  }
   switch (format) {
     case 'single':
-      return singleValueSchema(type, datatypeSchemasMap[type], optional)
+      return singleValueSchema(type, baseSchema, optional)
     case 'array':
-      return arrayValueSchema(type, datatypeSchemasMap[type], optional)
+      return arrayValueSchema(type, baseSchema, optional)
     case 'objectarray':
-      return objectArrayValueSchema(type, datatypeSchemasMap[type], optional)
+      return objectArrayValueSchema(type, baseSchema, optional)
   }
 }
 

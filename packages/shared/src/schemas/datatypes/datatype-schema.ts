@@ -48,7 +48,7 @@ import {
   imageSchema,
 } from '@repo/shared/schemas/datatypes/datatype-schemas/image-schema'
 import { zDiscriminatedUnion } from '@repo/shared/schemas/discriminated-union'
-import type { ValueType } from '@shared/ui/types/values'
+import type { ValueType } from '@repo/shared/types/values'
 
 export const datatypeSchema = z.union([
   addressSchema,

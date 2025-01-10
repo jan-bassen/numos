@@ -6,8 +6,8 @@
     "./types/*": "./src/types/*.ts",
     "./schemas/*": "./src/schemas/*.ts",
     "./utils/*": "./src/utils/*.ts",
-    "./security/*": ["./src/security/*.ts"],
-    "./constants/*": ["./src/constants/*.ts"]
+    "./security/*": "./src/security/*.ts",
+    "./constants/*": "./src/constants/*.ts"
   },
   "scripts": {
     "build": "tsc",

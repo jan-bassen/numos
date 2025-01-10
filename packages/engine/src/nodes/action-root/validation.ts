@@ -1,9 +1,9 @@
 import type {
   NodeExpectation,
-  ValidationIssueOrigin,
+  /*  ValidationIssueOrigin, */
 } from '@repo/engine/types/validation-types'
 import type { ActionRootNode } from '@repo/engine/nodes/action-root/interface'
-import type { MapGraphNode } from '@repo/engine/types/graph-types'
+/* import type { MapGraphNode } from '@repo/engine/types/graph-types' */
 
 export const expectation: NodeExpectation<ActionRootNode> = {
   type: 'action-root',
@@ -15,8 +15,8 @@ export const expectation: NodeExpectation<ActionRootNode> = {
 }
 
 export function validateActionRootNode(
-  node: MapGraphNode,
-  context: ValidationIssueOrigin,
+  /*   node: MapGraphNode,
+  context: ValidationIssueOrigin, */
 ) {
   //Check param outputs
 }

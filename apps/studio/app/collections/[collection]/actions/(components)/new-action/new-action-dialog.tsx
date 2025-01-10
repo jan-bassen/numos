@@ -63,6 +63,7 @@ export function NewActionDialog({
     const newAction: InsertAction = {
       ...values,
       version: versionId,
+      created_at: undefined,
     }
 
     const res = await insertAction(newAction)

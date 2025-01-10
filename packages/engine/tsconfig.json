@@ -8,6 +8,6 @@
       "@repo/engine/*": ["./src/*"]
     }
   },
-  "include": ["src", "../shared/src/types/value-types.ts", "../shared/datatypes/utils.ts", "../shared/src/validation/datatypes/validation.ts", "../shared/src/schemas/datatypes/restriction.ts", "../shared/src/schemas/datatypes/schemas.ts", "../shared/src/schemas/datatypes/value-schema.ts", "../shared/src/schemas/discriminated-union.ts", "../shared/src/schemas/datatypes/datatype-schema.ts"],
+  "include": ["src"],
   "exclude": ["node_modules", "dist"]
 }

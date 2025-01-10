@@ -78,7 +78,7 @@ export default function Identities({
 
   const linkIdentity = async (provider: Provider) => {
     const supabase = await createSupabaseClient()
-    const { data, error } = await supabase.auth.linkIdentity({
+    const { error } = await supabase.auth.linkIdentity({
       provider,
       options: {
         redirectTo: `${location.origin}/account/`,
