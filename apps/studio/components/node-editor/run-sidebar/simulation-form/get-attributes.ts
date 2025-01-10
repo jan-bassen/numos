@@ -1,7 +1,10 @@
-import type { ValueTypeMap } from '@repo/engine/types/value-types'
-import type { ValueFormat } from '@repo/engine/types/value-types'
-import type { ValueMap } from '@repo/engine/types/value-types'
-import type { ValueType } from '@repo/engine/types/value-types'
+import type {
+  Value,
+  ValueTypeMap,
+  ValueFormat,
+  ValueMap,
+  ValueType,
+} from '@repo/shared/types/values'
 import type { Attribute } from '@/types/database.types'
 
 export function getDefaultValuesFromAttributes(
@@ -10,14 +13,18 @@ export function getDefaultValuesFromAttributes(
 ) {
   const defaultValues = attributes.reduce(
     (acc, attribute) => {
-      const value = state?.[attribute.slug]
+      const value = state?.[attribute.id]
       if (value !== undefined && value !== null) {
-        acc[attribute.slug] = value
+        acc[attribute.id] = value
       } else if (
         attribute.value.default !== undefined &&
         attribute.value.default !== null
       ) {
-        acc[attribute.slug] = attribute.value.default
+        acc[attribute.id] = attribute.value.default as Value<
+          typeof attribute.value.default.type,
+          typeof attribute.value.default.format,
+          true
+        >
       }
       return acc
     },
@@ -28,7 +35,7 @@ export function getDefaultValuesFromAttributes(
 
 export const getAttributeTypes = (attributes: Attribute[]): ValueTypeMap => {
   return attributes.reduce((accumulator, attribute) => {
-    accumulator[attribute.slug] = { type: attribute.type, list: attribute.list }
+    accumulator[attribute.id] = { type: attribute.type, list: attribute.list }
     return accumulator
   }, {} as ValueTypeMap)
 }

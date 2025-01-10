@@ -9,8 +9,8 @@ import {
 import { type FocusEvent, useRef } from 'react'
 import { cn } from '@repo/ui/lib/utils'
 import { Drag } from 'rete-react-plugin'
-import { colorSchema } from '@repo/engine/datatypes/schemas'
-import type { Color } from '@repo/engine/types/value-types'
+import { colorSchema } from '@repo/shared/schemas/datatypes/datatype-schemas/color-schema'
+import type { Color } from '@repo/shared/types/values'
 import { Button } from '@repo/ui/components/ui/button'
 import { PiRefreshStroke } from '@repo/ui/icons/pika'
 import type { SingleDataTypeInputProps } from '../single-datatype-input'
@@ -59,6 +59,8 @@ export function ColorInput({
           'flex h-10 w-full min-w-36 items-center justify-center rounded-lg border border-border bg-background text-sm',
           environment === 'node' &&
             '!font-normal flex h-7 w-full rounded-lg px-2 outline-0',
+          environment === 'simulation' &&
+            'h-9 items-center rounded-lg py-1.5 text-sm',
           valid === false
             ? environment === 'node'
               ? 'border-warning bg-warning/10'

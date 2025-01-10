@@ -1,5 +1,4 @@
 import type { RenderEmit } from 'rete-react-plugin'
-import type { Node } from '@/lib/rete/classes/node'
 import type { Control } from '@/lib/rete/classes/control'
 import type { NodeEditor } from '@/lib/rete/classes/editor'
 import type {
@@ -14,19 +13,18 @@ import type {
 } from '@repo/engine/types/node-types'
 import type {
   OptionalDataType,
-  OptionalValueType,
   Value,
   ValueRestrictions,
-  ValueSettings,
   ValueType,
-} from '@repo/engine/types/value-types'
+} from '@repo/shared/types/values'
 import type { Area, Schemes } from './editor.types'
-import type { ActionTrigger, ParameterInfo } from './actions.types'
-import type { AttributeInfo } from './attributes.types'
+import type { ActionTrigger } from '@/lib/schemas/actions/action-schema'
 import type { Input } from '@/lib/rete/classes/connectors/input'
 import type { Output } from '@/lib/rete/classes/connectors/output'
 
 import type { JSX } from 'react'
+import type { Parameter } from '@/lib/schemas/actions/triggers/api'
+import type { Attribute } from './database.types'
 
 // ----------- NODE DEPENDENCIES -------------
 
@@ -256,11 +254,11 @@ export type DefinitionInterface<I extends NodeInterface<NodeCategory>> = {
         true
       >
     | undefined
-  getParameter: (key: string) => ParameterInfo | undefined
-  getParameters: () => ParameterInfo[] | undefined
+  getParameter: (key: string) => Parameter | undefined
+  getParameters: () => Parameter[] | undefined
   getTrigger: () => ActionTrigger | undefined
-  getTokenAttribute: (key: string) => AttributeInfo | undefined
-  getTokenAttributes: () => AttributeInfo[] | undefined
+  getTokenAttribute: (id: string) => Attribute | undefined
+  getTokenAttributes: () => Attribute[] | undefined
 }
 
 // ----------- NODE DEFINITION -------------

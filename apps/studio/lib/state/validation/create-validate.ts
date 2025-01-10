@@ -37,6 +37,7 @@ export function createValidate<UT extends Record<string, any>>(
         return res
       } catch (error) {
         if (error instanceof ZodError) {
+          console.log('error', error)
           let newErrorState = errors
           const changedKeys = Object.keys(value)
           for (const key of changedKeys) {

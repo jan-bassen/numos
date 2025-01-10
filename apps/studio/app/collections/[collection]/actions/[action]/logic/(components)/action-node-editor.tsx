@@ -1,7 +1,7 @@
 'use client'
 
 import type { Action, Attribute, Version } from '@/types/database.types'
-import { Suspense, useState } from 'react'
+import { useState } from 'react'
 import {
   deleteActionConnection,
   deleteActionNode,
@@ -13,12 +13,11 @@ import {
 import { simulateActionGraph } from '@/lib/rete/engine'
 import type { SimulationCheck } from '@/lib/errors'
 import { toast } from 'sonner'
-import BaseEditor from '../../../../../../../components/node-editor/editor/base-editor'
+import BaseEditor from '@/components/node-editor/editor/base-editor'
 import { actionConfig } from '@/lib/rete/nodes/configs/action-config'
 import TokenResult from './token-result'
 import type { AutoSaveFunctions, Editor } from '@/types/editor.types'
 import type { SavedGraph } from '@repo/engine/types/graph-types'
-import type { ActionTrigger } from '@/types/actions.types'
 import type {
   ActionContext,
   SimulatedTokenStateResult,
@@ -79,6 +78,7 @@ export default function ActionNodeEditor({
     }
     const context: ActionContext = {
       collectionId: version.id,
+      versionId: version.id,
       actionId: action.id,
     }
     const { result, error } = await simulateActionGraph(graph, data, context)
@@ -100,8 +100,6 @@ export default function ActionNodeEditor({
     }
   }
 
-  const trigger = action.trigger as ActionTrigger | undefined
-
   return (
     <BaseEditor
       parentId={action.id}
@@ -109,8 +107,6 @@ export default function ActionNodeEditor({
       context={{
         type: 'action',
         attributes: attributes,
-        parameters:
-          trigger?.type === 'api' ? trigger?.settings.params : undefined,
         action: action,
       }}
       config={actionConfig}

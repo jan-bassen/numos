@@ -1,6 +1,6 @@
 import { getCollectionFromSlug } from '@/lib/supabase/db/collections'
-import LayerTreeView from '@/app/collections/[collection]/uploads/(components)/tree'
-import { getLayerTree } from '@/lib/supabase/db/layers'
+import UploadsTreeView from '@/app/collections/[collection]/uploads/(components)/tree'
+import { getUploadsTree } from '@/lib/supabase/db/uploads'
 
 export default async function LayerPage(props: {
   params: Promise<{ collection: string }>
@@ -8,6 +8,6 @@ export default async function LayerPage(props: {
   const params = await props.params
   const collection = await getCollectionFromSlug(params.collection)
   if (!collection.editable_version) return null
-  const tree = await getLayerTree(collection.editable_version)
-  return <LayerTreeView collection={collection} tree={tree} />
+  const tree = await getUploadsTree(collection.editable_version)
+  return <UploadsTreeView collection={collection} tree={tree} />
 }

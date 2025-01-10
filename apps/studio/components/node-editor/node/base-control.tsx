@@ -13,12 +13,7 @@ import {
 } from '@repo/ui/components/ui/popover'
 import { useRef } from 'react'
 import DatatypeListInput from '@/components/datatypes/list/datatype-list-input'
-import type {
-  RawSingleValue,
-  Value,
-  ValueMap,
-  ValueType,
-} from '@repo/engine/types/value-types'
+import type { Value, ValueType } from '@repo/shared/types/values'
 import {
   getDataTypeInput,
   type SingleDataTypeInputProps,
@@ -43,7 +38,6 @@ export function ControlComponent(payload: { data: ControlClass }) {
 
   if (!control) return null
 
-  console.log(control.value, control.definition.list)
   if (control.definition.list && control.value.format !== 'single') {
     return (
       <Popover>

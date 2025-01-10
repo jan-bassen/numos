@@ -5,7 +5,7 @@ import type {
   RawSingleValue,
   Value,
   ValueType,
-} from '@repo/engine/types/value-types'
+} from '@repo/shared/types/values'
 
 export const listAddLogic: NodeLogic<ListAddNode> = {
   data: {

@@ -37,10 +37,12 @@ export function DirectionInput({
               ? 'border-warning bg-warning/10'
               : 'border-destructive bg-destructive/10'
             : '',
+          environment === 'simulation' &&
+            'h-9 items-center rounded-lg py-1.5 text-sm',
           className,
         )}
       >
-        {value.value ? directions[value.value]?.label : 'Select direction'}
+        {value.value ? directions[value.value]?.label : 'Select Direction'}
       </PopoverTrigger>
       <PopoverContent
         sideOffset={6}

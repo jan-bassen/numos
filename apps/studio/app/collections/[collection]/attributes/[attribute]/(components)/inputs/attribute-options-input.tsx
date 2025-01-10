@@ -1,7 +1,7 @@
 'use client'
 
 import { useAttribute } from '../../attribute-context'
-import type { FullValue, Value } from '@repo/engine/types/value-types'
+import type { FullValue, Value } from '@repo/shared/types/values'
 import DatatypeListInput from '@/components/datatypes/list/datatype-list-input'
 import Segment from '@/components/layouts/segmented/segment'
 import { isArray } from 'lodash'
@@ -10,6 +10,7 @@ import {
   valueToOptions,
   optionsToValue,
 } from '@/components/datatypes/list-value-to-options'
+import type { UpdateAttribute } from '@/types/database.types'
 
 export function AttributeOptionsInput() {
   const {
@@ -68,11 +69,9 @@ export function AttributeOptionsInput() {
               options: valueToOptions(v),
             },
           }
-          const res = await updateAttribute(
-            { value: newValue },
-            { debounce: true },
-          )
-          console.log(res)
+          await updateAttribute({ value: newValue } as UpdateAttribute, {
+            debounce: true,
+          })
         }}
         addButtonLabel="Add Option"
       />

@@ -2,8 +2,8 @@ import { SuccessResponse } from '@/functions/utils/success-response'
 import {
   type InternalHandler,
   getHandlerFromInternal,
-} from './utils/handlers/internal-handler'
-import { listApiKeySchema } from '@repo/shared/schemas/list-api-key-schema'
+} from '@/functions/utils/handlers/internal-handler'
+import { listApiKeySchema } from '@repo/shared/schemas/validation/list-api-key-schema'
 import type { ApiKeyPublicEntry } from '@/types/ddb'
 import { scanApiKeys } from '@/ddb/scan-api-keys'
 

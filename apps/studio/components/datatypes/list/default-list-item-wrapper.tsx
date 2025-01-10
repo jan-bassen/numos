@@ -14,17 +14,25 @@ export function DefaultListItemWrapper<T>({
   draggableProps,
   errors,
   remove,
+  className,
 }: ListInputComponentProps<T> & {
   children: React.ReactNode
   errors?: Array<ZodErrorInfo | undefined>
 }) {
   return (
-    <div key={id} className="relative w-full">
-      <div className="flex w-full items-start">
+    <div
+      key={id}
+      className={cn(
+        'relative h-10 w-full',
+        errors?.[index] && '!h-16',
+        className,
+      )}
+    >
+      <div className="flex h-10 w-full items-start">
         {!locked && (
           <div
             className={cn(
-              'grid h-10 cursor-grab place-items-center rounded-l-md border border-border border-r-0 bg-background px-0.5 text-muted-foreground transition-colors duration-200 hover:bg-muted/10',
+              'grid h-full cursor-grab place-items-center rounded-l-md border border-border border-r-0 bg-background px-0.5 text-muted-foreground transition-colors duration-200 hover:bg-muted/10',
               false && 'border-destructive/50 bg-destructive/10',
             )}
           >

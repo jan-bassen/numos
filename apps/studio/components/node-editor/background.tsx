@@ -1,4 +1,4 @@
-import { AddNodeMenu } from './menus/add-node-menu'
+import { AddNodeMenu } from '@/components/node-editor/menus/add-node-menu'
 import { createRoot, type Root } from 'react-dom/client'
 import type { Area, EditorMode, Item } from '@/types/editor.types'
 import { useEffect, useRef } from 'react'

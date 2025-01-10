@@ -1,7 +1,7 @@
 import { DatetimeInput } from '@/components/datatypes/datetime/datetime-input'
 import Segment from '@/components/layouts/segmented/segment'
 import { useAction } from '@/app/collections/[collection]/actions/[action]/action-context'
-import type { ActionTrigger } from '@/types/actions.types'
+import type { ActionTrigger } from '@/lib/schemas/actions/action-schema'
 import { Label } from '@repo/ui/components/ui/label'
 import { SegmentItem } from '@/components/layouts/segmented/segment-item'
 import ErrorMessage from '@/components/state/error-message'
@@ -87,6 +87,7 @@ export function ScheduleSettings() {
         <CronInput
           id="schedule"
           button={{
+            className: 'w-full flex !max-w-full',
             variant: 'outline',
             size: 'form',
             disabled: locked,

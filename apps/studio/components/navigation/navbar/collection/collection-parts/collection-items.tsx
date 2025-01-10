@@ -1,27 +1,24 @@
 'use client'
 
-import { ChevronRight, Plus } from 'lucide-react'
+import { Plus } from 'lucide-react'
 import {
+  PiAddAddStroke,
   PiAutomationSolid,
   PiAutomationStroke,
   PiBarchartDefaultSolid,
   PiBarchartDefaultStroke,
-  PiFolderArrowUpSolid,
-  PiFolderArrowUpStroke,
   PiPhotoImageDefaultSolid,
   PiPhotoImageDefaultStroke,
 } from '@repo/ui/icons/pika'
 import {
   Collapsible,
   CollapsibleContent,
-  CollapsibleTrigger,
 } from '@repo/ui/components/ui/collapsible'
 import {
   SidebarGroup,
   SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuAction,
-  SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuSub,
   SidebarMenuSubButton,
@@ -36,10 +33,6 @@ import { useSelectedLayoutSegments } from 'next/navigation'
 import { cn } from '@repo/ui/lib/utils'
 import Link from 'next/link'
 import { Button } from '@repo/ui/components/ui/button'
-import { NewActionDialog } from '@/app/collections/[collection]/actions/(components)/new-action-dialog'
-import { NewAttributeDialog } from '@/app/collections/[collection]/attributes/(components)/new-attribute-dialog'
-import AttributeContextMenu from '@/app/collections/[collection]/attributes/(components)/attribute-context-menu'
-import ActionContextMenu from '@/app/collections/[collection]/actions/(components)/action-context-menu'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -49,13 +42,19 @@ import {
   DropdownMenuTrigger,
 } from '@repo/ui/components/ui/dropdown-menu'
 import { triggerOptionsArray } from '@/lib/constants/triggers'
+import { CustomSidebarSubitem } from '@/components/navigation/navbar/collection/collection-parts/subitem'
+import { type ElementType, elementTypes } from '@/lib/constants/elements'
+import { ElementContextMenu } from '@/components/elements/context-menu'
+import { CustomDropdownSubitem } from './subitem'
+import { NewElementDialog } from '@/components/elements/new-dialog'
+import { CollapsibleItem } from '@/components/navigation/navbar/collection/collection-parts/collapsible-item'
 
 const getItems = (items: NavItems): SidebarItem[] => {
-  const [attributes, actions] = items
+  const [attributes, actions, layers] = items
   return [
     {
       title: 'Attributes',
-      slug: 'attributes',
+      elementType: 'attribute',
       icons: {
         stroke: PiBarchartDefaultStroke,
         fill: PiBarchartDefaultSolid,
@@ -68,7 +67,7 @@ const getItems = (items: NavItems): SidebarItem[] => {
     },
     {
       title: 'Actions',
-      slug: 'actions',
+      elementType: 'action',
       icons: {
         stroke: PiAutomationStroke,
         fill: PiAutomationSolid,
@@ -81,41 +80,33 @@ const getItems = (items: NavItems): SidebarItem[] => {
       })),
     },
     {
-      title: 'Image',
-      slug: 'image',
+      title: 'Layers',
+      elementType: 'layer',
       icons: {
         stroke: PiPhotoImageDefaultStroke,
         fill: PiPhotoImageDefaultSolid,
       },
-      items: [
-        {
-          title: 'Hat',
-          slug: 'hat',
-        },
-        {
-          title: 'Hair',
-          slug: 'hair',
-        },
-        {
-          title: 'Face',
-          slug: 'face',
-        },
-      ],
+      items: layers.map((layer) => ({
+        title: layer.name || `Unnamed ${layer.type}`,
+        slug: layer.slug,
+      })),
     },
   ]
 }
 
-export type SidebarItem = {
+export type SidebarSubitem = {
   title: string
   slug: string
+}
+
+export type SidebarItem = {
+  title: string
+  elementType: ElementType
   icons: {
     stroke: (props: SVGProps<SVGSVGElement>) => JSX.Element
     fill: (props: SVGProps<SVGSVGElement>) => JSX.Element
   }
-  items?: {
-    title: string
-    slug: string
-  }[]
+  items?: SidebarSubitem[]
 }
 
 type NavMainProps = {
@@ -135,28 +126,9 @@ export function CollectionItems({ collection, navItems }: NavMainProps) {
       <SidebarGroupLabel>Components</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => {
-          const isActive =
-            item.slug === segments[0] || item.slug === dropdownOpen
-          const href = `/collections/${collection.slug}/${item.slug}`
-
-          if (!item.items)
-            return (
-              <SidebarMenuButton asChild key={item.slug}>
-                <Link
-                  className={cn('w-full', isActive && 'font-semibold')}
-                  href={href}
-                >
-                  {isActive ? (
-                    <item.icons.fill className="size-4 " />
-                  ) : (
-                    <item.icons.stroke className="size-4" />
-                  )}
-
-                  <span>{item.title}</span>
-                </Link>
-              </SidebarMenuButton>
-            )
-
+          const slug = elementTypes[item.elementType].slug
+          const isActive = slug === segments[0] || slug === dropdownOpen
+          const href = `/collections/${collection.slug}/${slug}`
           return (
             <Collapsible
               key={item.title}
@@ -166,37 +138,19 @@ export function CollectionItems({ collection, navItems }: NavMainProps) {
             >
               <SidebarMenuItem>
                 <DropdownMenu
-                  key={item.slug}
-                  open={dropdownOpen === item.slug}
+                  key={slug}
+                  open={dropdownOpen === slug}
                   onOpenChange={(open) => {
-                    if (open && !sidebarOpen) setDropdownOpen(item.slug)
+                    if (open && !sidebarOpen) setDropdownOpen(slug)
                     if (!open) setDropdownOpen(null)
                   }}
                 >
                   <DropdownMenuTrigger asChild>
-                    <SidebarMenuButton asChild>
-                      <div
-                        className={cn(
-                          'group/collapsible-trigger flex items-center pl-2',
-                          isActive && 'bg-sidebar-accent',
-                        )}
-                      >
-                        <CollapsibleTrigger className="shrink-0 rounded-sm hover:text-sidebar-accent-foreground group-data-[state=expanded]:size-5 group-data-[state=expanded]:hover:bg-sidebar-accent-foreground/10">
-                          {isActive ? (
-                            <item.icons.fill className="size-4 group-data-[state=expanded]:group-hover/collapsible-trigger:hidden " />
-                          ) : (
-                            <item.icons.stroke className="size-4 group-data-[state=expanded]:group-hover/collapsible-trigger:hidden" />
-                          )}
-                          <ChevronRight className="mx-auto hidden size-4 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90 group-data-[state=expanded]:group-hover/collapsible-trigger:block" />
-                        </CollapsibleTrigger>
-                        <Link
-                          className={cn('w-full', isActive && 'font-semibold')}
-                          href={href}
-                        >
-                          <span>{item.title}</span>
-                        </Link>
-                      </div>
-                    </SidebarMenuButton>
+                    <CollapsibleItem
+                      item={item}
+                      href={href}
+                      isActive={isActive}
+                    />
                   </DropdownMenuTrigger>
                   <DropdownMenuContent
                     side="right"
@@ -208,179 +162,100 @@ export function CollectionItems({ collection, navItems }: NavMainProps) {
                         <Link href={href} className="hover:underline">
                           {item.title}
                         </Link>
-                        {item.slug === 'actions' && (
-                          <NewActionDialog
-                            versionId={version}
-                            collectionSlug={collection.slug}
-                            button={
-                              <Button variant={'ghost'} size={'iconSmall'}>
-                                <Plus className="size-3.5" />
-                                <span className="sr-only">Add Action</span>
-                              </Button>
-                            }
-                          />
-                        )}
-                        {item.slug === 'attributes' && (
-                          <NewAttributeDialog
-                            versionId={version}
-                            collectionSlug={collection.slug}
-                            button={
-                              <Button variant={'ghost'} size={'iconSmall'}>
-                                <Plus className="size-4" />
-                                <span className="sr-only">Add Attribute</span>
-                              </Button>
-                            }
-                          />
-                        )}
+                        <NewElementDialog
+                          versionId={version}
+                          elementType={item.elementType}
+                        >
+                          <Button variant={'ghost'} size={'iconSmall'}>
+                            <Plus className="size-4" />
+                            <span className="sr-only">Add Attribute</span>
+                          </Button>
+                        </NewElementDialog>
                       </div>
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    {item.items?.map((subItem) => {
-                      const isActive = subItem.slug === segments[1]
-                      const href = `/collections/${collection.slug}/${item.slug}/${subItem.slug}`
-                      if (item.slug === 'attributes') {
+                    {!item.items || item.items.length === 0 ? (
+                      <DropdownMenuItem className="hover:!text-muted-foreground hover:!bg-transparent cursor-default text-muted-foreground">
+                        No{' '}
+                        {elementTypes[item.elementType].titles.plural_lowercase}{' '}
+                        yet
+                      </DropdownMenuItem>
+                    ) : (
+                      item.items?.map((subItem) => {
+                        const isActive = subItem.slug === segments[1]
+                        const href = `/collections/${collection.slug}/${slug}/${subItem.slug}`
                         return (
-                          <AttributeContextMenu
+                          <ElementContextMenu
                             key={subItem.slug}
-                            attributeSlug={subItem.slug}
+                            elementType={item.elementType}
+                            slug={subItem.slug}
                             collectionSlug={collection.slug}
                             versionId={version}
                           >
-                            <DropdownMenuItem key={subItem.slug} asChild>
-                              <Link
-                                href={href}
-                                className={cn(isActive && 'font-medium')}
-                              >
-                                <span>{subItem.title}</span>
-                              </Link>
-                            </DropdownMenuItem>
-                          </AttributeContextMenu>
+                            <CustomDropdownSubitem
+                              key={subItem.slug}
+                              subItem={subItem}
+                              href={href}
+                              isActive={isActive}
+                            />
+                          </ElementContextMenu>
                         )
-                      }
-                      if (item.slug === 'actions') {
-                        return (
-                          <ActionContextMenu
-                            key={subItem.slug}
-                            actionSlug={subItem.slug}
-                            collectionSlug={collection.slug}
-                            versionId={version}
-                          >
-                            <DropdownMenuItem key={subItem.slug} asChild>
-                              <Link
-                                href={href}
-                                className={cn(isActive && 'font-medium')}
-                              >
-                                <span>{subItem.title}</span>
-                              </Link>
-                            </DropdownMenuItem>
-                          </ActionContextMenu>
-                        )
-                      }
-                      return (
-                        <DropdownMenuItem key={subItem.slug} asChild>
-                          <Link
-                            href={href}
-                            className={cn(isActive && 'font-medium')}
-                          >
-                            <span>{subItem.title}</span>
-                          </Link>
-                        </DropdownMenuItem>
-                      )
-                    })}
+                      })
+                    )}
                   </DropdownMenuContent>
                 </DropdownMenu>
-                {item.slug === 'actions' && (
-                  <NewActionDialog
-                    versionId={version}
-                    collectionSlug={collection.slug}
-                    button={
-                      <SidebarMenuAction
-                        className={cn(
-                          isActive && 'hover:bg-sidebar-accent-foreground/10',
-                        )}
-                      >
-                        <Plus className="!size-3.5" />
-                        <span className="sr-only">Add Action</span>
-                      </SidebarMenuAction>
-                    }
-                  />
-                )}
-                {item.slug === 'attributes' && (
-                  <NewAttributeDialog
-                    versionId={version}
-                    collectionSlug={collection.slug}
-                    button={
-                      <SidebarMenuAction
-                        className={cn(
-                          isActive && 'hover:bg-sidebar-accent-foreground/10',
-                        )}
-                      >
-                        <Plus className="!size-3.5" />
-                        <span className="sr-only">Add Attribute</span>
-                      </SidebarMenuAction>
-                    }
-                  />
-                )}
+                <NewElementDialog
+                  versionId={version}
+                  elementType={item.elementType}
+                >
+                  <SidebarMenuAction
+                    className={cn(
+                      isActive && 'hover:bg-sidebar-accent-foreground/10',
+                    )}
+                  >
+                    <Plus className="!size-3.5" />
+                    <span className="sr-only">Add Action</span>
+                  </SidebarMenuAction>
+                </NewElementDialog>
                 <CollapsibleContent>
                   <SidebarMenuSub>
-                    {item.items?.map((subItem) => {
-                      const isActive = subItem.slug === segments[1]
-                      const href = `/collections/${collection.slug}/${item.slug}/${subItem.slug}`
-                      if (item.slug === 'attributes') {
-                        return (
-                          <AttributeContextMenu
-                            key={subItem.slug}
-                            attributeSlug={subItem.slug}
-                            collectionSlug={collection.slug}
-                            versionId={version}
-                          >
-                            <SidebarMenuSubItem>
-                              <SidebarMenuSubButton asChild isActive={isActive}>
-                                <a
-                                  href={href}
-                                  className={cn(isActive && 'font-medium')}
-                                >
-                                  <span>{subItem.title}</span>
-                                </a>
-                              </SidebarMenuSubButton>
-                            </SidebarMenuSubItem>
-                          </AttributeContextMenu>
-                        )
-                      }
-                      if (item.slug === 'actions') {
-                        return (
-                          <ActionContextMenu
-                            key={subItem.slug}
-                            actionSlug={subItem.slug}
-                            collectionSlug={collection.slug}
-                            versionId={version}
-                          >
-                            <SidebarMenuSubItem>
-                              <SidebarMenuSubButton asChild isActive={isActive}>
-                                <a
-                                  href={href}
-                                  className={cn(isActive && 'font-medium')}
-                                >
-                                  <span>{subItem.title}</span>
-                                </a>
-                              </SidebarMenuSubButton>
-                            </SidebarMenuSubItem>
-                          </ActionContextMenu>
-                        )
-                      }
-                      return (
-                        <SidebarMenuSubItem key={subItem.slug}>
-                          <SidebarMenuSubButton asChild isActive={isActive}>
-                            <a
-                              href={href}
-                              className={cn(isActive && 'font-medium')}
-                            >
-                              <span>{subItem.title}</span>
-                            </a>
+                    {!item.items || item.items.length === 0 ? (
+                      <SidebarMenuSubItem>
+                        <NewElementDialog
+                          versionId={version}
+                          elementType={item.elementType}
+                        >
+                          <SidebarMenuSubButton className="group/add gap-1 text-muted-foreground hover:cursor-pointer">
+                            <PiAddAddStroke className="size-3 stroke-muted-foreground group-hover/add:stroke-foreground" />
+                            {`Create your first ${
+                              elementTypes[item.elementType].titles
+                                .singular_lowercase
+                            }`}
                           </SidebarMenuSubButton>
-                        </SidebarMenuSubItem>
-                      )
-                    })}
+                        </NewElementDialog>
+                      </SidebarMenuSubItem>
+                    ) : (
+                      item.items?.map((subItem) => {
+                        const isActive = subItem.slug === segments[1]
+                        const href = `/collections/${collection.slug}/${slug}/${subItem.slug}`
+                        return (
+                          <ElementContextMenu
+                            key={subItem.slug}
+                            elementType={item.elementType}
+                            slug={subItem.slug}
+                            collectionSlug={collection.slug}
+                            versionId={version}
+                          >
+                            <CustomSidebarSubitem
+                              key={subItem.slug}
+                              subItem={subItem}
+                              href={href}
+                              isActive={isActive}
+                            />
+                          </ElementContextMenu>
+                        )
+                      })
+                    )}
                   </SidebarMenuSub>
                 </CollapsibleContent>
               </SidebarMenuItem>

@@ -3,10 +3,10 @@
 import { useAttribute } from '../../attribute-context'
 import { Button } from '@repo/ui/components/ui/button'
 import { PiRefreshStroke } from '@repo/ui/icons/pika'
-import type { Value, ValueType } from '@repo/engine/types/value-types'
+import type { Value } from '@repo/shared/types/values'
 import DatatypeListInput from '@/components/datatypes/list/datatype-list-input'
 import { getDataTypeInput } from '@/components/datatypes/single-datatype-input'
-import type { InsertAttribute } from '@/types/database.types'
+import type { InsertAttribute, UpdateAttribute } from '@/types/database.types'
 import ErrorMessage from '@/components/state/error-message'
 import { isArray } from 'lodash'
 import type { ZodErrorInfo } from '@/types/state.types'
@@ -16,8 +16,8 @@ export function AttributeDefaultValueInput() {
     attribute: { settings, locked, value },
     updateAttribute,
     getError,
+    getErrorMessage,
   } = useAttribute()
-
   if (value.list) {
     const valueErrorArray = getError(['value', 'default', 'value'])
     let errors: Array<ZodErrorInfo | undefined> = []
@@ -35,35 +35,32 @@ export function AttributeDefaultValueInput() {
           environment="form"
           classNames={{ container: 'w-full max-w-input' }}
           value={
-            (value.default as Value<
-              typeof value.type,
-              'objectarray',
-              true
-            >) || {
+            {
               type: value.type,
               format: 'objectarray',
-              value: [],
-            }
+              value:
+                value.default?.format === 'objectarray'
+                  ? value.default?.value || []
+                  : [],
+            } as Value<typeof value.type, 'objectarray', true>
           }
           onChange={async (v) => {
-            const res = await updateAttribute({
+            await updateAttribute({
               value: {
                 ...value,
-                default: v,
+                default: v as Value<typeof value.type, 'objectarray', true>,
               },
-            })
+            } as UpdateAttribute)
           }}
         />
       </>
     )
   }
-  const error = getError(['value', 'default', 'value'])
-  const errorMessage = typeof error === 'string' ? error : undefined
-
+  const error = getErrorMessage(['value', 'default', 'value'])
   const Input = getDataTypeInput<typeof value.type>(value.type)
   if (!Input) return null
   return (
-    <>
+    <div className="space-y-1">
       <div className="flex w-full max-w-input gap-2">
         <Input
           valid={!error}
@@ -80,12 +77,12 @@ export function AttributeDefaultValueInput() {
             }
           }
           onChange={async (v) => {
-            const res = await updateAttribute({
+            await updateAttribute({
               value: {
                 ...value,
                 default: v,
               },
-            })
+            } as UpdateAttribute)
           }}
         />
         {(settings?.default?.value || settings?.default?.value === false) &&
@@ -97,7 +94,7 @@ export function AttributeDefaultValueInput() {
               size="icon"
               className="shrink-0"
               onClick={async () => {
-                const res = await updateAttribute({
+                await updateAttribute({
                   settings: {
                     ...settings,
                     default: {
@@ -113,7 +110,7 @@ export function AttributeDefaultValueInput() {
             </Button>
           )}
       </div>
-      <ErrorMessage error={errorMessage} />
-    </>
+      <ErrorMessage error={error} />
+    </div>
   )
 }

@@ -3,7 +3,7 @@ import type {
   ValidationContext,
   ValidationIssueData,
 } from '@repo/engine/types/validation-types'
-import { validateValue } from '@repo/engine/datatypes/validation'
+import { validateValue } from '@repo/shared/schemas/datatypes/validation'
 import { nodeLogic } from '@repo/engine/nodes/nodetypes'
 import { validateConnection } from '@repo/engine/validation/validate-graph'
 import type { Result } from '@repo/shared/types/result'

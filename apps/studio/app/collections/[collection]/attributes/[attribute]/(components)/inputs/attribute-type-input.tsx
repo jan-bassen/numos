@@ -5,7 +5,7 @@ import { useAttribute } from '../../attribute-context'
 import { attributeTypeOptions } from '@/lib/constants/datatypes'
 import { removeAttributeFromLocalForm } from '@/app/collections/[collection]/attributes/(functions)/utils'
 import { useCollection } from '@/app/collections/[collection]/collection-context'
-import type { ValueType } from '@repo/engine/types/value-types'
+import type { ValueType } from '@repo/shared/types/values'
 
 export function AttributeTypeInput() {
   const {
@@ -21,7 +21,7 @@ export function AttributeTypeInput() {
       options={attributeTypeOptions}
       value={type}
       onValueChange={async (v: string) => {
-        await updateAttribute({
+        const res = await updateAttribute({
           type: v as ValueType,
           value: {
             ...value,
@@ -30,6 +30,7 @@ export function AttributeTypeInput() {
             restrictions: undefined,
           },
         })
+        console.log('res', res)
         removeAttributeFromLocalForm(collection, slug)
       }}
     />

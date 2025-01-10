@@ -92,7 +92,7 @@ export default function TokenResult({
               </ul>
             )}
             {changedValues.length === 0 && changedMetadata.length === 0 && (
-              <p className="text-center text-sm text-muted-foreground">
+              <p className="text-center text-muted-foreground text-sm">
                 No changes
               </p>
             )}

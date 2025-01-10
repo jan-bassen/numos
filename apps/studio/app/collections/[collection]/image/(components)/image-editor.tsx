@@ -1,6 +1,6 @@
 'use client'
 
-import type { Attribute, LayerTree, Version } from '@/types/database.types'
+import type { Attribute, UploadsTree, Version } from '@/types/database.types'
 import type { AutoSaveFunctions, Editor } from '@/types/editor.types'
 import type { SavedGraph } from '@repo/engine/types/graph-types'
 import NodeEditor from '@/components/node-editor/editor/base-editor'
@@ -40,7 +40,7 @@ export default function ImageNodeEditor({
 }: {
   version: Version
   attributes: Attribute[]
-  layerTree: LayerTree
+  layerTree: UploadsTree
   initialGraph: SavedGraph
 }) {
   const [result, setResult] = useState<string | null>(null)
@@ -77,6 +77,7 @@ export default function ImageNodeEditor({
 
     const context: EngineContext = {
       collectionId: version.collection,
+      versionId: version.id,
     }
 
     const { result, error } = await simulateImageGraph(graph, data, context)

@@ -4,13 +4,12 @@ import { Label } from '@repo/ui/components/ui/label'
 import type { ListInputComponentProps } from '@/components/datatypes/list/list-input'
 import { useAction } from '@/app/collections/[collection]/actions/[action]/action-context'
 import ErrorMessage from '@/components/state/error-message'
-import type { ParameterInfo } from '@/types/actions.types'
 import { PiCrossCross } from '@repo/ui/icons/pika'
 import { Button } from '@repo/ui/components/ui/button'
 import { PiThreeByTwoDotsVertical } from '@repo/ui/icons/pika'
 import { ParameterTypeInput } from './parameter-type-input'
 import { ParameterListInput } from './parameter-list-input'
-import { ParameterRestrictions } from './parameter-restrictions'
+import type { Parameter } from '@/lib/schemas/actions/triggers/api'
 
 export function ParameterInput({
   id,
@@ -20,7 +19,7 @@ export function ParameterInput({
   locked,
   remove,
   draggableProps,
-}: ListInputComponentProps<ParameterInfo>) {
+}: ListInputComponentProps<Parameter>) {
   const { getErrorMessage } = useAction()
   const error = getErrorMessage(['trigger', 'settings', 'params', index, 'key'])
   return (
@@ -54,7 +53,7 @@ export function ParameterInput({
               onChange({
                 ...value,
                 value: { ...value?.value, type: v },
-              } as ParameterInfo)
+              } as Parameter)
             }
             locked={locked}
           />
@@ -69,8 +68,8 @@ export function ParameterInput({
             onChange={(v) =>
               onChange({
                 ...value,
-                value: { ...value?.value, list: v },
-              } as ParameterInfo)
+                value: { ...value?.value, list: v || false },
+              } as Parameter)
             }
             locked={locked}
           />
@@ -81,7 +80,7 @@ export function ParameterInput({
             id={id}
             value={value?.key || ''}
             onChange={(e) =>
-              onChange({ ...value, key: e.target.value } as ParameterInfo)
+              onChange({ ...value, key: e.target.value } as Parameter)
             }
             className={cn('w-full')}
             disabled={locked}

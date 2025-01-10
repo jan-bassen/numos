@@ -2,7 +2,7 @@ import type { Direction } from '@/types/database.types'
 import { cn } from '@repo/ui/lib/utils'
 import type { GenericDisplayProps } from '../generic-display'
 import { directions } from '@/lib/constants/directions'
-import type { OptionalValue } from '@repo/engine/types/value-types'
+import type { OptionalValue } from '@repo/shared/types/values'
 
 export type DirectionDisplayProps = Omit<GenericDisplayProps, 'value'> & {
   value: OptionalValue<Direction>

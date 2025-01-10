@@ -22,11 +22,20 @@ import { attributeTypeOptions } from '@/lib/constants/datatypes'
 import { AttributeOptionsInput } from '@/app/collections/[collection]/attributes/[attribute]/(components)/inputs/attribute-options-input'
 import { AttributeSlugInput } from '@/app/collections/[collection]/attributes/[attribute]/(components)/inputs/attribute-slug-input'
 import { AttributeDisplayInput } from '@/app/collections/[collection]/attributes/[attribute]/(components)/inputs/attribute-display-input'
+import { AttributeOptionalInput } from './(components)/inputs/attribute-optional-input'
 
-export default function AttributePage() {
+export default async function AttributePage({
+  params,
+}: { params: Promise<{ collection: string; attribute: string }> }) {
+  const { collection } = await params
   return (
     <Page tabs tabsProps={{ pageid: 'attribute', defaultValue: 'value' }}>
-      <Header>
+      <Header
+        back={{
+          href: `/collections/${collection}/attributes`,
+          label: 'All Attributes',
+        }}
+      >
         <HeaderContent>
           <HeaderMain>
             <AttributeTitle />
@@ -48,7 +57,16 @@ export default function AttributePage() {
       <Main value="value">
         <SegmentedLayout>
           <Segment
-            title="List"
+            title="Optional"
+            info={{
+              description:
+                "If the attribute is optional, it can be left empty. If it's required, every token needs to have a value for this attribute.",
+            }}
+          >
+            <AttributeOptionalInput />
+          </Segment>
+          <Segment
+            title="Format"
             info={{
               description:
                 'If the attribute is a list, it can hold a multiple values as a list.',
@@ -70,7 +88,6 @@ export default function AttributePage() {
             title="Datatype"
             info={{
               description: 'Select the datatype of the attribute',
-
               options: attributeTypeOptions.map((option) => ({
                 label: option.label,
                 explanation: option.subtext || '',
@@ -80,7 +97,7 @@ export default function AttributePage() {
             <AttributeTypeInput />
           </Segment>
           <AttributeOptionsInput />
-          <Segment
+          {/* <Segment
             title="Default Value"
             info={{
               description:
@@ -88,7 +105,7 @@ export default function AttributePage() {
             }}
           >
             <AttributeDefaultValueInput />
-          </Segment>
+          </Segment> */}
         </SegmentedLayout>
       </Main>
       <Main value="settings">

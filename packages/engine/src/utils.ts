@@ -1,5 +1,5 @@
 import { Decimal } from 'decimal.js'
-import type { Location } from '@repo/engine/types/value-types'
+import type { Location } from '@repo/shared/types/values'
 
 function deg2rad(deg: number) {
   return deg * (Math.PI / 180)

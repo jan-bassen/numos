@@ -1,16 +1,11 @@
 import type { AnyControlDefinition } from '@/types/nodes.types'
 import type { Node } from './node'
-import { debounce, throttle } from 'lodash'
+import { debounce } from 'lodash'
 import { ZodError, type ZodIssue } from 'zod'
-import type {
-  RawValue,
-  Value,
-  ValueSettings,
-  ValueType,
-} from '@repo/engine/types/value-types'
-import { getDataTypeSchema } from '@repo/engine/datatypes/schemas'
-import { resolveObjectArrayValue } from '@repo/engine/datatypes/utils'
-import type { ValueRestrictions } from '@repo/engine/types/value-types'
+import type { RawValue, Value, ValueType } from '@repo/shared/types/values'
+import { getDataTypeSchema } from '@repo/shared/schemas/datatypes/value-schema'
+import { resolveObjectArrayValue } from '@repo/shared/schemas/datatypes/utils'
+import type { ValueRestrictions } from '@repo/shared/types/values'
 
 export class Control {
   id: string
@@ -94,7 +89,7 @@ export class Control {
     if (!this.value.type) return
     const schema = getDataTypeSchema(this.value.type, this.value.format, true)
     try {
-      schema.parse(this.value.value)
+      schema.parse(this.value)
     } catch (error) {
       console.error(error)
       if (error instanceof ZodError) {

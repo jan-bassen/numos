@@ -1,4 +1,4 @@
-import { resolveObjectArrayValue } from '@repo/engine/datatypes/utils'
+import { resolveObjectArrayValue } from '@repo/shared/schemas/datatypes/utils'
 import type {
   MapGraph,
   MapGraphConnection,
@@ -9,7 +9,7 @@ import type {
   SavedNode,
 } from '@repo/engine/types/graph-types'
 import type { NodeType } from '@repo/engine/types/node-types'
-import type { Value, ValueType } from '@repo/engine/types/value-types'
+import type { Value, ValueType } from '@repo/shared/types/values'
 
 export function getMapGraph(graph: SavedGraph): MapGraph {
   return graph.nodes.reduce<MapGraph>((acc, node) => {

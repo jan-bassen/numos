@@ -1,6 +1,6 @@
 'use client'
 
-import type { Collection, LayerTree } from '@/types/database.types'
+import type { Collection, UploadsTree } from '@/types/database.types'
 import { type DragEvent, useEffect, useRef, useState } from 'react'
 import {
   Header,
@@ -17,7 +17,7 @@ import {
 } from '@repo/ui/icons/pika'
 import { cn } from '@repo/ui/lib/utils'
 import { handleFileUpload } from '@/app/collections/[collection]/uploads/(functions)/upload'
-import LayerFolderView from './layer-folder-view'
+import UploadFolderView from './upload-folder-view'
 import {
   ContextMenu,
   ContextMenuContent,
@@ -26,11 +26,7 @@ import {
 } from '@repo/ui/components/ui/context-menu'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { imageAcceptString } from '@/app/collections/[collection]/uploads/(functions)/file-types'
-import {
-  deleteFolders,
-  deleteLayers,
-  moveLayersAndFolders,
-} from '@/lib/supabase/db/layers'
+import { moveUploadsAndFolders } from '@/lib/supabase/db/uploads'
 import { toast } from 'sonner'
 import Main from '@/components/page/main'
 import { Page } from '@/components/page/page'
@@ -67,10 +63,10 @@ export type FolderState = {
   [key: string]: string[]
 }
 
-export default function LayerTreeView({
+export default function UploadsTreeView({
   collection,
   tree,
-}: { collection: Collection; tree: LayerTree }) {
+}: { collection: Collection; tree: UploadsTree }) {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [locked, setLocked] = useState(false)
   const [newFolder, setNewFolder] = useState(false)
@@ -135,7 +131,7 @@ export default function LayerTreeView({
     }
   }
 
-  const addBetweenToSelection = (element: TreeElement) => {
+  const addBetweenToSelection = (/* element: TreeElement*/) => {
     //TODO: Implement
     console.error('addBetweenToSelection not implemented')
 
@@ -214,7 +210,7 @@ export default function LayerTreeView({
       return isTopLevel && !isTarget && !isParentOfTarget
     })
 
-    const promise = moveLayersAndFolders(
+    const promise = moveUploadsAndFolders(
       filteredLayers.map((layer) => layer.id),
       filteredFolders.map((folder) => folder.id),
       target?.id || null,
@@ -232,7 +228,7 @@ export default function LayerTreeView({
   }
 
   // TODO: Doesnt work yet because selection gets cleared too quickly
-  const deleteSelection = async () => {
+  /* const deleteSelection = async () => {
     if (locked) return
     setLocked(true)
     const selectedLayers = selection.layer.map((item) => item.id)
@@ -249,7 +245,7 @@ export default function LayerTreeView({
       },
       error: (error) => error.message,
     })
-  }
+  } */
 
   useHotkeys('esc', () => {
     resetSelection()
@@ -306,7 +302,12 @@ export default function LayerTreeView({
 
   return (
     <Page>
-      <Header>
+      <Header
+        back={{
+          href: `/collections/${collection.slug}`,
+          label: collection.name ?? 'Collection',
+        }}
+      >
         <HeaderContent>
           <HeaderMain>
             <HeaderTitle>Uploads</HeaderTitle>
@@ -372,11 +373,11 @@ export default function LayerTreeView({
               <div className="flex flex-col items-center justify-center gap-3">
                 <PiPhotoImageArrowUpSolid className="size-10 opacity-20" />
                 <p className="text-sm opacity-35">
-                  Drag and drop your first layer here
+                  Drag and drop your first upload here
                 </p>
               </div>
             ) : (
-              <LayerFolderView
+              <UploadFolderView
                 version={version}
                 tree={tree}
                 folder={null}

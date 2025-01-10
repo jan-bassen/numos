@@ -7,8 +7,6 @@ import {
 } from '@repo/ui/components/ui/tooltip'
 import { dataTypes } from '@/lib/constants/datatypes'
 import type { Socket } from '@/lib/rete/classes/connectors/socket'
-import { useRef } from 'react'
-import { Drag } from 'rete-react-plugin'
 
 export type ExecSocketComponentProps = { data: Socket }
 

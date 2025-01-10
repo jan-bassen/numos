@@ -3,13 +3,8 @@ import type {
   DataSocketDefinition,
 } from '@/types/nodes.types'
 import type { MapToDateNode } from '@repo/engine/nodes/map-to-date/interface'
-import { getDefinedValuesFromObjectArray } from '@repo/engine/datatypes/utils'
+import { getDefinedValuesFromObjectArray } from '@repo/shared/schemas/datatypes/utils'
 import { DateTime } from 'luxon'
-import type {
-  NodeCategory,
-  SocketInterfaceMap,
-  NodeInterface,
-} from '@repo/engine/types/node-types'
 
 export const mapToDateDefinition: SpecificNodeDefinition<MapToDateNode> = {
   type: 'map-to-date',

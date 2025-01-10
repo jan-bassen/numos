@@ -3,7 +3,7 @@ import type {
   SpecificNodeDefinition,
 } from '@/types/nodes.types'
 import type { EnumInputNode } from '@repo/engine/nodes/enum-input/interface'
-import type { ValueRestrictions } from '@repo/engine/types/value-types'
+import type { ValueRestrictions } from '@repo/shared/types/values'
 
 export const enumInputDefinition: SpecificNodeDefinition<EnumInputNode> = {
   type: 'enum-input',
@@ -61,9 +61,9 @@ export const enumInputDefinition: SpecificNodeDefinition<EnumInputNode> = {
     return controls
   },
   outputs: ({ getControlValue, getTokenAttribute }) => {
-    const attributeKey = getControlValue('attribute')?.value
-    if (attributeKey) {
-      const attribute = getTokenAttribute(attributeKey)
+    const attributeId = getControlValue('attribute')?.value
+    if (attributeId) {
+      const attribute = getTokenAttribute(attributeId)
 
       if (!attribute) return []
       return [

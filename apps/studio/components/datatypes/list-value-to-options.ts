@@ -1,5 +1,5 @@
 import type { SelectOption } from '@/types/nodes.types'
-import type { Value } from '@repo/engine/types/value-types'
+import type { Value } from '@repo/shared/types/values'
 
 export function valueToOptions(
   value: Value<'string', 'objectarray', true>,

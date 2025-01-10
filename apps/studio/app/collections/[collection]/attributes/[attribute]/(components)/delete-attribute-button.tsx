@@ -11,10 +11,10 @@ import { removeAttributeFromLocalForm } from '@/app/collections/[collection]/att
 export function DeleteAttributeButton() {
   const router = useRouter()
   const {
-    attribute: { id, locked, slug },
+    attribute: { id, locked },
   } = useAttribute()
   const {
-    collection: { slug: collection },
+    collection: { id: collectionId, slug: collectionSlug },
   } = useCollection()
   if (locked) return null
   return (
@@ -24,8 +24,8 @@ export function DeleteAttributeButton() {
       onDelete={async () => {
         const res = await deleteAttribute(id)
         handleReturnInfo(res, () => {
-          removeAttributeFromLocalForm(collection, slug)
-          router.push(`/collections/${collection}/attributes`)
+          removeAttributeFromLocalForm(collectionId, id)
+          router.push(`/collections/${collectionSlug}/attributes`)
         })
       }}
     />

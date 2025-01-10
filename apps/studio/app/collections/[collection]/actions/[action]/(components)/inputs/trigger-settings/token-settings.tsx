@@ -5,7 +5,7 @@ import { SegmentItem } from '@/components/layouts/segmented/segment-item'
 import ErrorMessage from '@/components/state/error-message'
 import { TabSelect } from '@/components/forms/tab-inputs/tab-select'
 import { tokenEventOptionsArray } from '@/lib/constants/triggers'
-import type { ActionTrigger } from '@/types/actions.types'
+import type { ActionTrigger } from '@/lib/schemas/actions/action-schema'
 
 export function TokenSettings() {
   const {

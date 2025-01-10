@@ -10,8 +10,7 @@ import { toast } from 'sonner'
 import type {
   OptionalDataType,
   ValueRestrictions,
-  ValueSettings,
-} from '@repo/engine/types/value-types'
+} from '@repo/shared/types/values'
 
 export class Socket extends ClassicPreset.Socket {
   id: string

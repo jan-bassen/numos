@@ -71,6 +71,8 @@ export function EnumInput({
               : 'border-destructive bg-destructive/10'
             : '',
           className,
+          environment === 'simulation' &&
+            'h-9 items-center rounded-lg py-1.5 text-sm',
         )}
         disabled={locked}
         onBlur={_onBlur}

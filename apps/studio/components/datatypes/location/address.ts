@@ -1,4 +1,4 @@
-import type { Location } from '@repo/engine/types/value-types'
+import type { Location } from '@repo/shared/types/values'
 
 export function getAddressFromGeocoder(
   geodata: any[],

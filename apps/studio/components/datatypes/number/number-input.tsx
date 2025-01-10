@@ -24,12 +24,14 @@ export function NumberInput({
     value.value === null || value.value === undefined ? '' : value.value
   return (
     <Input
+      {...props}
       onChange={(e) => {
         if (locked) return
         // @ts-ignore TODO: Fix with parsing somehow?!
         onChange?.({ value: e.target.value, type: 'number', format: 'single' })
       }}
       disabled={locked}
+      type="number"
       inputMode="numeric"
       className={cn(
         'w-full',
@@ -40,13 +42,14 @@ export function NumberInput({
           : '',
         environment === 'node' &&
           'flex h-7 w-44 items-center rounded-lg px-2 text-sm',
+        environment === 'simulation' &&
+          'h-9 items-center rounded-lg py-1.5 text-sm',
         className,
       )}
       value={_value}
       onBlur={_onBlur}
       ref={environment === 'node' ? dragRef : undefined}
       placeholder={placeholder || '0'}
-      {...props}
     />
   )
 }

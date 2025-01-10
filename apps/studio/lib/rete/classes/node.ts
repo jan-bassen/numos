@@ -22,14 +22,11 @@ import { NodePreset } from './presets'
 import { debounce, isEqual } from 'lodash'
 import type {
   NodeValueMap,
-  OptionalValueType,
   Value,
   ValueRestrictions,
-  ValueSettings,
   ValueType,
-} from '@repo/engine/types/value-types'
+} from '@repo/shared/types/values'
 import type { AnyNode } from '@repo/engine/types/node-types'
-import { getInfoFromAttribute } from '@/app/collections/[collection]/attributes/(functions)/utils'
 import { Input } from '@/lib/rete/classes/connectors/input'
 import { Output } from '@/lib/rete/classes/connectors/output'
 import type { GraphErrorData } from '@repo/engine/types/engine-types'
@@ -61,6 +58,7 @@ export class Node extends NodePreset {
         if (connection.target === this.id) {
           return { key: connection.targetInput, connectionId: connection.id }
         }
+        return
       })
       .filter((input) => input !== undefined)
   }
@@ -81,6 +79,7 @@ export class Node extends NodePreset {
       if (connection.source === this.id) {
         return connection.sourceOutput
       }
+      return
     })
   }
 
@@ -142,41 +141,41 @@ export class Node extends NodePreset {
         return undefined
       },
       getParameter: (key: string) => {
-        const parameter = this.context.editor.context.parameters?.find(
+        const trigger = this.context.editor.context.action?.trigger
+        if (!trigger || trigger.type !== 'api') return
+        const parameter = trigger.settings.params?.find(
           (param) => param.key === key,
         )
-        if (!parameter) return
         return parameter
       },
       getParameters: () => {
-        return this.context.editor.context.parameters || []
+        const trigger = this.context.editor.context.action?.trigger
+        if (!trigger || trigger.type !== 'api') return
+        return trigger.settings.params
       },
       getTrigger: () => {
         return this.context.editor.context.action?.trigger || undefined
       },
-      getTokenAttribute: (key: string) => {
+      getTokenAttribute: (id: string) => {
         const attribute = this.context.editor.context.attributes?.find(
-          (attr) => attr.slug === key,
+          (attr) => attr.id === id,
         )
-        if (!attribute || !attribute.token_specific) return
-        return getInfoFromAttribute(attribute)
+        return attribute
       },
       getTokenAttributes: () => {
-        return this.context.editor.context.attributes
-          ?.filter((attr) => attr.token_specific)
-          .map((attr) => getInfoFromAttribute(attr))
-      },
-      getCollectionAttribute: (key: string) => {
-        const attribute = this.context.editor.context.attributes?.find(
-          (attr) => attr.slug === key,
+        return this.context.editor.context.attributes?.filter(
+          (attr) => attr.token_specific,
         )
-        if (!attribute || !!attribute.token_specific) return
-        return getInfoFromAttribute(attribute)
+      },
+      getCollectionAttribute: (id: string) => {
+        return this.context.editor.context.attributes?.find(
+          (attr) => attr.id === id,
+        )
       },
       getCollectionAttributes: () => {
-        return this.context.editor.context.attributes
-          ?.filter((attr) => !attr.token_specific)
-          .map((attr) => getInfoFromAttribute(attr))
+        return this.context.editor.context.attributes?.filter(
+          (attr) => !attr.token_specific,
+        )
       },
     }
   }

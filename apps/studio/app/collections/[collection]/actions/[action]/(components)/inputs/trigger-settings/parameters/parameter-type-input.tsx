@@ -3,7 +3,7 @@ import { useCollection } from '@/app/collections/[collection]/collection-context
 import { useAction } from '@/app/collections/[collection]/actions/[action]/action-context'
 import type { ListInputComponentProps } from '@/components/datatypes/list/list-input'
 import { removeActionParameterFromLocalForm } from '@/app/collections/[collection]/actions/(functions)/utils'
-import type { DataType, ValueType } from '@repo/engine/types/value-types'
+import type { DataType, ValueType } from '@repo/shared/types/values'
 import {
   Select,
   SelectContent,

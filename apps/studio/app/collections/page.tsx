@@ -1,7 +1,5 @@
 import { getAllExtendedCollections } from '@/lib/supabase/db/collections'
 import Main from '@/components/page/main'
-import CollectionCard from './(components)/collection-card'
-import CardRow from '@/components/layouts/simple/card-row'
 import type { ExtendedCollection } from '@/types/database.types'
 import { getProfile, getUser } from '@/lib/supabase/db/profile'
 import { Navbar } from '@/components/navigation/navbar/navbar'
@@ -17,6 +15,12 @@ import { NewCollectionDialog } from '@/app/collections/(components)/new-collecti
 import { Button } from '@repo/ui/components/ui/button'
 import { PiAddAddStroke } from '@repo/ui/icons/pika'
 import { Page } from '@/components/page/page'
+import SimpleGrid from '@/components/layouts/simple/simple-grid'
+import {
+  ElementCardButton,
+  ElementCardLink,
+} from '@/components/elements/element-card'
+import { SupabaseImage } from '@/components/supabase/supabase-image'
 
 export default async function HomePage() {
   const collections: ExtendedCollection[] = await getAllExtendedCollections()
@@ -35,14 +39,12 @@ export default async function HomePage() {
               </HeaderTitle>
             </HeaderMain>
             <HeaderActions>
-              <NewCollectionDialog
-                button={
-                  <Button className="gap-1.5 pl-3">
-                    <PiAddAddStroke className="size-4" />
-                    New Collection
-                  </Button>
-                }
-              />
+              <NewCollectionDialog>
+                <Button className="gap-1.5 pl-3">
+                  <PiAddAddStroke className="size-4" />
+                  New Collection
+                </Button>
+              </NewCollectionDialog>
             </HeaderActions>
           </HeaderContent>
         </Header>
@@ -50,27 +52,40 @@ export default async function HomePage() {
           {collections.length === 0 ? (
             <div className="grid h-full place-items-center rounded-lg border border-border border-dashed p-6">
               <EmptyCollectionsView>
-                <NewCollectionDialog
-                  button={<Button>Create Collection</Button>}
-                />
+                <NewCollectionDialog>
+                  <Button>Create Collection</Button>
+                </NewCollectionDialog>
               </EmptyCollectionsView>
             </div>
           ) : (
-            <CardRow
-              createButton={<NewCollectionDialog button={<CollectionCard />} />}
-              cards={collections.map((collection) => {
-                return {
-                  component: (
-                    <CollectionCard
-                      key={collection.slug}
-                      collection={collection}
-                    />
-                  ),
-                  key: collection.slug,
-                }
+            <SimpleGrid>
+              {collections.map((collection) => {
+                return (
+                  <ElementCardLink
+                    key={collection.slug}
+                    href={`/collections/${collection.slug}`}
+                    label={collection.name ?? 'Unnamed Collection'}
+                    subtitle={collection.description}
+                    image={
+                      <SupabaseImage
+                        src={
+                          collection.image
+                            ? `collection-images/${collection.image}`
+                            : undefined
+                        }
+                        alt="Collection Image"
+                        width={100}
+                        height={100}
+                        className="h-full object-cover"
+                      />
+                    }
+                  />
+                )
               })}
-              className="grid-cols-1 md:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-2"
-            />
+              <NewCollectionDialog>
+                <ElementCardButton label="New Collection" variant="new" />
+              </NewCollectionDialog>
+            </SimpleGrid>
           )}
         </Main>
       </Page>

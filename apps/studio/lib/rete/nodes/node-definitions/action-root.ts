@@ -49,6 +49,8 @@ export const actionRootDefinition: SpecificNodeDefinition<ActionRootNode> = {
     if (trigger.type === 'api') {
       outputs.push(
         ...trigger.settings.params.map((param) => {
+          console.log('param', param)
+
           return {
             key: param.key,
             type: param.value.type,

@@ -1,7 +1,7 @@
 import type { NodeId } from 'rete'
 import type { Side } from 'rete-connection-plugin'
 import type { Socket as SocketClass } from '@/lib/rete/classes/connectors/socket'
-import type { OptionalDataType } from '@repo/engine/types/value-types'
+import type { OptionalDataType } from '@repo/shared/types/values'
 import { ExecSocketComponent } from './exec-socket'
 import { DataSocketComponent } from './data-socket'
 import { RefComponent } from '../ref-component'

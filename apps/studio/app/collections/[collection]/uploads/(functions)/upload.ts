@@ -2,12 +2,12 @@
 
 import * as tus from 'tus-js-client'
 import { createSupabaseClient } from '@/lib/supabase/clients/client'
-import type { ImageType, InsertLayer } from '@/types/database.types'
+import type { ImageType, InsertUpload } from '@/types/database.types'
 import {
-  deleteLayer,
-  insertLayers,
-  revalidateLayers,
-} from '@/lib/supabase/db/layers'
+  deleteUpload,
+  insertUploads,
+  revalidateUploads,
+} from '@/lib/supabase/db/uploads'
 import type { RefObject } from 'react'
 
 import { RestrictionError } from '@uppy/core/lib/Restricter'
@@ -54,7 +54,7 @@ export async function handleFileUpload(
   toast.promise(consolidatedPromise, {
     loading: 'Uploading...',
     success: () => {
-      revalidateLayers()
+      revalidateUploads()
       return 'Successfully uploaded'
     },
     error: (error: string) => {
@@ -105,7 +105,7 @@ export async function uploadFile(
         },
         chunkSize: 6 * 1024 * 1024, // NOTE: it must be set to 6MB (for now) do not change it
         onError: (error) => {
-          deleteLayer(fileId)
+          deleteUpload(fileId)
           reject(error.message)
         },
         onProgress: (bytesUploaded, bytesTotal) => {
@@ -172,7 +172,7 @@ export async function createLayerEntries(
   files: Record<string, File>,
 ) {
   const plural = Object.keys(files).length > 1
-  const layerEntries: InsertLayer[] = []
+  const layerEntries: InsertUpload[] = []
   for (const [id, file] of Object.entries(files)) {
     try {
       const { type, name, bytes } = verifyFile(file, plural)
@@ -185,7 +185,7 @@ export async function createLayerEntries(
         newName = name.split('.').slice(0, -1).join('.')
       }
       const { width, height } = await getImageDimensions(file)
-      const layer: InsertLayer = {
+      const layer: InsertUpload = {
         id,
         version: version,
         folder: folder,
@@ -209,7 +209,7 @@ export async function createLayerEntries(
     }
   }
 
-  return await insertLayers(layerEntries)
+  return await insertUploads(layerEntries)
 }
 
 async function getImageDimensions(file: File) {

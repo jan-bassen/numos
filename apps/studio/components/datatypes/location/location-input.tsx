@@ -18,8 +18,8 @@ import { PiSearchDefaultStroke } from '@repo/ui/icons/pika'
 import { cn } from '@repo/ui/lib/utils'
 import { Drag } from 'rete-react-plugin'
 import { getAddressFromGeocoder } from './address'
-import { locationSchema } from '@repo/engine/datatypes/schemas'
-import type { Location } from '@repo/engine/types/value-types'
+import { locationSchema } from '@repo/shared/schemas/datatypes/datatype-schemas/location-schema'
+import type { Location } from '@repo/shared/types/values'
 import type { SingleDataTypeInputProps } from '../single-datatype-input'
 import { toast } from 'sonner'
 
@@ -109,6 +109,8 @@ export function LocationInput({
               ? 'border-warning bg-warning/10'
               : 'border-destructive bg-destructive/10'
             : '',
+          environment === 'simulation' &&
+            'h-9 items-center rounded-lg py-1.5 text-sm',
           className,
         )}
       >

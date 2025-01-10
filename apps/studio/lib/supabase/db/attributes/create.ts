@@ -2,7 +2,7 @@
 
 import 'server-only'
 import { FetchError } from '@/lib/errors'
-import type { Attribute, InsertAttribute } from '@/types/database.types'
+import type { InsertAttribute } from '@/types/database.types'
 import { createSupabaseServerComponentClient } from '@/lib/supabase/clients/server-client'
 import { hrefRegex, type ReturnInfo } from '@repo/ui/lib/utils'
 import { revalidatePath } from 'next/cache'

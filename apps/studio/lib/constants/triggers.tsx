@@ -1,5 +1,4 @@
 import type { TabOption } from '@/components/forms/tab-inputs/tab-option'
-import type { TokenEvent } from '@/types/actions.types'
 import type { TriggerType } from '@/types/database.types'
 import type { SelectOption } from '@/types/nodes.types'
 import {
@@ -10,6 +9,7 @@ import {
   PiNftRemoveStroke,
   PiTimerDefaultStroke,
 } from '@repo/ui/icons/pika'
+import type { TokenEvent } from '@/lib/schemas/actions/triggers/token'
 
 export const tokenEventOptions: Omit<
   Record<TokenEvent, TabOption>,

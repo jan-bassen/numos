@@ -40,14 +40,14 @@ const items = [
       fill: PiFolderArrowUpSolid,
     },
   },
-  {
+  /*   {
     title: 'Testing',
     slug: 'testing',
     icons: {
       stroke: PiCheckTickSquareStroke,
       fill: PiCheckTickSquareSolid,
     },
-  },
+  }, */
   /* {
     title: 'Deploy',
     slug: 'deploy',

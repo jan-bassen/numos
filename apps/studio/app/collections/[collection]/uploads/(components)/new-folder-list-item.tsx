@@ -1,8 +1,8 @@
 import { Input } from '@repo/ui/components/ui/input'
 import { PiFolderPlusSolid } from '@repo/ui/icons/pika'
-import { insertFolder } from '@/lib/supabase/db/layers'
+import { insertFolder } from '@/lib/supabase/db/uploads'
 import type { InsertFolder } from '@/types/database.types'
-import { use, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { toast } from 'sonner'
 import { childrenOffset } from './tree'
 

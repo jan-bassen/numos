@@ -1,6 +1,6 @@
 import { SupabaseImage } from '@/components/supabase/supabase-image'
 import type { GenericDisplayProps } from '../generic-display'
-import type { OptionalValue } from '@repo/engine/types/value-types'
+import type { OptionalValue } from '@repo/shared/types/values'
 
 export type ImageDisplayProps = Omit<GenericDisplayProps, 'value'> & {
   value: OptionalValue<string>

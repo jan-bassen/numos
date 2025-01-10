@@ -1,9 +1,9 @@
 'use server'
 
 import type { z } from 'zod'
-import { createLambdaClient } from '../clients/lambda'
+import { createLambdaClient } from '@/lib/core/clients/lambda'
 import { InvokeCommand } from '@aws-sdk/client-lambda'
-import type { apiKeyRequestSchema } from '@repo/shared/schemas/create-api-key-schema'
+import type { apiKeyRequestSchema } from '@repo/shared/schemas/api-keys/create-api-key-schema'
 
 export async function createApiKey(data: z.infer<typeof apiKeyRequestSchema>) {
   const lambda = createLambdaClient()

@@ -3,7 +3,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@repo/ui/components/ui/accordion'
-import type { LayerTree } from '@/types/database.types'
+import type { UploadsTree } from '@/types/database.types'
 import {
   PiChevronBigRightStroke,
   PiDeleteDustbin02Stroke,
@@ -12,7 +12,7 @@ import {
   PiInputFieldStroke,
   PiPhotoImageArrowUpStroke,
 } from '@repo/ui/icons/pika'
-import LayerFolderView from './layer-folder-view'
+import UploadFolderView from './upload-folder-view'
 import {
   type Dispatch,
   type DragEvent,
@@ -30,7 +30,7 @@ import {
   ContextMenuSeparator,
   ContextMenuTrigger,
 } from '@repo/ui/components/ui/context-menu'
-import { deleteFolder, updateFolder } from '@/lib/supabase/db/layers'
+import { deleteFolder, updateFolder } from '@/lib/supabase/db/uploads'
 import { toast } from 'sonner'
 import { Input } from '@repo/ui/components/ui/input'
 import {
@@ -62,7 +62,7 @@ export default function FolderListItem({
   setFolderState,
 }: {
   folderId: string
-  tree: LayerTree
+  tree: UploadsTree
   level: number
   context: TreeContext
   folderState: FolderState
@@ -342,7 +342,7 @@ export default function FolderListItem({
           </ContextMenuContent>
         </ContextMenu>
         <AccordionContent className="px-0.5 pt-[calc(0.125rem-1px)] pb-0.5">
-          <LayerFolderView
+          <UploadFolderView
             version={folder.version}
             tree={tree}
             folder={folder}

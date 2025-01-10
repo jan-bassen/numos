@@ -1,9 +1,4 @@
-import type {
-  Value,
-  ValueFormat,
-  ValueMap,
-  ValueType,
-} from '@repo/engine/types/value-types'
+import type { Value, ValueMap, ValueType } from '@repo/shared/types/values'
 
 // ----------- ERRORS -------------
 
@@ -56,6 +51,7 @@ export type UnknownErrorData = {
 
 export type EngineContext = {
   collectionId: string
+  versionId: string
 }
 
 export type ActionContext = EngineContext & {

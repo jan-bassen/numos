@@ -12,15 +12,8 @@ import { type Path, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { cn } from '@repo/ui/lib/utils'
-import { useParams } from 'next/navigation'
-import {
-  getAttributeTypes,
-  getDefaultValuesFromAttributes,
-} from '@/components/node-editor/run-sidebar/simulation-form/get-attributes'
-import {
-  getDefaultValuesFromParameters,
-  getParameterTypes,
-} from '@/components/node-editor/run-sidebar/simulation-form/get-parameters'
+import { getAttributeTypes } from '@/components/node-editor/run-sidebar/simulation-form/get-attributes'
+import { getParameterTypes } from '@/components/node-editor/run-sidebar/simulation-form/get-parameters'
 import { getSchemaFromParameters } from '@/lib/schemas/actions/get-schema-from-parameters'
 import {
   Accordion,
@@ -53,18 +46,21 @@ import { StringInput } from '@/components/datatypes/string/string-input'
 import { Button } from '@repo/ui/components/ui/button'
 import { NumberInput } from '@/components/datatypes/number/number-input'
 import { useEffect, useState } from 'react'
-import { ListFormInput } from '@/components/datatypes/list/list-input-form'
 import { toast } from 'sonner'
-import type { Value } from '@repo/engine/types/value-types'
-import type { ActionTrigger } from '@/types/actions.types'
+import type { Value } from '@repo/shared/types/values'
+import type { ActionTrigger } from '@/lib/schemas/actions/action-schema'
 import type { SimulationData } from '@repo/engine/types/engine-types'
-import { generateValueMap } from '@repo/engine/datatypes/utils'
+import { generateValueMap } from '@repo/shared/schemas/datatypes/utils'
 import { useEditorContext } from '@/components/node-editor/editor/editor-provider'
 import {
   getDataTypeInput,
   type SingleDataTypeInputProps,
 } from '@/components/datatypes/single-datatype-input'
 import { getSchemaFromAttributes } from '@/lib/schemas/attributes/get-schema-from-attributes'
+import DatatypeListInput from '@/components/datatypes/list/datatype-list-input'
+import { storeLocalData, useLocalData } from './use-local-data'
+import type { Parameter } from '@/lib/schemas/actions/triggers/api'
+import { useCollection } from '@/app/collections/[collection]/collection-context'
 
 export default function SimulationForm({
   id,
@@ -75,9 +71,11 @@ export default function SimulationForm({
   const action = editor?.editor.context.action
   const attributes = editor?.editor.context.attributes || []
   const [accordionOpen, setAccordionOpen] = useState<string[] | undefined>()
-  const { collection } = useParams()
+  const {
+    collection: { id: collectionId, slug: collectionSlug },
+  } = useCollection()
 
-  if (!collection) throw new Error('Collection is not defined.')
+  if (!collectionId) throw new Error('Collection is not defined.')
 
   useEffect(() => {
     if (error?.location?.input) {
@@ -100,50 +98,21 @@ export default function SimulationForm({
   }, [error])
 
   const trigger = action?.trigger as ActionTrigger | undefined
+
   const hasParams =
     action && trigger?.type === 'api' && trigger.settings.params.length > 0
-  const parameters = hasParams ? trigger.settings.params : undefined
 
-  useEffect(() => {
-    const storedMetadata = JSON.parse(
-      localStorage?.getItem(`${collection}-metadata`) || '{}',
-    )
-    form.setValue('metadata', storedMetadata, {
-      shouldValidate: false,
-      shouldDirty: false,
-      shouldTouch: false,
-    })
-  }, [collection])
-
-  useEffect(() => {
-    const storedAttributeData = JSON.parse(
-      localStorage?.getItem(`${collection}-attribute-form`) || '{}',
-    )
-    form.setValue(
-      'attributes',
-      getDefaultValuesFromAttributes(attributes, storedAttributeData),
-      { shouldValidate: false, shouldDirty: false, shouldTouch: false },
-    )
-  }, [collection, attributes])
-
-  useEffect(() => {
-    if (!hasParams || !parameters) return
-    const storedParamsData = JSON.parse(
-      localStorage.getItem(`${collection}-${action.slug}-param-form`) || '{}',
-    )
-    form.setValue(
-      'parameters',
-      getDefaultValuesFromParameters(parameters, storedParamsData),
-      { shouldValidate: false, shouldDirty: false, shouldTouch: false },
-    )
-  }, [collection, action?.slug, hasParams, parameters])
+  const parameters = hasParams
+    ? (trigger?.settings.params as Parameter[])
+    : undefined
 
   const schema = z.object({
     metadata: optionalMetadataSchema,
     attributes: getSchemaFromAttributes(attributes, true),
-    parameters: hasParams
-      ? getSchemaFromParameters(trigger.settings.params, true)
-      : z.undefined(),
+    parameters:
+      parameters && parameters.length > 0
+        ? getSchemaFromParameters(parameters, true)
+        : z.undefined(),
   })
 
   const form = useForm<z.infer<typeof schema>>({
@@ -151,21 +120,20 @@ export default function SimulationForm({
     mode: 'onBlur',
   })
 
+  useLocalData({
+    collectionId,
+    actionId: action?.id,
+    attributes,
+    parameters,
+    form,
+  })
+
   async function onSubmit(data: z.infer<typeof schema>) {
-    localStorage.setItem(
-      `${collection}-metadata`,
-      JSON.stringify(data.metadata),
-    )
-    localStorage.setItem(
-      `${collection}-attribute-form`,
-      JSON.stringify(data.attributes),
-    )
-    if (hasParams) {
-      localStorage.setItem(
-        `${collection}-${action.slug}-param-form`,
-        JSON.stringify(data.parameters),
-      )
-    }
+    storeLocalData({
+      data,
+      collectionId,
+      actionId: action?.id,
+    })
 
     const annotatedMetadataValues = annotateMetadata(data.metadata)
 
@@ -238,27 +206,32 @@ export default function SimulationForm({
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Please set the inputs</DialogTitle>
+                <DialogTitle>Please set your test token</DialogTitle>
                 <DialogDescription>
                   Because there is no actual token during simulation,
-                  you&apos;ll have to set some values manually.
-                  <ul className="list-outside list-disc space-y-1 pt-3 pl-5 ">
-                    <li>
-                      <b>Metadata</b> is basic information about the token.
-                    </li>
-                    <li>
-                      <b>Attributes</b> are the traits of the token. You can
-                      define what these are on the attributes tab.
-                    </li>
-                    {hasParams && (
-                      <li>
-                        <b>Parameters</b> are the values that you would like to
-                        pass to the action. You can define what these are in the
-                        action settings.
-                      </li>
-                    )}
-                  </ul>
+                  you&apos;ll have to define it&apos;s state manually.
                 </DialogDescription>
+                <ul className="list-outside list-disc space-y-1 pt-2 pl-5 text-muted-foreground text-sm">
+                  <li>
+                    <b className="font-semibold text-foreground">Metadata</b> is
+                    basic information about the token.
+                  </li>
+                  <li>
+                    <b className="font-semibold text-foreground">Attributes</b>{' '}
+                    are the traits of the token. You can define what these are
+                    on the attributes tab.
+                  </li>
+                  {hasParams && (
+                    <li>
+                      <b className="font-semibold text-foreground">
+                        Parameters
+                      </b>{' '}
+                      are the values that you pass to the action&apos;s if
+                      called with an api trigger. You can define what these are
+                      in the action settings.
+                    </li>
+                  )}
+                </ul>
               </DialogHeader>
             </DialogContent>
           </Dialog>
@@ -310,6 +283,7 @@ export default function SimulationForm({
                       </div>
                       <FormControl>
                         <NumberInput
+                          environment="simulation"
                           type="number"
                           value={{
                             type: 'number',
@@ -354,6 +328,7 @@ export default function SimulationForm({
                       </div>
                       <FormControl>
                         <StringInput
+                          environment="simulation"
                           type="string"
                           value={{
                             type: 'string',
@@ -398,6 +373,7 @@ export default function SimulationForm({
                       </div>
                       <FormControl>
                         <StringInput
+                          environment="simulation"
                           type="string"
                           value={{
                             type: 'string',
@@ -434,78 +410,73 @@ export default function SimulationForm({
                 if (!attribute.token_specific) return null
                 if (attribute.type === 'buffer') return null
                 if (attribute.list) {
-                  const itemKey = `attributes.${attribute.slug}` as Path<
+                  const itemKey = `attributes.${attribute.id}` as Path<
                     z.infer<typeof schema>
                   >
                   const fieldValue = form.getValues(itemKey)
                   return (
-                    <div
-                      className={'flex w-full flex-col space-y-2'}
-                      key={`attribute-${attribute.slug}`}
-                    >
-                      <div className="flex h-4 items-center justify-between gap-2 pr-1">
-                        <FormLabel>
-                          <Link
-                            href={`/collections/${collection}/attributes/${attribute.slug}`}
-                            className="py-1 hover:underline"
-                          >
-                            {attribute.name}
-                          </Link>
-                        </FormLabel>
-                        {(!!fieldValue || fieldValue === false) && (
-                          <Button
-                            variant={'ghost'}
-                            size={'iconXs'}
-                            type="button"
-                            className="text-border-highlight"
-                            onClick={() => {
-                              form.setValue(itemKey, [], {
-                                shouldDirty: true,
-                                shouldTouch: true,
-                              })
-                            }}
-                          >
-                            <PiRefreshStroke className="size-3.5" />
-                          </Button>
-                        )}
-                      </div>
-                      <ListFormInput
-                        inputProps={{
-                          type: attribute.value.type,
-                          restrictions: attribute.value.restrictions,
-                          locked: false,
-                        }}
-                        form={form}
-                        itemKey={`attributes.${attribute.slug}`}
-                        defaultItemValue={{ value: undefined }}
-                        classNames={{
-                          container:
-                            'min-h-12 grid-cols-1 md:grid-cols-1 xl:grid-cols-1 gap-2 bg-background p-2.5',
-                          input: 'h-8 w-full',
-                          item: 'h-8',
-                          button: 'h-8',
-                          handle: 'h-8',
-                        }}
-                        limitAxis="y"
-                      />
-                    </div>
+                    <FormField
+                      control={form.control}
+                      name={`attributes.${attribute.id}`}
+                      key={`attributes.${attribute.id}`}
+                      render={({ field }) => (
+                        <div
+                          className={'flex w-full flex-col space-y-2'}
+                          key={`attribute-${attribute.id}`}
+                        >
+                          <div className="flex h-4 items-center justify-between gap-2 pr-1">
+                            <FormLabel>
+                              <Link
+                                href={`/collections/${collectionSlug}/attributes/${attribute.slug}`}
+                                className="py-1 hover:underline"
+                              >
+                                {attribute.name}
+                              </Link>
+                            </FormLabel>
+                            {(!!fieldValue || fieldValue === false) && (
+                              <Button
+                                variant={'ghost'}
+                                size={'iconXs'}
+                                type="button"
+                                className="text-border-highlight"
+                                onClick={() => {
+                                  form.setValue(itemKey, [], {
+                                    shouldDirty: true,
+                                    shouldTouch: true,
+                                  })
+                                }}
+                              >
+                                <PiRefreshStroke className="size-3.5" />
+                              </Button>
+                            )}
+                          </div>
+                          <FormControl>
+                            <DatatypeListInput
+                              environment="simulation"
+                              type={attribute.value.type}
+                              restrictions={attribute.value.restrictions}
+                              locked={false}
+                              value={{
+                                type: attribute.value.type,
+                                format: 'objectarray',
+                                value: field.value || [],
+                              }}
+                              onChange={(v) => {
+                                field.onChange(v.value)
+                              }}
+                            />
+                          </FormControl>
+                        </div>
+                      )}
+                    />
                   )
                 }
                 return (
                   <FormField
                     control={form.control}
-                    name={`attributes.${attribute.slug}`}
-                    key={`attributes.${attribute.slug}`}
+                    name={`attributes.${attribute.id}`}
+                    key={`attributes.${attribute.id}`}
                     render={({ field }) => {
-                      /*                       const props = {
-                        datatype: attribute.type as ValueType,
-                        settings: attribute.settings as ValueSettings,
-                        placeholder: attribute.name || undefined,
-                        locked: false,
-                      } as GenericInputProps
-                      const DataTypeInput = getDataTypeInput<
-                        typeof attribute.type
-                      >(attribute.type) */
                       const DataTypeInput = getDataTypeInput<
                         typeof attribute.type | 'buffer'
                       >(attribute.type)
@@ -524,8 +495,8 @@ export default function SimulationForm({
                         onChange: (v) => {
                           field.onChange(v.value)
                         },
-                        environment: 'form',
-                        id: `attribute-${attribute.slug}`,
+                        environment: 'simulation',
+                        id: `attribute-${attribute.id}`,
                       }
                       return (
                         <FormItem>
@@ -540,7 +511,7 @@ export default function SimulationForm({
                             <div className="flex h-4 items-center justify-between gap-2 pr-1">
                               <FormLabel>
                                 <Link
-                                  href={`/collections/${collection}/attributes/${attribute.slug}`}
+                                  href={`/collections/${collectionSlug}/attributes/${attribute.slug}`}
                                   className="py-1 hover:underline"
                                 >
                                   {attribute.name}
@@ -563,8 +534,7 @@ export default function SimulationForm({
                               )}
                             </div>
                             <FormControl>
-                              <DataTypeInput {...props} />
-                              {/* <GenericInput {...props} {...field} /> */}
+                              <DataTypeInput environment="form" {...props} />
                             </FormControl>
                           </div>
                           <FormMessage className="w-full" />
@@ -596,58 +566,60 @@ export default function SimulationForm({
                       const itemKey = `parameter.${parameter.key}` as Path<
                         z.infer<typeof schema>
                       >
-                      const formItemId = `parameter.${itemKey}.0.value`
                       const fieldValue = form.getValues(itemKey)
                       return (
-                        <div
-                          className={'flex w-full flex-col space-y-2'}
-                          key={`parameter-${parameter.key}`}
-                        >
-                          <div className="flex h-4 items-center justify-between gap-2 pr-1">
-                            <FormLabel>
-                              <h3 className="py-1 capitalize">
-                                {parameter.key}
-                              </h3>
-                            </FormLabel>
-                            {(!!fieldValue || fieldValue === false) && (
-                              <Button
-                                variant={'ghost'}
-                                size={'iconXs'}
-                                type="button"
-                                className="text-border-highlight"
-                                onClick={() => {
-                                  form.setValue(itemKey, [], {
-                                    shouldDirty: true,
-                                    shouldTouch: true,
-                                  })
-                                }}
-                              >
-                                <PiRefreshStroke className="size-3.5" />
-                              </Button>
-                            )}
-                          </div>
-                          <ListFormInput
-                            inputProps={{
-                              type: parameter.value.type,
-                              restrictions: undefined,
-                              locked: false,
-                            }}
-                            form={form}
-                            itemKey={`parameters.${parameter.key}`}
-                            defaultItemValue={{ value: undefined }}
-                            classNames={{
-                              container:
-                                'min-h-12 grid-cols-1 md:grid-cols-1 xl:grid-cols-1 gap-2 bg-background p-2.5',
-                              input: 'h-8 w-full',
-                              item: 'h-8',
-                              button: 'h-8',
-                              handle: 'h-8',
-                            }}
-                            limitAxis="y"
-                          />
-                        </div>
+                        <FormField
+                          control={form.control}
+                          name={`parameters.${parameter.key}`}
+                          key={`parameters.${parameter.key}`}
+                          render={({ field }) => (
+                            <FormItem
+                              className={'flex w-full flex-col space-y-2'}
+                              key={`parameter-${parameter.key}`}
+                            >
+                              <div className="flex h-4 items-center justify-between gap-2 pr-1">
+                                <FormLabel>
+                                  <h3 className="py-1 capitalize">
+                                    {parameter.key}
+                                  </h3>
+                                </FormLabel>
+                                {(!!fieldValue || fieldValue === false) && (
+                                  <Button
+                                    variant={'ghost'}
+                                    size={'iconXs'}
+                                    type="button"
+                                    className="text-border-highlight"
+                                    onClick={() => {
+                                      form.setValue(itemKey, [], {
+                                        shouldDirty: true,
+                                        shouldTouch: true,
+                                      })
+                                    }}
+                                  >
+                                    <PiRefreshStroke className="size-3.5" />
+                                  </Button>
+                                )}
+                              </div>
+                              <DatatypeListInput
+                                environment="simulation"
+                                type={parameter.value.type}
+                                restrictions={parameter.value.restrictions}
+                                locked={false}
+                                value={
+                                  field.value || {
+                                    type: parameter.value.type,
+                                    format: 'objectarray',
+                                    value: [],
+                                  }
+                                }
+                                onChange={field.onChange}
+                              />
+                            </FormItem>
+                          )}
+                        />
                       )
                     }
+
                     return (
                       <FormField
                         control={form.control}
@@ -708,7 +680,10 @@ export default function SimulationForm({
                                   )}
                                 </div>
                                 <FormControl>
-                                  <DataTypeInput {...props} />
+                                  <DataTypeInput
+                                    environment="simulation"
+                                    {...props}
+                                  />
                                 </FormControl>
                               </div>
                               <FormMessage className="w-full" />

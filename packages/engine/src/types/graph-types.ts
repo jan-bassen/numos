@@ -5,9 +5,8 @@ import type {
   OptionalValueType,
   RawValue,
   Value,
-  ValueMap,
   ValueType,
-} from '@repo/engine/types/value-types'
+} from '@repo/shared/types/values'
 
 export type OLDSavedControl = {
   key: string

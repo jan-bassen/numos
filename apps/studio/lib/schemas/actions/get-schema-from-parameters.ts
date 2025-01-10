@@ -1,10 +1,10 @@
-import type { ParameterInfo } from '@/types/actions.types'
 import type { SchemaMap } from '@/types/database.types'
-import { getRestrictionsValidation } from '@repo/engine/datatypes/settings-schemas'
+import { getRestrictionsValidation } from '@repo/shared/schemas/datatypes/restrictions'
 import { z } from 'zod'
+import type { Parameter } from '@/lib/schemas/actions/triggers/api'
 
 export function getSchemaFromParameters(
-  parameters: ParameterInfo[],
+  parameters: Parameter[],
   optional: boolean,
 ) {
   const schema: SchemaMap = {}

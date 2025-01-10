@@ -1,5 +1,5 @@
 import type { NodeInterface } from '@repo/engine/types/node-types'
-import type { ValueType } from '@repo/engine/types/value-types'
+import type { ValueType } from '@repo/shared/types/values'
 
 export interface ActionRootNode extends NodeInterface<'hybrid', true> {
   type: 'action-root'

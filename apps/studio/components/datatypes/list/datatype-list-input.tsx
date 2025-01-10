@@ -7,7 +7,7 @@ import type {
   RawValue,
   Value,
   ValueType,
-} from '@repo/engine/types/value-types'
+} from '@repo/shared/types/values'
 import {
   getDataTypeInput,
   type SingleDataTypeInputProps,
@@ -33,6 +33,7 @@ export type ListInputProps<T extends ValueType = ValueType> = Omit<
   }
   limitAxis?: 'x' | 'y'
   addButtonLabel?: string
+  defaultItem?: RawValue<T, 'single', false>
 }
 
 export default function DatatypeListInput<T extends ValueType>({
@@ -44,10 +45,11 @@ export default function DatatypeListInput<T extends ValueType>({
   onChange,
   placeholder,
   errors,
+  defaultItem,
   ...props
 }: ListInputProps<T>) {
   const valueArray = useMemo(
-    () => listValue.value || [],
+    () => listValue?.value || [],
     [listValue],
   ) as ObjectValue<RawValue<T, 'single', false>, true>[]
 
@@ -65,13 +67,19 @@ export default function DatatypeListInput<T extends ValueType>({
   return (
     <ListInput<RawValue<T, 'single', true>>
       {...props}
+      defaultNewValue={() => defaultItem}
       locked={locked}
       errors={errors}
       onChange={onListChange}
       value={valueArray}
+      environment={environment}
       input={(props) => (
         <DefaultListItemWrapper<RawValue<T, 'single', true>>
           {...props}
+          className={cn(
+            environment === 'simulation' && 'h-9 rounded-r-lg',
+            classNames?.item,
+          )}
           errors={errors}
         >
           <SingleDatatypeInput
@@ -91,7 +99,7 @@ export default function DatatypeListInput<T extends ValueType>({
             restrictions={restrictions}
             locked={locked}
             valid={!errors?.[props.index]}
-            environment={environment}
+            environment={'list'}
             placeholder={placeholder}
             className={cn(
               'w-full rounded-md',

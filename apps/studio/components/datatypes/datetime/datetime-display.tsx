@@ -1,4 +1,4 @@
-import type { OptionalValue } from '@repo/engine/types/value-types'
+import type { OptionalValue } from '@repo/shared/types/values'
 import type { GenericDisplayProps } from '../generic-display'
 
 export type DateTimeDisplayProps = Omit<GenericDisplayProps, 'value'> & {

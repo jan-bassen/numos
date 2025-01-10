@@ -32,6 +32,8 @@ export function AddressInput({
         environment === 'node' &&
           'flex h-7 w-44 items-center rounded-lg px-2 text-sm',
         environment === 'node' && value && 'w-80',
+        environment === 'simulation' &&
+          'h-9 items-center rounded-lg py-1.5 text-sm',
         valid === false
           ? environment === 'node'
             ? 'border-warning bg-warning/10'

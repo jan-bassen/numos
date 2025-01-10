@@ -1,7 +1,8 @@
-import { integerSchema, stringSchema } from '@repo/engine/datatypes/schemas'
-import { explicitlyValidateValue } from '@repo/engine/datatypes/validation'
+import { explicitlyValidateValue } from '@repo/shared/schemas/datatypes/validation'
 import type { SimulationData } from '@repo/engine/types/engine-types'
 import { z } from 'zod'
+import { integerSchema } from '@repo/shared/schemas/datatypes/datatype-schemas/number-schema'
+import { stringSchema } from '@repo/shared/schemas/datatypes/datatype-schemas/string-schema'
 
 export const metadataSchema = z.object({
   id: integerSchema.min(0, 'Must be positive'),

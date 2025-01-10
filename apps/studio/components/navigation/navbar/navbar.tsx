@@ -19,12 +19,13 @@ import { CollectionPartsSkeleton } from '@/components/navigation/navbar/collecti
 import type { AttributeNavItem } from '@/lib/supabase/db/attributes/read'
 import { CollectionSwitcher } from '@/components/navigation/navbar/collection/collection-switcher/collection-switcher'
 import { CollectionSwitcherSkeleton } from '@/components/navigation/navbar/collection/collection-switcher/collection-switcher-skeleton'
+import type { LayerNavItem } from '@/lib/supabase/db/layers/read'
 
 type SidebarProps = React.ComponentProps<typeof Sidebar> & {
   collection?: string
 }
 
-export type NavItems = [AttributeNavItem[], ActionNavItem[]]
+export type NavItems = [AttributeNavItem[], ActionNavItem[], LayerNavItem[]]
 
 export async function Navbar({ collection, ...props }: SidebarProps) {
   return (

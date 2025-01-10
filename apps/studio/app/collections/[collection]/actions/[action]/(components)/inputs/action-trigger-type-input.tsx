@@ -4,38 +4,7 @@ import { TabSelect } from '@/components/forms/tab-inputs/tab-select'
 import { useAction } from '@/app/collections/[collection]/actions/[action]/action-context'
 import { triggerOptionsArray } from '@/lib/constants/triggers'
 import type { TriggerType } from '@/types/database.types'
-import type { ActionTrigger } from '@/types/actions.types'
-
-const defaultTriggerSettings: Record<TriggerType, ActionTrigger> = {
-  api: {
-    type: 'api',
-    settings: {
-      params: [],
-    },
-  },
-  interval: {
-    type: 'interval',
-    settings: {
-      interval: 7,
-      unit: 'days',
-    },
-  },
-  schedule: {
-    type: 'schedule',
-    settings: {
-      schedule: {
-        schedule: '0 0 * * *',
-        description: 'Every day at midnight',
-      },
-    },
-  },
-  token: {
-    type: 'token',
-    settings: {
-      event: 'mint',
-    },
-  },
-}
+import { defaultTriggerSettings } from '@/lib/defaults/actions/trigger-settings'
 
 export function ActionTriggerTypeInput() {
   const {

@@ -13,6 +13,7 @@ import { getModifiers } from '@/components/datatypes/list/functions/modifiers'
 import { getEndDrag } from '@/components/datatypes/list/functions/end-drag'
 import type { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities'
 import type { ZodErrorInfo } from '@/types/state.types'
+import type { SingleDataTypeInputEnvironment } from '../single-datatype-input'
 
 const SortableItem = dynamic(
   () => import('@/components/datatypes/list/sortable-item'),
@@ -32,6 +33,7 @@ export type ListInputComponentProps<V> = {
     attributes: DraggableAttributes
     listeners?: SyntheticListenerMap
   }
+  className?: string
 }
 
 export type ListInputProps<V> = {
@@ -49,6 +51,7 @@ export type ListInputProps<V> = {
     handle?: string
     deleteButton?: string
   }
+  environment?: SingleDataTypeInputEnvironment
 }
 
 export type ListItem<V> = {
@@ -65,6 +68,7 @@ export default function ListInput<V>({
   classNames,
   limitAxis,
   addButtonLabel,
+  environment,
 }: ListInputProps<V>) {
   const changeValue = getChangeValue(value, onChange)
   const move = getMoveValue(value, onChange)
@@ -78,6 +82,7 @@ export default function ListInput<V>({
     <div
       className={cn(
         'flex max-w-[50rem] flex-col gap-2 p-2',
+        environment === 'simulation' && 'p-0',
         classNames?.container,
       )}
     >
@@ -117,7 +122,11 @@ export default function ListInput<V>({
             })
           }
           variant={'outline'}
-          className={cn('h-10 w-full gap-1 rounded-md', classNames?.button)}
+          className={cn(
+            'h-10 w-full gap-1 rounded-md',
+            environment === 'simulation' && 'h-8 rounded-lg',
+            classNames?.button,
+          )}
           type="button"
         >
           <Plus className="size-3.5" />

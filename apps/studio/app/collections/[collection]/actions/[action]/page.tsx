@@ -21,7 +21,7 @@ import { LockActionButton } from '@/app/collections/[collection]/actions/[action
 import { ActionTriggerTypeInput } from '@/app/collections/[collection]/actions/[action]/(components)/inputs/action-trigger-type-input'
 import { triggerOptionsArray } from '@/lib/constants/triggers'
 import { ComingSoonBadge } from '@/components/misc/coming-soon-badge'
-import { CustomLogicButton } from '@/app/collections/[collection]/actions/[action]/(components)/logic-button'
+import { ActionLogicButton } from '@/app/collections/[collection]/actions/[action]/(components)/logic-button'
 import {
   Select,
   SelectItem,
@@ -33,10 +33,11 @@ import { TriggerSettingsSegment } from '@/app/collections/[collection]/actions/[
 import { ActionSlugInput } from '@/app/collections/[collection]/actions/[action]/(components)/inputs/action-slug-input'
 import { ActionDescriptionInput } from '@/app/collections/[collection]/actions/[action]/(components)/inputs/action-description-input'
 
-export default function ActionPage() {
+export default async function ActionPage({params}: {params: Promise<{collection: string, action: string}>}) {
+  const {collection} = await params
   return (
     <Page tabs tabsProps={{ defaultValue: 'trigger', pageid: 'action' }}>
-      <Header>
+      <Header back={{ href: `/collections/${collection}/actions`, label: 'All Actions' }}>
         <HeaderContent>
           <HeaderMain>
             <ActionTitle />
@@ -97,7 +98,7 @@ export default function ActionPage() {
               description: 'Define what the action does when triggered.',
             }}
           >
-            <CustomLogicButton />
+            <ActionLogicButton />
           </Segment>
         </SegmentedLayout>
       </Main>

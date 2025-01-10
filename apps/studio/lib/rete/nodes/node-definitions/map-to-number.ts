@@ -1,10 +1,9 @@
 import type {
   SpecificNodeDefinition,
   DataSocketDefinition,
-  SpecificDynamicSocketsDefinition,
 } from '@/types/nodes.types'
 import type { MapToNumberNode } from '@repo/engine/nodes/map-to-number/interface'
-import { getDefinedValuesFromObjectArray } from '@repo/engine/datatypes/utils'
+import { getDefinedValuesFromObjectArray } from '@repo/shared/schemas/datatypes/utils'
 import { Decimal } from 'decimal.js'
 
 export const mapToNumberDefinition: SpecificNodeDefinition<MapToNumberNode> = {

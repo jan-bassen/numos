@@ -11,31 +11,56 @@ import {
   type TabsTriggerProps,
 } from '@repo/ui/components/ui/tabs'
 import { Button } from '@repo/ui/components/ui/button'
-import { PiThreeDotsHorizontal } from '@repo/ui/icons/pika'
+import { PiArrowLeftStroke, PiThreeDotsHorizontal } from '@repo/ui/icons/pika'
 import {
   DropdownMenu,
   DropdownMenuContent,
   type DropdownMenuContentProps,
   DropdownMenuTrigger,
 } from '@repo/ui/components/ui/dropdown-menu'
+import { Separator } from '@repo/ui/components/ui/separator'
 
 export function Header({
   children,
   className,
   hideBreadcrumbs,
+  back,
   ...props
-}: ComponentProps<'header'> & { hideBreadcrumbs?: boolean }) {
+}: ComponentProps<'header'> & {
+  hideBreadcrumbs?: boolean
+  back?: { href: string; label: string }
+}) {
   return (
     <header
       className={cn(
-        'flex h-fit w-full flex-col gap-4 border-border border-b p-6 has-[[role=tablist]]:pb-0 lg:flex-col',
+        'flex h-fit w-full flex-col gap-4 border-border border-b p-6 has-[[role=tablist]]:pb-0 lg:flex-col ',
         className,
       )}
       {...props}
     >
-      <NavBreadcrumbs
-        className={cn('pl-1.5 md:flex', hideBreadcrumbs && 'hidden md:hidden')}
-      />
+      <div className="flex items-center gap-3">
+        {back && (
+          <>
+            <Link
+              href={back.href}
+              className={cn(
+                /*  buttonVariants({ variant: 'ghost', size: 'sm' }),  */
+                'flex h-8 items-center gap-2 px-3 text-muted-foreground text-sm hover:text-foreground',
+              )}
+            >
+              <PiArrowLeftStroke className="size-4" />
+              {back.label}
+            </Link>
+            <Separator
+              orientation="vertical"
+              className="h-6 text-muted-foreground"
+            />
+          </>
+        )}
+        <NavBreadcrumbs
+          className={cn('pl-3 md:flex', hideBreadcrumbs && 'hidden md:hidden')}
+        />
+      </div>
       {children}
     </header>
   )

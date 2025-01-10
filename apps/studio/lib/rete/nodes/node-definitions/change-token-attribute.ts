@@ -1,7 +1,6 @@
 import type {
   ControlDefinition,
   DataSocketDefinition,
-  DefinitionInterface,
   SpecificNodeDefinition,
 } from '@/types/nodes.types'
 import type { ChangeTokenAttributeNode } from '@repo/engine/nodes/change-token-attribute/interface'
@@ -32,7 +31,7 @@ export const changeTokenAttributeDefinition: SpecificNodeDefinition<ChangeTokenA
             options:
               attributes?.map((attr) => {
                 return {
-                  value: attr.slug,
+                  value: attr.id,
                   label: attr.name || 'Unnamed Attribute',
                 }
               }) || [],
@@ -43,10 +42,9 @@ export const changeTokenAttributeDefinition: SpecificNodeDefinition<ChangeTokenA
           },
         },
       ]
-      const attributeControlValue = getControlValue('attribute')?.value
-      if (attributeControlValue) {
-        const attributeType = getTokenAttribute(attributeControlValue)?.value
-          .type
+      const attributeId = getControlValue('attribute')?.value
+      if (attributeId) {
+        const attributeType = getTokenAttribute(attributeId)?.value.type
         if (attributeType === 'number') {
           controls.push({
             key: 'mode',
@@ -67,9 +65,9 @@ export const changeTokenAttributeDefinition: SpecificNodeDefinition<ChangeTokenA
       return controls
     },
     inputs: ({ getControlValue, getTokenAttribute }) => {
-      const attributeKey = getControlValue('attribute')
-      if (!attributeKey?.value) return []
-      const attribute = getTokenAttribute(attributeKey.value)
+      const attributeId = getControlValue('attribute')
+      if (!attributeId?.value) return []
+      const attribute = getTokenAttribute(attributeId.value)
       console.log(attribute)
       if (!attribute) return []
       const inputs: DataSocketDefinition<
@@ -82,7 +80,7 @@ export const changeTokenAttributeDefinition: SpecificNodeDefinition<ChangeTokenA
           list: attribute.value.list,
           key: 'value',
           label: 'Attribute',
-          restrictions: attribute.value.restrictions,
+          restrictions: attribute.value.restrictions || {},
         },
       ]
       return inputs

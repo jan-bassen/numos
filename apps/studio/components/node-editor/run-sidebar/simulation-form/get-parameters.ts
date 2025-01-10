@@ -1,8 +1,9 @@
-import type { ParameterState, ParameterInfo } from '@/types/actions.types'
-import type { ValueMap, ValueTypeMap } from '@repo/engine/types/value-types'
+import type { Parameter } from '@/lib/schemas/actions/triggers/api'
+import type { ParameterState } from '@/types/actions.types'
+import type { ValueMap, ValueTypeMap } from '@repo/shared/types/values'
 
 export function getDefaultValuesFromParameters(
-  parameters: ParameterInfo[],
+  parameters: Parameter[],
   state?: ParameterState,
 ) {
   const defaultValues = parameters.reduce((acc, parameter) => {
@@ -15,9 +16,7 @@ export function getDefaultValuesFromParameters(
   return defaultValues
 }
 
-export const getParameterTypes = (
-  parameters: ParameterInfo[],
-): ValueTypeMap => {
+export const getParameterTypes = (parameters: Parameter[]): ValueTypeMap => {
   return parameters.reduce((accumulator, parameter) => {
     accumulator[parameter.key] = {
       type: parameter.value.type,

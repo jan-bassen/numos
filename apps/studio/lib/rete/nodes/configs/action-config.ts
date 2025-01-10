@@ -7,7 +7,10 @@ import { nodeDefinitions } from './definitions'
 
 export const actionConfig: EditorConfig = (context: EditorContext) => {
   const blocklist: NodeType[] = []
-  if (context.parameters?.length === 0) {
+  if (
+    context.action?.trigger?.type !== 'api' ||
+    context.action?.trigger?.settings.params?.length === 0
+  ) {
     blocklist.push('parameter')
   }
   return {

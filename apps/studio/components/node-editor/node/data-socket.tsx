@@ -5,7 +5,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@repo/ui/components/ui/tooltip'
-import type { OptionalDataType } from '@repo/engine/types/value-types'
+import type { OptionalDataType } from '@repo/shared/types/values'
 import { dataTypes } from '@/lib/constants/datatypes'
 import type { Socket } from '@/lib/rete/classes/connectors/socket'
 

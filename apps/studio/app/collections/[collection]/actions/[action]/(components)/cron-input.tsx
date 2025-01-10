@@ -117,7 +117,7 @@ export default function CronInput({
               <Textarea
                 id="cron-prompt"
                 className="min-h-24 w-full"
-                placeholder="Every first day of the month at 10am"
+                placeholder="Describe the schedule you want to generate. Example: Every first day of the month at 10am"
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
               />

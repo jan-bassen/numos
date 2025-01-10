@@ -13,7 +13,7 @@ import { cn } from '@repo/ui/lib/utils'
 import { useRef } from 'react'
 import { Drag } from 'rete-react-plugin'
 import { weatherCodeGroups, weatherConditions } from '@/lib/constants/weather'
-import { weatherSchema } from '@repo/engine/datatypes/schemas'
+import { weatherSchema } from '@repo/shared/schemas/datatypes/datatype-schemas/weather-schema'
 import type { SingleDataTypeInputProps } from '../single-datatype-input'
 
 export function WeatherInput({
@@ -43,14 +43,16 @@ export function WeatherInput({
         disabled={locked}
         className={cn(
           buttonVariants({ variant: 'outline' }),
-          'h-10 w-full',
+          'h-10 w-full font-normal',
           environment === 'node' &&
-            'flex h-7 min-w-36 items-center rounded-lg px-2 font-normal text-sm',
+            'flex h-7 min-w-36 items-center rounded-lg px-2 text-sm',
           valid === false
             ? environment === 'node'
               ? 'border-warning bg-warning/10'
               : 'border-destructive bg-destructive/10'
             : '',
+          environment === 'simulation' &&
+            'h-9 items-center rounded-lg py-1.5 text-sm',
           className,
         )}
       >

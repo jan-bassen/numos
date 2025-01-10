@@ -1,21 +1,15 @@
-import { validateValue } from '@repo/engine/datatypes/validation'
+import { validateValue } from '@repo/shared/schemas/datatypes/validation'
 import type {
   EngineContext,
   GraphErrorData,
-  NodeErrorData,
   UnknownErrorData,
 } from '@repo/engine/types/engine-types'
-import type {
-  Value,
-  ValueFormat,
-  ValueType,
-} from '@repo/engine/types/value-types'
+import type { Value, ValueFormat, ValueType } from '@repo/shared/types/values'
 import type {
   MapGraph,
   MapGraphConnection,
-  MapGraphNode,
 } from '@repo/engine/types/graph-types'
-import { resolveObjectArrayValue } from '@repo/engine/datatypes/utils'
+import { resolveObjectArrayValue } from '@repo/shared/schemas/datatypes/utils'
 import { createSupabaseServiceClient } from '@repo/engine/storage/service-client'
 import sharp from 'sharp'
 import type { NodeType } from '@repo/engine/types/node-types'
@@ -129,11 +123,10 @@ export class EngineBase {
     node: string,
   ): Promise<Value<'buffer', 'single'>> {
     const context = this.getContext()
-    const path = `/${context.collectionId}/${image}`
+    const path = `/${context.versionId}/${image}`
 
     //TODO: Remove Service Client from Package!
     const supabaseService = await createSupabaseServiceClient()
-    console.log(path)
     const { data: layer, error } = await supabaseService.storage
       .from('layers')
       .download(path)

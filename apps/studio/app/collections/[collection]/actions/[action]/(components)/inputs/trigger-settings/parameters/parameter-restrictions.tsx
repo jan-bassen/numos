@@ -1,8 +1,5 @@
 import type { ListInputComponentProps } from '@/components/datatypes/list/list-input'
-import type {
-  ValueRestrictions,
-  ValueType,
-} from '@repo/engine/types/value-types'
+import type { ValueRestrictions, ValueType } from '@repo/shared/types/values'
 import { Button } from '@repo/ui/components/ui/button'
 import {
   Popover,

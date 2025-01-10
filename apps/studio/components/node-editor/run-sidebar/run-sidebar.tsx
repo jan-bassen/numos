@@ -24,7 +24,6 @@ export default function RunSidebar({
   const { result, error } = useEditorContext()
   const { open, setOpen } = useSecondarySidebar()
   const isMediumScreen = useMediaQuery('(min-width: 768px)')
-  console.log(error)
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {

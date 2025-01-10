@@ -15,7 +15,7 @@ export const tokenAttributeDefinition: SpecificNodeDefinition<TokenAttributeNode
       const attributes = getTokenAttributes()
       const options = attributes?.map((attribute) => {
         return {
-          value: attribute.slug,
+          value: attribute.id,
           label: attribute.name || 'Unnamed Attribute',
         }
       })
@@ -32,9 +32,9 @@ export const tokenAttributeDefinition: SpecificNodeDefinition<TokenAttributeNode
       ]
     },
     outputs: ({ getTokenAttribute, getControlValue }) => {
-      const attributeKey = getControlValue('attribute')?.value
-      if (!attributeKey) return []
-      const attribute = getTokenAttribute(attributeKey)
+      const attributeId = getControlValue('attribute')?.value
+      if (!attributeId) return []
+      const attribute = getTokenAttribute(attributeId)
       if (!attribute) return []
       return [
         {
@@ -42,7 +42,7 @@ export const tokenAttributeDefinition: SpecificNodeDefinition<TokenAttributeNode
           type: attribute.value.type,
           list: attribute.value.list,
           label: attribute.name || 'Unnamed Attribute',
-          restrictions: attribute.value.restrictions,
+          restrictions: attribute.value.restrictions || {},
         },
       ]
     },

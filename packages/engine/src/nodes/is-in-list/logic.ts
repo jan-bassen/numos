@@ -1,7 +1,7 @@
 import type { NodeLogic } from '@repo/engine/types/node-types'
 import type { IsInListNode } from '@repo/engine/nodes/is-in-list/interface'
 import { NodeError } from '@repo/engine/errors/node-error'
-import type { RawSingleValue } from '@repo/engine/types/value-types'
+import type { RawSingleValue } from '@repo/shared/types/values'
 
 export const IsInListLogic: NodeLogic<IsInListNode> = {
   data: {

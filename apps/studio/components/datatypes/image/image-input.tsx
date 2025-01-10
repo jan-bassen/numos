@@ -109,6 +109,8 @@ export function ImageInput({
               ? 'border-warning bg-warning/10'
               : 'border-destructive bg-destructive/10'
             : '',
+          environment === 'simulation' &&
+            'h-9 items-center rounded-lg py-1.5 text-sm',
           environment === 'node' && 'translate-y-0.5 transform',
         )}
       >
@@ -116,7 +118,7 @@ export function ImageInput({
           src={
             value.value ? layertree?.layers[value.value]?.signedUrl : undefined
           }
-          className={cn('size-full', className)}
+          className={cn('size-full object-cover', className)}
           width={160}
           height={160}
           alt="Image"
@@ -128,7 +130,7 @@ export function ImageInput({
         aria-description="Dialog to select a layer"
       >
         <DialogHeader className="space-y-3">
-          <DialogTitle>Select Layer</DialogTitle>
+          <DialogTitle>Select Image</DialogTitle>
           <Breadcrumbs
             items={breadcrumbs}
             className="h-10 w-full gap-1 pb-2 sm:gap-1"
@@ -184,7 +186,7 @@ export function ImageInput({
                   <SupabaseImage
                     src={layer.signedUrl}
                     alt={layer.name || 'Unnamed Layer'}
-                    className="size-24 shrink-0 rounded-md"
+                    className="size-24 shrink-0 rounded-md object-cover"
                     width={192}
                     height={192}
                     signed="true"

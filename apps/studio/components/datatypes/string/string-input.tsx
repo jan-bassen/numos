@@ -30,7 +30,9 @@ export function StringInput({
         locked && 'resize-none',
         environment === 'node' &&
           'flex h-7 w-44 items-center rounded-lg px-2 py-1 text-sm',
-        environment === 'list' && 'items-center py-1.5 pl-2',
+        environment === 'list' && 'items-center pl-2',
+        environment === 'simulation' &&
+          'h-9 items-center rounded-lg py-1.5 text-sm',
         valid === false
           ? environment === 'node'
             ? 'border-warning bg-warning/10'

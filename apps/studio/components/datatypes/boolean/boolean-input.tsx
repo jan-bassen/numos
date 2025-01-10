@@ -79,7 +79,6 @@ export function BooleanInput({
     )
   }
   if (environment === 'list') {
-    setValue(!!value)
     return (
       <Button
         variant={'outline'}
@@ -88,13 +87,19 @@ export function BooleanInput({
         className={cn(
           'h-10 w-full min-w-30',
           className,
-          value
+          value.value
             ? 'text-creative hover:bg-creative/10 hover:text-creative'
             : 'text-destructive hover:bg-destructive/10 hover:text-destructive',
         )}
-        onClick={() => setValue(!value)}
+        onClick={() => setValue(!value.value)}
       >
-        <p className="pr-2">{value ? 'Yes' : 'No'}</p>
+        <p className="pr-2">
+          {value.value === true
+            ? 'Yes'
+            : value.value === false
+              ? 'No'
+              : 'Undefined'}
+        </p>
       </Button>
     )
   }
@@ -106,7 +111,7 @@ export function BooleanInput({
   return (
     <Switch
       disabled={locked}
-      checked={!!value}
+      checked={value.value === null ? undefined : value.value}
       className={cn(
         environment === 'node' && 'mt-1',
         valid === false && 'border-warning bg-warning/10',
@@ -114,9 +119,7 @@ export function BooleanInput({
       )}
       defaultChecked={false}
       onBlur={_onBlur}
-      onCheckedChange={(v) => {
-        setValue(!!v)
-      }}
+      onCheckedChange={setValue}
       ref={environment === 'node' ? dragRef : undefined}
       {...props}
     />

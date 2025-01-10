@@ -4,8 +4,8 @@ import {
   sharedSlug,
   sharedUpdateSchema,
 } from '@/lib/schemas/shared'
-import { valueTypeKeys } from '@repo/engine/datatypes/constants/value-types'
-import { fullDatatypeSchema } from '@repo/engine/datatypes/schemas/datatype-schema'
+import { valueTypeKeys } from '@repo/shared/constants/value-types'
+import { fullDatatypeSchema } from '@repo/shared/schemas/datatypes/datatype-schema'
 
 //TODO: Delete token_specific, type, list & settings
 const token_specific = z.boolean().default(true)

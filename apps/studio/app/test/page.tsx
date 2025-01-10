@@ -8,21 +8,23 @@ import {
 } from '@/components/page/header'
 import Main from '@/components/page/main'
 import { Page } from '@/components/page/page'
-import { TestButton } from './test-button'
 
 export default function TestPage() {
   return (
     <>
       <Navbar />
       <Page tabs tabsProps={{ pageid: 'test', defaultValue: 'test' }}>
-        <Header>
+        <Header
+          back={{
+            href: '/collections',
+            label: 'Collections',
+          }}
+        >
           <HeaderContent>
             <HeaderMain>
               <HeaderTitle>Test</HeaderTitle>
             </HeaderMain>
-            <HeaderActions>
-              <TestButton />
-            </HeaderActions>
+            <HeaderActions>{/* <TestButton /> */}</HeaderActions>
           </HeaderContent>
         </Header>
         <Main value="test">

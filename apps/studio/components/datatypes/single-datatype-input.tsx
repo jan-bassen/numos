@@ -1,11 +1,10 @@
 'use client'
 
 import type {
-  ValueSettings,
   Value,
   ValueType,
   ValueRestrictions,
-} from '@repo/engine/types/value-types'
+} from '@repo/shared/types/values'
 import { EnumInput } from '@/components/datatypes/enum/enum-input'
 import { ColorInput } from '@/components/datatypes/color/color-input'
 import { DatetimeInput } from '@/components/datatypes/datetime/datetime-input'
@@ -18,7 +17,13 @@ import { NumberInput } from '@/components/datatypes/number/number-input'
 import { AddressInput } from '@/components/datatypes/address/address-input'
 import { BooleanInput } from '@/components/datatypes/boolean/boolean-input'
 import type { ChangeEvent, JSX } from 'react'
-import type { LayerTree } from '@/types/database.types'
+import type { UploadsTree } from '@/types/database.types'
+
+export type SingleDataTypeInputEnvironment =
+  | 'node'
+  | 'form'
+  | 'list'
+  | 'simulation'
 
 export type SingleDataTypeInputProps<T extends ValueType = ValueType> = {
   type: T
@@ -29,9 +34,9 @@ export type SingleDataTypeInputProps<T extends ValueType = ValueType> = {
   className?: string
   placeholder?: string
   locked?: boolean
-  environment?: 'node' | 'form' | 'list'
+  environment?: SingleDataTypeInputEnvironment
   valid?: boolean
-  layertree?: T extends 'image' ? LayerTree : never
+  layertree?: T extends 'image' ? UploadsTree : never
   id?: string
 }
 
@@ -51,7 +56,9 @@ const inputsMap = {
 } as const
 
 export function getDataTypeInput<T extends ValueType>(type: T) {
-  if (!type || !inputsMap[type]) throw new Error('Invalid type for input')
+  if (!type || !inputsMap[type]) {
+    throw new Error(`Invalid type for input: ${type}`)
+  }
   return inputsMap[type] as (
     props: SingleDataTypeInputProps<T>,
   ) => JSX.Element | null

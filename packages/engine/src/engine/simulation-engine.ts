@@ -8,12 +8,8 @@ import type {
   SimulationData,
 } from '@repo/engine/types/engine-types'
 import { EngineBase } from '@repo/engine/engine/base/engine-base'
-import type {
-  Value,
-  ValueFormat,
-  ValueType,
-} from '@repo/engine/types/value-types'
-import { explicitlyValidateValue } from '@repo/engine/datatypes/validation'
+import type { Value, ValueFormat, ValueType } from '@repo/shared/types/values'
+import { explicitlyValidateValue } from '@repo/shared/schemas/datatypes/validation'
 import type { BasicMetadataKeys } from '@repo/engine/types/token-types'
 import type {
   AnyDataNode,
@@ -83,7 +79,6 @@ export class SimulationEngine extends EngineBase {
           ...this.getContext(),
           nodeId,
         })
-        console.log('TRIED: ', result)
         return result
       } catch (err) {
         console.error(err)
@@ -178,18 +173,18 @@ export class SimulationEngine extends EngineBase {
   // ---------- DATA INTERFACE ----------
 
   getTokenAttribute(
-    key: string,
+    id: string,
     node: string,
   ): Value<ValueType, 'array' | 'single', false> {
     const location: GraphErrorLocation = {
       node,
-      input: { key, type: 'attributes' },
+      input: { key: id, type: 'attributes' },
     }
     if (!this.simulationData)
-      throw new GraphError(`Attribute ${key} not defined`, location)
-    const change = this.simulatedResult.stateChange[key]
-    const value = change ? change.new : this.simulationData.attributes[key]
-    if (!value) throw new GraphError(`Attribute ${key} not defined`, location)
+      throw new GraphError(`Attribute ${id} not defined`, location)
+    const change = this.simulatedResult.stateChange[id]
+    const value = change ? change.new : this.simulationData.attributes[id]
+    if (!value) throw new GraphError(`Attribute ${id} not defined`, location)
     try {
       return this.validateAndResolveValue(value)
     } catch (err) {
@@ -198,18 +193,18 @@ export class SimulationEngine extends EngineBase {
   }
 
   getCollectionAttribute(
-    key: string,
+    id: string,
     node: string,
   ): Value<ValueType, 'array' | 'single', false> {
     const location: GraphErrorLocation = {
       node,
-      input: { key, type: 'attributes' },
+      input: { key: id, type: 'attributes' },
     }
     if (!this.simulationData)
-      throw new GraphError(`Attribute ${key} not defined`, location)
-    const change = this.simulatedResult.stateChange[key]
-    const value = change ? change.new : this.simulationData.attributes[key]
-    if (!value) throw new GraphError(`Attribute ${key} not defined`, location)
+      throw new GraphError(`Attribute ${id} not defined`, location)
+    const change = this.simulatedResult.stateChange[id]
+    const value = change ? change.new : this.simulationData.attributes[id]
+    if (!value) throw new GraphError(`Attribute ${id} not defined`, location)
     try {
       return this.validateAndResolveValue(value)
     } catch (err) {
@@ -261,8 +256,8 @@ export class SimulationEngine extends EngineBase {
           input: { key, type: 'parameters' },
         })
       },
-      getTokenAttribute: (key: string) => {
-        return this.getTokenAttribute(key, nodeId)
+      getTokenAttribute: (id: string) => {
+        return this.getTokenAttribute(id, nodeId)
       },
       getMetadata: <Key extends BasicMetadataKeys>(key: Key) => {
         return this.getMetadata<Key>(key, nodeId)

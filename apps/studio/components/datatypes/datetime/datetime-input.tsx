@@ -10,7 +10,7 @@ import { Separator } from '@repo/ui/components/ui/separator'
 import { Input } from '@repo/ui/components/ui/input'
 import { cn } from '@repo/ui/lib/utils'
 import { Drag } from 'rete-react-plugin'
-import { datetimeSchema } from '@repo/engine/datatypes/schemas'
+import { datetimeSchema } from '@repo/shared/schemas/datatypes/datatype-schemas/datetime-schema'
 import type { SingleDataTypeInputProps } from '../single-datatype-input'
 
 function dateToDateString(date: Date) {
@@ -41,6 +41,7 @@ export function DatetimeInput({
 }: SingleDataTypeInputProps<'datetime'>) {
   const dragRef = useRef<any>(null)
   Drag.useNoDrag(dragRef)
+
   let date: Date | null = null
   try {
     const timestamp =
@@ -94,6 +95,8 @@ export function DatetimeInput({
           environment !== 'node' && 'h-10 rounded-md py-3',
           environment === 'node' &&
             'flex h-7 min-w-36 items-center rounded-lg px-2 text-sm',
+          environment === 'simulation' &&
+            'h-9 items-center rounded-lg py-1.5 text-sm',
           valid === false
             ? environment === 'node'
               ? 'border-warning bg-warning/10'

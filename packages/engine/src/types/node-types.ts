@@ -1,11 +1,7 @@
 import type { nodeTypes } from '@repo/engine/nodes/nodetypes'
 import type { EngineContext, LogEntry } from '@repo/engine/types/engine-types'
 import type { BasicMetadataKeys } from '@repo/engine/types/token-types'
-import type {
-  Value,
-  ValueSettings,
-  ValueType,
-} from '@repo/engine/types/value-types'
+import type { Value, ValueSettings, ValueType } from '@repo/shared/types/values'
 
 // ----------- NODE INTERFACE -------------
 
