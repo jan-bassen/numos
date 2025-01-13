@@ -1,4 +1,22 @@
-import { useHotkeys } from 'react-hotkeys-hook'
+import { Alert, AlertDescription } from '@repo/ui/components/ui/alert'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@repo/ui/components/ui/dialog'
+import { toast } from 'sonner'
+import {
+  PiAlertTriangleStroke,
+  PiBarchartDefaultStroke,
+  PiInformationCircleStroke,
+  PiLinkChainHorizontalStroke,
+  PiRefreshStroke,
+  PiTagStroke,
+} from '@repo/ui/icons/pika'
+
 import {
   Form,
   FormControl,
@@ -21,23 +39,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@repo/ui/components/ui/accordion'
-import {
-  PiAlertTriangleStroke,
-  PiBarchartDefaultStroke,
-  PiInformationCircleStroke,
-  PiLinkChainHorizontalStroke,
-  PiRefreshStroke,
-  PiTagStroke,
-} from '@repo/ui/icons/pika'
-import { Alert, AlertDescription } from '@repo/ui/components/ui/alert'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@repo/ui/components/ui/dialog'
+import { useHotkeys } from 'react-hotkeys-hook'
 import {
   annotateMetadata,
   optionalMetadataSchema,
@@ -46,10 +48,10 @@ import { StringInput } from '@/components/datatypes/string/string-input'
 import { Button } from '@repo/ui/components/ui/button'
 import { NumberInput } from '@/components/datatypes/number/number-input'
 import { useEffect, useState } from 'react'
-import { toast } from 'sonner'
+
 import type { Value } from '@repo/shared/types/values'
 import type { ActionTrigger } from '@/lib/schemas/actions/action-schema'
-import type { SimulationData } from '@repo/engine/types/engine-types'
+import type { SimulationData } from '@repo/shared/types/engine-types'
 import { generateValueMap } from '@repo/shared/schemas/datatypes/utils'
 import { useEditorContext } from '@/components/node-editor/editor/editor-provider'
 import {
@@ -62,7 +64,7 @@ import { storeLocalData, useLocalData } from './use-local-data'
 import type { Parameter } from '@/lib/schemas/actions/triggers/api'
 import { useCollection } from '@/app/collections/[collection]/collection-context'
 
-export default function SimulationForm({
+export function SimulationForm({
   id,
 }: {
   id: string
@@ -183,10 +185,9 @@ export default function SimulationForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit, onError)}
-        className={cn(
-          'scrollbar-none h-full w-full space-y-2 overflow-y-scroll pt-7 pb-16 transition-all',
-        )}
+        className="scrollbar-none h-full w-full space-y-2 overflow-y-scroll pt-7 pb-16 transition-all"
         id={id}
+        data-hs-cf-bound="true"
       >
         {attrError || paramError || metadataError ? (
           <div className="px-4 py-2">
@@ -221,16 +222,18 @@ export default function SimulationForm({
                     are the traits of the token. You can define what these are
                     on the attributes tab.
                   </li>
-                  {hasParams && (
-                    <li>
-                      <b className="font-semibold text-foreground">
-                        Parameters
-                      </b>{' '}
-                      are the values that you pass to the action&apos;s if
-                      called with an api trigger. You can define what these are
-                      in the action settings.
-                    </li>
-                  )}
+                  {
+                    /* hasParams */ false && (
+                      <li>
+                        <b className="font-semibold text-foreground">
+                          Parameters
+                        </b>{' '}
+                        are the values that you pass to the action&apos;s if
+                        called with an api trigger. You can define what these
+                        are in the action settings.
+                      </li>
+                    )
+                  }
                 </ul>
               </DialogHeader>
             </DialogContent>

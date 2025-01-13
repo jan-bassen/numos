@@ -1,4 +1,4 @@
-import type { GraphErrorData } from '@repo/engine/types/engine-types'
+import type { GraphErrorData } from '@repo/shared/types/engine-types'
 
 export class FetchError extends Error {
   constructor(message: string) {

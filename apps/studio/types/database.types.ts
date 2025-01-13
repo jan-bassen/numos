@@ -15,10 +15,9 @@ import type {
   OLDSavedInputMap,
   OLDSavedOutputMap,
   SavedNodeState,
-} from '@repo/engine/types/graph-types'
-
+} from '@repo/shared/types/graph-types'
 import type { JSX } from 'react'
-import type { ValidationIssueData } from '@repo/engine/types/validation-types'
+import type { ValidationIssueData } from '@repo/shared/types/validation-types'
 import type { LayerDefinition } from '@/lib/schemas/layers/layer-schema'
 import type { FullValue } from '@repo/shared/schemas/datatypes/datatype-schema'
 import type { ActionTrigger } from '@/lib/schemas/actions/action-schema'

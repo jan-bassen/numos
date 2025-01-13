@@ -8,7 +8,7 @@ import { useEditorContext } from '@/components/node-editor/editor/editor-provide
 import { cn } from '@repo/ui/lib/utils'
 import { Button } from '@repo/ui/components/ui/button'
 import { PiPlayBigStroke } from '@repo/ui/icons/pika'
-import SimulationForm from '@/components/node-editor/run-sidebar/simulation-form/simulation-form'
+import { SimulationForm } from '@/components/node-editor/run-sidebar/simulation-form/simulation-form'
 import {
   ResizableHandle,
   ResizablePanel,

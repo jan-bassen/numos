@@ -1,12 +1,7 @@
-import type {
-  ValueFormat,
-  ValueType,
-  ValueTypeLiteral,
-} from '@repo/shared/types/values'
-import { z, type ZodType } from 'zod'
-import { datatypeSchemasMap } from './datatype-schema'
+import type { ValueTypeLiteral } from '@repo/shared/types/values'
+import { z } from 'zod'
 
-export function singleValueSchema<B extends ZodType>(
+export function singleValueSchema<B extends z.ZodType>(
   type: ValueTypeLiteral,
   baseSchema: B,
   optional = true,
@@ -18,7 +13,7 @@ export function singleValueSchema<B extends ZodType>(
   })
 }
 
-export function arrayValueSchema<B extends ZodType>(
+export function arrayValueSchema<B extends z.ZodType>(
   type: ValueTypeLiteral,
   baseSchema: B,
   optional = true,
@@ -30,7 +25,7 @@ export function arrayValueSchema<B extends ZodType>(
   })
 }
 
-export function arrayObjectValueSchema<B extends ZodType>(baseSchema: B) {
+export function arrayObjectValueSchema<B extends z.ZodType>(baseSchema: B) {
   return z.array(
     z.object({
       id: z.string(),
@@ -39,7 +34,7 @@ export function arrayObjectValueSchema<B extends ZodType>(baseSchema: B) {
   )
 }
 
-export function objectArrayValueSchema<B extends ZodType>(
+export function objectArrayValueSchema<B extends z.ZodType>(
   type: ValueTypeLiteral,
   baseSchema: B,
   optional = true,
@@ -52,7 +47,7 @@ export function objectArrayValueSchema<B extends ZodType>(
   })
 }
 
-export function valueSchemas<B extends ZodType>(
+export function valueSchemas<B extends z.ZodType>(
   type: ValueTypeLiteral,
   baseSchema: B,
   optional = true,
@@ -62,25 +57,6 @@ export function valueSchemas<B extends ZodType>(
     arrayValueSchema(type, baseSchema, optional),
     objectArrayValueSchema(type, baseSchema, optional),
   ])
-}
-
-export function getDataTypeSchema(
-  type: ValueType,
-  format: ValueFormat,
-  optional: boolean,
-): ZodType {
-  const baseSchema = datatypeSchemasMap[type]
-  if (!baseSchema) {
-    throw new Error(`No base schema found for type ${type}`)
-  }
-  switch (format) {
-    case 'single':
-      return singleValueSchema(type, baseSchema, optional)
-    case 'array':
-      return arrayValueSchema(type, baseSchema, optional)
-    case 'objectarray':
-      return objectArrayValueSchema(type, baseSchema, optional)
-  }
 }
 
 /* 

@@ -1,5 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import type { ListAddNode } from '@repo/engine/nodes/list-add/interface'
+import type { ListAddNode } from '@repo/shared/engine/nodes/list-add/interface'
 
 export const listAddDefinition: SpecificNodeDefinition<ListAddNode> = {
   type: 'list-add',

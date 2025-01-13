@@ -2,7 +2,7 @@ import type {
   ControlDefinition,
   SpecificNodeDefinition,
 } from '@/types/nodes.types'
-import type { EnumInputNode } from '@repo/engine/nodes/enum-input/interface'
+import type { EnumInputNode } from '@repo/shared/engine/nodes/enum-input/interface'
 import type { ValueRestrictions } from '@repo/shared/types/values'
 
 export const enumInputDefinition: SpecificNodeDefinition<EnumInputNode> = {

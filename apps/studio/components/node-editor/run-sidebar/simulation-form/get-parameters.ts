@@ -1,18 +1,20 @@
 import type { Parameter } from '@/lib/schemas/actions/triggers/api'
-import type { ParameterState } from '@/types/actions.types'
-import type { ValueMap, ValueTypeMap } from '@repo/shared/types/values'
+import type { RawValue, ValueTypeMap } from '@repo/shared/types/values'
 
 export function getDefaultValuesFromParameters(
   parameters: Parameter[],
-  state?: ParameterState,
+  state?: Record<string, RawValue | undefined | null>,
 ) {
-  const defaultValues = parameters.reduce((acc, parameter) => {
-    const value = state?.[parameter.key]
-    if (value) {
-      acc[parameter.key] = value
-    }
-    return acc
-  }, {} as ValueMap)
+  const defaultValues = parameters.reduce(
+    (acc, parameter) => {
+      const value = state?.[parameter.key]
+      if (value !== undefined) {
+        acc[parameter.key] = value
+      }
+      return acc
+    },
+    {} as Record<string, RawValue | null>,
+  )
   return defaultValues
 }
 

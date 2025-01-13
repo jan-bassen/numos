@@ -1,8 +1,8 @@
 import type { Action } from '@/types/database.types'
 import { getMapGraph } from './graph-to-map'
-import type { SavedGraph } from '@repo/engine/types/graph-types'
-import { validateGraph } from '@repo/engine/validation/validate-graph'
-import type { ValidationIssueData } from '@repo/engine/types/validation-types'
+import type { SavedGraph } from '@repo/shared/types/graph-types'
+import { validateGraph } from '@repo/shared/validation/validate-graph'
+import type { ValidationIssueData } from '@repo/shared/types/validation-types'
 
 export function validateAction(action: Action, graph: SavedGraph) {
   const issues: ValidationIssueData[] = []

@@ -20,14 +20,14 @@ import {
   PiPhotoImageDefaultContrast,
   PiPhotoImageDefaultStroke,
 } from '@repo/ui/icons/pika'
-import { updateUpload } from '@/lib/supabase/db/uploads'
+import { deleteUpload, updateUpload } from '@/lib/supabase/db/uploads'
 import { SupabaseImage } from '@/components/supabase/supabase-image'
 import type { UploadsTree } from '@/types/database.types'
 import Decimal from 'decimal.js'
 import { type DragEvent, type MouseEvent, useRef, useState } from 'react'
 import { toast } from 'sonner'
 import { childrenOffset, type TreeContext, type TreeElement } from './tree'
-import { cn } from '@repo/ui/lib/utils'
+import { cn, handleReturnInfo } from '@repo/ui/lib/utils'
 
 export default function UploadsListItem({
   layerId,
@@ -133,10 +133,11 @@ export default function UploadsListItem({
             <SupabaseImage
               src={layer.signedUrl}
               alt={layer.name || 'Unnamed Layer'}
-              className="size-8 shrink-0 rounded-md object-cover"
+              className="size-8 shrink-0 rounded-md object-cover "
               width={64}
               height={64}
               signed="true"
+              onClick={() => setDialogOpen(true)}
             />
             {renaming ? (
               <Input
@@ -191,7 +192,13 @@ export default function UploadsListItem({
             <PiInputFieldStroke className="size-4" />
             Rename
           </ContextMenuItem>
-          <ContextMenuItem onClick={handleClick} className="flex gap-1.5">
+          <ContextMenuItem
+            onClick={async () => {
+              const res = await deleteUpload(layer.id)
+              handleReturnInfo(res)
+            }}
+            className="flex gap-1.5"
+          >
             <PiDeleteDustbin02Stroke className="size-4" />
             Delete
           </ContextMenuItem>

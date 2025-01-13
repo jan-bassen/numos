@@ -39,7 +39,7 @@ export async function updateUpload(
   if (error) {
     return { ok: false, message: error.message }
   }
-  revalidatePath('/collections/[collection]/layers', 'page')
+  revalidatePath('/collections/[collection]/uploads', 'page')
   return { ok: true, message: 'Layer updated' }
 }
 
@@ -64,7 +64,7 @@ export async function moveUploadsAndFolders(
   if (folderError) {
     return { ok: false, message: folderError.message }
   }
-  revalidatePath('/collections/[collection]/layers', 'page')
+  revalidatePath('/collections/[collection]/uploads', 'page')
   return { ok: true, message: 'Layers and folders moved' }
 }
 
@@ -74,7 +74,7 @@ export async function deleteUpload(id: string): Promise<ReturnInfo> {
   if (error) {
     return { ok: false, message: error.message }
   }
-  revalidatePath('/collections/[collection]/layers', 'page')
+  revalidatePath('/collections/[collection]/uploads', 'page')
   return { ok: true, message: 'Layer deleted' }
 }
 
@@ -84,7 +84,7 @@ export async function deleteUploads(ids: string[]) {
   if (error) {
     return { ok: false, message: 'Error with deleting layer' }
   }
-  revalidatePath('/collections/[collection]/layers', 'page')
+  revalidatePath('/collections/[collection]/uploads', 'page')
   return { ok: true, message: 'Layers deleted' }
 }
 
@@ -94,7 +94,7 @@ export async function insertFolder(folder: InsertFolder): Promise<ReturnInfo> {
   if (error) {
     return { ok: false, message: error.message }
   }
-  revalidatePath('/collections/[collection]/layers', 'page')
+  revalidatePath('/collections/[collection]/uploads', 'page')
   return { ok: true, message: 'Successfully inserted folder' }
 }
 
@@ -108,7 +108,7 @@ export async function updateFolder(
   if (error) {
     return { ok: false, message: error.message }
   }
-  revalidatePath('/collections/[collection]/layers', 'page')
+  revalidatePath('/collections/[collection]/uploads', 'page')
   return { ok: true, message: 'Successfully updated folder' }
 }
 
@@ -119,7 +119,7 @@ export async function deleteFolder(id: string): Promise<ReturnInfo> {
   if (error) {
     return { ok: false, message: 'Error with deleting folder' }
   }
-  revalidatePath('/collections/[collection]/layers', 'page')
+  revalidatePath('/collections/[collection]/uploads', 'page')
   return { ok: true, message: 'Folder deleted' }
 }
 
@@ -129,7 +129,7 @@ export async function deleteFolders(ids: string[]) {
   if (error) {
     return { ok: false, message: 'Error with deleting folder' }
   }
-  revalidatePath('/collections/[collection]/layers', 'page')
+  revalidatePath('/collections/[collection]/uploads', 'page')
   return { ok: true, message: 'Folders deleted' }
 }
 

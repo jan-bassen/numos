@@ -3,7 +3,7 @@ import type {
   DataSocketDefinition,
   SpecificNodeDefinition,
 } from '@/types/nodes.types'
-import type { ChangeTokenAttributeNode } from '@repo/engine/nodes/change-token-attribute/interface'
+import type { ChangeTokenAttributeNode } from '@repo/shared/engine/nodes/change-token-attribute/interface'
 
 export const changeTokenAttributeDefinition: SpecificNodeDefinition<ChangeTokenAttributeNode> =
   {
@@ -54,9 +54,9 @@ export const changeTokenAttributeDefinition: SpecificNodeDefinition<ChangeTokenA
             default: { type: 'enum', format: 'single', value: 'set' },
             restrictions: {
               options: [
-                { value: 'set', label: 'Set' },
-                { value: 'incr', label: 'Incr' },
-                { value: 'decr', label: 'Decr' },
+                { value: 'set', label: 'Set Value' },
+                { value: 'incr', label: 'Increase' },
+                { value: 'decr', label: 'Decrease' },
               ],
             },
           })
@@ -68,7 +68,6 @@ export const changeTokenAttributeDefinition: SpecificNodeDefinition<ChangeTokenA
       const attributeId = getControlValue('attribute')
       if (!attributeId?.value) return []
       const attribute = getTokenAttribute(attributeId.value)
-      console.log(attribute)
       if (!attribute) return []
       const inputs: DataSocketDefinition<
         ChangeTokenAttributeNode,

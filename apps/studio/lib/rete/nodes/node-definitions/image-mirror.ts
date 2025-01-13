@@ -1,5 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import type { ImageMirrorNode } from '@repo/engine/nodes/image-mirror/interface'
+import type { ImageMirrorNode } from '@repo/shared/engine/nodes/image-mirror/interface'
 
 export const imageMirrorDefinition: SpecificNodeDefinition<ImageMirrorNode> = {
   type: 'image-mirror',

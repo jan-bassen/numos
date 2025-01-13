@@ -1,8 +1,8 @@
 import { PiAutomationStroke } from '@repo/ui/icons/pika'
 import type { EditorConfig, EditorContext } from '@/types/editor.types'
 import _ from 'lodash'
-import { baseConfig } from './base-config'
-import type { NodeType } from '@repo/engine/types/node-types'
+import { baseConfig } from '@/lib/rete/nodes/configs/base-config'
+import type { NodeType } from '@repo/shared/types/node-types'
 import { nodeDefinitions } from './definitions'
 
 export const actionConfig: EditorConfig = (context: EditorContext) => {

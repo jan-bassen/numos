@@ -1,6 +1,6 @@
 'use server'
 
-import type { OLDSavedControl, SavedNode } from '@repo/engine/types/graph-types'
+import type { OLDSavedControl, SavedNode } from '@repo/shared/types/graph-types'
 import type { ReturnInfo } from '@/types/database.types'
 import { attributeNodeDependency } from '@/lib/rete/nodes/node-dependencies'
 import { createSupabaseServerComponentClient } from '@/lib/supabase/clients/server-client'

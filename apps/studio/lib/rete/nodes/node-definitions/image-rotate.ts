@@ -1,5 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import type { ImageRotateNode } from '@repo/engine/nodes/image-rotate/interface'
+import type { ImageRotateNode } from '@repo/shared/engine/nodes/image-rotate/interface'
 
 export const imageRotateDefinition: SpecificNodeDefinition<ImageRotateNode> = {
   type: 'image-rotate',

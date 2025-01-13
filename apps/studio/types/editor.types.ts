@@ -10,14 +10,14 @@ import type { ContextMenuExtra } from 'rete-context-menu-plugin'
 import type { AreaPlugin } from '@/lib/rete/classes/area/area-plugin'
 import type { HistoryPlugin } from '@/lib/rete/classes/history/plugin'
 import type { HistoryActions } from '@/lib/rete/classes/history/load-actions'
-import type { NodeType } from '@repo/engine/types/node-types'
+import type { NodeType } from '@repo/shared/types/node-types'
 import type { NodeDefinitions, Position } from './nodes.types'
 import type { NodeEditor } from '@/lib/rete/classes/editor'
 import type {
   SavedConnection,
   OLDSavedControlMap,
   SavedNode,
-} from '@repo/engine/types/graph-types'
+} from '@repo/shared/types/graph-types'
 import type { ZoomEventParams } from '@/lib/rete/classes/area/area'
 import type { GetSchemes } from 'rete'
 import type {

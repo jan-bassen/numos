@@ -1,5 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import type { SwitchNode } from '@repo/engine/nodes/switch/interface'
+import type { SwitchNode } from '@repo/shared/engine/nodes/switch/interface'
 
 export const switchDefinition: SpecificNodeDefinition<SwitchNode> = {
   type: 'switch',

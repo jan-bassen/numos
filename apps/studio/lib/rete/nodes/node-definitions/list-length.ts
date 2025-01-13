@@ -1,5 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import type { ListLengthNode } from '@repo/engine/nodes/list-length/interface'
+import type { ListLengthNode } from '@repo/shared/engine/nodes/list-length/interface'
 
 export const listLengthDefinition: SpecificNodeDefinition<ListLengthNode> = {
   type: 'list-length',

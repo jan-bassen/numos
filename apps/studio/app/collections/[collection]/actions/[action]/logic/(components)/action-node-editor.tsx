@@ -17,12 +17,12 @@ import BaseEditor from '@/components/node-editor/editor/base-editor'
 import { actionConfig } from '@/lib/rete/nodes/configs/action-config'
 import TokenResult from './token-result'
 import type { AutoSaveFunctions, Editor } from '@/types/editor.types'
-import type { SavedGraph } from '@repo/engine/types/graph-types'
+import type { SavedGraph } from '@repo/shared/types/graph-types'
 import type {
   ActionContext,
   SimulatedTokenStateResult,
   SimulationData,
-} from '@repo/engine/types/engine-types'
+} from '@repo/shared/types/engine-types'
 
 const autoSaveActions: AutoSaveFunctions = {
   uploadNode: insertActionNode,
@@ -110,7 +110,13 @@ export default function ActionNodeEditor({
         action: action,
       }}
       config={actionConfig}
-      result={<TokenResult result={result || undefined} loading={loading} />}
+      result={
+        <TokenResult
+          result={result || undefined}
+          loading={loading}
+          attributes={attributes}
+        />
+      }
       resetResult={() => setResult(null)}
       run={run}
       autosave={autoSaveActions}

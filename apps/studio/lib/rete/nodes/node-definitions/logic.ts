@@ -1,5 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import type { LogicNode } from '@repo/engine/nodes/logic/interface'
+import type { LogicNode } from '@repo/shared/engine/nodes/logic/interface'
 
 export const logicDefinition: SpecificNodeDefinition<LogicNode> = {
   type: 'logic',

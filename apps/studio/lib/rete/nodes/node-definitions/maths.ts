@@ -1,5 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import type { MathsNode } from '@repo/engine/nodes/maths/interface'
+import type { MathsNode } from '@repo/shared/engine/nodes/maths/interface'
 
 export const mathsDefinition: SpecificNodeDefinition<MathsNode> = {
   type: 'maths',

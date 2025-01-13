@@ -1,6 +1,5 @@
 import type { SpecificNodeDefinition, SelectOptions } from '@/types/nodes.types'
-import { NodeError } from '@repo/engine/errors/node-error'
-import type { CompareNode } from '@repo/engine/nodes/compare/interface'
+import type { CompareNode } from '@repo/shared/engine/nodes/compare/interface'
 
 export const compareDefinition: SpecificNodeDefinition<CompareNode> = {
   type: 'compare',

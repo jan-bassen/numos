@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { numberSchema } from '@repo/shared/schemas/datatypes/datatype-schemas/number-schema'
-import { valueSchemas } from '@repo/shared/schemas/datatypes/value-schema'
-import { validateDefaultFormat } from '@repo/shared/schemas/datatypes/refinements'
+import { valueSchemas } from '../value-schema'
+import { validateDefaultFormat } from '../refinements'
 
 export const locationSchema = z.object({
   lat: numberSchema

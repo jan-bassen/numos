@@ -14,7 +14,7 @@ import { getActionIssues } from '@/lib/supabase/db/actions/issues/read'
 import IssuesButton from '@/app/collections/[collection]/testing/(components)/issues-button'
 import { Page } from '@/components/page/page'
 import ActionIssueCard from '@/app/collections/[collection]/testing/(components)/issue-card'
-import type { ValidationIssueData } from '@repo/engine/types/validation-types'
+import type { ValidationIssueData } from '@repo/shared/types/validation-types'
 
 export default async function TestingPage(props: {
   params: Promise<{ collection: string }>

@@ -1,5 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import type { LogNode } from '@repo/engine/nodes/log/interface'
+import type { LogNode } from '@repo/shared/engine/nodes/log/interface'
 
 export const logDefinition: SpecificNodeDefinition<LogNode> = {
   type: 'log',

@@ -2,7 +2,7 @@ import type {
   SpecificNodeDefinition,
   DataSocketDefinition,
 } from '@/types/nodes.types'
-import type { MapToNumberNode } from '@repo/engine/nodes/map-to-number/interface'
+import type { MapToNumberNode } from '@repo/shared/engine/nodes/map-to-number/interface'
 import { getDefinedValuesFromObjectArray } from '@repo/shared/schemas/datatypes/utils'
 import { Decimal } from 'decimal.js'
 

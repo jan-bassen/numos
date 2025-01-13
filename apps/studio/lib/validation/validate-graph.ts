@@ -1,7 +1,7 @@
 'use server'
 
-import type { MapGraph } from '@repo/engine/types/graph-types'
-import { validateGraph } from '@repo/engine/validation/validate-graph'
+import type { MapGraph } from '@repo/shared/types/graph-types'
+import { validateGraph } from '@repo/shared/validation/validate-graph'
 
 export async function validateMapGraph(graph: MapGraph) {
   const { result: success, error } = validateGraph(graph, {

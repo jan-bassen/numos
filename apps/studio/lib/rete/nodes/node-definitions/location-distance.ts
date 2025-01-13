@@ -1,5 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import type { LocationDistanceNode } from '@repo/engine/nodes/location-distance/interface'
+import type { LocationDistanceNode } from '@repo/shared/engine/nodes/location-distance/interface'
 
 export const locationDistanceDefinition: SpecificNodeDefinition<LocationDistanceNode> =
   {

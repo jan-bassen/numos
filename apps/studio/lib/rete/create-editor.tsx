@@ -10,8 +10,8 @@ import type {
   EditorSettings,
   EditorConfig,
 } from '@/types/editor.types'
-import type { Control } from './classes/control'
-import { getConnectionPreset } from './utils/presets'
+import type { Control } from '@/lib/rete/classes/control'
+import { getConnectionPreset } from '@/lib/rete/utils/presets'
 import {
   getSocket,
   type SocketProps,
@@ -22,21 +22,21 @@ import type {
   ReactArea2D,
 } from 'rete-react-plugin/_types/presets/classic/types'
 import { NodeComponent } from '@/components/node-editor/node/node'
-import { Node } from './classes/node'
+import { Node } from '@/lib/rete/classes/node'
 import _ from 'lodash'
-import { NodeEditor } from './classes/editor'
-import { insertableNodes } from './utils/insertable-nodes'
+import { NodeEditor } from '@/lib/rete/classes/editor'
+import { insertableNodes } from '@/lib/rete/utils/insertable-nodes'
 import { toast } from 'sonner'
 import { ControlComponent } from '@/components/node-editor/node/base-control'
-import { getPseudoConnectionType } from './classes/connection'
-import { AreaPlugin } from './classes/area/area-plugin'
-import { zoomAt } from './classes/area/extensions/zoom-at'
-import { HistoryPlugin } from './classes/history/plugin'
+import { getPseudoConnectionType } from '@/lib/rete/classes/connection'
+import { AreaPlugin } from '@/lib/rete/classes/area/area-plugin'
+import { zoomAt } from '@/lib/rete/classes/area/extensions/zoom-at'
+import { HistoryPlugin } from '@/lib/rete/classes/history/plugin'
 import {
   type HistoryActions,
   loadHistoryActions,
-} from './classes/history/load-actions'
-import type { SavedGraph } from '@repo/engine/types/graph-types'
+} from '@/lib/rete/classes/history/load-actions'
+import type { SavedGraph } from '@repo/shared/types/graph-types'
 import { Presets, ReactPlugin } from 'rete-react-plugin'
 
 export async function createEditor(

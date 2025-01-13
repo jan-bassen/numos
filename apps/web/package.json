@@ -14,7 +14,7 @@
     "react-dom": "^18.0.0"
   },
   "dependencies": {
-    "@hookform/resolvers": "^3.1.1",
+    "@hookform/resolvers": "^3.10.0",
     "@hubspot/api-client": "^11.1.0",
     "@payloadcms/db-postgres": "3.0.0",
     "@payloadcms/email-nodemailer": "^3.0.0",
@@ -28,7 +28,7 @@
     "framer-motion": "12.0.0-alpha.1",
     "graphql": "^16.8.1",
     "lucide-react": "^0.272.0",
-    "next": "15.0.2",
+    "next": "15.1.4",
     "next-themes": "^0.4.3",
     "payload": "3.0.0",
     "posthog-js": "^1.181.0",
@@ -36,10 +36,10 @@
     "react": "19.0.0",
     "react-canvas-confetti": "^2.0.7",
     "react-dom": "19.0.0",
-    "react-hook-form": "^7.53.1",
+    "react-hook-form": "^7.54.2",
     "react-tweet": "^3.2.1",
     "sharp": "^0.33.5",
-    "zod": "^3.23.8"
+    "zod": "^3.24.1"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",

@@ -1,6 +1,6 @@
-import type { SavedNode } from '@repo/engine/types/graph-types'
+import type { SavedNode } from '@repo/shared/types/graph-types'
 import { createSupabaseServerComponentClient } from '@/lib/supabase/clients/server-client'
-import type { SavedGraph } from '@repo/engine/types/graph-types'
+import type { SavedGraph } from '@repo/shared/types/graph-types'
 import { replaceRemovedNodes, changeSavedNodeStructure } from '@/lib/transition'
 
 export async function getActionGraph(actionId: string): Promise<SavedGraph> {

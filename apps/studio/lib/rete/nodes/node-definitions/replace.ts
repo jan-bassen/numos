@@ -1,5 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import type { ReplaceNode } from '@repo/engine/nodes/replace/interface'
+import type { ReplaceNode } from '@repo/shared/engine/nodes/replace/interface'
 
 export const replaceDefinition: SpecificNodeDefinition<ReplaceNode> = {
   type: 'replace',

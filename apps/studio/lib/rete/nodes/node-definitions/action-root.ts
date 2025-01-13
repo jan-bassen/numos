@@ -2,7 +2,7 @@ import type {
   SpecificNodeDefinition,
   DataSocketDefinition,
 } from '@/types/nodes.types'
-import type { ActionRootNode } from '@repo/engine/nodes/action-root/interface'
+import type { ActionRootNode } from '@repo/shared/engine/nodes/action-root/interface'
 
 export const actionRootDefinition: SpecificNodeDefinition<ActionRootNode> = {
   type: 'action-root',

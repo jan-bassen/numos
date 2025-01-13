@@ -1,5 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import type { TokenAttributeNode } from '@repo/engine/nodes/token-attribute/interface'
+import type { TokenAttributeNode } from '@repo/shared/engine/nodes/token-attribute/interface'
 
 export const tokenAttributeDefinition: SpecificNodeDefinition<TokenAttributeNode> =
   {
@@ -13,18 +13,21 @@ export const tokenAttributeDefinition: SpecificNodeDefinition<TokenAttributeNode
     },
     controls: ({ getTokenAttributes }) => {
       const attributes = getTokenAttributes()
-      const options = attributes?.map((attribute) => {
-        return {
-          value: attribute.id,
-          label: attribute.name || 'Unnamed Attribute',
-        }
-      })
+      const options =
+        attributes?.map((attribute) => {
+          return {
+            value: attribute.id,
+            label: attribute.name || 'Unnamed Attribute',
+          }
+        }) || []
       return [
         {
           key: 'attribute',
           type: 'enum',
           placeholder: 'Select Attribute',
-          settings: { options },
+          restrictions: {
+            options,
+          },
           onChange: (node) => {
             node.updateOutputs()
           },

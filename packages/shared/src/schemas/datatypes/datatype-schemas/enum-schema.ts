@@ -1,9 +1,6 @@
 import { z } from 'zod'
-import { valueSchemas } from '@repo/shared/schemas/datatypes/value-schema'
-import {
-  validateDefaultFormat,
-  validateDefaultValue,
-} from '@repo/shared/schemas/datatypes/refinements'
+import { valueSchemas } from '../value-schema'
+import { validateDefaultFormat, validateDefaultValue } from '../refinements'
 
 export const enumSchema = z.string({
   required_error: 'Value is required',

@@ -3,7 +3,7 @@ import type { Node } from './node'
 import { debounce } from 'lodash'
 import { ZodError, type ZodIssue } from 'zod'
 import type { RawValue, Value, ValueType } from '@repo/shared/types/values'
-import { getDataTypeSchema } from '@repo/shared/schemas/datatypes/value-schema'
+import { getDataTypeSchema } from '@repo/shared/schemas/datatypes/get-datatype-schema'
 import { resolveObjectArrayValue } from '@repo/shared/schemas/datatypes/utils'
 import type { ValueRestrictions } from '@repo/shared/types/values'
 
@@ -22,6 +22,7 @@ export class Control {
     this.id = crypto.randomUUID()
     this.value =
       value ||
+      definition.default ||
       ({
         type: definition.type,
         format: definition.list ? 'objectarray' : 'single',

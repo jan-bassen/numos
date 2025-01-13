@@ -3,7 +3,7 @@ import {
   type InternalHandler,
   getHandlerFromInternal,
 } from '@/functions/utils/handlers/internal-handler'
-import { listApiKeySchema } from '@repo/shared/schemas/validation/list-api-key-schema'
+import { listApiKeySchema } from '@repo/shared/schemas/api-keys/list-api-key-schema'
 import type { ApiKeyPublicEntry } from '@/types/ddb'
 import { scanApiKeys } from '@/ddb/scan-api-keys'
 

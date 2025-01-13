@@ -1,6 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import { NodeError } from '@repo/engine/errors/node-error'
-import type { DataSwitchNode } from '@repo/engine/nodes/data-switch/interface'
+import type { DataSwitchNode } from '@repo/shared/engine/nodes/data-switch/interface'
 
 export const dataSwitchDefinition: SpecificNodeDefinition<DataSwitchNode> = {
   type: 'data-switch',

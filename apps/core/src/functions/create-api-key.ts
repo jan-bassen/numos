@@ -3,7 +3,7 @@ import {
   type InternalHandler,
   getHandlerFromInternal,
 } from '@/functions/utils/handlers/internal-handler'
-import { apiKeyRequestSchema } from '@repo/shared/schemas/validation/create-api-key-schema'
+import { apiKeyRequestSchema } from '@repo/shared/schemas/api-keys/create-api-key-schema'
 import { generateApiKey } from '@/authorizers/generate-api-key'
 import type { ApiKeyEntry } from '@/types/ddb'
 import { putApiKey } from '@/ddb/put-api-key'

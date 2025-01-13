@@ -1,12 +1,13 @@
 import { z } from 'zod'
-import {
-  integerSchema,
-  numberSchema,
-} from '@repo/shared/schemas/datatypes/datatype-schemas/number-schema'
 import { valueSchemas } from '@repo/shared/schemas/datatypes/value-schema'
 import { validateDefaultFormat } from '@repo/shared/schemas/datatypes/refinements'
 
-const colorChannelSchema = integerSchema
+const colorChannelSchema = z.coerce
+  .number({
+    required_error: 'Value is required',
+    invalid_type_error: 'Must be a number',
+  })
+  .int('Must be an integer')
   .min(0, 'Must be positive')
   .max(255, 'Must be less than 255')
 
@@ -14,7 +15,11 @@ export const colorSchema = z.object({
   r: colorChannelSchema,
   g: colorChannelSchema,
   b: colorChannelSchema,
-  a: numberSchema
+  a: z.coerce
+    .number({
+      required_error: 'Value is required',
+      invalid_type_error: 'Must be a number',
+    })
     .min(0, 'Must be positive')
     .max(1, "Can't be greater than 100%")
     .default(1),

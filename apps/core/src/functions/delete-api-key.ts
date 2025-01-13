@@ -3,7 +3,7 @@ import {
   getHandlerFromInternal,
   type InternalHandler,
 } from '@/functions/utils/handlers/internal-handler'
-import { apiKeyDeleteSchema } from '@repo/shared/schemas/validation/delete-api-key-schema'
+import { apiKeyDeleteSchema } from '@repo/shared/schemas/api-keys/delete-api-key-schema'
 import { deleteApiKey } from '@/ddb/delete-api-key'
 
 type DeleteApiKeyResult = {

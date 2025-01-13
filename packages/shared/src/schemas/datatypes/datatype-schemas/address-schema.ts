@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { stringSchema } from '@repo/shared/schemas/datatypes/datatype-schemas/string-schema'
-import { valueSchemas } from '@repo/shared/schemas/datatypes/value-schema'
-import { validateDefaultFormat } from '@repo/shared/schemas/datatypes/refinements'
+import { valueSchemas } from '../value-schema'
+import { validateDefaultFormat } from '../refinements'
 
 export const addressSchema = stringSchema.regex(
   /^(0x)?[0-9a-fA-F]{40}$|^$/,

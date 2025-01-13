@@ -1,5 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import type { SplitColorNode } from '@repo/engine/nodes/split-color/interface'
+import type { SplitColorNode } from '@repo/shared/engine/nodes/split-color/interface'
 
 export const splitColorDefinition: SpecificNodeDefinition<SplitColorNode> = {
   type: 'split-color',

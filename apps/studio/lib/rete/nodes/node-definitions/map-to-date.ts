@@ -2,7 +2,7 @@ import type {
   SpecificNodeDefinition,
   DataSocketDefinition,
 } from '@/types/nodes.types'
-import type { MapToDateNode } from '@repo/engine/nodes/map-to-date/interface'
+import type { MapToDateNode } from '@repo/shared/engine/nodes/map-to-date/interface'
 import { getDefinedValuesFromObjectArray } from '@repo/shared/schemas/datatypes/utils'
 import { DateTime } from 'luxon'
 

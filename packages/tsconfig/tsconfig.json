@@ -6,7 +6,7 @@
     "target": "es2022",
     "plugins": [{ "name": "next" }],
     "module": "ESNext",
-    "moduleResolution": "Bundler",
+    "moduleResolution": "bundler", 
     "jsx": "preserve",
     "noEmit": true,
     "declaration": true,

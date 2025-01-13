@@ -1,5 +1,4 @@
-import { explicitlyValidateValue } from '@repo/shared/schemas/datatypes/validation'
-import type { SimulationData } from '@repo/engine/types/engine-types'
+import type { SimulationData } from '@repo/shared/types/engine-types'
 import { z } from 'zod'
 import { integerSchema } from '@repo/shared/schemas/datatypes/datatype-schemas/number-schema'
 import { stringSchema } from '@repo/shared/schemas/datatypes/datatype-schemas/string-schema'
@@ -22,7 +21,7 @@ export const optionalMetadataSchema = z
 export function annotateMetadata(
   metadata?: z.infer<typeof optionalMetadataSchema>,
 ): SimulationData['basicMetadata'] {
-  const data = metadata
+  /* const data = metadata
     ? metadata
     : {
         id: undefined,
@@ -74,10 +73,22 @@ export function annotateMetadata(
   if (descriptionRes?.error) throw new Error('Error with parsing description')
   const description = descriptionRes?.validated
     ? descriptionRes.validated
-    : undefined
+    : undefined  */
   return {
-    id,
-    name,
-    description,
+    id: {
+      type: 'number',
+      format: 'single',
+      value: metadata?.id,
+    },
+    name: {
+      type: 'string',
+      format: 'single',
+      value: metadata?.name,
+    },
+    description: {
+      type: 'string',
+      format: 'single',
+      value: metadata?.description,
+    },
   }
 }

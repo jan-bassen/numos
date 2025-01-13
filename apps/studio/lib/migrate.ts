@@ -1,8 +1,8 @@
 'use server'
 
-import type { SavedNode } from '@repo/engine/types/graph-types'
-import { createSupabaseServiceClient } from './supabase/clients/service-client'
-import { changeSavedNodeStructure } from './transition'
+import type { SavedNode } from '@repo/shared/types/graph-types'
+import { createSupabaseServiceClient } from '@/lib/supabase/clients/service-client'
+import { changeSavedNodeStructure } from '@/lib/transition'
 
 export async function migrate() {
   const supabase = await createSupabaseServiceClient()

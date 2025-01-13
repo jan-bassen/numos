@@ -2,7 +2,7 @@ import type { ReturnInfo } from '@/types/database.types'
 import type { AutoSaveFunctions, EditorEvents } from '@/types/editor.types'
 import { toast } from 'sonner'
 import type { NodeEditor } from '@/lib/rete/classes/editor'
-import type { OLDSavedControlMap } from '@repo/engine/types/graph-types'
+import type { OLDSavedControlMap } from '@repo/shared/types/graph-types'
 
 export function autosaveToEvents(
   autosave: AutoSaveFunctions,

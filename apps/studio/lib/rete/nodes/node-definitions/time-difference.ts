@@ -1,5 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import type { TimeDifferenceNode } from '@repo/engine/nodes/time-difference/interface'
+import type { TimeDifferenceNode } from '@repo/shared/engine/nodes/time-difference/interface'
 
 export const timeDifferenceDefinition: SpecificNodeDefinition<TimeDifferenceNode> =
   {

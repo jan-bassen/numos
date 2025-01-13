@@ -3,8 +3,8 @@ import type {
   OLDSavedDataInput,
   SavedNode,
   SavedNodeState,
-} from '@repo/engine/types/graph-types'
-import type { NodeType } from '@repo/engine/types/node-types'
+} from '@repo/shared/types/graph-types'
+import type { NodeType } from '@repo/shared/types/node-types'
 import type { NodeValueMap, Value, ValueType } from '@repo/shared/types/values'
 
 export function changeSavedNodeStructure(oldNodes: SavedNode[]): SavedNode[] {

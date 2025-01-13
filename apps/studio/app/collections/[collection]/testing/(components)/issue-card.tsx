@@ -1,4 +1,4 @@
-import type { ValidationIssueData } from '@repo/engine/types/validation-types'
+import type { ValidationIssueData } from '@repo/shared/types/validation-types'
 import { Card } from '@repo/ui/components/ui/card'
 import type { ComponentProps } from 'react'
 

@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { directions } from '@repo/shared/constants/directions'
-import { valueSchemas } from '@repo/shared/schemas/datatypes/value-schema'
-import { validateDefaultFormat } from '@repo/shared/schemas/datatypes/refinements'
+import { valueSchemas } from '../value-schema'
+import { validateDefaultFormat } from '../refinements'
 
 export const directionSchema = z.enum(directions, {
   invalid_type_error: 'Must be a valid direction',

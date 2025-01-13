@@ -1,7 +1,7 @@
 import { z } from 'zod'
-import { valueSchemas } from '@repo/shared/schemas/datatypes/value-schema'
+import { valueSchemas } from '../value-schema'
 import { integerSchema } from '@repo/shared/schemas/datatypes/datatype-schemas/number-schema'
-import { validateDefaultFormat } from '@repo/shared/schemas/datatypes/refinements'
+import { validateDefaultFormat } from '../refinements'
 
 export const stringSchema = z.string({
   required_error: 'Value is required',

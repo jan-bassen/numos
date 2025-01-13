@@ -1,4 +1,4 @@
-import type { LogEntry } from '@repo/engine/types/engine-types'
+import type { LogEntry } from '@repo/shared/types/engine-types'
 import { cn } from '@repo/ui/lib/utils'
 
 export default function LogsList({ logs }: { logs: LogEntry[] }) {

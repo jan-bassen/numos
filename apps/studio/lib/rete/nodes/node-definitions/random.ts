@@ -1,5 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import type { RandomNode } from '@repo/engine/nodes/random/interface'
+import type { RandomNode } from '@repo/shared/engine/nodes/random/interface'
 
 export const randomDefinition: SpecificNodeDefinition<RandomNode> = {
   type: 'random',

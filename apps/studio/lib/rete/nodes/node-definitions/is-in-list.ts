@@ -1,6 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import { NodeError } from '@repo/engine/errors/node-error'
-import type { IsInListNode } from '@repo/engine/nodes/is-in-list/interface'
+import type { IsInListNode } from '@repo/shared/engine/nodes/is-in-list/interface'
 
 export const isInListDefinition: SpecificNodeDefinition<IsInListNode> = {
   type: 'is-in-list',

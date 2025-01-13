@@ -1,5 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import type { NumberInputNode } from '@repo/engine/nodes/number-input/interface'
+import type { NumberInputNode } from '@repo/shared/engine/nodes/number-input/interface'
 
 export const numberInputDefinition: SpecificNodeDefinition<NumberInputNode> = {
   type: 'number-input',

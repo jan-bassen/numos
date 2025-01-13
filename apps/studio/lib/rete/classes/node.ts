@@ -16,7 +16,7 @@ import type {
   SavedNode,
   MapGraphDataInput,
   MapGraphConnection,
-} from '@repo/engine/types/graph-types'
+} from '@repo/shared/types/graph-types'
 import { Control } from './control'
 import { NodePreset } from './presets'
 import { debounce, isEqual } from 'lodash'
@@ -26,10 +26,10 @@ import type {
   ValueRestrictions,
   ValueType,
 } from '@repo/shared/types/values'
-import type { AnyNode } from '@repo/engine/types/node-types'
+import type { AnyNode } from '@repo/shared/types/node-types'
 import { Input } from '@/lib/rete/classes/connectors/input'
 import { Output } from '@/lib/rete/classes/connectors/output'
-import type { GraphErrorData } from '@repo/engine/types/engine-types'
+import type { GraphErrorData } from '@repo/shared/types/engine-types'
 export class Node extends NodePreset {
   width?: number
   height?: number

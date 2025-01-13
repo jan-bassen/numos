@@ -5,7 +5,7 @@ import type {
   ResolvedEditorConfig,
 } from '@/types/editor.types'
 import type { NodeEditor } from '@/lib/rete/classes/editor'
-import type { NodeType } from '@repo/engine/types/node-types'
+import type { NodeType } from '@repo/shared/types/node-types'
 
 export type NewNodePosition = 'center' | 'pointer'
 

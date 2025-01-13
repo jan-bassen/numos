@@ -19,14 +19,17 @@ import LogsList from './log-list'
 import { GenericDisplay } from '@/components/datatypes/generic-display'
 import LoadingSpinner from '@repo/ui/components/loading/loading-spinner'
 import { Separator } from '@repo/ui/components/ui/separator'
-import type { SimulatedTokenStateResult } from '@repo/engine/types/engine-types'
+import type { SimulatedTokenStateResult } from '@repo/shared/types/engine-types'
+import type { Attribute } from '@/types/database.types'
 
 export default function TokenResult({
   result,
   loading,
+  attributes,
 }: {
   result?: SimulatedTokenStateResult
   loading?: boolean
+  attributes?: Attribute[]
 }) {
   const [page, setPage] = useState('changes')
   if (loading) return <LoadingSpinner containerClassName="!h-full" />
@@ -35,6 +38,14 @@ export default function TokenResult({
   const changedValues = Object.entries(result.stateChange).filter(
     ([key, v]) => !isEqual(v.new, v.old),
   )
+  const changedAttributes = changedValues.map(([key, v]) => {
+    const attribute = attributes?.find((a) => a.id === key)
+    return {
+      key,
+      label: attribute?.name || attribute?.slug,
+      ...v,
+    }
+  })
   return (
     <Tabs value={page} onValueChange={setPage} className="h-full">
       <div className="h-full space-y-4 rounded-lg p-2 ">
@@ -74,18 +85,18 @@ export default function TokenResult({
             {changedMetadata.length > 0 && changedValues.length > 0 && (
               <Separator />
             )}
-            {changedValues.length > 0 && (
+            {changedAttributes.length > 0 && (
               <ul className="relative flex flex-col gap-2 pt-1 text-sm">
                 <PiBarchartDefaultSolid className="absolute top-0 right-2 size-3.5" />
-                {changedValues.map(([key, value]) => (
-                  <li key={key} className="space-y-0.5 pl-2">
+                {changedAttributes.map((attribute) => (
+                  <li key={attribute.key} className="space-y-0.5 pl-2">
                     <h3 className=" w-full font-semibold capitalize underline">
-                      {value.label || key}
+                      {attribute.label}
                     </h3>
                     <div className="flex items-center justify-start gap-2">
-                      <GenericDisplay value={value.old} />
+                      <GenericDisplay value={attribute.old} />
                       <PiChevronBigRightStroke className="size-3" />
-                      <GenericDisplay value={value.new} />
+                      <GenericDisplay value={attribute.new} />
                     </div>
                   </li>
                 ))}

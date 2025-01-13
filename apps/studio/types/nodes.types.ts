@@ -10,7 +10,7 @@ import type {
   NodeCategory,
   NodeInterface,
   NodeType,
-} from '@repo/engine/types/node-types'
+} from '@repo/shared/types/node-types'
 import type {
   OptionalDataType,
   Value,
