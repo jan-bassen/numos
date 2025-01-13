@@ -1,16 +1,8 @@
 import type { DefaultNodeTypes } from '@payloadcms/richtext-lexical'
 import {
   type JSXConverters,
-  ParagraphJSXConverter,
-  TextJSXConverter,
   LinebreakJSXConverter,
-  BlockquoteJSXConverter,
-  TableJSXConverter,
-  HeadingJSXConverter,
   HorizontalRuleJSXConverter,
-  ListJSXConverter,
-  LinkJSXConverter,
-  UploadJSXConverter,
 } from '@payloadcms/richtext-lexical/react'
 import { customParagraphConverter } from './converters/paragraph'
 import { customBlockquoteConverter } from './converters/blockquote'

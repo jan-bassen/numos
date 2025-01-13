@@ -14,14 +14,14 @@ export default function Logo({
     return (
       <>
         <Image
-          src="/numos_dark.svg"
+          src="/logo_black_200.svg"
           className={cn('hidden size-8 dark:block', className)}
           alt="logo"
           width={size}
           height={size}
         />
         <Image
-          src="/numos_light.svg"
+          src="/logo_white_200.svg"
           className={cn('size-8 dark:hidden', className)}
           alt="logo"
           width={size}
@@ -31,22 +31,24 @@ export default function Logo({
     )
   }
   return (
-    <span className="flex items-center gap-3">
+    <span className="flex items-center gap-1.5">
       <Image
-        src="/numos_dark.svg"
+        src="/logo_black_200.svg"
         className={cn('hidden size-8 dark:block', className)}
         alt="logo"
         width={size}
         height={size}
       />
       <Image
-        src="/numos_light.svg"
+        src="/logo_white_200.svg"
         className={cn('size-8 dark:hidden', className)}
         alt="logo"
         width={size}
         height={size}
       />
-      <span className="pb-1.5 font-outfit text-3xl font-bold">numos</span>
+      <h1 className="font-extrabold font-poppins text-2xl text-primary">
+        NUMOS
+      </h1>
     </span>
   )
 }

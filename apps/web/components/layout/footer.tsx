@@ -16,10 +16,7 @@ export default function Footer() {
         <div className="flex flex-col justify-between">
           <div className="flex flex-col gap-3">
             <Link href="/" className="flex items-center gap-1.5 -md:pl-1">
-              <Logo className="size-10" />
-              <h1 className="font-extrabold font-poppins text-primary/85 text-xl">
-                Numos
-              </h1>
+              <Logo className="size-10" name />
             </Link>
             <p className="pl-1 text-muted-foreground">
               Simplifying the creation of dynamic digital assets

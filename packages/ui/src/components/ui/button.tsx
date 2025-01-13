@@ -1,4 +1,4 @@
-import { Slot } from '@radix-ui/react-slot'
+import { Slot, Slottable } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@repo/ui/lib/utils'
 import type { ComponentProps } from 'react'
@@ -35,6 +35,25 @@ const buttonVariants = cva(
         form: 'h-10 w-full rounded-lg font-normal md:max-w-[35rem]',
         none: '',
       },
+      effect: {
+        expandIcon: 'group relative gap-0',
+        ringHover:
+          'transition-all duration-300 hover:ring-2 hover:ring-primary/90 hover:ring-offset-2',
+        shine:
+          // biome-ignore lint/nursery/useSortedClasses: <explanation>
+          'before:animate-shine relative overflow-hidden before:absolute before:inset-0 before:rounded-[inherit] before:bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.5)_50%,transparent_75%,transparent_100%)] before:bg-[length:250%_250%,100%_100%] before:bg-no-repeat background-position_0s_ease',
+        shineHover:
+          // biome-ignore lint/nursery/useSortedClasses: <explanation>
+          'relative overflow-hidden before:absolute before:inset-0 before:rounded-[inherit] before:bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.5)_50%,transparent_75%,transparent_100%)] before:bg-[length:250%_250%,100%_100%] before:bg-[position:200%_0,0_0] before:bg-no-repeat before:transition-[background-position_0s_ease] hover:before:bg-[position:-100%_0,0_0] before:duration-1000',
+        gooeyRight:
+          'before:-z-10 relative z-0 overflow-hidden from-white/40 transition-all duration-500 before:absolute before:inset-0 before:translate-x-[150%] before:translate-y-[150%] before:scale-[2.5] before:rounded-[100%] before:bg-gradient-to-r before:transition-transform before:duration-1000 hover:before:translate-x-[0%] hover:before:translate-y-[0%]',
+        gooeyLeft:
+          'after:-z-10 relative z-0 overflow-hidden from-white/40 transition-all duration-500 after:absolute after:inset-0 after:translate-x-[-150%] after:translate-y-[150%] after:scale-[2.5] after:rounded-[100%] after:bg-gradient-to-l after:transition-transform after:duration-1000 hover:after:translate-x-[0%] hover:after:translate-y-[0%]',
+        underline:
+          '!no-underline relative after:absolute after:bottom-2 after:h-[1px] after:w-2/3 after:origin-bottom-left after:scale-x-100 after:bg-primary after:transition-transform after:duration-300 after:ease-in-out hover:after:origin-bottom-right hover:after:scale-x-0',
+        hoverUnderline:
+          '!no-underline relative after:absolute after:bottom-2 after:h-[1px] after:w-2/3 after:origin-bottom-right after:scale-x-0 after:bg-primary after:transition-transform after:duration-300 after:ease-in-out hover:after:origin-bottom-left hover:after:scale-x-100',
+      },
     },
     defaultVariants: {
       variant: 'default',
@@ -50,7 +69,7 @@ export type ButtonProps = ComponentProps<'button'> &
     asChild?: boolean
   }
 
-const Button = ({
+/* const Button = ({
   className,
   variant,
   size,
@@ -65,6 +84,62 @@ const Button = ({
     />
   )
 }
+Button.displayName = 'Button'
+
+export { Button, buttonVariants }
+ */
+
+interface IconProps {
+  icon: React.ElementType
+  iconPlacement: 'left' | 'right'
+}
+
+interface IconRefProps {
+  icon?: never
+  iconPlacement?: undefined
+}
+
+export type ButtonIconProps = IconProps | IconRefProps
+
+const Button = ({
+  className,
+  variant,
+  effect,
+  size,
+  icon: Icon,
+  iconPlacement,
+  asChild = false,
+  ...props
+}: ButtonProps & ButtonIconProps) => {
+  const Comp = asChild ? Slot : 'button'
+  return (
+    <Comp
+      className={cn(buttonVariants({ variant, effect, size, className }))}
+      {...props}
+    >
+      {Icon &&
+        iconPlacement === 'left' &&
+        (effect === 'expandIcon' ? (
+          <div className="w-0 translate-x-[0%] pr-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-100 group-hover:pr-2 group-hover:opacity-100">
+            <Icon />
+          </div>
+        ) : (
+          <Icon />
+        ))}
+      <Slottable>{props.children}</Slottable>
+      {Icon &&
+        iconPlacement === 'right' &&
+        (effect === 'expandIcon' ? (
+          <div className="w-0 translate-x-[100%] pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-2 group-hover:opacity-100">
+            <Icon />
+          </div>
+        ) : (
+          <Icon />
+        ))}
+    </Comp>
+  )
+}
+
 Button.displayName = 'Button'
 
 export { Button, buttonVariants }

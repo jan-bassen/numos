@@ -16,10 +16,7 @@ export function Navigation() {
       <div className="flex h-full items-center justify-between px-2 sm:px-3">
         <div className="flex h-full items-center gap-12">
           <Link href="/" className="flex items-center gap-1.5 -md:pl-1">
-            <Logo className="size-10" />
-            <h1 className="font-extrabold font-poppins text-primary/85 text-xl">
-              Numos
-            </h1>
+            <Logo className="size-10" name />
           </Link>
           <div className="hidden gap-6 md:flex">
             <Link href="/docs" className="hover:underline">
@@ -42,7 +39,7 @@ export function Navigation() {
           </Link>
           <Link
             href="https://studio.numos.xyz/signup"
-            className={cn(buttonVariants(), 'mr-1 -2xs:hidden rounded-full')}
+            className={cn(buttonVariants({}), 'mr-1 -2xs:hidden rounded-full')}
           >
             Sign up
           </Link>
