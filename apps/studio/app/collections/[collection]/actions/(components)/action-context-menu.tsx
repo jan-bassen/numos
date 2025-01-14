@@ -51,6 +51,7 @@ export default function ActionContextMenu({
               Edit
             </Link>
           </ContextMenuItem>
+          {/* TODO: Make this depending on the action type */}
           <ContextMenuItem asChild>
             <Link href={`${href}/logic`} className="flex gap-1.5">
               <PiAutomationStroke className="h-4 w-4" />

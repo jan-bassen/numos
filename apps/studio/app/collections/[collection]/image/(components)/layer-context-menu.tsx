@@ -13,6 +13,7 @@ import {
   AlertDialogTrigger,
 } from '@repo/ui/components/ui/alert-dialog'
 import {
+  PiAutomationStroke,
   PiDeleteDustbin02Stroke,
   PiPencilEditBoxStroke,
 } from '@repo/ui/icons/pika'
@@ -45,6 +46,13 @@ export default function LayerContextMenu({
             <Link href={href} className="flex gap-1.5">
               <PiPencilEditBoxStroke className="h-4 w-4" />
               Edit
+            </Link>
+          </ContextMenuItem>
+          {/* TODO: Make this depending on the action type */}
+          <ContextMenuItem asChild>
+            <Link href={`${href}/logic`} className="flex gap-1.5">
+              <PiAutomationStroke className="h-4 w-4" />
+              Edit Logic
             </Link>
           </ContextMenuItem>
           <AlertDialogTrigger asChild>
