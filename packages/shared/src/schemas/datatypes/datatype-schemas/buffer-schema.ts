@@ -8,7 +8,7 @@ export const fullBufferSchema = z
   .object({
     type: z.literal('buffer'),
     list: z.boolean(),
-    default: valueSchemas('buffer', bufferSchema).optional(),
+    /* default: valueSchemas('buffer', bufferSchema).optional(), */
     optional: z.boolean().default(false),
     restrictions: z.object({}).optional().nullable(),
   })

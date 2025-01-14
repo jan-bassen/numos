@@ -1,4 +1,4 @@
-'use client'
+/* 'use client'
 
 import { useAttribute } from '../../attribute-context'
 import { Button } from '@repo/ui/components/ui/button'
@@ -114,3 +114,4 @@ export function AttributeDefaultValueInput() {
     </div>
   )
 }
+ */

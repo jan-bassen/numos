@@ -38,7 +38,7 @@ export const fullEnumSchema = z
   .object({
     type: z.literal('enum'),
     list: z.boolean(),
-    default: valueSchemas('enum', enumSchema).optional(),
+    /* default: valueSchemas('enum', enumSchema).optional(), */
     optional: z.boolean().default(false),
     restrictions: enumRestrictionsSchema.optional().nullable(),
   })

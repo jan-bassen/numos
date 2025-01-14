@@ -12,7 +12,7 @@ export const fullWeatherSchema = z
   .object({
     type: z.literal('weather'),
     list: z.boolean(),
-    default: valueSchemas('weather', weatherSchema).optional(),
+    /* default: valueSchemas('weather', weatherSchema).optional(), */
     optional: z.boolean().default(false),
     restrictions: z.object({}).optional().nullable(),
   })

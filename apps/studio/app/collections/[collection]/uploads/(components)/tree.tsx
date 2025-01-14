@@ -36,11 +36,11 @@ import { Page } from '@/components/page/page'
 export const childrenOffset = 1.2 // rem
 
 export type TreeElement = {
-  type: 'folder' | 'layer'
+  type: 'folder' | 'upload'
   id: string
   path: string[]
 }
-export type TreeSelection = { folder: TreeElement[]; layer: TreeElement[] }
+export type TreeSelection = { folder: TreeElement[]; upload: TreeElement[] }
 
 export type TreeContext = {
   locked: boolean
@@ -74,7 +74,7 @@ export default function UploadsTreeView({
   const [draggedElement, setDraggedElement] = useState<TreeElement | null>(null)
 
   const isEmpty =
-    Object.keys(tree.layers).length === 0 &&
+    Object.keys(tree.uploads).length === 0 &&
     Object.keys(tree.folders).length === 0
 
   const [folderState, setFolderState] = useState<FolderState>({})
@@ -87,7 +87,7 @@ export default function UploadsTreeView({
 
   const [selection, setSelection] = useState<TreeSelection>({
     folder: [],
-    layer: [],
+    upload: [],
   })
 
   useEffect(() => {
@@ -101,14 +101,14 @@ export default function UploadsTreeView({
   if (!version) return null
 
   const resetSelection = () => {
-    setSelection({ folder: [], layer: [] })
+    setSelection({ folder: [], upload: [] })
   }
 
   const setSelectionTo = (element: TreeElement) => {
     if (element.type === 'folder') {
-      setSelection({ folder: [element], layer: [] })
+      setSelection({ folder: [element], upload: [] })
     } else {
-      setSelection({ folder: [], layer: [element] })
+      setSelection({ folder: [], upload: [element] })
     }
   }
 
@@ -116,7 +116,7 @@ export default function UploadsTreeView({
     const isAlreadySelected =
       element.type === 'folder'
         ? selection.folder.some((item) => item.id === element.id)
-        : selection.layer.some((item) => item.id === element.id)
+        : selection.upload.some((item) => item.id === element.id)
     if (isAlreadySelected) return
     if (element.type === 'folder') {
       setSelection((prev) => ({
@@ -126,7 +126,7 @@ export default function UploadsTreeView({
     } else {
       setSelection({
         ...selection,
-        layer: [...selection.layer, element],
+        upload: [...selection.upload, element],
       })
     }
   }
@@ -137,7 +137,7 @@ export default function UploadsTreeView({
 
     /*     const openFolders = Object.values(folderState).flat()
     const visibleSelection = selection.folder
-      .concat(selection.layer)
+      .concat(selection.upload)
       .filter(
         (item) =>
           item.treePath.length === 0 ||
@@ -177,7 +177,7 @@ export default function UploadsTreeView({
     } else {
       setSelection((prev) => ({
         ...prev,
-        layer: prev.layer.filter((el) => el.id !== element.id),
+        upload: prev.upload.filter((el) => el.id !== element.id),
       }))
     }
   }
@@ -198,7 +198,7 @@ export default function UploadsTreeView({
         ) || false
       return isTopLevel && !isTarget && !isParentOfTarget
     })
-    const filteredLayers = selection.layer.filter((item) => {
+    const filteredUploads = selection.upload.filter((item) => {
       const isTopLevel =
         item.path.length === 0 ||
         item.path.filter((folderId) =>
@@ -211,7 +211,7 @@ export default function UploadsTreeView({
     })
 
     const promise = moveUploadsAndFolders(
-      filteredLayers.map((layer) => layer.id),
+      filteredUploads.map((upload) => upload.id),
       filteredFolders.map((folder) => folder.id),
       target?.id || null,
     )
@@ -255,9 +255,9 @@ export default function UploadsTreeView({
     folder: Object.entries(tree.folders)
       .filter(([key, folder]) => folder.parent === null)
       .map(([key, folder]) => key),
-    layer: Object.entries(tree.layers)
-      .filter(([key, layer]) => layer.folder === null)
-      .map(([key, layer]) => key),
+    upload: Object.entries(tree.uploads)
+      .filter(([key, upload]) => upload.folder === null)
+      .map(([key, upload]) => key),
   }
 
   const isDirectChild = () => {

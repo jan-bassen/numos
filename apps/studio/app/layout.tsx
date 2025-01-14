@@ -42,7 +42,7 @@ export default async function RootLayout({
 }) {
   const supabase = await createSupabaseServerComponentClient()
   const { data: user } = await supabase.auth.getUser()
-  const maintanance = true
+  const maintanance = false
   return (
     <html
       lang="en"

@@ -9,7 +9,7 @@ export const fullImageSchema = z
   .object({
     type: z.literal('image'),
     list: z.boolean(),
-    default: valueSchemas('image', imageSchema).optional(),
+    /* default: valueSchemas('image', imageSchema).optional(), */
     optional: z.boolean().default(false),
     restrictions: z.object({}).optional().nullable(),
   })

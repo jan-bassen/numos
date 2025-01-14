@@ -20,7 +20,7 @@ export async function insertLayer(layer: InsertLayer): Promise<ReturnInfo> {
   const supabase = await createSupabaseServerComponentClient()
 
   const { data: slugCheck, error: slugCheckError } = await supabase
-    .from('image_layers')
+    .from('layers')
     .select()
     .eq('version', layer.version)
     .eq('slug', layer.slug)
@@ -33,7 +33,7 @@ export async function insertLayer(layer: InsertLayer): Promise<ReturnInfo> {
     return { ok: false, message: 'Slug already exists' }
   }
 
-  const { error } = await supabase.from('image_layers').insert(layer)
+  const { error } = await supabase.from('layers').insert(layer)
 
   if (error) {
     throw new FetchError('Error with inserting new layer')
@@ -48,7 +48,7 @@ export async function insertLayer(layer: InsertLayer): Promise<ReturnInfo> {
 export async function getNextLayerIndex(version: string) {
   const supabase = await createSupabaseServerComponentClient()
   const { data: indexCheck, error: indexCheckError } = await supabase
-    .from('image_layers')
+    .from('layers')
     .select('index')
     .eq('version', version)
     .order('index', { ascending: false })

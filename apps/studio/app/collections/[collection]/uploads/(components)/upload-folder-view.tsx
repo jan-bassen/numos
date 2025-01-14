@@ -41,11 +41,11 @@ export default function UploadFolderView({
         .filter((folder) => folder.parent === null)
         .map((folder) => folder.id)
 
-  const layers = folder
-    ? folder.layers
-    : Object.values(tree.layers)
-        .filter((layer) => layer.folder === null)
-        .map((layer) => layer.id)
+  const uploads = folder
+    ? folder.uploads
+    : Object.values(tree.uploads)
+        .filter((upload) => upload.folder === null)
+        .map((upload) => upload.id)
 
   const ref = useRef<HTMLDivElement>(null)
 
@@ -98,11 +98,11 @@ export default function UploadFolderView({
           />
         ))}
       </Accordion>
-      {layers.map((layer, index) => (
+      {uploads.map((upload, index) => (
         <UploadsListItem
-          key={tree.layers[layer]?.id}
+          key={tree.uploads[upload]?.id}
           tree={tree}
-          layerId={layer}
+          uploadId={upload}
           level={level}
           context={context}
         />

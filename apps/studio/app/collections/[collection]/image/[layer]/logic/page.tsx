@@ -13,16 +13,19 @@ export default async function LayerLogicPage(props: {
   const params = await props.params
   const collection = await getExtendedCollectionFromSlug(params.collection)
 
-  const [attributes, graph, uploadsTree, layer] = await Promise.all([
+  const [attributes, layer] = await Promise.all([
     getAllAttributes(collection.editable_version.id),
-    getImageGraph(collection.editable_version.id),
-    getUploadsTree(collection.editable_version.id),
     getLayerBySlugs(params.collection, params.layer),
   ])
 
   if (!layer) {
     notFound()
   }
+
+  const [uploadsTree, graph] = await Promise.all([
+    getUploadsTree(layer.id),
+    getImageGraph(layer.id),
+  ])
 
   return (
     <ImageNodeEditor

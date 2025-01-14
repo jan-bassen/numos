@@ -116,10 +116,7 @@ export async function getAttributeBySlugs(
   return data
 }
 
-export type AttributeNavItem = Pick<
-  Attribute,
-  'name' | 'slug' | 'type' | 'list' | 'value'
->
+export type AttributeNavItem = Pick<Attribute, 'name' | 'slug' | 'value'>
 export async function getAttributesForNav(
   version: string,
 ): Promise<AttributeNavItem[]> {
@@ -131,7 +128,7 @@ export async function getAttributesForNav(
 
   const { data: attributes, error } = await supabase
     .from('attributes')
-    .select('name, slug, type, list, value')
+    .select('name, slug, value')
     .eq('version', version)
     .order('name', { ascending: true })
 

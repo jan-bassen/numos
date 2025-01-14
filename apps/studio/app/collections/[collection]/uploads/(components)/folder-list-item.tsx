@@ -89,7 +89,7 @@ export default function FolderListItem({
 
   const directChildren = {
     folder: folder.subfolders,
-    layer: folder.layers,
+    upload: folder.uploads,
   }
 
   const isDirectChild = () => {

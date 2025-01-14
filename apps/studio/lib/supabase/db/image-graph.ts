@@ -7,11 +7,10 @@ import type {
   SavedNode,
 } from '@repo/shared/types/graph-types'
 import { createSupabaseServerComponentClient } from '@/lib/supabase/clients/server-client'
-import { changeSavedNodeStructure, replaceRemovedNodes } from '@/lib/transition'
 
 export async function insertImageNode(
   node: SavedNode,
-  versionId: string,
+  layerId: string,
 ): Promise<ReturnInfo> {
   if (!node) {
     return {
@@ -25,7 +24,7 @@ export async function insertImageNode(
   const insertNode: InsertImageNode = {
     id: node.id,
     type: node.type,
-    version: versionId,
+    layer: layerId,
     state: node.state,
     x: node.x,
     y: node.y,
@@ -136,7 +135,7 @@ export async function deleteImageConnection(
 
 export async function upsertImageConnection(
   connection: SavedConnection,
-  versionId: string,
+  layerId: string,
 ): Promise<ReturnInfo> {
   const supabase = await createSupabaseServerComponentClient()
   if (!connection) {
@@ -147,7 +146,7 @@ export async function upsertImageConnection(
   }
   const { error } = await supabase
     .from('image_connections')
-    .upsert({ ...connection, version: versionId })
+    .upsert({ ...connection, layer: layerId })
   if (error) {
     return {
       ok: false,
@@ -161,29 +160,26 @@ export async function upsertImageConnection(
   }
 }
 
-export async function getImageGraph(versionId: string): Promise<SavedGraph> {
+export async function getImageGraph(layerId: string): Promise<SavedGraph> {
   const supabase = await createSupabaseServerComponentClient()
 
   const { data: nodes, error: nodesError } = await supabase
     .from('image_nodes')
     .select('*')
-    .eq('version', versionId)
+    .eq('layer', layerId)
     .returns<SavedNode[]>()
-
-  const replacedNodes = replaceRemovedNodes(nodes || [])
-  const transformedNodes = changeSavedNodeStructure(replacedNodes)
 
   const { data: connections, error: connectionsError } = await supabase
     .from('image_connections')
     .select('*')
-    .eq('version', versionId)
+    .eq('layer', layerId)
 
   if (nodesError || connectionsError) {
     throw new Error('Error fetching graph')
   }
 
   return {
-    nodes: transformedNodes || [],
+    nodes: nodes || [],
     connections: connections || [],
   }
 }

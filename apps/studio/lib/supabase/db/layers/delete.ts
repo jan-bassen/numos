@@ -14,7 +14,7 @@ export async function deleteLayer(
     throw new FetchError('No action defined')
   }
   const supabase = await createSupabaseServerComponentClient()
-  const { error } = await supabase.from('image_layers').delete().eq('id', id)
+  const { error } = await supabase.from('layers').delete().eq('id', id)
 
   if (error) {
     return { ok: false, message: error.message }
@@ -35,7 +35,7 @@ export async function deleteLayerBySlug(versionId: string, layerSlug: string) {
   const supabase = await createSupabaseServerComponentClient()
 
   const { data: layer, error: fetchError } = await supabase
-    .from('image_layers')
+    .from('layers')
     .select('id')
     .eq('slug', layerSlug)
     .eq('version', versionId)

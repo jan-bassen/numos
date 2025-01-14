@@ -12,7 +12,7 @@ export const fullDirectionSchema = z
   .object({
     type: z.literal('direction'),
     list: z.boolean(),
-    default: valueSchemas('direction', directionSchema).optional(),
+    /* default: valueSchemas('direction', directionSchema).optional(), */
     optional: z.boolean().default(false),
     restrictions: z.object({}).optional().nullable(),
   })

@@ -29,7 +29,7 @@ export const fullColorSchema = z
   .object({
     type: z.literal('color'),
     list: z.boolean(),
-    default: valueSchemas('color', colorSchema).optional(),
+    /*     default: valueSchemas('color', colorSchema).optional(), */
     optional: z.boolean().default(false),
     restrictions: z.object({}).optional().nullable(),
   })

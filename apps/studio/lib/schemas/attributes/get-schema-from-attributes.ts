@@ -11,7 +11,7 @@ export function getSchemaFromAttributes(
   for (const attribute of attributes) {
     const singleSchema = getRestrictionsValidation(attribute.value, {
       optional,
-      format: attribute.list ? 'objectarray' : 'single',
+      format: attribute.value.list ? 'objectarray' : 'single',
     })
     if (optional) schema[attribute.id] = singleSchema.nullable().optional()
     else schema[attribute.id] = singleSchema

@@ -49,7 +49,6 @@ export function autosaveToEvents(
         toast.error(res.message || 'Error saving node')
       }
     },
-
     onConnectionCreated: async (editor, connection) => {
       if (!autosave.uploadConnection) {
         return

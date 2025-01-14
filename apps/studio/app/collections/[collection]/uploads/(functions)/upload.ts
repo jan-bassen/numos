@@ -38,7 +38,7 @@ export async function handleFileUpload(
   const promises: Promise<string>[] = []
   for (const [id, file] of Object.entries(fileMap)) {
     try {
-      const promise = uploadFile('layers', version, id, file)
+      const promise = uploadFile('uploads', version, id, file)
       promises.push(promise)
     } catch (err) {
       if (err instanceof RestrictionError) {

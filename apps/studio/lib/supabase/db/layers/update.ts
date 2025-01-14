@@ -10,10 +10,7 @@ import { z } from 'zod'
 
 export async function updateLayerBase(id: string, values: UpdateLayer) {
   const supabase = await createSupabaseServerComponentClient()
-  const { error } = await supabase
-    .from('image_layers')
-    .update(values)
-    .eq('id', id)
+  const { error } = await supabase.from('layers').update(values).eq('id', id)
 
   if (error) {
     return { ok: false, message: error.message }
@@ -44,7 +41,7 @@ export async function updateLayerOrder(layers: LayerOrderChange) {
   const supabase = await createSupabaseServerComponentClient()
   const promises = valid.map((layer) => {
     return supabase
-      .from('image_layers')
+      .from('layers')
       .update({ index: layer.index })
       .eq('id', layer.id)
   })

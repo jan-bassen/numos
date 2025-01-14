@@ -15,7 +15,6 @@ import { AttributeTitle } from '@/app/collections/[collection]/attributes/[attri
 import { DeleteAttributeButton } from '@/app/collections/[collection]/attributes/[attribute]/(components)/delete-attribute-button'
 import { LockAttributeButton } from '@/app/collections/[collection]/attributes/[attribute]/(components)/lock-attribute-button'
 import { AttributeDescriptionInput } from '@/app/collections/[collection]/attributes/[attribute]/(components)/inputs/attribute-description-input'
-import { AttributeDefaultValueInput } from '@/app/collections/[collection]/attributes/[attribute]/(components)/inputs/attribute-default-value-input'
 import { AttributeListInput } from '@/app/collections/[collection]/attributes/[attribute]/(components)/inputs/attribute-list-input'
 import { AttributeTypeInput } from '@/app/collections/[collection]/attributes/[attribute]/(components)/inputs/attribute-type-input'
 import { attributeTypeOptions } from '@/lib/constants/datatypes'

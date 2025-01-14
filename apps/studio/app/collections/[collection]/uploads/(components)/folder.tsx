@@ -21,8 +21,8 @@ export default function FolderView({
           </AccordionItem>
         ))}
       </Accordion>
-      {folder.layers.map((layer) => (
-        <div key={layer.id}>{layer.name}</div>
+      {folder.uploads.map((upload) => (
+        <div key={upload.id}>{upload.name}</div>
       ))}
     </div>
   )
