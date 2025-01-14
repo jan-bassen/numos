@@ -135,7 +135,9 @@ export type Direction = Enums<'direction'>
 export type WeatherCode = Enums<'weather-code'>
 export type Display = Enums<'display'>
 export type VersionStatus = Enums<'version-status'>
-export type TriggerType = Enums<'trigger'>
+
+// TODO: Move to shared
+export type TriggerType = 'api' | 'time' | 'token'
 export type IntervalUnit = Enums<'interval-unit'>
 export type ImageType = Enums<'image-type'>
 

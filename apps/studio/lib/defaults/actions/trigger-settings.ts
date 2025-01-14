@@ -8,7 +8,7 @@ export const defaultTriggerSettings: Record<TriggerType, ActionTrigger> = {
       params: [],
     },
   },
-  interval: {
+  /* interval: {
     type: 'interval',
     settings: {
       interval: 7,
@@ -21,6 +21,16 @@ export const defaultTriggerSettings: Record<TriggerType, ActionTrigger> = {
       schedule: {
         schedule: '0 10 1 * ? *',
         description: 'Every first day of the month at 10am',
+      },
+    },
+  }, */
+  time: {
+    type: 'time',
+    settings: {
+      schedule: {
+        type: 'interval',
+        interval: 1,
+        unit: 'hours',
       },
     },
   },
