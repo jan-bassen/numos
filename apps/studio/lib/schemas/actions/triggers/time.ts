@@ -41,9 +41,10 @@ export const timeTriggerSchema = z.object({
       start: z.coerce
         .number()
         .min(new Date().getTime(), 'Start can not be in the past')
+        .nullable()
         .optional(),
-      end: z.coerce.number().optional(),
-      schedule: scheduleSchema.optional(),
+      end: z.coerce.number().nullable().optional(),
+      schedule: scheduleSchema.nullable().optional(),
     })
     .refine((data) => {
       if (data.start && data.end && data.start > data.end) {
