@@ -3,6 +3,7 @@ import type { TriggerType } from '@/types/database.types'
 import type { SelectOption } from '@/types/nodes.types'
 import {
   PiCalendarFilledStroke,
+  PiClockDefaultStroke,
   PiLinkChainHorizontalStroke,
   PiNftArrowRightStroke,
   PiNftBoltMintStroke,
@@ -52,7 +53,7 @@ export const triggerOptions: Record<TriggerType, TabOption> = {
       'Trigger via an API call from your app or website (e.g. on button click)',
     Icon: PiLinkChainHorizontalStroke,
   },
-  interval: {
+  /* interval: {
     value: 'interval',
     label: 'Interval',
     subtext: 'Every X minutes',
@@ -66,6 +67,13 @@ export const triggerOptions: Record<TriggerType, TabOption> = {
     Icon: PiCalendarFilledStroke,
     description:
       'Trigger automatically at a schedule (e.g. every first day of the month)',
+  }, */
+  time: {
+    value: 'time',
+    label: 'Time',
+    subtext: 'Predefined schedule',
+    Icon: PiClockDefaultStroke,
+    description: 'Trigger automatically at a specific time (e.g. every 10:00)',
   },
   token: {
     value: 'token',

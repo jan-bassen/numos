@@ -5,21 +5,15 @@ import {
   sharedUpdateSchema,
 } from '@/lib/schemas/shared'
 import { apiTriggerSchema } from '@/lib/schemas/actions/triggers/api'
-import { intervalTriggerSchema } from '@/lib/schemas/actions/triggers/interval'
 import { tokenTriggerSchema } from '@/lib/schemas/actions/triggers/token'
-import { scheduleTriggerSchema } from '@/lib/schemas/actions/triggers/schedule'
 import { zDiscriminatedUnion } from '@repo/shared/schemas/discriminated-union'
+import { timeTriggerSchema } from '@/lib/schemas/actions/triggers/time'
 
 export type ActionTrigger = z.infer<typeof triggerSchema>
 
 export const triggerSchema = zDiscriminatedUnion(
   'type',
-  [
-    apiTriggerSchema,
-    intervalTriggerSchema,
-    tokenTriggerSchema,
-    scheduleTriggerSchema,
-  ],
+  [apiTriggerSchema, timeTriggerSchema, tokenTriggerSchema],
   {
     invalid_union_discriminator: 'Select a trigger type',
   },

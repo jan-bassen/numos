@@ -175,7 +175,7 @@ export default async function Collection(props: {
                     href={`/collections/${collection.slug}/image/${layer.slug}`}
                     label={layer.name ?? 'New Layer'}
                     subtitle={layer.description}
-                    icon={layerOptions[layer.definition.type].Icon}
+                    icon={layerOptions[layer.definition?.type]?.Icon}
                   />
                 </LayerContextMenu>
               )

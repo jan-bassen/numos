@@ -20,10 +20,10 @@ export async function revalidateUploads() {
 }
 
 export async function insertUploads(
-  layers: InsertUpload[],
+  uploads: InsertUpload[],
 ): Promise<ReturnInfo> {
   const supabase = await createSupabaseServerComponentClient()
-  const { error } = await supabase.from('layers').insert(layers)
+  const { error } = await supabase.from('uploads').insert(uploads)
   if (error) {
     return { ok: false, message: error.message }
   }
@@ -32,10 +32,10 @@ export async function insertUploads(
 
 export async function updateUpload(
   id: string,
-  layer: UpdateUpload,
+  upload: UpdateUpload,
 ): Promise<ReturnInfo> {
   const supabase = await createSupabaseServerComponentClient()
-  const { error } = await supabase.from('layers').update(layer).eq('id', id)
+  const { error } = await supabase.from('uploads').update(upload).eq('id', id)
   if (error) {
     return { ok: false, message: error.message }
   }
@@ -44,15 +44,15 @@ export async function updateUpload(
 }
 
 export async function moveUploadsAndFolders(
-  layers: string[],
+  uploads: string[],
   folders: string[],
   folder: string | null,
 ) {
   const supabase = await createSupabaseServerComponentClient()
   const { error } = await supabase
-    .from('layers')
+    .from('uploads')
     .update({ folder: folder })
-    .in('id', layers)
+    .in('id', uploads)
   const { error: folderError } = await supabase
     .from('folders')
     .update({ parent: folder })
@@ -70,7 +70,7 @@ export async function moveUploadsAndFolders(
 
 export async function deleteUpload(id: string): Promise<ReturnInfo> {
   const supabase = await createSupabaseServerComponentClient()
-  const { error } = await supabase.from('layers').delete().eq('id', id)
+  const { error } = await supabase.from('uploads').delete().eq('id', id)
   if (error) {
     return { ok: false, message: error.message }
   }
@@ -80,12 +80,12 @@ export async function deleteUpload(id: string): Promise<ReturnInfo> {
 
 export async function deleteUploads(ids: string[]) {
   const supabase = await createSupabaseServerComponentClient()
-  const { error } = await supabase.from('layers').delete().in('id', ids)
+  const { error } = await supabase.from('uploads').delete().in('id', ids)
   if (error) {
-    return { ok: false, message: 'Error with deleting layer' }
+    return { ok: false, message: 'Error with deleting uploads' }
   }
   revalidatePath('/collections/[collection]/uploads', 'page')
-  return { ok: true, message: 'Layers deleted' }
+  return { ok: true, message: 'Uploads deleted' }
 }
 
 export async function insertFolder(folder: InsertFolder): Promise<ReturnInfo> {
@@ -136,37 +136,37 @@ export async function deleteFolders(ids: string[]) {
 export async function getAllUploads(version: string) {
   const supabase = await createSupabaseServerComponentClient()
   const { data, error } = await supabase
-    .from('layers')
+    .from('uploads')
     .select()
     .eq('version', version)
     .order('name', { ascending: true })
 
   if (error) {
-    throw new Error('Error with fetching layers')
+    throw new Error('Error with fetching uploads')
   }
   return data
 }
 
 export async function signUploads(
   version: string,
-  layers: Upload[],
+  uploads: Upload[],
 ): Promise<ResolvedUpload[]> {
   const supabase = await createSupabaseServerComponentClient()
 
-  if (layers.length === 0) return []
+  if (uploads.length === 0) return []
 
-  const paths = layers.map((layer) => {
-    return `${version}/${layer.id}`
+  const paths = uploads.map((upload) => {
+    return `${version}/${upload.id}`
   })
 
   const { data: signedUrlsData, error } = await supabase.storage
-    .from('layers')
+    .from('uploads')
     .createSignedUrls(paths, 3600)
 
   if (error) {
     throw new Error(`Error with fetching signed urls: ${error.message}`)
   }
-  return layers.map((layer, index) => {
+  return uploads.map((upload, index) => {
     const signedUrlData = signedUrlsData[index]
     if (!signedUrlData) throw new Error('Signed url data not found')
     const { error, signedUrl } = signedUrlData
@@ -174,15 +174,15 @@ export async function signUploads(
       throw new Error(`Error with fetching signed url: ${error}`)
     }
     return {
-      ...layer,
+      ...upload,
       signedUrl,
     }
   })
 }
 
 export async function getAllSignedUploads(version: string) {
-  const layers = await getAllUploads(version)
-  return signUploads(version, layers)
+  const uploads = await getAllUploads(version)
+  return signUploads(version, uploads)
 }
 
 export async function getAllFolders(version: string) {
@@ -200,12 +200,12 @@ export async function getAllFolders(version: string) {
 }
 
 export async function getUploadsTree(version: string): Promise<UploadsTree> {
-  const layers = await getAllSignedUploads(version)
+  const uploads = await getAllSignedUploads(version)
   const folders = await getAllFolders(version)
 
-  const signedLayerMap = layers.reduce(
-    (acc, layer) => {
-      acc[layer.id] = layer
+  const signedUploadMap = uploads.reduce(
+    (acc, upload) => {
+      acc[upload.id] = upload
       return acc
     },
     {} as Record<string, ResolvedUpload>,
@@ -241,7 +241,7 @@ export async function getUploadsTree(version: string): Promise<UploadsTree> {
         subfolders: folders
           .filter((f) => f.parent === folder.id)
           .map((f) => f.id),
-        layers: layers.filter((l) => l.folder === folder.id).map((l) => l.id),
+        uploads: uploads.filter((u) => u.folder === folder.id).map((u) => u.id),
         path: folderPath,
       }
       return acc
@@ -251,6 +251,6 @@ export async function getUploadsTree(version: string): Promise<UploadsTree> {
 
   return {
     folders: resolvedFolderMap,
-    layers: signedLayerMap,
+    uploads: signedUploadMap,
   }
 }

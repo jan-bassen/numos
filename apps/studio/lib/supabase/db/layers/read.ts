@@ -32,7 +32,7 @@ export async function getAllLayers(version: string): Promise<Layer[]> {
   const supabase = await createSupabaseServerComponentClient()
 
   const { data, error } = await supabase
-    .from('image_layers')
+    .from('layers')
     .select()
     .eq('version', version)
     .order('index', { ascending: true })
@@ -62,7 +62,7 @@ export async function getLayersForNav(
   const supabase = await createSupabaseServerComponentClient()
 
   const { data, error } = await supabase
-    .from('image_layers')
+    .from('layers')
     .select('name, slug, definition->type')
     .eq('version', collection.editable_version)
     .order('index', { ascending: false })
@@ -88,7 +88,7 @@ export async function getLatestLayers(
   const supabase = await createSupabaseServerComponentClient()
 
   const { data, error } = await supabase
-    .from('image_layers')
+    .from('layers')
     .select()
     .eq('version', version)
     .order('updated_at', { ascending: false })

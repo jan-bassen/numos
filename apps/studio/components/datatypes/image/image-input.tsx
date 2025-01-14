@@ -42,11 +42,13 @@ export function ImageInput({
     : Object.values(layertree.folders).filter(
         (folder) => folder && folder.parent === null,
       )
-  const layers = openFolder
-    ? openFolder.layers
-        .map((layerId) => layertree.layers[layerId])
-        .filter((layer) => !!layer)
-    : Object.values(layertree.layers).filter((layer) => layer.folder === null)
+  const uploads = openFolder
+    ? openFolder.uploads
+        .map((uploadId) => layertree.uploads[uploadId])
+        .filter((upload) => !!upload)
+    : Object.values(layertree.uploads).filter(
+        (upload) => upload.folder === null,
+      )
 
   const breadcrumbs = [
     {
@@ -116,7 +118,7 @@ export function ImageInput({
       >
         <SupabaseImage
           src={
-            value.value ? layertree?.layers[value.value]?.signedUrl : undefined
+            value.value ? layertree?.uploads[value.value]?.signedUrl : undefined
           }
           className={cn('size-full object-cover', className)}
           width={160}
@@ -136,7 +138,7 @@ export function ImageInput({
             className="h-10 w-full gap-1 pb-2 sm:gap-1"
           />
         </DialogHeader>
-        {folders.length === 0 && layers.length === 0 ? (
+        {folders.length === 0 && uploads.length === 0 ? (
           <div className="grid h-[17.5rem] w-full place-items-center">
             <p className="font-medium text-muted-foreground text-sm">
               - Empty -
@@ -163,29 +165,29 @@ export function ImageInput({
                 </label>
               </div>
             ))}
-            {layers.map((layer) => (
-              <div key={layer.id} className="group flex flex-col gap-1">
+            {uploads.map((upload) => (
+              <div key={upload.id} className="group flex flex-col gap-1">
                 <Button
-                  id={`layer-${layer.id}`}
-                  key={layer.id}
+                  id={`upload-${upload.id}`}
+                  key={upload.id}
                   variant="outline"
                   size="none"
                   className={cn(
                     'size-fit rounded-md shadow-sm',
-                    value.value === layer.id && 'bg-muted',
+                    value.value === upload.id && 'bg-muted',
                   )}
                   onClick={() => {
                     onChange?.({
                       type: 'image',
-                      value: layer.id,
+                      value: upload.id,
                       format: 'single',
                     })
                     setOpen(false)
                   }}
                 >
                   <SupabaseImage
-                    src={layer.signedUrl}
-                    alt={layer.name || 'Unnamed Layer'}
+                    src={upload.signedUrl}
+                    alt={upload.name || 'Unnamed Upload'}
                     className="size-24 shrink-0 rounded-md object-cover"
                     width={192}
                     height={192}
@@ -193,10 +195,10 @@ export function ImageInput({
                   />
                 </Button>
                 <label
-                  htmlFor={`layer-${layer.id}`}
+                  htmlFor={`upload-${upload.id}`}
                   className="line-clamp-1 h-4 max-w-24 cursor-pointer overflow-hidden text-ellipsis pl-1 text-muted-foreground text-xs group-hover:text-secondary-foreground"
                 >
-                  {layer.name}
+                  {upload.name}
                 </label>
               </div>
             ))}

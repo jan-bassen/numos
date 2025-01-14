@@ -28,7 +28,7 @@ export const fullStringSchema = z
   .object({
     type: z.literal('string'),
     list: z.boolean(),
-    default: valueSchemas('string', stringSchema).optional(),
+    /* default: valueSchemas('string', stringSchema).optional(), */
     optional: z.boolean().default(false),
     restrictions: stringRestrictionsSchema.optional(),
   })

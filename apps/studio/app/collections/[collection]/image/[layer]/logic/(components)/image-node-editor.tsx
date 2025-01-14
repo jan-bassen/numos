@@ -110,7 +110,7 @@ export default function ImageNodeEditor({
 
   return (
     <NodeEditor
-      parentId={version.id}
+      parentId={layer.id}
       initialGraph={initialGraph}
       context={{
         type: 'image',

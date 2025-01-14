@@ -12,7 +12,7 @@ export const fullAddressSchema = z
   .object({
     type: z.literal('address'),
     list: z.boolean(),
-    default: valueSchemas('address', addressSchema).optional(),
+    /* default: valueSchemas('address', addressSchema).optional(), */
     optional: z.boolean().default(false),
     restrictions: z.object({}).optional().nullable(),
   })

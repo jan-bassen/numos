@@ -42,7 +42,6 @@ export function AttributeListInput() {
       value={value.list}
       onChange={async (v) => {
         updateAttribute({
-          list: v,
           value: {
             ...value,
             list: v ?? false,

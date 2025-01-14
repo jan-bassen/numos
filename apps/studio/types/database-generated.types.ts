@@ -15,7 +15,7 @@ export type Database = {
           created_at: string
           deactivated_at: string | null
           id: string
-          role: Database['public']['Enums']['membership-roles_old']
+          role: Database["public"]["Enums"]["membership-roles_old"]
           updated_at: string | null
           user_id: string
         }
@@ -24,7 +24,7 @@ export type Database = {
           created_at?: string
           deactivated_at?: string | null
           id?: string
-          role?: Database['public']['Enums']['membership-roles_old']
+          role?: Database["public"]["Enums"]["membership-roles_old"]
           updated_at?: string | null
           user_id: string
         }
@@ -33,17 +33,17 @@ export type Database = {
           created_at?: string
           deactivated_at?: string | null
           id?: string
-          role?: Database['public']['Enums']['membership-roles_old']
+          role?: Database["public"]["Enums"]["membership-roles_old"]
           updated_at?: string | null
           user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: 'account_memberships_account_fkey'
-            columns: ['account']
+            foreignKeyName: "account_memberships_account_fkey"
+            columns: ["account"]
             isOneToOne: false
-            referencedRelation: 'accounts'
-            referencedColumns: ['id']
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -73,7 +73,7 @@ export type Database = {
           sourceOutput: string
           target: string
           targetInput: string
-          type: Database['public']['Enums']['datatype']
+          type: Database["public"]["Enums"]["datatype"]
         }
         Insert: {
           action?: string | null
@@ -82,7 +82,7 @@ export type Database = {
           sourceOutput: string
           target: string
           targetInput: string
-          type: Database['public']['Enums']['datatype']
+          type: Database["public"]["Enums"]["datatype"]
         }
         Update: {
           action?: string | null
@@ -91,29 +91,29 @@ export type Database = {
           sourceOutput?: string
           target?: string
           targetInput?: string
-          type?: Database['public']['Enums']['datatype']
+          type?: Database["public"]["Enums"]["datatype"]
         }
         Relationships: [
           {
-            foreignKeyName: 'public_action_connections_action_fkey'
-            columns: ['action']
+            foreignKeyName: "public_action_connections_action_fkey"
+            columns: ["action"]
             isOneToOne: false
-            referencedRelation: 'actions'
-            referencedColumns: ['id']
+            referencedRelation: "actions"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'public_action_connections_source_fkey'
-            columns: ['source']
+            foreignKeyName: "public_action_connections_source_fkey"
+            columns: ["source"]
             isOneToOne: false
-            referencedRelation: 'action_nodes'
-            referencedColumns: ['id']
+            referencedRelation: "action_nodes"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'public_action_connections_target_fkey'
-            columns: ['target']
+            foreignKeyName: "public_action_connections_target_fkey"
+            columns: ["target"]
             isOneToOne: false
-            referencedRelation: 'action_nodes'
-            referencedColumns: ['id']
+            referencedRelation: "action_nodes"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -138,11 +138,11 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'action_issues_action_fkey'
-            columns: ['action']
+            foreignKeyName: "action_issues_action_fkey"
+            columns: ["action"]
             isOneToOne: false
-            referencedRelation: 'actions'
-            referencedColumns: ['id']
+            referencedRelation: "actions"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -185,11 +185,11 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'public_action_nodes_action_fkey'
-            columns: ['action']
+            foreignKeyName: "public_action_nodes_action_fkey"
+            columns: ["action"]
             isOneToOne: false
-            referencedRelation: 'actions'
-            referencedColumns: ['id']
+            referencedRelation: "actions"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -229,11 +229,11 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'public_actions_version_id_fkey'
-            columns: ['version']
+            foreignKeyName: "public_actions_version_id_fkey"
+            columns: ["version"]
             isOneToOne: false
-            referencedRelation: 'versions'
-            referencedColumns: ['id']
+            referencedRelation: "versions"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -241,15 +241,12 @@ export type Database = {
         Row: {
           created_at: string
           description: string | null
-          display: Database['public']['Enums']['display']
+          display: Database["public"]["Enums"]["display"]
           id: string
-          list: boolean
           locked: boolean
           name: string | null
-          settings: Json | null
           slug: string
           token_specific: boolean
-          type: Database['public']['Enums']['datatype']
           updated_at: string | null
           value: Json | null
           version: string
@@ -257,15 +254,12 @@ export type Database = {
         Insert: {
           created_at?: string
           description?: string | null
-          display?: Database['public']['Enums']['display']
+          display?: Database["public"]["Enums"]["display"]
           id?: string
-          list?: boolean
           locked?: boolean
           name?: string | null
-          settings?: Json | null
           slug: string
           token_specific?: boolean
-          type: Database['public']['Enums']['datatype']
           updated_at?: string | null
           value?: Json | null
           version: string
@@ -273,26 +267,23 @@ export type Database = {
         Update: {
           created_at?: string
           description?: string | null
-          display?: Database['public']['Enums']['display']
+          display?: Database["public"]["Enums"]["display"]
           id?: string
-          list?: boolean
           locked?: boolean
           name?: string | null
-          settings?: Json | null
           slug?: string
           token_specific?: boolean
-          type?: Database['public']['Enums']['datatype']
           updated_at?: string | null
           value?: Json | null
           version?: string
         }
         Relationships: [
           {
-            foreignKeyName: 'attributes_version_fkey'
-            columns: ['version']
+            foreignKeyName: "attributes_version_fkey"
+            columns: ["version"]
             isOneToOne: false
-            referencedRelation: 'versions'
-            referencedColumns: ['id']
+            referencedRelation: "versions"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -347,47 +338,18 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'collections_account_fkey'
-            columns: ['account']
+            foreignKeyName: "collections_account_fkey"
+            columns: ["account"]
             isOneToOne: false
-            referencedRelation: 'accounts'
-            referencedColumns: ['id']
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'collections_editable_version_fkey'
-            columns: ['editable_version']
+            foreignKeyName: "collections_editable_version_fkey"
+            columns: ["editable_version"]
             isOneToOne: false
-            referencedRelation: 'versions'
-            referencedColumns: ['id']
-          },
-        ]
-      }
-      empty_folders: {
-        Row: {
-          id: string
-          label: string
-          path: string | null
-          version: string
-        }
-        Insert: {
-          id?: string
-          label: string
-          path?: string | null
-          version: string
-        }
-        Update: {
-          id?: string
-          label?: string
-          path?: string | null
-          version?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: 'empty_folders_version_fkey'
-            columns: ['version']
-            isOneToOne: false
-            referencedRelation: 'versions'
-            referencedColumns: ['id']
+            referencedRelation: "versions"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -415,74 +377,112 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'folders_parent_fkey'
-            columns: ['parent']
+            foreignKeyName: "folders_parent_fkey"
+            columns: ["parent"]
             isOneToOne: false
-            referencedRelation: 'folders'
-            referencedColumns: ['id']
+            referencedRelation: "folders"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'folders_version_fkey'
-            columns: ['version']
+            foreignKeyName: "folders_version_fkey"
+            columns: ["version"]
             isOneToOne: false
-            referencedRelation: 'versions'
-            referencedColumns: ['id']
+            referencedRelation: "versions"
+            referencedColumns: ["id"]
           },
         ]
       }
       image_connections: {
         Row: {
           id: string
+          layer: string
           source: string
           sourceOutput: string
           target: string
           targetInput: string
-          type: Database['public']['Enums']['datatype']
-          version: string | null
+          type: Database["public"]["Enums"]["datatype"]
         }
         Insert: {
           id?: string
+          layer: string
           source: string
           sourceOutput: string
           target: string
           targetInput: string
-          type: Database['public']['Enums']['datatype']
-          version?: string | null
+          type: Database["public"]["Enums"]["datatype"]
         }
         Update: {
           id?: string
+          layer?: string
           source?: string
           sourceOutput?: string
           target?: string
           targetInput?: string
-          type?: Database['public']['Enums']['datatype']
-          version?: string | null
+          type?: Database["public"]["Enums"]["datatype"]
         }
         Relationships: [
           {
-            foreignKeyName: 'public_image_connections_source_fkey'
-            columns: ['source']
+            foreignKeyName: "image_connections_layer_fkey"
+            columns: ["layer"]
             isOneToOne: false
-            referencedRelation: 'image_nodes'
-            referencedColumns: ['id']
+            referencedRelation: "layers"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'public_image_connections_target_fkey'
-            columns: ['target']
+            foreignKeyName: "public_image_connections_source_fkey"
+            columns: ["source"]
             isOneToOne: false
-            referencedRelation: 'image_nodes'
-            referencedColumns: ['id']
+            referencedRelation: "image_nodes"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'public_image_connections_version_fkey'
-            columns: ['version']
+            foreignKeyName: "public_image_connections_target_fkey"
+            columns: ["target"]
             isOneToOne: false
-            referencedRelation: 'versions'
-            referencedColumns: ['id']
+            referencedRelation: "image_nodes"
+            referencedColumns: ["id"]
           },
         ]
       }
-      image_layers: {
+      image_nodes: {
+        Row: {
+          comment: string | null
+          id: string
+          layer: string
+          state: Json | null
+          type: string
+          x: number | null
+          y: number | null
+        }
+        Insert: {
+          comment?: string | null
+          id?: string
+          layer: string
+          state?: Json | null
+          type: string
+          x?: number | null
+          y?: number | null
+        }
+        Update: {
+          comment?: string | null
+          id?: string
+          layer?: string
+          state?: Json | null
+          type?: string
+          x?: number | null
+          y?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "image_nodes_layer_fkey"
+            columns: ["layer"]
+            isOneToOne: false
+            referencedRelation: "layers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      layers: {
         Row: {
           created_at: string
           definition: Json
@@ -521,115 +521,11 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'image_layers_version_fkey'
-            columns: ['version']
+            foreignKeyName: "image_layers_version_fkey"
+            columns: ["version"]
             isOneToOne: false
-            referencedRelation: 'versions'
-            referencedColumns: ['id']
-          },
-        ]
-      }
-      image_nodes: {
-        Row: {
-          comment: string | null
-          controls: Json | null
-          id: string
-          inputs: Json | null
-          outputs: Json | null
-          state: Json | null
-          type: string
-          version: string
-          x: number | null
-          y: number | null
-        }
-        Insert: {
-          comment?: string | null
-          controls?: Json | null
-          id?: string
-          inputs?: Json | null
-          outputs?: Json | null
-          state?: Json | null
-          type: string
-          version: string
-          x?: number | null
-          y?: number | null
-        }
-        Update: {
-          comment?: string | null
-          controls?: Json | null
-          id?: string
-          inputs?: Json | null
-          outputs?: Json | null
-          state?: Json | null
-          type?: string
-          version?: string
-          x?: number | null
-          y?: number | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: 'public_image_nodes_version_fkey'
-            columns: ['version']
-            isOneToOne: false
-            referencedRelation: 'versions'
-            referencedColumns: ['id']
-          },
-        ]
-      }
-      layers: {
-        Row: {
-          bytes: number
-          created_at: string
-          folder: string | null
-          height: number
-          id: string
-          name: string | null
-          tags: string[] | null
-          type: Database['public']['Enums']['image-type']
-          updated_at: string | null
-          version: string
-          width: number
-        }
-        Insert: {
-          bytes: number
-          created_at?: string
-          folder?: string | null
-          height: number
-          id?: string
-          name?: string | null
-          tags?: string[] | null
-          type: Database['public']['Enums']['image-type']
-          updated_at?: string | null
-          version: string
-          width: number
-        }
-        Update: {
-          bytes?: number
-          created_at?: string
-          folder?: string | null
-          height?: number
-          id?: string
-          name?: string | null
-          tags?: string[] | null
-          type?: Database['public']['Enums']['image-type']
-          updated_at?: string | null
-          version?: string
-          width?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: 'layers_folder_fkey'
-            columns: ['folder']
-            isOneToOne: false
-            referencedRelation: 'folders'
-            referencedColumns: ['id']
-          },
-          {
-            foreignKeyName: 'layers_version_fkey'
-            columns: ['version']
-            isOneToOne: false
-            referencedRelation: 'versions'
-            referencedColumns: ['id']
+            referencedRelation: "versions"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -657,6 +553,63 @@ export type Database = {
         }
         Relationships: []
       }
+      uploads: {
+        Row: {
+          bytes: number
+          created_at: string
+          folder: string | null
+          height: number
+          id: string
+          name: string | null
+          tags: string[] | null
+          type: Database["public"]["Enums"]["image-type"]
+          updated_at: string | null
+          version: string
+          width: number
+        }
+        Insert: {
+          bytes: number
+          created_at?: string
+          folder?: string | null
+          height: number
+          id?: string
+          name?: string | null
+          tags?: string[] | null
+          type: Database["public"]["Enums"]["image-type"]
+          updated_at?: string | null
+          version: string
+          width: number
+        }
+        Update: {
+          bytes?: number
+          created_at?: string
+          folder?: string | null
+          height?: number
+          id?: string
+          name?: string | null
+          tags?: string[] | null
+          type?: Database["public"]["Enums"]["image-type"]
+          updated_at?: string | null
+          version?: string
+          width?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "layers_folder_fkey"
+            columns: ["folder"]
+            isOneToOne: false
+            referencedRelation: "folders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "layers_version_fkey"
+            columns: ["version"]
+            isOneToOne: false
+            referencedRelation: "versions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       versions: {
         Row: {
           collection: string
@@ -665,7 +618,7 @@ export type Database = {
           major: number
           minor: number
           patch: number
-          status: Database['public']['Enums']['version-status']
+          status: Database["public"]["Enums"]["version-status"]
           updated_at: string | null
         }
         Insert: {
@@ -675,7 +628,7 @@ export type Database = {
           major?: number
           minor?: number
           patch?: number
-          status?: Database['public']['Enums']['version-status']
+          status?: Database["public"]["Enums"]["version-status"]
           updated_at?: string | null
         }
         Update: {
@@ -685,16 +638,16 @@ export type Database = {
           major?: number
           minor?: number
           patch?: number
-          status?: Database['public']['Enums']['version-status']
+          status?: Database["public"]["Enums"]["version-status"]
           updated_at?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: 'versions_collection_fkey'
-            columns: ['collection']
+            foreignKeyName: "versions_collection_fkey"
+            columns: ["collection"]
             isOneToOne: false
-            referencedRelation: 'collections'
-            referencedColumns: ['id']
+            referencedRelation: "collections"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -718,24 +671,21 @@ export type Database = {
         Returns: {
           created_at: string
           description: string | null
-          display: Database['public']['Enums']['display']
+          display: Database["public"]["Enums"]["display"]
           id: string
-          list: boolean
           locked: boolean
           name: string | null
-          settings: Json | null
           slug: string
           token_specific: boolean
-          type: Database['public']['Enums']['datatype']
           updated_at: string | null
           value: Json | null
           version: string
         }
       }
-      delete_layer_storage_object: {
+      delete_upload_storage_object: {
         Args: {
-          layer_id: string
           collection_id: string
+          upload_id: string
         }
         Returns: undefined
       }
@@ -764,124 +714,124 @@ export type Database = {
       }
     }
     Enums: {
-      'access-method': 'insert' | 'select' | 'update' | 'delete'
-      'account-tier': 'free' | 'artist' | 'team' | 'enterprise'
+      "access-method": "insert" | "select" | "update" | "delete"
+      "account-tier": "free" | "artist" | "team" | "enterprise"
       datatype:
-        | 'exec'
-        | 'enum'
-        | 'number'
-        | 'string'
-        | 'boolean'
-        | 'address'
-        | 'color'
-        | 'datetime'
-        | 'location'
-        | 'weather'
-        | 'image'
-        | 'direction'
-        | 'buffer'
-        | 'generic'
+        | "exec"
+        | "enum"
+        | "number"
+        | "string"
+        | "boolean"
+        | "address"
+        | "color"
+        | "datetime"
+        | "location"
+        | "weather"
+        | "image"
+        | "direction"
+        | "buffer"
+        | "generic"
       direction:
-        | 'top'
-        | 'top-right'
-        | 'right'
-        | 'bottom-right'
-        | 'bottom'
-        | 'bottom-left'
-        | 'left'
-        | 'top-left'
-        | 'center'
-      display: 'public' | 'hidden' | 'private'
-      'image-type': 'jpeg' | 'jpg' | 'png' | 'gif' | 'svg+xml' | 'webp' | 'avif'
-      'interval-unit': 'minutes' | 'hours' | 'days'
-      'membership-roles': 'admin' | 'editor' | 'viewer' | 'custom'
-      'membership-roles_old': 'owner' | 'admin' | 'editor' | 'viewer' | 'custom'
-      required: 'required' | 'default' | 'optional'
+        | "top"
+        | "top-right"
+        | "right"
+        | "bottom-right"
+        | "bottom"
+        | "bottom-left"
+        | "left"
+        | "top-left"
+        | "center"
+      display: "public" | "hidden" | "private"
+      "image-type": "jpeg" | "jpg" | "png" | "gif" | "svg+xml" | "webp" | "avif"
+      "interval-unit": "minutes" | "hours" | "days"
+      "membership-roles": "admin" | "editor" | "viewer" | "custom"
+      "membership-roles_old": "owner" | "admin" | "editor" | "viewer" | "custom"
+      required: "required" | "default" | "optional"
       socketType:
-        | 'exec'
-        | 'image'
-        | 'string'
-        | 'integer'
-        | 'float'
-        | 'boolean'
-        | 'vector'
-        | 'color'
-        | 'date'
-        | 'location'
-        | 'array'
-        | 'address'
-      trigger: 'api' | 'interval' | 'token' | 'schedule'
-      'trigger-type': 'api' | 'interval' | 'blockchain' | 'token' | 'schedule'
-      'value-type':
-        | 'enum'
-        | 'number'
-        | 'string'
-        | 'boolean'
-        | 'address'
-        | 'color'
-        | 'datetime'
-        | 'location'
-        | 'weather'
-        | 'image'
-        | 'direction'
-        | 'buffer'
-      'version-status': 'development' | 'review' | 'ready' | 'live'
-      'weather-code':
-        | '200'
-        | '201'
-        | '202'
-        | '210'
-        | '211'
-        | '212'
-        | '221'
-        | '230'
-        | '231'
-        | '232'
-        | '300'
-        | '301'
-        | '302'
-        | '310'
-        | '311'
-        | '312'
-        | '313'
-        | '314'
-        | '321'
-        | '500'
-        | '501'
-        | '502'
-        | '503'
-        | '504'
-        | '511'
-        | '520'
-        | '521'
-        | '522'
-        | '531'
-        | '600'
-        | '601'
-        | '602'
-        | '611'
-        | '612'
-        | '613'
-        | '615'
-        | '616'
-        | '620'
-        | '621'
-        | '622'
-        | '701'
-        | '711'
-        | '721'
-        | '731'
-        | '741'
-        | '751'
-        | '761'
-        | '762'
-        | '771'
-        | '781'
-        | '800'
-        | '801'
-        | '802'
-        | '803'
-        | '804'
+        | "exec"
+        | "image"
+        | "string"
+        | "integer"
+        | "float"
+        | "boolean"
+        | "vector"
+        | "color"
+        | "date"
+        | "location"
+        | "array"
+        | "address"
+      trigger: "api" | "interval" | "token" | "schedule"
+      "trigger-type": "api" | "interval" | "blockchain" | "token" | "schedule"
+      "value-type":
+        | "enum"
+        | "number"
+        | "string"
+        | "boolean"
+        | "address"
+        | "color"
+        | "datetime"
+        | "location"
+        | "weather"
+        | "image"
+        | "direction"
+        | "buffer"
+      "version-status": "development" | "review" | "ready" | "live"
+      "weather-code":
+        | "200"
+        | "201"
+        | "202"
+        | "210"
+        | "211"
+        | "212"
+        | "221"
+        | "230"
+        | "231"
+        | "232"
+        | "300"
+        | "301"
+        | "302"
+        | "310"
+        | "311"
+        | "312"
+        | "313"
+        | "314"
+        | "321"
+        | "500"
+        | "501"
+        | "502"
+        | "503"
+        | "504"
+        | "511"
+        | "520"
+        | "521"
+        | "522"
+        | "531"
+        | "600"
+        | "601"
+        | "602"
+        | "611"
+        | "612"
+        | "613"
+        | "615"
+        | "616"
+        | "620"
+        | "621"
+        | "622"
+        | "701"
+        | "711"
+        | "721"
+        | "731"
+        | "741"
+        | "751"
+        | "761"
+        | "762"
+        | "771"
+        | "781"
+        | "800"
+        | "801"
+        | "802"
+        | "803"
+        | "804"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -889,27 +839,27 @@ export type Database = {
   }
 }
 
-type PublicSchema = Database[Extract<keyof Database, 'public'>]
+type PublicSchema = Database[Extract<keyof Database, "public">]
 
 export type Tables<
   PublicTableNameOrOptions extends
-    | keyof (PublicSchema['Tables'] & PublicSchema['Views'])
+    | keyof (PublicSchema["Tables"] & PublicSchema["Views"])
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof (Database[PublicTableNameOrOptions['schema']]['Tables'] &
-        Database[PublicTableNameOrOptions['schema']]['Views'])
+    ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
+        Database[PublicTableNameOrOptions["schema"]]["Views"])
     : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
-  ? (Database[PublicTableNameOrOptions['schema']]['Tables'] &
-      Database[PublicTableNameOrOptions['schema']]['Views'])[TableName] extends {
+  ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
+      Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
       Row: infer R
     }
     ? R
     : never
-  : PublicTableNameOrOptions extends keyof (PublicSchema['Tables'] &
-        PublicSchema['Views'])
-    ? (PublicSchema['Tables'] &
-        PublicSchema['Views'])[PublicTableNameOrOptions] extends {
+  : PublicTableNameOrOptions extends keyof (PublicSchema["Tables"] &
+        PublicSchema["Views"])
+    ? (PublicSchema["Tables"] &
+        PublicSchema["Views"])[PublicTableNameOrOptions] extends {
         Row: infer R
       }
       ? R
@@ -918,19 +868,19 @@ export type Tables<
 
 export type TablesInsert<
   PublicTableNameOrOptions extends
-    | keyof PublicSchema['Tables']
+    | keyof PublicSchema["Tables"]
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicTableNameOrOptions['schema']]['Tables']
+    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
     : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicTableNameOrOptions['schema']]['Tables'][TableName] extends {
+  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Insert: infer I
     }
     ? I
     : never
-  : PublicTableNameOrOptions extends keyof PublicSchema['Tables']
-    ? PublicSchema['Tables'][PublicTableNameOrOptions] extends {
+  : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
+    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
         Insert: infer I
       }
       ? I
@@ -939,19 +889,19 @@ export type TablesInsert<
 
 export type TablesUpdate<
   PublicTableNameOrOptions extends
-    | keyof PublicSchema['Tables']
+    | keyof PublicSchema["Tables"]
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicTableNameOrOptions['schema']]['Tables']
+    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
     : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicTableNameOrOptions['schema']]['Tables'][TableName] extends {
+  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Update: infer U
     }
     ? U
     : never
-  : PublicTableNameOrOptions extends keyof PublicSchema['Tables']
-    ? PublicSchema['Tables'][PublicTableNameOrOptions] extends {
+  : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
+    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
         Update: infer U
       }
       ? U
@@ -960,28 +910,28 @@ export type TablesUpdate<
 
 export type Enums<
   PublicEnumNameOrOptions extends
-    | keyof PublicSchema['Enums']
+    | keyof PublicSchema["Enums"]
     | { schema: keyof Database },
   EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicEnumNameOrOptions['schema']]['Enums']
+    ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
     : never = never,
 > = PublicEnumNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicEnumNameOrOptions['schema']]['Enums'][EnumName]
-  : PublicEnumNameOrOptions extends keyof PublicSchema['Enums']
-    ? PublicSchema['Enums'][PublicEnumNameOrOptions]
+  ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
+    ? PublicSchema["Enums"][PublicEnumNameOrOptions]
     : never
 
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
-    | keyof PublicSchema['CompositeTypes']
+    | keyof PublicSchema["CompositeTypes"]
     | { schema: keyof Database },
   CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
     schema: keyof Database
   }
-    ? keyof Database[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes']
+    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
     : never = never,
 > = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes'][CompositeTypeName]
-  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema['CompositeTypes']
-    ? PublicSchema['CompositeTypes'][PublicCompositeTypeNameOrOptions]
+  ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
+    ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never

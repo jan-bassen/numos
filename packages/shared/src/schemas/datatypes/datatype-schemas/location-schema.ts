@@ -16,7 +16,7 @@ export const fullLocationSchema = z
   .object({
     type: z.literal('location'),
     list: z.boolean(),
-    default: valueSchemas('location', locationSchema).optional(),
+    /* default: valueSchemas('location', locationSchema).optional(), */
     optional: z.boolean().default(false),
     restrictions: z.object({}).optional().nullable(),
   })

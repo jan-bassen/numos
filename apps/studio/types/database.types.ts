@@ -56,7 +56,7 @@ export type Database = MergeDeep<
             value?: FullValue | null
           }
         }
-        image_layers: {
+        layers: {
           Row: {
             definition: LayerDefinition
           }
@@ -135,7 +135,9 @@ export type Direction = Enums<'direction'>
 export type WeatherCode = Enums<'weather-code'>
 export type Display = Enums<'display'>
 export type VersionStatus = Enums<'version-status'>
-export type TriggerType = Enums<'trigger'>
+
+// TODO: Move to shared
+export type TriggerType = 'api' | 'time' | 'token'
 export type IntervalUnit = Enums<'interval-unit'>
 export type ImageType = Enums<'image-type'>
 
@@ -168,14 +170,14 @@ export type ActionIssue = Tables<'action_issues'>
 export type InsertActionIssue = TablesInsert<'action_issues'>
 export type UpdateActionIssue = TablesUpdate<'action_issues'>
 
-export type Layer = Tables<'image_layers'>
-export type InsertLayer = TablesInsert<'image_layers'>
+export type Layer = Tables<'layers'>
+export type InsertLayer = TablesInsert<'layers'>
 export type UnorderedInsertLayer = Omit<InsertLayer, 'index'>
-export type UpdateLayer = TablesUpdate<'image_layers'>
+export type UpdateLayer = TablesUpdate<'layers'>
 
-export type Upload = Tables<'layers'>
-export type InsertUpload = TablesInsert<'layers'>
-export type UpdateUpload = TablesUpdate<'layers'>
+export type Upload = Tables<'uploads'>
+export type InsertUpload = TablesInsert<'uploads'>
+export type UpdateUpload = TablesUpdate<'uploads'>
 
 export type Folder = Tables<'folders'>
 export type InsertFolder = TablesInsert<'folders'>
@@ -188,12 +190,12 @@ export type ResolvedUpload = Upload & {
 export type ResolvedFolder = Folder & {
   path: string[]
   subfolders: string[]
-  layers: string[]
+  uploads: string[]
 }
 
 export type UploadsTree = {
   folders: Record<string, ResolvedFolder>
-  layers: Record<string, ResolvedUpload>
+  uploads: Record<string, ResolvedUpload>
 }
 
 export type LegacyResolvedUploads = Upload & {
@@ -205,16 +207,13 @@ export type LegacyResolvedFolder = Folder & {
   globalIndex: number
   path: string
   subfolders: LegacyResolvedFolder[]
-  layers: LegacyResolvedUploads[]
+  uploads: LegacyResolvedUploads[]
 }
 
 export type LegacyUploadsTree = {
   folders: LegacyResolvedFolder[]
-  layers: LegacyResolvedUploads[]
+  uploads: LegacyResolvedUploads[]
 }
-
-export type EmptyFolder = Tables<'empty_folders'>
-export type InsertEmptyFolder = TablesInsert<'empty_folders'>
 
 export type Profile = Tables<'profiles'>
 export type InsertProfile = TablesInsert<'profiles'>

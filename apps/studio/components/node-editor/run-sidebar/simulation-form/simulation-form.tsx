@@ -411,8 +411,8 @@ export function SimulationForm({
             <AccordionContent className="space-y-4 border-b bg-muted/20 p-3 pt-5 pb-7">
               {attributes.map((attribute) => {
                 if (!attribute.token_specific) return null
-                if (attribute.type === 'buffer') return null
-                if (attribute.list) {
+                if (attribute.value.type === 'buffer') return null
+                if (attribute.value.list) {
                   const itemKey = `attributes.${attribute.id}` as Path<
                     z.infer<typeof schema>
                   >
@@ -481,10 +481,10 @@ export function SimulationForm({
                     key={`attributes.${attribute.id}`}
                     render={({ field }) => {
                       const DataTypeInput = getDataTypeInput<
-                        typeof attribute.type | 'buffer'
-                      >(attribute.type)
+                        typeof attribute.value.type | 'buffer'
+                      >(attribute.value.type)
                       const props: SingleDataTypeInputProps<
-                        typeof attribute.type | 'buffer'
+                        typeof attribute.value.type | 'buffer'
                       > = {
                         type: attribute.value.type,
                         restrictions: attribute.value.restrictions,
@@ -506,7 +506,7 @@ export function SimulationForm({
                           <div
                             className={cn(
                               'flex w-full space-y-2',
-                              attribute.type === 'boolean'
+                              attribute.value.type === 'boolean'
                                 ? 'my-1 flex-row items-center justify-between'
                                 : 'flex-col',
                             )}

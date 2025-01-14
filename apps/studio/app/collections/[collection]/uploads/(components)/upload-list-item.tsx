@@ -30,41 +30,41 @@ import { childrenOffset, type TreeContext, type TreeElement } from './tree'
 import { cn, handleReturnInfo } from '@repo/ui/lib/utils'
 
 export default function UploadsListItem({
-  layerId,
+  uploadId,
   tree,
   level,
   context,
 }: {
-  layerId: string
+  uploadId: string
   tree: UploadsTree
   level: number
   context: TreeContext
 }) {
-  const layer = tree.layers[layerId]
+  const upload = tree.uploads[uploadId]
   const [dialogOpen, setDialogOpen] = useState(false)
   const [renaming, setRenaming] = useState(false)
-  const [name, setName] = useState(layer?.name || '')
+  const [name, setName] = useState(upload?.name || '')
   const nameInputRef = useRef<HTMLInputElement>(null)
 
-  if (!layer) return null
+  if (!upload) return null
 
-  const folder = layer.folder ? tree.folders[layer.folder] : undefined
+  const folder = upload.folder ? tree.folders[upload.folder] : undefined
   const selectionElement: TreeElement = {
-    type: 'layer' as const,
-    id: layer.id,
-    path: layer.folder && folder ? folder.path.concat(layer.folder) : [],
+    type: 'upload' as const,
+    id: upload.id,
+    path: upload.folder && folder ? folder.path.concat(upload.folder) : [],
   }
-  const isSelected = context.selection.layer.some(
-    (item) => item.id === layer.id,
+  const isSelected = context.selection.upload.some(
+    (item) => item.id === upload.id,
   )
 
   const handleRename = async () => {
-    if (name === layer.name) {
+    if (name === upload.name) {
       setRenaming(false)
       return
     }
 
-    const res = await updateUpload(layer.id, { name })
+    const res = await updateUpload(upload.id, { name })
     if (!res.ok) {
       toast.error(res.message)
       return
@@ -103,7 +103,7 @@ export default function UploadsListItem({
     }
     context.addToSelection(selectionElement)
     e.dataTransfer.effectAllowed = 'move'
-    e.dataTransfer.setData('text/plain', layer.id || '')
+    e.dataTransfer.setData('text/plain', upload.id || '')
     context.setDraggedElement(selectionElement)
   }
 
@@ -131,8 +131,8 @@ export default function UploadsListItem({
             draggable
           >
             <SupabaseImage
-              src={layer.signedUrl}
-              alt={layer.name || 'Unnamed Layer'}
+              src={upload.signedUrl}
+              alt={upload.name || 'Unnamed Upload'}
               className="size-8 shrink-0 rounded-md object-cover "
               width={64}
               height={64}
@@ -142,7 +142,7 @@ export default function UploadsListItem({
             {renaming ? (
               <Input
                 value={name || undefined}
-                placeholder="Unnamed Layer"
+                placeholder="Unnamed Upload"
                 onChange={(e) => setName(e.target.value)}
                 ref={nameInputRef}
                 className="h-8 w-full border-0 bg-transparent p-2 pl-3 font-normal text-secondary-foreground text-sm ring-offset-transparent focus-visible:ring-transparent"
@@ -167,7 +167,7 @@ export default function UploadsListItem({
                   }, 50)
                 }}
               >
-                {name || 'Unnamed Layer'}
+                {name || 'Unnamed Upload'}
               </p>
             )}
           </Button>
@@ -194,7 +194,7 @@ export default function UploadsListItem({
           </ContextMenuItem>
           <ContextMenuItem
             onClick={async () => {
-              const res = await deleteUpload(layer.id)
+              const res = await deleteUpload(upload.id)
               handleReturnInfo(res)
             }}
             className="flex gap-1.5"
@@ -210,8 +210,8 @@ export default function UploadsListItem({
           <div className="flex -md:flex-col gap-10">
             <div className="max-h-[50vh] w-full md:max-w-[33vw]">
               <SupabaseImage
-                src={layer.signedUrl}
-                alt={layer.name || 'Unnamed Layer'}
+                src={upload.signedUrl}
+                alt={upload.name || 'Unnamed Upload'}
                 loading="eager"
                 className="contain h-full w-full drop-shadow-sm"
                 width={1000}
@@ -223,22 +223,22 @@ export default function UploadsListItem({
               <DialogDescription className="flex items-center gap-3 text-muted-foreground text-xs ">
                 <span className="flex items-center gap-[0.28rem]">
                   <PiPhotoImageDefaultContrast className="size-[0.75rem] opacity-80" />
-                  {layer.type.toUpperCase()}
+                  {upload.type.toUpperCase()}
                 </span>
                 <span className="flex items-center gap-[0.28rem]">
                   <PiDatabaseContrast className="size-[0.75rem] opacity-80" />
-                  {new Decimal(layer.bytes / 1000000)
+                  {new Decimal(upload.bytes / 1000000)
                     .toDecimalPlaces(2)
                     .toNumber()}
                   MB
                 </span>
                 <span className="flex items-center gap-[0.28rem]">
                   <PiCalendarCheckContrast className="size-[0.75rem] opacity-80" />
-                  {new Date(layer.created_at).toLocaleString()}
+                  {new Date(upload.created_at).toLocaleString()}
                 </span>
               </DialogDescription>
               <DialogTitle className="font-semibold text-2xl leading-tight">
-                {layer.name}
+                {upload.name}
               </DialogTitle>
               <div className="h-5" />
             </div>

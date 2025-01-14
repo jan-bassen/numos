@@ -1,10 +1,9 @@
 'use client'
 
 import { useAction } from '@/app/collections/[collection]/actions/[action]/action-context'
-import { IntervalSettings } from './interval-settings'
-import { ScheduleSettings } from './schedule-settings'
-import { TokenSettings } from './token-settings'
-import { ApiSettings } from './api-settings'
+import { ApiSettings } from '@/app/collections/[collection]/actions/[action]/(components)/inputs/trigger-settings/api-settings'
+import { TokenSettings } from '@/app/collections/[collection]/actions/[action]/(components)/inputs/trigger-settings/token-settings'
+import { TimeSettings } from '@/app/collections/[collection]/actions/[action]/(components)/inputs/trigger-settings/time-settings'
 
 export function TriggerSettingsSegment() {
   const {
@@ -14,10 +13,8 @@ export function TriggerSettingsSegment() {
   switch (trigger.type) {
     case 'api':
       return <ApiSettings />
-    case 'interval':
-      return <IntervalSettings />
-    case 'schedule':
-      return <ScheduleSettings />
+    case 'time':
+      return <TimeSettings />
     case 'token':
       return <TokenSettings />
     default:

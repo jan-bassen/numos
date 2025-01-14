@@ -41,7 +41,7 @@ export const fullNumberSchema = z
   .object({
     type: z.literal('number'),
     list: z.boolean(),
-    default: valueSchemas('number', numberSchema).optional(),
+    /* default: valueSchemas('number', numberSchema).optional(), */
     optional: z.boolean().default(false),
     restrictions: numberRestrictionsSchema.optional(),
   })

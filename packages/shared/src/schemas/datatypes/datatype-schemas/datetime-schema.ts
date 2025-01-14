@@ -9,7 +9,7 @@ export const fullDatetimeSchema = z
   .object({
     type: z.literal('datetime'),
     list: z.boolean(),
-    default: valueSchemas('datetime', datetimeSchema).optional(),
+    /* default: valueSchemas('datetime', datetimeSchema).optional(), */
     optional: z.boolean().default(false),
     restrictions: z.object({}).optional().nullable(),
   })

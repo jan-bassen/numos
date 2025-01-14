@@ -11,7 +11,7 @@ export function getDefaultValuesFromAttributes(
       if (value !== undefined) {
         acc[attribute.id] = value
       } else {
-        acc[attribute.id] = attribute.value.default?.value || null
+        acc[attribute.id] = null
       }
       return acc
     },
@@ -22,7 +22,10 @@ export function getDefaultValuesFromAttributes(
 
 export const getAttributeTypes = (attributes: Attribute[]): ValueTypeMap => {
   return attributes.reduce((accumulator, attribute) => {
-    accumulator[attribute.id] = { type: attribute.type, list: attribute.list }
+    accumulator[attribute.id] = {
+      type: attribute.value.type,
+      list: attribute.value.list,
+    }
     return accumulator
   }, {} as ValueTypeMap)
 }

@@ -11,7 +11,7 @@ export const fullBooleanSchema = z
   .object({
     type: z.literal('boolean'),
     list: z.boolean(),
-    default: valueSchemas('boolean', booleanSchema).optional(),
+    /* default: valueSchemas('boolean', booleanSchema).optional(), */
     optional: z.boolean().default(false),
     restrictions: z.object({}).optional().nullable(),
   })
