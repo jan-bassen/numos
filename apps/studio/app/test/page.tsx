@@ -1,20 +1,34 @@
 import { Navbar } from '@/components/navigation/navbar/navbar'
-import Header from '@/components/page/header'
+import {
+  Header,
+  HeaderActions,
+  HeaderContent,
+  HeaderMain,
+  HeaderTitle,
+} from '@/components/page/header'
 import Main from '@/components/page/main'
-import Page from '@/components/page/page'
-import { AbiButton } from '@/lib/blockchain/abi-button'
-import WalletButton from '@/lib/blockchain/wallet'
-import TestButton from '@/lib/core/test-button'
-import { Button } from '@repo/ui/components/ui/button'
+import { Page } from '@/components/page/page'
 
 export default function TestPage() {
   return (
     <>
       <Navbar />
-      <Page>
-        <Header title="Test" />
-        <Main>
-          <TestButton />
+      <Page tabs tabsProps={{ pageid: 'test', defaultValue: 'test' }}>
+        <Header
+          back={{
+            href: '/collections',
+            label: 'Collections',
+          }}
+        >
+          <HeaderContent>
+            <HeaderMain>
+              <HeaderTitle>Test</HeaderTitle>
+            </HeaderMain>
+            <HeaderActions>{/* <TestButton /> */}</HeaderActions>
+          </HeaderContent>
+        </Header>
+        <Main value="test">
+          {/* <TestButton /> */}
           {/* <WalletButton />
           <AbiButton /> */}
         </Main>

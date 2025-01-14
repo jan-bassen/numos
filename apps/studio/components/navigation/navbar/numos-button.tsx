@@ -22,11 +22,11 @@ export function NumosButton() {
             <SidebarMenuButton asChild>
               <Link
                 href="/"
-                className="group-data-[state=collapsed]:!p-0 !h-14 group-data-[state=collapsed]:!h-14 flex gap-2 p-0 px-0 group-data-[state=expanded]:px-3"
+                className="group-data-[state=collapsed]:!p-0 !h-12 group-data-[state=collapsed]:!h-12 flex gap-2 p-0 px-0 group-data-[state=expanded]:px-2"
               >
-                <Logo size={32} name={false} />
+                <Logo size={24} name={false} className="size-6" />
                 <span className="text-left font-semibold text-lg transition-transform group-data-[state=collapsed]:w-0">
-                  Numos Studio
+                  Numos
                 </span>
               </Link>
             </SidebarMenuButton>

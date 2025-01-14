@@ -12,6 +12,7 @@ import {
 import { cn } from '@repo/ui/lib/utils'
 
 const Select = SelectPrimitive.Root
+export type RootSelectProps = React.ComponentProps<typeof SelectPrimitive.Root>
 
 const SelectGroup = SelectPrimitive.Group
 
@@ -121,11 +122,8 @@ const SelectLabel = ({
 )
 SelectLabel.displayName = SelectPrimitive.Label.displayName
 
-const SelectItem = ({
-  className,
-  children,
-  ...props
-}: React.ComponentProps<typeof SelectPrimitive.Item>) => (
+export type SelectItemProps = React.ComponentProps<typeof SelectPrimitive.Item>
+const SelectItem = ({ className, children, ...props }: SelectItemProps) => (
   <SelectPrimitive.Item
     className={cn(
       'relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pr-2 pl-8 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',

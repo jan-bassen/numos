@@ -1,5 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import type { TextInputNode } from '@repo/engine/nodes/text-input/interface'
+import type { TextInputNode } from '@repo/shared/engine/nodes/text-input/interface'
 
 export const textInputDefinition: SpecificNodeDefinition<TextInputNode> = {
   type: 'text-input',

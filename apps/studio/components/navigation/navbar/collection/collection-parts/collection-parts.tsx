@@ -1,7 +1,8 @@
 import { getActionsForNav } from '@/lib/supabase/db/actions'
-import { getAttributesForNav } from '@/lib/supabase/db/attributes'
 import { getCollectionFromSlug } from '@/lib/supabase/db/collections'
 import { CollectionItems } from './collection-items'
+import { getAttributesForNav } from '@/lib/supabase/db/attributes/read'
+import { getLayersForNav } from '@/lib/supabase/db/layers/read'
 
 export async function CollectionParts({
   collection_slug,
@@ -11,7 +12,12 @@ export async function CollectionParts({
   if (!version) throw new Error('No version')
   const attributePromise = getAttributesForNav(version)
   const actionPromise = getActionsForNav(collection.slug)
-  const navItems = await Promise.all([attributePromise, actionPromise])
+  const layerPromise = getLayersForNav(collection.slug)
+  const navItems = await Promise.all([
+    attributePromise,
+    actionPromise,
+    layerPromise,
+  ])
 
   return <CollectionItems collection={collection} navItems={navItems} />
 }

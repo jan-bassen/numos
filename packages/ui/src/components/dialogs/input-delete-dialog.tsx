@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import {
-  AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
@@ -8,10 +7,9 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from '@repo/ui/components/ui/alert-dialog'
 import { Input } from '@repo/ui/components/ui/input'
-import { buttonVariants } from '../ui/button'
+import { buttonVariants } from '@repo/ui/components/ui/button'
 
 export default function InputDeleteDialogContent({
   onDelete,

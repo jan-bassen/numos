@@ -46,7 +46,7 @@ const options: {
   },
 }
 
-export function addMultiSelector<S extends BaseSchemes, K>(
+export function addMultiSelector(
   area: Area,
   mode: EditorMode,
   shape: Shape,
@@ -66,7 +66,7 @@ export function addMultiSelector<S extends BaseSchemes, K>(
   svg.setAttribute('id', 'lasso')
   container.appendChild(svg)
 
-  const { left, top } = container.getBoundingClientRect()
+  /*   const { left, top } = container.getBoundingClientRect() */
 
   svg.style.width = '100%'
   svg.style.height = '100%'

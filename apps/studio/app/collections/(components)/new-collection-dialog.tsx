@@ -8,9 +8,8 @@ import { handleReturnInfo } from '@repo/ui/lib/utils'
 import { toast } from 'sonner'
 import { Input } from '@repo/ui/components/ui/input'
 import { useRouter } from 'next/navigation'
-import { Textarea } from '@repo/ui/components/ui/textarea'
 import { insertCollection } from '@/lib/supabase/db/collections'
-import { collectionSchema } from '../../../lib/schemas/collection-schema'
+import { collectionSchema } from '@/lib/schemas/collection-schema'
 import {
   Dialog,
   DialogContent,
@@ -19,15 +18,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@repo/ui/components/ui/dialog'
-import { Fingerprint, Hash, Info, Tag } from 'lucide-react'
+import { Fingerprint, Tag } from 'lucide-react'
 import {
-  type StageDefinition,
+  type StaticStageDefinition,
   StagedForm,
 } from '@/components/forms/staged-form'
 import { FormControl, FormItem, FormMessage } from '@repo/ui/components/ui/form'
 import { slugify } from '@/lib/utils'
 
-export function NewCollectionDialog({ button }: { button: ReactNode }) {
+export function NewCollectionDialog({ children }: { children: ReactNode }) {
   const [dialogOpen, setDialogOpen] = useState(false)
   const router = useRouter()
 
@@ -51,7 +50,7 @@ export function NewCollectionDialog({ button }: { button: ReactNode }) {
     })
   }
 
-  const stages: StageDefinition<SchemaType>[] = [
+  const stages: StaticStageDefinition<SchemaType>[] = [
     {
       key: 'name',
       title: 'Name your new collection',
@@ -115,7 +114,7 @@ export function NewCollectionDialog({ button }: { button: ReactNode }) {
 
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-      <DialogTrigger asChild>{button}</DialogTrigger>
+      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="overflow-visible px-0">
         <DialogHeader className="hidden">
           <DialogTitle>Create a new collection</DialogTitle>

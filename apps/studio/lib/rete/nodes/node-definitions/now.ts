@@ -1,5 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import type { NowNode } from '@repo/engine/nodes/now/interface'
+import type { NowNode } from '@repo/shared/engine/nodes/now/interface'
 
 export const nowDefinition: SpecificNodeDefinition<NowNode> = {
   type: 'now',

@@ -1,5 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import type { ChangeTokenNameNode } from '@repo/engine/nodes/change-token-name/interface'
+import type { ChangeTokenNameNode } from '@repo/shared/engine/nodes/change-token-name/interface'
 
 export const changeTokenNameDefinition: SpecificNodeDefinition<ChangeTokenNameNode> =
   {

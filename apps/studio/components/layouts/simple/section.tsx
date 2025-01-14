@@ -2,6 +2,8 @@ import type { ReactNode } from 'react'
 import { H2 } from '../../page/headings'
 import Link from 'next/link'
 import { cn } from '@repo/ui/lib/utils'
+import Subheading from '../subheading'
+import type { TooltipInfo } from '@repo/ui/components/help/info-tooltip'
 
 export default function Section({
   children,
@@ -9,25 +11,18 @@ export default function Section({
   link,
   className,
   containerClassName,
+  info,
 }: {
   children?: ReactNode
   title: string
   link?: string
   className?: string
   containerClassName?: string
+  info?: Omit<TooltipInfo, 'title'>
 }) {
   return (
     <section className={cn('space-y-2', containerClassName)}>
-      {link ? (
-        <Link
-          href={link}
-          className="pl-1 font-semibold text-lg transition-colors duration-200 ease-in-out hover:underline"
-        >
-          {title}
-        </Link>
-      ) : (
-        <H2 className="pl-1">{title}</H2>
-      )}
+      <Subheading title={title} info={info} link={link} />
       <div className={className}>{children}</div>
     </section>
   )

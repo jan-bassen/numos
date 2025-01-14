@@ -5,8 +5,8 @@ import type {
   SavedConnection,
   SavedGraph,
   SavedNode,
-} from '@repo/engine/types/graph-types'
-import { createSupabaseServerComponentClient } from '../clients/server-client'
+} from '@repo/shared/types/graph-types'
+import { createSupabaseServerComponentClient } from '@/lib/supabase/clients/server-client'
 import { changeSavedNodeStructure, replaceRemovedNodes } from '@/lib/transition'
 
 export async function insertImageNode(

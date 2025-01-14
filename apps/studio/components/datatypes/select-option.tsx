@@ -2,8 +2,7 @@ import type { SelectOption } from '@/types/nodes.types'
 import { SelectItem } from '@repo/ui/components/ui/select'
 import { cn } from '@repo/ui/lib/utils'
 
-export default function SelectOptionItem(props: { option: SelectOption }) {
-  const option = props.option
+export default function SelectOptionItem({ option }: { option: SelectOption }) {
   return (
     <SelectItem
       value={option.value}

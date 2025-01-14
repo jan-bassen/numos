@@ -1,35 +1,43 @@
 import { TabsContent } from '@repo/ui/components/ui/tabs'
 import { cn } from '@repo/ui/lib/utils'
+import type { ComponentProps } from 'react'
 
 export default function Main({
+  value,
   children,
   className,
-  tabValue,
+  ...props
 }: {
-  children?: React.ReactNode
-  className?: string
-  tabValue?: string
-}) {
-  if (tabValue) {
+  value?: string
+} & ComponentProps<'main'>) {
+  if (value) {
     return (
-      <TabsContent value={tabValue} asChild>
-        <main
-          className={cn(
-            '!mt-0 flex h-full w-full flex-grow flex-col gap-6 p-6',
-            className,
-          )}
-        >
+      <TabsContent value={value} asChild>
+        <MainContent className={cn('!mt-0', className)} {...props}>
           {children}
-        </main>
+        </MainContent>
       </TabsContent>
     )
   }
   return (
+    <MainContent className={className} {...props}>
+      {children}
+    </MainContent>
+  )
+}
+
+function MainContent({
+  children,
+  className,
+  ...props
+}: {} & ComponentProps<'main'>) {
+  return (
     <main
       className={cn(
-        'flex h-full w-full flex-grow flex-col gap-8 p-8',
+        'flex h-full w-full flex-grow flex-col gap-4 p-4 md:gap-7 md:p-7',
         className,
       )}
+      {...props}
     >
       {children}
     </main>

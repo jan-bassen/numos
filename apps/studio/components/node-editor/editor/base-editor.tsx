@@ -22,7 +22,7 @@ import type {
 import type {
   OLDSavedControlMap,
   SavedGraph,
-} from '@repo/engine/types/graph-types'
+} from '@repo/shared/types/graph-types'
 import { autosaveToEvents } from '@/lib/rete/autosave'
 import type { NodeEditor } from '@/lib/rete/classes/editor'
 import type { ZoomEventParams } from '@/lib/rete/classes/area/area'
@@ -30,10 +30,10 @@ import Decimal from 'decimal.js'
 import type {
   GraphErrorData,
   SimulationData,
-} from '@repo/engine/types/engine-types'
-import RunSidebar from '../run-sidebar/run-sidebar'
-import EditorInterface from '../interface/editor-interface'
-import EditorProvider from './editor-provider'
+} from '@repo/shared/types/engine-types'
+import RunSidebar from '@/components/node-editor/run-sidebar/run-sidebar'
+import EditorInterface from '@/components/node-editor/interface/editor-interface'
+import EditorProvider from '@/components/node-editor/editor/editor-provider'
 import { useSecondarySidebar } from '@repo/ui/components/ui/sidebar-secondary'
 
 //TODO: Clean up

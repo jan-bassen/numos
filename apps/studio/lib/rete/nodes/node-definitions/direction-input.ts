@@ -1,5 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import type { DirectionInputNode } from '@repo/engine/nodes/direction-input/interface'
+import type { DirectionInputNode } from '@repo/shared/engine/nodes/direction-input/interface'
 
 export const directionInputDefinition: SpecificNodeDefinition<DirectionInputNode> =
   {

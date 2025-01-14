@@ -1,5 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import type { AddressInputNode } from '@repo/engine/nodes/address-input/interface'
+import type { AddressInputNode } from '@repo/shared/engine/nodes/address-input/interface'
 
 export const addressInputDefinition: SpecificNodeDefinition<AddressInputNode> =
   {

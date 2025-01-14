@@ -1,26 +1,22 @@
 'use client'
 
-import ColorDisplay from './color/color-display'
-import LocationDisplay from './location/location-display'
-import AddressDisplay from './address/address-display'
-import DateTimeDisplay from './datetime/datetime-display'
-import WeatherDisplay from './weather/weather-display'
-import DirectionDisplay from './direction/direction-display'
-import ImageDisplay from './image/image-display'
+import ColorDisplay from '@/components/datatypes/color/color-display'
+import LocationDisplay from '@/components/datatypes/location/location-display'
+import AddressDisplay from '@/components/datatypes/address/address-display'
+import DateTimeDisplay from '@/components/datatypes/datetime/datetime-display'
+import WeatherDisplay from '@/components/datatypes/weather/weather-display'
+import DirectionDisplay from '@/components/datatypes/direction/direction-display'
+import ImageDisplay from '@/components/datatypes/image/image-display'
 import { cn } from '@repo/ui/lib/utils'
-import { dataTypes } from '@/lib/supabase/constants/datatypes'
+import { dataTypes } from '@/lib/constants/datatypes'
 import { Button } from '@repo/ui/components/ui/button'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@repo/ui/components/ui/popover'
-import type {
-  Value,
-  ValueFormat,
-  ValueType,
-} from '@repo/engine/types/value-types'
-import { isListFormat } from '@repo/engine/datatypes/utils'
+import type { Value, ValueFormat, ValueType } from '@repo/shared/types/values'
+import { isListFormat } from '@repo/shared/schemas/datatypes/utils'
 
 export type GenericSingleDisplayProps = {
   value: Value<ValueType, 'single', true>

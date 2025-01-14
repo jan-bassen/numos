@@ -117,6 +117,35 @@ export type Database = {
           },
         ]
       }
+      action_issues: {
+        Row: {
+          action: string
+          created_at: string
+          data: Json
+          id: number
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          data: Json
+          id?: number
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          data?: Json
+          id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'action_issues_action_fkey'
+            columns: ['action']
+            isOneToOne: false
+            referencedRelation: 'actions'
+            referencedColumns: ['id']
+          },
+        ]
+      }
       action_nodes: {
         Row: {
           action: string
@@ -222,6 +251,7 @@ export type Database = {
           token_specific: boolean
           type: Database['public']['Enums']['datatype']
           updated_at: string | null
+          value: Json | null
           version: string
         }
         Insert: {
@@ -237,6 +267,7 @@ export type Database = {
           token_specific?: boolean
           type: Database['public']['Enums']['datatype']
           updated_at?: string | null
+          value?: Json | null
           version: string
         }
         Update: {
@@ -252,6 +283,7 @@ export type Database = {
           token_specific?: boolean
           type?: Database['public']['Enums']['datatype']
           updated_at?: string | null
+          value?: Json | null
           version?: string
         }
         Relationships: [
@@ -450,6 +482,53 @@ export type Database = {
           },
         ]
       }
+      image_layers: {
+        Row: {
+          created_at: string
+          definition: Json
+          description: string | null
+          id: string
+          index: number
+          locked: boolean
+          name: string | null
+          slug: string
+          updated_at: string
+          version: string
+        }
+        Insert: {
+          created_at?: string
+          definition: Json
+          description?: string | null
+          id?: string
+          index: number
+          locked?: boolean
+          name?: string | null
+          slug: string
+          updated_at?: string
+          version: string
+        }
+        Update: {
+          created_at?: string
+          definition?: Json
+          description?: string | null
+          id?: string
+          index?: number
+          locked?: boolean
+          name?: string | null
+          slug?: string
+          updated_at?: string
+          version?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'image_layers_version_fkey'
+            columns: ['version']
+            isOneToOne: false
+            referencedRelation: 'versions'
+            referencedColumns: ['id']
+          },
+        ]
+      }
       image_nodes: {
         Row: {
           comment: string | null
@@ -624,6 +703,35 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      action_from_slugs: {
+        Args: {
+          collection_slug: string
+          action_slug: string
+        }
+        Returns: Record<string, unknown>
+      }
+      attribute_from_slugs: {
+        Args: {
+          collection_slug: string
+          attribute_slug: string
+        }
+        Returns: {
+          created_at: string
+          description: string | null
+          display: Database['public']['Enums']['display']
+          id: string
+          list: boolean
+          locked: boolean
+          name: string | null
+          settings: Json | null
+          slug: string
+          token_specific: boolean
+          type: Database['public']['Enums']['datatype']
+          updated_at: string | null
+          value: Json | null
+          version: string
+        }
+      }
       delete_layer_storage_object: {
         Args: {
           layer_id: string
@@ -642,6 +750,13 @@ export type Database = {
       is_authenticated: {
         Args: Record<PropertyKey, never>
         Returns: string
+      }
+      layer_from_slugs: {
+        Args: {
+          collection_slug: string
+          layer_slug: string
+        }
+        Returns: Record<string, unknown>
       }
       requesting_user_id: {
         Args: Record<PropertyKey, never>

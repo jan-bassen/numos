@@ -16,22 +16,20 @@ import type {
   SavedNode,
   MapGraphDataInput,
   MapGraphConnection,
-} from '@repo/engine/types/graph-types'
+} from '@repo/shared/types/graph-types'
 import { Control } from './control'
 import { NodePreset } from './presets'
 import { debounce, isEqual } from 'lodash'
 import type {
   NodeValueMap,
-  OptionalValueType,
   Value,
-  ValueSettings,
+  ValueRestrictions,
   ValueType,
-} from '@repo/engine/types/value-types'
-import type { AnyNode } from '@repo/engine/types/node-types'
-import { getInfoFromAttribute } from '@/app/collections/[collection]/attributes/(functions)/utils'
-import { Input } from './connectors/input'
-import { Output } from './connectors/output'
-import type { GraphErrorData } from '@repo/engine/types/engine-types'
+} from '@repo/shared/types/values'
+import type { AnyNode } from '@repo/shared/types/node-types'
+import { Input } from '@/lib/rete/classes/connectors/input'
+import { Output } from '@/lib/rete/classes/connectors/output'
+import type { GraphErrorData } from '@repo/shared/types/engine-types'
 export class Node extends NodePreset {
   width?: number
   height?: number
@@ -60,6 +58,7 @@ export class Node extends NodePreset {
         if (connection.target === this.id) {
           return { key: connection.targetInput, connectionId: connection.id }
         }
+        return
       })
       .filter((input) => input !== undefined)
   }
@@ -80,6 +79,7 @@ export class Node extends NodePreset {
       if (connection.source === this.id) {
         return connection.sourceOutput
       }
+      return
     })
   }
 
@@ -90,7 +90,9 @@ export class Node extends NodePreset {
       getConnectedInputKeys: () => {
         return this.getConnectedInputs().map((input) => input.key)
       },
-      getInfoFromInputConnection: (key: string) => {
+      getInfoFromInputConnection: <VT extends ValueType, L extends boolean>(
+        key: string,
+      ) => {
         const connectedOutput = this.getConnectedOutput(key)
         if (!connectedOutput) return
         if (
@@ -100,14 +102,15 @@ export class Node extends NodePreset {
           return undefined
         }
         return {
-          type: connectedOutput.socket.type as ValueType,
+          type: connectedOutput.socket.type as VT,
           list: connectedOutput.socket.list,
-          settings: connectedOutput.socket.definition?.settings as
-            | ValueSettings<ValueType>
-            | undefined,
+          restrictions: connectedOutput.socket.definition
+            ?.restrictions as ValueRestrictions<VT, L>,
         }
       },
-      getInfoFromInputConnections: (keys: string[]) => {
+      getInfoFromInputConnections: <VT extends ValueType, L extends boolean>(
+        keys: string[],
+      ) => {
         const output = keys
           .map((key) => this.getConnectedOutput(key))
           .find((o) => o !== undefined)
@@ -119,9 +122,10 @@ export class Node extends NodePreset {
           return undefined
         }
         return {
-          type: output.socket.type as ValueType,
+          type: output.socket.type as VT,
           list: output.socket.list,
-          settings: output.socket.definition?.settings,
+          restrictions: output.socket.definition
+            ?.restrictions as ValueRestrictions<VT, L>,
         }
       },
       getControlValue: (key: string) => {
@@ -137,41 +141,41 @@ export class Node extends NodePreset {
         return undefined
       },
       getParameter: (key: string) => {
-        const parameter = this.context.editor.context.parameters?.find(
+        const trigger = this.context.editor.context.action?.trigger
+        if (!trigger || trigger.type !== 'api') return
+        const parameter = trigger.settings.params?.find(
           (param) => param.key === key,
         )
-        if (!parameter) return
         return parameter
       },
       getParameters: () => {
-        return this.context.editor.context.parameters || []
+        const trigger = this.context.editor.context.action?.trigger
+        if (!trigger || trigger.type !== 'api') return
+        return trigger.settings.params
       },
       getTrigger: () => {
         return this.context.editor.context.action?.trigger || undefined
       },
-      getTokenAttribute: (key: string) => {
+      getTokenAttribute: (id: string) => {
         const attribute = this.context.editor.context.attributes?.find(
-          (attr) => attr.slug === key,
+          (attr) => attr.id === id,
         )
-        if (!attribute || !attribute.token_specific) return
-        return getInfoFromAttribute(attribute)
+        return attribute
       },
       getTokenAttributes: () => {
-        return this.context.editor.context.attributes
-          ?.filter((attr) => attr.token_specific)
-          .map((attr) => getInfoFromAttribute(attr))
-      },
-      getCollectionAttribute: (key: string) => {
-        const attribute = this.context.editor.context.attributes?.find(
-          (attr) => attr.slug === key,
+        return this.context.editor.context.attributes?.filter(
+          (attr) => attr.token_specific,
         )
-        if (!attribute || !!attribute.token_specific) return
-        return getInfoFromAttribute(attribute)
+      },
+      getCollectionAttribute: (id: string) => {
+        return this.context.editor.context.attributes?.find(
+          (attr) => attr.id === id,
+        )
       },
       getCollectionAttributes: () => {
-        return this.context.editor.context.attributes
-          ?.filter((attr) => !attr.token_specific)
-          .map((attr) => getInfoFromAttribute(attr))
+        return this.context.editor.context.attributes?.filter(
+          (attr) => !attr.token_specific,
+        )
       },
     }
   }
@@ -462,15 +466,15 @@ export class Node extends NodePreset {
           //TODO: Clean up these checks
           currentOutput?.socket.type === 'enum' &&
           outputDef.type === 'enum' &&
-          currentOutput.socket.definition.settings &&
-          'options' in currentOutput.socket.definition.settings &&
-          outputDef.settings &&
-          'options' in outputDef.settings
+          currentOutput.socket.definition.restrictions &&
+          'options' in currentOutput.socket.definition.restrictions &&
+          outputDef.restrictions &&
+          'options' in outputDef.restrictions
         ) {
           if (
             !isEqual(
-              currentOutput.socket.definition.settings.options,
-              outputDef.settings.options,
+              currentOutput.socket.definition.restrictions.options,
+              outputDef.restrictions.options,
             )
           ) {
             differentOptions = true
@@ -665,6 +669,7 @@ export class Node extends NodePreset {
       }
       return false
     }
+    return false
   }
 
   getControlValues = (): NodeValueMap => {

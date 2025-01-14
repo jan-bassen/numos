@@ -1,6 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import { NodeError } from '@repo/engine/errors/node-error'
-import type { IsInListNode } from '@repo/engine/nodes/is-in-list/interface'
+import type { IsInListNode } from '@repo/shared/engine/nodes/is-in-list/interface'
 
 export const isInListDefinition: SpecificNodeDefinition<IsInListNode> = {
   type: 'is-in-list',
@@ -14,7 +13,7 @@ export const isInListDefinition: SpecificNodeDefinition<IsInListNode> = {
     example: '(List: [1, 2, 3], Value: 2) = true',
   },
   inputs: ({ getInfoFromInputConnections }) => {
-    const { type, settings } =
+    const { type, restrictions } =
       getInfoFromInputConnections(['list', 'value']) || {}
     return [
       {
@@ -22,7 +21,7 @@ export const isInListDefinition: SpecificNodeDefinition<IsInListNode> = {
         type,
         list: true,
         label: 'List',
-        settings,
+        restrictions,
         hideControl: true,
         onConnect: (node) => {
           node.updateInputs()
@@ -36,7 +35,7 @@ export const isInListDefinition: SpecificNodeDefinition<IsInListNode> = {
       {
         key: 'value',
         type,
-        settings,
+        restrictions,
         label: 'Value',
         hideControl: true,
         onConnect: (node) => {

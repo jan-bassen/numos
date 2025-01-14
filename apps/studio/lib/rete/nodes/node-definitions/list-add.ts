@@ -1,5 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import type { ListAddNode } from '@repo/engine/nodes/list-add/interface'
+import type { ListAddNode } from '@repo/shared/engine/nodes/list-add/interface'
 
 export const listAddDefinition: SpecificNodeDefinition<ListAddNode> = {
   type: 'list-add',
@@ -10,13 +10,13 @@ export const listAddDefinition: SpecificNodeDefinition<ListAddNode> = {
     link: '#',
   },
   inputs: ({ getInfoFromInputConnections }) => {
-    const { type, settings } =
+    const { type, restrictions } =
       getInfoFromInputConnections(['list', 'value']) || {}
     return [
       {
         key: 'list',
         type,
-        settings,
+        restrictions,
         list: true,
         label: 'List',
         hideControl: true,
@@ -32,7 +32,7 @@ export const listAddDefinition: SpecificNodeDefinition<ListAddNode> = {
       {
         key: 'value',
         type,
-        settings,
+        restrictions,
         label: 'Value',
         hideControl: true,
         onConnect: (node) => {
@@ -51,8 +51,8 @@ export const listAddDefinition: SpecificNodeDefinition<ListAddNode> = {
       key: 'position',
       type: 'enum',
       label: 'Position',
-      settings: {
-        default: 'start',
+      default: { value: 'start', type: 'enum', format: 'single' },
+      restrictions: {
         options: [
           { value: 'start', label: 'Start' },
           { value: 'end', label: 'End' },

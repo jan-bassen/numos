@@ -212,7 +212,8 @@ module.exports = {
   			'5.5': '1.375rem',
   			'6.5': '1.625rem',
   			'9.5': '2.375rem',
-			"form-input": "40rem"
+			"form-input": "40rem",
+			"input": "40rem"
   		},
   		borderWidth: {
   			'3': '3px',
@@ -276,5 +277,5 @@ module.exports = {
   		}
   	}
   },
-  plugins: [require("tailwindcss-animate"), require("tailwind-scrollbar")],
+  plugins: [require("tailwindcss-animate"), require("tailwind-scrollbar"),require('tailwindcss-3d')],
 };

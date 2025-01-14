@@ -3,7 +3,7 @@ import {
   type SelectContentProps,
   SelectItem,
 } from '@repo/ui/components/ui/select'
-import { dataTypes } from '@/lib/supabase/constants/datatypes'
+import { dataTypes } from '@/lib/constants/datatypes'
 
 export function DatatypeSelectContent(props: SelectContentProps) {
   return (

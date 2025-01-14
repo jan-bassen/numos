@@ -1,5 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import type { ColorInputNode } from '@repo/engine/nodes/color-input/interface'
+import type { ColorInputNode } from '@repo/shared/engine/nodes/color-input/interface'
 
 export const colorInputDefinition: SpecificNodeDefinition<ColorInputNode> = {
   type: 'color-input',

@@ -2,14 +2,9 @@ import type {
   SpecificNodeDefinition,
   DataSocketDefinition,
 } from '@/types/nodes.types'
-import type { MapToDateNode } from '@repo/engine/nodes/map-to-date/interface'
-import { getDefinedValuesFromObjectArray } from '@repo/engine/datatypes/utils'
+import type { MapToDateNode } from '@repo/shared/engine/nodes/map-to-date/interface'
+import { getDefinedValuesFromObjectArray } from '@repo/shared/schemas/datatypes/utils'
 import { DateTime } from 'luxon'
-import type {
-  NodeCategory,
-  SocketInterfaceMap,
-  NodeInterface,
-} from '@repo/engine/types/node-types'
 
 export const mapToDateDefinition: SpecificNodeDefinition<MapToDateNode> = {
   type: 'map-to-date',
@@ -36,8 +31,8 @@ export const mapToDateDefinition: SpecificNodeDefinition<MapToDateNode> = {
       key: 'mode',
       type: 'enum',
       label: 'Breakpoint counts to',
-      settings: {
-        default: 'up',
+      default: { value: 'up', type: 'enum', format: 'single' },
+      restrictions: {
         options: [
           { value: 'up', label: 'the range above' },
           { value: 'down', label: 'the range below' },
@@ -72,7 +67,7 @@ export const mapToDateDefinition: SpecificNodeDefinition<MapToDateNode> = {
           DateTime.fromMillis(step.value).toFormat('yy/MM/dd') || 'Undefined',
       }
     })
-    const { type, settings } =
+    const { type, restrictions } =
       getInfoFromInputConnections(
         getConnectedInputKeys().filter((key) => key !== 'datetime'),
       ) || {}
@@ -102,7 +97,7 @@ export const mapToDateDefinition: SpecificNodeDefinition<MapToDateNode> = {
               : `${mode === 'up' ? '≤' : '<'}  ${step.datestring}`,
           type,
           list: false,
-          settings,
+          restrictions,
           onConnect: (node) => {
             node.updateInputs()
             node.updateOutputs()
@@ -121,7 +116,7 @@ export const mapToDateDefinition: SpecificNodeDefinition<MapToDateNode> = {
       label: `${mode === 'up' ? '>' : '≥'} ${breakpoints[breakpoints.length - 1]?.datestring}`,
       type,
       list: false,
-      settings,
+      restrictions,
       hideControl: true,
       onConnect: (node) => {
         node.updateInputs()
@@ -144,10 +139,10 @@ export const mapToDateDefinition: SpecificNodeDefinition<MapToDateNode> = {
     return inputDefs
   },
   outputs: ({ getInfoFromInputConnections, getConnectedInputKeys }) => {
-    const { type, list, settings } =
+    const { type, list, restrictions } =
       getInfoFromInputConnections(
         getConnectedInputKeys().filter((key) => key !== 'datetime'),
       ) || {}
-    return [{ key: 'output', type, list, settings, label: 'Value' }]
+    return [{ key: 'output', type, list, restrictions, label: 'Value' }]
   },
 }

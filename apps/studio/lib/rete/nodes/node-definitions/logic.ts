@@ -1,5 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import type { LogicNode } from '@repo/engine/nodes/logic/interface'
+import type { LogicNode } from '@repo/shared/engine/nodes/logic/interface'
 
 export const logicDefinition: SpecificNodeDefinition<LogicNode> = {
   type: 'logic',
@@ -27,8 +27,8 @@ export const logicDefinition: SpecificNodeDefinition<LogicNode> = {
       onChange: (node) => {
         node.updateInputs()
       },
-      settings: {
-        default: 'and',
+      default: { value: 'and', type: 'enum', format: 'single' },
+      restrictions: {
         options: [
           { value: 'and', label: 'And' },
           { value: 'or', label: 'Or' },

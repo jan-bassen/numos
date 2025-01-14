@@ -13,5 +13,10 @@ export default function NavBreadcrumbs({ className }: { className?: string }) {
     label: deslugify(segment),
     href: `/${segments.slice(0, index + 1).join('/')}`,
   }))
+  items.unshift({
+    type: 'link' as const,
+    label: 'Studio',
+    href: '/',
+  })
   return <Breadcrumbs items={items} className={className} />
 }

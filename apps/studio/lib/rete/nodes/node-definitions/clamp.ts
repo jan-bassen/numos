@@ -1,5 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import type { ClampNode } from '@repo/engine/nodes/clamp/interface'
+import type { ClampNode } from '@repo/shared/engine/nodes/clamp/interface'
 
 export const clampDefinition: SpecificNodeDefinition<ClampNode> = {
   type: 'clamp',

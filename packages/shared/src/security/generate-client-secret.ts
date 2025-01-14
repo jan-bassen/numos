@@ -1,4 +1,5 @@
-import { randomBytes } from 'node:crypto'
+// biome-ignore lint/style/useNodejsImportProtocol: <explanation>
+import { randomBytes } from 'crypto'
 
 export async function generateClientSecret() {
   const random = randomBytes(64)

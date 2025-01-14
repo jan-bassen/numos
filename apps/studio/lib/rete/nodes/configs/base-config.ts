@@ -83,12 +83,7 @@ export const baseConfig = (context: EditorContext) => {
       {
         key: 'conversion',
         label: 'Conversion',
-        subitems: [
-          'data-switch',
-          'map-to-number',
-          'map-to-date',
-          'map-to-choice',
-        ],
+        subitems: ['data-switch', 'map-to-number', 'map-to-date'],
       },
       {
         key: 'constants',

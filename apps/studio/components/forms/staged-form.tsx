@@ -1,6 +1,8 @@
 import { Button } from '@repo/ui/components/ui/button'
 import type {
   ControllerRenderProps,
+  FieldPath,
+  FieldValues,
   Path,
   UseFormReturn,
 } from 'react-hook-form'
@@ -19,11 +21,12 @@ import {
   CarouselItem,
   type CarouselApi,
 } from '@repo/ui/components/ui/carousel'
+import { isEmpty } from 'lodash'
 
-export type StageDefinition<
+export type StaticStageDefinition<
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  Schema extends { [key: string]: any },
-  Key extends Path<Schema> = Path<Schema>,
+  Schema extends FieldValues,
+  Key extends FieldPath<Schema> = FieldPath<Schema>,
 > = {
   key: Key
   title: string
@@ -32,19 +35,22 @@ export type StageDefinition<
   field: (field: ControllerRenderProps<Schema, Key>) => JSX.Element
 }
 
+export type StageDefinition<
+  Schema extends FieldValues,
+  Key extends FieldPath<Schema> = FieldPath<Schema>,
+> = (form: UseFormReturn<Schema>) => StaticStageDefinition<Schema, Key>
+
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export function StagedForm<Schema extends Record<string, any>>({
   form,
   stages,
   onSubmit,
   onError,
-  className,
 }: {
   form: UseFormReturn<Schema>
-  stages: StageDefinition<Schema>[]
+  stages: StaticStageDefinition<Schema>[]
   onSubmit: (values: Schema) => void
   onError: (errors: unknown) => void
-  className?: string
 }) {
   const [api, setApi] = useState<CarouselApi>()
   const [current, setCurrent] = useState(0)
@@ -106,24 +112,26 @@ export function StagedForm<Schema extends Record<string, any>>({
           }}
         >
           <CarouselContent className="w-[32rem] pb-4">
-            {stages.map((s, i) => (
-              <CarouselItem key={s.key as string} className="">
-                <div className="space-y-8 px-6">
-                  <div className="space-y-1.5">
-                    <h1 className="font-bold text-xl">{s.title}</h1>
-                    <p className="line-clamp-2 h-10 text-ellipsis text-muted-foreground text-sm">
-                      {s.description}
-                    </p>
+            {stages.map((s, i) => {
+              return (
+                <CarouselItem key={s.key as string} className="">
+                  <div className="space-y-8 px-6">
+                    <div className="space-y-1.5">
+                      <h1 className="font-bold text-xl">{s.title}</h1>
+                      <p className="line-clamp-2 h-10 text-ellipsis text-muted-foreground text-sm">
+                        {s.description}
+                      </p>
+                    </div>
+                    <FormField
+                      key={s.key as Path<Schema>}
+                      control={form.control}
+                      name={s.key as Path<Schema>}
+                      render={({ field }) => s.field(field)}
+                    />
                   </div>
-                  <FormField
-                    key={s.key as Path<Schema>}
-                    control={form.control}
-                    name={s.key as Path<Schema>}
-                    render={({ field }) => s.field(field)}
-                  />
-                </div>
-              </CarouselItem>
-            ))}
+                </CarouselItem>
+              )
+            })}
           </CarouselContent>
         </Carousel>
         <div className="flex w-full justify-between px-6 pt-4">
@@ -182,7 +190,7 @@ export function StagedForm<Schema extends Record<string, any>>({
               key="submit"
               type="submit"
               form="basicAttributeForm"
-              disabled={hasNextStage || !form.formState.isValid}
+              disabled={hasNextStage || !isEmpty(form.formState.errors)}
               className="focus-visible:outline-3 focus-visible:outline-ring focus-visible:outline-offset-2"
             >
               Create

@@ -68,7 +68,7 @@ export default function SignUpDialog() {
         </DrawerTrigger>
         <DrawerContent className="h-fit w-full items-center gap-4 px-4 pb-10">
           <DrawerHeader className="mb-4 w-full">
-            <DrawerTitle className="w-full text-left text-3xl font-bold">
+            <DrawerTitle className="w-full text-left font-bold text-3xl">
               Join our beta program!
             </DrawerTitle>
             <DrawerDescription className="w-full text-left text-base">

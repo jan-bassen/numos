@@ -1,12 +1,11 @@
 import { Input } from '@repo/ui/components/ui/input'
 import { cn } from '@repo/ui/lib/utils'
 import { type FocusEvent, forwardRef, useRef } from 'react'
-import type { AddressInputProps } from '../generic-input'
 import { Drag } from 'rete-react-plugin'
+import type { SingleDataTypeInputProps } from '../single-datatype-input'
 
-export default function AddressInput({
+export function AddressInput({
   className,
-  onValueChange,
   onChange,
   onBlur,
   locked,
@@ -16,7 +15,7 @@ export default function AddressInput({
   value,
   placeholder,
   ...props
-}: AddressInputProps) {
+}: SingleDataTypeInputProps<'address'>) {
   function _onBlur(e: FocusEvent<HTMLInputElement, Element>) {
     if (!locked && onBlur) onBlur(e)
   }
@@ -24,7 +23,7 @@ export default function AddressInput({
   Drag.useNoDrag(dragRef)
   return (
     <Input
-      value={value || ''}
+      value={value.value || ''}
       id={id}
       disabled={locked}
       inputMode="text"
@@ -33,12 +32,17 @@ export default function AddressInput({
         environment === 'node' &&
           'flex h-7 w-44 items-center rounded-lg px-2 text-sm',
         environment === 'node' && value && 'w-80',
-        valid === false && 'border-warning bg-warning/10',
+        environment === 'simulation' &&
+          'h-9 items-center rounded-lg py-1.5 text-sm',
+        valid === false
+          ? environment === 'node'
+            ? 'border-warning bg-warning/10'
+            : 'border-destructive bg-destructive/10'
+          : '',
         className,
       )}
       onChange={(e) => {
-        if (onValueChange) onValueChange(e.target.value)
-        onChange?.(e)
+        onChange?.({ value: e.target.value, type: 'address', format: 'single' })
       }}
       onBlur={_onBlur}
       ref={environment === 'node' ? dragRef : undefined}

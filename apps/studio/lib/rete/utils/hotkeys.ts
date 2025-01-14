@@ -152,7 +152,7 @@ export const useEditorHotkeys = (editor: Editor | null) => {
     }
   })
 
-  useHotkeys('Shift+r', (e) => {
+  useHotkeys('Shift+r', () => {
     editor?.editor.resetView(editor?.area)
   })
 }

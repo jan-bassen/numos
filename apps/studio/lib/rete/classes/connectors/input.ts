@@ -7,8 +7,8 @@ import { Control } from '../control'
 import type { Node } from '../node'
 import type { Connection } from '../connection'
 import { Socket } from './socket'
-import type { Value, ValueType } from '@repo/engine/types/value-types'
-import { resolveObjectArrayValue } from '@repo/engine/datatypes/utils'
+import type { Value, ValueType } from '@repo/shared/types/values'
+import { resolveObjectArrayValue } from '@repo/shared/schemas/datatypes/utils'
 
 export class Input {
   id: string
@@ -41,7 +41,7 @@ export class Input {
         type: definition.type,
         list: definition.list || false,
         key: definition.key,
-        settings: definition.settings,
+        restrictions: definition.restrictions,
       }
       this.control = new Control(
         node,

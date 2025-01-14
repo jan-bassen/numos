@@ -21,12 +21,17 @@ import { handleReturnInfo } from '@repo/ui/lib/utils'
 import { toast } from 'sonner'
 import { Dialog } from '@repo/ui/components/ui/dialog'
 import PasswordDialogContent from './password-dialog'
-import Header from '../../../components/page/header'
-import Main from '../../../components/page/main'
-import SegmentedLayout from '../../../components/layouts/segmented/segmented-layout'
-import { EditableImage } from '../../../components/supabase/editable-image'
-import SaveButton from '../../../components/forms/buttons/save-button'
-import { useRouter } from 'next/navigation'
+import Main from '@/components/page/main'
+import SegmentedLayout from '@/components/layouts/segmented/segmented-layout'
+import { EditableImage } from '@/components/supabase/editable-image'
+import SaveButton from '@/components/forms/buttons/save-button'
+import {
+  Header,
+  HeaderActions,
+  HeaderContent,
+  HeaderMain,
+  HeaderTitle,
+} from '@/components/page/header'
 
 const schema = z.object({
   name: z.string().optional(),
@@ -41,7 +46,6 @@ export default function UserProfileEditor({
   profile: Profile
 }) {
   const [passwordDialogOpen, setPasswordDialogOpen] = useState(false)
-  const router = useRouter()
 
   const defaultValues = {
     name: profile.full_name || user.user_metadata.name || undefined,
@@ -83,10 +87,17 @@ export default function UserProfileEditor({
 
   return (
     <>
-      <Header title="Account" subtitle="Everything regarding your account">
-        {form.formState.isDirty && (
-          <SaveButton type="submit" form="account-form" />
-        )}
+      <Header>
+        <HeaderContent>
+          <HeaderMain>
+            <HeaderTitle>Test</HeaderTitle>
+          </HeaderMain>
+          <HeaderActions>
+            {form.formState.isDirty && (
+              <SaveButton type="submit" form="account-form" />
+            )}
+          </HeaderActions>
+        </HeaderContent>
       </Header>
       <Main>
         <Form {...form}>
@@ -137,7 +148,10 @@ export default function UserProfileEditor({
               </Segment>
               <Segment
                 title="Connections"
-                description="Manage the different ways you can log into your account with"
+                info={{
+                  description:
+                    'Manage the different ways you can log into your account with',
+                }}
               >
                 {user.identities && (
                   <Identities

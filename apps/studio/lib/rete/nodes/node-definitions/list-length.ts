@@ -1,5 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import type { ListLengthNode } from '@repo/engine/nodes/list-length/interface'
+import type { ListLengthNode } from '@repo/shared/engine/nodes/list-length/interface'
 
 export const listLengthDefinition: SpecificNodeDefinition<ListLengthNode> = {
   type: 'list-length',
@@ -12,12 +12,12 @@ export const listLengthDefinition: SpecificNodeDefinition<ListLengthNode> = {
     link: '#list-length',
   },
   inputs: ({ getInfoFromInputConnection }) => {
-    const { settings, type } = getInfoFromInputConnection('list') || {}
+    const { restrictions, type } = getInfoFromInputConnection('list') || {}
     return [
       {
         key: 'list',
         type,
-        settings,
+        restrictions,
         list: true,
         label: 'List',
         onConnect: (node) => {

@@ -13,24 +13,23 @@ import { useCallback, useRef, useState } from 'react'
 import { Separator } from '@repo/ui/components/ui/separator'
 import Link from 'next/link'
 
+export type TooltipInfo = {
+  title: string
+  description: string
+  options?: InfoTooltipOptions
+  link?: {
+    label: string
+    href: string
+  }
+}
 export type InfoTooltipOptions = { label: string; explanation: string }[]
 
 export default function InfoButton({
   title,
   description,
   options,
-  className,
   link,
-}: {
-  title: string
-  description: string
-  options?: { label: string; explanation: string }[]
-  className?: string
-  link?: {
-    label: string
-    href: string
-  }
-}) {
+}: TooltipInfo) {
   const [open, setOpen] = useState(false)
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
 

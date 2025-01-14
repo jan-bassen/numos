@@ -1,5 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import type { DatetimeInputNode } from '@repo/engine/nodes/datetime-input/interface'
+import type { DatetimeInputNode } from '@repo/shared/engine/nodes/datetime-input/interface'
 
 export const datetimeInputDefinition: SpecificNodeDefinition<DatetimeInputNode> =
   {

@@ -1,6 +1,5 @@
 import { cn } from '@repo/ui/lib/utils'
-import { Car } from 'lucide-react'
-import type { ComponentProps, HTMLAttributes } from 'react'
+import type { ComponentProps } from 'react'
 
 const Card = ({ className, ...props }: ComponentProps<'div'>) => (
   <div

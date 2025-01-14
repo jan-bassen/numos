@@ -1,0 +1,41 @@
+import { FormMessage } from '@repo/ui/components/ui/form'
+import { FormControl } from '@repo/ui/components/ui/form'
+import { FormItem } from '@repo/ui/components/ui/form'
+import { Input } from '@repo/ui/components/ui/input'
+import { Tag } from 'lucide-react'
+import { slugify } from '@/lib/utils'
+import type { StageDefinition } from '@/components/forms/staged-form'
+import type { NewLayerSchema } from '@/app/collections/[collection]/image/(components)/new-layer/new-layer-dialog'
+
+export const nameStage: StageDefinition<NewLayerSchema, 'name'> = (form) => {
+  function inferSlug(name: string) {
+    if (form.getFieldState('slug').isDirty) return
+    form.setValue('slug', slugify(name), {
+      shouldValidate: true,
+      shouldDirty: false,
+    })
+  }
+  return {
+    key: 'name',
+    title: 'Name your new action',
+    description:
+      'The name will show up throughout the studio and wherever your action is displayed. You can change it later.',
+    icon: Tag,
+    field: ({ value, ...field }) => (
+      <FormItem className="min-h-18 w-full">
+        <FormControl>
+          <Input
+            {...field}
+            value={value || ''}
+            placeholder="Name"
+            onChange={(e) => {
+              inferSlug(e.target.value)
+              field.onChange(e)
+            }}
+          />
+        </FormControl>
+        <FormMessage />
+      </FormItem>
+    ),
+  }
+}

@@ -6,26 +6,26 @@ import {
   SidebarRail,
 } from '@repo/ui/components/ui/sidebar'
 import { Support } from './support'
-import type { AttributeNavItem } from '@/lib/supabase/db/attributes'
 import type { ActionNavItem } from '@/lib/supabase/db/actions'
-import { NavUser } from './user/nav-user'
+import { NavUser } from '@/components/navigation/navbar/user/nav-user'
 import { Suspense } from 'react'
-import { NavUserSkeleton } from './user/nav-user-skeleton'
-import { CollectionParts } from './collection/collection-parts/collection-parts'
-import { CollectionSwitcher } from './collection/collection-switcher/collection-switcher'
-import { NumosButton } from './numos-button'
-import { Collections } from './collections/collections'
-import { CollectionsSkeleton } from './collections/collections-skeleton'
-import { CollectionSettings } from './collection/collection-settings'
-import { CollectionSwitcherSkeleton } from './collection/collection-switcher/collection-switcher-skeleton'
-import { CollectionPartsSkeleton } from './collection/collection-parts/collection-parts-skeleton'
-import { cn } from '@repo/ui/lib/utils'
+import { NavUserSkeleton } from '@/components/navigation/navbar/user/nav-user-skeleton'
+import { CollectionParts } from '@/components/navigation/navbar/collection/collection-parts/collection-parts'
+import { NumosButton } from '@/components/navigation/navbar/numos-button'
+import { Collections } from '@/components/navigation/navbar/collections/collections'
+import { CollectionsSkeleton } from '@/components/navigation/navbar/collections/collections-skeleton'
+import { CollectionSettings } from '@/components/navigation/navbar/collection/collection-general'
+import { CollectionPartsSkeleton } from '@/components/navigation/navbar/collection/collection-parts/collection-parts-skeleton'
+import type { AttributeNavItem } from '@/lib/supabase/db/attributes/read'
+import { CollectionSwitcher } from '@/components/navigation/navbar/collection/collection-switcher/collection-switcher'
+import { CollectionSwitcherSkeleton } from '@/components/navigation/navbar/collection/collection-switcher/collection-switcher-skeleton'
+import type { LayerNavItem } from '@/lib/supabase/db/layers/read'
 
 type SidebarProps = React.ComponentProps<typeof Sidebar> & {
   collection?: string
 }
 
-export type NavItems = [AttributeNavItem[], ActionNavItem[]]
+export type NavItems = [AttributeNavItem[], ActionNavItem[], LayerNavItem[]]
 
 export async function Navbar({ collection, ...props }: SidebarProps) {
   return (
@@ -36,11 +36,11 @@ export async function Navbar({ collection, ...props }: SidebarProps) {
       <SidebarContent className="scrollbar-thin scrollbar-thumb-sidebar-border scrollbar-track-transparent">
         {collection ? (
           <>
-            {/* <div className="p-2">
+            <div className="px-2 pt-3">
               <Suspense fallback={<CollectionSwitcherSkeleton />}>
                 <CollectionSwitcher collection_slug={collection} />
               </Suspense>
-            </div> */}
+            </div>
             <Suspense
               fallback={
                 <CollectionPartsSkeleton collection_slug={collection} />

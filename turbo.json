@@ -2,10 +2,6 @@
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
   "tasks": {
-    "@repo/engine#build": {
-      "dependsOn": ["@repo/shared#build"],
-      "outputs": ["dist/**"]
-    },
     "core#deploy": {
       "cache": false,
       "dependsOn": ["core#build"],
@@ -19,7 +15,7 @@
       "cache": false
     },
     "studio#build": {
-      "dependsOn": ["@repo/engine#build", "@repo/shared#build"],
+      "dependsOn": ["@repo/shared#build"],
       "env": [
         "NEXT_PUBLIC_POSTHOG_HOST",
         "NEXT_PUBLIC_POSTHOG_KEY",
@@ -43,6 +39,16 @@
       ],
       "inputs": ["$TURBO_DEFAULT$", ".env*"]
     },
+    "studio#migrate": {
+      "env": [
+        "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+        "NEXT_PUBLIC_SUPABASE_PROJECT_ID",
+        "NEXT_PUBLIC_SUPABASE_URL",
+        "SUPABASE_SERVICE_KEY"
+      ],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"]
+    },
+    "studio#scan": {},
     "web#typegen": {
       "env": ["DATABASE_URI"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"]

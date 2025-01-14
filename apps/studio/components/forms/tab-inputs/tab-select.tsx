@@ -1,39 +1,51 @@
-import { Tabs, TabsList } from '@repo/ui/components/ui/tabs'
+import {
+  Tabs,
+  TabsList,
+  type TabsListProps,
+  type TabsProps,
+  type TabsTriggerProps,
+} from '@repo/ui/components/ui/tabs'
 import { cn } from '@repo/ui/lib/utils'
-import type { ChangeEvent } from 'react'
 import type { TabOption } from './tab-option'
 import TabOptionElement from './tab-option'
 
-export type TabSelectProps = {
+export type TabSelectProps = Omit<TabsProps, 'onChange'> & {
+  size?: 'sm' | 'md'
   options: TabOption[]
-  value?: string
-  onChange?: (arg0: string) => void
-  onBlur?: (arg0: ChangeEvent) => void
-  locked?: boolean
-  className?: string
+  disabled?: boolean
+  list?: Omit<TabsListProps, 'className'>
+  trigger?: Omit<TabsTriggerProps, 'disabled' | 'value'>
 }
 
 export function TabSelect({
+  size,
   options,
-  value,
-  onChange,
-  onBlur,
-  locked,
+  disabled,
   className,
+  list,
+  trigger,
+  value,
+  ...props
 }: TabSelectProps) {
   return (
-    <Tabs value={value} onValueChange={onChange} onBlur={onBlur}>
+    <Tabs {...props} value={value} className={'w-full'}>
       <TabsList
+        {...list}
         className={cn(
-          '!justify-start scrollbar-none h-fit gap-1 overflow-scroll bg-transparent p-1 pt-1.5 pl-1.5 sm:gap-2 md:p-1.5',
+          '!justify-start scrollbar-none h-fit w-full gap-1.5 overflow-scroll bg-transparent p-1 pt-1.5 pl-1.5 sm:gap-2 md:p-1.5',
+          options.length > 3 &&
+            'xs:grid xs:grid-cols-2 flex-col sm:grid-cols-3 lg:grid-cols-4',
           className,
         )}
       >
-        {options.map((option, i) => (
+        {options.map((option) => (
           <TabOptionElement
+            {...trigger}
+            size={size || (options.length > 3 ? 'sm' : 'md')}
+            className={cn('-xs:!w-full', trigger?.className)}
             option={option}
-            locked={locked}
             key={option.value}
+            disabled={disabled}
           />
         ))}
       </TabsList>

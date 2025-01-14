@@ -2,8 +2,8 @@ import { SuccessResponse } from '@/functions/utils/success-response'
 import {
   type InternalHandler,
   getHandlerFromInternal,
-} from './utils/handlers/internal-handler'
-import { apiKeyRequestSchema } from '@repo/shared/schemas/create-api-key-schema'
+} from '@/functions/utils/handlers/internal-handler'
+import { apiKeyRequestSchema } from '@repo/shared/schemas/api-keys/create-api-key-schema'
 import { generateApiKey } from '@/authorizers/generate-api-key'
 import type { ApiKeyEntry } from '@/types/ddb'
 import { putApiKey } from '@/ddb/put-api-key'
@@ -21,6 +21,7 @@ const createApiKeyHandler: InternalHandler<
 
   const item: ApiKeyEntry = {
     id,
+    active: true,
     collection: collection_id,
     createdAt: new Date().toISOString(),
     label: label,

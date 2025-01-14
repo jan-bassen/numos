@@ -4,9 +4,9 @@ import {
   type Preset,
   getSourceTarget,
 } from 'rete-connection-plugin'
-import { Connection } from '../classes/connection'
+import { Connection } from '@/lib/rete/classes/connection'
 import type { AreaExtra, Schemes } from '@/types/editor.types'
-import type { NodeEditor } from '../classes/editor'
+import type { NodeEditor } from '@/lib/rete/classes/editor'
 
 export function getConnectionPreset(
   editor: NodeEditor,
@@ -65,6 +65,7 @@ export function getConnectionPreset(
         )
         return true
       }
+      return false
     },
   })
   return () => flow

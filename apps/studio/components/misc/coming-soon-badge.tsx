@@ -5,13 +5,20 @@ import {
 } from '@repo/ui/components/ui/alert'
 import { PiAlertCircleStroke } from '@repo/ui/icons/pika'
 
-export default function ComingSoonBadge() {
+export function ComingSoonBadge({
+  title,
+  description,
+}: {
+  title?: string
+  description?: string
+}) {
   return (
     <Alert>
       <PiAlertCircleStroke className="h-4 w-4" />
-      <AlertTitle>Coming soon!</AlertTitle>
+      <AlertTitle>{title || 'Coming soon!'}</AlertTitle>
       <AlertDescription>
-        This feature is not yet available. Stay tuned for updates!
+        {description ||
+          'This feature is not yet available. Stay tuned for updates!'}
       </AlertDescription>
     </Alert>
   )

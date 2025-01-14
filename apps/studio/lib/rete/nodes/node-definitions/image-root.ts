@@ -1,5 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import type { ImageRootNode } from '@repo/engine/nodes/image-root/interface'
+import type { ImageRootNode } from '@repo/shared/engine/nodes/image-root/interface'
 
 export const imageRootDefinition: SpecificNodeDefinition<ImageRootNode> = {
   type: 'image-root',

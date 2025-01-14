@@ -1,5 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import type { TimeDifferenceNode } from '@repo/engine/nodes/time-difference/interface'
+import type { TimeDifferenceNode } from '@repo/shared/engine/nodes/time-difference/interface'
 
 export const timeDifferenceDefinition: SpecificNodeDefinition<TimeDifferenceNode> =
   {
@@ -18,7 +18,8 @@ export const timeDifferenceDefinition: SpecificNodeDefinition<TimeDifferenceNode
         key: 'unit',
         type: 'enum',
         label: 'Unit',
-        settings: {
+        default: { value: 'seconds', type: 'enum', format: 'single' },
+        restrictions: {
           options: [
             { value: 'seconds', label: 'Seconds' },
             { value: 'minutes', label: 'Minutes' },
@@ -28,7 +29,6 @@ export const timeDifferenceDefinition: SpecificNodeDefinition<TimeDifferenceNode
             { value: 'months', label: 'Months' },
             { value: 'years', label: 'Years' },
           ],
-          default: 'seconds',
         },
       },
     ],

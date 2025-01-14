@@ -1,12 +1,11 @@
 import { cn } from '@repo/ui/lib/utils'
 import { type FocusEvent, useRef } from 'react'
 import { Textarea } from '@repo/ui/components/ui/textarea'
-import type { StringInputProps } from '../generic-input'
 import { Drag } from 'rete-react-plugin'
+import type { SingleDataTypeInputProps } from '../single-datatype-input'
 
-export default function StringInput({
+export function StringInput({
   className,
-  onValueChange,
   onChange,
   onBlur,
   locked,
@@ -15,7 +14,7 @@ export default function StringInput({
   value,
   placeholder,
   ...props
-}: StringInputProps) {
+}: SingleDataTypeInputProps<'string'>) {
   function _onBlur(e: FocusEvent<HTMLTextAreaElement, Element>) {
     if (!locked && onBlur) onBlur(e)
   }
@@ -23,22 +22,28 @@ export default function StringInput({
   Drag.useNoDrag(dragRef)
   return (
     <Textarea
-      value={value || ''}
+      value={value.value || ''}
       rows={1}
       disabled={locked}
       className={cn(
-        '!min-h-0 scrollbar-none h-10 w-full max-w-96',
+        '!min-h-0 scrollbar-none h-10 w-full',
+        locked && 'resize-none',
         environment === 'node' &&
           'flex h-7 w-44 items-center rounded-lg px-2 py-1 text-sm',
-        environment === 'list' && 'items-center py-1.5 pl-2',
-        valid === false && 'border-warning bg-warning/10',
+        environment === 'list' && 'items-center pl-2',
+        environment === 'simulation' &&
+          'h-9 items-center rounded-lg py-1.5 text-sm',
+        valid === false
+          ? environment === 'node'
+            ? 'border-warning bg-warning/10'
+            : 'border-destructive bg-destructive/10'
+          : '',
         className,
       )}
       onBlur={_onBlur}
       onChange={(e) => {
         if (locked) return
-        onValueChange?.(e.target.value)
-        onChange?.(e)
+        onChange?.({ value: e.target.value, type: 'string', format: 'single' })
       }}
       ref={environment === 'node' ? dragRef : undefined}
       placeholder={placeholder || 'Text'}

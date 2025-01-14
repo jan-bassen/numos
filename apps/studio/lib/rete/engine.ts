@@ -6,9 +6,9 @@ import type {
   EngineContext,
   ImageSimulationResult,
   SimulationData,
-} from '@repo/engine/types/engine-types'
-import type { MapGraph } from '@repo/engine/types/graph-types'
-import { SimulationEngine } from '@repo/engine/engine/simulation-engine'
+} from '@repo/shared/types/engine-types'
+import type { MapGraph } from '@repo/shared/types/graph-types'
+import { SimulationEngine } from '@repo/shared/engine/simulation-engine'
 
 export async function simulateImageGraph(
   graph: MapGraph,

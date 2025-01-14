@@ -1,8 +1,9 @@
 import type {
   ControlDefinition,
+  DataSocketDefinition,
   SpecificNodeDefinition,
 } from '@/types/nodes.types'
-import type { ChangeTokenAttributeNode } from '@repo/engine/nodes/change-token-attribute/interface'
+import type { ChangeTokenAttributeNode } from '@repo/shared/engine/nodes/change-token-attribute/interface'
 
 export const changeTokenAttributeDefinition: SpecificNodeDefinition<ChangeTokenAttributeNode> =
   {
@@ -26,13 +27,14 @@ export const changeTokenAttributeDefinition: SpecificNodeDefinition<ChangeTokenA
           type: 'enum',
           label: 'Attribute',
           placeholder: 'Select Attribute',
-          settings: {
-            options: attributes?.map((attr) => {
-              return {
-                value: attr.slug,
-                label: attr.name || 'Unnamed Attribute',
-              }
-            }),
+          restrictions: {
+            options:
+              attributes?.map((attr) => {
+                return {
+                  value: attr.id,
+                  label: attr.name || 'Unnamed Attribute',
+                }
+              }) || [],
           },
           onChange: (node) => {
             node.updateInputs()
@@ -40,22 +42,22 @@ export const changeTokenAttributeDefinition: SpecificNodeDefinition<ChangeTokenA
           },
         },
       ]
-      const attributeControlValue = getControlValue('attribute')?.value
-      if (attributeControlValue) {
-        const attributeType = getTokenAttribute(attributeControlValue)?.type
+      const attributeId = getControlValue('attribute')?.value
+      if (attributeId) {
+        const attributeType = getTokenAttribute(attributeId)?.value.type
         if (attributeType === 'number') {
           controls.push({
             key: 'mode',
             type: 'enum',
             label: 'Mode',
             placeholder: 'Select Mode',
-            settings: {
+            default: { type: 'enum', format: 'single', value: 'set' },
+            restrictions: {
               options: [
-                { value: 'set', label: 'Set' },
-                { value: 'incr', label: 'Incr' },
-                { value: 'decr', label: 'Decr' },
+                { value: 'set', label: 'Set Value' },
+                { value: 'incr', label: 'Increase' },
+                { value: 'decr', label: 'Decrease' },
               ],
-              default: 'set',
             },
           })
         }
@@ -63,19 +65,23 @@ export const changeTokenAttributeDefinition: SpecificNodeDefinition<ChangeTokenA
       return controls
     },
     inputs: ({ getControlValue, getTokenAttribute }) => {
-      const attributeKey = getControlValue('attribute')
-      if (!attributeKey?.value) return []
-      const attribute = getTokenAttribute(attributeKey.value)
+      const attributeId = getControlValue('attribute')
+      if (!attributeId?.value) return []
+      const attribute = getTokenAttribute(attributeId.value)
       if (!attribute) return []
-      return [
+      const inputs: DataSocketDefinition<
+        ChangeTokenAttributeNode,
+        'inputs',
+        'value'
+      >[] = [
         {
+          type: attribute.value.type,
+          list: attribute.value.list,
           key: 'value',
-          type: attribute.type,
-          format: attribute.list ? 'objectarray' : 'single',
           label: 'Attribute',
-          placeholder: 'New Value',
-          settings: attribute.settings,
+          restrictions: attribute.value.restrictions || {},
         },
       ]
+      return inputs
     },
   }

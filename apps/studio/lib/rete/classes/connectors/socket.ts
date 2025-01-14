@@ -9,8 +9,8 @@ import { isEqual } from 'lodash'
 import { toast } from 'sonner'
 import type {
   OptionalDataType,
-  ValueSettings,
-} from '@repo/engine/types/value-types'
+  ValueRestrictions,
+} from '@repo/shared/types/values'
 
 export class Socket extends ClassicPreset.Socket {
   id: string
@@ -100,18 +100,16 @@ export class Socket extends ClassicPreset.Socket {
       // Compare enum settings
       if (socket.type !== 'enum') return false
 
-      const settings = this.definition.settings as ValueSettings<'enum'>
-      const socketSettings = socket.definition.settings as ValueSettings<'enum'>
-      if (!socketSettings) return false
+      const restrictions = this.definition
+        .restrictions as ValueRestrictions<'enum'>
+      const socketRestrictions = socket.definition
+        .restrictions as ValueRestrictions<'enum'>
+      if (!restrictions || !socketRestrictions) return false
 
-      if (settings.adaptOptions !== socketSettings.adaptOptions) {
+      if (restrictions.adaptOptions !== socketRestrictions.adaptOptions) {
         return true
       }
-      const options = settings.options?.map((option) => option.value)
-      const socketOptions = socketSettings.options?.map(
-        (option) => option.value,
-      )
-      return isEqual(options, socketOptions)
+      return isEqual(restrictions.options, socketRestrictions.options)
     }
 
     if (socket.type === this.type)

@@ -37,7 +37,7 @@ export function CollectionSwitcherButton({
           href={`/collections/${currentCollection?.slug}`}
           className={cn(
             buttonVariants({ variant: 'ghost' }),
-            'flex gap-3 p-0 md:h-11 md:gap-2',
+            'flex gap-3 p-0 md:h-10 md:gap-2',
             sidebarOpen
               ? 'grow-0 justify-start rounded-none border-border md:w-[calc(100%-2rem)] md:rounded-l-lg md:border md:px-1.5'
               : 'w-full justify-center rounded-lg md:h-8',
@@ -52,7 +52,7 @@ export function CollectionSwitcherButton({
             alt="Collection Image"
             width={32}
             height={32}
-            className={cn('h-8 w-8 shrink-0 rounded-lg object-cover ')}
+            className={cn('size-6 shrink-0 rounded-md object-cover ')}
           />
           <span
             className={cn(
@@ -69,7 +69,7 @@ export function CollectionSwitcherButton({
           <DropdownMenuTrigger asChild>
             <Button
               variant={'ghost'}
-              className="hidden rounded-none border-border border-y border-r p-0 md:flex md:h-11 md:rounded-r-lg md:px-2"
+              className="hidden rounded-none border-border border-y border-r p-0 md:flex md:h-10 md:rounded-r-lg md:px-2"
             >
               <PiChevronSortVerticalStroke className="hidden h-4 w-4 md:block md:stroke-muted-foreground" />
             </Button>

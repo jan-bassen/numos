@@ -1,5 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import type { LengthNode } from '@repo/engine/nodes/length/interface'
+import type { LengthNode } from '@repo/shared/engine/nodes/length/interface'
 
 export const lengthDefinition: SpecificNodeDefinition<LengthNode> = {
   type: 'length',
