@@ -1,7 +1,6 @@
 import { getAllExtendedCollections } from '@/lib/supabase/db/collections'
 import Main from '@/components/page/main'
 import type { ExtendedCollection } from '@/types/database.types'
-import { getProfile, getUser } from '@/lib/supabase/db/profile'
 import { Navbar } from '@/components/navigation/navbar/navbar'
 import {
   Header,
@@ -24,9 +23,6 @@ import { SupabaseImage } from '@/components/supabase/supabase-image'
 
 export default async function HomePage() {
   const collections: ExtendedCollection[] = await getAllExtendedCollections()
-  const user = await getUser()
-  const profile = await getProfile(user.id)
-  const name = profile.full_name || user.user_metadata.name
   return (
     <>
       <Navbar />
@@ -34,9 +30,7 @@ export default async function HomePage() {
         <Header hideBreadcrumbs>
           <HeaderContent>
             <HeaderMain>
-              <HeaderTitle>
-                {name ? `Welcome, ${name}!` : 'Welcome!'}
-              </HeaderTitle>
+              <HeaderTitle>NUMOS STUDIO</HeaderTitle>
             </HeaderMain>
             <HeaderActions>
               <NewCollectionDialog>
