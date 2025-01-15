@@ -117,7 +117,7 @@ export class EngineBase {
     return node.forwards[key]
   }
 
-  async getLayer(
+  async getUpload(
     image: string,
     node: string,
   ): Promise<Value<'buffer', 'single'>> {
@@ -126,18 +126,19 @@ export class EngineBase {
 
     //TODO: Remove Service Client from Package!
     const supabaseService = await createSupabaseServiceClient()
+    console.log('path', path)
     const { data: layer, error } = await supabaseService.storage
-      .from('layers')
+      .from('uploads')
       .download(path)
 
     if (error) {
       console.error(error)
-      throw new GraphError(`Error downloading layer: ${error.message}`, {
+      throw new GraphError(`Error downloading upload: ${error.message}`, {
         node,
       })
     }
     if (!layer || layer.type.split('/')[0] !== 'image')
-      throw new GraphError('Layer is not an image', { node })
+      throw new GraphError('Upload is not an image', { node })
     const value = await sharp(await layer.arrayBuffer()).toBuffer()
     return {
       type: 'buffer',
