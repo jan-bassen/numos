@@ -36,7 +36,7 @@ export type SingleDataTypeInputProps<T extends ValueType = ValueType> = {
   locked?: boolean
   environment?: SingleDataTypeInputEnvironment
   valid?: boolean
-  layertree?: T extends 'image' ? UploadsTree : never
+  uploads?: T extends 'image' ? UploadsTree : never
   id?: string
 }
 
