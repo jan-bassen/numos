@@ -1,7 +1,6 @@
-'use server'
-
 import { createSupabaseServerComponentClient } from '@/lib/supabase/clients/server-client'
 import type { ActionIssue } from '@/types/database.types'
+import 'server-only'
 
 export async function getActionIssues(
   version: string,

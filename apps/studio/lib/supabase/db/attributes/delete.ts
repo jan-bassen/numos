@@ -1,3 +1,5 @@
+'use server'
+
 import type { ReturnInfo } from '@repo/ui/lib/utils'
 import { clearAttributeNodeControls } from '@/lib/supabase/db/attributes/nodes/update'
 import { createSupabaseServerComponentClient } from '@/lib/supabase/clients/server-client'

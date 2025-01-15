@@ -5,7 +5,7 @@ import { useAction } from '@/app/collections/[collection]/actions/[action]/actio
 import { useCollection } from '@/app/collections/[collection]/collection-context'
 import ErrorMessage from '@/components/state/error-message'
 import { useState } from 'react'
-import { cn, handleReturnInfo } from '@repo/ui/lib/utils'
+import { cn } from '@repo/ui/lib/utils'
 import { Button } from '@repo/ui/components/ui/button'
 import { PiCheckTick } from '@repo/ui/icons/pika'
 
@@ -46,13 +46,12 @@ export function ActionSlugInput() {
             size={'icon'}
             className="shrink-0"
             onClick={async () => {
-              const res = await updateAction(
+              await updateAction(
                 { slug: value },
                 {
                   redirect: `/collections/${collectionSlug}/actions/${value}`,
                 },
               )
-              handleReturnInfo(res)
             }}
           >
             <PiCheckTick className="size-4" />

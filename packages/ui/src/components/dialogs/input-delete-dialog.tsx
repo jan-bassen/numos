@@ -1,3 +1,5 @@
+'use client'
+
 import { useState } from 'react'
 import {
   AlertDialogAction,
@@ -41,7 +43,7 @@ export default function InputDeleteDialogContent({
         <AlertDialogAction
           onClick={async () => {
             if (deleteConfirm !== 'Delete') return
-            onDelete()
+            await onDelete()
           }}
           disabled={deleteConfirm !== 'Delete'}
           className={buttonVariants({ variant: 'destructive' })}

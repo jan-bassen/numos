@@ -1,5 +1,4 @@
-'use server'
-
+import 'server-only'
 import { FetchError } from '@/lib/errors'
 import type { LayerType } from '@/lib/schemas/layers/layer-schema'
 import { createSupabaseServerComponentClient } from '@/lib/supabase/clients/server-client'

@@ -1,3 +1,5 @@
+'use server'
+
 import { createSupabaseServerComponentClient } from '@/lib/supabase/clients/server-client'
 import type { InsertActionIssue } from '@/types/database.types'
 import { revalidatePath } from 'next/cache'

@@ -70,7 +70,6 @@ export function NewActionDialog({
     handleReturnInfo(
       res,
       () => {
-        setDialogOpen(false)
         router.push(`/collections/${collectionSlug}/actions/${values.slug}`)
       },
       () => {},
