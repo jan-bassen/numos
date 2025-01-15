@@ -107,6 +107,8 @@ export default function UploadsListItem({
     context.setDraggedElement(selectionElement)
   }
 
+  console.log(upload.signedUrl)
+
   return (
     <ContextMenu>
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>

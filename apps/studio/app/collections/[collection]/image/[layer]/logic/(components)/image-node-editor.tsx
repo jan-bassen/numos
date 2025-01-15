@@ -41,14 +41,14 @@ export default function ImageNodeEditor({
   version,
   layer,
   attributes,
-  layerTree,
+  uploads,
   initialGraph,
   collectionSlug,
 }: {
   version: Version
   layer: Layer
   attributes: Attribute[]
-  layerTree: UploadsTree
+  uploads: UploadsTree
   initialGraph: SavedGraph
   collectionSlug: string
 }) {
@@ -115,7 +115,7 @@ export default function ImageNodeEditor({
       context={{
         type: 'image',
         attributes: attributes,
-        layers: layerTree,
+        uploads: uploads,
       }}
       config={imageConfig}
       result={<ImageResult result={result || undefined} loading={loading} />}

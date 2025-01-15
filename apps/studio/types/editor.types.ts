@@ -46,7 +46,7 @@ export type EditorType = 'image' | 'action'
 export type EditorContext = {
   type: EditorType
   attributes: Attribute[]
-  layers?: UploadsTree
+  uploads?: UploadsTree
   action?: Action
 }
 

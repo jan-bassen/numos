@@ -2,7 +2,7 @@
 
 import type { StaticImport } from 'next/dist/shared/lib/get-img-props'
 import Image, { type ImageLoaderProps, type ImageProps } from 'next/image'
-import { createSupabaseClient } from '../../lib/supabase/clients/client'
+import { createSupabaseClient } from '@/lib/supabase/clients/client'
 import { rest } from 'lodash'
 
 const projectId = process.env.NEXT_PUBLIC_SUPABASE_PROJECT_ID
@@ -53,6 +53,7 @@ export function SupabaseImage(
     signed?: 'true' | 'false'
   },
 ) {
+  console.log(props.src)
   if (!props.src)
     return (
       <Image

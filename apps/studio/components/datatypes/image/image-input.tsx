@@ -20,7 +20,7 @@ export function ImageInput({
   onChange,
   locked,
   className,
-  layertree,
+  uploads,
   environment,
   valid,
   type,
@@ -32,23 +32,21 @@ export function ImageInput({
   const [open, setOpen] = useState<boolean>(false)
   const [openFolderId, setOpenFolderId] = useState<string | null>(null)
 
-  if (!layertree) return null
-  const openFolder = openFolderId ? layertree.folders[openFolderId] : undefined
+  if (!uploads) return null
+  const openFolder = openFolderId ? uploads.folders[openFolderId] : undefined
 
   const folders = openFolder
     ? openFolder.subfolders
-        .map((folderId) => layertree.folders[folderId])
+        .map((folderId) => uploads.folders[folderId])
         .filter((folder) => !!folder)
-    : Object.values(layertree.folders).filter(
+    : Object.values(uploads.folders).filter(
         (folder) => folder && folder.parent === null,
       )
-  const uploads = openFolder
+  const uploadsArray = openFolder
     ? openFolder.uploads
-        .map((uploadId) => layertree.uploads[uploadId])
+        .map((uploadId) => uploads.uploads[uploadId])
         .filter((upload) => !!upload)
-    : Object.values(layertree.uploads).filter(
-        (upload) => upload.folder === null,
-      )
+    : Object.values(uploads.uploads).filter((upload) => upload.folder === null)
 
   const breadcrumbs = [
     {
@@ -118,7 +116,7 @@ export function ImageInput({
       >
         <SupabaseImage
           src={
-            value.value ? layertree?.uploads[value.value]?.signedUrl : undefined
+            value.value ? uploads?.uploads[value.value]?.signedUrl : undefined
           }
           className={cn('size-full object-cover', className)}
           width={160}
@@ -138,7 +136,7 @@ export function ImageInput({
             className="h-10 w-full gap-1 pb-2 sm:gap-1"
           />
         </DialogHeader>
-        {folders.length === 0 && uploads.length === 0 ? (
+        {folders.length === 0 && uploadsArray.length === 0 ? (
           <div className="grid h-[17.5rem] w-full place-items-center">
             <p className="font-medium text-muted-foreground text-sm">
               - Empty -
@@ -165,7 +163,7 @@ export function ImageInput({
                 </label>
               </div>
             ))}
-            {uploads.map((upload) => (
+            {uploadsArray.map((upload) => (
               <div key={upload.id} className="group flex flex-col gap-1">
                 <Button
                   id={`upload-${upload.id}`}

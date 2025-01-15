@@ -115,9 +115,9 @@ export function ControlComponent(payload: { data: ControlClass }) {
       true
     >,
     restrictions: control.definition.restrictions,
-    layertree:
+    uploads:
       control.value.type === 'image'
-        ? payload.data.node.context.editor.context.layers
+        ? payload.data.node.context.editor.context.uploads
         : undefined,
     onChange: (v) => {
       control.setValue(v)
