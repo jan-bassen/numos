@@ -22,11 +22,7 @@ export function DeleteAttributeButton() {
       title="attribute"
       disabled={locked}
       onDelete={async () => {
-        const res = await deleteAttribute(id)
-        handleReturnInfo(res, () => {
-          removeAttributeFromLocalForm(collectionId, id)
-          router.push(`/collections/${collectionSlug}/attributes`)
-        })
+        await deleteAttribute(id, `/collections/${collectionSlug}/attributes`)
       }}
     />
   )

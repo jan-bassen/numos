@@ -15,11 +15,11 @@ export function DeleteLayerButton() {
   if (locked) return null
   return (
     <DeleteButton
-      title="attribute"
+      title="layer"
       disabled={locked}
       onDelete={async () => {
         await deleteLayer(id, {
-          revalidate: `/collections/${collection}/image`,
+          redirect: `/collections/${collection}/image`,
         })
       }}
     />
