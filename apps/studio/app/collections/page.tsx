@@ -20,6 +20,7 @@ import {
   ElementCardLink,
 } from '@/components/elements/element-card'
 import { SupabaseImage } from '@/components/supabase/supabase-image'
+import CollectionContextMenu from './(components)/collection-context-menu'
 
 export default async function HomePage() {
   const collections: ExtendedCollection[] = await getAllExtendedCollections()
@@ -30,7 +31,7 @@ export default async function HomePage() {
         <Header hideBreadcrumbs>
           <HeaderContent>
             <HeaderMain>
-              <HeaderTitle>NUMOS STUDIO</HeaderTitle>
+              <HeaderTitle>NUMOS</HeaderTitle>
             </HeaderMain>
             <HeaderActions>
               <NewCollectionDialog>
@@ -55,25 +56,29 @@ export default async function HomePage() {
             <SimpleGrid>
               {collections.map((collection) => {
                 return (
-                  <ElementCardLink
+                  <CollectionContextMenu
                     key={collection.slug}
-                    href={`/collections/${collection.slug}`}
-                    label={collection.name ?? 'Unnamed Collection'}
-                    subtitle={collection.description}
-                    image={
-                      <SupabaseImage
-                        src={
-                          collection.image
-                            ? `collection-images/${collection.image}`
-                            : undefined
-                        }
-                        alt="Collection Image"
-                        width={100}
-                        height={100}
-                        className="h-full object-cover"
-                      />
-                    }
-                  />
+                    slug={collection.slug}
+                  >
+                    <ElementCardLink
+                      href={`/collections/${collection.slug}`}
+                      label={collection.name ?? 'Unnamed Collection'}
+                      subtitle={collection.description}
+                      image={
+                        <SupabaseImage
+                          src={
+                            collection.image
+                              ? `collection-images/${collection.image}`
+                              : undefined
+                          }
+                          alt="Collection Image"
+                          width={100}
+                          height={100}
+                          className="h-full object-cover"
+                        />
+                      }
+                    />
+                  </CollectionContextMenu>
                 )
               })}
               <NewCollectionDialog>
