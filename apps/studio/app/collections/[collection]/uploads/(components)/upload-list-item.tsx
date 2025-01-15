@@ -97,7 +97,7 @@ export default function UploadsListItem({
 
   const handleDragStart = (e: DragEvent<HTMLButtonElement>) => {
     e.stopPropagation()
-    if (context.locked) {
+    if (context.locked || renaming) {
       e.preventDefault()
       return
     }
@@ -106,8 +106,6 @@ export default function UploadsListItem({
     e.dataTransfer.setData('text/plain', upload.id || '')
     context.setDraggedElement(selectionElement)
   }
-
-  console.log(upload.signedUrl)
 
   return (
     <ContextMenu>

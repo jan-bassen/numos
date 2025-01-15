@@ -53,7 +53,6 @@ export function SupabaseImage(
     signed?: 'true' | 'false'
   },
 ) {
-  console.log(props.src)
   if (!props.src)
     return (
       <Image
