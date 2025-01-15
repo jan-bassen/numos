@@ -12,11 +12,7 @@ import {
   type ExtendedAttribute,
   columns,
 } from '@/app/collections/[collection]/attributes/(components)/attribute-columns'
-import {
-  PiAddAddStroke,
-  PiGridDashboard02Stroke,
-  PiGridTableStroke,
-} from '@repo/ui/icons/pika'
+import { PiAddAddStroke } from '@repo/ui/icons/pika'
 import { Button } from '@repo/ui/components/ui/button'
 import { NewAttributeDialog } from '@/app/collections/[collection]/attributes/(components)/new-attribute-dialog'
 import {
@@ -25,8 +21,6 @@ import {
   HeaderContent,
   HeaderMain,
   HeaderTitle,
-  HeaderTabBar,
-  HeaderTabBarItem,
 } from '@/components/page/header'
 import { Page } from '@/components/page/page'
 import {
@@ -34,6 +28,7 @@ import {
   ElementCardLink,
 } from '@/components/elements/element-card'
 import SimpleGrid from '@/components/layouts/simple/simple-grid'
+import { dataTypes } from '@/lib/constants/datatypes'
 
 export default async function AttributesPage(props: {
   params: Promise<{ collection: string; attribute: string }>
@@ -95,6 +90,8 @@ export default async function AttributesPage(props: {
                 key={attribute.id}
                 href={`/collections/${collectionSlug}/attributes/${attribute.slug}`}
                 label={attribute.name ?? 'New Attribute'}
+                subtitle={attribute.description}
+                icon={dataTypes[attribute.value.type]?.icons.stroke}
               />
             )
           })}
