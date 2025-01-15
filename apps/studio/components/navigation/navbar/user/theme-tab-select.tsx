@@ -33,7 +33,7 @@ export function ThemeTabSelect() {
         localStorage.setItem('theme', v)
       }}
     >
-      <TabsList className="h-8  w-full p-0 px-1 gap-1 bg-transparent">
+      <TabsList className="h-8 w-full gap-1 bg-transparent p-0 px-1">
         <TabsTrigger
           value="light"
           className={cn(

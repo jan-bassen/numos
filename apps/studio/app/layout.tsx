@@ -9,10 +9,13 @@ import { createSupabaseServerComponentClient } from '@/lib/supabase/clients/serv
 import Script from 'next/script'
 import { Suspense } from 'react'
 import PostHogPageView from '@/lib/posthog/posthog-pageview'
-import Providers from './providers'
+import Providers from '@/app/(providers)/external-providers'
 import CookieBanner from '@/lib/posthog/cookie-banner'
 import ChatWidget from '@/lib/hubspot/chat'
 import { Maintanance } from '@/app/maintanance'
+import { getProfile } from '@/lib/supabase/db/profile/read'
+import { ProfileProvider } from '@/app/(providers)/profile-context'
+import { UserProvider } from '@/app/(providers)/user-context'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' })
@@ -41,7 +44,11 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
   const supabase = await createSupabaseServerComponentClient()
-  const { data: user } = await supabase.auth.getUser()
+  const { data: user, error } = await supabase.auth.getUser()
+  if (error) {
+    throw new Error('Error fetching user')
+  }
+  const profile = await getProfile(user?.user?.id)
   const maintanance = false
   return (
     <html
@@ -54,15 +61,19 @@ export default async function RootLayout({
           <Maintanance />
         ) : (
           <>
-            <Providers user={user.user || undefined}>
-              <Suspense fallback={null}>
-                <PostHogPageView />
-              </Suspense>
-              {children}
-              <ChatWidget />
-              <CookieBanner isLoggedIn={!!user} />
-              <Toaster position="bottom-right" richColors />
-            </Providers>
+            <UserProvider user={user.user || undefined}>
+              <ProfileProvider profile={profile}>
+                <Providers>
+                  <Suspense fallback={null}>
+                    <PostHogPageView />
+                  </Suspense>
+                  {children}
+                  <ChatWidget />
+                  <CookieBanner isLoggedIn={!!user} />
+                  <Toaster position="bottom-right" richColors />
+                </Providers>
+              </ProfileProvider>
+            </UserProvider>
             <Script
               async
               defer

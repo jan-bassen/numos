@@ -10,6 +10,7 @@ import type {
 } from '@repo/shared/types/values'
 
 export function singleValueToText(data: Value<ValueType, 'single'>): string {
+  console.log(data)
   switch (data.type) {
     case 'string':
       return data.value
@@ -22,7 +23,7 @@ export function singleValueToText(data: Value<ValueType, 'single'>): string {
     case 'color':
       return `{r: ${data.value.r}, g: ${data.value.g}, b: ${data.value.b}, a: ${data.value.a}}`
     case 'datetime':
-      return new Date(data.value).toISOString()
+      return new Date(data.value).toString()
     case 'location':
       return `${data.value.lat.toFixed(2)}, ${data.value.lng.toFixed(2)}`
     case 'weather':

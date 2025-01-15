@@ -1,7 +1,6 @@
 import { getAllExtendedCollections } from '@/lib/supabase/db/collections'
 import Main from '@/components/page/main'
 import type { ExtendedCollection } from '@/types/database.types'
-import { getProfile, getUser } from '@/lib/supabase/db/profile'
 import { Navbar } from '@/components/navigation/navbar/navbar'
 import {
   Header,
@@ -21,12 +20,10 @@ import {
   ElementCardLink,
 } from '@/components/elements/element-card'
 import { SupabaseImage } from '@/components/supabase/supabase-image'
+import CollectionContextMenu from './(components)/collection-context-menu'
 
 export default async function HomePage() {
   const collections: ExtendedCollection[] = await getAllExtendedCollections()
-  const user = await getUser()
-  const profile = await getProfile(user.id)
-  const name = profile.full_name || user.user_metadata.name
   return (
     <>
       <Navbar />
@@ -34,9 +31,7 @@ export default async function HomePage() {
         <Header hideBreadcrumbs>
           <HeaderContent>
             <HeaderMain>
-              <HeaderTitle>
-                {name ? `Welcome, ${name}!` : 'Welcome!'}
-              </HeaderTitle>
+              <HeaderTitle>NUMOS</HeaderTitle>
             </HeaderMain>
             <HeaderActions>
               <NewCollectionDialog>
@@ -61,25 +56,29 @@ export default async function HomePage() {
             <SimpleGrid>
               {collections.map((collection) => {
                 return (
-                  <ElementCardLink
+                  <CollectionContextMenu
                     key={collection.slug}
-                    href={`/collections/${collection.slug}`}
-                    label={collection.name ?? 'Unnamed Collection'}
-                    subtitle={collection.description}
-                    image={
-                      <SupabaseImage
-                        src={
-                          collection.image
-                            ? `collection-images/${collection.image}`
-                            : undefined
-                        }
-                        alt="Collection Image"
-                        width={100}
-                        height={100}
-                        className="h-full object-cover"
-                      />
-                    }
-                  />
+                    slug={collection.slug}
+                  >
+                    <ElementCardLink
+                      href={`/collections/${collection.slug}`}
+                      label={collection.name ?? 'Unnamed Collection'}
+                      subtitle={collection.description}
+                      image={
+                        <SupabaseImage
+                          src={
+                            collection.image
+                              ? `collection-images/${collection.image}`
+                              : undefined
+                          }
+                          alt="Collection Image"
+                          width={100}
+                          height={100}
+                          className="h-full object-cover"
+                        />
+                      }
+                    />
+                  </CollectionContextMenu>
                 )
               })}
               <NewCollectionDialog>

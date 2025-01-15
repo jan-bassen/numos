@@ -2,6 +2,7 @@ import type { NodeLogic } from '@repo/shared/types/node-types'
 import type { ChangeTokenAttributeNode } from '@repo/shared/engine/nodes/change-token-attribute/interface'
 import { NodeError } from '@repo/shared/errors/node-error'
 import { Decimal } from 'decimal.js'
+import { valueToText } from '@repo/shared/schemas/datatypes/utils'
 
 export const changeTokenAttributeLogic: NodeLogic<ChangeTokenAttributeNode> = {
   execution: async ({
@@ -11,18 +12,23 @@ export const changeTokenAttributeLogic: NodeLogic<ChangeTokenAttributeNode> = {
     setTokenAttribute,
   }) => {
     const attributeId = getControlValue('attribute').value
-    const mode = getControlValue('mode')
-    const value = await getInputValue('value')
 
-    if (mode.value === 'set') {
-      const { changed, previous } = await setTokenAttribute(attributeId, value)
-      const message = changed
-        ? `Set ${attributeId} to ${value.value}`
-        : `${attributeId} already set to ${previous}`
-      return { forward: 'exec', log: { message } }
+    const value = await getInputValue('value')
+    const oldValue = await getTokenAttribute(attributeId)
+
+    let mode: 'set' | 'incr' | 'decr' = 'set'
+
+    if (oldValue.type === 'number' && value.type === 'number') {
+      mode = getControlValue('mode').value as 'set' | 'incr' | 'decr'
     }
 
-    const oldValue = await getTokenAttribute(attributeId)
+    if (mode === 'set') {
+      const { changed, previous } = await setTokenAttribute(attributeId, value)
+      const message = changed
+        ? `Set Attribute to ${valueToText(value)}`
+        : `Attribute already set to ${valueToText(previous)}`
+      return { forward: 'exec', log: { message } }
+    }
 
     const errorLocation = {
       component: {
@@ -53,7 +59,7 @@ export const changeTokenAttributeLogic: NodeLogic<ChangeTokenAttributeNode> = {
 
     let newValue: Decimal
 
-    switch (mode.value) {
+    switch (mode) {
       case 'incr':
         newValue = a.add(b)
         break
@@ -61,10 +67,7 @@ export const changeTokenAttributeLogic: NodeLogic<ChangeTokenAttributeNode> = {
         newValue = a.sub(b)
         break
       default:
-        throw new NodeError(
-          `Mode ${mode.value} is not supported`,
-          errorLocation,
-        )
+        throw new NodeError(`Mode ${mode} is not supported`, errorLocation)
     }
 
     const { changed } = await setTokenAttribute(attributeId, {
@@ -74,7 +77,7 @@ export const changeTokenAttributeLogic: NodeLogic<ChangeTokenAttributeNode> = {
     })
 
     const message = changed
-      ? `${attributeId} ${mode.value === 'incr' ? 'increased' : 'decreased'} by ${value.value} to ${newValue.toNumber()}`
+      ? `${attributeId} ${mode === 'incr' ? 'increased' : 'decreased'} by ${value.value} to ${newValue.toNumber()}`
       : `${attributeId} already set to ${oldValue.value}`
 
     return {

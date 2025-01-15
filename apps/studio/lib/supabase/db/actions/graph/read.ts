@@ -1,6 +1,7 @@
 import type { SavedNode } from '@repo/shared/types/graph-types'
 import { createSupabaseServerComponentClient } from '@/lib/supabase/clients/server-client'
 import type { SavedGraph } from '@repo/shared/types/graph-types'
+import 'server-only'
 
 export async function getActionGraph(actionId: string): Promise<SavedGraph> {
   const supabase = await createSupabaseServerComponentClient()

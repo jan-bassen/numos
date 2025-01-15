@@ -82,6 +82,7 @@ export default function ActionNodeEditor({
       actionId: action.id,
     }
     const { result, error } = await simulateActionGraph(graph, data, context)
+    console.log(result, error)
     if (error) {
       setLoading(false)
       return { success: false, error }

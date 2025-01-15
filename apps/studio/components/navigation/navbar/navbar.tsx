@@ -9,7 +9,6 @@ import { Support } from './support'
 import type { ActionNavItem } from '@/lib/supabase/db/actions'
 import { NavUser } from '@/components/navigation/navbar/user/nav-user'
 import { Suspense } from 'react'
-import { NavUserSkeleton } from '@/components/navigation/navbar/user/nav-user-skeleton'
 import { CollectionParts } from '@/components/navigation/navbar/collection/collection-parts/collection-parts'
 import { NumosButton } from '@/components/navigation/navbar/numos-button'
 import { Collections } from '@/components/navigation/navbar/collections/collections'
@@ -58,9 +57,7 @@ export async function Navbar({ collection, ...props }: SidebarProps) {
         <Support className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
-        <Suspense fallback={<NavUserSkeleton />}>
-          <NavUser />
-        </Suspense>
+        <NavUser />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

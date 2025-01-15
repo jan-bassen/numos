@@ -1,4 +1,5 @@
 'use client'
+
 import DeleteDialogContent from '@repo/ui/components/dialogs/delete-dialog'
 import InputDeleteDialogContent from '@repo/ui/components/dialogs/input-delete-dialog'
 import {
@@ -7,11 +8,21 @@ import {
 } from '@repo/ui/components/ui/alert-dialog'
 import { Button, type ButtonProps } from '@repo/ui/components/ui/button'
 import { PiDeleteDustbin01Stroke } from '@repo/ui/icons/pika'
-import { cn } from '@repo/ui/lib/utils'
+import { cn, type ReturnInfo } from '@repo/ui/lib/utils'
+import {
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@repo/ui/components/ui/alert-dialog'
+import { buttonVariants } from '@repo/ui/components/ui/button'
 
 export type DeleteButtonProps = ButtonProps & {
   title: string
-  onDelete: () => void
+  onDelete: () => Promise<void>
   secure?: boolean
 }
 
@@ -36,9 +47,30 @@ export default function DeleteButton({
         </Button>
       </AlertDialogTrigger>
       {secure ? (
-        <InputDeleteDialogContent title={title} onDelete={onDelete} />
+        <InputDeleteDialogContent title={title} onDelete={() => onDelete()} />
       ) : (
-        <DeleteDialogContent title={title} onDelete={onDelete} />
+        <AlertDialogContent className="gap-6">
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              Are you sure to delete this {title}?
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete the
+              entire {title} and remove all the data from our servers.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              className={buttonVariants({ variant: 'destructive' })}
+              onClick={(e) => {
+                onDelete()
+              }}
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
       )}
     </AlertDialog>
   )

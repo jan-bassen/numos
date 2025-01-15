@@ -268,6 +268,13 @@ export async function deleteCollection(id: string): Promise<ReturnInfo> {
   }
 }
 
+export async function deleteCollectionBySlug(
+  slug: string,
+): Promise<ReturnInfo> {
+  const collection = await getCollectionFromSlug(slug)
+  return deleteCollection(collection.id)
+}
+
 export async function getExtendedCollectionFromSlug(
   collectionSlug: string,
 ): Promise<ExtendedCollection> {

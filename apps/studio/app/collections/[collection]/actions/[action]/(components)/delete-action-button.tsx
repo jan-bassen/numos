@@ -1,9 +1,10 @@
 'use client'
 
-import DeleteButton from '@/components/forms/buttons/delete-button'
 import { useCollection } from '@/app/collections/[collection]/collection-context'
 import { useAction } from '@/app/collections/[collection]/actions/[action]/action-context'
 import { deleteAction } from '@/lib/supabase/db/actions/delete'
+import { handleReturnInfo } from '@repo/ui/lib/utils'
+import DeleteButton from '@/components/forms/buttons/delete-button'
 
 export function DeleteActionButton() {
   const {

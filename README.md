@@ -29,9 +29,8 @@ This includes the following packages/apps:
 - `core`: an AWS cdk app for deploying the backend
 - `@repo/tsconfig`: a shared tsconfig used throughout the monorepo
 - `@repo/ui`: a React component library based on shadcn/ui including icons and tailwind config
-- `@repo/engine`: the core engine for simulating and running node graphs
+- `@repo/shared`: a utility package for shared assets like datatypes or the node engine
 - `@repo/email`: a react email project (not in use yet)
-- `@repo/shared`: a utility package for any other shared assets
 
 ## Tools
 The repo is build with the following tools and services:

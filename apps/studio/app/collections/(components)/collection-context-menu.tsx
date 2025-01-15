@@ -1,0 +1,80 @@
+'use client'
+
+import Link from 'next/link'
+import { handleReturnInfo } from '@repo/ui/lib/utils'
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuTrigger,
+} from '@repo/ui/components/ui/context-menu'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@repo/ui/components/ui/alert-dialog'
+import {
+  PiDeleteDustbin02Stroke,
+  PiPencilEditBoxStroke,
+} from '@repo/ui/icons/pika'
+import { deleteCollectionBySlug } from '@/lib/supabase/db/collections'
+
+interface CollectionContextMenuProps {
+  children?: React.ReactNode
+  slug: string
+}
+
+export default function ActionContextMenu({
+  children,
+  slug,
+}: CollectionContextMenuProps) {
+  const href = `/collections/${slug}/`
+  return (
+    <AlertDialog>
+      <ContextMenu>
+        <ContextMenuTrigger asChild>{children}</ContextMenuTrigger>
+        <ContextMenuContent className="min-w-40">
+          <ContextMenuItem asChild>
+            <Link href={href} className="flex gap-1.5">
+              <PiPencilEditBoxStroke className="h-4 w-4" />
+              Edit
+            </Link>
+          </ContextMenuItem>
+          <AlertDialogTrigger asChild>
+            <ContextMenuItem>
+              <PiDeleteDustbin02Stroke className="mr-1.5 h-4 w-4" />
+              Delete
+            </ContextMenuItem>
+          </AlertDialogTrigger>
+        </ContextMenuContent>
+      </ContextMenu>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>
+            Are you sure to delete this action?
+          </AlertDialogTitle>
+          <AlertDialogDescription>
+            This action cannot be undone.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction
+            onClick={async () => {
+              const res = await deleteCollectionBySlug(slug)
+              handleReturnInfo(res)
+            }}
+          >
+            Delete
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  )
+}

@@ -92,7 +92,11 @@ export class Control {
     try {
       schema.parse(this.value)
     } catch (error) {
-      console.error(error)
+      /*  console.log('control')
+      console.log(this.definition.key)
+      console.log(this.definition.type)
+      console.log(this.value)
+      console.error(error) */
       if (error instanceof ZodError) {
         if (error.issues.length === 0) {
           this.clearIssues()

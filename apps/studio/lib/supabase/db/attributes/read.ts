@@ -1,5 +1,3 @@
-'use server'
-
 import 'server-only'
 import { FetchError } from '@/lib/errors'
 import type { Attribute } from '@/types/database.types'

@@ -247,7 +247,7 @@ export class SimulationEngine extends EngineBase {
   ) => DataInterface<AnyDataNode, true> = (nodeId, mode) => {
     return {
       getLayer: async (image: string) => {
-        return this.getLayer(image, nodeId)
+        return this.getUpload(image, nodeId)
       },
       getParameter: (key: string) => {
         if (mode === 'execution') return this.getParameter(key, nodeId)

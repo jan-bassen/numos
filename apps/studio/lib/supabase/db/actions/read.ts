@@ -2,6 +2,7 @@ import type { Action, TriggerType } from '@/types/database.types'
 import { createSupabaseServerComponentClient } from '@/lib/supabase/clients/server-client'
 import { FetchError } from '@/lib/errors'
 import { getCollectionFromSlug } from '@/lib/supabase/db/collections'
+import 'server-only'
 
 export async function getAllActions(version: string): Promise<Action[]> {
   if (!version) {
