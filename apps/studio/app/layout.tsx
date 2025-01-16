@@ -16,6 +16,7 @@ import { Maintanance } from '@/app/maintanance'
 import { getProfile } from '@/lib/supabase/db/profile/read'
 import { ProfileProvider } from '@/app/(providers)/profile-context'
 import { UserProvider } from '@/app/(providers)/user-context'
+import { redirect } from 'next/navigation'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' })
@@ -45,10 +46,9 @@ export default async function RootLayout({
 }) {
   const supabase = await createSupabaseServerComponentClient()
   const { data: user, error } = await supabase.auth.getUser()
-  if (error) {
-    throw new Error('Error fetching user')
+  if (error || !user) {
+    redirect('/login')
   }
-  const profile = await getProfile(user?.user?.id)
   const maintanance = false
   return (
     <html
@@ -61,19 +61,15 @@ export default async function RootLayout({
           <Maintanance />
         ) : (
           <>
-            <UserProvider user={user.user || undefined}>
-              <ProfileProvider profile={profile}>
-                <Providers>
-                  <Suspense fallback={null}>
-                    <PostHogPageView />
-                  </Suspense>
-                  {children}
-                  <ChatWidget />
-                  <CookieBanner isLoggedIn={!!user} />
-                  <Toaster position="bottom-right" richColors />
-                </Providers>
-              </ProfileProvider>
-            </UserProvider>
+            <Providers user={user.user}>
+              <Suspense fallback={null}>
+                <PostHogPageView />
+              </Suspense>
+              {children}
+              <ChatWidget />
+              <CookieBanner isLoggedIn={!!user} />
+              <Toaster position="bottom-right" richColors />
+            </Providers>
             <Script
               async
               defer

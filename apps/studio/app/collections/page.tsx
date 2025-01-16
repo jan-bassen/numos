@@ -20,7 +20,7 @@ import {
   ElementCardLink,
 } from '@/components/elements/element-card'
 import { SupabaseImage } from '@/components/supabase/supabase-image'
-import CollectionContextMenu from './(components)/collection-context-menu'
+import CollectionContextMenu from '@/app/collections/(components)/collection-context-menu'
 
 export default async function HomePage() {
   const collections: ExtendedCollection[] = await getAllExtendedCollections()
