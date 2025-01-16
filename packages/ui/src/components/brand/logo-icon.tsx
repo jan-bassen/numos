@@ -1,7 +1,7 @@
 import { cn } from '@repo/ui/lib/utils'
 import Image from 'next/image'
 
-export default function Logo({
+export default function LogoIcon({
   size = 100,
   className,
 }: {
@@ -12,17 +12,17 @@ export default function Logo({
   return (
     <>
       <Image
-        src="/brand/logo_white.svg"
-        className={cn('hidden h-8 dark:block', className)}
+        src="/brand/icon_white.svg"
+        className={cn('hidden size-8 dark:block', className)}
         alt="logo"
-        width={size * 5}
+        width={size}
         height={size}
       />
       <Image
-        src="/brand/logo_black.svg"
-        className={cn('h-8 dark:hidden', className)}
+        src="/brand/icon_black.svg"
+        className={cn('size-8 dark:hidden', className)}
         alt="logo"
-        width={size * 5}
+        width={size}
         height={size}
       />
     </>

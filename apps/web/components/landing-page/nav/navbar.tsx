@@ -11,7 +11,7 @@ export default async function Navbar() {
       <nav className="flex w-full items-center justify-between">
         <div className="flex items-center gap-8 md:gap-14">
           <Link href="/">
-            <Logo size={90} className="size-8" />
+            <Logo className="!h-6 w-fit" />
           </Link>
         </div>
 

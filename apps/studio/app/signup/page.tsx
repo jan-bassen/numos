@@ -16,13 +16,13 @@ import { Input } from '@repo/ui/components/ui/input'
 import { Button } from '@repo/ui/components/ui/button'
 import { useRouter } from 'next/navigation'
 import { Card } from '@repo/ui/components/ui/card'
-import Logo from '@repo/ui/components/brand/logo'
 import Link from 'next/link'
 import { handleReturnInfo } from '@repo/ui/lib/utils'
 import { signupSchema } from '@/lib/schemas/sign-up-schema'
 import { Badge } from '@repo/ui/components/ui/badge'
 import { useEffect } from 'react'
 import { createSupabaseClient } from '@/lib/supabase/clients/client'
+import LogoIcon from '@repo/ui/components/brand/logo-icon'
 
 export default function SigninPage() {
   const router = useRouter()
@@ -60,7 +60,7 @@ export default function SigninPage() {
       <div className="w-full p-2 sm:w-[24rem] sm:p-0">
         <Card className="space-y-8 px-9 pt-6 pb-12 shadow-none sm:shadow-md">
           <div className="flex w-full items-center gap-3 py-2">
-            <Logo className="size-10" />
+            <LogoIcon className="size-10" />
             <h1 className="p-0 font-extrabold text-2xl">Sign Up</h1>
             <Badge variant="secondary" className="mt-1">
               Beta

@@ -11,14 +11,14 @@ export default function Footer() {
             href="/"
             className=" flex items-center gap-3 font-bold font-mona text-[1.25rem]"
           >
-            <Logo size={100} name={true} />
+            <Logo className="!h-7 w-fit" />
           </Link>
-          <p className="pl-1 text-muted-foreground">
-            Simplifying the creation of dynamic digital assets
+          <p className=" text-muted-foreground">
+            Digital assets that feel alive
           </p>
         </div>
         <p className="text-muted-foreground">
-          © 2023 Numos Labs. All rights reserved.
+          © {new Date().getFullYear()} Numos Labs. All rights reserved.
         </p>
       </div>
       <ul className="hidden flex-col items-end gap-3 pt-1 pr-2 md:flex">
