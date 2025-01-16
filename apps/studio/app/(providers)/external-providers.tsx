@@ -37,7 +37,7 @@ export default function Providers({
   user,
 }: {
   children: React.ReactNode
-  user?: User
+  user: User | null
 }) {
   const { setTheme } = useTheme()
 
