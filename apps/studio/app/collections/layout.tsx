@@ -5,7 +5,7 @@ import { getProfile } from '@/lib/supabase/db/profile/read'
 import { redirect } from 'next/navigation'
 import { createSupabaseServerComponentClient } from '@/lib/supabase/clients/server-client'
 
-export async function CollectionsLayout({
+export default async function CollectionsLayout({
   children,
 }: {
   children: ReactNode
