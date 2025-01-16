@@ -45,10 +45,7 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
   const supabase = await createSupabaseServerComponentClient()
-  const { data: user, error } = await supabase.auth.getUser()
-  if (error || !user) {
-    redirect('/login')
-  }
+  const { data: user } = await supabase.auth.getUser()
   const maintanance = false
   return (
     <html
