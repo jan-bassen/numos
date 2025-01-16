@@ -31,7 +31,7 @@ export default async function HomePage() {
         <Header hideBreadcrumbs>
           <HeaderContent>
             <HeaderMain>
-              <HeaderTitle>NUMOS</HeaderTitle>
+              <HeaderTitle>Collections</HeaderTitle>
             </HeaderMain>
             <HeaderActions>
               <NewCollectionDialog>
