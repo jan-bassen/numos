@@ -10,6 +10,7 @@ import { SidebarProvider } from '@repo/ui/components/ui/sidebar'
 import { SecondarySidebarProvider } from '@repo/ui/components/ui/sidebar-secondary'
 import { ChatProvider } from '@/lib/hubspot/chat-context'
 import { useUser } from '@/app/(providers)/user-context'
+import type { User } from '@supabase/supabase-js'
 
 declare global {
   interface Window {
@@ -33,12 +34,12 @@ declare global {
 
 export default function Providers({
   children,
+  user,
 }: {
   children: React.ReactNode
+  user?: User
 }) {
   const { setTheme } = useTheme()
-
-  const { user } = useUser()
 
   useEffect(() => {
     const localTheme = localStorage.getItem('theme')
