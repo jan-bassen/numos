@@ -54,11 +54,17 @@
       "inputs": ["$TURBO_DEFAULT$", ".env*"]
     },
     "web#build": {
-      "dependsOn": ["^build", "@repo/shared#build"],
+      "dependsOn": ["^build", "@repo/shared#build", "@repo/ui#build"],
       "env": [
         "NEXT_PUBLIC_POSTHOG_HOST",
         "NEXT_PUBLIC_POSTHOG_KEY",
-        "HUBSPOT_ACCESS_TOKEN"
+        "HUBSPOT_ACCESS_TOKEN",
+        "DATABASE_URI",
+        "PAYLOAD_SECRET",
+        "BLOB_READ_WRITE_TOKEN",
+        "SMTP_HOST",
+        "SMTP_USER",
+        "SMTP_PASS"
       ]
     },
     "build": {
