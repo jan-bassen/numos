@@ -9,7 +9,7 @@ import {
 } from 'drizzle-orm/pg-core'
 
 //TODO: How to track current version without recursive dependency?
-//TODO: Database table for supported chains?
+
 export const supportedChains = [11155111]
 
 export const collections = pgTable(
@@ -29,4 +29,4 @@ export const collections = pgTable(
   }),
 )
 
-export type Collection = typeof collections.$inferSelect
+export type DeployedCollection = typeof collections.$inferSelect

@@ -6,6 +6,7 @@ import {
   uuid,
   varchar,
   integer,
+  uniqueIndex,
 } from 'drizzle-orm/pg-core'
 import { deployments } from './deployments'
 import { folders } from './folders'
@@ -32,5 +33,6 @@ export const uploads = pgTable(
   (table) => ({
     deployment: index('uploads_deployment_idx').on(table.deployment),
     folder: index('uploads_folder_idx').on(table.folder),
+    studio_id: uniqueIndex('uploads_studio_id_idx').on(table.studio_id),
   }),
 )
