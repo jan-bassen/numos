@@ -614,9 +614,13 @@ export type Database = {
         Row: {
           collection: string
           created_at: string | null
+          description: string | null
+          external_link: string | null
           id: string
+          locked: boolean
           major: number
           minor: number
+          name: string | null
           patch: number
           status: Database["public"]["Enums"]["version-status"]
           updated_at: string | null
@@ -624,9 +628,13 @@ export type Database = {
         Insert: {
           collection: string
           created_at?: string | null
+          description?: string | null
+          external_link?: string | null
           id?: string
+          locked?: boolean
           major?: number
           minor?: number
+          name?: string | null
           patch?: number
           status?: Database["public"]["Enums"]["version-status"]
           updated_at?: string | null
@@ -634,9 +642,13 @@ export type Database = {
         Update: {
           collection?: string
           created_at?: string | null
+          description?: string | null
+          external_link?: string | null
           id?: string
+          locked?: boolean
           major?: number
           minor?: number
+          name?: string | null
           patch?: number
           status?: Database["public"]["Enums"]["version-status"]
           updated_at?: string | null

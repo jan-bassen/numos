@@ -1,29 +1,26 @@
 'use client'
 
-import { useCollection } from '@/app/collections/[collection]/collection-context'
+import { useVersion } from '@/app/collections/[collection]/version-context'
 import ErrorMessage from '@/components/state/error-message'
 import { cn } from '@repo/ui/lib/utils'
 import { Textarea } from '@repo/ui/components/ui/textarea'
 
-export function CollectionDescriptionInput() {
+export function VersionDescriptionInput() {
   const {
-    collection: { description, settings_locked },
-    updateCollection,
+    version: { description, locked },
+    updateVersion,
     getErrorMessage,
-  } = useCollection()
+  } = useVersion()
 
   const error = getErrorMessage(['max_supply'])
 
   return (
     <>
       <Textarea
-        disabled={settings_locked}
+        disabled={locked}
         value={description || ''}
         onChange={async (e) => {
-          await updateCollection(
-            { description: e.target.value },
-            { debounce: true },
-          )
+          await updateVersion({ description: e.target.value })
         }}
         className={cn('', error && 'border-destructive bg-destructive/10')}
       />

@@ -4,7 +4,7 @@ import { useContextState } from '@/lib/state/use-context-state'
 import { updateCollectionSchema } from '@/lib/schemas/collections/collection-schema'
 import type { UpdateOptions } from '@/types/state.types'
 import type {
-  ExtendedCollection,
+  Collection,
   ReturnInfo,
   UpdateCollection,
 } from '@/types/database.types'
@@ -13,7 +13,7 @@ import { updateCollection } from '@/lib/supabase/db/collections/update'
 import type { NestedErrors, Validate } from '@/types/state.types'
 
 type CollectionContext = {
-  collection: ExtendedCollection
+  collection: Collection
   updateCollection: (
     value: UpdateCollection,
     options?: UpdateOptions,
@@ -25,7 +25,7 @@ type CollectionContext = {
 
 type CollectionProviderProps = {
   children: React.ReactNode
-  collection: ExtendedCollection
+  collection: Collection
 }
 const CollectionContext = createContext<CollectionContext | null>(null)
 
@@ -34,7 +34,7 @@ export function CollectionProvider({
   collection,
 }: CollectionProviderProps) {
   const { state, update, validate, getError, getErrorMessage } =
-    useContextState<ExtendedCollection, UpdateCollection>(
+    useContextState<Collection, UpdateCollection>(
       collection,
       updateCollection,
       updateCollectionSchema,
