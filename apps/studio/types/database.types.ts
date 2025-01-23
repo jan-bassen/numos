@@ -41,17 +41,14 @@ export type Database = MergeDeep<
         }
         attributes: {
           Row: {
-            type: ValueTypeLiteral
             settings: ValueSettings | null
             value: FullValue
           }
           Insert: {
-            type: ValueTypeLiteral
             settings?: ValueSettings | null
             value: FullValue
           }
           Update: {
-            type?: ValueTypeLiteral
             settings?: ValueSettings | null
             value?: FullValue | null
           }

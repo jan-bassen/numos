@@ -8,6 +8,8 @@ import {
   serial,
   text,
   timestamp,
+  uniqueIndex,
+  uuid,
   varchar,
 } from 'drizzle-orm/pg-core'
 
@@ -21,14 +23,16 @@ export const actions = pgTable(
     deployment: serial('deployment')
       .notNull()
       .references(() => deployments.id),
+    studio_id: uuid('studio_id').notNull(),
     key: varchar('slug').notNull(),
-    type: actionTypes('type').notNull(),
-    config: jsonb('config').notNull(), //Verify -> Includes graph
+    effect: jsonb('effect').notNull(),
     created_at: timestamp('created_at').defaultNow(),
+    name: text('name'),
     description: text('description'),
   },
   (table) => ({
     key: index('action_key_idx').on(table.key),
     deployment: index('action_deployment_idx').on(table.deployment),
+    studio_id: uniqueIndex('action_studio_id_idx').on(table.studio_id),
   }),
 )

@@ -137,7 +137,7 @@ export class EngineBase {
         node,
       })
     }
-    if (!layer || layer.type.split('/')[0] !== 'image')
+    if (!layer /* || layer.type.split('/')[0] !== 'image' */)
       throw new GraphError('Upload is not an image', { node })
     const value = await sharp(await layer.arrayBuffer()).toBuffer()
     return {

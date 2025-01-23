@@ -8,6 +8,9 @@ import {
   pgTable,
   serial,
   timestamp,
+  uniqueIndex,
+  uuid,
+  varchar,
 } from 'drizzle-orm/pg-core'
 
 export const directions = pgEnum('direction', [
@@ -52,8 +55,8 @@ export const blendModes = pgEnum('blendMode', [
   'exclusion',
 ])
 
-export const layerTypes = pgEnum('layerType', ['custom'])
 export const layerConfigSchema = z.object({})
+
 export const layers = pgTable(
   'layers',
   {
@@ -62,10 +65,11 @@ export const layers = pgTable(
     deployment: serial('deployment')
       .notNull()
       .references(() => deployments.id),
+    studio_id: uuid('studio_id').notNull(),
+    name: varchar('name').notNull(),
     index: integer('index').notNull(),
     blend: blendModes('blend').notNull(),
-    type: layerTypes('type').notNull(),
-    config: jsonb('config').notNull(), //Verify -> Includes graph
+    definition: jsonb('definition').notNull(), //Verify -> Includes graph
     width: integer('width').notNull(),
     height: integer('height').notNull(),
     gravity: directions('gravity').notNull(),
@@ -74,5 +78,6 @@ export const layers = pgTable(
   },
   (table) => ({
     deployment: index('deployment_layer_idx').on(table.deployment),
+    studio_id: uniqueIndex('layer_studio_id_idx').on(table.studio_id),
   }),
 )

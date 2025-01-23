@@ -55,11 +55,7 @@
       "inputs": ["$TURBO_DEFAULT$", ".env*"]
     },
     "web#build": {
-      "dependsOn": [
-        "@repo/tsconfig#build",
-        "@repo/shared#build",
-        "@repo/ui#build"
-      ],
+      "dependsOn": ["@repo/tsconfig#build", "@repo/shared#build"],
       "env": [
         "NEXT_PUBLIC_POSTHOG_HOST",
         "NEXT_PUBLIC_POSTHOG_KEY",
@@ -71,6 +67,15 @@
         "SMTP_USER",
         "SMTP_PASS"
       ]
+    },
+    "@repo/shared#build": {
+      "outputs": ["dist/**"]
+    },
+    "@repo/ui#build": {
+      "outputs": ["dist/**"]
+    },
+    "@repo/tsconfig#build": {
+      "outputs": ["dist/**"]
     },
     "check-types": {
       "dependsOn": ["^check-types"]

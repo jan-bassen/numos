@@ -6,6 +6,8 @@ import {
   serial,
   text,
   timestamp,
+  uniqueIndex,
+  uuid,
   varchar,
 } from 'drizzle-orm/pg-core'
 import { deployments } from './deployments'
@@ -22,21 +24,31 @@ export const attributeType = pgEnum('attributeType', [
   'color',
 ])
 
+export const attributeDisplayType = pgEnum('attributeDisplayType', [
+  'public',
+  'private',
+  'hidden',
+])
+
 export const attributes = pgTable(
   'attributes',
   {
     id: serial('id').primaryKey(),
-    key: varchar('key').notNull(),
-    created_at: timestamp('created_at').defaultNow(),
     deployment: serial('deployment')
       .notNull()
       .references(() => deployments.id),
-    type: attributeType('type').notNull(), //Verify
+    studio_id: uuid('studio_id').notNull(),
+    key: varchar('key').notNull(),
+    created_at: timestamp('created_at').defaultNow(),
+
+    name: text('name'),
+    display: attributeDisplayType('display').notNull(),
     description: text('description'),
-    settings: jsonb('settings'), //Verify
+    value: jsonb('value'), //Verify
   },
   (table) => ({
     key: index('attribute_key_idx').on(table.key),
     deployment: index('attribute_deployment_idx').on(table.deployment),
+    studio_id: uniqueIndex('attribute_studio_id_idx').on(table.studio_id),
   }),
 )
