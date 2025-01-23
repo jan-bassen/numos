@@ -53,9 +53,8 @@ export function NewAttributeDialog({
     resolver: zodResolver(schema),
     mode: 'onBlur',
     defaultValues: {
-      name: '',
+      name: ' ',
       slug: ' ',
-      list: false,
     },
   })
 
@@ -86,7 +85,7 @@ export function NewAttributeDialog({
     ),
   }
 
-  const listStage: StaticStageDefinition<SchemaType, 'list'> = {
+  /* const listStage: StaticStageDefinition<SchemaType, 'list'> = {
     key: 'list',
     title: 'Select whether this is a list',
     description:
@@ -111,7 +110,7 @@ export function NewAttributeDialog({
         </FormItem>
       )
     },
-  }
+  } */
 
   const nameStage: StaticStageDefinition<SchemaType, 'name'> = {
     key: 'name',
@@ -155,17 +154,17 @@ export function NewAttributeDialog({
 
   const stages = [
     typeStage,
-    listStage,
     nameStage,
     slugStage,
   ] as StaticStageDefinition<SchemaType>[]
 
   async function onSubmit(values: SchemaType) {
     const newAttribute: InsertAttribute = {
-      ...values,
+      name: values.name,
+      slug: values.slug,
       value: {
         type: values.type,
-        list: values.list,
+        list: false,
         optional: false,
       },
       version: versionId,

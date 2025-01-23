@@ -37,6 +37,7 @@ export async function insertAttribute(
   const { error } = await supabase.from('attributes').insert(attribute)
 
   if (error) {
+    console.log(error)
     throw new FetchError('Error with inserting new attribute')
   }
 
@@ -80,7 +81,6 @@ export async function duplicateAttribute(id: string): Promise<ReturnInfo> {
     name: `${attribute.name}-copy`,
     slug: newSlug,
     version: attribute.version,
-    type: attribute.type,
     display: attribute.display,
     token_specific: attribute.token_specific,
     settings: attribute.settings,

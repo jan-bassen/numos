@@ -9,7 +9,7 @@ import type { ValueType } from '@repo/shared/types/values'
 
 export function AttributeTypeInput() {
   const {
-    attribute: { type, locked, slug, value },
+    attribute: { locked, slug, value },
     updateAttribute,
   } = useAttribute()
   const {
@@ -19,10 +19,9 @@ export function AttributeTypeInput() {
     <TabSelect
       disabled={locked}
       options={attributeTypeOptions}
-      value={type}
+      value={value?.type}
       onValueChange={async (v: string) => {
         const res = await updateAttribute({
-          type: v as ValueType,
           value: {
             ...value,
             type: v as ValueType,
