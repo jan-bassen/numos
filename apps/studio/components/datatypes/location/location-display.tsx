@@ -11,7 +11,7 @@ import { fromLatLng } from 'react-geocode'
 import { getAddressFromGeocoder } from './address'
 import { Separator } from '@repo/ui/components/ui/separator'
 import type { GenericDisplayProps } from '../generic-display'
-import type { Location, OptionalValue } from '@repo/engine/types/value-types'
+import type { Location, OptionalValue } from '@repo/shared/types/values'
 
 export type LocationDisplayProps = Omit<GenericDisplayProps, 'value'> & {
   value: OptionalValue<Location>

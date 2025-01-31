@@ -1,5 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import type { ImageCombineNode } from '@repo/engine/nodes/image-combine/interface'
+import type { ImageCombineNode } from '@repo/shared/engine/nodes/image-combine/interface'
 
 export const imageCombineDefinition: SpecificNodeDefinition<ImageCombineNode> =
   {

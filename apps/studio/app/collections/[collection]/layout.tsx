@@ -1,16 +1,30 @@
 import { Navbar } from '@/components/navigation/navbar/navbar'
-import Page from '@/components/page/page'
+import { getExtendedCollectionFromSlug } from '@/lib/supabase/db/collections'
+import { CollectionProvider } from '@/app/collections/[collection]/collection-context'
+import { VersionProvider } from '@/app/collections/[collection]/version-context'
 
-export default async function Layout(props: {
+export default async function Layout({
+  params,
+  children,
+}: {
   children: React.ReactNode
   params: Promise<{ collection: string }>
 }) {
-  const { collection } = await props.params
-  const { children } = props
+  const { collection: collectionSlug } = await params
+  const extended_collection =
+    await getExtendedCollectionFromSlug(collectionSlug)
+
+  const version = extended_collection.editable_version
+  const collection = {
+    ...extended_collection,
+    editable_version: version.id,
+  }
   return (
-    <>
-      <Navbar collection={collection} />
-      <Page>{children}</Page>
-    </>
+    <CollectionProvider collection={collection}>
+      <VersionProvider version={version}>
+        <Navbar collection={collectionSlug} />
+        {children}
+      </VersionProvider>
+    </CollectionProvider>
   )
 }

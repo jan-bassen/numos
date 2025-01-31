@@ -1,4 +1,4 @@
-import type { LogEntry } from '@repo/engine/types/engine-types'
+import type { LogEntry } from '@repo/shared/types/engine-types'
 import { cn } from '@repo/ui/lib/utils'
 
 export default function LogsList({ logs }: { logs: LogEntry[] }) {
@@ -13,7 +13,7 @@ export default function LogsList({ logs }: { logs: LogEntry[] }) {
               'relative flex shrink-0 items-center gap-3 border-border-highlight border-l-2 py-1 text-sm ',
               (index === 0 || index === lastIndex) && 'border-background',
             )}
-            key={log.message}
+            key={log.message + crypto.randomUUID()}
           >
             {index === 0 && (
               <div className="-translate-x-0.5 absolute bottom-0 left-0 h-1/2 w-0.5 bg-border-highlight" />

@@ -15,26 +15,29 @@ import type {
 import type {
   MapGraph,
   SavedGraph,
-  MapGraphNode,
   SavedNode,
-} from '@repo/engine/types/graph-types'
+} from '@repo/shared/types/graph-types'
 import { Node } from './node'
 import { Connection } from './connection'
 import { NodeEditor as BaseNodeEditor } from 'rete'
 import { toast } from 'sonner'
-import { getNodeMenuList, type NewNodePosition } from '../utils/init'
+import { getNodeMenuList, type NewNodePosition } from '@/lib/rete/utils/init'
 import {
   addBackground,
   updateBackground,
 } from '@/components/node-editor/background'
-import { Selector } from './selector/selector'
-import { accumulateOnShift } from '../utils/presets'
-import { addMultiSelector } from './selector/multi-selector'
+import { Selector } from '@/lib/rete/classes/selector/selector'
+import { accumulateOnShift } from '@/lib/rete/utils/presets'
+import { addMultiSelector } from '@/lib/rete/classes/selector/multi-selector'
 import { isEqual } from 'lodash'
-import { zoomAt } from './area/extensions/zoom-at'
-import { Drag, dragModeDragGuards, selectModeDragGuards } from './area/drag'
-import type { NodeType } from '@repo/engine/types/node-types'
-import type { GraphErrorData } from '@repo/engine/types/engine-types'
+import { zoomAt } from '@/lib/rete/classes/area/extensions/zoom-at'
+import {
+  Drag,
+  dragModeDragGuards,
+  selectModeDragGuards,
+} from '@/lib/rete/classes/area/drag'
+import type { NodeType } from '@repo/shared/types/node-types'
+import type { GraphErrorData } from '@repo/shared/types/engine-types'
 
 export class NodeEditor extends BaseNodeEditor<Schemes> {
   configDef: EditorConfig

@@ -5,9 +5,8 @@ import type {
   SavedConnection,
   SavedGraph,
   SavedNode,
-} from '@repo/engine/types/graph-types'
-import { createSupabaseServerComponentClient } from '../clients/server-client'
-import { changeSavedNodeStructure, replaceRemovedNodes } from '@/lib/transition'
+} from '@repo/shared/types/graph-types'
+import { createSupabaseServerComponentClient } from '@/lib/supabase/clients/server-client'
 
 export async function insertActionNode(
   node: SavedNode,
@@ -171,9 +170,6 @@ export async function getActionGraph(actionId: string): Promise<SavedGraph> {
     .eq('action', actionId)
     .returns<SavedNode[]>()
 
-  const replacedNodes = replaceRemovedNodes(nodes || [])
-  const transformedNodes = changeSavedNodeStructure(replacedNodes)
-
   const { data: connections, error: connectionsError } = await supabase
     .from('action_connections')
     .select('*')
@@ -183,7 +179,7 @@ export async function getActionGraph(actionId: string): Promise<SavedGraph> {
     throw new Error('Error fetching graph')
   }
   return {
-    nodes: transformedNodes || [],
+    nodes: nodes || [],
     connections: connections || [],
   }
 }

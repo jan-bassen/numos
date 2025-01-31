@@ -1,5 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import type { ParameterNode } from '@repo/engine/nodes/parameter/interface'
+import type { ParameterNode } from '@repo/shared/engine/nodes/parameter/interface'
 
 export const parameterDefinition: SpecificNodeDefinition<ParameterNode> = {
   type: 'parameter',
@@ -36,8 +36,8 @@ export const parameterDefinition: SpecificNodeDefinition<ParameterNode> = {
     return [
       {
         key: 'parameter',
-        list: parameter.list,
-        type: parameter.type,
+        list: parameter.value.list,
+        type: parameter.value.type,
         label: parameter.key,
       },
     ]

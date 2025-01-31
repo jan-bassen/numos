@@ -143,7 +143,7 @@ const FormMessage = ({
   children,
   ...props
 }: React.ComponentProps<'p'>) => {
-  const { error, formMessageId, name } = useFormField()
+  const { error, formMessageId } = useFormField()
   const body = error?.message
     ? String(error?.message)
     : error?.root

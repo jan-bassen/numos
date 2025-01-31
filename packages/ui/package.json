@@ -6,10 +6,11 @@
     "./globals.css": "./src/globals.css",
     "./postcss.config": "./postcss.config.js",
     "./tailwind.config": "./tailwind.config.js",
-    "./lib/*": "./src/lib/*.ts",
+    "./lib/*": "./src/lib/*.tsx",
     "./hooks/*": "./src/hooks/*.tsx",
     "./components/*": "./src/components/*.tsx",
-    "./icons/*": "./src/icons/*.tsx"
+    "./icons/*": "./src/icons/*.tsx",
+    "./types/*": "./src/types/*.ts"
   },
   "scripts": {
     "ui": "pnpm dlx shadcn@latest",
@@ -23,15 +24,19 @@
     "@repo/tsconfig": "workspace:*",
     "@turbo/gen": "^1.13.4",
     "@types/node": "^20.17.6",
-    "@types/react": "npm:types-react@19.0.0-rc.1",
-    "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.47",
     "tailwind-clip-path": "^1.0.0",
     "tailwindcss": "^3.4.14",
     "tailwindcss-intersect": "^2.0.1",
     "tailwindcss-motion": "^1.0.0",
-    "typescript": "^5.6.3"
+    "next": ">=15.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "@types/react": "19.0.2",
+    "@types/react-dom": "19.0.2",
+    "tailwindcss-3d": "^1.0.7",
+    "typescript": "5.7.2"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.1-rc.14",
@@ -48,6 +53,7 @@
     "@radix-ui/react-menubar": "^1.1.2-rc.14",
     "@radix-ui/react-navigation-menu": "^1.2.1-rc.14",
     "@radix-ui/react-popover": "^1.1.2-rc.14",
+    "@radix-ui/react-scroll-area": "^1.2.2",
     "@radix-ui/react-select": "^2.1.2-rc.22",
     "@radix-ui/react-separator": "^1.1.0-rc.7",
     "@radix-ui/react-slider": "^1.2.1-rc.1",
@@ -64,12 +70,11 @@
     "embla-carousel-react": "^8.3.1",
     "input-otp": "^1.4.1",
     "lucide-react": "^0.272.0",
-    "next": "15.0.2",
     "next-themes": "^0.2.1",
-    "react": "19.0.0-rc-66855b96-20241106",
+    "react": "19.0.0",
     "react-day-picker": "^8.10.1",
-    "react-dom": "19.0.0-rc-66855b96-20241106",
-    "react-hook-form": "^7.53.1",
+    "react-dom": "19.0.0",
+    "react-hook-form": "^7.54.2",
     "react-resizable-panels": "^1.0.10",
     "sonner": "^1.7.0",
     "tailwind-merge": "^1.14.0",
@@ -79,8 +84,6 @@
   },
   "pnpm": {
     "overrides": {
-      "@types/react": "npm:types-react@19.0.0-rc.1",
-      "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1",
       "@radix-ui/react-dismissable-layer": "1.1.1-rc.4",
       "@radix-ui/react-focus-scope": "1.1.0-rc.7",
       "@radix-ui/react-slot": "1.1.0-rc.7"

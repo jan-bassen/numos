@@ -1,9 +1,9 @@
-import type { Node } from '../classes/node'
+import type { Node } from '@/lib/rete/classes/node'
 import type { Size } from 'rete-area-plugin/_types/types'
 import type { Position } from 'rete-react-plugin'
-import { Connection } from '../classes/connection'
-import type { Area, Schemes } from '@/types/editor.types'
-import type { NodeEditor } from '../classes/editor'
+import { Connection } from '@/lib/rete/classes/connection'
+import type { Area } from '@/types/editor.types'
+import type { NodeEditor } from '@/lib/rete/classes/editor'
 
 export function getInnerRadius(size: Size) {
   const width = size.width
@@ -73,13 +73,6 @@ export function checkIntersection(
   return ids
 }
 
-type Props<S extends Schemes> = {
-  createConnections: (
-    node: S['Node'],
-    connection: S['Connection'],
-  ) => Promise<void>
-}
-
 async function replaceConnections(
   editor: NodeEditor,
   node: Node,
@@ -96,17 +89,17 @@ async function replaceConnections(
   const { sourceOutput, targetInput } = connection.resolveConnectionData()
   const fittingInputs: string[] = Object.entries(node.getInputs())
     .filter(
-      ([key, input]) =>
+      ([, input]) =>
         sourceOutput && input.socket.isCompatibleWith(sourceOutput.socket),
     )
-    .map(([key, input]) => key)
+    .map(([key]) => key)
 
   const fittingOutputs: string[] = Object.entries(node.getOutputs())
     .filter(
-      ([key, output]) =>
+      ([, output]) =>
         targetInput && output.socket.isCompatibleWith(targetInput.socket),
     )
-    .map(([key, output]) => key)
+    .map(([key]) => key)
 
   if (fittingInputs[0] && fittingOutputs[0]) {
     await editor.removeConnection(connection.id)

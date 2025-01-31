@@ -13,6 +13,9 @@ export default async function DocsArticlePage({
   params,
 }: { params: Promise<{ page: string }> }) {
   const { page } = await params
+
+  notFound()
+
   const res = await payload.find({
     collection: 'docs',
     where: {

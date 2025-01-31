@@ -1,27 +1,31 @@
-import type { Action, Attribute, ReturnInfo, LayerTree } from './database.types'
+import type {
+  Action,
+  Attribute,
+  ReturnInfo,
+  UploadsTree,
+} from './database.types'
 import type { Connection } from '@/lib/rete/classes/connection'
 import type { Node } from '@/lib/rete/classes/node'
 import type { ContextMenuExtra } from 'rete-context-menu-plugin'
 import type { AreaPlugin } from '@/lib/rete/classes/area/area-plugin'
 import type { HistoryPlugin } from '@/lib/rete/classes/history/plugin'
 import type { HistoryActions } from '@/lib/rete/classes/history/load-actions'
-import type { NodeType } from '@repo/engine/types/node-types'
-import type { NodeDefinitions, Position, SocketSide } from './nodes.types'
+import type { NodeType } from '@repo/shared/types/node-types'
+import type { NodeDefinitions, Position } from './nodes.types'
 import type { NodeEditor } from '@/lib/rete/classes/editor'
 import type {
   SavedConnection,
   OLDSavedControlMap,
   SavedNode,
-} from '@repo/engine/types/graph-types'
+} from '@repo/shared/types/graph-types'
 import type { ZoomEventParams } from '@/lib/rete/classes/area/area'
-import type { ParameterInfo } from './actions.types'
-import type { ClassicPreset as Classic, GetSchemes, NodeId } from 'rete'
+import type { GetSchemes } from 'rete'
 import type {
   ReactArea2D,
   RenderEmit as RenderEmitBase,
 } from 'rete-react-plugin'
 
-import type { JSX } from "react";
+import type { JSX } from 'react'
 
 // ----------- EDITOR -------------
 
@@ -42,8 +46,7 @@ export type EditorType = 'image' | 'action'
 export type EditorContext = {
   type: EditorType
   attributes: Attribute[]
-  parameters?: ParameterInfo[]
-  layers?: LayerTree
+  uploads?: UploadsTree
   action?: Action
 }
 

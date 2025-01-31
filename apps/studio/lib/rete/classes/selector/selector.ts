@@ -83,6 +83,7 @@ export class Selector {
       case 'node':
         return this.selectedNodes.includes(id)
     }
+    return false
   }
 
   selectNode(id: string, accumulate: boolean) {

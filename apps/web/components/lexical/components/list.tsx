@@ -16,6 +16,8 @@ export function RichTextList<T extends 'ol' | 'ul'>({
       return (
         <ul className={cn(className, 'list-disc px-3 py-2')}>{children}</ul>
       )
+    default:
+      return null
   }
 }
 

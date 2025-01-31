@@ -7,6 +7,7 @@ import { TraitsGraphic } from '@/app/(web)/(components)/architecture/traits-grap
 import { InteractionGraphic } from '@/app/(web)/(components)/architecture/interaction-graphic'
 import Image from 'next/image'
 import type { Dictionary } from '@/dictionaries/dictionaries'
+import type { JSX } from 'react'
 
 function ArchitectureInfo({
   className,

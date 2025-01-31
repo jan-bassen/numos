@@ -1,16 +1,10 @@
 'use client'
 
 import { Button } from '@repo/ui/components/ui/button'
-import {
-  ExtendedCollection,
-  type InsertCollection,
-  NewVersion,
-} from '@/types/database.types'
-import { ResponsiveDialog } from '@repo/ui/components/ui/responsive-dialog'
+import type { InsertCollection } from '@/types/database.types'
 import type { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { ReactNode, useEffect, useState } from 'react'
 import { cn, handleReturnInfo } from '@repo/ui/lib/utils'
 import {
   Form,
@@ -26,7 +20,7 @@ import { useRouter } from 'next/navigation'
 import { Textarea } from '@repo/ui/components/ui/textarea'
 import { insertCollection } from '@/lib/supabase/db/collections'
 import type { User } from '@supabase/supabase-js'
-import { collectionSchema } from '../../../lib/schemas/collection-schema'
+import { collectionSchema } from '@/lib/schemas/collection-schema'
 
 export function FirstCollection({ user }: { user: User }) {
   const router = useRouter()

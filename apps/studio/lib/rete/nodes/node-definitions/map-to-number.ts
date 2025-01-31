@@ -1,10 +1,9 @@
 import type {
   SpecificNodeDefinition,
   DataSocketDefinition,
-  SpecificDynamicSocketsDefinition,
 } from '@/types/nodes.types'
-import type { MapToNumberNode } from '@repo/engine/nodes/map-to-number/interface'
-import { getDefinedValuesFromObjectArray } from '@repo/engine/datatypes/utils'
+import type { MapToNumberNode } from '@repo/shared/engine/nodes/map-to-number/interface'
+import { getDefinedValuesFromObjectArray } from '@repo/shared/schemas/datatypes/utils'
 import { Decimal } from 'decimal.js'
 
 export const mapToNumberDefinition: SpecificNodeDefinition<MapToNumberNode> = {
@@ -32,8 +31,8 @@ export const mapToNumberDefinition: SpecificNodeDefinition<MapToNumberNode> = {
       key: 'mode',
       type: 'enum',
       label: 'Breakpoint counts to',
-      settings: {
-        default: 'up',
+      default: { value: 'up', type: 'enum', format: 'single' },
+      restrictions: {
         options: [
           { value: 'up', label: 'the range above' },
           { value: 'down', label: 'the range below' },
@@ -64,7 +63,7 @@ export const mapToNumberDefinition: SpecificNodeDefinition<MapToNumberNode> = {
       const numberValue = new Decimal(step.value).toDecimalPlaces(2)
       return { id: step.id, value: numberValue.toNumber() }
     })
-    const { type, settings } =
+    const { type, restrictions } =
       getInfoFromInputConnections(
         getConnectedInputKeys().filter((key) => key !== 'number'),
       ) || {}
@@ -94,7 +93,7 @@ export const mapToNumberDefinition: SpecificNodeDefinition<MapToNumberNode> = {
               : `${mode === 'up' ? '≤' : '<'}  ${step.value.toString()}`,
           type,
           list: false,
-          settings,
+          restrictions,
           onConnect: (node) => {
             node.updateInputs()
             node.updateOutputs()
@@ -114,7 +113,7 @@ export const mapToNumberDefinition: SpecificNodeDefinition<MapToNumberNode> = {
         label: `${mode === 'up' ? '>' : '≥'} ${breakpoints[breakpoints.length - 1]?.value?.toString()}`,
         type,
         list: false,
-        settings,
+        restrictions,
         hideControl: true,
         onConnect: (node) => {
           node.updateInputs()
@@ -135,10 +134,10 @@ export const mapToNumberDefinition: SpecificNodeDefinition<MapToNumberNode> = {
     return inputDefs
   },
   outputs: ({ getInfoFromInputConnections, getConnectedInputKeys }) => {
-    const { type, list, settings } =
+    const { type, list, restrictions } =
       getInfoFromInputConnections(
         getConnectedInputKeys().filter((key) => key !== 'number'),
       ) || {}
-    return [{ key: 'output', type, list, settings, label: 'Value' }]
+    return [{ key: 'output', type, list, restrictions, label: 'Value' }]
   },
 }

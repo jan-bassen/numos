@@ -2,7 +2,7 @@ import type { Editor, EditorSettings } from '@/types/editor.types'
 import type {
   GraphErrorData,
   SimulationData,
-} from '@repo/engine/types/engine-types'
+} from '@repo/shared/types/engine-types'
 import {
   createContext,
   type Dispatch,

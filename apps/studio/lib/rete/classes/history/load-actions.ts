@@ -2,15 +2,23 @@ import type { BaseSchemes, ConnectionId, NodeId } from 'rete'
 import {
   AddConnectionAction,
   RemoveConnectionAction,
-} from './actions/connection'
-import { AddNodeAction, DragNodeAction, RemoveNodeAction } from './actions/node'
-import type { Action, HistoryPlugin, Preset } from './plugin'
-import { NodeEditor } from '../editor'
+} from '@/lib/rete/classes/history/actions/connection'
+import {
+  AddNodeAction,
+  DragNodeAction,
+  RemoveNodeAction,
+} from '@/lib/rete/classes/history/actions/node'
+import type {
+  Action,
+  HistoryPlugin,
+  Preset,
+} from '@/lib/rete/classes/history/plugin'
+import { NodeEditor } from '@/lib/rete/classes/editor'
 import type { Position } from '@/types/nodes.types'
 import type { Area } from '@/types/editor.types'
-import { AreaPlugin } from '../area/area-plugin'
-import type { Node } from '../node'
-import type { Connection } from '../connection'
+import { AreaPlugin } from '@/lib/rete/classes/area/area-plugin'
+import type { Node } from '@/lib/rete/classes/node'
+import type { Connection } from '@/lib/rete/classes/connection'
 
 type NodeActions = AddNodeAction | RemoveNodeAction | DragNodeAction
 
@@ -28,15 +36,6 @@ function trackNodes<S extends BaseSchemes>(
   const editor = area.parentScope<NodeEditor>(NodeEditor)
   const timing = props.timing
 
-  //TEST
-  area.addPipe((context) => {
-    if (context.type === 'nodetranslated') {
-      const { id, previous, position } = context.data
-    }
-    return context
-  })
-
-  // eslint-disable-next-line max-statements
   editor.addPipe((context) => {
     if (context.type === 'nodecreated') {
       const { id } = context.data

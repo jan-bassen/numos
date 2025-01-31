@@ -1,5 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import type { StopNode } from '@repo/engine/nodes/stop/interface'
+import type { StopNode } from '@repo/shared/engine/nodes/stop/interface'
 
 export const stopDefinition: SpecificNodeDefinition<StopNode> = {
   type: 'stop',

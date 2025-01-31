@@ -10,7 +10,6 @@ import { FormControl, FormItem, FormMessage } from '@repo/ui/components/ui/form'
 import { toast } from 'sonner'
 import { Input } from '@repo/ui/components/ui/input'
 import { useRouter } from 'next/navigation'
-import { Textarea } from '@repo/ui/components/ui/textarea'
 import {
   Dialog,
   DialogContent,
@@ -19,15 +18,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@repo/ui/components/ui/dialog'
-import { Fingerprint, Info, List, Milestone, Tag } from 'lucide-react'
+import { Fingerprint, List, Milestone, Tag } from 'lucide-react'
 import {
-  type StageDefinition,
+  type StaticStageDefinition,
   StagedForm,
 } from '@/components/forms/staged-form'
-import { newAttributeSchema } from '../../../../../lib/schemas/attribute-schema'
-import { insertAttribute } from '@/lib/supabase/db/attributes'
+import { newAttributeSchema } from '@/lib/schemas/attributes/attribute-schema'
+import { insertAttribute } from '@/lib/supabase/db/attributes/create'
 import { DatatypeSelectContent } from '@/components/datatypes/datatype-picker'
-import type { NewItemDialogProps } from '@/types/props.types'
+import type { NewElementDialogProps } from '@/components/elements/new-dialog'
 import {
   Select,
   SelectTrigger,
@@ -35,14 +34,17 @@ import {
 } from '@repo/ui/components/ui/select'
 import { Switch } from '@repo/ui/components/ui/switch'
 import { slugify } from '@/lib/utils'
+import { useCollection } from '@/app/collections/[collection]/collection-context'
 
 export function NewAttributeDialog({
-  button,
+  children,
   versionId,
-  collectionSlug,
-}: NewItemDialogProps) {
+}: NewElementDialogProps) {
   const [dialogOpen, setDialogOpen] = useState(false)
   const router = useRouter()
+  const {
+    collection: { slug: collectionSlug },
+  } = useCollection()
 
   const schema = newAttributeSchema
   type SchemaType = z.infer<typeof schema>
@@ -51,9 +53,8 @@ export function NewAttributeDialog({
     resolver: zodResolver(schema),
     mode: 'onBlur',
     defaultValues: {
-      name: '',
+      name: ' ',
       slug: ' ',
-      list: false,
     },
   })
 
@@ -65,7 +66,7 @@ export function NewAttributeDialog({
     })
   }
 
-  const typeStage: StageDefinition<SchemaType, 'type'> = {
+  const typeStage: StaticStageDefinition<SchemaType, 'type'> = {
     key: 'type',
     title: 'Select the type of attribute',
     description:
@@ -84,7 +85,7 @@ export function NewAttributeDialog({
     ),
   }
 
-  const listStage: StageDefinition<SchemaType, 'list'> = {
+  /* const listStage: StaticStageDefinition<SchemaType, 'list'> = {
     key: 'list',
     title: 'Select whether this is a list',
     description:
@@ -109,20 +110,21 @@ export function NewAttributeDialog({
         </FormItem>
       )
     },
-  }
+  } */
 
-  const nameStage: StageDefinition<SchemaType, 'name'> = {
+  const nameStage: StaticStageDefinition<SchemaType, 'name'> = {
     key: 'name',
     title: 'Name your new attribute',
     description:
       'The name will show up throughout the studio and wherever your attribute is displayed. You can change it later.',
     icon: Tag,
-    field: (field) => (
+    field: ({ value, ...field }) => (
       <FormItem className="min-h-18 w-full">
         <FormControl>
           <Input
             {...field}
             placeholder="Name"
+            value={value || undefined}
             onChange={(e) => {
               inferSlug(e.target.value)
               field.onChange(e)
@@ -134,16 +136,16 @@ export function NewAttributeDialog({
     ),
   }
 
-  const slugStage: StageDefinition<SchemaType, 'slug'> = {
+  const slugStage: StaticStageDefinition<SchemaType, 'slug'> = {
     key: 'slug',
     title: 'Choose a unique identifier',
     description:
       'We will use this to identify your attribute, so it must be unique within this collection.',
     icon: Fingerprint,
-    field: (field) => (
+    field: ({ value, ...field }) => (
       <FormItem className="min-h-18 w-full">
         <FormControl>
-          <Input {...field} />
+          <Input {...field} value={value || ''} />
         </FormControl>
         <FormMessage />
       </FormItem>
@@ -152,17 +154,22 @@ export function NewAttributeDialog({
 
   const stages = [
     typeStage,
-    listStage,
     nameStage,
     slugStage,
-  ] as StageDefinition<SchemaType>[]
+  ] as StaticStageDefinition<SchemaType>[]
 
   async function onSubmit(values: SchemaType) {
     const newAttribute: InsertAttribute = {
+      name: values.name,
+      slug: values.slug,
+      value: {
+        type: values.type,
+        list: false,
+        optional: false,
+      },
       version: versionId,
       token_specific: true,
       display: 'public',
-      ...values,
     }
 
     const res = await insertAttribute(newAttribute)
@@ -183,7 +190,7 @@ export function NewAttributeDialog({
 
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-      <DialogTrigger asChild>{button}</DialogTrigger>
+      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="overflow-visible px-0">
         <DialogHeader className="hidden">
           <DialogTitle>Create a new attribute</DialogTitle>

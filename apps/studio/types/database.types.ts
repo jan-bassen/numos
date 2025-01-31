@@ -8,16 +8,19 @@ import type {
   ValueMap,
   ValueSettings,
   ValueType,
-} from '@repo/engine/types/value-types'
-import type { ActionTrigger } from './actions.types'
+  ValueTypeLiteral,
+} from '@repo/shared/types/values'
 import type {
   OLDSavedControlMap,
   OLDSavedInputMap,
   OLDSavedOutputMap,
   SavedNodeState,
-} from '@repo/engine/types/graph-types'
-
+} from '@repo/shared/types/graph-types'
 import type { JSX } from 'react'
+import type { ValidationIssueData } from '@repo/shared/types/validation-types'
+import type { LayerDefinition } from '@/lib/schemas/layers/layer-schema'
+import type { FullValue } from '@repo/shared/schemas/datatypes/datatype-schema'
+import type { ActionTrigger } from '@/lib/schemas/actions/action-schema'
 
 // Type overrides for specific columns:
 export type Database = MergeDeep<
@@ -38,16 +41,27 @@ export type Database = MergeDeep<
         }
         attributes: {
           Row: {
-            type: ValueType
             settings: ValueSettings | null
+            value: FullValue
           }
           Insert: {
-            type: ValueType
             settings?: ValueSettings | null
+            value: FullValue
           }
           Update: {
-            type: ValueType
             settings?: ValueSettings | null
+            value?: FullValue | null
+          }
+        }
+        layers: {
+          Row: {
+            definition: LayerDefinition
+          }
+          Insert: {
+            definition?: LayerDefinition | null
+          }
+          Update: {
+            definition?: LayerDefinition | null
           }
         }
         action_nodes: {
@@ -90,6 +104,17 @@ export type Database = MergeDeep<
             controls?: OLDSavedControlMap
           }
         }
+        action_issues: {
+          Row: {
+            data: ValidationIssueData
+          }
+          Insert: {
+            data: ValidationIssueData
+          }
+          Update: {
+            data: ValidationIssueData
+          }
+        }
       }
     }
   }
@@ -107,7 +132,9 @@ export type Direction = Enums<'direction'>
 export type WeatherCode = Enums<'weather-code'>
 export type Display = Enums<'display'>
 export type VersionStatus = Enums<'version-status'>
-export type TriggerType = Enums<'trigger'>
+
+// TODO: Move to shared
+export type TriggerType = 'api' | 'time' | 'token'
 export type IntervalUnit = Enums<'interval-unit'>
 export type ImageType = Enums<'image-type'>
 
@@ -136,31 +163,39 @@ export type UpdateActionNode = TablesUpdate<'action_nodes'>
 export type ActionConnection = Tables<'action_connections'>
 export type InsertActionConnection = TablesInsert<'action_connections'>
 export type UpdateActionConnection = TablesUpdate<'action_connections'>
+export type ActionIssue = Tables<'action_issues'>
+export type InsertActionIssue = TablesInsert<'action_issues'>
+export type UpdateActionIssue = TablesUpdate<'action_issues'>
 
 export type Layer = Tables<'layers'>
 export type InsertLayer = TablesInsert<'layers'>
+export type UnorderedInsertLayer = Omit<InsertLayer, 'index'>
 export type UpdateLayer = TablesUpdate<'layers'>
+
+export type Upload = Tables<'uploads'>
+export type InsertUpload = TablesInsert<'uploads'>
+export type UpdateUpload = TablesUpdate<'uploads'>
 
 export type Folder = Tables<'folders'>
 export type InsertFolder = TablesInsert<'folders'>
 export type UpdateFolder = TablesUpdate<'folders'>
 
-export type ResolvedLayer = Layer & {
+export type ResolvedUpload = Upload & {
   signedUrl: string
 }
 
 export type ResolvedFolder = Folder & {
   path: string[]
   subfolders: string[]
-  layers: string[]
+  uploads: string[]
 }
 
-export type LayerTree = {
+export type UploadsTree = {
   folders: Record<string, ResolvedFolder>
-  layers: Record<string, ResolvedLayer>
+  uploads: Record<string, ResolvedUpload>
 }
 
-export type LegacyResolvedLayer = Layer & {
+export type LegacyResolvedUploads = Upload & {
   globalIndex: number
   signedUrl: string
 }
@@ -169,16 +204,13 @@ export type LegacyResolvedFolder = Folder & {
   globalIndex: number
   path: string
   subfolders: LegacyResolvedFolder[]
-  layers: LegacyResolvedLayer[]
+  uploads: LegacyResolvedUploads[]
 }
 
-export type LegacyLayerTree = {
+export type LegacyUploadsTree = {
   folders: LegacyResolvedFolder[]
-  layers: LegacyResolvedLayer[]
+  uploads: LegacyResolvedUploads[]
 }
-
-export type EmptyFolder = Tables<'empty_folders'>
-export type InsertEmptyFolder = TablesInsert<'empty_folders'>
 
 export type Profile = Tables<'profiles'>
 export type InsertProfile = TablesInsert<'profiles'>
@@ -243,6 +275,7 @@ export type NavItem = {
   icon: JSX.Element
 }
 
+//TODO: Move all References to shared
 export type ReturnInfo = {
   ok: boolean
   message: string | null

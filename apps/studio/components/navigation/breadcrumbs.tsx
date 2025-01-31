@@ -33,14 +33,6 @@ export default function Breadcrumbs({
   return (
     <Breadcrumb>
       <BreadcrumbList className={className}>
-        <Fragment key={'studio'}>
-          <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link href={'/'}>Studio</Link>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator>{divider}</BreadcrumbSeparator>
-        </Fragment>
         {items.map((item, index) => {
           return (
             <Fragment key={item.type === 'element' ? item.key : item.href}>

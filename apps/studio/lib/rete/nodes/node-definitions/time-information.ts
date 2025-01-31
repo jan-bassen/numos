@@ -1,5 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import type { TimeInformationNode } from '@repo/engine/nodes/time-information/interface'
+import type { TimeInformationNode } from '@repo/shared/engine/nodes/time-information/interface'
 
 export const timeInformationDefinition: SpecificNodeDefinition<TimeInformationNode> =
   {
@@ -18,7 +18,8 @@ export const timeInformationDefinition: SpecificNodeDefinition<TimeInformationNo
         key: 'unit',
         type: 'enum',
         label: 'Unit',
-        settings: {
+        default: { value: 'second', type: 'enum', format: 'single' },
+        restrictions: {
           options: [
             { value: 'second', label: 'Second of the minute' },
             { value: 'minute', label: 'Minute of the hour' },
@@ -29,7 +30,6 @@ export const timeInformationDefinition: SpecificNodeDefinition<TimeInformationNo
             { value: 'month', label: 'Month of the year' },
             { value: 'year', label: 'Year' },
           ],
-          default: 'seconds',
         },
       },
     ],

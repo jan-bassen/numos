@@ -1,3 +1,5 @@
+'use client'
+
 import {
   AlertDialogAction,
   AlertDialogCancel,
@@ -13,7 +15,7 @@ export default function DeleteDialogContent({
   onDelete,
   title,
 }: {
-  onDelete: () => void
+  onDelete: () => Promise<void>
   title?: string
 }) {
   return (
@@ -31,7 +33,9 @@ export default function DeleteDialogContent({
         <AlertDialogCancel>Cancel</AlertDialogCancel>
         <AlertDialogAction
           className={buttonVariants({ variant: 'destructive' })}
-          onClick={onDelete}
+          onClick={async () => {
+            await onDelete()
+          }}
         >
           Delete
         </AlertDialogAction>

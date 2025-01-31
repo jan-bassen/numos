@@ -1,4 +1,4 @@
-import type {
+/* import type {
   SpecificNodeDefinition,
   DataSocketDefinition,
 } from '@/types/nodes.types'
@@ -20,18 +20,18 @@ export const mapToChoiceDefinition: SpecificNodeDefinition<MapToChoiceNode> = {
     getInfoFromInputConnections,
     getConnectedInputKeys,
   }) => {
-    const { settings } = getInfoFromInputConnection('value') || {}
+    const { restrictions } = getInfoFromInputConnection('value') || {}
     const {
       type,
       list,
-      settings: inputSettings,
+      restrictions: inputRestrictions,
     } = getInfoFromInputConnections(
       getConnectedInputKeys().filter((key) => key !== 'value'),
     ) || {}
 
     // TODO: Make cleaner?
     const inputOptions =
-      settings && 'options' in settings ? settings.options : []
+      restrictions && 'options' in restrictions ? restrictions.options : []
 
     const optionsInputs: DataSocketDefinition<
       MapToChoiceNode,
@@ -43,7 +43,7 @@ export const mapToChoiceDefinition: SpecificNodeDefinition<MapToChoiceNode> = {
           key: option.value,
           type,
           list,
-          settings: inputSettings,
+          restrictions: inputRestrictions,
           hideControl: true,
           label: option.value,
           onConnect: (node) => {
@@ -62,7 +62,7 @@ export const mapToChoiceDefinition: SpecificNodeDefinition<MapToChoiceNode> = {
         key: 'value',
         type: 'enum',
         label: 'Choice Value',
-        settings,
+        restrictions,
         dividerAfter: optionsInputs.length > 0,
         hideControl: true,
         list: false,
@@ -79,10 +79,11 @@ export const mapToChoiceDefinition: SpecificNodeDefinition<MapToChoiceNode> = {
     return [valueInput, ...optionsInputs]
   },
   outputs: ({ getInfoFromInputConnections, getConnectedInputKeys }) => {
-    const { type, list, settings } =
+    const { type, list, restrictions } =
       getInfoFromInputConnections(
         getConnectedInputKeys().filter((key) => key !== 'value'),
       ) || {}
-    return [{ key: 'output', type, list, settings, label: 'Value' }]
+    return [{ key: 'output', type, list, restrictions, label: 'Value' }]
   },
 }
+ */

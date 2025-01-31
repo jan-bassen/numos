@@ -1,5 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import type { LocationInputNode } from '@repo/engine/nodes/location-input/interface'
+import type { LocationInputNode } from '@repo/shared/engine/nodes/location-input/interface'
 
 export const locationInputDefinition: SpecificNodeDefinition<LocationInputNode> =
   {

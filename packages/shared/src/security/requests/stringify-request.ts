@@ -1,5 +1,6 @@
 import type { RequestParams } from '@repo/shared/types/encryption'
-import { createHash } from 'node:crypto'
+// biome-ignore lint/style/useNodejsImportProtocol: <explanation>
+import { createHash } from 'crypto'
 
 export function stringifyRequest(request: RequestParams) {
   const contentHash = createHash('md5')

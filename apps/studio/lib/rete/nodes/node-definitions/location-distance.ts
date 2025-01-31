@@ -1,5 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import type { LocationDistanceNode } from '@repo/engine/nodes/location-distance/interface'
+import type { LocationDistanceNode } from '@repo/shared/engine/nodes/location-distance/interface'
 
 export const locationDistanceDefinition: SpecificNodeDefinition<LocationDistanceNode> =
   {
@@ -16,8 +16,8 @@ export const locationDistanceDefinition: SpecificNodeDefinition<LocationDistance
         key: 'unit',
         type: 'enum',
         label: 'Unit',
-        settings: {
-          default: 'km',
+        default: { value: 'km', type: 'enum', format: 'single' },
+        restrictions: {
           options: [
             { value: 'km', label: 'Kilometers' },
             { value: 'meter', label: 'Meters' },

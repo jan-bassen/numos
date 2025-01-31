@@ -1,5 +1,3 @@
-'use client'
-
 import { Button, type ButtonProps } from '@repo/ui/components/ui/button'
 import { Input, type InputProps } from '@repo/ui/components/ui/input'
 import {
@@ -18,7 +16,6 @@ import { generateCron } from '@/lib/ai/cron'
 import { cn } from '@repo/ui/lib/utils'
 import { Loader2 } from 'lucide-react'
 import { useState, useTransition } from 'react'
-import type { FieldError } from 'react-hook-form'
 import { toast } from 'sonner'
 import { Label } from '@repo/ui/components/ui/label'
 
@@ -28,29 +25,21 @@ export type CronObject = {
 }
 
 export type CronInputProps = {
+  id?: string
   button: ButtonProps
   input: InputProps
-  field: {
-    value?: CronObject
-    onChange: (value?: CronObject) => void
-    onBlur: (value?: CronObject) => void
-  }
-  state: {
-    invalid: boolean
-    isDirty: boolean
-    isTouched: boolean
-    isValidating: boolean
-    error?: FieldError
-  }
-  validate: (value: CronObject) => Promise<boolean>
+  value?: CronObject
+  valid?: boolean
+  onChange: (value?: CronObject) => void
 }
 
 export default function CronInput({
+  id,
+  value,
+  onChange,
   button,
   input,
-  field,
-  state,
-  validate,
+  valid,
 }: CronInputProps) {
   const [prompt, setPrompt] = useState<string>('')
   const [isPending, startTransition] = useTransition()
@@ -63,8 +52,7 @@ export default function CronInput({
           schedule: res.data.schedule,
           description: res.data.description,
         }
-        field.onChange(cron)
-        validate(cron)
+        onChange(cron)
         if (res.data.message)
           toast.warning(res.data.message, { duration: 5000, closeButton: true })
       }
@@ -78,11 +66,12 @@ export default function CronInput({
     <Popover>
       <PopoverTrigger asChild>
         <Button
+          id={id}
           type="button"
           {...button}
           className={cn(
             'h-13 flex-col py-1',
-            state.invalid && 'border-destructive text-destructive',
+            valid === false && 'border-destructive text-destructive',
             button.className,
           )}
         >
@@ -91,16 +80,16 @@ export default function CronInput({
               <Loader2 className="size-4 animate-spin" />
               <span>Generating</span>
             </div>
-          ) : field.value?.schedule ? (
-            field.value.description ? (
+          ) : value?.schedule ? (
+            value.description ? (
               <>
-                <h3 className="font-semibold">{field.value.schedule}</h3>
+                <h3 className="font-semibold">{value.schedule}</h3>
                 <p className="text-muted-foreground text-sm italic">
-                  {field.value.description || 'No description provided'}
+                  {value.description || 'No description provided'}
                 </p>
               </>
             ) : (
-              field.value.schedule
+              value.schedule
             )
           ) : (
             'Define Schedule'
@@ -128,7 +117,7 @@ export default function CronInput({
               <Textarea
                 id="cron-prompt"
                 className="min-h-24 w-full"
-                placeholder="Every first day of the month at 10am"
+                placeholder="Describe the schedule you want to generate. Example: Every first day of the month at 10am"
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
               />
@@ -155,13 +144,12 @@ export default function CronInput({
                 id="cron-schedule"
                 {...input}
                 onChange={(e) =>
-                  field.onChange({
+                  onChange({
                     schedule: e.target.value,
-                    description: field.value?.description,
+                    description: value?.description,
                   })
                 }
-                onBlur={() => field.onBlur(field.value)}
-                value={field.value?.schedule}
+                value={value?.schedule}
                 placeholder="0 0 * * * *"
               />
             </div>
@@ -176,12 +164,12 @@ export default function CronInput({
                 id="cron-description"
                 className="min-h-16"
                 onChange={(e) =>
-                  field.onChange({
-                    schedule: field.value?.schedule,
+                  onChange({
+                    schedule: value?.schedule,
                     description: e.target.value,
                   })
                 }
-                value={field.value?.description}
+                value={value?.description}
               />
             </div>
           </TabsContent>

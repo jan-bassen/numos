@@ -1,5 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import type { TruncateNode } from '@repo/engine/nodes/truncate/interface'
+import type { TruncateNode } from '@repo/shared/engine/nodes/truncate/interface'
 
 export const truncateDefinition: SpecificNodeDefinition<TruncateNode> = {
   type: 'truncate',

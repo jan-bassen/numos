@@ -24,6 +24,12 @@ export class CoreStack extends cdk.Stack {
       billing: Billing.onDemand(),
     })
 
+    apiKeysTable.addGlobalSecondaryIndex({
+      indexName: 'collection-index',
+      partitionKey: { name: 'collection', type: AttributeType.STRING },
+      sortKey: { name: 'id', type: AttributeType.STRING },
+    })
+
     // --- Create API Key ---
 
     const createApiKey = new LambdaFunction(this, 'CreateApiKey', {
@@ -63,6 +69,26 @@ export class CoreStack extends cdk.Stack {
         effect: Effect.ALLOW,
         actions: ['lambda:InvokeFunction'],
         resources: [deleteApiKey.functionArn],
+      }),
+    )
+
+    // --- List API keys ---
+
+    const listApiKeys = new LambdaFunction(this, 'ListApiKeys', {
+      functionName: 'CoreStack-ListApiKeys',
+      runtime: Runtime.NODEJS_20_X,
+      code: Code.fromAsset('dist/functions'),
+      handler: 'list-api-keys.handler',
+      environment: {
+        API_KEY_TABLE_NAME: apiKeysTable.tableName,
+      },
+    })
+    apiKeysTable.grantReadData(listApiKeys)
+    studioUser.addToPolicy(
+      new PolicyStatement({
+        effect: Effect.ALLOW,
+        actions: ['lambda:InvokeFunction'],
+        resources: [listApiKeys.functionArn],
       }),
     )
   }

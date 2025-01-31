@@ -2,9 +2,9 @@ import type { ConnectionBase, NodeBase } from 'rete'
 import type { Node } from './node'
 import type { SocketType } from '@/types/database.types'
 import type { NodeEditor } from './editor'
-import type { SavedConnection } from '@repo/engine/types/graph-types'
-import type { OptionalDataType } from '@repo/engine/types/value-types'
-import type { Socket } from './connectors/socket'
+import type { SavedConnection } from '@repo/shared/types/graph-types'
+import type { OptionalDataType } from '@repo/shared/types/values'
+import type { Socket } from '@/lib/rete/classes/connectors/socket'
 
 export class Connection implements ConnectionBase {
   id: ConnectionBase['id']

@@ -10,6 +10,8 @@ import {
 } from './(functions)/nested-headings'
 
 export default async function DocsPage() {
+  notFound()
+
   const res = await payload.find({
     collection: 'docs',
     where: {

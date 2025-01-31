@@ -10,9 +10,9 @@ import type {
   UpdateAction,
 } from '@/types/database.types'
 import { revalidatePath } from 'next/cache'
-import { createSupabaseServerComponentClient } from '../clients/server-client'
+import { createSupabaseServerComponentClient } from '@/lib/supabase/clients/server-client'
 import { redirect } from 'next/navigation'
-import type { ActionTrigger } from '@/types/actions.types'
+import type { ActionTrigger } from '@/lib/schemas/actions/action-schema'
 
 const regex = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
 
@@ -77,6 +77,7 @@ export type ActionNavItem = {
   name: string | null
   type: TriggerType | null
 }
+
 export async function getActionsForNav(
   collectionSlug: string,
 ): Promise<ActionNavItem[]> {

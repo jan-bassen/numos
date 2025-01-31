@@ -16,9 +16,10 @@ import {
   PiDeleteDustbin02Stroke,
   PiPencilEditBoxStroke,
 } from '@repo/ui/icons/pika'
-import { deleteAttributeBySlug } from '@/lib/supabase/db/attributes'
+import { deleteAttributeBySlug } from '@/lib/supabase/db/attributes/delete'
 import DeleteDialogContent from '@repo/ui/components/dialogs/delete-dialog'
-import { removeAttributeFromLocalForm } from '../(functions)/utils'
+import { removeAttributeFromLocalForm } from '@/app/collections/[collection]/attributes/(functions)/utils'
+import type { ComponentProps } from 'react'
 
 interface AttributeContextMenuProps {
   children?: React.ReactNode
@@ -28,15 +29,17 @@ interface AttributeContextMenuProps {
 }
 
 export default function AttributeContextMenu({
+  onOpenChange,
   children,
   attributeSlug,
   collectionSlug,
   versionId,
-}: AttributeContextMenuProps) {
+  ...props
+}: AttributeContextMenuProps & ComponentProps<typeof ContextMenu>) {
   const href = `/collections/${collectionSlug}/attributes/${attributeSlug}`
   return (
     <AlertDialog>
-      <ContextMenu>
+      <ContextMenu {...props}>
         <ContextMenuTrigger asChild>{children}</ContextMenuTrigger>
         <ContextMenuContent className="min-w-40">
           <ContextMenuItem asChild>

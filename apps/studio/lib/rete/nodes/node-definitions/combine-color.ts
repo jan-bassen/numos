@@ -1,5 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import type { CombineColorNode } from '@repo/engine/nodes/combine-color/interface'
+import type { CombineColorNode } from '@repo/shared/engine/nodes/combine-color/interface'
 
 export const combineColorDefinition: SpecificNodeDefinition<CombineColorNode> =
   {

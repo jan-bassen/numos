@@ -1,5 +1,4 @@
 import type { RenderEmit } from 'rete-react-plugin'
-import type { Node } from '@/lib/rete/classes/node'
 import type { Control } from '@/lib/rete/classes/control'
 import type { NodeEditor } from '@/lib/rete/classes/editor'
 import type {
@@ -11,21 +10,21 @@ import type {
   NodeCategory,
   NodeInterface,
   NodeType,
-} from '@repo/engine/types/node-types'
+} from '@repo/shared/types/node-types'
 import type {
   OptionalDataType,
-  OptionalValueType,
   Value,
-  ValueSettings,
+  ValueRestrictions,
   ValueType,
-} from '@repo/engine/types/value-types'
+} from '@repo/shared/types/values'
 import type { Area, Schemes } from './editor.types'
-import type { ActionTrigger, ParameterInfo } from './actions.types'
-import type { AttributeInfo } from './attributes.types'
+import type { ActionTrigger } from '@/lib/schemas/actions/action-schema'
 import type { Input } from '@/lib/rete/classes/connectors/input'
 import type { Output } from '@/lib/rete/classes/connectors/output'
 
 import type { JSX } from 'react'
+import type { Parameter } from '@/lib/schemas/actions/triggers/api'
+import type { Attribute } from './database.types'
 
 // ----------- NODE DEPENDENCIES -------------
 
@@ -48,13 +47,26 @@ export type Controls = { [key: string]: Control }
 
 export type SelectOption = {
   value: string
-  label: string
+  id?: string
+  label?: string
   subtext?: string
   description?: string
   icons?: { stroke: (props: JSX.IntrinsicElements['svg']) => JSX.Element }
 }
 
 export type SelectOptions = SelectOption[]
+export type EditableValue<
+  VT extends ValueType = ValueType,
+  L extends boolean | undefined = undefined,
+> = Value<
+  VT,
+  L extends true
+    ? 'objectarray'
+    : L extends false
+      ? 'single'
+      : 'objectarray' | 'single',
+  true
+>
 
 export type ControlDefinition<
   I extends NodeInterface<NodeCategory>,
@@ -66,19 +78,15 @@ export type ControlDefinition<
   state?: string
   type: InferredControlType<I, K>
   list?: InferredControlList<I, K>
-  settings?: ValueSettings<InferredControlType<I, K>>
+  restrictions?: ValueRestrictions<
+    InferredControlType<I, K>,
+    InferredControlList<I, K>
+  >
+  default?: EditableValue<InferredControlType<I, K>, InferredControlList<I, K>>
   placeholder?: string
   onChange?: (
     node: NodeInteractionInterface<I>,
-    value: Value<
-      InferredControlType<I, K>,
-      InferredControlList<I, K> extends true
-        ? 'objectarray'
-        : InferredControlList<I, K> extends false
-          ? 'single'
-          : 'single' | 'objectarray',
-      true
-    >,
+    value: EditableValue<InferredControlType<I, K>, InferredControlList<I, K>>,
   ) => void
   readonly?: boolean
 }
@@ -95,7 +103,14 @@ export type DataSocketDefinition<
   list?: InferredSocketList<I, T, K>
   canBeList?: boolean
   key: K
-  settings?: ValueSettings<InferredSocketType<I, T, K>>
+  restrictions?: ValueRestrictions<
+    InferredSocketType<I, T, K>,
+    InferredSocketList<I, T, K>
+  >
+  default?: EditableValue<
+    InferredSocketType<I, T, K>,
+    InferredSocketList<I, T, K>
+  >
   state?: string
   label: string
   multipleConnections?: boolean
@@ -208,18 +223,22 @@ export type NodeInteractionInterface<I extends NodeInterface<NodeCategory>> = {
 
 export type DefinitionInterface<I extends NodeInterface<NodeCategory>> = {
   getConnectedInputKeys: () => Array<keyof I['inputs']>
-  getInfoFromInputConnection: (key: keyof I['inputs']) =>
+  getInfoFromInputConnection: <VT extends ValueType, L extends boolean>(
+    key: keyof I['inputs'],
+  ) =>
     | {
-        type: ValueType
+        type: VT
         list: boolean
-        settings?: ValueSettings
+        restrictions?: ValueRestrictions<VT, L>
       }
     | undefined
-  getInfoFromInputConnections: (keys: Array<keyof I['inputs']>) =>
+  getInfoFromInputConnections: <VT extends ValueType, L extends boolean>(
+    keys: Array<keyof I['inputs']>,
+  ) =>
     | {
-        type: ValueType
+        type: VT
         list: boolean
-        settings?: ValueSettings
+        restrictions?: ValueRestrictions<VT, L>
       }
     | undefined
   getControlValue: <K extends keyof I['controls']>(
@@ -235,11 +254,11 @@ export type DefinitionInterface<I extends NodeInterface<NodeCategory>> = {
         true
       >
     | undefined
-  getParameter: (key: string) => ParameterInfo | undefined
-  getParameters: () => ParameterInfo[] | undefined
+  getParameter: (key: string) => Parameter | undefined
+  getParameters: () => Parameter[] | undefined
   getTrigger: () => ActionTrigger | undefined
-  getTokenAttribute: (key: string) => AttributeInfo | undefined
-  getTokenAttributes: () => AttributeInfo[] | undefined
+  getTokenAttribute: (id: string) => Attribute | undefined
+  getTokenAttributes: () => Attribute[] | undefined
 }
 
 // ----------- NODE DEFINITION -------------

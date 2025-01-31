@@ -1,22 +1,18 @@
 import type { AnyControlDefinition } from '@/types/nodes.types'
 import type { Node } from './node'
-import { debounce, throttle } from 'lodash'
+import { debounce } from 'lodash'
 import { ZodError, type ZodIssue } from 'zod'
-import type {
-  RawValue,
-  Value,
-  ValueSettings,
-  ValueType,
-} from '@repo/engine/types/value-types'
-import { getDataTypeSchema } from '@repo/engine/datatypes/schemas'
-import { resolveObjectArrayValue } from '@repo/engine/datatypes/utils'
+import type { RawValue, Value, ValueType } from '@repo/shared/types/values'
+import { getDataTypeSchema } from '@repo/shared/schemas/datatypes/get-datatype-schema'
+import { resolveObjectArrayValue } from '@repo/shared/schemas/datatypes/utils'
+import type { ValueRestrictions } from '@repo/shared/types/values'
 
 export class Control {
   id: string
   value: Value<ValueType, 'single' | 'objectarray', true>
   valid = true
   issues: ZodIssue[] = []
-  settings?: ValueSettings
+  restrictions?: ValueRestrictions
   index?: number
   constructor(
     public node: Node,
@@ -26,12 +22,13 @@ export class Control {
     this.id = crypto.randomUUID()
     this.value =
       value ||
+      definition.default ||
       ({
         type: definition.type,
         format: definition.list ? 'objectarray' : 'single',
         value: undefined,
       } as Value<ValueType, 'single' | 'objectarray', true>)
-    this.settings = definition.settings
+    this.restrictions = definition.restrictions
     this.index = definition.index
     this.validate()
     this.saveNode = this.saveNode.bind(this)
@@ -56,7 +53,7 @@ export class Control {
     return resolvedValue
   }
 
-  setRawValue(value: RawValue<'objectarray' | 'single'>) {
+  setRawValue(value: RawValue<ValueType, 'objectarray' | 'single'>) {
     const newValue = {
       type: this.value.type,
       list: this.value.format,
@@ -93,9 +90,13 @@ export class Control {
     if (!this.value.type) return
     const schema = getDataTypeSchema(this.value.type, this.value.format, true)
     try {
-      schema.parse(this.value.value)
+      schema.parse(this.value)
     } catch (error) {
-      console.error(error)
+      /*  console.log('control')
+      console.log(this.definition.key)
+      console.log(this.definition.type)
+      console.log(this.value)
+      console.error(error) */
       if (error instanceof ZodError) {
         if (error.issues.length === 0) {
           this.clearIssues()

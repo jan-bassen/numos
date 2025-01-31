@@ -2,7 +2,6 @@ import { PiDiamondComponentStroke } from '@repo/ui/icons/pika'
 
 export default function EmptyCollectionsView({
   children,
-  className,
 }: {
   children?: React.ReactNode
   className?: string

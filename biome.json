@@ -39,12 +39,23 @@
         "noExplicitAny": "info"
       },
       "nursery": {
+        "useImportRestrictions": {
+          "level": "info"
+        },
         "useSortedClasses": {
           "fix": "unsafe",
           "level": "info",
           "options": {
             "functions": ["clsx", "cva", "tw", "cn"]
           }
+        },
+        "useImportRestrictions": {
+          "level": "warn"
+        }
+      },
+      "correctness": {
+        "useExhaustiveDependencies": {
+          "level": "warn"
         }
       },
       "complexity": {

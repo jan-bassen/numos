@@ -5,7 +5,7 @@ import {
 } from '@repo/ui/components/ui/tooltip'
 import { cn } from '@repo/ui/lib/utils'
 import type { GenericDisplayProps } from '../generic-display'
-import type { Color, OptionalValue } from '@repo/engine/types/value-types'
+import type { Color, OptionalValue } from '@repo/shared/types/values'
 
 export type ColorDisplayProps = Omit<GenericDisplayProps, 'value'> & {
   value: OptionalValue<Color>

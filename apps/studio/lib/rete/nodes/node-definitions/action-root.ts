@@ -2,7 +2,7 @@ import type {
   SpecificNodeDefinition,
   DataSocketDefinition,
 } from '@/types/nodes.types'
-import type { ActionRootNode } from '@repo/engine/nodes/action-root/interface'
+import type { ActionRootNode } from '@repo/shared/engine/nodes/action-root/interface'
 
 export const actionRootDefinition: SpecificNodeDefinition<ActionRootNode> = {
   type: 'action-root',
@@ -49,10 +49,12 @@ export const actionRootDefinition: SpecificNodeDefinition<ActionRootNode> = {
     if (trigger.type === 'api') {
       outputs.push(
         ...trigger.settings.params.map((param) => {
+          console.log('param', param)
+
           return {
             key: param.key,
-            type: param.type,
-            list: param.list,
+            type: param.value.type,
+            list: param.value.list,
             label: param.key,
           }
         }),

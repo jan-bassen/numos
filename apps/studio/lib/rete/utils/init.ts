@@ -4,8 +4,8 @@ import type {
   Item,
   ResolvedEditorConfig,
 } from '@/types/editor.types'
-import type { NodeEditor } from '../classes/editor'
-import type { NodeType } from '@repo/engine/types/node-types'
+import type { NodeEditor } from '@/lib/rete/classes/editor'
+import type { NodeType } from '@repo/shared/types/node-types'
 
 export type NewNodePosition = 'center' | 'pointer'
 
@@ -20,7 +20,7 @@ export function getNodeMenuList(
       label: group.label,
       Icon: group.Icon,
       key: group.key,
-      handler: (mode: NewNodePosition) => null,
+      handler: (/* mode: NewNodePosition */) => null,
       subitems: resolveSubitems(
         group.subitems,
         addNewNode,
@@ -56,7 +56,7 @@ function resolveSubitems(
       }
       return item.subitems?.length > 0
     })
-    .map((subitem, index) => {
+    .map((subitem) => {
       if (typeof subitem === 'string' && subitem !== 'separator') {
         const node = config.nodes[subitem]
         return {
@@ -81,7 +81,7 @@ function resolveSubitems(
         label: subitem.label,
         Icon: subitem.Icon,
         key: subitem.label,
-        handler: (position: NewNodePosition) => null,
+        handler: () => null,
         subitems: resolveSubitems(
           subitem.subitems,
           addNewNode,

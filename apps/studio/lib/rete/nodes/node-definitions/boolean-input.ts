@@ -1,5 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import type { BooleanInputNode } from '@repo/engine/nodes/boolean-input/interface'
+import type { BooleanInputNode } from '@repo/shared/engine/nodes/boolean-input/interface'
 
 export const booleanInputDefinition: SpecificNodeDefinition<BooleanInputNode> =
   {

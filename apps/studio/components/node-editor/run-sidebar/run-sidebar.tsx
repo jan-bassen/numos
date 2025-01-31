@@ -4,11 +4,11 @@ import {
   SecondarySidebarRail,
   useSecondarySidebar,
 } from '@repo/ui/components/ui/sidebar-secondary'
-import { useEditorContext } from '../editor/editor-provider'
+import { useEditorContext } from '@/components/node-editor/editor/editor-provider'
 import { cn } from '@repo/ui/lib/utils'
 import { Button } from '@repo/ui/components/ui/button'
-import { PiCrossCross, PiPlayBigStroke } from '@repo/ui/icons/pika'
-import SimulationForm from '@/components/node-editor/run-sidebar/simulation-form'
+import { PiPlayBigStroke } from '@repo/ui/icons/pika'
+import { SimulationForm } from '@/components/node-editor/run-sidebar/simulation-form/simulation-form'
 import {
   ResizableHandle,
   ResizablePanel,
@@ -24,7 +24,6 @@ export default function RunSidebar({
   const { result, error } = useEditorContext()
   const { open, setOpen } = useSecondarySidebar()
   const isMediumScreen = useMediaQuery('(min-width: 768px)')
-  console.log(error)
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {

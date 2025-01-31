@@ -1,5 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import type { ImageMirrorNode } from '@repo/engine/nodes/image-mirror/interface'
+import type { ImageMirrorNode } from '@repo/shared/engine/nodes/image-mirror/interface'
 
 export const imageMirrorDefinition: SpecificNodeDefinition<ImageMirrorNode> = {
   type: 'image-mirror',
@@ -17,8 +17,8 @@ export const imageMirrorDefinition: SpecificNodeDefinition<ImageMirrorNode> = {
       type: 'enum',
       label: 'Mirror',
       placeholder: 'Select Direction',
-      settings: {
-        default: 'horizontal',
+      default: { value: 'horizontal', type: 'enum', format: 'single' },
+      restrictions: {
         options: [
           { value: 'horizontal', label: 'Horizontal' },
           { value: 'vertical', label: 'Vertical' },

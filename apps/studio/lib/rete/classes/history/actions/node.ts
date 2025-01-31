@@ -1,9 +1,9 @@
 import type { Action } from '../plugin'
 import type { Area } from '@/types/editor.types'
 import type { Position } from '@/types/nodes.types'
-import type { NodeEditor } from '../../editor'
-import type { Node } from '../../node'
-import type { SavedNode } from '@repo/engine/types/graph-types'
+import type { NodeEditor } from '@/lib/rete/classes/editor'
+import type { Node } from '@/lib/rete/classes/node'
+import type { SavedNode } from '@repo/shared/types/graph-types'
 
 export class AddNodeAction implements Action {
   node?: Node

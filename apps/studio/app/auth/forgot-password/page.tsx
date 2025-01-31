@@ -15,11 +15,11 @@ import { Input } from '@repo/ui/components/ui/input'
 import { Button } from '@repo/ui/components/ui/button'
 import { toast } from 'sonner'
 import { Card } from '@repo/ui/components/ui/card'
-import Logo from '@repo/ui/components/brand/logo'
 import Link from 'next/link'
 import { createSupabaseClient } from '@/lib/supabase/clients/client'
 import { Suspense, useState } from 'react'
 import { getURL } from '@/lib/supabase/clients/client-utils'
+import LogoIcon from '@repo/ui/components/brand/logo-icon'
 
 const formSchema = z.object({
   email: z
@@ -42,7 +42,7 @@ export default function LoginPage() {
       return
     }
     const supabase = await createSupabaseClient()
-    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: `${getURL()}/auth/reset-password`,
     })
 
@@ -67,9 +67,11 @@ export default function LoginPage() {
     <div className="grid h-screen w-full place-items-center">
       <div className="w-full p-2 sm:w-[24rem] sm:p-0">
         <Card className="space-y-8 px-9 pt-6 pb-12 shadow-none sm:shadow-md">
-          <div className="flex w-full items-center gap-4 py-2">
-            <Logo className="size-10" />
-            <h1 className="p-0 font-extrabold text-2xl">Forgot Password</h1>
+          <div className="flex w-full items-center gap-2 py-2">
+            <LogoIcon className="size-10" />
+            <h1 className="p-0 font-extrabold font-poppins text-2xl">
+              Forgot Password
+            </h1>
           </div>
           <Form {...form}>
             <form

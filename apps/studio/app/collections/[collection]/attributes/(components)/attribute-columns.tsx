@@ -20,26 +20,24 @@ import {
   DropdownMenuTrigger,
 } from '@repo/ui/components/ui/dropdown-menu'
 import { MoreHorizontal } from 'lucide-react'
-import { deleteAttribute } from '@/lib/supabase/db/attributes'
+import { deleteAttribute } from '@/lib/supabase/db/attributes/delete'
 import {
   AlertDialog,
   AlertDialogTrigger,
 } from '@repo/ui/components/ui/alert-dialog'
-import {
-  type AttributeDisplay,
-  attributeDisplayOptions,
-  attributeScopeOptions,
-} from '../../../../../lib/schemas/attribute-schema'
-import { dataTypes } from '@/lib/supabase/constants/datatypes'
+
+import { dataTypes } from '@/lib/constants/datatypes'
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from '@repo/ui/components/ui/tooltip'
-import { removeAttributeFromLocalForm } from '../(functions)/utils'
+import { removeAttributeFromLocalForm } from '@/app/collections/[collection]/attributes/(functions)/utils'
 import { handleReturnInfo } from '@repo/ui/lib/utils'
 import { useRouter } from 'next/navigation'
 import DeleteDialogContent from '@repo/ui/components/dialogs/delete-dialog'
+import { attributeDisplayOptionMap } from '@/lib/constants/display-options'
+import type { AttributeDisplay } from '@/lib/constants/display-options'
 
 export type ExtendedAttribute = Attribute & { collection_slug: string }
 
@@ -141,23 +139,6 @@ export const columns: ColumnDef<ExtendedAttribute>[] = [
     },
   },
   {
-    accessorKey: 'token_specific',
-    size: 50,
-    header: ({ column }) => <SortButton name="Scope" column={column} />,
-    cell: ({ row }) => {
-      const scope =
-        attributeScopeOptions[
-          row.getValue('token_specific') ? 'token' : 'collection'
-        ]
-      return (
-        <div className="flex w-fit items-center gap-1.5 text-muted-foreground">
-          {scope.Icon({ className: 'size-4' })}
-          {scope.label}
-        </div>
-      )
-    },
-  },
-  {
     accessorKey: 'display',
     size: 50,
     maxSize: 50,
@@ -166,7 +147,7 @@ export const columns: ColumnDef<ExtendedAttribute>[] = [
     cell: ({ row }) => {
       console.log(row.getValue('display'))
       const display =
-        attributeDisplayOptions[row.getValue('display') as AttributeDisplay]
+        attributeDisplayOptionMap[row.getValue('display') as AttributeDisplay]
       return (
         <div className="flex w-fit items-center gap-1.5 text-muted-foreground">
           {display.Icon({ className: 'size-4' })}
@@ -214,12 +195,7 @@ export const columns: ColumnDef<ExtendedAttribute>[] = [
           <DeleteDialogContent
             title="attribute"
             onDelete={async () => {
-              const res = await deleteAttribute(
-                attribute.id,
-                attribute.collection_slug,
-                attribute.version,
-                attribute.slug,
-              )
+              const res = await deleteAttribute(attribute.id)
               handleReturnInfo(res, () => {
                 removeAttributeFromLocalForm(
                   attribute.collection_slug,

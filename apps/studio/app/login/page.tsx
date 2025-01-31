@@ -17,7 +17,7 @@ import { Button, buttonVariants } from '@repo/ui/components/ui/button'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 import { Card } from '@repo/ui/components/ui/card'
-import Logo from '@repo/ui/components/brand/logo'
+import LogoIcon from '@repo/ui/components/brand/logo-icon'
 import { PiAlertTriangleStroke, PiCrossCross } from '@repo/ui/icons/pika'
 import Link from 'next/link'
 import { createSupabaseClient } from '@/lib/supabase/clients/client'
@@ -42,6 +42,10 @@ export default function LoginPage(props: {
   const router = useRouter()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
   })
 
   const validating = searchParams.validating === 'true'
@@ -119,9 +123,9 @@ export default function LoginPage(props: {
         )}
       >
         <Card className="space-y-8 px-9 pt-6 pb-12 shadow-none sm:shadow-md">
-          <div className="flex w-full items-center gap-4 py-2">
-            <Logo className="size-10" />
-            <h1 className="p-0 font-extrabold text-2xl">Login</h1>
+          <div className="flex w-full items-center gap-2 py-2">
+            <LogoIcon className="size-10" />
+            <h1 className="p-0 font-extrabold font-poppins text-2xl">Login</h1>
           </div>
           {/*           <div className="grid w-full grid-cols-2 gap-2">
             <Button

@@ -66,9 +66,9 @@ export default function OtpPage() {
   return (
     <div className="grid h-screen w-full place-items-center ">
       <div className="w-full p-2 sm:w-[23rem] sm:p-0">
-        <Card className="space-y-8 px-9 pb-12 pt-6 shadow-none sm:border sm:shadow-md">
+        <Card className="space-y-8 px-9 pt-6 pb-12 shadow-none sm:border sm:shadow-md">
           <div className="flex w-full flex-col gap-2 py-2">
-            <h1 className="p-0 text-2xl font-extrabold">Enter your Code</h1>
+            <h1 className="p-0 font-extrabold text-2xl">Enter your Code</h1>
             <p className="text-sm">Please check your email</p>
           </div>
           <Form {...form}>
@@ -116,27 +116,27 @@ export default function OtpPage() {
                         <InputOTPGroup>
                           <InputOTPSlot
                             index={0}
-                            className="!size-12 text-lg font-bold"
+                            className="!size-12 font-bold text-lg"
                           />
                           <InputOTPSlot
                             index={1}
-                            className="!size-12 text-lg font-bold"
+                            className="!size-12 font-bold text-lg"
                           />
                           <InputOTPSlot
                             index={2}
-                            className="!size-12 text-lg font-bold"
+                            className="!size-12 font-bold text-lg"
                           />
                           <InputOTPSlot
                             index={3}
-                            className="!size-12 text-lg font-bold"
+                            className="!size-12 font-bold text-lg"
                           />
                           <InputOTPSlot
                             index={4}
-                            className="!size-12 text-lg font-bold"
+                            className="!size-12 font-bold text-lg"
                           />
                           <InputOTPSlot
                             index={5}
-                            className="!size-12 text-lg font-bold"
+                            className="!size-12 font-bold text-lg"
                           />
                         </InputOTPGroup>
                       </InputOTP>

@@ -1,3 +1,4 @@
+import ApiKeys from '../(components)/api-keys'
 import CollectionEditor from './(components)/collection-editor'
 import { getExtendedCollectionFromSlug } from '@/lib/supabase/db/collections'
 

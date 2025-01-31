@@ -3,22 +3,41 @@
   "version": "0.1.0",
   "private": true,
   "exports": {
+    "./engine/*": "./src/engine/*.ts",
     "./types/*": "./src/types/*.ts",
     "./schemas/*": "./src/schemas/*.ts",
+    "./errors/*": "./src/errors/*.ts",
     "./utils/*": "./src/utils/*.ts",
-    "./security/*": ["./src/security/*.ts"]
+    "./security/*": "./src/security/*.ts",
+    "./constants/*": "./src/constants/*.ts",
+    "./validation/*": "./src/validation/*.ts"
   },
   "scripts": {
     "build": "tsc",
     "lint": "biome lint"
   },
+  "dependencies": {
+    "@repo/ui": "workspace:*",
+    "@supabase/supabase-js": "^2.39.8",
+    "decimal.js": "^10.4.3",
+    "drizzle-orm": "^0.33.0",
+    "lodash": "^4.17.21",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "luxon": "^3.4.0",
+    "sharp": "^0.33.5"
+  },
   "devDependencies": {
     "@repo/tsconfig": "workspace:*",
     "@turbo/gen": "^1.13.4",
     "@types/node": "^20.17.6",
-    "typescript": "^5.6.3"
+    "@types/react": "19.0.2",
+    "@types/react-dom": "19.0.2",
+    "@types/lodash": "^4.17.7",
+    "@types/luxon": "^3.4.2",
+    "typescript": "5.7.2"
   },
-  "dependencies": {
-    "zod": "^3.23.8"
+  "peerDependencies": {
+    "zod": "^3.24.1"
   }
 }

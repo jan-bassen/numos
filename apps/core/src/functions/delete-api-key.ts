@@ -1,9 +1,9 @@
-import { SuccessResponse } from './utils/success-response'
+import { SuccessResponse } from '@/functions/utils/success-response'
 import {
   getHandlerFromInternal,
   type InternalHandler,
-} from './utils/handlers/internal-handler'
-import { apiKeyDeleteSchema } from '@repo/shared/schemas/delete-api-key-schema'
+} from '@/functions/utils/handlers/internal-handler'
+import { apiKeyDeleteSchema } from '@repo/shared/schemas/api-keys/delete-api-key-schema'
 import { deleteApiKey } from '@/ddb/delete-api-key'
 
 type DeleteApiKeyResult = {

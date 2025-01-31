@@ -9,7 +9,7 @@ function convertStringToBoolean(value: string) {
 }
 
 function convertBooleanToString(value: boolean) {
-  return value.toString()
+  return value ? 'true' : 'false'
 }
 
 function convertTabOptionsFromBoolean(
@@ -23,28 +23,29 @@ function convertTabOptionsFromBoolean(
   })
 }
 
+type TabToggleProps = Omit<TabSelectProps, 'value' | 'options' | 'onChange'> & {
+  options: TabOption<boolean>[]
+  value?: boolean
+  onChange: (value?: boolean) => void
+}
+
 export function TabToggle({
   options,
   value,
   onChange,
-  onBlur,
-  locked = false,
-  className,
-}: Omit<TabSelectProps, 'value' | 'options' | 'onChange'> & {
-  options: TabOption<boolean>[]
-  value?: boolean
-  onChange: (arg0?: boolean) => void
-}) {
-  const stringValue = value ? convertBooleanToString(value) : undefined
+  ...props
+}: TabToggleProps) {
+  const stringValue =
+    value !== undefined && value !== null
+      ? convertBooleanToString(value)
+      : undefined
   const _onChange = (v: string) => onChange(convertStringToBoolean(v))
   return (
     <TabSelect
+      {...props}
       options={convertTabOptionsFromBoolean(options)}
       value={stringValue}
-      onChange={_onChange}
-      onBlur={onBlur}
-      locked={locked}
-      className={className}
+      onValueChange={_onChange}
     />
   )
 }

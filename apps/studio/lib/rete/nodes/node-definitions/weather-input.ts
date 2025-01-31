@@ -1,5 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import type { WeatherInputNode } from '@repo/engine/nodes/weather-input/interface'
+import type { WeatherInputNode } from '@repo/shared/engine/nodes/weather-input/interface'
 
 export const weatherInputDefinition: SpecificNodeDefinition<WeatherInputNode> =
   {

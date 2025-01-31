@@ -1,5 +1,5 @@
 import type { SpecificNodeDefinition } from '@/types/nodes.types'
-import type { MathsNode } from '@repo/engine/nodes/maths/interface'
+import type { MathsNode } from '@repo/shared/engine/nodes/maths/interface'
 
 export const mathsDefinition: SpecificNodeDefinition<MathsNode> = {
   type: 'maths',
@@ -20,14 +20,14 @@ export const mathsDefinition: SpecificNodeDefinition<MathsNode> = {
       type: 'enum',
       label: 'Mode',
       placeholder: 'Select Mode',
-      settings: {
+      default: { value: 'add', type: 'enum', format: 'single' },
+      restrictions: {
         options: [
           { value: 'add', label: 'Add' },
           { value: 'sub', label: 'Subtract' },
           { value: 'mul', label: 'Multiply' },
           { value: 'div', label: 'Divide' },
         ],
-        default: 'add',
       },
     },
   ],
