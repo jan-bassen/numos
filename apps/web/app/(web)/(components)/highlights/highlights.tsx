@@ -58,7 +58,17 @@ export function Highlights({
 function HighlightsCard({
   card,
   children,
-}: { card: (typeof cards)[number]; children?: React.ReactNode }) {
+}: {
+  card: {
+    title: string
+    subtitle: string
+    className: string
+    contentClassName: string
+    headerClassName: string
+    graphic: React.ReactNode
+  }
+  children?: React.ReactNode
+}) {
   return (
     <Card
       className={cn(

@@ -17,7 +17,7 @@ export function Benefits({
               'md:hover:!flex-[0.7] md:flex-[0.7] md:group-hover:flex-[0.14285714]',
           )}
         >
-          <div className="h-full rounded-home_mobile md:rounded-home border border-border bg-muted md:h-[28rem]" />
+          <div className="h-full rounded-home_mobile border border-border bg-muted md:h-[28rem] md:rounded-home" />
         </div>
       ))}
     </div>
