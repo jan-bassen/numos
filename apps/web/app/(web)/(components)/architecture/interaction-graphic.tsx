@@ -1,6 +1,6 @@
 'use client'
 
-import { buttonVariants } from '@repo/ui/components/ui/button'
+import type { Dictionary } from '@/dictionaries/dictionaries'
 import {
   PiAutomationStroke,
   PiMedicinePillCapsuleStroke,
@@ -10,7 +10,11 @@ import {
 import { cn } from '@repo/ui/lib/utils'
 import { motion } from 'motion/react'
 
-export function InteractionGraphic() {
+export function InteractionGraphic({
+  dictionary,
+}: {
+  dictionary: Dictionary['home']['architecture']['action']['graphic']
+}) {
   return (
     <div className="relative h-60 max-h-full bg-gradient-radial from-muted/65 to-transparent">
       <div className="pointer-events-none absolute z-20 size-full bg-gradient-to-b from-background/15 via-60% via-background/40 to-background" />
@@ -25,7 +29,7 @@ export function InteractionGraphic() {
             <div className="aspect-square size-6 rounded-sm bg-muted p-1 ring-2 ring-muted-foreground/50">
               <PiNftArrowRightSolid className="size-4 text-muted-foreground" />
             </div>
-            <p className="font-medium text-sm">On token transfer</p>
+            <p className="font-medium text-sm">{dictionary.trigger}</p>
             <div className="ml-auto ">
               <div className="size-2 rounded-full bg-creative outline outline-2 outline-creative/20 outline-offset-1" />
             </div>
@@ -58,7 +62,7 @@ export function InteractionGraphic() {
           >
             <div className="flex items-center gap-3">
               <PiMedicinePillCapsuleStroke className="size-4 text-muted-foreground" />
-              <p className="font-medium text-sm">Change Health</p>
+              <p className="font-medium text-sm">{dictionary.effects[0]}</p>
             </div>
           </motion.div>
           <motion.div
@@ -70,7 +74,7 @@ export function InteractionGraphic() {
           >
             <div className="flex items-center gap-3">
               <PiAutomationStroke className="size-4 text-muted-foreground" />
-              <p className="font-medium text-sm">Reset Streak</p>
+              <p className="font-medium text-sm">{dictionary.effects[1]}</p>
             </div>
           </motion.div>
           <motion.div
@@ -82,7 +86,7 @@ export function InteractionGraphic() {
           >
             <div className="flex items-center gap-3">
               <PiPhotoImageCheckStroke className="size-4 text-muted-foreground" />
-              <p className="font-medium text-sm">Render Image</p>
+              <p className="font-medium text-sm">{dictionary.effects[2]}</p>
             </div>
           </motion.div>
         </div>

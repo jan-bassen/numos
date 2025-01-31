@@ -17,6 +17,7 @@ import {
 } from '@repo/ui/components/ui/form'
 import { handleReturnInfo } from '@repo/ui/lib/utils'
 import { signUp } from '@/lib/hubspot/sign-up'
+import type { Dictionary } from '@/dictionaries/dictionaries'
 
 const formSchema = z.object({
   firstname: z.string(),
@@ -31,7 +32,11 @@ async function onSubmit(values: z.infer<typeof formSchema>) {
   handleReturnInfo(res)
 }
 
-export default function SignUpForm() {
+export default function SignUpForm({
+  dictionary,
+}: {
+  dictionary: Dictionary['home']['beta']
+}) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     mode: 'onBlur',
@@ -49,7 +54,7 @@ export default function SignUpForm() {
             name="firstname"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel>First Name*</FormLabel>
+                <FormLabel>{dictionary.fields.firstName}</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -62,7 +67,7 @@ export default function SignUpForm() {
             name="lastname"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel>Last Name</FormLabel>
+                <FormLabel>{dictionary.fields.lastName}</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -76,7 +81,7 @@ export default function SignUpForm() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email*</FormLabel>
+              <FormLabel>{dictionary.fields.email}</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -89,7 +94,7 @@ export default function SignUpForm() {
           name="twitter"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>X/Twitter</FormLabel>
+              <FormLabel>{dictionary.fields.x}</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -102,7 +107,7 @@ export default function SignUpForm() {
           name="message"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Message</FormLabel>
+              <FormLabel>{dictionary.fields.message}</FormLabel>
               <FormControl>
                 <Textarea {...field} />
               </FormControl>
@@ -111,7 +116,7 @@ export default function SignUpForm() {
           )}
         />
         <Button className="mt-4 h-9" type="submit">
-          Sign Up
+          {dictionary.ctaButton}
         </Button>
       </form>
     </Form>

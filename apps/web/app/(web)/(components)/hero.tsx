@@ -2,7 +2,15 @@ import { Button } from '@repo/ui/components/ui/button'
 import { PiArrowRightStroke } from '@repo/ui/icons/pika'
 import Image from 'next/image'
 
-export function Hero() {
+export function Hero({
+  title,
+  description,
+  ctaButton,
+}: {
+  title: string
+  description: string
+  ctaButton: string
+}) {
   return (
     <div className="relative w-full overflow-visible pt-28 pb-8 md:pt-64 md:pb-16">
       <div className="flex w-full flex-col items-center space-y-6 pl-3 font-poppins sm:space-y-4 md:space-y-6 md:pl-4">
@@ -17,17 +25,16 @@ export function Hero() {
           We have docs now!
         </Button> */}
         <h1 className="!leading-[1.1] sm:!leading-[1.2] w-full max-w-[23rem] xs:max-w-[28rem] px-2 xs:px-0 text-center font-black xs:font-bold text-[2.8rem] xs:text-[2.4rem] md:text-[3.2rem]">
-          Create digital assets that feel alive
+          {title}
         </h1>
         <p className="-translate-y-1 w-full max-w-md text-pretty -xs:px-[10vw] pb-3 text-center text-muted-foreground text-ld xs:text-lg md:text-xl">
-          Bring your ideas to life with interactive and dynamic NFTs — no coding
-          required.
+          {description}
         </p>
         <Button
           effect={'ringHover'}
           className="flex items-center gap-2 rounded-full px-6 sm:px-10"
         >
-          Start creating
+          {ctaButton}
           <PiArrowRightStroke className="size-4" />
         </Button>
       </div>

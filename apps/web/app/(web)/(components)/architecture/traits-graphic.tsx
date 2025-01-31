@@ -1,5 +1,6 @@
 'use client'
 
+import type { Dictionary } from '@/dictionaries/dictionaries'
 import {
   PiCalendarDefaultStroke,
   PiMapPin02AreaStroke,
@@ -9,7 +10,19 @@ import {
 } from '@repo/ui/icons/pika'
 import { motion } from 'motion/react'
 
-export function TraitsGraphic() {
+const icons = {
+  alive: PiMedicalCrossStroke,
+  name: PiTagStroke,
+  health: PiMedicinePillCapsuleStroke,
+  location: PiMapPin02AreaStroke,
+  lastTransfer: PiCalendarDefaultStroke,
+}
+
+export function TraitsGraphic({
+  dictionary,
+}: {
+  dictionary: Dictionary['home']['architecture']['traits']['graphic']
+}) {
   return (
     <div className="relative h-60 bg-gradient-to-b from-transparent via-muted/50 to-transparent">
       <div className="pointer-events-none absolute z-10 size-full bg-gradient-to-b from-background via-background/25 to-background" />
@@ -20,9 +33,13 @@ export function TraitsGraphic() {
         >
           <div className="flex items-center gap-1.5">
             <PiMedicalCrossStroke className="size-4 text-muted-foreground" />
-            <p className="text-muted-foreground">Alive</p>
+            <p className="text-muted-foreground">
+              {dictionary.traits.alive.name}
+            </p>
           </div>
-          <p className="xs:hidden font-medium">Yes</p>
+          <p className="xs:hidden font-medium">
+            {dictionary.traits.alive.value}
+          </p>
         </motion.div>
         <motion.div
           whileHover={{ scale: 1.05 }}
@@ -30,9 +47,11 @@ export function TraitsGraphic() {
         >
           <div className="flex items-center gap-1.5">
             <PiTagStroke className="size-4 text-muted-foreground" />
-            <p className="text-muted-foreground">Name</p>
+            <p className="text-muted-foreground">
+              {dictionary.traits.name.name}
+            </p>
           </div>
-          <p className=" font-semibold">Curtis</p>
+          <p className=" font-semibold">{dictionary.traits.name.value}</p>
         </motion.div>
         <motion.div
           whileHover={{ scale: 1.05 }}
@@ -40,9 +59,11 @@ export function TraitsGraphic() {
         >
           <div className="flex items-center gap-1.5">
             <PiMedicinePillCapsuleStroke className="size-4 text-muted-foreground" />
-            <p className="text-muted-foreground">Health</p>
+            <p className="text-muted-foreground">
+              {dictionary.traits.health.name}
+            </p>
           </div>
-          <p className="font-medium">97%</p>
+          <p className="font-medium">{dictionary.traits.health.value}</p>
         </motion.div>
         <motion.div
           whileHover={{ scale: 1.05 }}
@@ -50,11 +71,11 @@ export function TraitsGraphic() {
         >
           <div className="flex items-center gap-1.5">
             <PiMapPin02AreaStroke className="size-4 text-muted-foreground" />
-            <p className="text-muted-foreground">Location</p>
+            <p className="text-muted-foreground">
+              {dictionary.traits.location.name}
+            </p>
           </div>
-          <p className="font-medium">
-            Miami <span className="-2xs:hidden">, FL</span>
-          </p>
+          <p className="font-medium">{dictionary.traits.location.value}</p>
         </motion.div>
         <motion.div
           whileHover={{ scale: 1.05 }}
@@ -62,9 +83,13 @@ export function TraitsGraphic() {
         >
           <div className="flex items-center gap-1.5">
             <PiCalendarDefaultStroke className="size-4 text-muted-foreground" />
-            <p className="text-muted-foreground">Last Transfer</p>
+            <p className="text-muted-foreground">
+              {dictionary.traits.lastTransfer.name}
+            </p>
           </div>
-          <p className="-xs:hidden font-medium">2024-01-01</p>
+          <p className="-xs:hidden font-medium">
+            {dictionary.traits.lastTransfer.value}
+          </p>
         </motion.div>
       </div>
     </div>

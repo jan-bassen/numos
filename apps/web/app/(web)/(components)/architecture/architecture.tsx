@@ -2,14 +2,21 @@ import { Card, CardContent } from '@repo/ui/components/ui/card'
 import { HomeDescription } from '../heading'
 import { HomeHeading } from '../heading'
 import { cn } from '@repo/ui/lib/utils'
-import { Arrow1 } from '@repo/ui/components/assets/arrow-1'
-import { Arrow2 } from '@repo/ui/components/assets/arrow-2'
 import { ImageGraphic } from '@/app/(web)/(components)/architecture/image-graphic'
 import { TraitsGraphic } from '@/app/(web)/(components)/architecture/traits-graphic'
 import { InteractionGraphic } from '@/app/(web)/(components)/architecture/interaction-graphic'
 import Image from 'next/image'
+import type { Dictionary } from '@/dictionaries/dictionaries'
 
-function ArchitectureInfo({ className }: { className?: string }) {
+function ArchitectureInfo({
+  className,
+  title,
+  description,
+}: {
+  className?: string
+  title: string
+  description: string
+}) {
   return (
     <div
       className={cn(
@@ -17,47 +24,52 @@ function ArchitectureInfo({ className }: { className?: string }) {
         className,
       )}
     >
-      <HomeHeading className=" w-full">Easy setup, no limitations</HomeHeading>
+      <HomeHeading className=" w-full">{title}</HomeHeading>
       <HomeDescription className="w-full max-w-xl pl-0.5">
-        Building with Numos is simple - your vision grows, and we grow with you.
-        Our modular platform lets you create collections that evolve and expand
-        seamlessly, adapting to your journey and ideas every step of the way.
+        {description}
       </HomeDescription>
     </div>
   )
 }
 
-const cards = [
-  {
-    title: 'Interact with your asset',
-    subtitle:
-      'Make your asset fun with custom interactions. Trigger them with a simple click, token activity, or anything else.',
-    graphic: InteractionGraphic,
-    className:
-      'col-start-1 xs:col-span-4 lg:!col-span-2 lg:!row-start-1 xs:row-span-2',
-  },
-  {
-    title: 'Change traits with actions',
-    subtitle:
-      'Define unique traits that set your assets apart and make them dynamic through interactions.',
-    graphic: TraitsGraphic,
-    className:
-      'col-start-1 xs:col-start-2 lg:col-start-3 xs:col-span-4 lg:!col-span-2 row-start-2 xs:row-start-3 lg:!row-start-2 xs:row-span-2',
-  },
-  {
-    title: 'Update the image via traits',
-    subtitle:
-      'The image brings your NFT to life, visually reflecting its traits. When traits change, the image updates automatically.',
-    graphic: ImageGraphic,
-    className:
-      'col-start-1 xs:col-start-3 lg:!col-start-5 xs:col-span-4 lg:!col-span-2 row-start-3 xs:row-start-5 lg:!row-start-3 xs:row-span-2',
-  },
-]
+export function Architecture({
+  dictionary,
+}: {
+  dictionary: Dictionary['home']['architecture']
+}) {
+  const cards = [
+    {
+      title: dictionary.action.title,
+      subtitle: dictionary.action.description,
+      graphic: () => (
+        <InteractionGraphic dictionary={dictionary.action.graphic} />
+      ),
+      className:
+        'col-start-1 xs:col-span-4 lg:!col-span-2 lg:!row-start-1 xs:row-span-2',
+    },
+    {
+      title: dictionary.traits.title,
+      subtitle: dictionary.traits.description,
+      graphic: () => <TraitsGraphic dictionary={dictionary.traits.graphic} />,
+      className:
+        'col-start-1 xs:col-start-2 lg:col-start-3 xs:col-span-4 lg:!col-span-2 row-start-2 xs:row-start-3 lg:!row-start-2 xs:row-span-2',
+    },
+    {
+      title: dictionary.image.title,
+      subtitle: dictionary.image.description,
+      graphic: () => <ImageGraphic />,
+      className:
+        'col-start-1 xs:col-start-3 lg:!col-start-5 xs:col-span-4 lg:!col-span-2 row-start-3 xs:row-start-5 lg:!row-start-3 xs:row-span-2',
+    },
+  ]
 
-export function Architecture() {
   return (
     <div className="relative flex w-full flex-col space-y-6 py-12 -sm:pb-32 lg:items-center lg:space-y-10 lg:pb-6">
-      <ArchitectureInfo className="lg:hidden" />
+      <ArchitectureInfo
+        className="lg:hidden"
+        title={dictionary.title}
+        description={dictionary.description}
+      />
       <div className="group lg:!grid-rows-4 grid w-full max-w-lg grid-cols-1 xs:grid-cols-6 grid-rows-1 xs:grid-rows-6 items-center gap-4 lg:max-w-5xl">
         <div
           // biome-ignore lint/nursery/useSortedClasses: <explanation>
@@ -71,7 +83,10 @@ export function Architecture() {
           -lg:hidden
           w-full"
         >
-          <ArchitectureInfo />
+          <ArchitectureInfo
+            title={dictionary.title}
+            description={dictionary.description}
+          />
         </div>
         <Image
           src="/assets/arrow2.svg"
@@ -131,7 +146,7 @@ export function Architecture() {
         />
         {cards.map((card) => (
           <ArchtiectureCard key={card.title} card={card}>
-            {card.graphic && <card.graphic />}
+            {card.graphic?.()}
           </ArchtiectureCard>
         ))}
 
@@ -182,7 +197,12 @@ function ArchtiectureCard({
   card,
   children,
 }: {
-  card: (typeof cards)[number]
+  card: {
+    title: string
+    subtitle: string
+    className: string
+    graphic: () => JSX.Element
+  }
   children?: React.ReactNode
 }) {
   return (

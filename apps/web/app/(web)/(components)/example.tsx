@@ -6,8 +6,13 @@ import { Button } from '@repo/ui/components/ui/button'
 import { Droplets, FlaskConical, RefreshCcw } from 'lucide-react'
 import Fireworks from 'react-canvas-confetti/dist/presets/fireworks'
 import { HomeDescription, HomeHeading } from './heading'
+import type { Dictionary } from '@/dictionaries/dictionaries'
 
-export function Example() {
+export function Example({
+  dictionary,
+}: {
+  dictionary: Dictionary['home']['example']
+}) {
   const [confetti, setConfetti] = useState(false)
   const [size, setSize] = useState(1)
   const [health, setHealth] = useState(4)
@@ -83,7 +88,7 @@ export function Example() {
         className="-translate-x-[calc(50%-4rem)] -translate-y-[calc(50%+16rem)] md:-translate-x-[calc(50%+22rem)] md:-translate-y-[calc(50%+8rem)] absolute top-1/2 left-1/2 z-50 h-12 gap-2 rounded-full border-2 pr-8 pl-6 text-lg shadow-md ring-2 ring-border/20 ring-offset-1 hover:shadow-sm"
       >
         <Droplets className="size-4.5 fill-border" />
-        Water
+        {dictionary.water}
       </Button>
       <Image
         src="/assets/arrow3.svg"
@@ -105,7 +110,7 @@ export function Example() {
         className="-translate-x-[calc(50%+3rem)] -translate-y-[calc(50%+19.7rem)] md:-translate-x-[calc(50%+25.5rem)] md:-translate-y-[calc(50%+1.8rem)] absolute top-1/2 left-1/2 z-50 h-12 gap-2 rounded-full border-2 pr-8 pl-6 text-lg shadow-md ring-2 ring-border/20 ring-offset-1 hover:shadow-sm"
       >
         <FlaskConical className="size-4.5 fill-border" />
-        Fertilize
+        {dictionary.fertilize}
       </Button>
       <Image
         src="/assets/arrow4.svg"
@@ -129,12 +134,9 @@ export function Example() {
 
       <div className="md:-translate-y-[12rem] absolute top-1/2 left-1/2 z-50 -md:hidden w-full max-w-[20rem] sm:max-w-[15rem] sm:translate-x-[4rem] md:translate-x-[14rem]">
         <HomeHeading className="-translate-x-1 -translate-y-1">
-          Try it out!
+          {dictionary.title}
         </HomeHeading>
-        <HomeDescription className="">
-          Get the plant to fully grown and healthy by using the actions on the
-          left.
-        </HomeDescription>
+        <HomeDescription className="">{dictionary.description}</HomeDescription>
       </div>
 
       {/* Attributes */}
@@ -153,7 +155,7 @@ export function Example() {
         alt="plant"
       />
       <p className="md:-translate-y-[calc(50%-7rem)] absolute top-1/2 left-1/2 z-50 translate-x-[-1rem] translate-y-[14.5rem] font-medium text-lg text-muted-foreground md:translate-x-[19rem]">
-        Growth: {25 * size}%
+        {dictionary.growth}: {25 * size}%
       </p>
       <Image
         src="/assets/line2.svg"
@@ -170,7 +172,7 @@ export function Example() {
         alt="plant"
       />
       <p className="md:-translate-y-[calc(50%-9.6rem)] absolute top-1/2 left-1/2 z-50 translate-x-[0rem] translate-y-[12.5rem] font-medium text-lg text-muted-foreground md:translate-x-[19rem]">
-        Health: {health * 25}%
+        {dictionary.health}: {health * 25}%
       </p>
       {size > 1 && health > 1 && (
         <Button
@@ -180,7 +182,7 @@ export function Example() {
           className="-translate-y-[calc(50%-13rem)] absolute top-1/2 left-1/2 z-50 translate-x-[19rem] gap-1.5 rounded-full text-muted-foreground"
         >
           <RefreshCcw className="size-3" />
-          Reset
+          {dictionary.reset}
         </Button>
       )}
     </div>

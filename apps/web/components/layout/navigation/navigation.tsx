@@ -20,8 +20,16 @@ import {
   DialogTrigger,
 } from '@repo/ui/components/ui/dialog'
 import SignUpForm from '@/components/sign-up/sign-up-form'
+import type { Dictionary } from '@/dictionaries/dictionaries'
 
-export function Navigation() {
+export function Navigation({
+  dictionary,
+}: {
+  dictionary: {
+    navbar: Dictionary['navbar']
+    beta: Dictionary['home']['beta']
+  }
+}) {
   return (
     <div className="fixed z-60 h-12 w-full max-w-[82rem] border border-muted bg-gradient-to-b from-sidebar/90 to-border/90 shadow-md outline outline-2 outline-border backdrop-blur-sm sm:h-14 md:top-4 md:w-[calc(100%-3rem)] md:rounded-full 2xl:w-full">
       <div className="flex h-full items-center justify-between px-2 sm:px-3">
@@ -47,24 +55,24 @@ export function Navigation() {
               '-sm:!hidden rounded-full',
             )}
           >
-            Log in
+            {dictionary.navbar.login}
           </Link>
           <Dialog>
             <DialogTrigger asChild>
               <Button effect="ringHover" className="mr-1 -sm:h-8 rounded-full">
-                Sign up
+                {dictionary.navbar.signup}
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px] sm:rounded-home_mobile sm:px-10 sm:py-8 md:max-w-[500px]">
               <DialogHeader className="space-y-0.5 pb-2">
                 <DialogTitle className="w-full text-left font-bold text-2xl">
-                  Join our beta program!
+                  {dictionary.beta.modalTitle}
                 </DialogTitle>
                 <DialogDescription className="w-full text-left text-sm">
-                  We&apos;ll only contact you for important updates
+                  {dictionary.beta.modalDescription}
                 </DialogDescription>
               </DialogHeader>
-              <SignUpForm />
+              <SignUpForm dictionary={dictionary.beta} />
             </DialogContent>
           </Dialog>
           {/* <Popover>

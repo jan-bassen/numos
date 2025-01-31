@@ -14,6 +14,7 @@ import { Navigation } from '@/components/layout/navigation/navigation'
 import { Drawer } from '@repo/ui/components/ui/drawer'
 import { MobileMenu } from '@/components/layout/navigation/mobile-menu'
 import Footer from '@/components/layout/footer'
+import { getDictionary } from '@/dictionaries/dictionaries'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 
@@ -49,6 +50,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const d = await getDictionary('en')
   return (
     <html
       lang="en"
@@ -61,7 +63,7 @@ export default async function RootLayout({
             <PostHogPageView />
           </Suspense>
           <div className="relative flex w-full flex-col items-center">
-            <Navigation />
+            <Navigation dictionary={{ navbar: d.navbar, beta: d.home.beta }} />
             {children}
             <Footer />
           </div>

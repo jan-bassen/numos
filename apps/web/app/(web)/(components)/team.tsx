@@ -1,37 +1,14 @@
 import DoubleImage from '@/components/animation/double-image'
+import type { Dictionary } from '@/dictionaries/dictionaries'
 import { PiLinkedinSolid, PiXComStroke } from '@repo/ui/icons/pika'
 import Link from 'next/link'
 
-const people = [
-  {
-    name: 'Jan Bassen',
-    role: 'Tech & Design',
-    front: '/images/people/5341.png',
-    back: '/images/people/jan.jpeg',
-    twitter: '_bassen_',
-  },
-  {
-    name: 'Colin Lieb',
-    role: 'Operations & PR',
-    front: '/images/people/3134.png',
-    back: '/images/people/colin.jpg',
-    twitter: 'colinlieb',
-    linkedin: 'colinlieb',
-  },
-  {
-    name: 'Michael Dücker',
-    role: 'Customers & Sales',
-    front: '/images/people/25702.png',
-    back: '/images/people/michael.png',
-    twitter: '0xMaloha',
-    linkedin: 'michaelduecker',
-  },
-]
-
-export function Team() {
+export function Team({
+  dictionary,
+}: { dictionary: Dictionary['home']['team'] }) {
   return (
     <div className="flex w-full max-w-full flex-col items-center justify-start gap-4 sm:max-w-5xl md:flex-row md:items-start md:justify-center">
-      {people.map((person, i) => (
+      {dictionary.people.map((person, i) => (
         <div
           className="flex w-full -xs:flex-col gap-3 -md:pl-4 md:flex-col"
           key={person.name}
