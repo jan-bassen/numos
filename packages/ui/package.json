@@ -81,12 +81,5 @@
     "tailwind-scrollbar": "^3.1.0",
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^0.8.9"
-  },
-  "pnpm": {
-    "overrides": {
-      "@radix-ui/react-dismissable-layer": "1.1.1-rc.4",
-      "@radix-ui/react-focus-scope": "1.1.0-rc.7",
-      "@radix-ui/react-slot": "1.1.0-rc.7"
-    }
   }
 }

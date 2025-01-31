@@ -7,7 +7,7 @@ import { OnThisPage } from '@/app/(web)/docs/(components)/docs-toc'
 import {
   createNestedHeadings,
   type Heading,
-} from './(functions)/nested-headings'
+} from '@/app/(web)/docs/(functions)/nested-headings'
 
 export default async function DocsPage() {
   notFound()
@@ -22,6 +22,7 @@ export default async function DocsPage() {
   })
   const _article = res.docs[0]
   if (!_article) notFound()
+  //@ts-ignore
   const article = addHeadingIds(_article)
   const headings = article.content.root.children.filter(
     (node) =>

@@ -6,8 +6,8 @@ import { notFound } from 'next/navigation'
 import {
   createNestedHeadings,
   type Heading,
-} from '../(functions)/nested-headings'
-import { addHeadingIds } from '../(functions)/add-heading-ids'
+} from '@/app/(web)/docs/(functions)/nested-headings'
+import { addHeadingIds } from '@/app/(web)/docs/(functions)/add-heading-ids'
 
 export default async function DocsArticlePage({
   params,
@@ -26,6 +26,7 @@ export default async function DocsArticlePage({
   })
   const _article = res.docs[0]
   if (!_article) notFound()
+  //@ts-ignore
   const article = addHeadingIds(_article)
   const headings = article.content.root.children.filter(
     (node) =>
