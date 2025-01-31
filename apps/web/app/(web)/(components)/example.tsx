@@ -5,7 +5,6 @@ import Image from 'next/image'
 import { Button } from '@repo/ui/components/ui/button'
 import { Droplets, FlaskConical, RefreshCcw } from 'lucide-react'
 import Fireworks from 'react-canvas-confetti/dist/presets/fireworks'
-import { PiInformationCircleSolid } from '@repo/ui/icons/pika'
 import { HomeDescription, HomeHeading } from './heading'
 
 export function Example() {

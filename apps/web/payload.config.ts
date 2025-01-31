@@ -19,6 +19,29 @@ import { Docs } from './collections/Docs'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+const blobToken = process.env.BLOB_READ_WRITE_TOKEN
+const payloadSecret = process.env.PAYLOAD_SECRET
+const databaseUri = process.env.DATABASE_URI
+const smtpHost = process.env.SMTP_HOST
+const smtpUser = process.env.SMTP_USER
+const smtpPass = process.env.SMTP_PASS
+
+if (!databaseUri) {
+  throw new Error('DATABASE_URI is not set')
+}
+
+if (!smtpHost || !smtpUser || !smtpPass) {
+  throw new Error('Missing email environment variables')
+}
+
+if (!blobToken) {
+  throw new Error('BLOB_READ_WRITE_TOKEN is not set')
+}
+
+if (!payloadSecret) {
+  throw new Error('PAYLOAD_SECRET is not set')
+}
+
 export default buildConfig({
   admin: {
     user: Users.slug,
@@ -37,13 +60,13 @@ export default buildConfig({
       FixedToolbarFeature(),
     ],
   }),
-  secret: process.env.PAYLOAD_SECRET || '',
+  secret: payloadSecret,
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
   db: postgresAdapter({
     pool: {
-      connectionString: process.env.DATABASE_URI || '',
+      connectionString: databaseUri,
     },
     push: false,
   }),
@@ -52,11 +75,11 @@ export default buildConfig({
     defaultFromName: 'Numos Auth',
     // Nodemailer transportOptions
     transportOptions: {
-      host: process.env.SMTP_HOST,
+      host: smtpHost,
       port: 587,
       auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
+        user: smtpUser,
+        pass: smtpPass,
       },
     },
   }),
@@ -68,9 +91,7 @@ export default buildConfig({
         media: true,
         users: true,
       },
-      // biome-ignore lint/style/noNonNullAssertion: <explanation>
-      // biome-ignore lint/suspicious/noExtraNonNullAssertion: <explanation>
-      token: process.env.BLOB_READ_WRITE_TOKEN!!,
+      token: blobToken,
     }),
   ],
 })

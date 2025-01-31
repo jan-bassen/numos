@@ -113,7 +113,7 @@ export function Architecture() {
           row-start-5 
           xs:row-start-5
           lg:!row-start-3
-          mb-auto ml-auto size-12 text-muted-foreground lg:mt-2 lg:mr-2 lg:size-16 dark:hidden"
+          mb-auto ml-auto size-12 lg:mt-2 lg:mr-2 lg:size-16 dark:hidden"
         />
         <Image
           src="/assets/arrow1-dark.svg"
@@ -127,7 +127,7 @@ export function Architecture() {
           row-start-5 
           xs:row-start-5
           lg:!row-start-3
-          mb-auto ml-auto size-12 text-muted-foreground lg:mt-2 lg:mr-2 lg:size-16 light:hidden dark:xs:block"
+          mb-auto ml-auto size-12 lg:mt-2 lg:mr-2 lg:size-16 light:hidden dark:xs:block"
         />
         {cards.map((card) => (
           <ArchtiectureCard key={card.title} card={card}>
