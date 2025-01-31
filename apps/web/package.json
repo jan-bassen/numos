@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typegen": "payload generate:types"
+    "typegen": "payload generate:types",
+    "importgen": "payload generate:importmap"
   },
   "peerDependencies": {
     "react": "^18"

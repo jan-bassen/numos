@@ -47,6 +47,10 @@
       "env": ["DATABASE_URI"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"]
     },
+    "web#importgen": {
+      "env": ["DATABASE_URI"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"]
+    },
     "web#build": {
       "dependsOn": ["^build", "@repo/shared#build"],
       "env": [

@@ -20,6 +20,13 @@ export const customLinkConverter: (args: {
       : undefined
     const target: string | undefined = node.fields.newTab ? '_blank' : undefined
 
+    if (!node.fields.url) {
+      console.error(
+        'Lexical => JSX converter: Link converter: found link with no URL',
+      )
+      return null
+    }
+
     return (
       <RichTextLink href={node.fields.url} {...{ rel, target }}>
         {children}
@@ -35,6 +42,13 @@ export const customLinkConverter: (args: {
       ? 'noopener noreferrer'
       : undefined
     const target: string | undefined = node.fields.newTab ? '_blank' : undefined
+
+    if (!node.fields.url) {
+      console.error(
+        'Lexical => JSX converter: Link converter: found link with no URL',
+      )
+      return null
+    }
 
     let href: string = node.fields.url
     if (node.fields.linkType === 'internal') {
