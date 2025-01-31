@@ -1,7 +1,7 @@
 'use client'
 
 import { cn } from '@repo/ui/lib/utils'
-import { motion as m } from 'framer-motion'
+import { motion } from 'motion/react'
 import Image from 'next/image'
 import { type HTMLAttributes, useState } from 'react'
 
@@ -10,11 +10,13 @@ export default function DoubleImage({
   back,
   alt,
   className,
+  imageClassName,
 }: {
   front: string
   back: string
   alt: string
   className?: HTMLAttributes<HTMLDivElement>['className']
+  imageClassName?: HTMLAttributes<HTMLImageElement>['className']
 }) {
   const [rotated, setRotated] = useState(false)
   const variants = {
@@ -36,7 +38,7 @@ export default function DoubleImage({
       }}
       className={`${className} relative`}
     >
-      <m.div
+      <motion.div
         variants={variants}
         initial={{ rotateY: 0 }}
         animate={rotated ? 'back' : 'front'}
@@ -49,6 +51,7 @@ export default function DoubleImage({
           height={1262}
           className={cn(
             '-scale-x-100 absolute inset-0 rounded-home border-2 border-border object-cover shadow-sm',
+            imageClassName,
           )}
         />
         <Image
@@ -58,10 +61,11 @@ export default function DoubleImage({
           height={1262}
           className={cn(
             'absolute inset-0 rounded-home border-2 border-border object-cover shadow-sm transition-opacity delay-150 duration-0',
+            imageClassName,
             rotated && 'opacity-0',
           )}
         />
-      </m.div>
+      </motion.div>
     </div>
   )
 }

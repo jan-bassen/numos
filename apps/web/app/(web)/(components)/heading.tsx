@@ -6,7 +6,10 @@ export function HomeHeading({
 }: { children: React.ReactNode; className?: string }) {
   return (
     <h1
-      className={cn('font-bold font-poppins text-3xl md:text-4xl', className)}
+      className={cn(
+        'font-bold -sm:max-w-[70vw] font-poppins xs:font-semibold text-3xl xs:text-3xl md:text-4xl',
+        className,
+      )}
     >
       {children}
     </h1>
@@ -18,7 +21,12 @@ export function HomeDescription({
   className,
 }: { children: React.ReactNode; className?: string }) {
   return (
-    <p className={cn('text-pretty text-secondary-foreground/60', className)}>
+    <p
+      className={cn(
+        'text-pretty -sm:max-w-[70vw] text-secondary-foreground/60 text-sm',
+        className,
+      )}
+    >
       {children}
     </p>
   )

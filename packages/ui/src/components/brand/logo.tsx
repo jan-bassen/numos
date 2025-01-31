@@ -15,14 +15,14 @@ export default function Logo({
       <>
         <Image
           src="/logo_black_200.svg"
-          className={cn('hidden size-8 dark:block', className)}
+          className={cn('hidden dark:block', className)}
           alt="logo"
           width={size}
           height={size}
         />
         <Image
           src="/logo_white_200.svg"
-          className={cn('size-8 dark:hidden', className)}
+          className={cn('dark:hidden', className)}
           alt="logo"
           width={size}
           height={size}
@@ -34,14 +34,14 @@ export default function Logo({
     <span className="flex items-center gap-1.5">
       <Image
         src="/logo_black_200.svg"
-        className={cn('hidden size-8 dark:block', className)}
+        className={cn('hidden dark:block', className)}
         alt="logo"
         width={size}
         height={size}
       />
       <Image
         src="/logo_white_200.svg"
-        className={cn('size-8 dark:hidden', className)}
+        className={cn(' dark:hidden', className)}
         alt="logo"
         width={size}
         height={size}

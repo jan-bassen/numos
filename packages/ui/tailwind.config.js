@@ -197,8 +197,8 @@ module.exports = {
         '2xl': 'calc(var(--radius) + 4px)',
         full: '9999px',
         none: '0',
-        home_mobile: 'calc(var(--radius) + 1rem)',
-        home: 'calc(var(--radius) + 2rem)',
+        home_mobile: 'calc(var(--radius) + 0.5rem)',
+        home: 'calc(var(--radius) + 1.5rem)',
       },
       dropShadow: {
         light: '0 0 4px hsl(var(--foreground) /  0.04)',
@@ -295,6 +295,9 @@ module.exports = {
 		'spin-test': 'spin 2s linear infinite',
         shine: 'shine 3s ease-out infinite',
       },
+      clipPath: {
+        'hexagon': 'url(/assets/hexagon.svg)',
+      },
     },
   },
   plugins: [
@@ -302,5 +305,6 @@ module.exports = {
     require('tailwindcss-motion'),
     require('tailwindcss-intersect'),
     require('tailwind-scrollbar'),
+    require('tailwind-clip-path'),
   ],
 }

@@ -37,12 +37,12 @@ export default function Providers({
 }) {
   const { setTheme } = useTheme()
 
-  useEffect(() => {
+  /* useEffect(() => {
     const localTheme = localStorage.getItem('theme')
     if (localTheme) {
       setTheme(localTheme)
     }
-  }, [setTheme])
+  }, [setTheme]) */
 
   useEffect(() => {
     window.hsConversationsSettings = {
@@ -79,7 +79,7 @@ export default function Providers({
 
   return (
     <PostHogProvider client={posthog}>
-      <ThemeProvider attribute="class" defaultTheme={'light'}>
+      <ThemeProvider attribute="class" defaultTheme={'system'}>
         <TooltipProvider delayDuration={500} skipDelayDuration={500}>
           <SidebarProvider>
             <ChatProvider>

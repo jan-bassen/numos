@@ -38,7 +38,7 @@ const buttonVariants = cva(
       effect: {
         expandIcon: 'group relative gap-0',
         ringHover:
-          'transition-all duration-300 hover:ring-2 hover:ring-primary/90 hover:ring-offset-2',
+          'transition-all duration-300 hover:ring-2 hover:ring-muted-foreground/50 hover:ring-offset-2',
         shine:
           // biome-ignore lint/nursery/useSortedClasses: <explanation>
           'before:animate-shine relative overflow-hidden before:absolute before:inset-0 before:rounded-[inherit] before:bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.5)_50%,transparent_75%,transparent_100%)] before:bg-[length:250%_250%,100%_100%] before:bg-no-repeat background-position_0s_ease',
@@ -92,11 +92,13 @@ export { Button, buttonVariants }
 interface IconProps {
   icon: React.ElementType
   iconPlacement: 'left' | 'right'
+  iconClassName?: string
 }
 
 interface IconRefProps {
   icon?: never
   iconPlacement?: undefined
+  iconClassName?: string
 }
 
 export type ButtonIconProps = IconProps | IconRefProps
@@ -106,6 +108,7 @@ const Button = ({
   variant,
   effect,
   size,
+  iconClassName,
   icon: Icon,
   iconPlacement,
   asChild = false,
@@ -114,7 +117,7 @@ const Button = ({
   const Comp = asChild ? Slot : 'button'
   return (
     <Comp
-      className={cn(buttonVariants({ variant, effect, size, className }))}
+      className={cn(buttonVariants({ variant, size, className, effect }))}
       {...props}
     >
       {Icon &&
@@ -131,7 +134,7 @@ const Button = ({
         iconPlacement === 'right' &&
         (effect === 'expandIcon' ? (
           <div className="w-0 translate-x-[100%] pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-2 group-hover:opacity-100">
-            <Icon />
+            <Icon className={iconClassName} />
           </div>
         ) : (
           <Icon />

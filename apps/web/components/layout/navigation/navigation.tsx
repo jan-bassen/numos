@@ -1,33 +1,45 @@
 import Logo from '@repo/ui/components/brand/logo'
-import { PiBurgerMenuThreeStroke } from '@repo/ui/icons/pika'
+import { PiBurgerMenuThreeStroke, PiSunStroke } from '@repo/ui/icons/pika'
 import { Button } from '@repo/ui/components/ui/button'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@repo/ui/components/ui/popover'
-import Link from 'next/link'
+import { Link } from '@repo/ui/components/ui/link'
+
 import { buttonVariants } from '@repo/ui/components/ui/button'
 import { cn } from '@repo/ui/lib/utils'
+import { ThemeToggle } from '@/components/layout/navigation/theme-toggle'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+  DialogHeader,
+  DialogTrigger,
+} from '@repo/ui/components/ui/dialog'
+import SignUpForm from '@/components/sign-up/sign-up-form'
 
 export function Navigation() {
   return (
-    <div className="fixed z-60 h-14 w-full max-w-[82rem] border border-muted bg-sidebar/80 shadow-sm backdrop-blur-sm md:top-4 md:w-[calc(100%-3rem)] md:rounded-full 2xl:w-full">
+    <div className="fixed z-60 h-12 w-full max-w-[82rem] border border-muted bg-gradient-to-b from-sidebar/90 to-border/90 shadow-md outline outline-2 outline-border backdrop-blur-sm sm:h-14 md:top-4 md:w-[calc(100%-3rem)] md:rounded-full 2xl:w-full">
       <div className="flex h-full items-center justify-between px-2 sm:px-3">
         <div className="flex h-full items-center gap-12">
           <Link href="/" className="flex items-center gap-1.5 -md:pl-1">
-            <Logo className="size-10" name />
+            <Logo className="size-6 sm:size-10" name />
           </Link>
           <div className="hidden gap-6 md:flex">
-            <Link href="/docs" className="hover:underline">
+            {/* <Link href="/docs" effect="hoverUnderline">
               Docs
-            </Link>
-            <Link href="/pricing" className="hover:underline">
+            </Link> */}
+            {/*             <Link href="/pricing" effect="hoverUnderline">
               Pricing
-            </Link>
+            </Link> */}
           </div>
         </div>
         <div className="flex h-full items-center gap-2">
+          <ThemeToggle />
           <Link
             href="https://studio.numos.xyz/login"
             className={cn(
@@ -37,15 +49,28 @@ export function Navigation() {
           >
             Log in
           </Link>
-          <Link
-            href="https://studio.numos.xyz/signup"
-            className={cn(buttonVariants({}), 'mr-1 -2xs:hidden rounded-full')}
-          >
-            Sign up
-          </Link>
-          <Popover>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button effect="ringHover" className="mr-1 -sm:h-8 rounded-full">
+                Sign up
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px] sm:rounded-home_mobile sm:px-10 sm:py-8 md:max-w-[500px]">
+              <DialogHeader className="space-y-0.5 pb-2">
+                <DialogTitle className="w-full text-left font-bold text-2xl">
+                  Join our beta program!
+                </DialogTitle>
+                <DialogDescription className="w-full text-left text-sm">
+                  We&apos;ll only contact you for important updates
+                </DialogDescription>
+              </DialogHeader>
+              <SignUpForm />
+            </DialogContent>
+          </Dialog>
+          {/* <Popover>
             <PopoverTrigger asChild>
               <Button
+                effect={'ringHover'}
                 variant="none"
                 size="none"
                 className="size-10 bg-transparent p-2 md:hidden"
@@ -54,7 +79,7 @@ export function Navigation() {
               </Button>
             </PopoverTrigger>
             <PopoverContent className="min-h-60 w-screen rounded-none border-0 border-b bg-sidebar/90 px-4 py-6 shadow-sm backdrop-blur-sm" />
-          </Popover>
+          </Popover> */}
         </div>
       </div>
     </div>

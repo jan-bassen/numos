@@ -137,8 +137,6 @@
   }
 }
 
-
-
 .EmojiPickerReact {
   --epr-bg-color: hsl(var(--background)) !important;
   --epr-category-label-bg-color: hsl(var(--background)) !important;

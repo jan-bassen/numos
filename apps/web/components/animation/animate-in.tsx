@@ -1,7 +1,7 @@
 'use client'
 
 import { cn } from '@repo/ui/lib/utils'
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 import type { ReactNode } from 'react'
 
 export function AnimateIn({
@@ -11,15 +11,7 @@ export function AnimateIn({
   children: ReactNode
   className?: string
 }) {
-  return (
-    <motion.div
-      initial={{ y: 100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      className={cn('flex flex-col', className)}
-    >
-      {children}
-    </motion.div>
-  )
+  return <motion.div>{children}</motion.div>
 }
 
 export function AnimateOnScroll({
