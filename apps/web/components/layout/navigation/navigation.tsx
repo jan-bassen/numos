@@ -31,7 +31,7 @@ export function Navigation({
   }
 }) {
   return (
-    <div className="fixed z-60 h-12 w-full max-w-[82rem] border border-muted bg-gradient-to-b from-sidebar/90 to-border/90 shadow-md outline outline-2 outline-border backdrop-blur-sm sm:h-14 md:top-4 md:w-[calc(100%-3rem)] md:rounded-full 2xl:w-full">
+    <div className="fixed z-60 h-14 w-full max-w-[82rem] border border-muted bg-gradient-to-b from-sidebar/90 to-border/90 shadow-md outline outline-2 outline-border backdrop-blur-sm md:top-4 md:w-[calc(100%-3rem)] md:rounded-full 2xl:w-full">
       <div className="flex h-full items-center justify-between px-2 sm:px-3">
         <div className="flex h-full items-center gap-12">
           <Link href="/" className="flex items-center gap-1.5 -md:pl-1">
@@ -59,7 +59,7 @@ export function Navigation({
           </Link>
           <Dialog>
             <DialogTrigger asChild>
-              <Button effect="ringHover" className="mr-1 -sm:h-8 rounded-full">
+              <Button effect="ringHover" className="mr-1 rounded-full">
                 {dictionary.navbar.signup}
               </Button>
             </DialogTrigger>

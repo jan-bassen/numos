@@ -151,7 +151,7 @@ export function Example({
         src="/assets/line1-dark.svg"
         height={400}
         width={400}
-        className="-translate-x-[calc(50%+4.5rem)] -translate-y-[calc(50%-12rem)] md:-translate-x-[calc(50%-14.5rem)] md:-translate-y-[calc(50%-7rem)] absolute top-1/2 left-1/2 z-50 hidden size-[11rem] -md:rotate-45 dark:block"
+        className="-translate-x-[calc(50%+4.5rem)] -translate-y-[calc(50%-12rem)] md:-translate-x-[calc(50%-14.5rem)] md:-translate-y-[calc(50%-7rem)] top-1/2 left-1/2 z-50 hidden size-[11rem] -md:rotate-45 dark:absolute"
         alt="plant"
       />
       <p className="md:-translate-y-[calc(50%-7rem)] absolute top-1/2 left-1/2 z-50 translate-x-[-1rem] translate-y-[14.5rem] font-medium text-lg text-muted-foreground md:translate-x-[19rem]">

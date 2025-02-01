@@ -27,12 +27,12 @@ export function Hero({
         <h1 className="!leading-[1.1] sm:!leading-[1.2] w-full max-w-[23rem] xs:max-w-[28rem] px-2 xs:px-0 text-center font-black xs:font-bold text-[2.8rem] xs:text-[2.4rem] md:text-[3.2rem]">
           {title}
         </h1>
-        <p className="-translate-y-1 w-full max-w-md text-pretty -xs:px-[10vw] pb-3 text-center text-muted-foreground text-ld xs:text-lg md:text-xl">
+        <p className="-translate-y-1 w-full max-w-md text-pretty -xs:px-[10vw] pb-3 text-center text-ld text-muted-foreground xs:text-lg md:text-xl">
           {description}
         </p>
         <Button
           effect={'ringHover'}
-          className="flex items-center gap-2 rounded-full px-6 sm:px-10"
+          className="flex h-12 items-center gap-2 rounded-full px-6 sm:px-10"
         >
           {ctaButton}
           <PiArrowRightStroke className="size-4" />
