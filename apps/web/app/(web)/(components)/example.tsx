@@ -145,14 +145,14 @@ export function Example({
         height={400}
         width={400}
         className="-translate-x-[calc(50%+3rem)] -translate-y-[calc(50%-11rem)] md:-translate-x-[calc(50%-14.5rem)] md:-translate-y-[calc(50%-7rem)] absolute top-1/2 left-1/2 z-50 size-[11rem] -md:rotate-45 dark:hidden"
-        alt="plant"
+        alt="line"
       />
       <Image
         src="/assets/line1-dark.svg"
         height={400}
         width={400}
-        className="-translate-x-[calc(50%+4.5rem)] -translate-y-[calc(50%-12rem)] md:-translate-x-[calc(50%-14.5rem)] md:-translate-y-[calc(50%-7rem)] top-1/2 left-1/2 z-50 hidden size-[11rem] -md:rotate-45 dark:absolute"
-        alt="plant"
+        className="-translate-x-[calc(50%+3rem)] -translate-y-[calc(50%-11rem)] md:-translate-x-[calc(50%-14.5rem)] md:-translate-y-[calc(50%-7rem)] absolute top-1/2 left-1/2 z-50 hidden size-[11rem] -md:rotate-45 dark:block"
+        alt="line"
       />
       <p className="md:-translate-y-[calc(50%-7rem)] absolute top-1/2 left-1/2 z-50 translate-x-[-1rem] translate-y-[14.5rem] font-medium text-lg text-muted-foreground md:translate-x-[19rem]">
         {dictionary.growth}: {25 * size}%
@@ -162,14 +162,14 @@ export function Example({
         height={400}
         width={400}
         className="-translate-x-[calc(50%+2rem)] -translate-y-[calc(50%-11rem)] md:-translate-x-[calc(50%-14.5rem)] md:-translate-y-[calc(50%-7rem)] absolute top-1/2 left-1/2 z-50 size-[11rem] -md:rotate-45 dark:hidden"
-        alt="plant"
+        alt="line"
       />
       <Image
         src="/assets/line2-dark.svg"
         height={400}
         width={400}
-        className="-translate-x-[calc(50%-14.5rem)] -translate-y-[calc(50%-7rem)] absolute top-1/2 left-1/2 z-50 hidden size-[11rem] dark:block"
-        alt="plant"
+        className="-translate-x-[calc(50%+2rem)] -translate-y-[calc(50%-11rem)] md:-translate-x-[calc(50%-14.5rem)] md:-translate-y-[calc(50%-7rem)] absolute top-1/2 left-1/2 z-50 hidden size-[11rem] -md:rotate-45 dark:block"
+        alt="line"
       />
       <p className="md:-translate-y-[calc(50%-9.6rem)] absolute top-1/2 left-1/2 z-50 translate-x-[0rem] translate-y-[12.5rem] font-medium text-lg text-muted-foreground md:translate-x-[19rem]">
         {dictionary.health}: {health * 25}%
