@@ -174,7 +174,7 @@ export function Example({
       <p className="md:-translate-y-[calc(50%-9.6rem)] absolute top-1/2 left-1/2 z-50 translate-x-[0rem] translate-y-[12.5rem] font-medium text-lg text-muted-foreground md:translate-x-[19rem]">
         {dictionary.health}: {health * 25}%
       </p>
-      {size > 1 && health > 1 && (
+      {size !== 1 && health !== 4 && (
         <Button
           onClick={reset}
           variant="outline"
