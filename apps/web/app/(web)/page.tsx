@@ -40,10 +40,10 @@ export default async function Home() {
         <div className="md:!mt-6 relative flex w-full flex-col items-center space-y-6 pb-32 md:space-y-10">
           <div className="w-full max-w-5xl space-y-2 pl-3 md:pl-4">
             <HomeHeading className="w-full max-w-lg">
-              {d.home.architecture.title}
+              {d.home.highlights.title}
             </HomeHeading>
             <HomeDescription className="w-full max-w-xl">
-              {d.home.architecture.description}
+              {d.home.highlights.description}
             </HomeDescription>
           </div>
           <Highlights dictionary={d.home.highlights} />

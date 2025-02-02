@@ -24,10 +24,10 @@ export function Hero({
         >
           We have docs now!
         </Button> */}
-        <h1 className="!leading-[1.1] sm:!leading-[1.2] w-full max-w-[23rem] xs:max-w-[28rem] px-2 xs:px-0 text-center font-black xs:font-bold text-[2.8rem] xs:text-[2.4rem] md:text-[3.2rem]">
+        <h1 className="!leading-[1.1] sm:!leading-[1.2] md:!text-[3.2rem] w-full max-w-[23rem] xs:max-w-[26rem] px-2 xs:px-0 text-center font-black xs:font-extrabold text-[2.8rem] xs:text-[3.2rem]">
           {title}
         </h1>
-        <p className="-translate-y-1 w-full max-w-md text-pretty -xs:px-[10vw] pb-3 text-center text-ld text-muted-foreground xs:text-lg md:text-xl">
+        <p className="-translate-y-1 w-full max-w-sm text-pretty -xs:px-[10vw] pb-3 text-center text-lg text-muted-foreground xs:text-lg md:text-xl">
           {description}
         </p>
         <Button

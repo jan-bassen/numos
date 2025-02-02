@@ -7,7 +7,6 @@ import {
   PopoverTrigger,
 } from '@repo/ui/components/ui/popover'
 import { Link } from '@repo/ui/components/ui/link'
-
 import { buttonVariants } from '@repo/ui/components/ui/button'
 import { cn } from '@repo/ui/lib/utils'
 import { ThemeToggle } from '@/components/layout/navigation/theme-toggle'
@@ -35,7 +34,7 @@ export function Navigation({
       <div className="flex h-full items-center justify-between px-2 sm:px-3">
         <div className="flex h-full items-center gap-12">
           <Link href="/" className="flex items-center gap-1.5 -md:pl-1">
-            <Logo className="size-6 sm:size-10" name />
+            <Logo className="size-7 sm:size-10" name />
           </Link>
           <div className="hidden gap-6 md:flex">
             {/* <Link href="/docs" effect="hoverUnderline">
