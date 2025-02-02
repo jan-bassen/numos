@@ -1,32 +1,18 @@
 import Logo from '@repo/ui/components/brand/logo'
-import { PiBurgerMenuThreeStroke, PiSunStroke } from '@repo/ui/icons/pika'
 import { Button } from '@repo/ui/components/ui/button'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@repo/ui/components/ui/popover'
 import { Link } from '@repo/ui/components/ui/link'
 import { buttonVariants } from '@repo/ui/components/ui/button'
 import { cn } from '@repo/ui/lib/utils'
 import { ThemeToggle } from '@/components/layout/navigation/theme-toggle'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogTitle,
-  DialogHeader,
-  DialogTrigger,
-} from '@repo/ui/components/ui/dialog'
-import SignUpForm from '@/components/sign-up/sign-up-form'
 import type { Dictionary } from '@/dictionaries/dictionaries'
+import { SignUpDialog } from '@/components/sign-up/sign-up-dialog'
 
 export function Navigation({
   dictionary,
 }: {
   dictionary: {
     navbar: Dictionary['navbar']
-    beta: Dictionary['home']['beta']
+    home: Dictionary['home']
   }
 }) {
   return (
@@ -56,24 +42,11 @@ export function Navigation({
           >
             {dictionary.navbar.login}
           </Link>
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button effect="ringHover" className="mr-1 rounded-full">
-                {dictionary.navbar.signup}
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px] sm:rounded-home_mobile sm:px-10 sm:py-8 md:max-w-[500px]">
-              <DialogHeader className="space-y-0.5 pb-2">
-                <DialogTitle className="w-full text-left font-bold text-2xl">
-                  {dictionary.beta.modalTitle}
-                </DialogTitle>
-                <DialogDescription className="w-full text-left text-sm">
-                  {dictionary.beta.modalDescription}
-                </DialogDescription>
-              </DialogHeader>
-              <SignUpForm dictionary={dictionary.beta} />
-            </DialogContent>
-          </Dialog>
+          <SignUpDialog dictionary={dictionary.home}>
+            <Button effect="ringHover" className="mr-1 rounded-full">
+              {dictionary.navbar.signup}
+            </Button>
+          </SignUpDialog>
           {/* <Popover>
             <PopoverTrigger asChild>
               <Button

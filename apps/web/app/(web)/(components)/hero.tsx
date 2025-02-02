@@ -1,15 +1,22 @@
+import SignUpForm from '@/components/sign-up/sign-up-form'
+import type { Dictionary } from '@/dictionaries/dictionaries'
 import { Button } from '@repo/ui/components/ui/button'
+import {
+  Dialog,
+  DialogTitle,
+  DialogHeader,
+  DialogContent,
+  DialogTrigger,
+  DialogDescription,
+} from '@repo/ui/components/ui/dialog'
 import { PiArrowRightStroke } from '@repo/ui/icons/pika'
 import Image from 'next/image'
-
+import { ResponsiveDialog } from '@repo/ui/components/ui/responsive-dialog'
+import { SignUpDialog } from '@/components/sign-up/sign-up-dialog'
 export function Hero({
-  title,
-  description,
-  ctaButton,
+  dictionary,
 }: {
-  title: string
-  description: string
-  ctaButton: string
+  dictionary: Dictionary['home']
 }) {
   return (
     <div className="relative w-full overflow-visible pt-28 pb-8 md:pt-64 md:pb-16">
@@ -25,18 +32,20 @@ export function Hero({
           We have docs now!
         </Button> */}
         <h1 className="!leading-[1.1] sm:!leading-[1.2] md:!text-[3.2rem] w-full max-w-[23rem] xs:max-w-[26rem] px-2 xs:px-0 text-center font-black xs:font-extrabold text-[2.8rem] xs:text-[3.2rem]">
-          {title}
+          {dictionary.title}
         </h1>
         <p className="-translate-y-1 w-full max-w-sm text-pretty -xs:px-[10vw] pb-3 text-center text-lg text-muted-foreground xs:text-lg md:text-xl">
-          {description}
+          {dictionary.description}
         </p>
-        <Button
-          effect={'ringHover'}
-          className="flex h-12 items-center gap-2 rounded-full px-6 sm:px-10"
-        >
-          {ctaButton}
-          <PiArrowRightStroke className="size-4" />
-        </Button>
+        <SignUpDialog dictionary={dictionary}>
+          <Button
+            effect={'ringHover'}
+            className="flex h-12 items-center gap-2 rounded-full px-6 sm:px-10"
+          >
+            {dictionary.ctaButton}
+            <PiArrowRightStroke className="size-4" />
+          </Button>
+        </SignUpDialog>
       </div>
       {/* <div className="-translate-x-1/2 -translate-y-[calc(50%-5rem)] -z-10 absolute top-1/2 left-1/2 h-[60vw] w-[60vw] rounded-full border border-border" /> */}
       {/* <div className="-translate-x-1/2 -translate-y-[calc(50%-5rem)] -z-10 absolute top-1/2 left-1/2 h-[75vw] w-[75vw] rounded-full border border-border" /> */}

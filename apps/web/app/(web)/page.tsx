@@ -15,11 +15,7 @@ export default async function Home() {
   const d = await getDictionary('en')
   return (
     <div className="relative flex w-full flex-col items-center">
-      <Hero
-        title={d.home.title}
-        description={d.home.description}
-        ctaButton={d.home.ctaButton}
-      />
+      <Hero dictionary={d.home} />
       <main className="relative w-full overflow-visible px-4 pt-20 pb-52 md:px-8 xl:px-0">
         <Example dictionary={d.home.example} />
         {/* <div className="relative flex w-full flex-col items-center space-y-6 md:space-y-10">

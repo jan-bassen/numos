@@ -33,6 +33,7 @@ const buttonVariants = cva(
         iconMedium: 'h-8 w-8 rounded-lg p-1',
         action: 'h-6.5 w-6.5 rounded-full p-1.5',
         form: 'h-10 w-full rounded-lg font-normal md:max-w-[35rem]',
+        dialog: '!h-10 rounded-lg px-6',
         none: '',
       },
       effect: {

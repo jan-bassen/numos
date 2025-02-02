@@ -1,11 +1,12 @@
 'use client'
 
-import { useMediaQuery } from '@repo/ui/hooks/media-query'
+import { useBreakpoint } from '@repo/ui/hooks/media-query'
 import { Button } from '@repo/ui/components/ui/button'
 import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -20,9 +21,10 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@repo/ui/components/ui/drawer'
-import { useState } from 'react'
+import type { AnimationEventHandler, ComponentProps } from 'react'
+import { DialogClose } from '@radix-ui/react-dialog'
 
-export function ResponsiveDialog({
+/* export function ResponsiveDialog({
   button,
   title,
   description,
@@ -43,7 +45,7 @@ export function ResponsiveDialog({
   )
     throw new Error('open and onOpenChange must both or neither be defined')
   const [_open, _setOpen] = useState(false)
-  const isDesktop = useMediaQuery('(min-width: 768px)')
+  const isDesktop = useBreakpoint('sm', 'above')
 
   if (isDesktop) {
     return (
@@ -85,4 +87,97 @@ export function ResponsiveDialog({
       </DrawerContent>
     </Drawer>
   )
+} */
+
+export function ResponsiveDialog(
+  props: ComponentProps<typeof Dialog | typeof Drawer>,
+) {
+  const isDesktop = useBreakpoint('sm', 'above')
+  if (isDesktop) {
+    return <Dialog {...props} />
+  }
+  return <Drawer {...props} />
+}
+
+export function ResponsiveDialogTrigger(
+  props: ComponentProps<typeof DialogTrigger | typeof DrawerTrigger>,
+) {
+  const isDesktop = useBreakpoint('sm', 'above')
+  if (isDesktop) {
+    return <DialogTrigger {...props} />
+  }
+  return <DrawerTrigger {...props} />
+}
+
+export function ResponsiveDialogContent({
+  onAnimationEnd,
+  ...props
+}: Omit<
+  ComponentProps<typeof DialogContent | typeof DrawerContent>,
+  'onAnimationEnd'
+> & { onAnimationEnd?: AnimationEventHandler<HTMLDivElement> }) {
+  const isDesktop = useBreakpoint('sm', 'above')
+  if (isDesktop) {
+    return <DialogContent {...props} onAnimationEnd={onAnimationEnd} />
+  }
+  return (
+    <DrawerContent
+      {...props}
+      onAnimationEnd={(open) => {
+        if (typeof open !== 'boolean') {
+          onAnimationEnd?.(open)
+        }
+      }}
+    />
+  )
+}
+
+export function ResponsiveDialogHeader(
+  props: ComponentProps<typeof DialogHeader | typeof DrawerHeader>,
+) {
+  const isDesktop = useBreakpoint('sm', 'above')
+  if (isDesktop) {
+    return <DialogHeader {...props} />
+  }
+  return <DrawerHeader {...props} />
+}
+
+export function ResponsiveDialogTitle(
+  props: ComponentProps<typeof DialogTitle | typeof DrawerTitle>,
+) {
+  const isDesktop = useBreakpoint('sm', 'above')
+  if (isDesktop) {
+    return <DialogTitle {...props} />
+  }
+  return <DrawerTitle {...props} />
+}
+
+export function ResponsiveDialogDescription(
+  props: ComponentProps<typeof DialogDescription | typeof DrawerDescription>,
+) {
+  const isDesktop = useBreakpoint('sm', 'above')
+  if (isDesktop) {
+    return <DialogDescription {...props} />
+  }
+  return <DrawerDescription {...props} />
+}
+
+export function ResponsiveDialogClose(
+  props: ComponentProps<typeof DialogClose | typeof DrawerClose>,
+) {
+  const isDesktop = useBreakpoint('sm', 'above')
+  if (isDesktop) {
+    return <DialogClose {...props} />
+  }
+  return <DrawerClose {...props} />
+}
+
+export function ResponsiveDialogFooter(
+  props: ComponentProps<typeof DialogFooter | typeof DrawerFooter>,
+) {
+  const isDesktop = useBreakpoint('sm', 'above')
+  if (isDesktop) {
+    return <DialogFooter {...props} />
+  }
+  return <DrawerFooter {...props} />
 }

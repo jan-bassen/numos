@@ -63,7 +63,7 @@ export default async function RootLayout({
             <PostHogPageView />
           </Suspense>
           <div className="relative flex w-full flex-col items-center">
-            <Navigation dictionary={{ navbar: d.navbar, beta: d.home.beta }} />
+            <Navigation dictionary={{ navbar: d.navbar, home: d.home }} />
             {children}
             <Footer />
           </div>

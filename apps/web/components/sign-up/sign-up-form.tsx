@@ -115,7 +115,7 @@ export default function SignUpForm({
             </FormItem>
           )}
         />
-        <Button className="mt-4 h-9" type="submit">
+        <Button className="mt-4 h-9" type="submit" size="dialog">
           {dictionary.ctaButton}
         </Button>
       </form>
