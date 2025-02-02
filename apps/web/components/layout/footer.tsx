@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Logo from '@repo/ui/components/brand/logo'
 import { Separator } from '@repo/ui/components/ui/separator'
+import type { Dictionary } from '@/dictionaries/dictionaries'
 
 const links = [
   { href: '/', label: 'Home' },
@@ -8,7 +9,9 @@ const links = [
   { href: '/pricing', label: 'Pricing' },
 ]
 
-export default function Footer() {
+export default function Footer({
+  dictionary,
+}: { dictionary: Dictionary['numos'] }) {
   return (
     <>
       <Separator className="w-full" />
@@ -18,13 +21,12 @@ export default function Footer() {
             <Link href="/" className="flex items-center gap-1.5 -md:pl-1">
               <Logo className="size-8 sm:size-10" name />
             </Link>
-            <p className="pl-1 text-muted-foreground">
-              Simplifying the creation of dynamic digital assets
-            </p>
+            <p className="pl-1 text-muted-foreground">{dictionary.slogan}</p>
           </div>
           <div className="flex flex-col gap-1">
             <p className="text-muted-foreground">
-              © {new Date().getFullYear()} Numos Labs. All rights reserved.
+              © {new Date().getFullYear()} {dictionary.company}.{' '}
+              {dictionary.copyright}
             </p>
             {/* <div className="flex gap-6">
               <Link

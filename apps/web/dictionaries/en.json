@@ -2,7 +2,8 @@
   "numos": {
     "name": "NUMOS",
     "slogan": "Simplifying the creation of dynamic digital assets",
-    "copyright": "Numos Labs. All rights reserved."
+    "company": "Numos Labs",
+    "copyright": "All rights reserved."
   },
   "navbar": {
     "login": "Login",

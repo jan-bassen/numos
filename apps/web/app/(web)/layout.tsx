@@ -11,8 +11,6 @@ import Providers from './providers'
 import CookieBanner from '@/lib/posthog/cookie-banner'
 import { Suspense } from 'react'
 import { Navigation } from '@/components/layout/navigation/navigation'
-import { Drawer } from '@repo/ui/components/ui/drawer'
-import { MobileMenu } from '@/components/layout/navigation/mobile-menu'
 import Footer from '@/components/layout/footer'
 import { getDictionary } from '@/dictionaries/dictionaries'
 
@@ -65,7 +63,7 @@ export default async function RootLayout({
           <div className="relative flex w-full flex-col items-center">
             <Navigation dictionary={{ navbar: d.navbar, home: d.home }} />
             {children}
-            <Footer />
+            <Footer dictionary={d.numos} />
           </div>
           <CookieBanner />
           <Toaster position="bottom-right" richColors />
