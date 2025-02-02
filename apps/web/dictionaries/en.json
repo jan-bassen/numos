@@ -9,8 +9,8 @@
     "signup": "Sign Up"
   },
   "home": {
-    "title": "Create digital assets that feel alive",
-    "description": "Bring your ideas to life with interactive and dynamic NFTs — no coding required.",
+    "title": "Bring Digital Assets to Life",
+    "description": "Create dynamic NFTs in the easiest way possible and launch in days.",
     "ctaButton": "Start Creating",
     "example": {
       "title": "Try it out!",
@@ -22,14 +22,14 @@
       "reset": "Reset"
     },
     "architecture": {
-      "title": "Easy setup, no limitations",
+      "title": "Easy, but incredibly powerful",
       "description": "Building with Numos is simple - your vision grows, and we grow with you. Our modular platform lets you create collections that evolve and expand seamlessly, adapting to your journey and ideas every step of the way.",
       "action": {
         "title": "Interact with your asset",
         "description": "Make your asset fun with custom interactions. Trigger them with a simple click, token activity, or anything else.",
         "graphic": {
           "trigger": "On token transfer",
-          "effects": ["Change Health", "Reset Streak", "Render Image"]
+          "effects": ["Decrease Health", "Reset Streak", "Render Image"]
         }
       },
       "traits": {
@@ -67,27 +67,27 @@
       },
       "image": {
         "title": "Update the image via traits",
-        "description": "The image brings your NFT to life, visually reflecting its traits. When traits change, the image updates automatically."
+        "description": "The image brings your NFT to life, so when traits change the image updates automatically."
       }
     },
     "highlights": {
-      "title": "No worries about infrastructure",
-      "description": "Bring your ideas to life with interactive and evolving NFTs—no coding required. Our platform empowers creators to design, customize, and launch.",
+      "title": "Worry-free experience",
+      "description": "We've got you covered from A to Z - all you need is your vision. Numos provides a one-stop solution with a complete infrastructure layer to support your idea. You bring the art, we'll bring the magic to make it unforgettable.",
       "visualEditor": {
         "title": "Create custom interactions visually",
-        "description": "Bring your ideas to life with interactive and evolving NFTs—no coding required. Our platform empowers creators to design."
+        "description": "Effortlessly create dynamic NFTs with our intuitive node editor – simply drag, drop, and connect to bring your vision to life - no coding skills required."
       },
       "modular": {
         "title": "Modular design",
         "description": "We have big plans for the platform, so we designed it to be modular and easy to extend even for existing collections."
       },
       "control": {
-        "title": "Keep control of your assets",
-        "description": "We do not take ownership of your assets. You keep full control over your assets."
+        "title": "Keep real control of your assets",
+        "description": "You maintain full ownership and control over your NFTs, from creation to evolution. Define how your assets work and evolve on your terms."
       },
       "infrastructure": {
         "title": "Purpose built infrastructure",
-        "description": "WOur platform is designed to scale with your business. Sleep well knowing your data is safe and secure with no work on your part."
+        "description": "Whether you're starting small or dreaming big, our infrastructure scales effortlessly to match your needs while keeping your assets safe and secure."
       }
     },
     "benefits": {
@@ -128,7 +128,7 @@
     },
     "pricing": {
       "title": "Predictable pricing",
-      "description": "Bring your ideas to life with interactive and evolving NFTs—no coding required. Our platform empowers creators to design.",
+      "description": "Always know what you're paying for, but never pay more than you need.",
       "tiers": [
         {
           "name": "Free",
@@ -164,7 +164,7 @@
     },
     "team": {
       "title": "Made by Apes, with love",
-      "description": "Bring your ideas to life with interactive and evolving NFTs—no coding required. Our platform empowers creators to design.",
+      "description": "We're passionate NFT believers and pour our hearts into this platform. Our mission is to push the boundaries of this space, unlocking a new chapter for NFTs and redefining digital ownership together with you.",
       "people": [
         {
           "name": "Jan Bassen",
