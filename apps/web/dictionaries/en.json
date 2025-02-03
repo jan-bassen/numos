@@ -73,7 +73,7 @@
     },
     "highlights": {
       "title": "Worry-free experience",
-      "description": "We've got you covered from A to Z - all you need is your vision. Numos provides a one-stop solution with a complete infrastructure layer to support your idea. You bring the art, we'll bring the magic to make it unforgettable.",
+      "description": "We've got you covered from A to Z - all you need is your vision. Numos provides a one-stop solution with a complete infrastructure layer to support your idea. You bring the art, we'll bring the rest.",
       "visualEditor": {
         "title": "Create custom interactions visually",
         "description": "Effortlessly create dynamic NFTs with our intuitive node editor – simply drag, drop, and connect to bring your vision to life - no coding skills required."
@@ -135,15 +135,15 @@
           "name": "Free",
           "description": "Try out the studio, no extra steps required",
           "price": 0,
-          "features": ["Basic Studio access", "No time limit"]
+          "features": ["Basic studio access", "No time limit"]
         },
         {
           "name": "Creator",
           "description": "Perfect for artists, creators, and small teams",
           "price": 19,
           "features": [
-            "Advanced Studio access",
-            "200 Tokens included",
+            "Advanced studio access",
+            "200 tokens included",
             "5000 interactions included",
             "Email support"
           ]
@@ -153,8 +153,8 @@
           "description": "Designed for professional teams and studios",
           "price": 49,
           "features": [
-            "Full Studio access",
-            "500 Tokens included",
+            "Full studio access",
+            "500 tokens included",
             "$0.02 per additional token",
             "5000 interactions per day included",
             "$0.00005 per additional interaction",
@@ -165,7 +165,7 @@
     },
     "team": {
       "title": "Made by Apes, with love",
-      "description": "We're passionate NFT believers and pour our hearts into this platform. Our mission is to push the boundaries of this space, unlocking a new chapter for NFTs and redefining digital ownership together with you.",
+      "description": "We're passionate NFT believers. Our mission is to push the boundaries of this space, unlocking a new chapter for NFTs and redefining digital ownership together with you.",
       "people": [
         {
           "name": "Jan Bassen",

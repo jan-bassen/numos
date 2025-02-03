@@ -7,7 +7,7 @@ export function HomeHeading({
   return (
     <h1
       className={cn(
-        'font-bold -sm:max-w-[70vw] font-poppins xs:font-semibold text-3xl xs:text-3xl md:text-4xl',
+        '-sm:max-w-[80vw] font-bold font-poppins xs:font-semibold text-3xl xs:text-3xl md:text-4xl',
         className,
       )}
     >
@@ -23,7 +23,7 @@ export function HomeDescription({
   return (
     <p
       className={cn(
-        'text-pretty -sm:max-w-[70vw] text-secondary-foreground/60 text-sm',
+        '-sm:max-w-[80vw] text-pretty text-secondary-foreground/60 text-sm',
         className,
       )}
     >

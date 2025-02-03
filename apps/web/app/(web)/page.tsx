@@ -74,7 +74,7 @@ export default async function Home() {
           </div>
           <Team dictionary={d.home.team} />
         </div>
-        <div className=" flex w-full flex-col items-center justify-center pb-24">
+        <div className=" flex w-full flex-col items-center justify-center pb-12 sm:pb-24">
           <div className="flex w-full max-w-5xl flex-col gap-12 rounded-home_mobile border border-border p-6 px-6 shadow-sm md:grid md:grid-cols-2 md:grid-rows-1 md:rounded-home md:p-12 lg:gap-6">
             <div className="flex flex-col justify-start gap-6 md:justify-between">
               <div className="flex flex-col gap-6">
