@@ -15,7 +15,7 @@ import type { ReactNode } from 'react'
 export function InvestorsDialog({
   children,
   dictionary,
-}: { children: ReactNode; dictionary: Dictionary['investors'] }) {
+}: { children: ReactNode; dictionary: Dictionary['home']['investors'] }) {
   return (
     <ResponsiveDialog>
       <ResponsiveDialogTrigger asChild>{children}</ResponsiveDialogTrigger>
