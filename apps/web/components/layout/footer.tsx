@@ -25,7 +25,7 @@ export default function Footer({
           </div>
           <div className="flex flex-col gap-1">
             <p className="text-muted-foreground">
-              © {new Date().getFullYear()} {dictionary.company}.{' '}
+              © {new Date().getFullYear()} {dictionary.company}.
               {dictionary.copyright}
             </p>
             {/* <div className="flex gap-6">

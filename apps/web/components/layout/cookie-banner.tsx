@@ -36,15 +36,16 @@ export default function CookieBanner() {
 
   if (consentGiven === 'undecided')
     return (
-      <Card className="fixed bottom-3 left-1/2 z-[200] w-[32rem] max-w-[calc(100vw-1.5rem)] -translate-x-1/2 space-y-1.5 px-5 py-3 animate-in animate-out slide-in-from-bottom-96 slide-out-to-bottom-96">
-        <CardTitle className=" text-base font-semibold">
+      <Card className="-translate-x-1/2 slide-in-from-bottom-96 slide-out-to-bottom-96 fixed bottom-3 left-1/2 z-[200] w-[32rem] max-w-[calc(100vw-1.5rem)] animate-in animate-out space-y-1 px-5 py-3">
+        <CardTitle className=" font-semibold text-base">
           Cookies for Analytics
         </CardTitle>
         <p className="text-xs">
           We use tracking cookies to understand how you use the product and help
-          us improve it. We don&apos;t use them for advertising!
+          us improve it. We don&apos;t use them for marketing or personalized
+          advertising!
         </p>
-        <div className="flex w-full justify-end gap-2">
+        <div className="flex w-full justify-end gap-2 pt-2">
           <Button
             variant={'creative'}
             type="button"

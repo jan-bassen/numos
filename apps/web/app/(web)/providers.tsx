@@ -2,7 +2,7 @@
 
 import { TooltipProvider } from '@repo/ui/components/ui/tooltip'
 import { ThemeProvider, useTheme } from 'next-themes'
-import { cookieConsentGiven } from '@/lib/posthog/cookie-banner'
+import { cookieConsentGiven } from '@/components/layout/cookie-banner'
 import { posthog } from 'posthog-js'
 import { PostHogProvider } from 'posthog-js/react'
 import { useEffect } from 'react'
