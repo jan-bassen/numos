@@ -1,36 +1,30 @@
-import SignUpForm from '@/components/sign-up/sign-up-form'
 import type { Dictionary } from '@/dictionaries/dictionaries'
 import { Button } from '@repo/ui/components/ui/button'
-import {
-  Dialog,
-  DialogTitle,
-  DialogHeader,
-  DialogContent,
-  DialogTrigger,
-  DialogDescription,
-} from '@repo/ui/components/ui/dialog'
 import { PiArrowRightStroke } from '@repo/ui/icons/pika'
 import Image from 'next/image'
-import { ResponsiveDialog } from '@repo/ui/components/ui/responsive-dialog'
 import { SignUpDialog } from '@/components/sign-up/sign-up-dialog'
+import { InvestorsDialog } from '@/app/(web)/(components)/hero/investors-dialog'
+
 export function Hero({
   dictionary,
 }: {
   dictionary: Dictionary['home']
 }) {
   return (
-    <div className="relative w-full overflow-visible pt-28 pb-8 md:pt-64 md:pb-16">
+    <div className="relative w-full overflow-visible pt-28 pb-12 md:pt-64 md:pb-64">
       <div className="flex w-full flex-col items-center space-y-6 pl-3 font-poppins sm:space-y-4 md:space-y-6 md:pl-4">
-        {/*  <Button
-          variant="muted"
-          effect="expandIcon"
-          icon={PiArrowRightStroke}
-          iconPlacement="right"
-          iconClassName="size-4"
-          className="h-7 rounded-full border border-border text-xs"
-        >
-          We have docs now!
-        </Button> */}
+        <InvestorsDialog dictionary={dictionary.investors}>
+          <Button
+            variant="muted"
+            effect="expandIcon"
+            icon={PiArrowRightStroke}
+            iconPlacement="right"
+            iconClassName="size-4"
+            className="h-7 rounded-full border border-border text-xs"
+          >
+            {dictionary.investors.ctaButton}
+          </Button>
+        </InvestorsDialog>
         <h1 className="!leading-[1.1] sm:!leading-[1.2] md:!text-[3.2rem] w-full max-w-[23rem] xs:max-w-[26rem] px-2 xs:px-0 text-center font-black xs:font-extrabold text-[2.8rem] xs:text-[3.2rem]">
           {dictionary.title}
         </h1>

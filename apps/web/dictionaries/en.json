@@ -9,6 +9,7 @@
     "login": "Login",
     "signup": "Sign Up"
   },
+
   "home": {
     "title": "Bring Digital Assets to Life",
     "description": "Create dynamic NFTs in the easiest way possible and launch in days.",
@@ -21,6 +22,15 @@
       "growth": "Growth",
       "health": "Health",
       "reset": "Reset"
+    },
+    "investors": {
+      "ctaButton": "We're open to new investors",
+      "title": "Interested in investing?",
+      "description": "We're currently looking for new investors to help us grow. If you're interested in partnering with us, please reach out.",
+      "contact": {
+        "email": "Email",
+        "x": "Message"
+      }
     },
     "architecture": {
       "title": "Easy, but incredibly powerful",
@@ -72,7 +82,7 @@
       }
     },
     "highlights": {
-      "title": "Worry-free experience",
+      "title": "Built for creators",
       "description": "We've got you covered from A to Z - all you need is your vision. Numos provides a one-stop solution with a complete infrastructure layer to support your idea. You bring the art, we'll bring the rest.",
       "visualEditor": {
         "title": "Create custom interactions visually",
@@ -129,7 +139,7 @@
     },
     "pricing": {
       "title": "Predictable pricing",
-      "description": "Always know what you're paying for, but never pay more than you need.",
+      "description": "Always know what you're paying for, but never pay more than you need. We also offer custom pricing for larger projects and a full-service agency offering. Contact us for more information.",
       "tiers": [
         {
           "name": "Free",

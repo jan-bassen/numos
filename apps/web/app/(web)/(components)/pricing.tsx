@@ -8,7 +8,11 @@ import {
   CarouselContent,
   CarouselItem,
 } from '@repo/ui/components/ui/carousel'
-import { PiCheckTickCircleStroke } from '@repo/ui/icons/pika'
+import {
+  PiCheckTickCircleStroke,
+  PiInformationCircleSolid,
+  PiInformationCircleStroke,
+} from '@repo/ui/icons/pika'
 import { cn } from '@repo/ui/lib/utils'
 import React from 'react'
 

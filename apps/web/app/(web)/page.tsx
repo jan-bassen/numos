@@ -1,4 +1,4 @@
-import { Hero } from '@/app/(web)/(components)/hero'
+import { Hero } from '@/app/(web)/(components)/hero/hero'
 import { Example } from '@/app/(web)/(components)/example'
 import { HomeDescription, HomeHeading } from '@/app/(web)/(components)/heading'
 import { Architecture } from '@/app/(web)/(components)/architecture/architecture'
@@ -10,12 +10,14 @@ import Link from 'next/link'
 import SignUpForm from '@/components/sign-up/sign-up-form'
 import { PiCheckTickCircleBrokenStroke } from '@repo/ui/icons/pika'
 import { getDictionary } from '@/dictionaries/dictionaries'
+import { Tweets } from '@/app/(web)/(components)/tweets'
 
 export default async function Home() {
   const d = await getDictionary('en')
   return (
     <div className="relative flex w-full flex-col items-center">
       <Hero dictionary={d.home} />
+      <Tweets />
       <main className="relative w-full overflow-visible px-4 pt-20 pb-52 md:px-8 xl:px-0">
         <Example dictionary={d.home.example} />
         {/* <div className="relative flex w-full flex-col items-center space-y-6 md:space-y-10">
@@ -31,7 +33,6 @@ export default async function Home() {
           </div>
           <Benefits />
         </div> */}
-
         <Architecture dictionary={d.home.architecture} />
         <div className="md:!mt-6 relative flex w-full flex-col items-center space-y-6 pb-32 md:space-y-10">
           <div className="w-full max-w-5xl space-y-2 pl-3 md:pl-4">
@@ -49,7 +50,7 @@ export default async function Home() {
             <HomeHeading className="w-full md:max-w-2xl md:text-center">
               {d.home.pricing.title}
             </HomeHeading>
-            <HomeDescription className=" w-full md:max-w-md md:text-center">
+            <HomeDescription className=" w-full md:max-w-lg md:text-center">
               {d.home.pricing.description}
             </HomeDescription>
           </div>

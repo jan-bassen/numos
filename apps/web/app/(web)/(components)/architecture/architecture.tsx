@@ -65,7 +65,7 @@ export function Architecture({
   ]
 
   return (
-    <div className="relative flex w-full flex-col space-y-6 py-12 -sm:pb-32 lg:items-center lg:space-y-10 lg:pb-6">
+    <div className="relative flex w-full flex-col space-y-6 py-12 -sm:pb-32 lg:items-center lg:space-y-10 lg:pb-12">
       <ArchitectureInfo
         className="lg:hidden"
         title={dictionary.title}
