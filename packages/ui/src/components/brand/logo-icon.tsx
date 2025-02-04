@@ -12,14 +12,14 @@ export default function LogoIcon({
   return (
     <>
       <Image
-        src="/brand/icon_white.svg"
+        src="/logo_white_200.svg"
         className={cn('hidden size-8 dark:block', className)}
         alt="logo"
         width={size}
         height={size}
       />
       <Image
-        src="/brand/icon_black.svg"
+        src="/logo_black_200.svg"
         className={cn('size-8 dark:hidden', className)}
         alt="logo"
         width={size}

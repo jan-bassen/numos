@@ -250,7 +250,7 @@ module.exports = {
         '-1': '-1',
       },
       backgroundImage: {
-        dots_grid: 'url(/grid.svg)',
+        dots_grid: 'url(/assets/grid.svg)',
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',

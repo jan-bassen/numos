@@ -5,13 +5,6 @@ import {
 } from '@repo/ui/components/ui/sidebar'
 import Link from 'next/link'
 import Logo from '@repo/ui/components/brand/logo'
-import { PiGlobeStroke, PiSparkleAi01Stroke } from '@repo/ui/icons/pika'
-import {
-  ContextMenu,
-  ContextMenuContent,
-  ContextMenuItem,
-  ContextMenuTrigger,
-} from '@repo/ui/components/ui/context-menu'
 import LogoIcon from '@repo/ui/components/brand/logo-icon'
 import { CollapseButton } from '@/components/navigation/navbar/collapse-button'
 
@@ -27,7 +20,7 @@ export function NumosButton() {
               href="/"
               className=" !h-12 group-data-[state=collapsed]:!h-12 p-0 px-2"
             >
-              <Logo size={24} className="h-6 w-fit" />
+              <Logo name size={24} className="h-6 w-fit" />
             </Link>
           </SidebarMenuButton>
           {/* </ContextMenuTrigger> */}
@@ -40,7 +33,8 @@ export function NumosButton() {
               href="/"
               className="group-data-[state=collapsed]:!h-12 group-data-[state=collapsed]:!p-1 !px-0 rounded-full opacity-80 "
             >
-              <LogoIcon size={24} className="!size-12" />
+              {/* <LogoIcon size={24} className="!size-12" /> */}
+              <Logo className="size-7 sm:size-10" name />
             </Link>
           </SidebarMenuButton>
           {/* </ContextMenuTrigger> */}
