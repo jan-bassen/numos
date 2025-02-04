@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Logo from '@repo/ui/components/brand/logo'
 import { Separator } from '@repo/ui/components/ui/separator'
 import type { Dictionary } from '@/dictionaries/dictionaries'
+import Image from 'next/image'
 
 const links = [
   { href: '/', label: 'Home' },
@@ -50,8 +51,17 @@ export default function Footer({
             </div> */}
           </div>
         </div>
-        <ul className="hidden flex-col items-end gap-3 pt-1 pr-2 md:flex">
-          {/* {links.map((link) => (
+        <div className="flex w-full justify-end">
+          <Image
+            src="/assets/exist.png"
+            alt="Exist"
+            width={200}
+            height={200}
+            className="h-18 w-fit"
+          />
+        </div>
+        {/*<ul className="hidden flex-col items-end gap-3 pt-1 pr-2 md:flex">
+           {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -59,8 +69,8 @@ export default function Footer({
             >
               {link.label}
             </Link>
-          ))} */}
-        </ul>
+          ))} 
+        </ul>*/}
       </footer>
     </>
   )
