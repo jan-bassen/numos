@@ -25,6 +25,7 @@ import { getURL } from '@/lib/supabase/clients/client-utils'
 import { cn } from '@repo/ui/lib/utils'
 import { Suspense, use } from 'react'
 import posthog from 'posthog-js'
+import Logo from '@repo/ui/components/brand/logo'
 
 const formSchema = z.object({
   email: z
@@ -123,9 +124,9 @@ export default function LoginPage(props: {
         )}
       >
         <Card className="space-y-8 px-9 pt-6 pb-12 shadow-none sm:shadow-md">
-          <div className="flex w-full items-center gap-2 py-2">
-            <LogoIcon className="size-10" />
+          <div className="flex w-full items-center justify-between gap-2 py-2">
             <h1 className="p-0 font-extrabold font-poppins text-2xl">Login</h1>
+            <Logo className="size-8" size={32} />
           </div>
           {/*           <div className="grid w-full grid-cols-2 gap-2">
             <Button

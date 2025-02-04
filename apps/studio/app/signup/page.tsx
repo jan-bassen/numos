@@ -23,6 +23,7 @@ import { Badge } from '@repo/ui/components/ui/badge'
 import { useEffect } from 'react'
 import { createSupabaseClient } from '@/lib/supabase/clients/client'
 import LogoIcon from '@repo/ui/components/brand/logo-icon'
+import Logo from '@repo/ui/components/brand/logo'
 
 export default function SigninPage() {
   const router = useRouter()
@@ -59,12 +60,14 @@ export default function SigninPage() {
     <div className="grid h-screen w-full place-items-center ">
       <div className="w-full p-2 sm:w-[24rem] sm:p-0">
         <Card className="space-y-8 px-9 pt-6 pb-12 shadow-none sm:shadow-md">
-          <div className="flex w-full items-center gap-3 py-2">
-            <LogoIcon className="size-10" />
-            <h1 className="p-0 font-extrabold text-2xl">Sign Up</h1>
-            <Badge variant="secondary" className="mt-1">
-              Beta
-            </Badge>
+          <div className="flex w-full items-center justify-between py-2">
+            <div className="flex items-center gap-3">
+              <h1 className="p-0 font-extrabold text-2xl">Sign Up</h1>
+              <Badge variant="secondary" className="mt-1">
+                Beta
+              </Badge>
+            </div>
+            <Logo className="size-8" size={32} />
           </div>
           <Form {...form}>
             <form

@@ -70,7 +70,7 @@ export default async function Home() {
               href="https://madeby.boredapeyachtclub.com/bodega/CHGSEWJVFEGRAR"
               className="-top-[60px] xs:-top-[40px] md:-top-[20px] md:-right-[20px] absolute -md:left-64 rotate-12 opacity-70 transition-all duration-300 hover:rotate-0 hover:scale-110 hover:opacity-100"
             >
-              <Image src="/home/MBA.svg" alt="MBA" width={80} height={80} />
+              <Image src="/assets/mba.svg" alt="MBA" width={80} height={80} />
             </Link>
           </div>
           <Team dictionary={d.home.team} />
