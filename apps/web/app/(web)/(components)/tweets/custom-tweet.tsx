@@ -13,7 +13,7 @@ export const CustomTweet = ({ tweet }: { tweet: Tweet }) => {
   return (
     <TweetContainer className="!border !border-border !shadow-md">
       <TweetHeader tweet={enrichedTweet} />
-      <div className="[&>*]:!text-lg min-h-36 py-2 font-normal">
+      <div className="[&>*]:!text-base min-h-36 py-2 font-normal">
         <TweetBody tweet={enrichedTweet} />
       </div>
       {enrichedTweet.quoted_tweet && (

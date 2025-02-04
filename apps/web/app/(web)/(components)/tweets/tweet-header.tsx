@@ -13,7 +13,7 @@ export const TweetHeader = ({ tweet }: Props) => {
   const { user } = tweet
 
   return (
-    <div className="flex items-center gap-3 overflow-hidden whitespace-nowrap break-words pb-[0.75rem] text-[var(--tweet-header-font-size)] leading-[var(--tweet-header-line-height)]">
+    <div className="flex items-center gap-5 overflow-hidden whitespace-nowrap break-words pb-[0.75rem] text-[var(--tweet-header-font-size)] leading-[var(--tweet-header-line-height)]">
       <a
         href={tweet.url}
         className="relative size-12"

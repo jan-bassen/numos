@@ -17,8 +17,8 @@ export default async function Home() {
   return (
     <div className="relative flex w-full flex-col items-center">
       <Hero dictionary={d.home} />
-      <Tweets />
       <main className="relative w-full overflow-visible px-4 pt-20 pb-52 md:px-8 xl:px-0">
+        <Tweets />
         {/* <Example dictionary={d.home.example} /> */}
         {/* <div className="relative flex w-full flex-col items-center space-y-6 md:space-y-10">
           <div className="flex w-full flex-col items-center space-y-4 pl-3 md:pl-4">
