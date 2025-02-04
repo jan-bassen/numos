@@ -6,7 +6,7 @@ import {
   CarouselPrevious,
 } from '@repo/ui/components/ui/carousel'
 import { PiSwipeRightHandStroke } from '@repo/ui/icons/pika'
-import { Tweet } from 'react-tweet'
+import { Tweet } from '@/app/(web)/(components)/tweets/tweet'
 
 const tweets = [
   '1568279985206530048',
@@ -29,9 +29,9 @@ const tweets = [
 
 export function Tweets() {
   return (
-    <div className="grid w-full place-items-center pt-18">
-      <Carousel className="max-w-[90vw] sm:max-w-[80vw] lg:max-w-[85vw] xl:max-w-7xl">
-        <CarouselContent className="">
+    <div className="grid w-full place-items-center pt-14 ">
+      <Carousel className="max-w-[calc(550px-1rem)] xl:max-w-7xl">
+        <CarouselContent className="px-1">
           {tweets.map((tweet, index) => (
             <CarouselItem
               className="flex h-fit justify-center xl:basis-1/3"

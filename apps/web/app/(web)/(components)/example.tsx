@@ -60,7 +60,7 @@ export function Example({
   }
 
   return (
-    <div className="relative mt-16 min-h-[36rem]">
+    <div className="relative mt-16 min-h-[42rem] sm:min-h-[36rem]">
       <div className="-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 z-30 size-[20rem] bg-muted-foreground/20 shadow-md [mask-image:url(/assets/hexagon.svg)] md:size-[30rem]" />
       <div className="-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 z-20 size-[20.5rem] bg-background shadow-md [mask-image:url(/assets/hexagon.svg)] md:size-[30.5rem]" />
       <div className="-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 z-10 size-[22rem] bg-muted-foreground/5 shadow-md [mask-image:url(/assets/hexagon.svg)] md:size-[32rem]" />

@@ -10,7 +10,7 @@ import Link from 'next/link'
 import SignUpForm from '@/components/sign-up/sign-up-form'
 import { PiCheckTickCircleBrokenStroke } from '@repo/ui/icons/pika'
 import { getDictionary } from '@/dictionaries/dictionaries'
-import { Tweets } from '@/app/(web)/(components)/tweets'
+import { Tweets } from '@/app/(web)/(components)/tweets/tweets'
 
 export default async function Home() {
   const d = await getDictionary('en')
@@ -19,7 +19,7 @@ export default async function Home() {
       <Hero dictionary={d.home} />
       <Tweets />
       <main className="relative w-full overflow-visible px-4 pt-20 pb-52 md:px-8 xl:px-0">
-        <Example dictionary={d.home.example} />
+        {/* <Example dictionary={d.home.example} /> */}
         {/* <div className="relative flex w-full flex-col items-center space-y-6 md:space-y-10">
           <div className="flex w-full flex-col items-center space-y-4 pl-3 md:pl-4">
             <HomeHeading className=" w-full max-w-2xl md:text-center">

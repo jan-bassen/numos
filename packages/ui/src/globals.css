@@ -181,9 +181,8 @@
   height: 34rem;
 }
 
-/* Tweets */
+/* 
 
-/* Root */
 .react-tweet-theme {
   background-color: hsl(var(--background)) !important;
   border: 1px solid hsl(var(--border)) !important;
@@ -193,40 +192,40 @@
   padding: 0.7rem !important;
 }
 
-/* Hidden */
+
 .tweet-header-module__WurfcG__authorFollow, .tweet-replies-module__8NZw-G__replies, .tweet-info-module__cgJvBq__infoLink {
   display: none !important;
 }
 
-/* Avatar */
+
 .tweet-header-module__WurfcG__avatarOverflow, .tweet-header-module__WurfcG__avatar {
   height: 2.3rem !important;
   width: 2.3rem !important;
 }
 
-/* Name */
+
 .tweet-header-module__WurfcG__authorLinkText {
   font-size: 0.95rem !important;
 }
 
-/* Verified Icon */
+
 .icons-module__qAdKrW__verified {
   height: 1.1rem !important;
   width: 1.1rem !important;
 }
 
-/* Username */
+
 .tweet-header-module__WurfcG__username {
   font-size: 0.8rem !important;
 }
 
-/* Twitter Icon */
+
 .tweet-header-module__WurfcG__twitterIcon {
   height: 1.3rem !important;
   width: 1.3rem !important;
 }
 
-/* Body */
+
 .tweet-body-module__WVj7vG__root {
   padding-top: 0.5rem !important;
   font-size: 0.9rem !important;
@@ -234,7 +233,7 @@
   min-height: 9rem !important;
 }
 
-/* Info */
+
 .tweet-info-module__cgJvBq__info {
   display: none !important;
   padding-top: 1rem !important;
@@ -244,7 +243,6 @@
   font-size: 0.8rem !important;
 }
 
-/* Actions */
 .tweet-actions-module__wK-8HG__actions {
   padding-top: 0.5rem !important;
   font-size: 0.7rem !important;
@@ -264,6 +262,5 @@
   font-weight: 500 !important;
 }
 
-
-
+ */
 

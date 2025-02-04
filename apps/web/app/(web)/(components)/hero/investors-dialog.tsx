@@ -37,6 +37,7 @@ export function InvestorsDialog({
           </Link>
           <Link
             href="https://x.com/numos_xyz"
+            target="_blank"
             asButton={{ variant: 'outline' }}
             className="gap-2"
           >
