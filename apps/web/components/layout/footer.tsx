@@ -19,7 +19,7 @@ export default function Footer({
         <div className="flex flex-col justify-between">
           <div className="flex flex-col gap-3">
             <Link href="/" className="flex items-center gap-1.5 -md:pl-1">
-              <Logo className="size-8 sm:size-10" name />
+              <Logo className="h-7 w-fit sm:h-8" size={40} name />
             </Link>
             <p className="pl-1 text-muted-foreground">{dictionary.slogan}</p>
           </div>

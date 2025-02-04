@@ -30,7 +30,7 @@ const tweets = [
 export function Tweets() {
   return (
     <div className="grid w-full place-items-center pt-6 pb-12">
-      <Carousel className="max-w-[calc(550px-1rem)] xl:max-w-7xl">
+      <Carousel className="w-[calc(100vw-3rem)] max-w-[calc(550px-1rem)] xl:max-w-7xl">
         <CarouselContent className="px-1">
           {tweets.map((tweet, index) => (
             <CarouselItem

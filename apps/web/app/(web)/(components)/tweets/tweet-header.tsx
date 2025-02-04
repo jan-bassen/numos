@@ -64,7 +64,7 @@ export const TweetHeader = ({ tweet }: Props) => {
       </div>
       <Link
         href={tweet.url}
-        className="mx-4 w-6 shrink-0"
+        className="mx-4 mb-1 w-6 shrink-0"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="View on Twitter"
