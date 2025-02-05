@@ -9,7 +9,12 @@ import { cn } from '@repo/ui/lib/utils'
 import { Button } from '@repo/ui/components/ui/button'
 import { Input } from '@repo/ui/components/ui/input'
 import { Separator } from '@repo/ui/components/ui/separator'
-import { Sheet, SheetContent } from '@repo/ui/components/ui/sheet'
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetTitle,
+} from '@repo/ui/components/ui/sheet'
 import { Skeleton } from '@repo/ui/components/ui/skeleton'
 import {
   Tooltip,
@@ -21,7 +26,7 @@ import {
 const SIDEBAR_COOKIE_NAME = 'sidebar:state'
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
 const SIDEBAR_WIDTH = '16rem'
-const SIDEBAR_WIDTH_MOBILE = '18rem'
+const SIDEBAR_WIDTH_MOBILE = '80%'
 const SIDEBAR_WIDTH_ICON = '3rem'
 const SIDEBAR_KEYBOARD_SHORTCUT = 'b'
 
@@ -176,6 +181,7 @@ const Sidebar = ({
     )
   }
 
+  // TODO: Make this a drawer
   if (isMobile) {
     return (
       <Sheet open={openMobile} onOpenChange={setOpenMobile} {...props}>
@@ -190,6 +196,10 @@ const Sidebar = ({
           }
           side={side}
         >
+          <SheetTitle className="sr-only">Navigation Sidebar</SheetTitle>
+          <SheetDescription className="sr-only">
+            Sidebar for navigation
+          </SheetDescription>
           <div className="flex h-full w-full flex-col">{children}</div>
         </SheetContent>
       </Sheet>

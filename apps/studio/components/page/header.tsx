@@ -19,6 +19,7 @@ import {
   DropdownMenuTrigger,
 } from '@repo/ui/components/ui/dropdown-menu'
 import { Separator } from '@repo/ui/components/ui/separator'
+import { MobileCollapseButton } from '../navigation/navbar/collapse-button'
 
 export function Header({
   children,
@@ -33,18 +34,17 @@ export function Header({
   return (
     <header
       className={cn(
-        'flex h-fit w-full flex-col gap-4 border-border border-b p-6 has-[[role=tablist]]:pb-0 lg:flex-col ',
+        'flex h-fit w-full flex-col gap-4 border-border border-b p-5 has-[[role=tablist]]:pb-0 sm:p-6 lg:flex-col ',
         className,
       )}
       {...props}
     >
-      <div className="flex items-center gap-3">
+      {/*       <div className="flex items-center gap-3">
         {back && (
           <>
             <Link
               href={back.href}
               className={cn(
-                /*  buttonVariants({ variant: 'ghost', size: 'sm' }),  */
                 'flex h-8 items-center gap-2 px-3 text-muted-foreground text-sm hover:text-foreground',
               )}
             >
@@ -60,7 +60,7 @@ export function Header({
         <NavBreadcrumbs
           className={cn('pl-3 md:flex', hideBreadcrumbs && 'hidden md:hidden')}
         />
-      </div>
+      </div> */}
       {children}
     </header>
   )
@@ -90,8 +90,9 @@ export function HeaderMain({
   ...props
 }: ComponentProps<'div'>) {
   return (
-    <div className={cn('flex w-full items-center gap-3', className)} {...props}>
-      {children}
+    <div className={cn('flex w-full items-center gap-2', className)} {...props}>
+      <div className="flex-1">{children}</div>
+      <MobileCollapseButton />
     </div>
   )
 }
@@ -102,7 +103,7 @@ export function HeaderIcon({
   ...props
 }: ComponentProps<'div'>) {
   return (
-    <div className={cn('aspect-square size-10 shrink-0', className)} {...props}>
+    <div className={cn('aspect-square size-9 shrink-0', className)} {...props}>
       {children}
     </div>
   )
@@ -116,7 +117,7 @@ export function HeaderTitle({
   return (
     <H1
       className={cn(
-        'line-clamp-1 h-11 text-ellipsis border-0 px-1 pt-0.5 font-bold text-4xl',
+        'line-clamp-1 h-10 text-ellipsis border-0 px-1 pt-0.5 font-bold text-3xl sm:h-11 sm:text-4xl',
         className,
       )}
       {...props}
@@ -179,7 +180,10 @@ export function HeaderDescription({
   ...props
 }: ComponentProps<'p'>) {
   return (
-    <p className={cn('text-muted-foreground text-sm', className)} {...props}>
+    <p
+      className={cn('max-w-2xl text-muted-foreground text-sm', className)}
+      {...props}
+    >
       {children}
     </p>
   )
@@ -188,7 +192,7 @@ export function HeaderDescription({
 export function HeaderTabBar({ className, children, ...props }: TabsListProps) {
   return (
     <TabsList
-      className={cn('h-9 w-fit gap-0 bg-transparent p-0', className)}
+      className={cn('h-9 w-fit gap-4 bg-transparent p-0', className)}
       {...props}
     >
       {children}
@@ -207,7 +211,7 @@ export function HeaderTabBarItem({
   return (
     <TabsTrigger
       className={cn(
-        'data-[state=active]:!border-b-2 h-full gap-1 rounded-none border-0 border-primary data-[state=active]:shadow-none',
+        'data-[state=active]:!border-b-2 h-full gap-1 rounded-none border-0 border-primary px-1 data-[state=active]:shadow-none',
         className,
       )}
       {...props}

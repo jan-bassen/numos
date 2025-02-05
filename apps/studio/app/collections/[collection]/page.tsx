@@ -5,6 +5,7 @@ import {
   Header,
   HeaderActions,
   HeaderContent,
+  HeaderDescription,
   HeaderIcon,
   HeaderMain,
   HeaderTabBar,

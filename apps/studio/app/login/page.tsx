@@ -83,10 +83,12 @@ export default function LoginPage(props: {
       return
     }
     localStorage.setItem('cookie_consent', 'yes')
-    posthog.identify(data.user.id, {
-      email: data.user.email,
-      name: data.user.user_metadata.name || null,
-    })
+    if (!posthog.__loaded) {
+      posthog.identify(data.user.id, {
+        email: data.user.email,
+        name: data.user.user_metadata.name || null,
+      })
+    }
     router.push('/')
   }
 

@@ -5,7 +5,6 @@ import {
 } from '@repo/ui/components/ui/sidebar'
 import Link from 'next/link'
 import Logo from '@repo/ui/components/brand/logo'
-import LogoIcon from '@repo/ui/components/brand/logo-icon'
 import { CollapseButton } from '@/components/navigation/navbar/collapse-button'
 
 export function NumosButton() {
@@ -16,11 +15,8 @@ export function NumosButton() {
         <div className="flex items-center gap-1 group-data-[state=collapsed]:hidden">
           {/* <ContextMenuTrigger asChild> */}
           <SidebarMenuButton asChild>
-            <Link
-              href="/"
-              className=" !h-12 group-data-[state=collapsed]:!h-12 p-0 px-2"
-            >
-              <Logo name size={24} className="h-6 w-fit" />
+            <Link href="/" className="!h-12 p-0 px-2">
+              <Logo name size={200} className="!h-6 w-30" />
             </Link>
           </SidebarMenuButton>
           {/* </ContextMenuTrigger> */}
@@ -34,7 +30,7 @@ export function NumosButton() {
               className="group-data-[state=collapsed]:!h-12 group-data-[state=collapsed]:!p-1 !px-0 rounded-full opacity-80 "
             >
               {/* <LogoIcon size={24} className="!size-12" /> */}
-              <Logo className="size-7 sm:size-10" name />
+              <Logo className="size-10" />
             </Link>
           </SidebarMenuButton>
           {/* </ContextMenuTrigger> */}
