@@ -16,7 +16,7 @@ export default function Footer({
   return (
     <>
       <Separator className="w-full" />
-      <footer className="mx-auto grid h-52 w-full max-w-5xl -xl:px-4 py-4 pb-8 sm:h-72 sm:py-10 md:grid-cols-2">
+      <footer className="mx-auto grid h-52 w-full max-w-5xl gap-6 -xl:px-4 py-4 pb-8 sm:h-72 sm:gap-2 sm:py-10 md:grid-cols-2">
         <div className="flex flex-col justify-between">
           <div className="flex flex-col gap-3">
             <Link href="/" className="flex items-center gap-1.5 -md:pl-1">
@@ -51,7 +51,7 @@ export default function Footer({
             </div> */}
           </div>
         </div>
-        <div className="flex h-18 w-full justify-end">
+        <div className="flex h-18 w-full sm:justify-end">
           <Image
             src="/assets/exist.png"
             alt="Exist"
