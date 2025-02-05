@@ -9,10 +9,12 @@ import { PiSwipeRightHandStroke } from '@repo/ui/icons/pika'
 import { Tweet } from '@/app/(web)/(components)/tweets/tweet'
 
 const tweets = [
+  '1884960960550465544',
   '1568279985206530048',
   '1522383627090337792',
   '1580585716907618305',
   '1512079178643869711',
+  '1846243562813358332',
 
   /* 
   good but with media:

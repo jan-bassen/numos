@@ -58,8 +58,8 @@ export default function SigninPage() {
 
   return (
     <div className="grid h-screen w-full place-items-center ">
-      <div className="w-full p-2 sm:w-[24rem] sm:p-0">
-        <Card className="space-y-8 px-9 pt-6 pb-12 shadow-none sm:shadow-md">
+      <div className="flex w-full flex-col items-center p-2 sm:p-0">
+        <Card className="max-w-[24rem] space-y-8 px-9 pt-6 pb-12 shadow-none sm:shadow-md">
           <div className="flex w-full items-center justify-between py-2">
             <div className="flex items-center gap-3">
               <h1 className="p-0 font-extrabold text-2xl">Sign Up</h1>
@@ -67,7 +67,7 @@ export default function SigninPage() {
                 Beta
               </Badge>
             </div>
-            <Logo className="size-8" size={32} />
+            <Logo className="h-8" size={32} />
           </div>
           <Form {...form}>
             <form

@@ -5,6 +5,7 @@ import {
   TweetActions,
   QuotedTweet,
   enrichTweet,
+  TweetInfo,
 } from 'react-tweet'
 import { TweetHeader } from '@/app/(web)/(components)/tweets/tweet-header'
 
@@ -19,6 +20,7 @@ export const CustomTweet = ({ tweet }: { tweet: Tweet }) => {
       {enrichedTweet.quoted_tweet && (
         <QuotedTweet tweet={enrichedTweet.quoted_tweet} />
       )}
+      <TweetInfo tweet={enrichedTweet} />
       <TweetActions tweet={enrichedTweet} />
       {/* We're not including the `TweetReplies` component that adds the reply button */}
     </TweetContainer>

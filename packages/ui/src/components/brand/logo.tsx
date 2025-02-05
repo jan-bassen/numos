@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 export default function Logo({
   name,
-  size = 100,
+  size = 400,
   className,
 }: {
   size?: number
@@ -12,40 +12,40 @@ export default function Logo({
 }) {
   if (!name) {
     return (
-      <>
+      <div className={cn('relative h-[400px] overflow-hidden', className)}>
         <Image
           src="/brand/icon_white.svg"
-          className={cn('hidden dark:block', className)}
+          className={cn('hidden h-full w-auto dark:block')}
           alt="logo"
           width={size * 5}
           height={size}
         />
         <Image
           src="/brand/icon_black.svg"
-          className={cn('dark:hidden', className)}
+          className={cn('h-full w-auto dark:hidden')}
           alt="logo"
           width={size * 5}
           height={size}
         />
-      </>
+      </div>
     )
   }
   return (
-    <>
+    <div className={cn('relative h-[400px] overflow-hidden', className)}>
       <Image
         src="/brand/logo_white.svg"
-        className={cn('hidden dark:block', className)}
+        className={cn('hidden h-full w-auto dark:block', className)}
         alt="logo"
         width={size}
         height={size}
       />
       <Image
         src="/brand/logo_black.svg"
-        className={cn('dark:hidden', className)}
+        className={cn('h-full w-auto dark:hidden', className)}
         alt="logo"
         width={size}
         height={size}
       />
-    </>
+    </div>
   )
 }

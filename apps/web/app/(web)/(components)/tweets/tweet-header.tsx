@@ -13,23 +13,23 @@ export const TweetHeader = ({ tweet }: Props) => {
   const { user } = tweet
 
   return (
-    <div className="flex items-center gap-5 overflow-hidden whitespace-nowrap break-words pb-[0.75rem] text-[var(--tweet-header-font-size)] leading-[var(--tweet-header-line-height)]">
+    <div className="flex items-center gap-2 overflow-hidden whitespace-nowrap break-words pb-[0.75rem] text-[var(--tweet-header-font-size)] leading-[var(--tweet-header-line-height)]">
       <a
         href={tweet.url}
-        className="relative size-12"
+        className="relative aspect-square h-10"
         target="_blank"
         rel="noopener noreferrer"
       >
         <div
           className={cn(
-            'absolute grid size-12 shrink-0 place-items-center overflow-hidden rounded-full',
+            'absolute grid size-10 shrink-0 place-items-center overflow-hidden rounded-full',
             user.profile_image_shape === 'Square' && 'rounded-[4px]',
           )}
         >
           <Image
             width={64}
             height={64}
-            className="size-10 rounded-full"
+            className=" h-auto w-full rounded-full"
             unoptimized
             src={user.profile_image_url_https}
             alt={user.name}

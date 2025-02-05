@@ -20,7 +20,7 @@ export function Navigation({
       <div className="flex h-full items-center justify-between px-2 sm:px-3">
         <div className="flex h-full items-center gap-12">
           <Link href="/" className="flex items-center gap-1.5 -md:pl-1">
-            <Logo className="h-7 w-fit sm:h-8" size={40} name />
+            <Logo className="h-7 sm:h-8" size={200} name />
           </Link>
           <div className="hidden gap-6 md:flex">
             {/* <Link href="/docs" effect="hoverUnderline">

@@ -20,7 +20,7 @@ export default function Footer({
         <div className="flex flex-col justify-between">
           <div className="flex flex-col gap-3">
             <Link href="/" className="flex items-center gap-1.5 -md:pl-1">
-              <Logo className="h-7 w-fit sm:h-8" size={40} name />
+              <Logo className="h-7 sm:h-8" size={200} name />
             </Link>
             <p className="pl-1 text-muted-foreground">{dictionary.slogan}</p>
           </div>
@@ -51,13 +51,20 @@ export default function Footer({
             </div> */}
           </div>
         </div>
-        <div className="flex w-full justify-end">
+        <div className="flex h-18 w-full justify-end">
           <Image
             src="/assets/exist.png"
             alt="Exist"
             width={200}
             height={200}
-            className="h-18 w-fit"
+            className="h-full w-auto dark:hidden"
+          />
+          <Image
+            src="/assets/exist-dark.png"
+            alt="Exist"
+            width={200}
+            height={200}
+            className="hidden h-full w-auto dark:block"
           />
         </div>
         {/*<ul className="hidden flex-col items-end gap-3 pt-1 pr-2 md:flex">

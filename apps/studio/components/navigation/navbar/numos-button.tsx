@@ -16,7 +16,7 @@ export function NumosButton() {
           {/* <ContextMenuTrigger asChild> */}
           <SidebarMenuButton asChild>
             <Link href="/" className="!h-12 p-0 px-2">
-              <Logo name size={200} className="!h-6 w-30" />
+              <Logo name size={240} className="!h-6 " />
             </Link>
           </SidebarMenuButton>
           {/* </ContextMenuTrigger> */}
