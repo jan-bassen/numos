@@ -66,17 +66,14 @@ export const uploadFile = async (
 
   if (replacing) {
     const path = locationToPath(replacing)
-    if (!path) {
-      return {
-        error: 'Invalid location for replacing image',
-      }
-    }
-    const { data, error: removeError } = await supabase.storage
-      .from(replacing.bucket)
-      .remove([path])
-    if (removeError) {
-      return {
-        error: `Error removing old image: ${removeError.message}`,
+    if (path) {
+      const { data, error: removeError } = await supabase.storage
+        .from(replacing.bucket)
+        .remove([path])
+      if (removeError) {
+        return {
+          error: `Error removing old image: ${removeError.message}`,
+        }
       }
     }
   }
