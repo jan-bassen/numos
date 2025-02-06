@@ -26,6 +26,7 @@ export const updateCollectionSchema = z.object({
   slug: updateSlug.optional(),
   account: z.never().optional(),
   editable_version: z.never().optional(),
+  image: z.string().uuid().optional(),
   id: noId,
   updated_at: z.never().optional(),
   created_at: z.never().optional(),

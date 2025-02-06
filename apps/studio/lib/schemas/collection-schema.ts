@@ -43,6 +43,7 @@ export const collectionSchema = (currentSlug: string | undefined) =>
       })
       .optional(),
     external_link: z.string().url().optional(),
+    image: z.string().uuid().optional(),
     max_supply: z.coerce
       .number()
       .int()
