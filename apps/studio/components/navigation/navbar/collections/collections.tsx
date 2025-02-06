@@ -31,9 +31,10 @@ export async function Collections() {
                   <SupabaseImage
                     src={
                       collection.image
-                        ? `collection-images/${collection.image}`
+                        ? `collection-images/${collection.id}/${collection.image}`
                         : undefined
                     }
+                    placeholder
                     alt="Collection Image"
                     width={20}
                     height={20}

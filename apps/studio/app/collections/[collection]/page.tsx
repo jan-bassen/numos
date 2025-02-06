@@ -64,11 +64,9 @@ export default async function Collection(props: {
       <Header>
         <HeaderContent>
           <HeaderMain>
-            {collection?.image && (
-              <HeaderIcon>
-                <CollectionImage className="aspect-square size-full rounded-md object-cover" />
-              </HeaderIcon>
-            )}
+            <HeaderIcon>
+              <CollectionImage className="aspect-square size-full rounded-md object-cover" />
+            </HeaderIcon>
             <CollectionTitle />
           </HeaderMain>
           <HeaderActions>

@@ -2,8 +2,8 @@
 
 import type { StaticImport } from 'next/dist/shared/lib/get-img-props'
 import Image, { type ImageLoaderProps, type ImageProps } from 'next/image'
-import { createSupabaseClient } from '@/lib/supabase/clients/client'
-import { rest } from 'lodash'
+import { placeholderImage } from '@repo/shared/utils/placeholder-image'
+import { useState } from 'react'
 
 const projectId = process.env.NEXT_PUBLIC_SUPABASE_PROJECT_ID
 if (!projectId) {
@@ -47,13 +47,22 @@ export function signedSupabaseLoader({
   return url.href
 }
 
-export function SupabaseImage(
-  props: Omit<ImageProps, 'src'> & {
-    src?: string | StaticImport | null
-    signed?: 'true' | 'false'
-  },
-) {
-  if (!props.src)
+export function SupabaseImage({
+  placeholder,
+  signed,
+  src,
+  ...props
+}: Omit<ImageProps, 'src' | 'placeholder'> & {
+  src?: string | StaticImport | null
+  signed?: 'true' | 'false'
+  placeholder?: boolean
+}) {
+  const [showPlaceholder, setShowPlaceholder] = useState(false)
+
+  if (!src || showPlaceholder) {
+    if (!placeholder) {
+      return null
+    }
     return (
       <Image
         {...props}
@@ -61,24 +70,28 @@ export function SupabaseImage(
         src={'/images/placeholder.png'}
       />
     )
+  }
 
-  const { signed, ...imageProps } = props
-  if (props.signed === 'true') {
+  if (signed === 'true') {
     return (
       <Image
-        {...imageProps}
+        {...props}
+        src={src}
+        key={Date.now()}
         alt={props.alt || 'Image'}
         loader={signedSupabaseLoader}
-        src={props.src}
+        onError={() => setShowPlaceholder(true)}
       />
     )
   }
   return (
     <Image
-      {...imageProps}
+      {...props}
+      key={Date.now()}
       alt={props.alt || 'Image'}
       loader={publicSupabaseLoader}
-      src={props.src}
+      src={src}
+      onError={() => setShowPlaceholder(true)}
     />
   )
 }
