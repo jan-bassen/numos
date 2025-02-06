@@ -55,8 +55,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'NUMOS - Create dynamic NFTs easily',
     description:
-      '✓ Interactive and dynamic NFTs ✓ Code-free ✓ Incredibly powerful ✓ Predictable pricing ✓ No lock-in ✓ Reliably fast',
-    images: '/open-graph.png',
+      'Create interactive and dynamic NFTs ✓ No code or technical skills required ✓ Reliably fast and predictable pricing ✓',
     url: 'https://numos.xyz',
     siteName: 'NUMOS',
     type: 'website',
