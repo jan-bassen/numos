@@ -42,9 +42,10 @@ export function CollectionSwitcherButton({
           <SupabaseImage
             src={
               currentCollection?.image
-                ? `collection-images/${currentCollection?.image}`
+                ? `collection-images/${currentCollection?.id}/${currentCollection?.image}`
                 : undefined
             }
+            placeholder
             alt="Collection Image"
             width={32}
             height={32}
@@ -88,9 +89,10 @@ export function CollectionSwitcherButton({
               <SupabaseImage
                 src={
                   collection?.image
-                    ? `collection-images/${collection?.image}`
+                    ? `collection-images/${collection?.id}/${collection?.image}`
                     : undefined
                 }
+                placeholder
                 alt="Collection Image"
                 width={24}
                 height={24}

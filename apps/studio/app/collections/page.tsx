@@ -66,11 +66,8 @@ export default async function HomePage() {
                       subtitle={collection.description}
                       image={
                         <SupabaseImage
-                          src={
-                            collection.image
-                              ? `collection-images/${collection.image}`
-                              : undefined
-                          }
+                          src={`collection-images/${collection.id}/${collection.image}`}
+                          placeholder
                           alt="Collection Image"
                           width={100}
                           height={100}

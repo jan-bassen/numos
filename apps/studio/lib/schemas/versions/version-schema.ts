@@ -17,7 +17,7 @@ export const updateVersionSchema = z.object({
   name: sharedName.optional(),
   description: sharedDescription.optional(),
   external_link: externalLinkSchema.optional(),
-  image: z.never().optional(),
-  banner: z.never().optional(),
-  featured: z.never().optional(),
+  image: z.string().uuid().optional(),
+  banner: z.string().uuid().optional(),
+  featured: z.string().uuid().optional(),
 })

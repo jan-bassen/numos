@@ -19,7 +19,7 @@ import {
   DropdownMenuTrigger,
 } from '@repo/ui/components/ui/dropdown-menu'
 import { Separator } from '@repo/ui/components/ui/separator'
-import { MobileCollapseButton } from '../navigation/navbar/collapse-button'
+import { MobileCollapseButton } from '@/components/navigation/navbar/collapse-button'
 
 export function Header({
   children,
@@ -91,7 +91,7 @@ export function HeaderMain({
 }: ComponentProps<'div'>) {
   return (
     <div className={cn('flex w-full items-center gap-2', className)} {...props}>
-      <div className="flex-1">{children}</div>
+      <div className="flex -sm:flex-1 items-center gap-2">{children}</div>
       <MobileCollapseButton />
     </div>
   )

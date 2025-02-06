@@ -612,11 +612,14 @@ export type Database = {
       }
       versions: {
         Row: {
+          banner: string | null
           collection: string
           created_at: string | null
           description: string | null
           external_link: string | null
+          featured: string | null
           id: string
+          image: string | null
           locked: boolean
           major: number
           minor: number
@@ -626,11 +629,14 @@ export type Database = {
           updated_at: string | null
         }
         Insert: {
+          banner?: string | null
           collection: string
           created_at?: string | null
           description?: string | null
           external_link?: string | null
+          featured?: string | null
           id?: string
+          image?: string | null
           locked?: boolean
           major?: number
           minor?: number
@@ -640,11 +646,14 @@ export type Database = {
           updated_at?: string | null
         }
         Update: {
+          banner?: string | null
           collection?: string
           created_at?: string | null
           description?: string | null
           external_link?: string | null
+          featured?: string | null
           id?: string
+          image?: string | null
           locked?: boolean
           major?: number
           minor?: number

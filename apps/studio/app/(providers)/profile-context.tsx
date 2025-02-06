@@ -3,14 +3,17 @@
 import { useContextState } from '@/lib/state/use-context-state'
 import { updateProfileSchema } from '@/lib/schemas/profile/profile-schema'
 import { updateProfile } from '@/lib/supabase/db/profile/update'
-import type { Profile, UpdateProfile } from '@/types/database.types'
+import type { Profile, ReturnInfo, UpdateProfile } from '@/types/database.types'
 import type { NestedErrors, UpdateOptions, Validate } from '@/types/state.types'
 import { createContext, useContext, useMemo } from 'react'
 import { useUser } from '@/app/(providers)/user-context'
 
 type ProfileContextType = {
   profile: Profile
-  updateProfile: (profile: UpdateProfile, options?: UpdateOptions) => void
+  updateProfile: (
+    profile: UpdateProfile,
+    options?: UpdateOptions,
+  ) => Promise<ReturnInfo>
   validateProfile: Validate<UpdateProfile>
   getError: (path: Array<string | number>) => NestedErrors | undefined
   getErrorMessage: (path: Array<string | number>) => string | undefined

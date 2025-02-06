@@ -1,88 +1,87 @@
 'use client'
 
-import type { ReturnInfo } from '@/types/database.types'
-import { createSupabaseClient } from '../clients/client'
-import { toast } from 'sonner'
-import { handleReturnInfo } from '@repo/ui/lib/utils'
-
-export async function uploadAvatar(file: File) {
-  const uuid = crypto.randomUUID()
-  const supabase = await createSupabaseClient()
-  const { data: userRes } = await supabase.auth.getUser()
-  if (!userRes.user) {
-    toast.error('Error fetching user')
-    return
-  }
-  const fullPath = `${uuid}`
-  const { error: uploadError } = await supabase.storage
-    .from('avatars')
-    .upload(fullPath, file)
-  if (uploadError) {
-    toast.error('Error uploading avatar')
-    return
-  }
-  const { error: updateError } = await supabase
-    .from('profiles')
-    .update({
-      avatar_url: uuid,
-    })
-    .eq('id', userRes.user.id)
-  if (updateError) {
-    console.error(updateError)
-    const { error } = await supabase.storage.from('avatars').remove([fullPath])
-    if (error) {
-      throw error
-    }
-    toast.error('Error updating avatar')
-    return
-  }
-  return uuid
-}
+import { createSupabaseClient } from '@/lib/supabase/clients/client'
+import type { FileOptions } from '@supabase/storage-js'
+import type { Result } from '@repo/shared/types/result'
 
 export type StorageLocation = {
   bucket: string
   path?: string
-  name: string
+  name: string | null
+}
+
+export const locationToPath = (location: StorageLocation) => {
+  if (location.name === null) {
+    return null
+  }
+  if (location.path) {
+    return `${location.path}${location.name}`
+  }
+  return location.name
+}
+
+export const locationToFullPath = (location: StorageLocation) => {
+  if (location.name === null) {
+    return null
+  }
+  if (location.path) {
+    return `${location.bucket}/${location.path}${location.name}`
+  }
+  return `${location.bucket}/${location.name}`
 }
 
 export const uploadFile = async (
   location: StorageLocation,
   file: File,
-  updateFunction?: (fullPath: string) => Promise<ReturnInfo>,
-  replacing?: string,
-) => {
-  const fullPath = location.path ? location.path + location.name : location.name
+  replacing?: StorageLocation,
+  options?: {
+    keepExtension?: boolean
+  } & FileOptions,
+): Promise<Result<StorageLocation>> => {
+  const cleanedName = location.name?.split('.')[0]
+  const newName = options?.keepExtension
+    ? location.name
+    : cleanedName || location.name
+  const fullPath = location.path ? location.path + newName : newName
+
+  if (!fullPath) {
+    return {
+      error: 'Invalid location',
+    }
+  }
+
   const supabase = await createSupabaseClient()
   const { data, error: uploadError } = await supabase.storage
     .from(location.bucket)
-    .upload(fullPath, file)
+    .upload(fullPath, file, {
+      upsert: true,
+      cacheControl: '0',
+    })
+
   if (uploadError) {
-    toast.error(`Error uploading image: ${uploadError.message}`)
-    return
-  }
-  if (updateFunction) {
-    const res = await updateFunction(data.path)
-    handleReturnInfo(
-      res,
-      () => {},
-      async () => {
-        const { error: removeError } = await supabase.storage
-          .from(location.bucket)
-          .remove([fullPath])
-        if (removeError) {
-          toast.error('Error removing image')
-        }
-      },
-    )
-  }
-  if (replacing) {
-    const { data, error: removeError } = await supabase.storage
-      .from(location.bucket)
-      .remove([replacing])
-    console.log(data, removeError)
-    if (removeError) {
-      toast.error('Error removing old image')
+    return {
+      error: `Error uploading image: ${uploadError.message}`,
     }
   }
-  return data.path
+
+  if (replacing) {
+    const path = locationToPath(replacing)
+    if (!path) {
+      return {
+        error: 'Invalid location for replacing image',
+      }
+    }
+    const { data, error: removeError } = await supabase.storage
+      .from(replacing.bucket)
+      .remove([path])
+    if (removeError) {
+      return {
+        error: `Error removing old image: ${removeError.message}`,
+      }
+    }
+  }
+
+  return {
+    result: location,
+  }
 }
