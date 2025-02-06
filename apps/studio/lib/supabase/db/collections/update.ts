@@ -20,7 +20,7 @@ export async function updateCollectionBase(
   if (error) {
     return { ok: false, message: error.message }
   }
-  return { ok: true, message: 'Action updated' }
+  return { ok: true, message: 'Collection updated' }
 }
 
 export const updateCollection = createSafeUpdate<UpdateCollection>(

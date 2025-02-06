@@ -9,6 +9,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuTrigger,
 } from '@repo/ui/components/ui/dropdown-menu'
 import { SupabaseImage } from '@/components/supabase/supabase-image'
@@ -23,24 +24,19 @@ export function CollectionSwitcherButton({
   currentCollection?: Collection
   className?: string
 }) {
-  const { open: sidebarOpen, isMobile } = useSidebar()
+  const { open: sidebarOpen, openMobile, isMobile } = useSidebar()
+  const open = sidebarOpen || openMobile
   return (
     <DropdownMenu modal={true}>
-      <div
-        className={cn(
-          'flex grow-0 md:w-full',
-          sidebarOpen && 'px-1',
-          className,
-        )}
-      >
+      <div className={cn('flex w-full grow-0', open && 'px-1', className)}>
         <Link
           href={`/collections/${currentCollection?.slug}`}
           className={cn(
             buttonVariants({ variant: 'ghost' }),
-            'flex gap-3 p-0 md:h-10 md:gap-2',
-            sidebarOpen
-              ? 'grow-0 justify-start rounded-none border-border md:w-[calc(100%-2rem)] md:rounded-l-lg md:border md:px-1.5'
-              : 'w-full justify-center rounded-lg md:h-8',
+            'flex h-10 gap-2 p-0',
+            open
+              ? 'w-[calc(100%-2rem)] grow-0 justify-start rounded-none rounded-l-lg border border-border px-1.5'
+              : 'h-8 w-full justify-center rounded-lg',
           )}
         >
           <SupabaseImage
@@ -56,22 +52,22 @@ export function CollectionSwitcherButton({
           />
           <span
             className={cn(
-              '!line-clamp-1 !text-ellipsis !hidden md:!inline w-full text-left text-base md:text-sm',
+              '!line-clamp-1 !text-ellipsis !inline w-full text-left text-sm',
               !currentCollection?.name ||
                 (currentCollection.name.length < 15 && 'pointer-events-none'),
-              !sidebarOpen && 'md:!hidden',
+              !open && '!hidden',
             )}
           >
             {currentCollection?.name || 'Select Collection'}
           </span>
         </Link>
-        {sidebarOpen && (
+        {open && (
           <DropdownMenuTrigger asChild>
             <Button
               variant={'ghost'}
-              className="hidden rounded-none border-border border-y border-r p-0 md:flex md:h-10 md:rounded-r-lg md:px-2"
+              className="flex h-10 rounded-none rounded-r-lg border-border border-y border-r p-0 px-2"
             >
-              <PiChevronSortVerticalStroke className="hidden h-4 w-4 md:block md:stroke-muted-foreground" />
+              <PiChevronSortVerticalStroke className="block h-4 w-4 md:stroke-muted-foreground" />
             </Button>
           </DropdownMenuTrigger>
         )}
@@ -100,9 +96,9 @@ export function CollectionSwitcherButton({
                 height={24}
                 className="h-5 w-5 shrink-0 rounded-full object-cover"
               />
-              <p className="line-clamp-1 inline self-center text-ellipsis text-left">
+              <DropdownMenuLabel className="line-clamp-1 inline self-center text-ellipsis text-left">
                 {collection.name ? collection.name : 'Unnamed'}
-              </p>
+              </DropdownMenuLabel>
             </Link>
           </DropdownMenuItem>
         ))}

@@ -26,7 +26,10 @@ export default function EditorInterface({
   editor: Editor | null
   zoom: string
 }) {
-  const { open: sidebarOpen, setOpen: setSidebarOpen } = useSecondarySidebar()
+  const { open, setOpen, openMobile, setOpenMobile, isMobile } =
+    useSecondarySidebar()
+  const sidebarOpen = isMobile ? openMobile : open
+  const setSidebarOpen = isMobile ? setOpenMobile : setOpen
   return (
     <>
       <div

@@ -2,29 +2,50 @@ import { cn } from '@repo/ui/lib/utils'
 import Image from 'next/image'
 
 export default function Logo({
-  size = 100,
+  name,
+  size = 400,
   className,
 }: {
   size?: number
   name?: boolean
   className?: string
 }) {
+  if (!name) {
+    return (
+      <div className={cn('relative h-[400px] overflow-hidden', className)}>
+        <Image
+          src="/brand/icon_white.svg"
+          className={cn('hidden h-full w-auto dark:block')}
+          alt="logo"
+          width={size * 5}
+          height={size}
+        />
+        <Image
+          src="/brand/icon_black.svg"
+          className={cn('h-full w-auto dark:hidden')}
+          alt="logo"
+          width={size * 5}
+          height={size}
+        />
+      </div>
+    )
+  }
   return (
-    <>
+    <div className={cn('relative h-[400px] overflow-hidden', className)}>
       <Image
         src="/brand/logo_white.svg"
-        className={cn('hidden h-8 dark:block', className)}
+        className={cn('hidden h-full w-auto dark:block', className)}
         alt="logo"
-        width={size * 5}
+        width={size}
         height={size}
       />
       <Image
         src="/brand/logo_black.svg"
-        className={cn('h-8 dark:hidden', className)}
+        className={cn('h-full w-auto dark:hidden', className)}
         alt="logo"
-        width={size * 5}
+        width={size}
         height={size}
       />
-    </>
+    </div>
   )
 }

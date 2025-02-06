@@ -5,7 +5,6 @@ import Image from 'next/image'
 
 export default function Avatar() {
   const { user } = useAuth<User>()
-  console.log(user)
 
   const src = user?.thumbnailURL
   if (!src) return null

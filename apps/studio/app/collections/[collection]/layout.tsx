@@ -1,6 +1,7 @@
 import { Navbar } from '@/components/navigation/navbar/navbar'
 import { getExtendedCollectionFromSlug } from '@/lib/supabase/db/collections'
-import { CollectionProvider } from './collection-context'
+import { CollectionProvider } from '@/app/collections/[collection]/collection-context'
+import { VersionProvider } from '@/app/collections/[collection]/version-context'
 
 export default async function Layout({
   params,
@@ -10,11 +11,20 @@ export default async function Layout({
   params: Promise<{ collection: string }>
 }) {
   const { collection: collectionSlug } = await params
-  const collection = await getExtendedCollectionFromSlug(collectionSlug)
+  const extended_collection =
+    await getExtendedCollectionFromSlug(collectionSlug)
+
+  const version = extended_collection.editable_version
+  const collection = {
+    ...extended_collection,
+    editable_version: version.id,
+  }
   return (
     <CollectionProvider collection={collection}>
-      <Navbar collection={collectionSlug} />
-      {children}
+      <VersionProvider version={version}>
+        <Navbar collection={collectionSlug} />
+        {children}
+      </VersionProvider>
     </CollectionProvider>
   )
 }

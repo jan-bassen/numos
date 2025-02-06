@@ -25,6 +25,7 @@ import { getURL } from '@/lib/supabase/clients/client-utils'
 import { cn } from '@repo/ui/lib/utils'
 import { Suspense, use } from 'react'
 import posthog from 'posthog-js'
+import Logo from '@repo/ui/components/brand/logo'
 
 const formSchema = z.object({
   email: z
@@ -82,10 +83,12 @@ export default function LoginPage(props: {
       return
     }
     localStorage.setItem('cookie_consent', 'yes')
-    posthog.identify(data.user.id, {
-      email: data.user.email,
-      name: data.user.user_metadata.name || null,
-    })
+    if (!posthog.__loaded) {
+      posthog.identify(data.user.id, {
+        email: data.user.email,
+        name: data.user.user_metadata.name || null,
+      })
+    }
     router.push('/')
   }
 
@@ -118,14 +121,14 @@ export default function LoginPage(props: {
     <div className="grid h-screen w-full place-items-center">
       <div
         className={cn(
-          'w-full p-2 sm:w-[24rem] sm:p-0',
+          'flex w-full flex-col items-center p-2 sm:p-0',
           validating && 'space-y-3',
         )}
       >
-        <Card className="space-y-8 px-9 pt-6 pb-12 shadow-none sm:shadow-md">
-          <div className="flex w-full items-center gap-2 py-2">
-            <LogoIcon className="size-10" />
+        <Card className="w-full max-w-[24rem] space-y-8 px-9 pt-6 pb-12 shadow-none sm:shadow-md">
+          <div className="flex w-full items-center justify-between gap-2 py-2">
             <h1 className="p-0 font-extrabold font-poppins text-2xl">Login</h1>
+            <Logo className="h-8" size={32} />
           </div>
           {/*           <div className="grid w-full grid-cols-2 gap-2">
             <Button

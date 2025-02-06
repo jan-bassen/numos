@@ -1,4 +1,10 @@
-import { createWalletClient, createPublicClient, custom, http } from 'viem'
+import {
+  createWalletClient,
+  createPublicClient,
+  custom,
+  http,
+  type PublicClient,
+} from 'viem'
 import { mainnet, sepolia } from 'viem/chains'
 import 'viem/window'
 
@@ -45,7 +51,7 @@ export const chains: Record<Chain, BlockchainInfo> = {
   },
 }
 
-export function getBlockchainClient(chain: Chain) {
+export function getBlockchainClient(chain: Chain): PublicClient {
   const alchemyId = process.env.NEXT_PUBLIC_ALCHEMY_PROJECT_ID
   if (!alchemyId) {
     throw new Error('Alchemy ID not set')

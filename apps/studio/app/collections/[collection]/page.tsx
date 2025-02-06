@@ -5,6 +5,7 @@ import {
   Header,
   HeaderActions,
   HeaderContent,
+  HeaderDescription,
   HeaderIcon,
   HeaderMain,
   HeaderTabBar,
@@ -23,14 +24,11 @@ import {
 } from '@repo/ui/icons/pika'
 import Segment from '@/components/layouts/segmented/segment'
 import SegmentedLayout from '@/components/layouts/segmented/segmented-layout'
-import ApiKeys from '@/app/collections/[collection]/(components)/api-keys'
 import { CollectionImage } from '@/app/collections/[collection]/(components)/collection-image'
 import { LockCollectionButton } from '@/app/collections/[collection]/(components)/lock-collection-button'
 import { CollectionTitle } from '@/app/collections/[collection]/(components)/inputs/collection-title'
 import { CollectionSlugInput } from '@/app/collections/[collection]/(components)/inputs/collection-slug-input'
 import { CollectionExternalLinkInput } from '@/app/collections/[collection]/(components)/inputs/collection-external-link-input'
-import { CollectionDescriptionInput } from '@/app/collections/[collection]/(components)/inputs/collection-description-input'
-import { CollectionSymbolInput } from '@/app/collections/[collection]/(components)/inputs/collection-symbol-input'
 import SimpleGrid from '@/components/layouts/simple/simple-grid'
 import ActionContextMenu from '@/app/collections/[collection]/actions/(components)/action-context-menu'
 import {
@@ -44,12 +42,15 @@ import LayerContextMenu from '@/app/collections/[collection]/image/(components)/
 import { getLatestLayers } from '@/lib/supabase/db/layers/read'
 import { NewLayerDialog } from '@/app/collections/[collection]/image/(components)/new-layer/new-layer-dialog'
 import { layerOptions } from '@/lib/constants/layers'
+import { VersionDescriptionInput } from '@/app/collections/[collection]/(components)/inputs/version-description-input'
+
 export default async function Collection(props: {
   params: Promise<{ collection: string }>
 }) {
   const params = await props.params
   const collection = await getExtendedCollectionFromSlug(params.collection)
   const version = collection.editable_version
+
   const attributePromise = getLatestAttributes(version.id, 5)
   const actionPromise = getLatestActions(version.id, 5)
   const layerPromise = getLatestLayers(version.id, 5)
@@ -138,7 +139,7 @@ export default async function Collection(props: {
                   key={action.slug}
                   actionSlug={action.slug}
                   collectionSlug={collection.slug}
-                  versionId={collection.editable_version.id}
+                  versionId={version.id}
                 >
                   <ElementCardLink
                     href={`/collections/${collection.slug}/actions/${action.slug}`}
@@ -208,7 +209,7 @@ export default async function Collection(props: {
             <CollectionMaxSupplyInput />
           </Segment> */}
 
-          <Segment
+          {/*  <Segment
             title="API-Keys"
             info={{
               description:
@@ -216,7 +217,7 @@ export default async function Collection(props: {
             }}
           >
             <ApiKeys />
-          </Segment>
+          </Segment> */}
         </SegmentedLayout>
       </Main>
       <Main value="metadata">
@@ -228,7 +229,7 @@ export default async function Collection(props: {
                 'Describe the collection in a few sentences. This will show up publicly e.g. on marketplaces.',
             }}
           >
-            <CollectionDescriptionInput />
+            <VersionDescriptionInput />
           </Segment>
           <Segment
             title="External Link"
@@ -238,15 +239,6 @@ export default async function Collection(props: {
             }}
           >
             <CollectionExternalLinkInput />
-          </Segment>
-          <Segment
-            title="Symbol"
-            info={{
-              description:
-                'The symbol of the collection. This will show up publicly e.g. on marketplaces.',
-            }}
-          >
-            <CollectionSymbolInput />
           </Segment>
         </SegmentedLayout>
       </Main>

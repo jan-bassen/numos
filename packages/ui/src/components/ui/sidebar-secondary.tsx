@@ -7,7 +7,12 @@ import { PanelLeft } from 'lucide-react'
 import { useIsMobile } from '@repo/ui/hooks/use-mobile'
 import { cn } from '@repo/ui/lib/utils'
 import { Button } from '@repo/ui/components/ui/button'
-import { Sheet, SheetContent } from '@repo/ui/components/ui/sheet'
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetTitle,
+} from '@repo/ui/components/ui/sheet'
 import {
   Tooltip,
   TooltipContent,
@@ -22,7 +27,7 @@ const SECONDARY_SIDEBAR_COOKIE_NAME = 'secondary-sidebar:state'
 const SECONDARY_SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
 export const SECONDARY_SIDEBAR_WIDTH = '18rem'
 export const SECONDARY_SIDEBAR_HALF_WIDTH = '9rem'
-const SECONDARY_SIDEBAR_WIDTH_MOBILE = '18rem'
+const SECONDARY_SIDEBAR_WIDTH_MOBILE = '80%'
 const SECONDARY_SIDEBAR_WIDTH_ICON = '3rem'
 const SECONDARY_SIDEBAR_KEYBOARD_SHORTCUT = 'b'
 
@@ -177,6 +182,7 @@ const SecondarySidebar = ({
     )
   }
 
+  // TODO: Make this a drawer
   if (isMobile) {
     return (
       <Sheet open={openMobile} onOpenChange={setOpenMobile} {...props}>
@@ -191,6 +197,10 @@ const SecondarySidebar = ({
           }
           side={side}
         >
+          <SheetTitle className="sr-only">Secondary Sidebar</SheetTitle>
+          <SheetDescription className="sr-only">
+            Sidebar for simulation
+          </SheetDescription>
           <div className="flex h-full w-full flex-col">{children}</div>
         </SheetContent>
       </Sheet>

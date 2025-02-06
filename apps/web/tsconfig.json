@@ -1,6 +1,8 @@
 {
   "extends": "@repo/tsconfig/tsconfig.json",
   "compilerOptions": {
+    "declaration": false,
+    "declarationMap": false,
     "baseUrl": ".",
     "paths": {
       "@/*": [

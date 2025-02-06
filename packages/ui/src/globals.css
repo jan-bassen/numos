@@ -128,6 +128,11 @@
   }
 }
 
+  html body[data-scroll-locked] {
+    overflow: visible !important;
+    margin-right: 0 !important;
+  } 
+
 @layer base {
   * {
     @apply border-border;
@@ -136,8 +141,6 @@
     @apply bg-background text-foreground;
   }
 }
-
-
 
 .EmojiPickerReact {
   --epr-bg-color: hsl(var(--background)) !important;
@@ -177,3 +180,87 @@
   width: 22rem;
   height: 34rem;
 }
+
+/* 
+
+.react-tweet-theme {
+  background-color: hsl(var(--background)) !important;
+  border: 1px solid hsl(var(--border)) !important;
+  border-radius: 1rem !important;
+  box-shadow: 0 0 4px 2.5px hsl(var(--foreground) / 0.02 ) !important;
+  height: fit-content !important;
+  padding: 0.7rem !important;
+}
+
+
+.tweet-header-module__WurfcG__authorFollow, .tweet-replies-module__8NZw-G__replies, .tweet-info-module__cgJvBq__infoLink {
+  display: none !important;
+}
+
+
+.tweet-header-module__WurfcG__avatarOverflow, .tweet-header-module__WurfcG__avatar {
+  height: 2.3rem !important;
+  width: 2.3rem !important;
+}
+
+
+.tweet-header-module__WurfcG__authorLinkText {
+  font-size: 0.95rem !important;
+}
+
+
+.icons-module__qAdKrW__verified {
+  height: 1.1rem !important;
+  width: 1.1rem !important;
+}
+
+
+.tweet-header-module__WurfcG__username {
+  font-size: 0.8rem !important;
+}
+
+
+.tweet-header-module__WurfcG__twitterIcon {
+  height: 1.3rem !important;
+  width: 1.3rem !important;
+}
+
+
+.tweet-body-module__WVj7vG__root {
+  padding-top: 0.5rem !important;
+  font-size: 0.9rem !important;
+  font-weight: 400 !important;
+  min-height: 9rem !important;
+}
+
+
+.tweet-info-module__cgJvBq__info {
+  display: none !important;
+  padding-top: 1rem !important;
+}
+
+.tweet-info-created-at-module__v3HdQW__root {
+  font-size: 0.8rem !important;
+}
+
+.tweet-actions-module__wK-8HG__actions {
+  padding-top: 0.5rem !important;
+  font-size: 0.7rem !important;
+}
+
+.tweet-actions-module__wK-8HG__copy {
+  display: none !important;
+}
+
+.tweet-actions-module__wK-8HG__replyText {
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+}
+
+.tweet-actions-module__wK-8HG__likeCount {
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+}
+
+ */
+
