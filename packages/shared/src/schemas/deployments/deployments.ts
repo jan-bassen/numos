@@ -10,7 +10,7 @@ import {
   uuid,
   uniqueIndex,
 } from 'drizzle-orm/pg-core'
-import { collections } from '@repo/shared/schemas/database/collections'
+import { collections } from '@repo/shared/schemas/deployments/collections'
 import { z } from 'zod'
 import { addressSchema } from '@repo/shared/schemas/datatypes/datatype-schemas/address-schema'
 
