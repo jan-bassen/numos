@@ -31,16 +31,37 @@ const fira = localFont<CssVariable>({
 })
 
 export const metadata: Metadata = {
-  title: 'Numos',
-  description: 'Simplifying the creation of dynamic digital assets',
+  title: 'NUMOS - Create dynamic NFTs easily, no code required',
+  description:
+    'NUMOS for the next generation of NFTs ➽ Interactive and dynamic NFTs ✓ Code-free ✓ Incredibly powerful ✓ Predictable pricing ✓ No lock-in ✓ Reliably fast ✓',
   keywords: [
-    'Numos',
+    'NUMOS',
+    'numos',
+    'numos.xyz',
     'NFT',
     'Dynamic NFT',
-    'NFTs',
     'Dynamic NFTs',
+    'Changing NFTs',
+    'NFTs',
+    'Non-Fungible Tokens',
     'NFT Studio',
+    'Launch NFT',
+    'Minting',
+    'Mint',
+    'Minting NFTs',
+    'Mint NFTs',
+    'Mint NFT',
   ],
+  openGraph: {
+    title: 'NUMOS - Create dynamic NFTs easily',
+    description:
+      '✓ Interactive and dynamic NFTs ✓ Code-free ✓ Incredibly powerful ✓ Predictable pricing ✓ No lock-in ✓ Reliably fast',
+    images: '/open-graph.png',
+    url: 'https://numos.xyz',
+    siteName: 'NUMOS',
+    type: 'website',
+    locale: 'en_US',
+  },
 }
 
 export default async function RootLayout({

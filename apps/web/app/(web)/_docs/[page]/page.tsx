@@ -1,22 +1,26 @@
-import { Separator } from '@repo/ui/components/ui/separator'
-import { payload } from '@/lib/payload/client'
-import { addHeadingIds } from '@/app/(web)/docs/(functions)/add-heading-ids'
-import { notFound } from 'next/navigation'
 import { RichText } from '@/components/lexical/rich-text'
-import { OnThisPage } from '@/app/(web)/docs/(components)/docs-toc'
+import { payload } from '@/lib/payload/client'
+import { Separator } from '@repo/ui/components/ui/separator'
+import { OnThisPage } from '@/app/(web)/_docs/(components)/docs-toc'
+import { notFound } from 'next/navigation'
 import {
   createNestedHeadings,
   type Heading,
-} from '@/app/(web)/docs/(functions)/nested-headings'
+} from '@/app/(web)/_docs/(functions)/nested-headings'
+import { addHeadingIds } from '@/app/(web)/_docs/(functions)/add-heading-ids'
 
-export default async function DocsPage() {
+export default async function DocsArticlePage({
+  params,
+}: { params: Promise<{ page: string }> }) {
+  const { page } = await params
+
   notFound()
 
   const res = await payload.find({
     collection: 'docs',
     where: {
-      group: {
-        equals: 'home',
+      slug: {
+        equals: page,
       },
     },
   })

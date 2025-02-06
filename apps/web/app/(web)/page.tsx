@@ -11,6 +11,7 @@ import SignUpForm from '@/components/sign-up/sign-up-form'
 import { PiCheckTickCircleBrokenStroke } from '@repo/ui/icons/pika'
 import { getDictionary } from '@/dictionaries/dictionaries'
 import { Tweets } from '@/app/(web)/(components)/tweets/tweets'
+import type { Metadata } from 'next'
 
 export default async function Home() {
   const d = await getDictionary('en')

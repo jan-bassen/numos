@@ -14,7 +14,7 @@ export default function NotFound() {
   return (
     <div className="grid h-screen w-full place-items-center ">
       <div className="flex w-full flex-col items-center p-2 sm:p-0 md:w-96 md:items-start">
-        <h1 className="pl-2 text-7xl font-extrabold">404</h1>
+        <h1 className="pl-2 font-extrabold text-7xl">404</h1>
         <p className="p-2 text-center text-lg md:text-left">
           This page doesn&apos;t seem to exist
         </p>
@@ -26,7 +26,10 @@ export default function NotFound() {
           <Link className={cn(buttonVariants({ variant: 'outline' }))} href="/">
             Homepage
           </Link>
-          <Link className={cn(buttonVariants({ variant: 'outline' }))} href="/">
+          <Link
+            className={cn(buttonVariants({ variant: 'outline' }))}
+            href="https://studio.numos.xyz"
+          >
             Studio
           </Link>
         </div>
