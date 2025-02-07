@@ -20,11 +20,9 @@ export function CollectionImage({ className }: { className?: string }) {
         name: crypto.randomUUID(),
       }}
       onUpload={async (location) => {
-        console.log('onUpload', location)
         const res = await updateCollection({
           image: location.name,
         })
-        console.log('res', res)
         if (!res.ok) {
           toast.error(res.message)
         }

@@ -44,9 +44,6 @@ export function EditableImage({
   async function upload(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[event.target.files.length - 1]
 
-    console.log('location', location)
-    console.log('uploadTo', uploadTo)
-
     if (!file) return
     const newImage = await uploadFile(
       uploadTo,
