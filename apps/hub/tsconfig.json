@@ -1,0 +1,16 @@
+{
+  "extends": "@repo/tsconfig/tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+   "app/reset-password", "lib/rete/nodes/configs/script.js", "components/forms/staged-form/shared-stages", "app/collections/[collection]/image/(components)/new-layer" ],
+  "exclude": ["node_modules"]
+}

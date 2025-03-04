@@ -10,7 +10,6 @@
     "check-types": "tsc --noEmit",
     "lint": "biome lint",
     "typegen": "supabase gen types typescript --project-id ncqfkhposkxidjcaghvj > types/database-generated.types.ts",
-    "email": "email dev --dir lib/emails",
     "scan": "next dev --turbopack & npx react-scan@latest localhost:3000"
   },
   "peerDependencies": {
