@@ -1,4 +1,4 @@
-import '@repo/ui/globals.css'
+import '@repo/ui/styles.css'
 import type { Metadata } from 'next'
 import { Inter, Outfit } from 'next/font/google'
 import { Toaster } from '@repo/ui/components/ui/sonner'
@@ -13,10 +13,6 @@ import Providers from '@/app/(providers)/external-providers'
 import CookieBanner from '@/lib/posthog/cookie-banner'
 import ChatWidget from '@/lib/hubspot/chat'
 import { Maintanance } from '@/app/maintanance'
-import { getProfile } from '@/lib/supabase/db/profile/read'
-import { ProfileProvider } from '@/app/(providers)/profile-context'
-import { UserProvider } from '@/app/(providers)/user-context'
-import { redirect } from 'next/navigation'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' })

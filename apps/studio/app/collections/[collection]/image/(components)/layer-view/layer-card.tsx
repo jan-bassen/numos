@@ -18,7 +18,7 @@ export function LayerCard({
         {...draggableProps.listeners}
         className="grid h-full w-6 place-items-center rounded-l-lg border-border border-y border-l"
       >
-        <PiThreeByTwoDotsVertical className="size-4 focus:outline-none" />
+        <PiThreeByTwoDotsVertical className="size-4 focus:outline-hidden" />
       </div>
       <LayerContextMenu
         layerSlug={layer.slug}

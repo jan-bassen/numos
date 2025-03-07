@@ -35,17 +35,17 @@ export default async function DocsPage() {
     <div className="relative flex w-full gap-6">
       <main className="flex w-full flex-col gap-6 px-6 sm:px-10 md:pl-0 lg:px-0">
         <div className="flex w-full flex-col gap-3">
-          <h1 className="w-full font-extrabold font-poppins text-4xl">
+          <h1 className="w-full font-extrabold font-heading text-4xl">
             {article.title}
           </h1>
-          <p className="w-full font-inter text-secondary-foreground/60">
+          <p className="w-full text-secondary-foreground/60">
             {article.description}
           </p>
         </div>
         <Separator className="h-[2px]" />
         <RichText data={article.content} className="" />
       </main>
-      <div className="relative -lg:hidden w-56 shrink-0 mr-2">
+      <div className="relative max-lg:hidden w-56 shrink-0 mr-2">
         <OnThisPage nestedHeadings={nestedHeadings} />
       </div>
     </div>

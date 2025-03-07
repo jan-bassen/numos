@@ -8,17 +8,25 @@ import {
   ResponsiveDialogHeader,
   ResponsiveDialogTitle,
   ResponsiveDialogTrigger,
-} from '@repo/ui/components/ui/responsive-dialog'
+} from '@repo/ui/components/extended/responsive-dialog'
 import { PiAtMarkStroke, PiXComStroke } from '@repo/ui/icons/pika'
 import type { ReactNode } from 'react'
+import { Button } from '@repo/ui/components/ui/button'
 
 export function InvestorsDialog({
   children,
   dictionary,
-}: { children: ReactNode; dictionary: Dictionary['home']['investors'] }) {
+}: { children?: ReactNode; dictionary: Dictionary['home']['investors'] }) {
   return (
     <ResponsiveDialog>
-      <ResponsiveDialogTrigger asChild>{children}</ResponsiveDialogTrigger>
+      <ResponsiveDialogTrigger asChild>
+        <Button
+          variant={'destructive'}
+          className="h-7 rounded-full border border-border text-xs"
+        >
+          {dictionary.ctaButton}
+        </Button>
+      </ResponsiveDialogTrigger>
       <ResponsiveDialogContent>
         <ResponsiveDialogHeader>
           <ResponsiveDialogTitle>{dictionary.title}</ResponsiveDialogTitle>

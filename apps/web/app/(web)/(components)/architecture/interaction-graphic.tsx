@@ -26,7 +26,7 @@ export function InteractionGraphic({
           )}
         >
           <div className="flex items-center gap-3">
-            <div className="aspect-square size-6 rounded-sm bg-muted p-1 ring-2 ring-muted-foreground/50">
+            <div className="aspect-square size-6 rounded-xs bg-muted p-1 ring-2 ring-muted-foreground/50">
               <PiNftArrowRightSolid className="size-4 text-muted-foreground" />
             </div>
             <p className="font-medium text-sm">{dictionary.trigger}</p>

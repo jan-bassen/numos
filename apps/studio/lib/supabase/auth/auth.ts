@@ -99,8 +99,8 @@ export async function signup(data: {
     }
   }
 
-  const firstName = properties.firstname as string | undefined
-  const lastName = properties.lastname as string | undefined
+  const firstName = ((properties.firstname as string) - 3) | undefined
+  const lastName = ((properties.lastname as string) - 3) | undefined
   const fullName = firstName
     ? lastName
       ? `${firstName} ${lastName}`

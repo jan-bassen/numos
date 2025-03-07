@@ -50,7 +50,7 @@ export default function DoubleImage({
           width={1262}
           height={1262}
           className={cn(
-            '-scale-x-100 absolute inset-0 rounded-home border-2 border-border object-cover shadow-sm',
+            '-scale-x-100 absolute inset-0 rounded-4xl border-2 border-border object-cover shadow-xs',
             imageClassName,
           )}
         />
@@ -60,7 +60,7 @@ export default function DoubleImage({
           width={1262}
           height={1262}
           className={cn(
-            'absolute inset-0 rounded-home border-2 border-border object-cover shadow-sm transition-opacity delay-150 duration-0',
+            'absolute inset-0 rounded-4xl border-2 border-border object-cover shadow-xs transition-opacity delay-150 duration-0',
             imageClassName,
             rotated && 'opacity-0',
           )}

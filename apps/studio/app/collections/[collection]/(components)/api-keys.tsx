@@ -24,7 +24,7 @@ export default function ApiKeys() {
   } = useCollection()
   return (
     <>
-      <div className="divide-y divide-border md:max-w-form-input">
+      <div className="divide-y divide-border md:max-w-[40rem]">
         {sampleData.map((item) => {
           const dateString = new Date(item.created).toLocaleDateString()
           return (

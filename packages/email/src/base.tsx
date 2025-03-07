@@ -93,7 +93,7 @@ export default function BaseEmail({ user, email_data }: EmailProps) {
             <Section className="mt-[40px] w-full">
               <Button
                 href={content.href}
-                className="w-full cursor-pointer rounded-[8px] bg-black py-[10px] text-center text-white shadow-sm"
+                className="w-full cursor-pointer rounded-[8px] bg-black py-[10px] text-center text-white shadow-xs"
               >
                 {content.button}
               </Button>

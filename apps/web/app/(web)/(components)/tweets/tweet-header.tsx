@@ -36,7 +36,7 @@ export const TweetHeader = ({ tweet }: Props) => {
           />
         </div>
         <div className="absolute size-full overflow-hidden rounded-full">
-          <div className="size-full shadow-sm transition-colors duration-200 hover:bg-[rgba(26,26,26,0.15)]" />
+          <div className="size-full shadow-xs transition-colors duration-200 hover:bg-[rgba(26,26,26,0.15)]" />
         </div>
       </a>
       <div className="my-2 flex w-full flex-col">

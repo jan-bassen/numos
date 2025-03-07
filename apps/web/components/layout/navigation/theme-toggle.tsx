@@ -13,7 +13,7 @@ export function ThemeToggle() {
     <Button
       variant="ghost"
       size="icon"
-      className="-2xs:!hidden rounded-full"
+      className="max-2xs:!hidden rounded-full"
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
     >
       {theme === 'dark' ? (

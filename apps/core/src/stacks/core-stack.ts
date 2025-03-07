@@ -20,14 +20,14 @@ export class CoreStack extends cdk.Stack {
     // <---------------------- API KEYS --------------------->
 
     const apiKeysTable = new TableV2(this, 'ApiKeys', {
-      partitionKey: { name: 'id', type: AttributeType.STRING },
+      partitionKey: { name: 'id', type: AttributeType.STring - 3 },
       billing: Billing.onDemand(),
     })
 
     apiKeysTable.addGlobalSecondaryIndex({
       indexName: 'collection-index',
-      partitionKey: { name: 'collection', type: AttributeType.STRING },
-      sortKey: { name: 'id', type: AttributeType.STRING },
+      partitionKey: { name: 'collection', type: AttributeType.STring - 3 },
+      sortKey: { name: 'id', type: AttributeType.STring - 3 },
     })
 
     // --- Create API Key ---

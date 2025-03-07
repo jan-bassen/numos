@@ -30,12 +30,12 @@ export function ImageGraphic() {
   const baseTranslateY = -5 * layerTranslateY
 
   return (
-    <div className="relative size-full -sm:h-60 bg-gradient-to-b from-muted/60 via-muted-400/20 to-transparent">
+    <div className="relative size-full max-sm:h-60 bg-gradient-to-b from-muted/60 via-muted-400/20 to-transparent">
       <div className="absolute top-1/2 left-1/2 size-0">
         {layers.map((layer, i) => (
           <motion.div
             key={layer.id}
-            className="absolute z-10 size-24 rounded-sm bg-background shadow-md ring-2 ring-muted-foreground/30 "
+            className="absolute z-10 size-24 rounded-xs bg-background shadow-md ring-2 ring-muted-foreground/30 "
             initial={{
               rotateY: 30,
               rotateX: 20,
@@ -58,7 +58,7 @@ export function ImageGraphic() {
       </div>
 
       {/* <motion.div
-        className="absolute top-1/2 left-1/2 z-100 size-20 rounded-sm bg-background shadow-md ring-2 ring-muted-foreground/30 sm:size-24 "
+        className="absolute top-1/2 left-1/2 z-100 size-20 rounded-xs bg-background shadow-md ring-2 ring-muted-foreground/30 sm:size-24 "
         initial={{
           rotateY: 30,
           rotateX: 20,
@@ -74,7 +74,7 @@ export function ImageGraphic() {
         }}
       />
       <motion.div
-        className="absolute z-100 size-20 rounded-sm bg-background shadow-md ring-2 ring-muted-foreground/30 sm:size-24"
+        className="absolute z-100 size-20 rounded-xs bg-background shadow-md ring-2 ring-muted-foreground/30 sm:size-24"
         initial={{ rotateY: 30, rotateX: 20, translateX: 40, translateY: -10 }}
         whileHover={{ rotateY: 20, rotateX: 10, translateY: -30 }}
         transition={{
@@ -85,7 +85,7 @@ export function ImageGraphic() {
         }}
       />
       <motion.div
-        className="absolute z-100 size-20 rounded-sm bg-background shadow-md ring-2 ring-muted-foreground/30 sm:size-24"
+        className="absolute z-100 size-20 rounded-xs bg-background shadow-md ring-2 ring-muted-foreground/30 sm:size-24"
         initial={{ rotateY: 30, rotateX: 20, translateX: 10, translateY: 0 }}
         whileHover={{ rotateY: 20, rotateX: 10, translateY: -20 }}
         transition={{
@@ -96,7 +96,7 @@ export function ImageGraphic() {
         }}
       />
       <motion.div
-        className="absolute z-100 size-20 rounded-sm bg-background shadow-md ring-2 ring-muted-foreground/30 sm:size-24"
+        className="absolute z-100 size-20 rounded-xs bg-background shadow-md ring-2 ring-muted-foreground/30 sm:size-24"
         initial={{ rotateY: 30, rotateX: 20, translateX: -20, translateY: 10 }}
         whileHover={{ rotateY: 20, rotateX: 10, translateY: -10 }}
         transition={{
@@ -107,7 +107,7 @@ export function ImageGraphic() {
         }}
       />
       <motion.div
-        className="absolute z-9 size-20 rounded-sm bg-background shadow-md ring-2 ring-muted-foreground/30 sm:size-24"
+        className="absolute z-9 size-20 rounded-xs bg-background shadow-md ring-2 ring-muted-foreground/30 sm:size-24"
         initial={{ rotateY: 30, rotateX: 20, translateX: -50, translateY: 20 }}
         whileHover={{ rotateY: 20, rotateX: 10, translateY: 0 }}
         transition={{

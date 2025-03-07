@@ -16,7 +16,7 @@ export default function ColorDisplay({ value, className }: ColorDisplayProps) {
     <Tooltip>
       <TooltipTrigger
         className={cn(
-          'h-7 w-16 rounded-lg border border-border shadow-sm',
+          'h-7 w-16 rounded-lg border border-border shadow-xs',
           className,
         )}
         style={{

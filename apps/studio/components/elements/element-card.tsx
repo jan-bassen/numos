@@ -34,19 +34,19 @@ const elementCardSizeClasses = {
     card: 'h-14 justify-center py-1',
     label: 'font-medium',
     subtitle: 'hidden',
-    image: 'size-10 rounded-sm',
+    image: 'size-10 rounded-xs',
   },
   md: {
     card: 'h-16 justify-center py-0',
     label: '',
     subtitle: 'line-clamp-1 text-ellipsis',
-    image: 'size-10 rounded-sm',
+    image: 'size-10 rounded-xs',
   },
   lg: {
     card: 'h-36 gap-4 py-3',
     label: '',
     subtitle: '',
-    image: 'size-10 rounded-sm',
+    image: 'size-10 rounded-xs',
   },
 }
 

@@ -7,7 +7,6 @@ import { posthog } from 'posthog-js'
 import { PostHogProvider } from 'posthog-js/react'
 import { useEffect } from 'react'
 import { SidebarProvider } from '@repo/ui/components/ui/sidebar'
-import { SecondarySidebarProvider } from '@repo/ui/components/ui/sidebar-secondary'
 import { ChatProvider } from '@/lib/hubspot/chat-context'
 
 declare global {
@@ -82,11 +81,7 @@ export default function Providers({
       <ThemeProvider attribute="class" defaultTheme={'system'}>
         <TooltipProvider delayDuration={500} skipDelayDuration={500}>
           <SidebarProvider>
-            <ChatProvider>
-              <SecondarySidebarProvider defaultOpen>
-                {children}
-              </SecondarySidebarProvider>
-            </ChatProvider>
+            <ChatProvider>{children}</ChatProvider>
           </SidebarProvider>
         </TooltipProvider>
       </ThemeProvider>

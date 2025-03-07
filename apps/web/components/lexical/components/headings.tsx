@@ -12,10 +12,10 @@ const headingComponents = {
 export type HeadingTag = keyof typeof headingComponents
 
 const headingClassNames: Record<HeadingTag, string> = {
-  h1: 'text-secondary-foreground w-fit text-2xl font-bold pt-4 font-poppins',
-  h2: 'text-secondary-foreground w-fit text-xl font-bold pt-4 font-poppins',
-  h3: 'text-secondary-foreground w-fit text-lg font-bold pt-2 font-poppins',
-  h4: 'text-secondary-foreground w-fit text-lg font-semibold pt-2 font-poppins',
+  h1: 'text-secondary-foreground w-fit text-2xl font-bold pt-4 font-heading',
+  h2: 'text-secondary-foreground w-fit text-xl font-bold pt-4 font-heading',
+  h3: 'text-secondary-foreground w-fit text-lg font-bold pt-2 font-heading',
+  h4: 'text-secondary-foreground w-fit text-lg font-semibold pt-2 font-heading',
   h5: 'text-secondary-foreground w-fit text-base font-semibold',
   h6: 'text-secondary-foreground w-fit text-base font-semibold',
 }

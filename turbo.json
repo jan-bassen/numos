@@ -5,6 +5,14 @@
     "build": {
       "dependsOn": ["^build"]
     },
+    "hub#build": {
+      "dependsOn": ["@repo/shared#build"]
+    },
+    "hub#db:generate": {},
+    "hub#db:migrate": {},
+    "hub#auth:generate": {
+      "env": ["BETTER_AUTH_SECRET", "DATABASE_URL"]
+    },
     "core#deploy": {
       "cache": false,
       "dependsOn": ["core#build"],
@@ -53,7 +61,6 @@
       "inputs": ["$TURBO_DEFAULT$", ".env*"]
     },
     "studio#scan": {},
-    "hub#build": {},
     "web#typegen": {
       "env": ["DATABASE_URI"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"]

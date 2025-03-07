@@ -14,7 +14,7 @@ export function LogicButton({
       {...props}
       className={cn(
         buttonVariants({ variant: 'outline' }),
-        'relative flex min-h-28 w-fulitems-center max-w-form-input justify-center gap-2 overflow-hidden',
+        'relative flex min-h-28 w-fulitems-center max-w-[40rem] justify-center gap-2 overflow-hidden',
         className,
       )}
     >

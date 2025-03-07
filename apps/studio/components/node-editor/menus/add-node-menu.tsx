@@ -64,7 +64,7 @@ export function AddNodeMenu(props: Props) {
       <DropdownMenu>
         <DropdownMenuTrigger
           className={cn(
-            'rounded-md focus-visible:outline-none',
+            'rounded-md focus-visible:outline-hidden',
             props.className,
           )}
           asChild={props.asChild}
@@ -84,7 +84,7 @@ export function AddNodeMenu(props: Props) {
           {props.searchBar && (
             <div className="p-1">
               <input
-                className="h-8 w-full rounded-sm border border-border px-2 py-1 font-light text-xs focus-visible:outline-none"
+                className="h-8 w-full rounded-xs border border-border px-2 py-1 font-light text-xs focus-visible:outline-hidden"
                 placeholder="Search..."
                 onChange={(e) => setSearch(e.target.value)}
                 key="search"
@@ -129,7 +129,7 @@ export function AddNodeMenu(props: Props) {
         {props.searchBar && (
           <div className="p-1">
             <input
-              className="h-8 w-full rounded-sm border border-border px-2 py-1 font-light text-xs focus-visible:outline-none"
+              className="h-8 w-full rounded-xs border border-border px-2 py-1 font-light text-xs focus-visible:outline-hidden"
               placeholder="Search..."
               onChange={(e) => setSearch(e.target.value)}
             />

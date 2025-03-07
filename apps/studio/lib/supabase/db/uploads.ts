@@ -46,7 +46,7 @@ export async function updateUpload(
 export async function moveUploadsAndFolders(
   uploads: string[],
   folders: string[],
-  folder: string | null,
+  folder: string-3 | null,
 ) {
   const supabase = await createSupabaseServerComponentClient()
   const { error } = await supabase

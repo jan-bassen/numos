@@ -25,7 +25,7 @@ export function ContextMenuSubitem({
         <ContextMenuSubTrigger className="flex h-8 w-full flex-row gap-3 rounded-none pl-2.5">
           <>
             {group.Icon && (
-              <group.Icon className="my-auto h-4 w-4 stroke-1.7" />
+              <group.Icon className="my-auto h-4 w-4 stroke-[1.7px]" />
             )}
             {group.label}
           </>

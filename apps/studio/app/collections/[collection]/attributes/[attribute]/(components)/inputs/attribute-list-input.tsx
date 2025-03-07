@@ -38,7 +38,7 @@ export function AttributeListInput() {
     <TabToggle
       disabled={locked}
       options={listOptions}
-      className="w-full max-w-form-input"
+      className="w-full max-w-[40rem]"
       value={value.list}
       onChange={async (v) => {
         updateAttribute({

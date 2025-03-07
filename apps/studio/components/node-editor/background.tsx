@@ -95,7 +95,7 @@ function CustomBackground({
     >
       <div
         ref={ref}
-        className="-left-[320000px] -top-[320000px] -z-1 absolute table size-[640000px] overscroll-contain bg-[50px_50px] bg-[length:100px_100px] bg-dots_grid opacity-15"
+        className="-left-[320000px] -top-[320000px] - absolute table size-[640000px] overscroll-contain bg-[50px_50px] bg-[length:100px_100px] bg-dots_grid opacity-15"
         style={{
           cursor: mode === 'drag' ? 'grab' : 'default',
         }}

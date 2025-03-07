@@ -53,7 +53,7 @@ export async function DocsNavigation() {
   }) */
   return (
     <div className="sticky top-30 flex flex-col gap-2">
-      <h1 className="font-extrabold font-poppins text-muted-foreground text-xs">
+      <h1 className="font-extrabold font-heading text-muted-foreground text-xs">
         STUDIO
       </h1>
       <ul className="flex flex-col gap-2">

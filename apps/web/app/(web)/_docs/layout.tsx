@@ -9,7 +9,7 @@ export default function DocsLayout({
 }) {
   return (
     <Page className="gap-8">
-      <div className="relative -md:hidden w-full max-w-48 pl-8">
+      <div className="relative max-md:hidden w-full max-w-48 pl-8">
         <DocsNavigation />
       </div>
       {children}

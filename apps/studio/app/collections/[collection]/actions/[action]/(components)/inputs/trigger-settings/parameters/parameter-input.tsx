@@ -33,7 +33,7 @@ export function ParameterInput({
           {...draggableProps.attributes}
           {...draggableProps.listeners}
         >
-          <PiThreeByTwoDotsVertical className="size-4 focus:outline-none" />
+          <PiThreeByTwoDotsVertical className="size-4 focus:outline-hidden" />
         </div>
       )}
       <div

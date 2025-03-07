@@ -33,7 +33,7 @@ export default function LocationDisplay({
     <Tooltip>
       <TooltipTrigger
         className={cn(
-          'grid h-8 w-full max-w-44 place-items-center rounded-lg border border-border shadow-sm',
+          'grid h-8 w-full max-w-44 place-items-center rounded-lg border border-border shadow-xs',
           className,
         )}
       >
@@ -41,7 +41,7 @@ export default function LocationDisplay({
           {shortAddress}
         </p>
       </TooltipTrigger>
-      <TooltipContent className="z-60 space-y-1 rounded-md border border-border bg-background p-2">
+      <TooltipContent className="z-[60] space-y-1 rounded-md border border-border bg-background p-2">
         <p className="w-full text-center font-medium">{longAddress}</p>
         <Separator />
         <p className="w-full text-center text-xs text-muted-foreground">

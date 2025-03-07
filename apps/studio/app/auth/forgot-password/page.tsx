@@ -19,7 +19,7 @@ import Link from 'next/link'
 import { createSupabaseClient } from '@/lib/supabase/clients/client'
 import { Suspense, useState } from 'react'
 import { getURL } from '@/lib/supabase/clients/client-utils'
-import LogoIcon from '@repo/ui/components/brand/logo-icon'
+import LogoIcon from '../../../../../packages/ui/src/blocks/brand/logo-icon'
 
 const formSchema = z.object({
   email: z
@@ -69,7 +69,7 @@ export default function LoginPage() {
         <Card className="space-y-8 px-9 pt-6 pb-12 shadow-none sm:shadow-md">
           <div className="flex w-full items-center gap-2 py-2">
             <LogoIcon className="size-10" />
-            <h1 className="p-0 font-extrabold font-poppins text-2xl">
+            <h1 className="p-0 font-extrabold font-heading text-2xl">
               Forgot Password
             </h1>
           </div>

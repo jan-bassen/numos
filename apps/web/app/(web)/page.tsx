@@ -57,10 +57,10 @@ export default async function Home() {
           </div>
           <Pricing dictionary={d.home.pricing} />
         </div>
-        <div className="relative flex w-full flex-col items-center space-y-6 -xs:pt-12 pb-32 md:space-y-10">
+        <div className="relative flex w-full flex-col items-center space-y-6 max-xs:pt-12 pb-32 md:space-y-10">
           <div className="relative w-full md:max-w-xl">
             <div className="relative flex w-full flex-col space-y-2 pl-4 md:items-center">
-              <HomeHeading className=" w-full -md:max-w-[18rem] md:max-w-[32rem] md:text-center">
+              <HomeHeading className=" w-full max-md:max-w-[18rem] md:max-w-[32rem] md:text-center">
                 {d.home.team.title}
               </HomeHeading>
               <HomeDescription className="w-full md:max-w-md md:text-center">
@@ -69,7 +69,7 @@ export default async function Home() {
             </div>
             <Link
               href="https://madeby.boredapeyachtclub.com/bodega/CHGSEWJVFEGRAR"
-              className="-top-[60px] xs:-top-[40px] md:-top-[20px] md:-right-[20px] absolute -md:left-64 rotate-12 opacity-70 transition-all duration-300 hover:rotate-0 hover:scale-110 hover:opacity-100"
+              className="-top-[60px] xs:-top-[40px] md:-top-[20px] md:-right-[20px] absolute max-md:left-64 rotate-12 opacity-70 transition-all duration-300 hover:rotate-0 hover:scale-110 hover:opacity-100"
             >
               <Image src="/assets/mba.svg" alt="MBA" width={80} height={80} />
             </Link>
@@ -77,7 +77,7 @@ export default async function Home() {
           <Team dictionary={d.home.team} />
         </div>
         <div className=" flex w-full flex-col items-center justify-center pb-12 sm:pb-24">
-          <div className="flex w-full max-w-5xl flex-col gap-12 rounded-home_mobile border border-border p-6 px-6 shadow-sm md:grid md:grid-cols-2 md:grid-rows-1 md:rounded-home md:p-12 lg:gap-6">
+          <div className="flex w-full max-w-5xl flex-col gap-12 rounded-2xl border border-border p-6 px-6 shadow-xs md:grid md:grid-cols-2 md:grid-rows-1 md:rounded-4xl md:p-12 lg:gap-6">
             <div className="flex flex-col justify-start gap-6 md:justify-between">
               <div className="flex flex-col gap-6">
                 <div>

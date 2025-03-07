@@ -59,7 +59,7 @@ export function CreateKeyButton() {
       }}
     >
       <DialogTrigger asChild>
-        <Button variant={'outline'} className="gap-1.5 md:max-w-form-input">
+        <Button variant={'outline'} className="gap-1.5 md:max-w-[40rem]">
           <PiAddAddStroke className="size-4" />
           Create API-Key
         </Button>

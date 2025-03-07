@@ -103,12 +103,12 @@ export function UserConnections({
             key={identity.provider}
             className="flex items-center justify-between gap-2"
           >
-            <div className="flex -sm:w-full -sm:items-start items-center gap-4">
+            <div className="flex max-sm:w-full max-sm:items-start items-center gap-4">
               <div className="flex items-center gap-2">
                 {providers[identity.provider]?.icon({ className: 'size-4' })}
                 {providers[identity.provider]?.name}
               </div>
-              <p className="h-fit rounded-sm bg-muted px-2 py-1 font-normal text-muted-foreground text-xs">
+              <p className="h-fit rounded-xs bg-muted px-2 py-1 font-normal text-muted-foreground text-xs">
                 {getName(identity)}
               </p>
             </div>
@@ -116,7 +116,7 @@ export function UserConnections({
               <Button
                 type="button"
                 variant={'secondary'}
-                className="-sm:hidden h-fit rounded-sm bg-muted px-2 py-1 font-normal text-xs"
+                className="max-sm:hidden h-fit rounded-xs bg-muted px-2 py-1 font-normal text-xs"
                 onClick={() => setPasswordDialogOpen(true)}
               >
                 Change Password
@@ -148,7 +148,7 @@ export function UserConnections({
             </div>
             <Button
               variant={'secondary'}
-              className="h-fit rounded-sm bg-muted px-2 py-1 font-normal text-xs"
+              className="h-fit rounded-xs bg-muted px-2 py-1 font-normal text-xs"
               onClick={() => linkIdentity(provider as Provider)}
             >
               Connect

@@ -33,11 +33,18 @@ import { TriggerSettingsSegment } from '@/app/collections/[collection]/actions/[
 import { ActionSlugInput } from '@/app/collections/[collection]/actions/[action]/(components)/inputs/action-slug-input'
 import { ActionDescriptionInput } from '@/app/collections/[collection]/actions/[action]/(components)/inputs/action-description-input'
 
-export default async function ActionPage({params}: {params: Promise<{collection: string, action: string}>}) {
-  const {collection} = await params
+export default async function ActionPage({
+  params,
+}: { params: Promise<{ collection: string; action: string }> }) {
+  const { collection } = await params
   return (
     <Page tabs tabsProps={{ defaultValue: 'trigger', pageid: 'action' }}>
-      <Header back={{ href: `/collections/${collection}/actions`, label: 'All Actions' }}>
+      <Header
+        back={{
+          href: `/collections/${collection}/actions`,
+          label: 'All Actions',
+        }}
+      >
         <HeaderContent>
           <HeaderMain>
             <ActionTitle />

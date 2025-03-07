@@ -29,7 +29,7 @@ export function CollapsibleItem({
         )}
         {...props}
       >
-        <CollapsibleTrigger className="shrink-0 rounded-sm hover:text-sidebar-accent-foreground group-data-[state=expanded]:size-5 group-data-[state=expanded]:hover:bg-sidebar-accent-foreground/10">
+        <CollapsibleTrigger className="shrink-0 rounded-xs hover:text-sidebar-accent-foreground group-data-[state=expanded]:size-5 group-data-[state=expanded]:hover:bg-sidebar-accent-foreground/10">
           {isActive ? (
             <item.icons.fill className="size-4 group-data-[state=expanded]:group-hover/collapsible-trigger:hidden " />
           ) : (

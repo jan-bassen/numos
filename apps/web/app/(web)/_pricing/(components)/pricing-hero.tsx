@@ -34,17 +34,17 @@ export function PricingHero() {
           value="monthly"
           className="flex w-full gap-4 data-[state=inactive]:hidden"
         >
-          <Card className="h-96 w-full rounded-home_mobile md:rounded-home" />
-          <Card className="h-96 w-full rounded-home_mobile md:rounded-home" />
-          <Card className="h-96 w-full rounded-home_mobile md:rounded-home" />
+          <Card className="h-96 w-full rounded-2xl md:rounded-4xl" />
+          <Card className="h-96 w-full rounded-2xl md:rounded-4xl" />
+          <Card className="h-96 w-full rounded-2xl md:rounded-4xl" />
         </TabsContent>
         <TabsContent
           value="yearly"
           className="flex w-full gap-4 data-[state=inactive]:hidden"
         >
-          <Card className="h-96 w-full rounded-home_mobile md:rounded-home" />
-          <Card className="h-96 w-full rounded-home_mobile md:rounded-home" />
-          <Card className="h-96 w-full rounded-home_mobile md:rounded-home" />
+          <Card className="h-96 w-full rounded-2xl md:rounded-4xl" />
+          <Card className="h-96 w-full rounded-2xl md:rounded-4xl" />
+          <Card className="h-96 w-full rounded-2xl md:rounded-4xl" />
         </TabsContent>
       </Tabs>
     </div>

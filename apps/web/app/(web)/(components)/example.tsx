@@ -67,7 +67,7 @@ export function Example({
       <div
         className={
           // biome-ignore lint/nursery/useSortedClasses: <explanation>
-          `absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-40 grid place-items-center aspect-square size-[19.5rem] md:size-[29.5rem] [mask-image:url(/assets/hexagon.svg)] bg-gradient-to-b from-background to-background/90 rounded-home_mobile p-4 shadow-md ring-2 ring-border ring-offset-2 ring-offset-background md:rounded-home
+          `absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-40 grid place-items-center aspect-square size-[19.5rem] md:size-[29.5rem] [mask-image:url(/assets/hexagon.svg)] bg-gradient-to-b from-background to-background/90 rounded-2xl p-4 shadow-md ring-2 ring-border ring-offset-2 ring-offset-background md:rounded-4xl
           `
         }
       >
@@ -85,7 +85,7 @@ export function Example({
       <Button
         onClick={water}
         variant="outline"
-        className="-translate-x-[calc(50%-4rem)] -translate-y-[calc(50%+16rem)] md:-translate-x-[calc(50%+22rem)] md:-translate-y-[calc(50%+8rem)] absolute top-1/2 left-1/2 z-50 h-12 gap-2 rounded-full border-2 pr-8 pl-6 text-lg shadow-md ring-2 ring-border/20 ring-offset-1 hover:shadow-sm"
+        className="-translate-x-[calc(50%-4rem)] -translate-y-[calc(50%+16rem)] md:-translate-x-[calc(50%+22rem)] md:-translate-y-[calc(50%+8rem)] absolute top-1/2 left-1/2 z-50 h-12 gap-2 rounded-full border-2 pr-8 pl-6 text-lg shadow-md ring-2 ring-border/20 ring-offset-1 hover:shadow-xs"
       >
         <Droplets className="size-4.5 fill-border" />
         {dictionary.water}
@@ -94,20 +94,20 @@ export function Example({
         src="/assets/arrow3.svg"
         height={400}
         width={400}
-        className="-translate-x-[calc(50%-4rem)] -translate-y-[calc(50%+11.7rem)] md:-translate-x-[calc(50%+17.5rem)] md:-translate-y-[calc(50%+4.5rem)] -md:-scale-x-75 absolute top-1/2 left-1/2 z-50 size-[6rem] -md:rotate-[-35deg] dark:hidden"
+        className="-translate-x-[calc(50%-4rem)] -translate-y-[calc(50%+11.7rem)] md:-translate-x-[calc(50%+17.5rem)] md:-translate-y-[calc(50%+4.5rem)] max-md:-scale-x-75 absolute top-1/2 left-1/2 z-50 size-[6rem] max-md:rotate-[-35deg] dark:hidden"
         alt="plant"
       />
       <Image
         src="/assets/arrow3-dark.svg"
         height={400}
         width={400}
-        className="-translate-x-[calc(50%-4rem)] -translate-y-[calc(50%+11.7rem)] md:-translate-x-[calc(50%+17.5rem)] md:-translate-y-[calc(50%+4.5rem)] -md:-scale-x-75 absolute top-1/2 left-1/2 z-50 hidden size-[6rem] -md:rotate-[-35deg] -md:scale-y-75 dark:block"
+        className="-translate-x-[calc(50%-4rem)] -translate-y-[calc(50%+11.7rem)] md:-translate-x-[calc(50%+17.5rem)] md:-translate-y-[calc(50%+4.5rem)] max-md:-scale-x-75 absolute top-1/2 left-1/2 z-50 hidden size-[6rem] max-md:rotate-[-35deg] max-md:scale-y-75 dark:block"
         alt="plant"
       />
       <Button
         onClick={fertilize}
         variant="outline"
-        className="-translate-x-[calc(50%+3rem)] -translate-y-[calc(50%+19.7rem)] md:-translate-x-[calc(50%+25.5rem)] md:-translate-y-[calc(50%+1.8rem)] absolute top-1/2 left-1/2 z-50 h-12 gap-2 rounded-full border-2 pr-8 pl-6 text-lg shadow-md ring-2 ring-border/20 ring-offset-1 hover:shadow-sm"
+        className="-translate-x-[calc(50%+3rem)] -translate-y-[calc(50%+19.7rem)] md:-translate-x-[calc(50%+25.5rem)] md:-translate-y-[calc(50%+1.8rem)] absolute top-1/2 left-1/2 z-50 h-12 gap-2 rounded-full border-2 pr-8 pl-6 text-lg shadow-md ring-2 ring-border/20 ring-offset-1 hover:shadow-xs"
       >
         <FlaskConical className="size-4.5 fill-border" />
         {dictionary.fertilize}
@@ -116,14 +116,14 @@ export function Example({
         src="/assets/arrow4.svg"
         height={400}
         width={400}
-        className="-translate-x-[calc(50%+4rem)] -translate-y-[calc(50%+13.5rem)] md:-translate-x-[calc(50%+20rem)] md:-translate-y-[calc(50%-1.5rem)] absolute top-1/2 left-1/2 z-50 size-[6rem] -md:rotate-[60deg] dark:hidden"
+        className="-translate-x-[calc(50%+4rem)] -translate-y-[calc(50%+13.5rem)] md:-translate-x-[calc(50%+20rem)] md:-translate-y-[calc(50%-1.5rem)] absolute top-1/2 left-1/2 z-50 size-[6rem] max-md:rotate-[60deg] dark:hidden"
         alt="plant"
       />
       <Image
         src="/assets/arrow4-dark.svg"
         height={400}
         width={400}
-        className="-translate-x-[calc(50%+4rem)] -translate-y-[calc(50%+13.5rem)] md:-translate-x-[calc(50%+20rem)] md:-translate-y-[calc(50%-1.5rem)] absolute top-1/2 left-1/2 z-50 hidden size-[6rem] -md:rotate-[60deg] dark:block"
+        className="-translate-x-[calc(50%+4rem)] -translate-y-[calc(50%+13.5rem)] md:-translate-x-[calc(50%+20rem)] md:-translate-y-[calc(50%-1.5rem)] absolute top-1/2 left-1/2 z-50 hidden size-[6rem] max-md:rotate-[60deg] dark:block"
         alt="plant"
       />
 
@@ -132,7 +132,7 @@ export function Example({
         customizable.
       </p> */}
 
-      <div className="md:-translate-y-[12rem] absolute top-1/2 left-1/2 z-50 -md:hidden w-full max-w-[20rem] sm:max-w-[15rem] sm:translate-x-[4rem] md:translate-x-[14rem]">
+      <div className="md:-translate-y-[12rem] absolute top-1/2 left-1/2 z-50 max-md:hidden w-full max-w-[20rem] sm:max-w-[15rem] sm:translate-x-[4rem] md:translate-x-[14rem]">
         <HomeHeading className="-translate-x-1 -translate-y-1">
           {dictionary.title}
         </HomeHeading>
@@ -144,14 +144,14 @@ export function Example({
         src="/assets/line1.svg"
         height={400}
         width={400}
-        className="-translate-x-[calc(50%+3rem)] -translate-y-[calc(50%-11rem)] md:-translate-x-[calc(50%-14.5rem)] md:-translate-y-[calc(50%-7rem)] absolute top-1/2 left-1/2 z-50 size-[11rem] -md:rotate-45 dark:hidden"
+        className="-translate-x-[calc(50%+3rem)] -translate-y-[calc(50%-11rem)] md:-translate-x-[calc(50%-14.5rem)] md:-translate-y-[calc(50%-7rem)] absolute top-1/2 left-1/2 z-50 size-[11rem] max-md:rotate-45 dark:hidden"
         alt="line"
       />
       <Image
         src="/assets/line1-dark.svg"
         height={400}
         width={400}
-        className="-translate-x-[calc(50%+3rem)] -translate-y-[calc(50%-11rem)] md:-translate-x-[calc(50%-14.5rem)] md:-translate-y-[calc(50%-7rem)] absolute top-1/2 left-1/2 z-50 hidden size-[11rem] -md:rotate-45 dark:block"
+        className="-translate-x-[calc(50%+3rem)] -translate-y-[calc(50%-11rem)] md:-translate-x-[calc(50%-14.5rem)] md:-translate-y-[calc(50%-7rem)] absolute top-1/2 left-1/2 z-50 hidden size-[11rem] max-md:rotate-45 dark:block"
         alt="line"
       />
       <p className="md:-translate-y-[calc(50%-7rem)] absolute top-1/2 left-1/2 z-50 translate-x-[-1rem] translate-y-[14.5rem] font-medium text-lg text-muted-foreground md:translate-x-[19rem]">
@@ -161,14 +161,14 @@ export function Example({
         src="/assets/line2.svg"
         height={400}
         width={400}
-        className="-translate-x-[calc(50%+2rem)] -translate-y-[calc(50%-11rem)] md:-translate-x-[calc(50%-14.5rem)] md:-translate-y-[calc(50%-7rem)] absolute top-1/2 left-1/2 z-50 size-[11rem] -md:rotate-45 dark:hidden"
+        className="-translate-x-[calc(50%+2rem)] -translate-y-[calc(50%-11rem)] md:-translate-x-[calc(50%-14.5rem)] md:-translate-y-[calc(50%-7rem)] absolute top-1/2 left-1/2 z-50 size-[11rem] max-md:rotate-45 dark:hidden"
         alt="line"
       />
       <Image
         src="/assets/line2-dark.svg"
         height={400}
         width={400}
-        className="-translate-x-[calc(50%+2rem)] -translate-y-[calc(50%-11rem)] md:-translate-x-[calc(50%-14.5rem)] md:-translate-y-[calc(50%-7rem)] absolute top-1/2 left-1/2 z-50 hidden size-[11rem] -md:rotate-45 dark:block"
+        className="-translate-x-[calc(50%+2rem)] -translate-y-[calc(50%-11rem)] md:-translate-x-[calc(50%-14.5rem)] md:-translate-y-[calc(50%-7rem)] absolute top-1/2 left-1/2 z-50 hidden size-[11rem] max-md:rotate-45 dark:block"
         alt="line"
       />
       <p className="md:-translate-y-[calc(50%-9.6rem)] absolute top-1/2 left-1/2 z-50 translate-x-[0rem] translate-y-[12.5rem] font-medium text-lg text-muted-foreground md:translate-x-[19rem]">

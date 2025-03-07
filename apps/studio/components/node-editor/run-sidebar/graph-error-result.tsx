@@ -7,7 +7,7 @@ export default function GraphErrorResult() {
   const { error, setError, editor } = useEditorContext()
   if (!error) return null
   return (
-    <div className=" flex w-full flex-col justify-center gap-4 p-2 -md:pr-12 md:p-4">
+    <div className=" flex w-full flex-col justify-center gap-4 p-2 max-md:pr-12 md:p-4">
       <div className="flex w-full justify-between">
         <h2 className="font-bold text-destructive text-lg">
           {error.type === 'graph' ? 'Error' : 'Critical Error'}

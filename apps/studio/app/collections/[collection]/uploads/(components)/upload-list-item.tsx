@@ -207,19 +207,19 @@ export default function UploadsListItem({
           className="max-w-[95vw] md:max-w-[70vw] md:p-10 md:pr-16"
           onContextMenu={(e) => e.stopPropagation()}
         >
-          <div className="flex -md:flex-col gap-10">
+          <div className="flex max-md:flex-col gap-10">
             <div className="max-h-[50vh] w-full md:max-w-[33vw]">
               <SupabaseImage
                 src={upload.signedUrl}
                 alt={upload.name || 'Unnamed Upload'}
                 loading="eager"
-                className="contain h-full w-full drop-shadow-sm"
+                className="contain h-full w-full drop-shadow-xs"
                 width={1000}
                 height={1000}
                 signed="true"
               />
             </div>
-            <div className="flex -md:w-full flex-col justify-end gap-3 md:min-w-56 md:max-w-[33vw] md:gap-2">
+            <div className="flex max-md:w-full flex-col justify-end gap-3 md:min-w-56 md:max-w-[33vw] md:gap-2">
               <DialogDescription className="flex items-center gap-3 text-muted-foreground text-xs ">
                 <span className="flex items-center gap-[0.28rem]">
                   <PiPhotoImageDefaultContrast className="size-[0.75rem] opacity-80" />

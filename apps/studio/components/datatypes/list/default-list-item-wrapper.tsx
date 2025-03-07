@@ -37,7 +37,7 @@ export function DefaultListItemWrapper<T>({
             )}
           >
             <PiThreeByTwoDotsVertical
-              className="size-4 focus:outline-none"
+              className="size-4 focus:outline-hidden"
               {...draggableProps.attributes}
               {...draggableProps.listeners}
             />

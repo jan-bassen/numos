@@ -91,7 +91,7 @@ export function HeaderMain({
 }: ComponentProps<'div'>) {
   return (
     <div className={cn('flex w-full items-center gap-2', className)} {...props}>
-      <div className="flex -sm:flex-1 items-center gap-2">{children}</div>
+      <div className="flex max-sm:flex-1 items-center gap-2">{children}</div>
       <MobileCollapseButton />
     </div>
   )

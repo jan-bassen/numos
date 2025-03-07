@@ -1,4 +1,5 @@
-import '@repo/ui/globals.css'
+import '@repo/ui/styles.css'
+
 import type { Metadata } from 'next'
 import { Inter, Outfit, Poppins } from 'next/font/google'
 import { Toaster } from '@repo/ui/components/ui/sonner'
@@ -20,7 +21,7 @@ const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' })
 
 const poppins = Poppins({
   subsets: ['latin'],
-  variable: '--font-poppins',
+  variable: '--font-heading',
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
 })
 

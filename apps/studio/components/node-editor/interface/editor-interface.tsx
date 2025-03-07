@@ -43,7 +43,7 @@ export default function EditorInterface({
       <div
         id="editor-top-center"
         className={cn(
-          '-translate-x-1/2 absolute top-4 left-1/2 z-40 -md:hidden size-fit h-10 transition-transform',
+          '-translate-x-1/2 absolute top-4 left-1/2 z-40 max-md:hidden size-fit h-10 transition-transform',
           sidebarOpen && '-translate-x-[calc(50%+9rem)]',
         )}
       >
@@ -85,9 +85,9 @@ export default function EditorInterface({
         <Button
           variant={'outline'}
           className={cn(
-            'flex h-12 w-12 min-w-10 gap-1 rounded-full pr-0 pl-0 shadow-sm transition-all md:h-10 md:w-fit md:rounded-lg',
+            'flex h-12 w-12 min-w-10 gap-1 rounded-full pr-0 pl-0 shadow-xs transition-all md:h-10 md:w-fit md:rounded-lg',
             sidebarOpen
-              ? ' -md:!text-primary-foreground -md:bg-primary -md:hover:bg-primary/90 md:pr-2 md:pl-3'
+              ? ' max-md:!text-primary-foreground max-md:bg-primary max-md:hover:bg-primary/90 md:pr-2 md:pl-3'
               : 'md:pr-3 md:pl-2',
           )}
           onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -116,7 +116,7 @@ export default function EditorInterface({
         <Button
           variant={'outline'}
           size={'none'}
-          className="size-8 rounded-lg shadow-sm"
+          className="size-8 rounded-lg shadow-xs"
           onClick={() => {
             editor?.editor.resetView(editor?.area)
           }}
@@ -127,7 +127,7 @@ export default function EditorInterface({
           <Button
             variant={'outline'}
             size={'none'}
-            className="size-8 rounded-l-lg border-r-0 shadow-sm"
+            className="size-8 rounded-l-lg border-r-0 shadow-xs"
             onClick={() => {
               editor?.area.area.zoomAtCenter(-0.2)
             }}
@@ -138,7 +138,7 @@ export default function EditorInterface({
             <Button
               variant={'outline'}
               size={'none'}
-              className="h-8 w-12 border-x-0 py-1 font-light text-xs shadow-sm"
+              className="h-8 w-12 border-x-0 py-1 font-light text-xs shadow-xs"
               onClick={() => {
                 editor?.area.area.resetZoom()
               }}
@@ -149,7 +149,7 @@ export default function EditorInterface({
           <Button
             variant={'outline'}
             size={'none'}
-            className="size-8 rounded-r-lg border-l-0 shadow-sm"
+            className="size-8 rounded-r-lg border-l-0 shadow-xs"
             onClick={() => {
               editor?.area.area.zoomAtCenter(0.2)
             }}
@@ -161,7 +161,7 @@ export default function EditorInterface({
           <Button
             variant={'outline'}
             size={'none'}
-            className="size-8 rounded-l-lg border-r-0 shadow-sm"
+            className="size-8 rounded-l-lg border-r-0 shadow-xs"
             onClick={() => {
               editor?.history.undo()
             }}
@@ -171,7 +171,7 @@ export default function EditorInterface({
           <Button
             variant={'outline'}
             size={'none'}
-            className="size-8 rounded-r-lg border-l-0 shadow-sm"
+            className="size-8 rounded-r-lg border-l-0 shadow-xs"
             onClick={() => {
               editor?.history.redo()
             }}

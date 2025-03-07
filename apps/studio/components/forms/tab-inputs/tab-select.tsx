@@ -42,7 +42,7 @@ export function TabSelect({
           <TabOptionElement
             {...trigger}
             size={size || (options.length > 3 ? 'sm' : 'md')}
-            className={cn('-xs:!w-full', trigger?.className)}
+            className={cn('max-xs:!w-full', trigger?.className)}
             option={option}
             key={option.value}
             disabled={disabled}

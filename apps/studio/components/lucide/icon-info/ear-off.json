@@ -1,9 +1,6 @@
 {
   "$schema": "../icon.schema.json",
-  "contributors": [
-    "karsa-mistmere",
-    "ericfennis"
-  ],
+  "contributors": ["karsa-mistmere", "ericfennis"],
   "tags": [
     "hearing",
     "hard of hearing",
@@ -14,8 +11,5 @@
     "audio",
     "accessibility"
   ],
-  "categories": [
-    "medical",
-    "accessibility"
-  ]
+  "categories": ["medical", "accessibility"]
 }

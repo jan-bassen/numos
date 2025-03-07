@@ -187,7 +187,7 @@ export interface PayloadLockedDocument {
         value: number | Doc;
       } | null);
   globalSlug?: string | null;
-  user: {
+  {
     relationTo: 'users';
     value: number | User;
   };

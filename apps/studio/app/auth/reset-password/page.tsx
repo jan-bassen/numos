@@ -17,12 +17,12 @@ import { Input } from '@repo/ui/components/ui/input'
 import { Button } from '@repo/ui/components/ui/button'
 import { useRouter } from 'next/navigation'
 import { Card } from '@repo/ui/components/ui/card'
-import Logo from '@repo/ui/components/brand/logo'
+import Logo from '../../../../../packages/ui/src/blocks/brand/logo'
 import Link from 'next/link'
 import { handleReturnInfo } from '@repo/ui/lib/utils'
 import { toast } from 'sonner'
 import { PiAlertTriangleStroke, PiCrossCross } from '@repo/ui/icons/pika'
-import LogoIcon from '@repo/ui/components/brand/logo-icon'
+import LogoIcon from '../../../../../packages/ui/src/blocks/brand/logo-icon'
 
 const passwordSchema = z
   .object({
@@ -68,7 +68,7 @@ export default function ResetPasswordPage(props: {
         <Card className="space-y-8 px-9 pt-6 pb-12 shadow-none sm:shadow-md">
           <div className="flex w-full items-center gap-2 py-2">
             <LogoIcon className="size-10" />
-            <h1 className="p-0 font-extrabold font-poppins text-2xl">
+            <h1 className="p-0 font-extrabold font-heading text-2xl">
               Reset Password
             </h1>
           </div>

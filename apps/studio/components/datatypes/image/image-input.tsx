@@ -150,7 +150,7 @@ export function ImageInput({
                   id={`folder-${folder.id}`}
                   variant="muted"
                   size="none"
-                  className="size-24 rounded-md border border-border shadow-sm hover:text-secondary-foreground"
+                  className="size-24 rounded-md border border-border shadow-xs hover:text-secondary-foreground"
                   onClick={() => setOpenFolderId(folder.id)}
                 >
                   <PiFolderDefaultSolid className="size-14 shrink-0" />
@@ -171,7 +171,7 @@ export function ImageInput({
                   variant="outline"
                   size="none"
                   className={cn(
-                    'size-fit rounded-md shadow-sm',
+                    'size-fit rounded-md shadow-xs',
                     value.value === upload.id && 'bg-muted',
                   )}
                   onClick={() => {

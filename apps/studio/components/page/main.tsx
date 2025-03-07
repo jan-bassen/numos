@@ -34,7 +34,7 @@ function MainContent({
   return (
     <main
       className={cn(
-        'flex h-full w-full flex-grow flex-col gap-6 px-5 py-6 md:gap-7 md:p-7',
+        'flex h-full w-full grow flex-col gap-6 px-5 py-6 md:gap-7 md:p-7',
         className,
       )}
       {...props}

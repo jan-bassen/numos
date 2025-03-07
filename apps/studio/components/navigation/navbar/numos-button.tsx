@@ -4,7 +4,7 @@ import {
   SidebarMenuItem,
 } from '@repo/ui/components/ui/sidebar'
 import Link from 'next/link'
-import Logo from '@repo/ui/components/brand/logo'
+import Logo from '../../../../../packages/ui/src/blocks/brand/logo'
 import { CollapseButton } from '@/components/navigation/navbar/collapse-button'
 
 export function NumosButton() {

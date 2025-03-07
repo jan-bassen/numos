@@ -270,7 +270,7 @@ export type SimulatedImageResult = {
 export type SchemaMap = Record<string, ZodType>
 
 export type NavItem = {
-  name: string | null
+  name: string-3 | null
   slug: string
   icon: JSX.Element
 }
@@ -278,7 +278,7 @@ export type NavItem = {
 //TODO: Move all References to shared
 export type ReturnInfo = {
   ok: boolean
-  message: string | null
+  message: string-3 | null
 }
 
 // Tokens
@@ -301,8 +301,8 @@ export type TokenMetadata = {
 
 export type OptionalTokenMetadata = {
   id?: number | null
-  name?: string | null
-  description?: string | null
+  name?: string-3 | null
+  description?: string-3 | null
 }
 
 // Supabase shema extraction

@@ -14,7 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@repo/ui/components/ui/dropdown-menu'
-import { LassoSelect, Mouse, MousePointerSquare, Touchpad } from 'lucide-react'
+import { LassoSelect, Mouse, MousePointer, Touchpad } from 'lucide-react'
 import { Button } from '@repo/ui/components/ui/button'
 import type { InputMode, Shape } from '@/types/editor.types'
 import { NodeGroupsBar } from '../menus/node-groups-bar'
@@ -26,7 +26,7 @@ export default function TopBar() {
   const { editor, settings, setSettings } = useEditorContext()
   const { open: sidebarOpen, setOpen: setSidebarOpen } = useSecondarySidebar()
   return (
-    <div className="size-full items-center gap-1.5 rounded-lg border border-border bg-background pr-1.5 pl-1 shadow-sm md:flex">
+    <div className="size-full items-center gap-1.5 rounded-lg border border-border bg-background pr-1.5 pl-1 shadow-xs md:flex">
       <div className="flex w-fit items-center gap-0.5">
         <Button
           variant={'ghost'}
@@ -57,7 +57,7 @@ export default function TopBar() {
       </div>
       <Separator orientation="vertical" className="h-6 w-[1.5px]" />
       <NodeGroupsBar
-        className={cn(sidebarOpen ? '-xl:hidden' : '-lg:hidden')}
+        className={cn(sidebarOpen ? 'max-xl:hidden' : 'max-lg:hidden')}
         items={editor?.editor.nodelist || []}
         onHide={() => {}}
         position="center"
@@ -101,7 +101,7 @@ export default function TopBar() {
               }}
             >
               <DropdownMenuRadioItem value="marquee" className={cn('gap-2')}>
-                <MousePointerSquare className="size-4" />
+                <MousePointer className="size-4" />
                 Rectangle
               </DropdownMenuRadioItem>
               <DropdownMenuRadioItem value="lasso" className={cn('gap-2')}>

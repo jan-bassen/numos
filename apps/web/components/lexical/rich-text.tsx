@@ -18,10 +18,7 @@ export const RichText = ({
 }: { data: SerializedEditorState; className?: string }) => {
   return (
     <RichTextLexical
-      className={cn(
-        'space-y-2 font-inter text-secondary-foreground/80',
-        className,
-      )}
+      className={cn('space-y-2 text-secondary-foreground/80', className)}
       converters={jsxConverters}
       data={data}
     />

@@ -12,30 +12,16 @@ export function Hero({
 }) {
   return (
     <div className="relative w-full overflow-visible pt-28 pb-12 md:pt-64 md:pb-64">
-      <div className="flex w-full flex-col items-center space-y-6 pl-3 font-poppins sm:space-y-4 md:space-y-6 md:pl-4">
-        <InvestorsDialog dictionary={dictionary.investors}>
-          <Button
-            variant="muted"
-            effect="expandIcon"
-            icon={PiArrowRightStroke}
-            iconPlacement="right"
-            iconClassName="size-4"
-            className="h-7 rounded-full border border-border text-xs"
-          >
-            {dictionary.investors.ctaButton}
-          </Button>
-        </InvestorsDialog>
+      <div className="flex w-full flex-col items-center space-y-6 pl-3 font-heading sm:space-y-4 md:space-y-6 md:pl-4">
+        <InvestorsDialog dictionary={dictionary.investors} />
         <h1 className="!leading-[1.1] sm:!leading-[1.2] md:!text-[3.2rem] w-full max-w-[23rem] xs:max-w-[26rem] px-2 xs:px-0 text-center font-black xs:font-extrabold text-[2.8rem] xs:text-[3.2rem]">
           {dictionary.title}
         </h1>
-        <p className="-translate-y-1 w-full max-w-sm text-pretty -xs:px-[10vw] pb-3 text-center text-lg text-muted-foreground xs:text-lg md:text-xl">
+        <p className="-translate-y-1 w-full max-w-sm text-pretty pb-3 text-center text-lg text-muted-foreground xs:text-lg max-xs:px-[10vw] md:text-xl">
           {dictionary.description}
         </p>
         <SignUpDialog dictionary={dictionary}>
-          <Button
-            effect={'ringHover'}
-            className="flex h-12 items-center gap-2 rounded-full px-6 sm:px-10"
-          >
+          <Button className="flex h-12 items-center gap-2 rounded-full px-6 sm:px-10">
             {dictionary.ctaButton}
             <PiArrowRightStroke className="size-4" />
           </Button>
@@ -44,18 +30,18 @@ export function Hero({
       {/* <div className="-translate-x-1/2 -translate-y-[calc(50%-5rem)] -z-10 absolute top-1/2 left-1/2 h-[60vw] w-[60vw] rounded-full border border-border" /> */}
       {/* <div className="-translate-x-1/2 -translate-y-[calc(50%-5rem)] -z-10 absolute top-1/2 left-1/2 h-[75vw] w-[75vw] rounded-full border border-border" /> */}
       {/* <div className="-translate-x-1/2 -translate-y-[calc(50%-5rem)] -z-10 absolute top-1/2 left-1/2 h-[90vw] w-[90vw] rounded-full border border-border" /> */}
-      <div className="-translate-x-1/2 -translate-y-[calc(50%-5rem)] -z-20 absolute inset-0 top-1/2 left-1/2 -lg:hidden h-[60vw] max-h-[50rem] w-[60vw] max-w-[50rem] rounded-full border border-border bg-gradient-to-r from-muted/40 via-background to-muted/20" />
-      <div className="-translate-x-1/2 -translate-y-[calc(50%-5rem)] -z-30 absolute inset-0 top-1/2 left-1/2 -md:hidden h-[75vw] max-h-[65rem] w-[75vw] max-w-[65rem] rounded-full border border-border bg-gradient-to-r from-muted/20 via-background to-muted/30" />
-      <div className="-translate-x-1/2 -translate-y-[calc(50%-5rem)] -z-40 absolute inset-0 top-1/2 left-1/2 -md:hidden h-[90vw] max-h-[80rem] w-[90vw] max-w-[80rem] rounded-full border border-border bg-gradient-to-r from-muted/30 via-background to-muted/30" />
-      <div className="-translate-x-1/2 -translate-y-[calc(50%-5rem)] -z-10 absolute inset-0 top-1/2 left-1/2 -md:hidden h-[90vw] max-h-[80rem] w-[90vw] max-w-[80rem] bg-gradient-to-b from-30% from-background to-40% to-transparent" />
-      <div className="-translate-x-1/2 -translate-y-[calc(50%-5rem)] -z-10 absolute inset-0 top-1/2 left-1/2 -md:hidden h-[90vw] max-h-[80rem] w-[90vw] max-w-[80rem] bg-gradient-to-t from-30% from-background to-40% to-transparent" />
+      <div className="-translate-x-1/2 -translate-y-[calc(50%-5rem)] -z-20 absolute inset-0 top-1/2 left-1/2 max-lg:hidden h-[60vw] max-h-[50rem] w-[60vw] max-w-[50rem] rounded-full border border-border bg-gradient-to-r from-muted/40 via-background to-muted/20" />
+      <div className="-translate-x-1/2 -translate-y-[calc(50%-5rem)] -z-30 absolute inset-0 top-1/2 left-1/2 max-md:hidden h-[75vw] max-h-[65rem] w-[75vw] max-w-[65rem] rounded-full border border-border bg-gradient-to-r from-muted/20 via-background to-muted/30" />
+      <div className="-translate-x-1/2 -translate-y-[calc(50%-5rem)] -z-40 absolute inset-0 top-1/2 left-1/2 max-md:hidden h-[90vw] max-h-[80rem] w-[90vw] max-w-[80rem] rounded-full border border-border bg-gradient-to-r from-muted/30 via-background to-muted/30" />
+      <div className="-translate-x-1/2 -translate-y-[calc(50%-5rem)] -z-10 absolute inset-0 top-1/2 left-1/2 max-md:hidden h-[90vw] max-h-[80rem] w-[90vw] max-w-[80rem] bg-gradient-to-b from-30% from-background to-40% to-transparent" />
+      <div className="-translate-x-1/2 -translate-y-[calc(50%-5rem)] -z-10 absolute inset-0 top-1/2 left-1/2 max-md:hidden h-[90vw] max-h-[80rem] w-[90vw] max-w-[80rem] bg-gradient-to-t from-30% from-background to-40% to-transparent" />
       <Image
         src="/assets/creature.png"
         alt="Creature"
         width={400}
         height={400}
         // biome-ignore lint/nursery/useSortedClasses: <explanation>
-        className={`absolute inset-0 top-1/2 left-1/2 -md:hidden aspect-square -rotate-12 bg-transparent object-cover opacity-90 transition-all duration-300
+        className={`absolute inset-0 top-1/2 left-1/2 max-md:hidden aspect-square -rotate-12 bg-transparent object-cover opacity-90 transition-all duration-300
           size-16
           md:translate-x-[calc(-50%+18rem)] 
           lg:size-20
@@ -70,7 +56,7 @@ export function Hero({
         height={400}
         // biome-ignore lint/nursery/useSortedClasses: <explanation>
         className={`
-          absolute inset-0 top-1/2 left-1/2 -md:hidden aspect-square translate-y-[calc(-50%-6rem)] rotate-12 bg-transparent object-cover opacity-90
+          absolute inset-0 top-1/2 left-1/2 max-md:hidden aspect-square translate-y-[calc(-50%-6rem)] rotate-12 bg-transparent object-cover opacity-90
           size-18 
           lg:size-20
           translate-x-[calc(-50%-20rem)]
@@ -88,7 +74,7 @@ export function Hero({
           -rotate-4 absolute inset-0 top-1/2 left-1/2 aspect-square  translate-y-[calc(-50%+10rem)] bg-transparent object-cover opacity-90  transition-all duration-300
           size-12
           lg:size-16 
-          -md:hidden 
+          max-md:hidden 
           translate-x-[calc(-50%-21rem)]
           lg:translate-x-[calc(-50%-25rem)]
           xl:translate-x-[calc(-50%-32rem)]
@@ -101,7 +87,7 @@ export function Hero({
         height={400}
         // biome-ignore lint/nursery/useSortedClasses: <explanation>
         className={`
-          -rotate-6 absolute inset-0 top-1/2 left-1/2 -md:hidden aspect-square  bg-transparent object-cover opacity-90   transition-all duration-300
+          -rotate-6 absolute inset-0 top-1/2 left-1/2 max-md:hidden aspect-square  bg-transparent object-cover opacity-90   transition-all duration-300
 
           size-12
           lg:size-16 
@@ -119,7 +105,7 @@ export function Hero({
         height={400}
         // biome-ignore lint/nursery/useSortedClasses: <explanation>
         className={`
-          absolute inset-0 top-1/2 left-1/2 -md:hidden aspect-square  translate-y-[calc(-50%+1rem)] rotate-6 rounded-md bg-transparent object-cover opacity-90
+          absolute inset-0 top-1/2 left-1/2 max-md:hidden aspect-square  translate-y-[calc(-50%+1rem)] rotate-6 rounded-md bg-transparent object-cover opacity-90
           size-14
           lg:size-18
           translate-x-[calc(-50%-22rem)]
@@ -135,7 +121,7 @@ export function Hero({
         // biome-ignore lint/nursery/useSortedClasses: <explanation>
         className={`
           absolute inset-0 top-1/2 left-1/2 aspect-square  bg-transparent object-cover opacity-90  transition-all duration-300
-          -md:hidden
+          max-md:hidden
           size-20
           lg:size-24
           translate-y-[calc(-50%+6rem)]
@@ -152,7 +138,7 @@ export function Hero({
         height={400}
         // biome-ignore lint/nursery/useSortedClasses: <explanation>
         className={`
-          -rotate-[30deg] absolute inset-0 top-1/2 left-1/2 -md:hidden aspect-square bg-transparent object-cover opacity-80 translate-y-[calc(-50%+16rem)] transition-all duration-300
+          -rotate-[30deg] absolute inset-0 top-1/2 left-1/2 max-md:hidden aspect-square bg-transparent object-cover opacity-80 translate-y-[calc(-50%+16rem)] transition-all duration-300
           size-12
           lg:size-16
           xl:translate-x-[calc(-50%-22rem)]

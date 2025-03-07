@@ -63,7 +63,7 @@ export function Pricing({
           ))}
         </div>
       </div>
-      <div className="mx-auto grid -md:hidden w-full max-w-5xl grid-cols-3 gap-4">
+      <div className="mx-auto grid max-md:hidden w-full max-w-5xl grid-cols-3 gap-4">
         {dictionary.tiers.map((tier) => (
           <TierCard key={tier.name} tier={tier} />
         ))}
@@ -76,7 +76,7 @@ function TierCard({
   tier,
 }: { tier: Dictionary['home']['pricing']['tiers'][number] }) {
   return (
-    <Card className="!rounded-home_mobile lg:!rounded-home min-h-[26rem] bg-gradient-to-b from-background to-muted/30">
+    <Card className="!rounded-2xl lg:!rounded-4xl min-h-[26rem] bg-gradient-to-b from-background to-muted/30">
       <CardContent className="h-full space-y-5 p-6">
         <div className="space-y-1">
           <h2 className="font-bold text-xl">{tier.name}</h2>

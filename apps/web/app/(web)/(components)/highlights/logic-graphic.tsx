@@ -13,7 +13,7 @@ export function LogicGraphic() {
   const path1 = `M ${point1.x} ${point1.y} C ${hx1} ${point1.y} ${hx2} ${point2.y} ${point2.x} ${point2.y}`
 
   return (
-    <div className="relative h-full w-11/12 overflow-hidden rounded-tr-[2rem] border-border -md:border-t border-r bg-muted/20 p-2 shadow-inner md:h-[90%] md:w-5/6 md:rounded-tr-none md:rounded-br-[2rem] md:border-b">
+    <div className="relative h-full w-11/12 overflow-hidden rounded-tr-[2rem] border-border max-md:border-t border-r bg-muted/20 p-2 shadow-inner md:h-[90%] md:w-5/6 md:rounded-tr-none md:rounded-br-[2rem] md:border-b">
       <div className="h-full w-full rounded-tr-[2rem] bg-[50px_50px] bg-[length:100px_100px] bg-dots_grid opacity-40 md:rounded-tr-none md:rounded-br-[2rem]" />
       <div className="-left-5 absolute top-10 h-20 w-40 rounded-lg bg-gradient-to-t from-muted to-background shadow-md ring-2 ring-muted-foreground/30 md:left-10">
         <div className="-right-1.5 absolute top-8 z-10 size-3 rounded-lg bg-creative shadow-md ring-2 ring-creative/30" />

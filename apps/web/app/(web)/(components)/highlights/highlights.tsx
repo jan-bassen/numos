@@ -16,8 +16,8 @@ export function Highlights({
       title: dictionary.visualEditor.title,
       subtitle: dictionary.visualEditor.description,
       className: 'md:col-span-3 md:col-start-1 md:row-start-1',
-      contentClassName: '-md:flex-col-reverse',
-      headerClassName: '-md:pt-6 -md:pl-7',
+      contentClassName: 'max-md:flex-col-reverse',
+      headerClassName: 'max-md:pt-6 max-md:pl-7',
       graphic: <LogicGraphic />,
     },
     {
@@ -32,8 +32,8 @@ export function Highlights({
       title: dictionary.control.title,
       subtitle: dictionary.control.description,
       className: 'md:col-span-2 md:col-start-1 md:row-start-2',
-      contentClassName: '-md:flex-col-reverse',
-      headerClassName: '-md:pt-6 -md:pl-7',
+      contentClassName: 'max-md:flex-col-reverse',
+      headerClassName: 'max-md:pt-6 max-md:pl-7',
       graphic: <ControlGraphic />,
     },
     {
@@ -72,7 +72,7 @@ function HighlightsCard({
   return (
     <Card
       className={cn(
-        '!rounded-home_mobile lg:!rounded-home h-80 overflow-hidden md:col-span-3 md:col-start-1 md:row-start-1 md:h-80',
+        '!rounded-2xl lg:!rounded-4xl h-80 overflow-hidden md:col-span-3 md:col-start-1 md:row-start-1 md:h-80',
         card.className,
       )}
     >

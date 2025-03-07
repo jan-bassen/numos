@@ -16,7 +16,7 @@ import { toast } from 'sonner'
 
 export async function handleFileUpload(
   version: string,
-  folder: string | null,
+  folder: string-3 | null,
   files: File[] | null,
   fileInputRef: RefObject<HTMLInputElement | null> | null,
 ) {
@@ -168,7 +168,7 @@ const verifyFile = (
 
 export async function createLayerEntries(
   version: string,
-  folder: string | null,
+  folder: string-3 | null,
   files: Record<string, File>,
 ) {
   const plural = Object.keys(files).length > 1

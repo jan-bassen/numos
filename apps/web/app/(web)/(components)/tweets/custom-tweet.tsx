@@ -12,7 +12,7 @@ import { TweetHeader } from '@/app/(web)/(components)/tweets/tweet-header'
 export const CustomTweet = ({ tweet }: { tweet: Tweet }) => {
   const enrichedTweet = enrichTweet(tweet)
   return (
-    <TweetContainer className="!border !text-sm !font-inter !border-border !px-2 !py-1.5 !rounded-3xl !shadow-sm !bg-card">
+    <TweetContainer className="!border !text-sm !font-sans !border-border !px-2 !py-1.5 !rounded-3xl !shadow-xs !bg-card">
       <TweetHeader tweet={enrichedTweet} />
       <div className="[&>*]:!text-base min-h-36 pb-2 font-normal">
         <TweetBody tweet={enrichedTweet} />

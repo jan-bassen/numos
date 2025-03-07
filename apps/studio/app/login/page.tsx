@@ -17,7 +17,7 @@ import { Button, buttonVariants } from '@repo/ui/components/ui/button'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 import { Card } from '@repo/ui/components/ui/card'
-import LogoIcon from '@repo/ui/components/brand/logo-icon'
+import LogoIcon from '../../../../packages/ui/src/blocks/brand/logo-icon'
 import { PiAlertTriangleStroke, PiCrossCross } from '@repo/ui/icons/pika'
 import Link from 'next/link'
 import { createSupabaseClient } from '@/lib/supabase/clients/client'
@@ -25,7 +25,7 @@ import { getURL } from '@/lib/supabase/clients/client-utils'
 import { cn } from '@repo/ui/lib/utils'
 import { Suspense, use } from 'react'
 import posthog from 'posthog-js'
-import Logo from '@repo/ui/components/brand/logo'
+import Logo from '../../../../packages/ui/src/blocks/brand/logo'
 
 const formSchema = z.object({
   email: z
@@ -127,7 +127,7 @@ export default function LoginPage(props: {
       >
         <Card className="w-full max-w-[24rem] space-y-8 px-9 pt-6 pb-12 shadow-none sm:shadow-md">
           <div className="flex w-full items-center justify-between gap-2 py-2">
-            <h1 className="p-0 font-extrabold font-poppins text-2xl">Login</h1>
+            <h1 className="p-0 font-extrabold font-heading text-2xl">Login</h1>
             <Logo className="h-8" size={32} />
           </div>
           {/*           <div className="grid w-full grid-cols-2 gap-2">

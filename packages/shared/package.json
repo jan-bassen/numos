@@ -10,7 +10,8 @@
     "./utils/*": "./src/utils/*.ts",
     "./security/*": "./src/security/*.ts",
     "./constants/*": "./src/constants/*.ts",
-    "./validation/*": "./src/validation/*.ts"
+    "./validation/*": "./src/validation/*.ts",
+    "./result/*": "./src/result/*.ts"
   },
   "scripts": {
     "build": "tsc",

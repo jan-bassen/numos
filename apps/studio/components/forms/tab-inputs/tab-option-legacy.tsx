@@ -32,7 +32,7 @@ export default function TabOptionElement({
         disabled={disabled}
         value={option.value}
         className={cn(
-          'group relative flex flex-col overflow-visible border border-background outline-1.7 outline-border transition-none enabled:outline-foreground data-[state=active]:outline data-[state=inactive]:disabled:bg-muted/30 data-[state=active]:disabled:opacity-100 data-[state=inactive]:enabled:border-border data-[state=active]:enabled:bg-card',
+          'group relative flex flex-col overflow-visible border border-background outline-[1.7px] outline-border transition-none enabled:outline-foreground data-[state=active]:outline data-[state=inactive]:disabled:bg-muted/30 data-[state=active]:disabled:opacity-100 data-[state=inactive]:enabled:border-border data-[state=active]:enabled:bg-card',
           ' gap-1 px-6 py-4',
           className,
         )}
@@ -57,8 +57,8 @@ export default function TabOptionElement({
       disabled={disabled}
       value={option.value}
       className={cn(
-        'group relative flex flex-grow  overflow-visible outline-1.7 outline-border transition-none enabled:outline-foreground data-[state=active]:outline data-[state=inactive]:disabled:bg-muted/30 data-[state=active]:disabled:opacity-100 data-[state=inactive]:enabled:border data-[state=active]:enabled:bg-card',
-        'flex-col min-h-[6rem] gap-3 px-2 pt-3 pb-2 md:px-5 lg:w-full xl:flex-grow-0 xl:gap-5 xl:px-2',
+        'group relative flex grow  overflow-visible outline-[1.7px] outline-border transition-none enabled:outline-foreground data-[state=active]:outline data-[state=inactive]:disabled:bg-muted/30 data-[state=active]:disabled:opacity-100 data-[state=inactive]:enabled:border data-[state=active]:enabled:bg-card',
+        'flex-col min-h-[6rem] gap-3 px-2 pt-3 pb-2 md:px-5 lg:w-full xl:grow-0 xl:gap-5 xl:px-2',
         className,
       )}
     >

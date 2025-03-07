@@ -65,7 +65,7 @@ export function Architecture({
   ]
 
   return (
-    <div className="relative flex w-full flex-col space-y-6 py-12 -sm:pb-32 lg:items-center lg:space-y-10 lg:pb-12">
+    <div className="relative flex w-full flex-col space-y-6 py-12 max-sm:pb-32 lg:items-center lg:space-y-10 lg:pb-12">
       <ArchitectureInfo
         className="lg:hidden"
         title={dictionary.title}
@@ -81,7 +81,7 @@ export function Architecture({
           lg:col-span-4
           row-start-1  
           row-span-1 
-          -lg:hidden
+          max-lg:hidden
           w-full"
         >
           <ArchitectureInfo
@@ -96,7 +96,7 @@ export function Architecture({
           height={400}
           // biome-ignore lint/nursery/useSortedClasses: <explanation>
           className="
-          -xs:hidden
+          max-xs:hidden
           col-start-5 
           row-start-2
           xs:row-start-2
@@ -110,7 +110,7 @@ export function Architecture({
           height={400}
           // biome-ignore lint/nursery/useSortedClasses: <explanation>
           className="
-          -xs:hidden
+          max-xs:hidden
           col-start-5 
           row-start-2
           xs:row-start-2
@@ -124,7 +124,7 @@ export function Architecture({
           height={400}
           // biome-ignore lint/nursery/useSortedClasses: <explanation>
           className="
-          -xs:hidden
+          max-xs:hidden
           col-start-2 
           row-start-5 
           xs:row-start-5
@@ -138,7 +138,7 @@ export function Architecture({
           height={400}
           // biome-ignore lint/nursery/useSortedClasses: <explanation>
           className="
-          -xs:hidden
+          max-xs:hidden
           col-start-2 
           row-start-5 
           xs:row-start-5
@@ -159,7 +159,7 @@ export function Architecture({
           md:!col-span-2
           md:!row-start-1
           xs:row-span-2
-          aspect-square w-full rounded-home_mobile border border-border bg-muted lg:rounded-home"
+          aspect-square w-full rounded-2xl border border-border bg-muted lg:rounded-4xl"
         />
         <div
           // biome-ignore lint/nursery/useSortedClasses: <explanation>
@@ -173,7 +173,7 @@ export function Architecture({
           xs:row-start-3
           md:!row-start-2
           xs:row-span-2
-          aspect-square w-full rounded-home_mobile border border-border bg-muted lg:rounded-home"
+          aspect-square w-full rounded-2xl border border-border bg-muted lg:rounded-4xl"
         />
         <div
           // biome-ignore lint/nursery/useSortedClasses: <explanation>
@@ -187,7 +187,7 @@ export function Architecture({
           xs:row-start-5
           md:!row-start-3
           xs:row-span-2 
-          aspect-square w-full rounded-home_mobile border border-border bg-muted lg:rounded-home"
+          aspect-square w-full rounded-2xl border border-border bg-muted lg:rounded-4xl"
         /> */}
       </div>
     </div>
@@ -209,12 +209,12 @@ function ArchtiectureCard({
   return (
     <Card
       className={cn(
-        '!rounded-home_mobile lg:!rounded-home -sm:min-h-80 overflow-hidden sm:aspect-square',
+        '!rounded-2xl lg:!rounded-4xl max-sm:min-h-80 overflow-hidden sm:aspect-square',
         card.className,
       )}
     >
       <CardContent className="flex h-full flex-col gap-1 p-0">
-        <div className="h-full -sm:max-h-60 w-full overflow-hidden">
+        <div className="h-full max-sm:max-h-60 w-full overflow-hidden">
           {children}
         </div>
         <div className="flex h-fit shrink-0 flex-col gap-1 px-5 pt-0 pb-5">

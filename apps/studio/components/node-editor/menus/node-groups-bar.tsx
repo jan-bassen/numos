@@ -43,7 +43,7 @@ export function NodeGroupsBar(props: Props) {
                 variant: 'ghost',
                 size: 'none',
               }),
-              'flex size-8 items-center justify-center rounded-md px-auto py-auto text-sm focus-visible:outline-none focus-visible:ring-0',
+              'flex size-8 items-center justify-center rounded-md px-auto py-auto text-sm focus-visible:outline-hidden focus-visible:ring-0',
             )}
           >
             {group.Icon?.({ className: 'size-4.5' })}

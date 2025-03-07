@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1741166995923,
+      "tag": "0000_married_ted_forrester",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1741168405267,
+      "tag": "0001_mature_umar",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1741173796186,
+      "tag": "0002_eminent_argent",
+      "breakpoints": true
+    }
+  ]
+}

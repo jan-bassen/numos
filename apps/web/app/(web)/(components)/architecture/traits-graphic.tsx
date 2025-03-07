@@ -29,7 +29,7 @@ export function TraitsGraphic({
       <div className="-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 flex size-full flex-col items-center justify-center gap-2.5 px-6">
         <motion.div
           whileHover={{ scale: 1.05 }}
-          className="flex w-10/12 justify-between rounded-full bg-background py-1 pr-3 pl-2 text-sm shadow-sm ring-2 ring-muted-foreground/30"
+          className="flex w-10/12 justify-between rounded-full bg-background py-1 pr-3 pl-2 text-sm shadow-xs ring-2 ring-muted-foreground/30"
         >
           <div className="flex items-center gap-1.5">
             <PiMedicalCrossStroke className="size-4 text-muted-foreground" />
@@ -79,7 +79,7 @@ export function TraitsGraphic({
         </motion.div>
         <motion.div
           whileHover={{ scale: 1.05 }}
-          className="flex w-10/12 justify-between rounded-full bg-background py-1 pr-3 pl-2 text-sm shadow-sm ring-2 ring-muted-foreground/30"
+          className="flex w-10/12 justify-between rounded-full bg-background py-1 pr-3 pl-2 text-sm shadow-xs ring-2 ring-muted-foreground/30"
         >
           <div className="flex items-center gap-1.5">
             <PiCalendarDefaultStroke className="size-4 text-muted-foreground" />
@@ -87,7 +87,7 @@ export function TraitsGraphic({
               {dictionary.traits.lastTransfer.name}
             </p>
           </div>
-          <p className="-xs:hidden font-medium">
+          <p className="max-xs:hidden font-medium">
             {dictionary.traits.lastTransfer.value}
           </p>
         </motion.div>

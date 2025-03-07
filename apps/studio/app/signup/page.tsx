@@ -22,8 +22,8 @@ import { signupSchema } from '@/lib/schemas/sign-up-schema'
 import { Badge } from '@repo/ui/components/ui/badge'
 import { useEffect } from 'react'
 import { createSupabaseClient } from '@/lib/supabase/clients/client'
-import LogoIcon from '@repo/ui/components/brand/logo-icon'
-import Logo from '@repo/ui/components/brand/logo'
+import LogoIcon from '../../../../packages/ui/src/blocks/brand/logo-icon'
+import Logo from '../../../../packages/ui/src/blocks/brand/logo'
 
 export default function SigninPage() {
   const router = useRouter()

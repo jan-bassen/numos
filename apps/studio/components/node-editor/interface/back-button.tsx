@@ -10,7 +10,7 @@ export default function BackButton({ parentUrl }: { parentUrl?: string }) {
       href={parentUrl}
       className={cn(
         buttonVariants({ variant: 'outline' }),
-        'h-9 items-center gap-1 rounded-lg pr-3 pl-2 shadow-sm md:h-10',
+        'h-9 items-center gap-1 rounded-lg pr-3 pl-2 shadow-xs md:h-10',
       )}
     >
       <PiChevronBigLeftStroke className="size-4.5" />

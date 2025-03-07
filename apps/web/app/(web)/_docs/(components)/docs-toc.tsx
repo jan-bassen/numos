@@ -25,7 +25,7 @@ function OTPButton({
       variant={'ghost'}
       size={'none'}
       className={cn(
-        ' !line-clamp-1 !text-ellipsis h-6 rounded-sm border-background border-l-2 px-2 text-left font-light text-secondary-foreground/90 hover:border-muted',
+        ' !line-clamp-1 !text-ellipsis h-6 rounded-xs border-background border-l-2 px-2 text-left font-light text-secondary-foreground/90 hover:border-muted',
         className,
       )}
       onClick={() => {
@@ -57,7 +57,7 @@ export function OnThisPage({
 
   return (
     <div className="sticky top-30 flex flex-col gap-2">
-      <h1 className="px-1.5 font-extrabold font-poppins text-muted-foreground text-xs">
+      <h1 className="px-1.5 font-extrabold font-heading text-muted-foreground text-xs">
         ON THIS PAGE
       </h1>
       <ul className="relative flex flex-col gap-2">
@@ -103,7 +103,7 @@ export function OnThisPage({
             variant={'ghost'}
             size={'none'}
             className={cn(
-              'h-7 justify-start gap-1.5 rounded-sm px-2 font-light text-secondary-foreground/90',
+              'h-7 justify-start gap-1.5 rounded-xs px-2 font-light text-secondary-foreground/90',
             )}
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           >

@@ -1,4 +1,4 @@
-import Logo from '@repo/ui/components/brand/logo'
+import Logo from '../../../../../packages/ui/src/blocks/brand/logo'
 import { Button } from '@repo/ui/components/ui/button'
 import { Link } from '@repo/ui/components/ui/link'
 import { buttonVariants } from '@repo/ui/components/ui/button'
@@ -16,10 +16,10 @@ export function Navigation({
   }
 }) {
   return (
-    <div className="fixed z-60 h-14 w-full max-w-[82rem] border border-muted bg-gradient-to-b from-sidebar/90 to-border/90 shadow-md outline outline-2 outline-border backdrop-blur-sm md:top-4 md:w-[calc(100%-3rem)] md:rounded-full 2xl:w-full">
+    <div className="fixed z-[60] h-14 w-full max-w-[82rem] border border-muted bg-gradient-to-b from-sidebar/90 to-border/90 shadow-md outline outline-2 outline-border backdrop-blur-xs md:top-4 md:w-[calc(100%-3rem)] md:rounded-full 2xl:w-full">
       <div className="flex h-full items-center justify-between px-2 sm:px-3">
         <div className="flex h-full items-center gap-12">
-          <Link href="/" className="flex items-center gap-1.5 -md:pl-1">
+          <Link href="/" className="flex items-center gap-1.5 max-md:pl-1">
             <Logo className="h-7 sm:h-8" size={200} name />
           </Link>
           <div className="hidden gap-6 md:flex">
@@ -37,13 +37,13 @@ export function Navigation({
             href="https://studio.numos.xyz/login"
             className={cn(
               buttonVariants({ variant: 'ghost' }),
-              '-sm:!hidden rounded-full',
+              'max-sm:!hidden rounded-full',
             )}
           >
             {dictionary.navbar.login}
           </Link>
           <SignUpDialog dictionary={dictionary.home}>
-            <Button effect="ringHover" className="mr-1 rounded-full">
+            <Button variant={'destructive'} className="mr-1 rounded-full">
               {dictionary.navbar.signup}
             </Button>
           </SignUpDialog>
@@ -58,7 +58,7 @@ export function Navigation({
                 <PiBurgerMenuThreeStroke className="size-6" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="min-h-60 w-screen rounded-none border-0 border-b bg-sidebar/90 px-4 py-6 shadow-sm backdrop-blur-sm" />
+            <PopoverContent className="min-h-60 w-screen rounded-none border-0 border-b bg-sidebar/90 px-4 py-6 shadow-xs backdrop-blur-xs" />
           </Popover> */}
         </div>
       </div>

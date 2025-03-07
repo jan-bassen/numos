@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import Logo from '@repo/ui/components/brand/logo'
+import Logo from '../../../../packages/ui/src/blocks/brand/logo'
 import { Separator } from '@repo/ui/components/ui/separator'
 import type { Dictionary } from '@/dictionaries/dictionaries'
 import Image from 'next/image'
@@ -16,10 +16,10 @@ export default function Footer({
   return (
     <>
       <Separator className="w-full" />
-      <footer className="mx-auto grid h-52 w-full max-w-5xl gap-6 -xl:px-4 py-4 pb-8 sm:h-72 sm:gap-2 sm:py-10 md:grid-cols-2">
+      <footer className="mx-auto grid h-52 w-full max-w-5xl gap-6 max-xl:px-4 py-4 pb-8 sm:h-72 sm:gap-2 sm:py-10 md:grid-cols-2">
         <div className="flex flex-col justify-between">
           <div className="flex flex-col gap-3">
-            <Link href="/" className="flex items-center gap-1.5 -md:pl-1">
+            <Link href="/" className="flex items-center gap-1.5 max-md:pl-1">
               <Logo className="h-7 sm:h-8" size={200} name />
             </Link>
             <p className="pl-1 text-muted-foreground">{dictionary.slogan}</p>
