@@ -8,9 +8,22 @@
     "hub#build": {
       "dependsOn": ["@repo/shared#build"]
     },
-    "hub#db:generate": {},
-    "hub#db:migrate": {},
+    "hub#typecheck": {},
+    "hub#typecheck:watch": {},
+    "hub#typecheck:clean": {
+      "cache": false
+    },
+    "hub#db:generate": {
+      "interactive": true,
+      "cache": false
+    },
+    "hub#db:migrate": {
+      "interactive": true,
+      "cache": false
+    },
     "hub#auth:generate": {
+      "interactive": true,
+      "cache": false,
       "env": ["BETTER_AUTH_SECRET", "DATABASE_URL"]
     },
     "core#deploy": {

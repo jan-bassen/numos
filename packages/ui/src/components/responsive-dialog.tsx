@@ -9,7 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@repo/ui/components/ui/dialog'
+} from '@repo/ui/components/dialog'
 import {
   Drawer,
   DrawerClose,
@@ -19,7 +19,7 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from '@repo/ui/components/ui/drawer'
+} from '@repo/ui/components/drawer'
 import type { AnimationEventHandler, ComponentProps } from 'react'
 import { DialogClose } from '@radix-ui/react-dialog'
 

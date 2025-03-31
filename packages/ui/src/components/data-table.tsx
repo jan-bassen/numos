@@ -20,7 +20,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@repo/ui/components/ui/table'
+} from '@repo/ui/components/table'
 import { useState } from 'react'
 import { cn } from '@repo/ui/lib/utils'
 
@@ -44,7 +44,7 @@ export function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>(options?.sorting || [])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
-    options?.filtering - 3 || [],
+    options?.filtering ? options.filtering - 3 : [],
   )
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
     options?.visibility || {},

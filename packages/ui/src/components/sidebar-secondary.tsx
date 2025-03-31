@@ -12,13 +12,13 @@ import {
   SheetContent,
   SheetDescription,
   SheetTitle,
-} from '@repo/ui/components/ui/sheet'
+} from '@repo/ui/components/sheet'
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@repo/ui/components/ui/tooltip'
+} from '@repo/ui/components/tooltip'
 import { sidebarMenuButtonVariants } from '@repo/ui/components/sidebar'
 
 //TODO: Make this cleaner instead of using two seperate sidebar components!
@@ -292,10 +292,10 @@ const SecondarySidebarRail = ({
       onClick={toggleSidebar}
       title="Toggle Sidebar"
       className={cn(
-        'absolute inset-y-0 z-20 hidden w-4 -translate-x-1/2  transition-all ease-linear after:absolute after:inset-y-0 after:left-1/2 after:w-[2px] hover:after:bg-sidebar-border group-data-[side=left]:-right-4 group-data-[side=right]:left-0 sm:flex',
+        '-translate-x-1/2 group-data-[side=left]:-right-4 absolute inset-y-0 z-20 hidden w-4 transition-all ease-linear after:absolute after:inset-y-0 after:left-1/2 after:w-[2px] hover:after:bg-sidebar-border group-data-[side=right]:left-0 sm:flex',
         '[[data-side=left]_&]:cursor-w-resize [[data-side=right]_&]:cursor-e-resize',
         '[[data-side=left][data-state=collapsed]_&]:cursor-e-resize [[data-side=right][data-state=collapsed]_&]:cursor-w-resize',
-        'group-data-[collapsible=offcanvas]:translate-x-0 group-data-[collapsible=offcanvas]:after:left-full group-data-[collapsible=offcanvas]:hover:bg-sidebar',
+        'group-data-[collapsible=offcanvas]:translate-x-0 group-data-[collapsible=offcanvas]:hover:bg-sidebar group-data-[collapsible=offcanvas]:after:left-full',
         '[[data-side=left][data-collapsible=offcanvas]_&]:-right-2',
         '[[data-side=right][data-collapsible=offcanvas]_&]:-left-2',
         ' [[data-side=right][data-state=collapsed]_&]:after:-translate-x-4 [[data-side=right][data-state=collapsed]_&]:-translate-x-1 [[data-side=right][data-state=collapsed]_&]:hover:bg-sidebar', //Had to add these to make the rail work on the right

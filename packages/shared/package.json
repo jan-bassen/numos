@@ -21,12 +21,13 @@
     "@repo/ui": "workspace:*",
     "@supabase/supabase-js": "^2.39.8",
     "decimal.js": "^10.4.3",
-    "drizzle-orm": "^0.33.0",
+    "drizzle-orm": "0.40.0",
     "lodash": "^4.17.21",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "luxon": "^3.4.0",
-    "sharp": "^0.33.5"
+    "sharp": "^0.33.5",
+    "zod": "3.24.2"
   },
   "devDependencies": {
     "@repo/tsconfig": "workspace:*",
@@ -37,8 +38,5 @@
     "@types/lodash": "^4.17.7",
     "@types/luxon": "^3.4.2",
     "typescript": "5.7.2"
-  },
-  "peerDependencies": {
-    "zod": "^3.24.1"
   }
 }

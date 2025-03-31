@@ -4,56 +4,81 @@ import type { ZodIssue } from 'zod'
 import type { HttpResponse } from '@repo/shared/types/http'
 import type { NodeErrLocation } from '@repo/shared/result/err-types/node-err'
 
+//TODO Clean up err data
+export type BaseErrData = {
+  internalMessage?: string
+}
+
+export type NodeErrData = BaseErrData & {
+  location: NodeErrLocation
+}
+
+export type GraphErrData = BaseErrData & {
+  location: GraphErrLocation
+}
+
+export type ValidationErrData = BaseErrData & {
+  issues: ZodIssue[]
+}
+
+export type WalletSyncErrData = BaseErrData & {
+  location: {
+    wallet: string
+    chain: string
+  }
+}
+
+export type TransformCollectionErrData = BaseErrData & {
+  chain: string
+  issues: ZodIssue[]
+}
+
+export type TransformNFTErrData = BaseErrData & {
+  chain: string
+  issues: ZodIssue[]
+}
+
+export type ParseContentTypeErrData = BaseErrData & {
+  contentType: string
+}
+
+export type FetchErrData = BaseErrData & {
+  url: string
+}
+
+export type StringifyJsonErrData = BaseErrData & {
+  json: string
+}
+
+export type ParseJsonErrData = BaseErrData & {
+  json: string
+}
+
+export type DBInsertErrData = BaseErrData & {
+  data: string
+}
+
 export type ErrData = {
-  node: {
-    location: NodeErrLocation
-  }
-  graph: {
-    location: GraphErrLocation
-  }
-  validation: {
-    issues: ZodIssue[]
-  }
-  unknown: {
-    internalMessage: string
-  }
-  fetch: undefined
-  stringifyJson: {
-    internalMessage: string
-  }
-  parseJson: {
-    internalMessage: string
-  }
-  dbInsert: {
-    internalMessage: string
-  }
-  dbSelect: {
-    internalMessage: string
-  }
-  dbUpdate: {
-    internalMessage: string
-  }
-  dbDelete: {
-    internalMessage: string
-  }
-  valueSerialize: {
-    internalMessage: string
-  }
-  valueDeserialize: {
-    internalMessage: string
-  }
-  // biome-ignore lint/complexity/noBannedTypes: <explanation>
-  valueCreate: {}
+  node: NodeErrData
+  graph: GraphErrData
+  validation: ValidationErrData
+  walletSync: WalletSyncErrData
+  transformCollection: TransformCollectionErrData
+  transformNFT: TransformNFTErrData
+  parseContentType: ParseContentTypeErrData
+} & {
+  [key: string]: BaseErrData
 }
 
 export type ErrType = keyof ErrData
 
 export type SerializedErr<E extends ErrType = ErrType> = {
   type: E
+  message: string
   data?: ErrData[E]
 }
 
-export type SerializedErrorResponse<E extends ErrType> = {
+export type SerializedErrResponse<E extends ErrType = ErrType> = {
   result: null
   error: {
     type: E
@@ -64,11 +89,11 @@ export type SerializedErrorResponse<E extends ErrType> = {
 
 // -------------------------------------------------------------------------------------------------
 
-export class Err<E extends ErrType> extends Error {
+export class Err<E extends ErrType = ErrType> extends Error {
   readonly ok = false
   constructor(
     message: string,
-    public type: E,
+    public type?: E,
     public data?: ErrData[E],
     public statusCode?: number,
   ) {
@@ -125,16 +150,17 @@ export class Err<E extends ErrType> extends Error {
 
   serialize(): SerializedErr<E> {
     return {
-      type: this.type,
+      type: this.type || ('unknown' as E),
+      message: this.message,
       data: this.data,
     }
   }
 
-  toSerializedResponse(): SerializedErrorResponse<E> {
+  toSerializedResponse(): SerializedErrResponse<E> {
     return {
       result: null,
       error: {
-        type: this.type,
+        type: this.type || ('unknown' as E),
         message: this.message,
         data: this.data,
       },

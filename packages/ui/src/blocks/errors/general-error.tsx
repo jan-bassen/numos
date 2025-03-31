@@ -1,6 +1,6 @@
 'use client'
 
-import { Button, buttonVariants } from '@repo/ui/components/ui/button'
+import { Button, buttonVariants } from '@repo/ui/components/button'
 import {
   PiBugStroke,
   PiChevronBigLeftStroke,

@@ -28,11 +28,11 @@
         },
         "noUselessElse": {
           "level": "warn",
-          "fix": "unsafe"
+          "fix": "safe"
         },
         "useTemplate": {
           "level": "warn",
-          "fix": "unsafe"
+          "fix": "safe"
         }
       },
       "suspicious": {
@@ -43,14 +43,12 @@
           "level": "info"
         },
         "useSortedClasses": {
-          "fix": "unsafe",
+          "fix": "safe",
           "level": "info",
           "options": {
+            "attributes": ["className", "cva", "tw", "cn"],
             "functions": ["clsx", "cva", "tw", "cn"]
           }
-        },
-        "useImportRestrictions": {
-          "level": "warn"
         }
       },
       "correctness": {
@@ -59,7 +57,7 @@
         }
       },
       "complexity": {
-        "useOptionalChain": { "level": "warn", "fix": "unsafe" }
+        "useOptionalChain": { "level": "warn", "fix": "safe" }
       },
       "a11y": {
         "useAriaPropsForRole": { "level": "warn" },
@@ -78,6 +76,16 @@
       "bracketSameLine": false,
       "quoteStyle": "single",
       "attributePosition": "auto"
+    }
+  },
+  "css": {
+    "formatter": {
+      "enabled": true
+    }
+  },
+  "json": {
+    "formatter": {
+      "enabled": true
     }
   }
 }

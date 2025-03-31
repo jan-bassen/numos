@@ -3,7 +3,7 @@
 import { Chain } from 'opensea-js'
 import { openseaEthAPI } from '.'
 import { z } from 'zod'
-import { osNftSchema } from '@/db/schema/nfts'
+import osNftSchema from '@/server/opensea/os-nft-schema'
 
 const osNftResponseSchema = z.object({
   nfts: z.array(osNftSchema),

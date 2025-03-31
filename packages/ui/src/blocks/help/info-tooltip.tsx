@@ -8,9 +8,9 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@repo/ui/components/ui/popover'
+} from '@repo/ui/components/popover'
 import { useCallback, useRef, useState } from 'react'
-import { Separator } from '@repo/ui/components/ui/separator'
+import { Separator } from '@repo/ui/components/separator'
 import Link from 'next/link'
 
 export type TooltipInfo = {
