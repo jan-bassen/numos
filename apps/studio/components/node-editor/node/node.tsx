@@ -13,7 +13,7 @@ import {
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger,
-} from '@repo/ui/components/ui/context-menu'
+} from '@repo/ui/components/context-menu'
 import type { Props } from '@/types/nodes.types'
 import {
   Dialog,
@@ -22,12 +22,12 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@repo/ui/components/ui/dialog'
+} from '@repo/ui/components/dialog'
 import Input from './input'
 import Control from './control'
 import Output from './output'
 import { useEffect, useRef, useState } from 'react'
-import { Textarea } from '@repo/ui/components/ui/textarea'
+import { Textarea } from '@repo/ui/components/textarea'
 import { Drag } from 'rete-react-plugin'
 import SpeechbubbleTick from '@/public/graphics/speechbubble-tick'
 
@@ -95,9 +95,9 @@ export function NodeComponent(props: Props) {
             className={cn(
               'relative box-border flex cursor-grab select-none rounded-lg shadow-md',
               root
-                ? 'border-2 border-primary/50 bg-secondary hover:bg-muted '
-                : 'border border-border bg-grid hover:bg-secondary',
-              selected && 'border-foreground',
+                ? 'border-2 border-secondary-100 bg-secondary-50 hover:bg-secondary-100 hover:border-secondary-100 '
+                : 'border border-border bg-grid hover:bg-primary-50 hover:border-primary-100',
+              selected && 'border-primary-300',
               definition.componentType === 'input'
                 ? 'flex-row items-center justify-between gap-1'
                 : 'min-w-48 flex-col gap-2 pb-4',

@@ -4,7 +4,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@repo/ui/components/ui/tooltip'
+} from '@repo/ui/components/tooltip'
 import type { OptionalDataType } from '@repo/shared/types/values'
 import { dataTypes } from '@/lib/constants/datatypes'
 import type { Socket } from '@/lib/rete/classes/connectors/socket'
@@ -20,10 +20,10 @@ export function DataSocketComponent(props: DataSocketComponentProps) {
         <TooltipTrigger asChild>
           <div
             className={cn(
-              'z-[9999] box-border inline-block size-4 cursor-pointer border-2 bg-grid align-middle hover:border-foreground hover:bg-muted',
-              socket.type ? `border-${socket.type}` : 'border-muted-foreground',
+              'z-[9999] box-border inline-block size-4 cursor-pointer border-2 bg-background align-middle hover:border-foreground hover:bg-muted',
+              socket.type ? `border-type-${socket.type}` : 'border-muted-foreground',
               socket.type === 'generic' && 'border-border-highlight bg-border',
-              socket.list ? 'rounded-xmd' : 'rounded-full',
+              socket.list ? 'rounded-md' : 'rounded-full',
             )}
           />
         </TooltipTrigger>

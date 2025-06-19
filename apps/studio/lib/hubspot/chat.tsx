@@ -3,7 +3,7 @@
 import { cn } from '@repo/ui/lib/utils'
 import { useChatContext } from './chat-context'
 import { useEffect, useRef } from 'react'
-import { useSidebar } from '@repo/ui/components/ui/sidebar'
+import { useSidebar } from '@repo/ui/components/sidebar'
 
 export default function ChatWidget() {
   const { chatOpen, setChatOpen } = useChatContext()

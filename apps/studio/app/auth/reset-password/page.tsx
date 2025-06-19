@@ -12,17 +12,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@repo/ui/components/ui/form'
-import { Input } from '@repo/ui/components/ui/input'
-import { Button } from '@repo/ui/components/ui/button'
+} from '@repo/ui/components/form'
+import { Input } from '@repo/ui/components/input'
+import { Button } from '@repo/ui/components/button'
 import { useRouter } from 'next/navigation'
-import { Card } from '@repo/ui/components/ui/card'
-import Logo from '../../../../../packages/ui/src/blocks/brand/logo'
+import { Card } from '@repo/ui/components/card'
+import Logo from '@repo/ui/blocks/brand/logo'
 import Link from 'next/link'
 import { handleReturnInfo } from '@repo/ui/lib/utils'
 import { toast } from 'sonner'
 import { PiAlertTriangleStroke, PiCrossCross } from '@repo/ui/icons/pika'
-import LogoIcon from '../../../../../packages/ui/src/blocks/brand/logo-icon'
+import LogoIcon from '@repo/ui/blocks/brand/logo-icon'
 
 const passwordSchema = z
   .object({

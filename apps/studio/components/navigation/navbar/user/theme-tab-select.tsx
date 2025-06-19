@@ -2,7 +2,7 @@
 
 import { useTheme } from 'next-themes'
 import { useState, useEffect } from 'react'
-import { Tabs, TabsList, TabsTrigger } from '@repo/ui/components/ui/tabs'
+import { Tabs, TabsList, TabsTrigger } from '@repo/ui/components/tabs'
 import { cn } from '@repo/ui/lib/utils'
 import {
   PiMonitor01Solid,

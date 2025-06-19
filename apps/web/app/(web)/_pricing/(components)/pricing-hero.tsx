@@ -1,10 +1,10 @@
-import { Card } from '@repo/ui/components/ui/card'
+import { Card } from '@repo/ui/components/card'
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from '@repo/ui/components/ui/tabs'
+} from '@repo/ui/components/tabs'
 
 export function PricingHero() {
   return (

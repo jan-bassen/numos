@@ -9,7 +9,7 @@ import {
   HeaderMain,
   HeaderTitle,
 } from '@/components/page/header'
-import { Button, buttonVariants } from '@repo/ui/components/ui/button'
+import { Button, buttonVariants } from '@repo/ui/components/button'
 import {
   PiFolderPlusStroke,
   PiPhotoImageArrowUpSolid,
@@ -23,7 +23,7 @@ import {
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger,
-} from '@repo/ui/components/ui/context-menu'
+} from '@repo/ui/components/context-menu'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { imageAcceptString } from '@/app/collections/[collection]/uploads/(functions)/file-types'
 import { moveUploadsAndFolders } from '@/lib/supabase/db/uploads'

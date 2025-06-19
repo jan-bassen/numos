@@ -1,6 +1,6 @@
 'use client'
 
-import { Button } from '@repo/ui/components/ui/button'
+import { Button } from '@repo/ui/components/button'
 import { getImplementation, isERC721 } from './test'
 import { toast } from 'sonner'
 import { get } from 'lodash'

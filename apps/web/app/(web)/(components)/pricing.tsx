@@ -1,13 +1,13 @@
 'use client'
 
 import type { Dictionary } from '@/dictionaries/dictionaries'
-import { Card, CardContent } from '@repo/ui/components/ui/card'
+import { Card, CardContent } from '@repo/ui/components/card'
 import {
   Carousel,
   type CarouselApi,
   CarouselContent,
   CarouselItem,
-} from '@repo/ui/components/ui/carousel'
+} from '@repo/ui/components/carousel'
 import {
   PiCheckTickCircleStroke,
   PiInformationCircleSolid,

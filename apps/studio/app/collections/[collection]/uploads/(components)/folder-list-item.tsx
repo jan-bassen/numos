@@ -2,7 +2,7 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@repo/ui/components/ui/accordion'
+} from '@repo/ui/components/accordion'
 import type { UploadsTree } from '@/types/database.types'
 import {
   PiChevronBigRightStroke,
@@ -29,10 +29,10 @@ import {
   ContextMenuItem,
   ContextMenuSeparator,
   ContextMenuTrigger,
-} from '@repo/ui/components/ui/context-menu'
+} from '@repo/ui/components/context-menu'
 import { deleteFolder, updateFolder } from '@/lib/supabase/db/uploads'
 import { toast } from 'sonner'
-import { Input } from '@repo/ui/components/ui/input'
+import { Input } from '@repo/ui/components/input'
 import {
   childrenOffset,
   type FolderState,
@@ -49,7 +49,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@repo/ui/components/ui/alert-dialog'
+} from '@repo/ui/components/alert-dialog'
 import { cn, handleReturnInfo } from '@repo/ui/lib/utils'
 import { imageAcceptString } from '@/app/collections/[collection]/uploads/(functions)/file-types'
 

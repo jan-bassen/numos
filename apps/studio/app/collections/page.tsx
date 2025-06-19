@@ -11,7 +11,7 @@ import {
 } from '@/components/page/header'
 import EmptyCollectionsView from '@/app/collections/(components)/empty-collections-view'
 import { NewCollectionDialog } from '@/app/collections/(components)/new-collection-dialog'
-import { Button } from '@repo/ui/components/ui/button'
+import { Button } from '@repo/ui/components/button'
 import { PiAddAddStroke } from '@repo/ui/icons/pika'
 import { Page } from '@/components/page/page'
 import SimpleGrid from '@/components/layouts/simple/simple-grid'

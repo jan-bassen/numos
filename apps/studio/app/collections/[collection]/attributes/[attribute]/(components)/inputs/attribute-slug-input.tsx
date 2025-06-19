@@ -1,12 +1,12 @@
 'use client'
 
-import { Input } from '@repo/ui/components/ui/input'
+import { Input } from '@repo/ui/components/input'
 import { useAttribute } from '../../attribute-context'
 import { useCollection } from '@/app/collections/[collection]/collection-context'
 import ErrorMessage from '@/components/state/error-message'
 import { useState } from 'react'
 import { cn, handleReturnInfo } from '@repo/ui/lib/utils'
-import { Button } from '@repo/ui/components/ui/button'
+import { Button } from '@repo/ui/components/button'
 import { PiCheckTick } from '@repo/ui/icons/pika'
 
 export function AttributeSlugInput() {

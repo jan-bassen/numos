@@ -1,6 +1,6 @@
 'use client'
 
-import { Button } from '@repo/ui/components/ui/button'
+import { Button } from '@repo/ui/components/button'
 import {
   Drawer,
   DrawerTrigger,
@@ -10,7 +10,7 @@ import {
   DrawerDescription,
   DrawerFooter,
   DrawerClose,
-} from '@repo/ui/components/ui/drawer'
+} from '@repo/ui/components/drawer'
 import { Minus, Plus } from 'lucide-react'
 import { useState } from 'react'
 

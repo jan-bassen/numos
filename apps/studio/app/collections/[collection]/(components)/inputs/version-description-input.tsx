@@ -3,7 +3,7 @@
 import { useVersion } from '@/app/collections/[collection]/version-context'
 import ErrorMessage from '@/components/state/error-message'
 import { cn } from '@repo/ui/lib/utils'
-import { Textarea } from '@repo/ui/components/ui/textarea'
+import { Textarea } from '@repo/ui/components/textarea'
 
 export function VersionDescriptionInput() {
   const {

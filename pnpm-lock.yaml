@@ -62,12 +62,12 @@ importers:
         specifier: ^0.5.21
         version: 0.5.21
       zod:
-        specifier: 3.24.1
-        version: 3.24.1
+        specifier: 3.25.67
+        version: 3.25.67
     devDependencies:
       '@biomejs/biome':
-        specifier: ^1.8.3
-        version: 1.8.3
+        specifier: ^2.0.0
+        version: 2.0.0
       '@jest/globals':
         specifier: ^29.7.0
         version: 29.7.0
@@ -107,6 +107,9 @@ importers:
 
   apps/hub:
     dependencies:
+      '@biomejs/biome':
+        specifier: ^2.0.0
+        version: 2.0.0
       '@bonfida/spl-name-service':
         specifier: ^3.0.10
         version: 3.0.10(@solana/web3.js@1.98.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(bufferutil@4.0.9)(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.7.2)(utf-8-validate@5.0.10)
@@ -115,7 +118,7 @@ importers:
         version: 1.2.19(mytrixt6hdmphbdrzotjyhlzzq)
       '@delegatexyz/sdk':
         specifier: ^0.6.0
-        version: 0.6.0(bufferutil@4.0.9)(typescript@5.7.2)(utf-8-validate@5.0.10)(zod@3.24.2)
+        version: 0.6.0(bufferutil@4.0.9)(typescript@5.7.2)(utf-8-validate@5.0.10)(zod@3.25.67)
       '@hookform/resolvers':
         specifier: 3.10.0
         version: 3.10.0(react-hook-form@7.54.2(react@19.0.0))
@@ -148,7 +151,7 @@ importers:
         version: 0.40.1(@opentelemetry/api@1.9.0)(@types/pg@8.10.2)(gel@2.0.1)(kysely@0.27.6)(pg@8.13.1)(postgres@3.4.5)
       drizzle-zod:
         specifier: 0.7.0
-        version: 0.7.0(drizzle-orm@0.40.1(@opentelemetry/api@1.9.0)(@types/pg@8.10.2)(gel@2.0.1)(kysely@0.27.6)(pg@8.13.1)(postgres@3.4.5))(zod@3.24.2)
+        version: 0.7.0(drizzle-orm@0.40.1(@opentelemetry/api@1.9.0)(@types/pg@8.10.2)(gel@2.0.1)(kysely@0.27.6)(pg@8.13.1)(postgres@3.4.5))(zod@3.25.67)
       next:
         specifier: 15.1.4
         version: 15.1.4(@babel/core@7.26.7)(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.77.4)
@@ -172,10 +175,10 @@ importers:
         version: 7.54.2(react@19.0.0)
       viem:
         specifier: ^2.21.45
-        version: 2.22.17(bufferutil@4.0.9)(typescript@5.7.2)(utf-8-validate@5.0.10)(zod@3.24.2)
+        version: 2.22.17(bufferutil@4.0.9)(typescript@5.7.2)(utf-8-validate@5.0.10)(zod@3.25.67)
       zod:
-        specifier: 3.24.2
-        version: 3.24.2
+        specifier: 3.25.67
+        version: 3.25.67
     devDependencies:
       '@repo/tsconfig':
         specifier: workspace:*
@@ -218,7 +221,7 @@ importers:
     dependencies:
       '@ai-sdk/openai':
         specifier: ^0.0.58
-        version: 0.0.58(zod@3.24.1)
+        version: 0.0.58(zod@3.25.67)
       '@aws-sdk/client-lambda':
         specifier: ^3.699.0
         version: 3.738.0
@@ -281,7 +284,7 @@ importers:
         version: 0.9.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       ai:
         specifier: 4.0.2
-        version: 4.0.2(react@19.0.0)(zod@3.24.1)
+        version: 4.0.2(react@19.0.0)(zod@3.25.67)
       cmdk:
         specifier: ^1.0.4
         version: 1.0.4(@types/react-dom@19.0.2(@types/react@19.0.2))(@types/react@19.0.2)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -422,17 +425,17 @@ importers:
         version: 3.1.0(react@19.0.0)
       viem:
         specifier: ^2.21.45
-        version: 2.22.17(bufferutil@4.0.9)(typescript@5.7.2)(utf-8-validate@5.0.10)(zod@3.24.1)
+        version: 2.22.17(bufferutil@4.0.9)(typescript@5.7.2)(utf-8-validate@5.0.10)(zod@3.25.67)
       web-worker:
         specifier: ^1.3.0
         version: 1.3.0
       zod:
-        specifier: 3.24.1
-        version: 3.24.1
+        specifier: 3.25.67
+        version: 3.25.67
     devDependencies:
       '@biomejs/biome':
-        specifier: 1.8.3
-        version: 1.8.3
+        specifier: 2.0.0
+        version: 2.0.0
       '@clerk/types':
         specifier: ^3.58.0
         version: 3.65.4
@@ -566,12 +569,12 @@ importers:
         specifier: ^0.33.5
         version: 0.33.5
       zod:
-        specifier: 3.24.1
-        version: 3.24.1
+        specifier: 3.25.67
+        version: 3.25.67
     devDependencies:
       '@biomejs/biome':
-        specifier: ^1.9.4
-        version: 1.9.4
+        specifier: ^2.0.0
+        version: 2.0.0
       '@repo/tsconfig':
         specifier: workspace:*
         version: link:../../packages/tsconfig
@@ -615,12 +618,12 @@ importers:
         specifier: 19.0.0
         version: 19.0.0(react@19.0.0)
       zod:
-        specifier: 3.24.1
-        version: 3.24.1
+        specifier: 3.25.67
+        version: 3.25.67
     devDependencies:
       '@biomejs/biome':
-        specifier: ^1.9.4
-        version: 1.9.4
+        specifier: ^2.0.0
+        version: 2.0.0
       '@repo/tsconfig':
         specifier: workspace:*
         version: link:../tsconfig
@@ -648,6 +651,9 @@ importers:
 
   packages/shared:
     dependencies:
+      '@biomejs/biome':
+        specifier: ^2.0.0
+        version: 2.0.0
       '@repo/ui':
         specifier: workspace:*
         version: link:../ui
@@ -676,8 +682,8 @@ importers:
         specifier: ^0.33.5
         version: 0.33.5
       zod:
-        specifier: 3.24.2
-        version: 3.24.2
+        specifier: 3.25.67
+        version: 3.25.67
     devDependencies:
       '@repo/tsconfig':
         specifier: workspace:*
@@ -705,13 +711,20 @@ importers:
         version: 5.7.2
 
   packages/tsconfig:
+    dependencies:
+      zod:
+        specifier: 3.25.67
+        version: 3.25.67
     devDependencies:
       '@biomejs/biome':
-        specifier: ^1.9.4
-        version: 1.9.4
+        specifier: ^2.0.0
+        version: 2.0.0
 
   packages/ui:
     dependencies:
+      '@biomejs/biome':
+        specifier: ^2.0.0
+        version: 2.0.0
       '@daveyplate/better-auth-ui':
         specifier: ^1.2.19
         version: 1.2.19(p5pmbu53z27gmzwrnwplwt2qvq)
@@ -872,8 +885,8 @@ importers:
         specifier: ^0.8.9
         version: 0.8.9(@types/react-dom@19.0.2(@types/react@19.0.2))(@types/react@19.0.2)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       zod:
-        specifier: 3.24.2
-        version: 3.24.2
+        specifier: 3.25.67
+        version: 3.25.67
     devDependencies:
       '@repo/tsconfig':
         specifier: workspace:*
@@ -1393,8 +1406,8 @@ packages:
     engines: {node: '>=14.21.3'}
     hasBin: true
 
-  '@biomejs/biome@1.9.4':
-    resolution: {integrity: sha512-1rkd7G70+o9KkTn5KLmDYXihGoTaIGO9PIIN2ZB7UJxFrWw04CZHPYiMRjYsaDvVV7hP1dYNRLxSANLaBFGpog==}
+  '@biomejs/biome@2.0.0':
+    resolution: {integrity: sha512-BlUoXEOI/UQTDEj/pVfnkMo8SrZw3oOWBDrXYFT43V7HTkIUDkBRY53IC5Jx1QkZbaB+0ai1wJIfYwp9+qaJTQ==}
     engines: {node: '>=14.21.3'}
     hasBin: true
 
@@ -1404,8 +1417,8 @@ packages:
     cpu: [arm64]
     os: [darwin]
 
-  '@biomejs/cli-darwin-arm64@1.9.4':
-    resolution: {integrity: sha512-bFBsPWrNvkdKrNCYeAp+xo2HecOGPAy9WyNyB/jKnnedgzl4W4Hb9ZMzYNbf8dMCGmUdSavlYHiR01QaYR58cw==}
+  '@biomejs/cli-darwin-arm64@2.0.0':
+    resolution: {integrity: sha512-QvqWYtFFhhxdf8jMAdJzXW+Frc7X8XsnHQLY+TBM1fnT1TfeV/v9vsFI5L2J7GH6qN1+QEEJ19jHibCY2Ypplw==}
     engines: {node: '>=14.21.3'}
     cpu: [arm64]
     os: [darwin]
@@ -1416,8 +1429,8 @@ packages:
     cpu: [x64]
     os: [darwin]
 
-  '@biomejs/cli-darwin-x64@1.9.4':
-    resolution: {integrity: sha512-ngYBh/+bEedqkSevPVhLP4QfVPCpb+4BBe2p7Xs32dBgs7rh9nY2AIYUL6BgLw1JVXV8GlpKmb/hNiuIxfPfZg==}
+  '@biomejs/cli-darwin-x64@2.0.0':
+    resolution: {integrity: sha512-5JFhls1EfmuIH4QGFPlNpxJQFC6ic3X1ltcoLN+eSRRIPr6H/lUS1ttuD0Fj7rPgPhZqopK/jfH8UVj/1hIsQw==}
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [darwin]
@@ -1428,8 +1441,8 @@ packages:
     cpu: [arm64]
     os: [linux]
 
-  '@biomejs/cli-linux-arm64-musl@1.9.4':
-    resolution: {integrity: sha512-v665Ct9WCRjGa8+kTr0CzApU0+XXtRgwmzIf1SeKSGAv+2scAlW6JR5PMFo6FzqqZ64Po79cKODKf3/AAmECqA==}
+  '@biomejs/cli-linux-arm64-musl@2.0.0':
+    resolution: {integrity: sha512-Bxsz8ki8+b3PytMnS5SgrGV+mbAWwIxI3ydChb/d1rURlJTMdxTTq5LTebUnlsUWAX6OvJuFeiVq9Gjn1YbCyA==}
     engines: {node: '>=14.21.3'}
     cpu: [arm64]
     os: [linux]
@@ -1440,8 +1453,8 @@ packages:
     cpu: [arm64]
     os: [linux]
 
-  '@biomejs/cli-linux-arm64@1.9.4':
-    resolution: {integrity: sha512-fJIW0+LYujdjUgJJuwesP4EjIBl/N/TcOX3IvIHJQNsAqvV2CHIogsmA94BPG6jZATS4Hi+xv4SkBBQSt1N4/g==}
+  '@biomejs/cli-linux-arm64@2.0.0':
+    resolution: {integrity: sha512-BAH4QVi06TzAbVchXdJPsL0Z/P87jOfes15rI+p3EX9/EGTfIjaQ9lBVlHunxcmoptaA5y1Hdb9UYojIhmnjIw==}
     engines: {node: '>=14.21.3'}
     cpu: [arm64]
     os: [linux]
@@ -1452,8 +1465,8 @@ packages:
     cpu: [x64]
     os: [linux]
 
-  '@biomejs/cli-linux-x64-musl@1.9.4':
-    resolution: {integrity: sha512-gEhi/jSBhZ2m6wjV530Yy8+fNqG8PAinM3oV7CyO+6c3CEh16Eizm21uHVsyVBEB6RIM8JHIl6AGYCv6Q6Q9Tg==}
+  '@biomejs/cli-linux-x64-musl@2.0.0':
+    resolution: {integrity: sha512-tiQ0ABxMJb9I6GlfNp0ulrTiQSFacJRJO8245FFwE3ty3bfsfxlU/miblzDIi+qNrgGsLq5wIZcVYGp4c+HXZA==}
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [linux]
@@ -1464,8 +1477,8 @@ packages:
     cpu: [x64]
     os: [linux]
 
-  '@biomejs/cli-linux-x64@1.9.4':
-    resolution: {integrity: sha512-lRCJv/Vi3Vlwmbd6K+oQ0KhLHMAysN8lXoCI7XeHlxaajk06u7G+UsFSO01NAs5iYuWKmVZjmiOzJ0OJmGsMwg==}
+  '@biomejs/cli-linux-x64@2.0.0':
+    resolution: {integrity: sha512-09PcOGYTtkopWRm6mZ/B6Mr6UHdkniUgIG/jLBv+2J8Z61ezRE+xQmpi3yNgUrFIAU4lPA9atg7mhvE/5Bo7Wg==}
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [linux]
@@ -1476,8 +1489,8 @@ packages:
     cpu: [arm64]
     os: [win32]
 
-  '@biomejs/cli-win32-arm64@1.9.4':
-    resolution: {integrity: sha512-tlbhLk+WXZmgwoIKwHIHEBZUwxml7bRJgk0X2sPyNR3S93cdRq6XulAZRQJ17FYGGzWne0fgrXBKpl7l4M87Hg==}
+  '@biomejs/cli-win32-arm64@2.0.0':
+    resolution: {integrity: sha512-vrTtuGu91xNTEQ5ZcMJBZuDlqr32DWU1r14UfePIGndF//s2WUAmer4FmgoPgruo76rprk37e8S2A2c0psXdxw==}
     engines: {node: '>=14.21.3'}
     cpu: [arm64]
     os: [win32]
@@ -1488,8 +1501,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@biomejs/cli-win32-x64@1.9.4':
-    resolution: {integrity: sha512-8Y5wMhVIPaWe6jw2H+KlEm4wP/f7EW3810ZLmDlrEEy5KvBsb9ECEfu/kMWD484ijfQ8+nIi0giMgu9g1UAuuA==}
+  '@biomejs/cli-win32-x64@2.0.0':
+    resolution: {integrity: sha512-2USVQ0hklNsph/KIR72ZdeptyXNnQ3JdzPn3NbjI4Sna34CnxeiYAaZcZzXPDl5PYNFBivV4xmvT3Z3rTmyDBg==}
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [win32]
@@ -9410,11 +9423,8 @@ packages:
     peerDependencies:
       zod: ^3.24.1
 
-  zod@3.24.1:
-    resolution: {integrity: sha512-muH7gBL9sI1nciMZV67X5fTKKBLtwpZ5VBp1vsOQzj1MhrBZ4wlVCm3gedKZWLp0Oyel8sIGfeiz54Su+OVT+A==}
-
-  zod@3.24.2:
-    resolution: {integrity: sha512-lY7CDW43ECgW9u1TcT3IoXHflywfVqDYze4waEz812jR/bZ8FHDsl7pFQoSZTz5N+2NqRXs8GBwnAwo3ZNxqhQ==}
+  zod@3.25.67:
+    resolution: {integrity: sha512-idA2YXwpCdqUSKRCACDE6ItZD9TZzy3OZMtpfLoh6oPR47lipysRrJfjzMqFxQ3uJuUPyUeWe1r9vLH33xO/Qw==}
 
   zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
@@ -9425,29 +9435,29 @@ snapshots:
 
   '@adraffy/ens-normalize@1.11.0': {}
 
-  '@ai-sdk/openai@0.0.58(zod@3.24.1)':
+  '@ai-sdk/openai@0.0.58(zod@3.25.67)':
     dependencies:
       '@ai-sdk/provider': 0.0.23
-      '@ai-sdk/provider-utils': 1.0.18(zod@3.24.1)
-      zod: 3.24.1
+      '@ai-sdk/provider-utils': 1.0.18(zod@3.25.67)
+      zod: 3.25.67
 
-  '@ai-sdk/provider-utils@1.0.18(zod@3.24.1)':
+  '@ai-sdk/provider-utils@1.0.18(zod@3.25.67)':
     dependencies:
       '@ai-sdk/provider': 0.0.23
       eventsource-parser: 1.1.2
       nanoid: 3.3.6
       secure-json-parse: 2.7.0
     optionalDependencies:
-      zod: 3.24.1
+      zod: 3.25.67
 
-  '@ai-sdk/provider-utils@2.0.1(zod@3.24.1)':
+  '@ai-sdk/provider-utils@2.0.1(zod@3.25.67)':
     dependencies:
       '@ai-sdk/provider': 1.0.0
       eventsource-parser: 3.0.0
       nanoid: 3.3.8
       secure-json-parse: 2.7.0
     optionalDependencies:
-      zod: 3.24.1
+      zod: 3.25.67
 
   '@ai-sdk/provider@0.0.23':
     dependencies:
@@ -9457,23 +9467,23 @@ snapshots:
     dependencies:
       json-schema: 0.4.0
 
-  '@ai-sdk/react@1.0.1(react@19.0.0)(zod@3.24.1)':
+  '@ai-sdk/react@1.0.1(react@19.0.0)(zod@3.25.67)':
     dependencies:
-      '@ai-sdk/provider-utils': 2.0.1(zod@3.24.1)
-      '@ai-sdk/ui-utils': 1.0.1(zod@3.24.1)
+      '@ai-sdk/provider-utils': 2.0.1(zod@3.25.67)
+      '@ai-sdk/ui-utils': 1.0.1(zod@3.25.67)
       swr: 2.3.0(react@19.0.0)
       throttleit: 2.1.0
     optionalDependencies:
       react: 19.0.0
-      zod: 3.24.1
+      zod: 3.25.67
 
-  '@ai-sdk/ui-utils@1.0.1(zod@3.24.1)':
+  '@ai-sdk/ui-utils@1.0.1(zod@3.25.67)':
     dependencies:
       '@ai-sdk/provider': 1.0.0
-      '@ai-sdk/provider-utils': 2.0.1(zod@3.24.1)
-      zod-to-json-schema: 3.24.1(zod@3.24.1)
+      '@ai-sdk/provider-utils': 2.0.1(zod@3.25.67)
+      zod-to-json-schema: 3.24.1(zod@3.25.67)
     optionalDependencies:
-      zod: 3.24.1
+      zod: 3.25.67
 
   '@alloc/quick-lru@5.2.0': {}
 
@@ -10482,63 +10492,63 @@ snapshots:
       '@biomejs/cli-win32-arm64': 1.8.3
       '@biomejs/cli-win32-x64': 1.8.3
 
-  '@biomejs/biome@1.9.4':
+  '@biomejs/biome@2.0.0':
     optionalDependencies:
-      '@biomejs/cli-darwin-arm64': 1.9.4
-      '@biomejs/cli-darwin-x64': 1.9.4
-      '@biomejs/cli-linux-arm64': 1.9.4
-      '@biomejs/cli-linux-arm64-musl': 1.9.4
-      '@biomejs/cli-linux-x64': 1.9.4
-      '@biomejs/cli-linux-x64-musl': 1.9.4
-      '@biomejs/cli-win32-arm64': 1.9.4
-      '@biomejs/cli-win32-x64': 1.9.4
+      '@biomejs/cli-darwin-arm64': 2.0.0
+      '@biomejs/cli-darwin-x64': 2.0.0
+      '@biomejs/cli-linux-arm64': 2.0.0
+      '@biomejs/cli-linux-arm64-musl': 2.0.0
+      '@biomejs/cli-linux-x64': 2.0.0
+      '@biomejs/cli-linux-x64-musl': 2.0.0
+      '@biomejs/cli-win32-arm64': 2.0.0
+      '@biomejs/cli-win32-x64': 2.0.0
 
   '@biomejs/cli-darwin-arm64@1.8.3':
     optional: true
 
-  '@biomejs/cli-darwin-arm64@1.9.4':
+  '@biomejs/cli-darwin-arm64@2.0.0':
     optional: true
 
   '@biomejs/cli-darwin-x64@1.8.3':
     optional: true
 
-  '@biomejs/cli-darwin-x64@1.9.4':
+  '@biomejs/cli-darwin-x64@2.0.0':
     optional: true
 
   '@biomejs/cli-linux-arm64-musl@1.8.3':
     optional: true
 
-  '@biomejs/cli-linux-arm64-musl@1.9.4':
+  '@biomejs/cli-linux-arm64-musl@2.0.0':
     optional: true
 
   '@biomejs/cli-linux-arm64@1.8.3':
     optional: true
 
-  '@biomejs/cli-linux-arm64@1.9.4':
+  '@biomejs/cli-linux-arm64@2.0.0':
     optional: true
 
   '@biomejs/cli-linux-x64-musl@1.8.3':
     optional: true
 
-  '@biomejs/cli-linux-x64-musl@1.9.4':
+  '@biomejs/cli-linux-x64-musl@2.0.0':
     optional: true
 
   '@biomejs/cli-linux-x64@1.8.3':
     optional: true
 
-  '@biomejs/cli-linux-x64@1.9.4':
+  '@biomejs/cli-linux-x64@2.0.0':
     optional: true
 
   '@biomejs/cli-win32-arm64@1.8.3':
     optional: true
 
-  '@biomejs/cli-win32-arm64@1.9.4':
+  '@biomejs/cli-win32-arm64@2.0.0':
     optional: true
 
   '@biomejs/cli-win32-x64@1.8.3':
     optional: true
 
-  '@biomejs/cli-win32-x64@1.9.4':
+  '@biomejs/cli-win32-x64@2.0.0':
     optional: true
 
   '@bonfida/sns-records@0.0.1(@solana/web3.js@1.98.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))':
@@ -10640,9 +10650,9 @@ snapshots:
       tailwindcss: 4.0.0
       ua-parser-js: 1.0.40
 
-  '@delegatexyz/sdk@0.6.0(bufferutil@4.0.9)(typescript@5.7.2)(utf-8-validate@5.0.10)(zod@3.24.2)':
+  '@delegatexyz/sdk@0.6.0(bufferutil@4.0.9)(typescript@5.7.2)(utf-8-validate@5.0.10)(zod@3.25.67)':
     dependencies:
-      viem: 2.22.17(bufferutil@4.0.9)(typescript@5.7.2)(utf-8-validate@5.0.10)(zod@3.24.2)
+      viem: 2.22.17(bufferutil@4.0.9)(typescript@5.7.2)(utf-8-validate@5.0.10)(zod@3.25.67)
     transitivePeerDependencies:
       - bufferutil
       - typescript
@@ -14158,15 +14168,10 @@ snapshots:
       jsonparse: 1.3.1
       through: 2.3.8
 
-  abitype@1.0.8(typescript@5.7.2)(zod@3.24.1):
+  abitype@1.0.8(typescript@5.7.2)(zod@3.25.67):
     optionalDependencies:
       typescript: 5.7.2
-      zod: 3.24.1
-
-  abitype@1.0.8(typescript@5.7.2)(zod@3.24.2):
-    optionalDependencies:
-      typescript: 5.7.2
-      zod: 3.24.2
+      zod: 3.25.67
 
   accepts@1.3.8:
     dependencies:
@@ -14196,18 +14201,18 @@ snapshots:
       clean-stack: 2.2.0
       indent-string: 4.0.0
 
-  ai@4.0.2(react@19.0.0)(zod@3.24.1):
+  ai@4.0.2(react@19.0.0)(zod@3.25.67):
     dependencies:
       '@ai-sdk/provider': 1.0.0
-      '@ai-sdk/provider-utils': 2.0.1(zod@3.24.1)
-      '@ai-sdk/react': 1.0.1(react@19.0.0)(zod@3.24.1)
-      '@ai-sdk/ui-utils': 1.0.1(zod@3.24.1)
+      '@ai-sdk/provider-utils': 2.0.1(zod@3.25.67)
+      '@ai-sdk/react': 1.0.1(react@19.0.0)(zod@3.25.67)
+      '@ai-sdk/ui-utils': 1.0.1(zod@3.25.67)
       '@opentelemetry/api': 1.9.0
       jsondiffpatch: 0.6.0
-      zod-to-json-schema: 3.24.1(zod@3.24.1)
+      zod-to-json-schema: 3.24.1(zod@3.25.67)
     optionalDependencies:
       react: 19.0.0
-      zod: 3.24.1
+      zod: 3.25.67
 
   ajv@8.17.1:
     dependencies:
@@ -14450,7 +14455,7 @@ snapshots:
       kysely: 0.27.6
       nanostores: 0.11.4
       valibot: 1.0.0-beta.15(typescript@5.7.2)
-      zod: 3.24.2
+      zod: 3.25.67
     transitivePeerDependencies:
       - typescript
 
@@ -15132,10 +15137,10 @@ snapshots:
       pg: 8.13.1
       postgres: 3.4.5
 
-  drizzle-zod@0.7.0(drizzle-orm@0.40.1(@opentelemetry/api@1.9.0)(@types/pg@8.10.2)(gel@2.0.1)(kysely@0.27.6)(pg@8.13.1)(postgres@3.4.5))(zod@3.24.2):
+  drizzle-zod@0.7.0(drizzle-orm@0.40.1(@opentelemetry/api@1.9.0)(@types/pg@8.10.2)(gel@2.0.1)(kysely@0.27.6)(pg@8.13.1)(postgres@3.4.5))(zod@3.25.67):
     dependencies:
       drizzle-orm: 0.40.1(@opentelemetry/api@1.9.0)(@types/pg@8.10.2)(gel@2.0.1)(kysely@0.27.6)(pg@8.13.1)(postgres@3.4.5)
-      zod: 3.24.2
+      zod: 3.25.67
 
   eastasianwidth@0.2.0: {}
 
@@ -17296,28 +17301,14 @@ snapshots:
 
   os-tmpdir@1.0.2: {}
 
-  ox@0.6.7(typescript@5.7.2)(zod@3.24.1):
+  ox@0.6.7(typescript@5.7.2)(zod@3.25.67):
     dependencies:
       '@adraffy/ens-normalize': 1.11.0
       '@noble/curves': 1.8.1
       '@noble/hashes': 1.7.1
       '@scure/bip32': 1.6.2
       '@scure/bip39': 1.5.4
-      abitype: 1.0.8(typescript@5.7.2)(zod@3.24.1)
-      eventemitter3: 5.0.1
-    optionalDependencies:
-      typescript: 5.7.2
-    transitivePeerDependencies:
-      - zod
-
-  ox@0.6.7(typescript@5.7.2)(zod@3.24.2):
-    dependencies:
-      '@adraffy/ens-normalize': 1.11.0
-      '@noble/curves': 1.8.1
-      '@noble/hashes': 1.7.1
-      '@scure/bip32': 1.6.2
-      '@scure/bip39': 1.5.4
-      abitype: 1.0.8(typescript@5.7.2)(zod@3.24.2)
+      abitype: 1.0.8(typescript@5.7.2)(zod@3.25.67)
       eventemitter3: 5.0.1
     optionalDependencies:
       typescript: 5.7.2
@@ -19034,32 +19025,15 @@ snapshots:
       d3-time: 3.1.0
       d3-timer: 3.0.1
 
-  viem@2.22.17(bufferutil@4.0.9)(typescript@5.7.2)(utf-8-validate@5.0.10)(zod@3.24.1):
+  viem@2.22.17(bufferutil@4.0.9)(typescript@5.7.2)(utf-8-validate@5.0.10)(zod@3.25.67):
     dependencies:
       '@noble/curves': 1.8.1
       '@noble/hashes': 1.7.1
       '@scure/bip32': 1.6.2
       '@scure/bip39': 1.5.4
-      abitype: 1.0.8(typescript@5.7.2)(zod@3.24.1)
+      abitype: 1.0.8(typescript@5.7.2)(zod@3.25.67)
       isows: 1.0.6(ws@8.18.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))
-      ox: 0.6.7(typescript@5.7.2)(zod@3.24.1)
-      ws: 8.18.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
-    optionalDependencies:
-      typescript: 5.7.2
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-      - zod
-
-  viem@2.22.17(bufferutil@4.0.9)(typescript@5.7.2)(utf-8-validate@5.0.10)(zod@3.24.2):
-    dependencies:
-      '@noble/curves': 1.8.1
-      '@noble/hashes': 1.7.1
-      '@scure/bip32': 1.6.2
-      '@scure/bip39': 1.5.4
-      abitype: 1.0.8(typescript@5.7.2)(zod@3.24.2)
-      isows: 1.0.6(ws@8.18.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))
-      ox: 0.6.7(typescript@5.7.2)(zod@3.24.2)
+      ox: 0.6.7(typescript@5.7.2)(zod@3.25.67)
       ws: 8.18.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
     optionalDependencies:
       typescript: 5.7.2
@@ -19228,12 +19202,10 @@ snapshots:
       property-expr: 2.0.6
       toposort: 2.0.2
 
-  zod-to-json-schema@3.24.1(zod@3.24.1):
+  zod-to-json-schema@3.24.1(zod@3.25.67):
     dependencies:
-      zod: 3.24.1
+      zod: 3.25.67
 
-  zod@3.24.1: {}
-
-  zod@3.24.2: {}
+  zod@3.25.67: {}
 
   zwitch@2.0.4: {}

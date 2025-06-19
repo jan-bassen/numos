@@ -11,13 +11,12 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@repo/ui/components/ui/form'
-import { Input } from '@repo/ui/components/ui/input'
-import { Button, buttonVariants } from '@repo/ui/components/ui/button'
+} from '@repo/ui/components/form'
+import { Input } from '@repo/ui/components/input'
+import { Button, buttonVariants } from '@repo/ui/components/button'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
-import { Card } from '@repo/ui/components/ui/card'
-import LogoIcon from '../../../../packages/ui/src/blocks/brand/logo-icon'
+import { Card } from '@repo/ui/components/card'
 import { PiAlertTriangleStroke, PiCrossCross } from '@repo/ui/icons/pika'
 import Link from 'next/link'
 import { createSupabaseClient } from '@/lib/supabase/clients/client'
@@ -25,7 +24,7 @@ import { getURL } from '@/lib/supabase/clients/client-utils'
 import { cn } from '@repo/ui/lib/utils'
 import { Suspense, use } from 'react'
 import posthog from 'posthog-js'
-import Logo from '../../../../packages/ui/src/blocks/brand/logo'
+import Logo from '@repo/ui/blocks/brand/logo'
 
 const formSchema = z.object({
   email: z

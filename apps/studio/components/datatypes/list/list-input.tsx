@@ -1,6 +1,6 @@
 import 'client-only'
 import { Plus } from 'lucide-react'
-import { Button } from '@repo/ui/components/ui/button'
+import { Button } from '@repo/ui/components/button'
 import { cn } from '@repo/ui/lib/utils'
 import { DndContext, type DraggableAttributes } from '@dnd-kit/core'
 import { SortableContext } from '@dnd-kit/sortable'

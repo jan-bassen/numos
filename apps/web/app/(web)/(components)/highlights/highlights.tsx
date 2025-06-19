@@ -1,4 +1,4 @@
-import { Card, CardContent } from '@repo/ui/components/ui/card'
+import { Card, CardContent } from '@repo/ui/components/card'
 import { cn } from '@repo/ui/lib/utils'
 import { LogicGraphic } from '@/app/(web)/(components)/highlights/logic-graphic'
 import { ModularGraphic } from '@/app/(web)/(components)/highlights/modular-graphic'

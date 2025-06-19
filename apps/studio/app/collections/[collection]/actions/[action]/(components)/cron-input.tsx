@@ -1,23 +1,23 @@
-import { Button, type ButtonProps } from '@repo/ui/components/ui/button'
-import { Input, type InputProps } from '@repo/ui/components/ui/input'
+import { Button, type ButtonProps } from '@repo/ui/components/button'
+import { Input, type InputProps } from '@repo/ui/components/input'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@repo/ui/components/ui/popover'
+} from '@repo/ui/components/popover'
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from '@repo/ui/components/ui/tabs'
-import { Textarea } from '@repo/ui/components/ui/textarea'
+} from '@repo/ui/components/tabs'
+import { Textarea } from '@repo/ui/components/textarea'
 import { generateCron } from '@/lib/ai/cron'
 import { cn } from '@repo/ui/lib/utils'
 import { Loader2 } from 'lucide-react'
 import { useState, useTransition } from 'react'
 import { toast } from 'sonner'
-import { Label } from '@repo/ui/components/ui/label'
+import { Label } from '@repo/ui/components/label'
 
 export type CronObject = {
   schedule?: string

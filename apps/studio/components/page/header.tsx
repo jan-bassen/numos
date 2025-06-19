@@ -1,5 +1,5 @@
 import NavBreadcrumbs from '@/components/navigation/nav-breadcrumbs'
-import { Badge, type BadgeProps } from '@repo/ui/components/ui/badge'
+import { Badge, type BadgeProps } from '@repo/ui/components/badge'
 import { cn } from '@repo/ui/lib/utils'
 import type { ComponentProps, JSX } from 'react'
 import { H1 } from './headings'
@@ -9,16 +9,16 @@ import {
   type TabsListProps,
   TabsTrigger,
   type TabsTriggerProps,
-} from '@repo/ui/components/ui/tabs'
-import { Button } from '@repo/ui/components/ui/button'
+} from '@repo/ui/components/tabs'
+import { Button } from '@repo/ui/components/button'
 import { PiArrowLeftStroke, PiThreeDotsHorizontal } from '@repo/ui/icons/pika'
 import {
   DropdownMenu,
   DropdownMenuContent,
   type DropdownMenuContentProps,
   DropdownMenuTrigger,
-} from '@repo/ui/components/ui/dropdown-menu'
-import { Separator } from '@repo/ui/components/ui/separator'
+} from '@repo/ui/components/dropdown-menu'
+import { Separator } from '@repo/ui/components/separator'
 import { MobileCollapseButton } from '@/components/navigation/navbar/collapse-button'
 
 export function Header({
@@ -91,7 +91,7 @@ export function HeaderMain({
 }: ComponentProps<'div'>) {
   return (
     <div className={cn('flex w-full items-center gap-2', className)} {...props}>
-      <div className="flex max-sm:flex-1 items-center gap-2">{children}</div>
+      <div className="flex max-sm:flex-1 max-sm:flex-1">{children}</div>
       <MobileCollapseButton />
     </div>
   )

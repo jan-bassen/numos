@@ -2,12 +2,14 @@ import {
   Button,
   buttonVariants,
   type ButtonProps,
-} from '@repo/ui/components/ui/button'
+} from '@repo/ui/components/button'
 import { PiAddAddStroke } from '@repo/ui/icons/pika'
 import { cn } from '@repo/ui/lib/utils'
 import Link from 'next/link'
 import type { ComponentProps, ReactNode } from 'react'
 import type { Icon } from '@repo/ui/types/icons'
+
+//TODO: clean this mess up
 
 export type ElementCardSize = keyof typeof elementCardSizeClasses
 export type ElementCardVariant = keyof typeof elementCardButtonVariants
@@ -22,7 +24,7 @@ export type ElementCardExtra = {
 }
 
 const baseClasses = {
-  card: 'flex !gap-2.5 p-3 items-center data-[state=open]:bg-muted',
+  card: 'flex !gap-2.5 p-3 items-center data-[state=open]:bg-muted !rounded-md overflow-hidden',
   content: 'flex flex-col gap-[1px] items-start justify-start w-full',
   label: '',
   subtitle: '',
@@ -84,7 +86,7 @@ function ElementCardSubtitle({
   return (
     <p
       className={cn(
-        'text-ellipsis font-normal text-muted-foreground/80 text-xs',
+        'grow-0 text-ellipsis font-normal text-muted-foreground/80 text-xs',
         elementCardSizeClasses[size].subtitle,
         className,
       )}
@@ -173,11 +175,12 @@ export function ElementCardLink({
   return (
     <Link
       className={cn(
-        buttonVariants({ variant: 'outline' }),
+        buttonVariants({ variant: 'outline', size: 'none' }),
         baseClasses.card,
         elementCardSizeClasses[size].card,
         elementCardButtonVariants[variant],
         className,
+        '!flex space-normal rounded-md border border-border p-3',
       )}
       {...props}
     >

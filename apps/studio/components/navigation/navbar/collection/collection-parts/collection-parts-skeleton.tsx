@@ -4,7 +4,7 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuSkeleton,
-} from '@repo/ui/components/ui/sidebar'
+} from '@repo/ui/components/sidebar'
 import Link from 'next/link'
 
 export function CollectionPartsSkeleton({

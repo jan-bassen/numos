@@ -1,5 +1,5 @@
 import type { Dictionary } from '@/dictionaries/dictionaries'
-import { Button } from '@repo/ui/components/ui/button'
+import { Button } from '@repo/ui/components/button'
 import { PiArrowRightStroke } from '@repo/ui/icons/pika'
 import Image from 'next/image'
 import { SignUpDialog } from '@/components/sign-up/sign-up-dialog'

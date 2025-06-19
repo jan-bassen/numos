@@ -1,8 +1,8 @@
 'use client'
 
-import { Button } from '@repo/ui/components/ui/button'
-import { Input } from '@repo/ui/components/ui/input'
-import { Textarea } from '@repo/ui/components/ui/textarea'
+import { Button } from '@repo/ui/components/button'
+import { Input } from '@repo/ui/components/input'
+import { Textarea } from '@repo/ui/components/textarea'
 import { PiCheckTickCircleBrokenStroke } from '@repo/ui/icons/pika'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -14,7 +14,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@repo/ui/components/ui/form'
+} from '@repo/ui/components/form'
 import { handleReturnInfo } from '@repo/ui/lib/utils'
 import { signUp } from '@/lib/hubspot/sign-up'
 import type { Dictionary } from '@/dictionaries/dictionaries'

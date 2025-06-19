@@ -13,7 +13,7 @@ import {
 import {
   Collapsible,
   CollapsibleContent,
-} from '@repo/ui/components/ui/collapsible'
+} from '@repo/ui/components/collapsible'
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -24,7 +24,7 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
   useSidebar,
-} from '@repo/ui/components/ui/sidebar'
+} from '@repo/ui/components/sidebar'
 import { type JSX, useState, type SVGProps } from 'react'
 import type { Collection } from '@/types/database.types'
 import { dataTypes } from '@/lib/constants/datatypes'
@@ -32,7 +32,7 @@ import type { NavItems } from '../../navbar'
 import { useSelectedLayoutSegments } from 'next/navigation'
 import { cn } from '@repo/ui/lib/utils'
 import Link from 'next/link'
-import { Button } from '@repo/ui/components/ui/button'
+import { Button } from '@repo/ui/components/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -40,7 +40,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@repo/ui/components/ui/dropdown-menu'
+} from '@repo/ui/components/dropdown-menu'
 import { triggerOptionsArray } from '@/lib/constants/triggers'
 import { CustomSidebarSubitem } from '@/components/navigation/navbar/collection/collection-parts/subitem'
 import { type ElementType, elementTypes } from '@/lib/constants/elements'

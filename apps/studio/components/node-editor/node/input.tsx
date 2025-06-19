@@ -3,7 +3,7 @@ import { Socket } from './socket'
 import type { SocketType } from '@/types/database.types'
 import Control from './control'
 import { cn } from '@repo/ui/lib/utils'
-import { Separator } from '@repo/ui/components/ui/separator'
+import { Separator } from '@repo/ui/components/separator'
 import type { RenderEmit } from '@/types/editor.types'
 
 export default function Input({
@@ -42,7 +42,7 @@ export default function Input({
           <div className="flex w-full flex-col gap-0.5 pr-3">
             <div
               className={cn(
-                'inline-block pl-1 align-middle text-2xs text-foreground leading-3',
+                'inline-block pl-1 align-middle text-xs text-foreground leading-3',
                 error && 'text-destructive',
               )}
               data-testid="input-title"

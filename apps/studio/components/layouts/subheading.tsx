@@ -1,6 +1,6 @@
 import InfoButton, {
   type TooltipInfo,
-} from '@repo/ui/components/help/info-tooltip'
+} from '@repo/ui/blocks/help/info-tooltip'
 import { cn } from '@repo/ui/lib/utils'
 import Link from 'next/link'
 

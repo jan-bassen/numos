@@ -370,6 +370,21 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
+  /* Data Type Colors */
+  --color-type-exec: var(--type-exec);
+  --color-type-enum: var(--type-enum);
+  --color-type-number: var(--type-number);
+  --color-type-string: var(--type-string);
+  --color-type-image: var(--type-image);
+  --color-type-buffer: var(--type-buffer);
+  --color-type-boolean: var(--type-boolean);
+  --color-type-vector: var(--type-vector);
+  --color-type-color: var(--type-color);
+  --color-type-date: var(--type-date);
+  --color-type-location: var(--type-location);
+  --color-type-array: var(--type-array);
+  --color-type-address: var(--type-address);
+
   /* Breakpoints */
   --breakpoint-2xs: 320px;
   --breakpoint-xs: 480px;

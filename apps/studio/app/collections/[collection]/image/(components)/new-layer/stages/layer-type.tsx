@@ -1,13 +1,13 @@
-import { FormMessage } from '@repo/ui/components/ui/form'
-import { FormControl } from '@repo/ui/components/ui/form'
+import { FormMessage } from '@repo/ui/components/form'
+import { FormControl } from '@repo/ui/components/form'
 import {
   Select,
   SelectValue,
   SelectContent,
   SelectTrigger,
-} from '@repo/ui/components/ui/select'
+} from '@repo/ui/components/select'
 import type { StageDefinition } from '@/components/forms/staged-form'
-import { FormItem } from '@repo/ui/components/ui/form'
+import { FormItem } from '@repo/ui/components/form'
 import { Zap } from 'lucide-react'
 import { DetailedSelectItem } from '@/components/forms/tab-inputs/detailed-select-item'
 import type { newLayerSchema } from '@/lib/schemas/layers/layer-schema'

@@ -1,9 +1,7 @@
 import type { ReactNode } from 'react'
-import { H2 } from '../../page/headings'
-import Link from 'next/link'
 import { cn } from '@repo/ui/lib/utils'
 import Subheading from '../subheading'
-import type { TooltipInfo } from '@repo/ui/components/help/info-tooltip'
+import type { TooltipInfo } from '@repo/ui/blocks/help/info-tooltip'
 
 export default function Section({
   children,

@@ -8,7 +8,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@repo/ui/components/ui/select'
+} from '@repo/ui/components/select'
 import { listOptionMap, listOptions } from '@/lib/constants/list-options'
 
 export function ParameterListInput({

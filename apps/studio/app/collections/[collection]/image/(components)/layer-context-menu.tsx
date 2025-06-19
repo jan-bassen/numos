@@ -7,17 +7,17 @@ import {
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger,
-} from '@repo/ui/components/ui/context-menu'
+} from '@repo/ui/components/context-menu'
 import {
   AlertDialog,
   AlertDialogTrigger,
-} from '@repo/ui/components/ui/alert-dialog'
+} from '@repo/ui/components/alert-dialog'
 import {
   PiAutomationStroke,
   PiDeleteDustbin02Stroke,
   PiPencilEditBoxStroke,
 } from '@repo/ui/icons/pika'
-import DeleteDialogContent from '@repo/ui/components/dialogs/delete-dialog'
+import DeleteDialogContent from '@repo/ui/blocks/dialogs/delete-dialog'
 import type { ComponentProps } from 'react'
 import { deleteLayerBySlug } from '@/lib/supabase/db/layers/delete'
 
@@ -48,7 +48,6 @@ export default function LayerContextMenu({
               Edit
             </Link>
           </ContextMenuItem>
-          {/* TODO: Make this depending on the action type */}
           <ContextMenuItem asChild>
             <Link href={`${href}/logic`} className="flex gap-1.5">
               <PiAutomationStroke className="h-4 w-4" />

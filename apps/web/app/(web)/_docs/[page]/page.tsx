@@ -1,6 +1,6 @@
 import { RichText } from '@/components/lexical/rich-text'
 import { payload } from '@/lib/payload/client'
-import { Separator } from '@repo/ui/components/ui/separator'
+import { Separator } from '@repo/ui/components/separator'
 import { OnThisPage } from '@/app/(web)/_docs/(components)/docs-toc'
 import { notFound } from 'next/navigation'
 import {

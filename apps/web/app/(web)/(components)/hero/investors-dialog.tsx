@@ -1,5 +1,5 @@
 import type { Dictionary } from '@/dictionaries/dictionaries'
-import { Link } from '@repo/ui/components/ui/link'
+import { Link } from '@repo/ui/components/link'
 import {
   ResponsiveDialog,
   ResponsiveDialogContent,
@@ -11,7 +11,7 @@ import {
 } from '@repo/ui/components/extended/responsive-dialog'
 import { PiAtMarkStroke, PiXComStroke } from '@repo/ui/icons/pika'
 import type { ReactNode } from 'react'
-import { Button } from '@repo/ui/components/ui/button'
+import { Button } from '@repo/ui/components/button'
 
 export function InvestorsDialog({
   children,

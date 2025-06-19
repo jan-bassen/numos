@@ -4,7 +4,7 @@ import {
   MenubarSub,
   MenubarSubContent,
   MenubarSubTrigger,
-} from '@repo/ui/components/ui/menubar'
+} from '@repo/ui/components/menubar'
 import type { NewNodePosition } from '@/lib/rete/utils/init'
 import type { Item } from '@/types/editor.types'
 

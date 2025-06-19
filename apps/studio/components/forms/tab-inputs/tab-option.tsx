@@ -1,4 +1,4 @@
-import { TabsTrigger, type TabsTriggerProps } from '@repo/ui/components/ui/tabs'
+import { TabsTrigger, type TabsTriggerProps } from '@repo/ui/components/tabs'
 import type { JSX, SVGProps } from 'react'
 import TabOptionButton from './tab-option-button'
 

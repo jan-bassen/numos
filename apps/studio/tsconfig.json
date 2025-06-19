@@ -3,7 +3,9 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": [
+        "./*"
+      ]
     }
   },
   "include": [
@@ -11,6 +13,14 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-   "app/reset-password", "lib/rete/nodes/configs/script.js", "components/forms/staged-form/shared-stages", "app/collections/[collection]/image/(components)/new-layer" ],
-  "exclude": ["node_modules"]
+    "app/reset-password",
+    "lib/rete/nodes/configs/script.js",
+    "components/forms/staged-form/shared-stages",
+    "app/collections/[collection]/image/(components)/new-layer",
+    "../../packages/ui/src/blocks/dialogs/delete-dialog.tsx",
+    "../../packages/ui/src/blocks/dialogs/input-delete-dialog.tsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

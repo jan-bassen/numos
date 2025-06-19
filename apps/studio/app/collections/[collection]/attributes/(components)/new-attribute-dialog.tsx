@@ -6,9 +6,9 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { handleReturnInfo } from '@repo/ui/lib/utils'
-import { FormControl, FormItem, FormMessage } from '@repo/ui/components/ui/form'
+import { FormControl, FormItem, FormMessage } from '@repo/ui/components/form'
 import { toast } from 'sonner'
-import { Input } from '@repo/ui/components/ui/input'
+import { Input } from '@repo/ui/components/input'
 import { useRouter } from 'next/navigation'
 import {
   Dialog,
@@ -17,7 +17,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@repo/ui/components/ui/dialog'
+} from '@repo/ui/components/dialog'
 import { Fingerprint, List, Milestone, Tag } from 'lucide-react'
 import {
   type StaticStageDefinition,
@@ -31,8 +31,8 @@ import {
   Select,
   SelectTrigger,
   SelectValue,
-} from '@repo/ui/components/ui/select'
-import { Switch } from '@repo/ui/components/ui/switch'
+} from '@repo/ui/components/select'
+import { Switch } from '@repo/ui/components/switch'
 import { slugify } from '@/lib/utils'
 import { useCollection } from '@/app/collections/[collection]/collection-context'
 

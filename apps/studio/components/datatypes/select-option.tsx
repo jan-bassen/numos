@@ -1,5 +1,5 @@
 import type { SelectOption } from '@/types/nodes.types'
-import { SelectItem } from '@repo/ui/components/ui/select'
+import { SelectItem } from '@repo/ui/components/select'
 import { cn } from '@repo/ui/lib/utils'
 
 export default function SelectOptionItem({ option }: { option: SelectOption }) {

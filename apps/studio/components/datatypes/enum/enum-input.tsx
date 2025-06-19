@@ -4,7 +4,7 @@ import {
   SelectContent,
   SelectGroup,
   SelectTrigger,
-} from '@repo/ui/components/ui/select'
+} from '@repo/ui/components/select'
 import { type ChangeEvent, useMemo, useRef } from 'react'
 import { Drag } from 'rete-react-plugin'
 import SelectOptionItem from '../select-option'

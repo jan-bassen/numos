@@ -2,7 +2,7 @@
 
 import type { Column, ColumnDef } from '@tanstack/react-table'
 import type { Attribute, DataType } from '@/types/database.types'
-import { Button } from '@repo/ui/components/ui/button'
+import { Button } from '@repo/ui/components/button'
 import {
   PiArrowDownStroke,
   PiArrowUpStroke,
@@ -18,24 +18,24 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@repo/ui/components/ui/dropdown-menu'
+} from '@repo/ui/components/dropdown-menu'
 import { MoreHorizontal } from 'lucide-react'
 import { deleteAttribute } from '@/lib/supabase/db/attributes/delete'
 import {
   AlertDialog,
   AlertDialogTrigger,
-} from '@repo/ui/components/ui/alert-dialog'
+} from '@repo/ui/components/alert-dialog'
 
 import { dataTypes } from '@/lib/constants/datatypes'
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@repo/ui/components/ui/tooltip'
+} from '@repo/ui/components/tooltip'
 import { removeAttributeFromLocalForm } from '@/app/collections/[collection]/attributes/(functions)/utils'
 import { handleReturnInfo } from '@repo/ui/lib/utils'
 import { useRouter } from 'next/navigation'
-import DeleteDialogContent from '@repo/ui/components/dialogs/delete-dialog'
+import DeleteDialogContent from '@repo/ui/blocks/dialogs/delete-dialog'
 import { attributeDisplayOptionMap } from '@/lib/constants/display-options'
 import type { AttributeDisplay } from '@/lib/constants/display-options'
 

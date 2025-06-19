@@ -1,5 +1,5 @@
 import type { ValidationIssueData } from '@repo/shared/types/validation-types'
-import { Card } from '@repo/ui/components/ui/card'
+import { Card } from '@repo/ui/components/card'
 import type { ComponentProps } from 'react'
 
 export default function ActionIssueCard({

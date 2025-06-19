@@ -5,7 +5,7 @@ import {
   ContextMenuSub,
   ContextMenuSubContent,
   ContextMenuSubTrigger,
-} from '@repo/ui/components/ui/context-menu'
+} from '@repo/ui/components/context-menu'
 import type { NewNodePosition } from '@/lib/rete/utils/init'
 import type { Item } from '@/types/editor.types'
 

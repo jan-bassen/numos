@@ -2,7 +2,7 @@ import {
   Alert,
   AlertDescription,
   AlertTitle,
-} from '@repo/ui/components/ui/alert'
+} from '@repo/ui/components/alert'
 import { PiAlertCircleStroke } from '@repo/ui/icons/pika'
 
 export function ComingSoonBadge({

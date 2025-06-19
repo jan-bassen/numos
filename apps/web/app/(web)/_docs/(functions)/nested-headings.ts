@@ -6,7 +6,7 @@ export type Heading = {
   version: number
   tag: HeadingTag
   id: string
-  children?: { text?: string-3 }[]
+  children?: { text?: string }[]
   [k: string]: unknown
 }
 

@@ -3,7 +3,7 @@ import { cn } from '@repo/ui/lib/utils'
 import type { ListInputComponentProps } from './list-input'
 import { PiThreeByTwoDotsVertical } from '@repo/ui/icons/pika'
 import type { ZodErrorInfo } from '@/types/state.types'
-import { Button } from '@repo/ui/components/ui/button'
+import { Button } from '@repo/ui/components/button'
 import ErrorMessage from '@/components/state/error-message'
 
 export function DefaultListItemWrapper<T>({

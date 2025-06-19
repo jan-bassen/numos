@@ -9,12 +9,12 @@ import DirectionDisplay from '@/components/datatypes/direction/direction-display
 import ImageDisplay from '@/components/datatypes/image/image-display'
 import { cn } from '@repo/ui/lib/utils'
 import { dataTypes } from '@/lib/constants/datatypes'
-import { Button } from '@repo/ui/components/ui/button'
+import { Button } from '@repo/ui/components/button'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@repo/ui/components/ui/popover'
+} from '@repo/ui/components/popover'
 import type { Value, ValueFormat, ValueType } from '@repo/shared/types/values'
 import { isListFormat } from '@repo/shared/schemas/datatypes/utils'
 

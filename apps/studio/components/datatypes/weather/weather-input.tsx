@@ -6,8 +6,8 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from '@repo/ui/components/ui/dropdown-menu'
-import { buttonVariants } from '@repo/ui/components/ui/button'
+} from '@repo/ui/components/dropdown-menu'
+import { buttonVariants } from '@repo/ui/components/button'
 import type { WeatherCode } from '@/types/database.types'
 import { cn } from '@repo/ui/lib/utils'
 import { useRef } from 'react'

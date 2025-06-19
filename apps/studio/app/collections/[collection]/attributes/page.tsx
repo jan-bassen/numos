@@ -7,13 +7,13 @@ import {
 import {
   DataTable,
   type DataTableOptions,
-} from '@repo/ui/components/ui/data-table'
+} from '@repo/ui/components/data-table'
 import {
   type ExtendedAttribute,
   columns,
 } from '@/app/collections/[collection]/attributes/(components)/attribute-columns'
 import { PiAddAddStroke } from '@repo/ui/icons/pika'
-import { Button } from '@repo/ui/components/ui/button'
+import { Button } from '@repo/ui/components/button'
 import { NewAttributeDialog } from '@/app/collections/[collection]/attributes/(components)/new-attribute-dialog'
 import {
   Header,

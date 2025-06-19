@@ -1,8 +1,8 @@
 import Link from 'next/link'
 import { cn } from '@repo/ui/lib/utils'
-import { SidebarMenuButton } from '@repo/ui/components/ui/sidebar'
+import { SidebarMenuButton } from '@repo/ui/components/sidebar'
 import type { SidebarItem } from './collection-items'
-import { CollapsibleTrigger } from '@repo/ui/components/ui/collapsible'
+import { CollapsibleTrigger } from '@repo/ui/components/collapsible'
 import { ChevronRight } from 'lucide-react'
 import type { ComponentProps } from 'react'
 

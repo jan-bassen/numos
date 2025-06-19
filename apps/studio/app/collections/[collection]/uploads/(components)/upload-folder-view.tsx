@@ -2,7 +2,7 @@ import type { UploadsTree, ResolvedFolder } from '@/types/database.types'
 import FolderListItem from './folder-list-item'
 import UploadsListItem from './upload-list-item'
 import NewFolderListItem from './new-folder-list-item'
-import { Accordion } from '@repo/ui/components/ui/accordion'
+import { Accordion } from '@repo/ui/components/accordion'
 import type { FolderState, TreeContext } from './tree'
 import {
   type Dispatch,

@@ -2,7 +2,7 @@
   ValueSelectOption,
   ValueType,
 } from '@repo/engine/types/value-types'
-import { SelectItem, type SelectItemProps } from '@repo/ui/components/ui/select'
+import { SelectItem, type SelectItemProps } from '@repo/ui/components/select'
 import { cn } from '@repo/ui/lib/utils'
 
 export default function ValueSelectOptionItem<VT extends ValueType>({

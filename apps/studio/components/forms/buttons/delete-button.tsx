@@ -1,12 +1,11 @@
 'use client'
 
-import DeleteDialogContent from '@repo/ui/components/dialogs/delete-dialog'
-import InputDeleteDialogContent from '@repo/ui/components/dialogs/input-delete-dialog'
+import InputDeleteDialogContent from '@repo/ui/blocks/dialogs/input-delete-dialog'
 import {
   AlertDialog,
   AlertDialogTrigger,
-} from '@repo/ui/components/ui/alert-dialog'
-import { Button, type ButtonProps } from '@repo/ui/components/ui/button'
+} from '@repo/ui/components/alert-dialog'
+import { Button, type ButtonProps } from '@repo/ui/components/button'
 import { PiDeleteDustbin01Stroke } from '@repo/ui/icons/pika'
 import { cn, type ReturnInfo } from '@repo/ui/lib/utils'
 import {
@@ -17,8 +16,8 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@repo/ui/components/ui/alert-dialog'
-import { buttonVariants } from '@repo/ui/components/ui/button'
+} from '@repo/ui/components/alert-dialog'
+import { buttonVariants } from '@repo/ui/components/button'
 
 export type DeleteButtonProps = ButtonProps & {
   title: string

@@ -1,7 +1,7 @@
 'use client'
 
-import { Button } from '@repo/ui/components/ui/button'
-import { Separator } from '@repo/ui/components/ui/separator'
+import { Button } from '@repo/ui/components/button'
+import { Separator } from '@repo/ui/components/separator'
 import { PiArrowUpCircleStroke } from '@repo/ui/icons/pika'
 import { cn } from '@repo/ui/lib/utils'
 import { useScrollPosition } from '@repo/ui/hooks/use-scroll-position'

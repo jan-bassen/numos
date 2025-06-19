@@ -3,7 +3,7 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@repo/ui/components/ui/accordion'
+} from '@repo/ui/components/accordion'
 import type { LegacyResolvedFolder } from '@/types/database.types'
 
 export default function FolderView({

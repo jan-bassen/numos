@@ -1,11 +1,11 @@
 'use client'
 
-import { Card } from '@repo/ui/components/ui/card'
+import { Card } from '@repo/ui/components/card'
 import {
   InputOTP,
   InputOTPGroup,
   InputOTPSlot,
-} from '@repo/ui/components/ui/input-otp'
+} from '@repo/ui/components/input-otp'
 import { createSupabaseClient } from '@/lib/supabase/clients/client'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { toast } from 'sonner'
@@ -19,9 +19,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@repo/ui/components/ui/form'
-import { Button } from '@repo/ui/components/ui/button'
-import { Input } from '@repo/ui/components/ui/input'
+} from '@repo/ui/components/form'
+
+import { Input } from '@repo/ui/components/input'
+import { Button } from '@repo/ui/components/button'
 import Link from 'next/link'
 import { cn } from '@repo/ui/lib/utils'
 

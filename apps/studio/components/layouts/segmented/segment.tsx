@@ -1,5 +1,5 @@
 import { cn } from '@repo/ui/lib/utils'
-import type { TooltipInfo } from '@repo/ui/components/help/info-tooltip'
+import type { TooltipInfo } from '@repo/ui/blocks/help/info-tooltip'
 import Subheading from '@/components/layouts/subheading'
 
 type SegmentProps = {

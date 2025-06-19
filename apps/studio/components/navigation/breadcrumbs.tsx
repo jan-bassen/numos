@@ -4,7 +4,7 @@ import {
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbSeparator,
-} from '@repo/ui/components/ui/breadcrumb'
+} from '@repo/ui/components/breadcrumb'
 import Link from 'next/link'
 import { Fragment, type JSX } from 'react'
 

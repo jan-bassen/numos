@@ -16,10 +16,10 @@ import { toast } from 'sonner'
 
 export async function handleFileUpload(
   version: string,
-  folder: string-3 | null,
+  folder: string | null,
   files: File[] | null,
   fileInputRef: RefObject<HTMLInputElement | null> | null,
-) {
+): Promise<void> {
   if (!files) return
   const fileMap: Record<string, File> = {}
   for (const file of files) {
@@ -168,9 +168,9 @@ const verifyFile = (
 
 export async function createLayerEntries(
   version: string,
-  folder: string-3 | null,
+  folder: string | null,
   files: Record<string, File>,
-) {
+): Promise<{ ok: boolean; message?: string | null }> {
   const plural = Object.keys(files).length > 1
   const layerEntries: InsertUpload[] = []
   for (const [id, file] of Object.entries(files)) {

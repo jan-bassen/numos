@@ -1,11 +1,11 @@
 import type { ListInputComponentProps } from '@/components/datatypes/list/list-input'
 import type { ValueRestrictions, ValueType } from '@repo/shared/types/values'
-import { Button } from '@repo/ui/components/ui/button'
+import { Button } from '@repo/ui/components/button'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@repo/ui/components/ui/popover'
+} from '@repo/ui/components/popover'
 import { PiSettings02Stroke } from '@repo/ui/icons/pika'
 
 export function ParameterRestrictions<VT extends ValueType, L extends boolean>(

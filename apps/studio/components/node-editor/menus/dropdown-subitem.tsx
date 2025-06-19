@@ -5,7 +5,7 @@ import {
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
-} from '@repo/ui/components/ui/dropdown-menu'
+} from '@repo/ui/components/dropdown-menu'
 import type { NewNodePosition } from '@/lib/rete/utils/init'
 import type { Item } from '@/types/editor.types'
 

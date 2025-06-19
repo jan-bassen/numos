@@ -7,7 +7,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from '@repo/ui/components/ui/sidebar'
+} from '@repo/ui/components/sidebar'
 import { type ComponentProps, useEffect, useState } from 'react'
 import { cn } from '@repo/ui/lib/utils'
 import { useChatContext } from '@/lib/hubspot/chat-context'

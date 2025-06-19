@@ -1,6 +1,6 @@
 'use client'
 
-import { Textarea } from '@repo/ui/components/ui/textarea'
+import { Textarea } from '@repo/ui/components/textarea'
 import { useAction } from '@/app/collections/[collection]/actions/[action]/action-context'
 
 export function ActionDescriptionInput() {

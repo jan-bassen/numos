@@ -4,7 +4,7 @@ import {
   type TabsListProps,
   type TabsProps,
   type TabsTriggerProps,
-} from '@repo/ui/components/ui/tabs'
+} from '@repo/ui/components/tabs'
 import { cn } from '@repo/ui/lib/utils'
 import type { TabOption } from './tab-option'
 import TabOptionElement from './tab-option'

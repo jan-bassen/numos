@@ -19,7 +19,7 @@ function classicConnectionPath(
 export function getConnection(type?: SocketType) {
   return function ConnectionComponent(props: { data: Node }) {
     const { start, end } = useConnection()
-    if (!start || !end) return null
+    if (!start || !end) return null 
     const adjStart = {
       x: start.x - 6 + (type && type === 'exec' ? 5 : 0),
       y: start.y,
@@ -39,8 +39,8 @@ export function getConnection(type?: SocketType) {
           strokeWidth={2}
           className={cn(
             'pointer-events-auto stroke-2',
-            type ? `stroke-${type}` : 'stroke-number',
-            type === 'exec' && 'motion-safe:animate-path',
+            'stroke-border',
+            type === 'exec' && 'motion-safe:animate-path !stroke-primary-300',
           )}
           d={path}
         />

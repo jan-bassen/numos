@@ -1,4 +1,4 @@
-import { Button } from '@repo/ui/components/ui/button'
+import { Button } from '@repo/ui/components/button'
 import type {
   ControllerRenderProps,
   FieldPath,
@@ -8,19 +8,19 @@ import type {
 } from 'react-hook-form'
 import { useEffect, useRef, useState, type JSX } from 'react'
 import { cn } from '@repo/ui/lib/utils'
-import { Form, FormField } from '@repo/ui/components/ui/form'
+import { Form, FormField } from '@repo/ui/components/form'
 import {
   Pagination,
   PaginationContent,
   PaginationItem,
-} from '@repo/ui/components/ui/pagination'
+} from '@repo/ui/components/pagination'
 import { ChevronLeft, ChevronRight, type LucideIcon } from 'lucide-react'
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   type CarouselApi,
-} from '@repo/ui/components/ui/carousel'
+} from '@repo/ui/components/carousel'
 import { isEmpty } from 'lodash'
 
 export type StaticStageDefinition<

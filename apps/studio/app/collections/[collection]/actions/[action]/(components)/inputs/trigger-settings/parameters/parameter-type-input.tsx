@@ -10,7 +10,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@repo/ui/components/ui/select'
+} from '@repo/ui/components/select'
 
 export function ParameterTypeInput({
   paramKey,

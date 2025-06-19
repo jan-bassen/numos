@@ -1,12 +1,12 @@
 import { cn } from '@repo/ui/lib/utils'
 import type { Item } from '@/types/editor.types'
-import { buttonVariants } from '@repo/ui/components/ui/button'
+import { buttonVariants } from '@repo/ui/components/button'
 import {
   Menubar,
   MenubarContent,
   MenubarMenu,
   MenubarTrigger,
-} from '@repo/ui/components/ui/menubar'
+} from '@repo/ui/components/menubar'
 import { NodeGroupsBarSubitem } from './node-groups-bar-subitem'
 import type { NewNodePosition } from '@/lib/rete/utils/init'
 
@@ -32,12 +32,11 @@ export function NodeGroupsBar(props: Props) {
 
   return (
     <Menubar
-      className={cn('h-fit space-x-0.5 border-none p-0', props.className)}
+      className={cn('h-fit space-x-0.5 border-none shadow-none p-0', props.className)}
     >
       {groups.map((group) => (
         <MenubarMenu key={group.key}>
           <MenubarTrigger
-            unstyled
             className={cn(
               buttonVariants({
                 variant: 'ghost',
@@ -49,7 +48,7 @@ export function NodeGroupsBar(props: Props) {
             {group.Icon?.({ className: 'size-4.5' })}
           </MenubarTrigger>
           <MenubarContent
-            className={cn('flex min-w-36 flex-col bg-background p-0 shadow-md')}
+            className={cn('flex min-w-36 flex-col bg-background p-0 shadow-sm')}
           >
             {group.subitems?.map((subitem) => (
               <NodeGroupsBarSubitem
