@@ -76,7 +76,7 @@ function TierCard({
   tier,
 }: { tier: Dictionary['home']['pricing']['tiers'][number] }) {
   return (
-    <Card className="!rounded-2xl lg:!rounded-4xl min-h-[26rem] bg-gradient-to-b from-background to-muted/30">
+    <Card className="py-0 !rounded-2xl lg:!rounded-4xl min-h-[26rem] bg-gradient-to-b from-background to-muted/30">
       <CardContent className="h-full space-y-5 p-6">
         <div className="space-y-1">
           <h2 className="font-bold text-xl">{tier.name}</h2>

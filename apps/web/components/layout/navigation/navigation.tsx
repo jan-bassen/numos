@@ -1,8 +1,6 @@
-import Logo from '../../../../../packages/ui/src/blocks/brand/logo'
+import Logo from '@repo/ui/blocks/brand/logo'
 import { Button } from '@repo/ui/components/button'
-import { Link } from '@repo/ui/components/link'
-import { buttonVariants } from '@repo/ui/components/button'
-import { cn } from '@repo/ui/lib/utils'
+import  Link  from 'next/link'
 import { ThemeToggle } from '@/components/layout/navigation/theme-toggle'
 import type { Dictionary } from '@/dictionaries/dictionaries'
 import { SignUpDialog } from '@/components/sign-up/sign-up-dialog'
@@ -35,15 +33,14 @@ export function Navigation({
           <ThemeToggle />
           <Link
             href="https://studio.numos.xyz/login"
-            className={cn(
-              buttonVariants({ variant: 'ghost' }),
-              'max-sm:!hidden rounded-full',
-            )}
+            className="max-sm:!hidden"
           >
-            {dictionary.navbar.login}
+            <Button variant={'outline'} className="rounded-full">
+              {dictionary.navbar.login}
+            </Button>
           </Link>
           <SignUpDialog dictionary={dictionary.home}>
-            <Button variant={'destructive'} className="mr-1 rounded-full">
+            <Button  className="mr-1 rounded-full">
               {dictionary.navbar.signup}
             </Button>
           </SignUpDialog>

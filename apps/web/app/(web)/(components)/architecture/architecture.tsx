@@ -209,7 +209,7 @@ function ArchtiectureCard({
   return (
     <Card
       className={cn(
-        '!rounded-2xl lg:!rounded-4xl max-sm:min-h-80 overflow-hidden sm:aspect-square',
+        'py-0 !rounded-2xl lg:!rounded-4xl max-sm:min-h-80 overflow-hidden sm:aspect-square',
         card.className,
       )}
     >
