@@ -4,7 +4,7 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
-} from '@repo/ui/components/ui/sidebar'
+} from '@repo/ui/components/sidebar'
 import { Support } from './support'
 import type { ActionNavItem } from '@/lib/supabase/db/actions'
 import { NavUser } from '@/components/navigation/navbar/user/nav-user'

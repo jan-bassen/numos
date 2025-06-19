@@ -17,7 +17,7 @@ import {
   SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
-} from '@repo/ui/components/ui/sidebar'
+} from '@repo/ui/components/sidebar'
 
 import { useSelectedLayoutSegments } from 'next/navigation'
 import { cn } from '@repo/ui/lib/utils'

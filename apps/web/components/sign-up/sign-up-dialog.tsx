@@ -1,4 +1,4 @@
-import { Button } from '@repo/ui/components/ui/button'
+import { Button } from '@repo/ui/components/button'
 
 import type { Dictionary } from '@/dictionaries/dictionaries'
 import {
@@ -8,7 +8,7 @@ import {
   ResponsiveDialogTitle,
   ResponsiveDialogDescription,
   ResponsiveDialogHeader,
-} from '@repo/ui/components/ui/responsive-dialog'
+} from '@repo/ui/components/responsive-dialog'
 import SignUpForm from '@/components/sign-up/sign-up-form'
 import { PiArrowRightStroke } from '@repo/ui/icons/pika'
 

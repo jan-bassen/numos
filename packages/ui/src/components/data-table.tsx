@@ -44,7 +44,7 @@ export function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>(options?.sorting || [])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
-    options?.filtering ? options.filtering - 3 : [],
+    options?.filtering || [],
   )
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
     options?.visibility || {},

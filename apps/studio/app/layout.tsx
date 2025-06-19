@@ -1,7 +1,7 @@
 import '@repo/ui/styles.css'
 import type { Metadata } from 'next'
 import { Inter, Outfit } from 'next/font/google'
-import { Toaster } from '@repo/ui/components/ui/sonner'
+import { Toaster } from '@repo/ui/components/sonner'
 import { cn } from '@repo/ui/lib/utils'
 import localFont from 'next/font/local'
 import type { CssVariable } from 'next/dist/compiled/@next/font'

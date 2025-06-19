@@ -1,4 +1,4 @@
-import { TabsTrigger, type TabsTriggerProps } from '@repo/ui/components/ui/tabs'
+import { TabsTrigger, type TabsTriggerProps } from '@repo/ui/components/tabs'
 import { PiCheckTickCircleBrokenStroke } from '@repo/ui/icons/pika'
 import { cn } from '@repo/ui/lib/utils'
 import type { JSX, SVGProps } from 'react'

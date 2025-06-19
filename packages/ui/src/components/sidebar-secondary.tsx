@@ -172,7 +172,7 @@ const SecondarySidebar = ({
     return (
       <div
         className={cn(
-          'flex h-full w-[--secondary-width] flex-col bg-sidebar text-sidebar-foreground',
+          'flex h-full w-[--secondary-sidebar-width] flex-col bg-sidebar text-sidebar-foreground',
           className,
         )}
         {...props}
@@ -228,7 +228,7 @@ const SecondarySidebar = ({
       />
       <div
         className={cn(
-          'fixed inset-y-0 z-10 hidden h-svh w-[--secondary-sidebar-width] transition-[left,right,width] duration-200 ease-linear md:flex',
+          'fixed inset-y-0 z-10 hidden h-svh w-(--secondary-sidebar-width) transition-[left,right,width] duration-200 ease-linear md:flex',
           side === 'left'
             ? 'left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--secondary-sidebar-width)*-1)]'
             : 'right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--secondary-sidebar-width)*-1)]',

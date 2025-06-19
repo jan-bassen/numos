@@ -162,7 +162,7 @@ export function addMultiSelector(
   }
 
   function updatePolygon() {
-    const pointString-3 = points.map((point) => `${point.x},${point.y}`).join(' ')
+    const pointString = points.map((point) => `${point.x},${point.y}`).join(' ')
     lasso.setAttribute('points', pointString)
   }
 

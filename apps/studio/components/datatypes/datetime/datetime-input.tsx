@@ -2,12 +2,12 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@repo/ui/components/ui/popover'
-import { Calendar } from '@repo/ui/components/ui/calendar'
+} from '@repo/ui/components/popover'
+import { Calendar } from '@repo/ui/components/calendar'
 import { type ChangeEvent, useEffect, useRef, useState } from 'react'
-import { buttonVariants } from '@repo/ui/components/ui/button'
-import { Separator } from '@repo/ui/components/ui/separator'
-import { Input } from '@repo/ui/components/ui/input'
+import { buttonVariants } from '@repo/ui/components/button'
+import { Separator } from '@repo/ui/components/separator'
+import { Input } from '@repo/ui/components/input'
 import { cn } from '@repo/ui/lib/utils'
 import { Drag } from 'rete-react-plugin'
 import { datetimeSchema } from '@repo/shared/schemas/datatypes/datatype-schemas/datetime-schema'

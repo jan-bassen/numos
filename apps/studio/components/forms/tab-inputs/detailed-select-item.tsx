@@ -1,4 +1,4 @@
-import { SelectItem } from '@repo/ui/components/ui/select'
+import { SelectItem } from '@repo/ui/components/select'
 import type { TabOption } from '@/components/forms/tab-inputs/tab-option'
 
 export function DetailedSelectItem({

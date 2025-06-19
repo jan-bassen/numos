@@ -8,9 +8,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@repo/ui/components/ui/form'
-import { Input } from '@repo/ui/components/ui/input'
-import { Button } from '@repo/ui/components/ui/button'
+} from '@repo/ui/components/form'
+import { Input } from '@repo/ui/components/input'
+import { Button } from '@repo/ui/components/button'
 import { toast } from 'sonner'
 import { handleReturnInfo } from '@repo/ui/lib/utils'
 import { changePassword } from '@/lib/supabase/auth/auth'
@@ -20,7 +20,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@repo/ui/components/ui/dialog'
+} from '@repo/ui/components/dialog'
 
 const formSchema = z
   .object({

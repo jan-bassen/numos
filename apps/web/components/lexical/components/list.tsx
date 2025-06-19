@@ -1,6 +1,6 @@
 import { cn } from '@repo/ui/lib/utils'
 import type { ComponentProps, ReactNode } from 'react'
-import { Checkbox } from '@repo/ui/components/ui/checkbox'
+import { Checkbox } from '@repo/ui/components/checkbox'
 
 export function RichTextList<T extends 'ol' | 'ul'>({
   children,

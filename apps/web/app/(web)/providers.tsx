@@ -1,12 +1,12 @@
 'use client'
 
-import { TooltipProvider } from '@repo/ui/components/ui/tooltip'
+import { TooltipProvider } from '@repo/ui/components/tooltip'
 import { ThemeProvider, useTheme } from 'next-themes'
 import { cookieConsentGiven } from '@/components/layout/cookie-banner'
 import { posthog } from 'posthog-js'
 import { PostHogProvider } from 'posthog-js/react'
 import { useEffect } from 'react'
-import { SidebarProvider } from '@repo/ui/components/ui/sidebar'
+import { SidebarProvider } from '@repo/ui/components/sidebar'
 import { ChatProvider } from '@/lib/hubspot/chat-context'
 
 declare global {

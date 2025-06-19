@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Logo from '../../../../packages/ui/src/blocks/brand/logo'
-import { Separator } from '@repo/ui/components/ui/separator'
+import { Separator } from '@repo/ui/components/separator'
 import type { Dictionary } from '@/dictionaries/dictionaries'
 import Image from 'next/image'
 

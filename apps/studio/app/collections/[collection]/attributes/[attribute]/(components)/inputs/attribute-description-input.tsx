@@ -1,6 +1,6 @@
 'use client'
 
-import { Textarea } from '@repo/ui/components/ui/textarea'
+import { Textarea } from '@repo/ui/components/textarea'
 import { useAttribute } from '../../attribute-context'
 
 export function AttributeDescriptionInput() {

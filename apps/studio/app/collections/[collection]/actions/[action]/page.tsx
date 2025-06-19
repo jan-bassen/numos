@@ -28,7 +28,7 @@ import {
   SelectContent,
   SelectTrigger,
   SelectValue,
-} from '@repo/ui/components/ui/select'
+} from '@repo/ui/components/select'
 import { TriggerSettingsSegment } from '@/app/collections/[collection]/actions/[action]/(components)/inputs/trigger-settings/trigger-settings-segment'
 import { ActionSlugInput } from '@/app/collections/[collection]/actions/[action]/(components)/inputs/action-slug-input'
 import { ActionDescriptionInput } from '@/app/collections/[collection]/actions/[action]/(components)/inputs/action-description-input'

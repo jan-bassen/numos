@@ -7,17 +7,17 @@ import {
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger,
-} from '@repo/ui/components/ui/context-menu'
+} from '@repo/ui/components/context-menu'
 import {
   AlertDialog,
   AlertDialogTrigger,
-} from '@repo/ui/components/ui/alert-dialog'
+} from '@repo/ui/components/alert-dialog'
 import {
   PiDeleteDustbin02Stroke,
   PiPencilEditBoxStroke,
 } from '@repo/ui/icons/pika'
 import { deleteAttributeBySlug } from '@/lib/supabase/db/attributes/delete'
-import DeleteDialogContent from '@repo/ui/components/dialogs/delete-dialog'
+import DeleteDialogContent from '@repo/ui/blocks/dialogs/delete-dialog'
 import { removeAttributeFromLocalForm } from '@/app/collections/[collection]/attributes/(functions)/utils'
 import type { ComponentProps } from 'react'
 

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
-import { Button } from '@repo/ui/components/ui/button'
+import { Button } from '@repo/ui/components/button'
 import { Droplets, FlaskConical, RefreshCcw } from 'lucide-react'
 import Fireworks from 'react-canvas-confetti/dist/presets/fireworks'
 import { HomeDescription, HomeHeading } from './heading'

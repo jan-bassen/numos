@@ -1,6 +1,6 @@
 'use client'
 
-import { Button, buttonVariants } from '@repo/ui/components/ui/button'
+import { Button, buttonVariants } from '@repo/ui/components/button'
 import type { Collection } from '@/types/database.types'
 import Link from 'next/link'
 import { cn } from '@repo/ui/lib/utils'
@@ -11,9 +11,9 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
-} from '@repo/ui/components/ui/dropdown-menu'
+} from '@repo/ui/components/dropdown-menu'
 import { SupabaseImage } from '@/components/supabase/supabase-image'
-import { useSidebar } from '@repo/ui/components/ui/sidebar'
+import { useSidebar } from '@repo/ui/components/sidebar'
 
 export function CollectionSwitcherButton({
   collections,

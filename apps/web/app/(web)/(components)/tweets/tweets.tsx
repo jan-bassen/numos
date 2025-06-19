@@ -4,7 +4,7 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from '@repo/ui/components/ui/carousel'
+} from '@repo/ui/components/carousel'
 import { PiSwipeRightHandStroke } from '@repo/ui/icons/pika'
 import { Tweet } from '@/app/(web)/(components)/tweets/tweet'
 

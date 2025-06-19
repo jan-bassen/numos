@@ -1,4 +1,4 @@
-import { TabsContent } from '@repo/ui/components/ui/tabs'
+import { TabsContent } from '@repo/ui/components/tabs'
 import { cn } from '@repo/ui/lib/utils'
 import type { ComponentProps } from 'react'
 

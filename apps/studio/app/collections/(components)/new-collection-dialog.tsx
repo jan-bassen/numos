@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { type ReactNode, useState } from 'react'
 import { handleReturnInfo } from '@repo/ui/lib/utils'
 import { toast } from 'sonner'
-import { Input } from '@repo/ui/components/ui/input'
+import { Input } from '@repo/ui/components/input'
 import { useRouter } from 'next/navigation'
 import { insertCollection } from '@/lib/supabase/db/collections'
 import { collectionSchema } from '@/lib/schemas/collection-schema'
@@ -17,13 +17,13 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@repo/ui/components/ui/dialog'
+} from '@repo/ui/components/dialog'
 import { Fingerprint, Tag } from 'lucide-react'
 import {
   type StaticStageDefinition,
   StagedForm,
 } from '@/components/forms/staged-form'
-import { FormControl, FormItem, FormMessage } from '@repo/ui/components/ui/form'
+import { FormControl, FormItem, FormMessage } from '@repo/ui/components/form'
 import { slugify } from '@/lib/utils'
 
 export function NewCollectionDialog({ children }: { children: ReactNode }) {

@@ -1,17 +1,17 @@
-import { Button } from '@repo/ui/components/ui/button'
+import { Button } from '@repo/ui/components/button'
 import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger,
-} from '@repo/ui/components/ui/context-menu'
+} from '@repo/ui/components/context-menu'
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogTitle,
-} from '@repo/ui/components/ui/dialog'
-import { Input } from '@repo/ui/components/ui/input'
+} from '@repo/ui/components/dialog'
+import { Input } from '@repo/ui/components/input'
 import {
   PiCalendarCheckContrast,
   PiDatabaseContrast,

@@ -7,7 +7,7 @@ import {
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger,
-} from '@repo/ui/components/ui/context-menu'
+} from '@repo/ui/components/context-menu'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,7 +18,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@repo/ui/components/ui/alert-dialog'
+} from '@repo/ui/components/alert-dialog'
 import {
   PiDeleteDustbin02Stroke,
   PiPencilEditBoxStroke,

@@ -1,7 +1,7 @@
 'use client'
 
-import { Button } from '@repo/ui/components/ui/button'
-import { Separator } from '@repo/ui/components/ui/separator'
+import { Button } from '@repo/ui/components/button'
+import { Separator } from '@repo/ui/components/separator'
 import {
   PiCrossCross,
   PiEnvelopeDefaultStroke,
@@ -16,7 +16,7 @@ import { toast } from 'sonner'
 import { cn } from '@repo/ui/lib/utils'
 import { useUser } from '@/app/(providers)/user-context'
 import PasswordDialogContent from '@/app/account/(components)/inputs/password-dialog'
-import { Dialog } from '@repo/ui/components/ui/dialog'
+import { Dialog } from '@repo/ui/components/dialog'
 
 const providers: {
   [key: string]: {

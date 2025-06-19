@@ -6,14 +6,14 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@repo/ui/components/ui/dropdown-menu'
+} from '@repo/ui/components/dropdown-menu'
 import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuSeparator,
   ContextMenuTrigger,
-} from '@repo/ui/components/ui/context-menu'
+} from '@repo/ui/components/context-menu'
 import { DropdownMenuSubitem } from './dropdown-subitem'
 import { ContextMenuSubitem } from './context-subitem'
 import type { Item } from '@/types/editor.types'

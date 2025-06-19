@@ -2,9 +2,9 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from '@repo/ui/components/ui/sidebar'
+} from '@repo/ui/components/sidebar'
 import Link from 'next/link'
-import Logo from '../../../../../packages/ui/src/blocks/brand/logo'
+import Logo from '@repo/ui/blocks/brand/logo'
 import { CollapseButton } from '@/components/navigation/navbar/collapse-button'
 
 export function NumosButton() {

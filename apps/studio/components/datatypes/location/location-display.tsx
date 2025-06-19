@@ -4,12 +4,12 @@ import {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
-} from '@repo/ui/components/ui/tooltip'
+} from '@repo/ui/components/tooltip'
 import { cn } from '@repo/ui/lib/utils'
 import { useState } from 'react'
 import { fromLatLng } from 'react-geocode'
 import { getAddressFromGeocoder } from './address'
-import { Separator } from '@repo/ui/components/ui/separator'
+import { Separator } from '@repo/ui/components/separator'
 import type { GenericDisplayProps } from '../generic-display'
 import type { Location, OptionalValue } from '@repo/shared/types/values'
 

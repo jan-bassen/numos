@@ -2,10 +2,10 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@repo/ui/components/ui/popover'
+} from '@repo/ui/components/popover'
 import { cn } from '@repo/ui/lib/utils'
 import type { Direction } from '@/types/database.types'
-import { Button, buttonVariants } from '@repo/ui/components/ui/button'
+import { Button, buttonVariants } from '@repo/ui/components/button'
 import { useRef } from 'react'
 import { Drag } from 'rete-react-plugin'
 import { directions } from '@/lib/constants/directions'

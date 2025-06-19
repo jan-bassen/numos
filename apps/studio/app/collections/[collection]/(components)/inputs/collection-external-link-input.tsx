@@ -3,7 +3,7 @@
 import { useCollection } from '@/app/collections/[collection]/collection-context'
 import ErrorMessage from '@/components/state/error-message'
 import { cn } from '@repo/ui/lib/utils'
-import { Input } from '@repo/ui/components/ui/input'
+import { Input } from '@repo/ui/components/input'
 
 export function CollectionExternalLinkInput() {
   const {

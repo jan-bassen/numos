@@ -1,6 +1,6 @@
 import { cn } from '@repo/ui/lib/utils'
 import { type FocusEvent, useRef } from 'react'
-import { Textarea } from '@repo/ui/components/ui/textarea'
+import { Textarea } from '@repo/ui/components/textarea'
 import { Drag } from 'rete-react-plugin'
 import type { SingleDataTypeInputProps } from '../single-datatype-input'
 

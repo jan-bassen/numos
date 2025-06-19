@@ -1,7 +1,7 @@
 'use client'
 
 import { updateIssues } from '@/lib/validation/update-issues'
-import { Button } from '@repo/ui/components/ui/button'
+import { Button } from '@repo/ui/components/button'
 import { PiRefreshStroke, PiSearchBigStroke } from '@repo/ui/icons/pika'
 
 export default function IssuesButton({

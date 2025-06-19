@@ -1,6 +1,6 @@
 'use client'
 
-import { Button } from '@repo/ui/components/ui/button'
+import { Button } from '@repo/ui/components/button'
 import type { InsertCollection } from '@/types/database.types'
 import type { z } from 'zod'
 import { useForm } from 'react-hook-form'
@@ -13,11 +13,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@repo/ui/components/ui/form'
+} from '@repo/ui/components/form'
 import { toast } from 'sonner'
-import { Input } from '@repo/ui/components/ui/input'
+import { Input } from '@repo/ui/components/input'
 import { useRouter } from 'next/navigation'
-import { Textarea } from '@repo/ui/components/ui/textarea'
+import { Textarea } from '@repo/ui/components/textarea'
 import { insertCollection } from '@/lib/supabase/db/collections'
 import type { User } from '@supabase/supabase-js'
 import { collectionSchema } from '@/lib/schemas/collection-schema'

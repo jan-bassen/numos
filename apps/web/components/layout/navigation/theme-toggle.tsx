@@ -2,7 +2,7 @@
 
 import { PiMoonStroke, PiSunStroke } from '@repo/ui/icons/pika'
 
-import { Button } from '@repo/ui/components/ui/button'
+import { Button } from '@repo/ui/components/button'
 
 import { useTheme } from 'next-themes'
 

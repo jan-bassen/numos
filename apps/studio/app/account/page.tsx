@@ -9,7 +9,7 @@ import {
 import Main from '@/components/page/main'
 import { Page } from '@/components/page/page'
 import { ProfileNameInput } from '@/app/account/(components)/inputs/profile-name-input'
-import { Label } from '@repo/ui/components/ui/label'
+import { Label } from '@repo/ui/components/label'
 import { ProfileImageInput } from '@/app/account/(components)/inputs/profile-image-input'
 import { UserConnections } from '@/app/account/(components)/inputs/user-connections'
 

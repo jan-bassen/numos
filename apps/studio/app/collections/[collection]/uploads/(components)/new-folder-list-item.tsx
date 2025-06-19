@@ -1,4 +1,4 @@
-import { Input } from '@repo/ui/components/ui/input'
+import { Input } from '@repo/ui/components/input'
 import { PiFolderPlusSolid } from '@repo/ui/icons/pika'
 import { insertFolder } from '@/lib/supabase/db/uploads'
 import type { InsertFolder } from '@/types/database.types'

@@ -1,19 +1,19 @@
-import { SidebarContent } from '@repo/ui/components/ui/sidebar'
+import { SidebarContent } from '@repo/ui/components/sidebar'
 import {
   SecondarySidebar,
   SecondarySidebarRail,
   useSecondarySidebar,
-} from '@repo/ui/components/ui/sidebar-secondary'
+} from '@repo/ui/components/sidebar-secondary'
 import { useEditorContext } from '@/components/node-editor/editor/editor-provider'
 import { cn } from '@repo/ui/lib/utils'
-import { Button } from '@repo/ui/components/ui/button'
+import { Button } from '@repo/ui/components/button'
 import { PiPlayBigStroke } from '@repo/ui/icons/pika'
 import { SimulationForm } from '@/components/node-editor/run-sidebar/simulation-form/simulation-form'
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
-} from '@repo/ui/components/ui/resizable'
+} from '@repo/ui/components/resizable'
 import { useEffect } from 'react'
 import { useMediaQuery } from '@/lib/hooks/media-query'
 import GraphErrorResult from './graph-error-result'

@@ -21,7 +21,7 @@ export default function Control({
         <div
           className={cn(
             // biome-ignore lint/nursery/useSortedClasses: <explanation>
-            'inline-block pl-1 align-middle text-2xs leading-3 text-foreground',
+            'inline-block pl-1 align-middle text-xs leading-3 text-foreground',
             !control.valid && 'text-yellow-500',
             error && 'text-destructive',
           )}

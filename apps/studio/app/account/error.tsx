@@ -1,6 +1,6 @@
 'use client'
 
-import GeneralError from '@repo/ui/components/errors/general-error'
+import GeneralError from '@repo/ui/blocks/errors/general-error'
 import { useEffect } from 'react'
 
 export default function UserError({

@@ -1,4 +1,4 @@
-import { Switch } from '@repo/ui/components/ui/switch'
+import { Switch } from '@repo/ui/components/switch'
 import { type FocusEvent, useRef } from 'react'
 import { cn } from '@repo/ui/lib/utils'
 import { Drag } from 'rete-react-plugin'
@@ -8,7 +8,7 @@ import {
   PiSquareDotStroke,
 } from '@repo/ui/icons/pika'
 import { TabSelect } from '@/components/forms/tab-inputs/tab-select'
-import { Button } from '@repo/ui/components/ui/button'
+import { Button } from '@repo/ui/components/button'
 import type { SingleDataTypeInputProps } from '../single-datatype-input'
 
 export function BooleanInput({

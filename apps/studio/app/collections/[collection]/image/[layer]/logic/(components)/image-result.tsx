@@ -1,4 +1,4 @@
-import LoadingSpinner from '@repo/ui/components/loading/loading-spinner'
+import LoadingSpinner from '@repo/ui/blocks/loading/loading-spinner'
 import Image from 'next/image'
 
 export default function ImageResult({

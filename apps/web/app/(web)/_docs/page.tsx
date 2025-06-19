@@ -1,4 +1,4 @@
-import { Separator } from '@repo/ui/components/ui/separator'
+import { Separator } from '@repo/ui/components/separator'
 import { payload } from '@/lib/payload/client'
 import { addHeadingIds } from '@/app/(web)/_docs/(functions)/add-heading-ids'
 import { notFound } from 'next/navigation'

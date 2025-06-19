@@ -1,4 +1,4 @@
-import { Card, CardContent } from '@repo/ui/components/ui/card'
+import { Card, CardContent } from '@repo/ui/components/card'
 import { HomeDescription } from '../heading'
 import { HomeHeading } from '../heading'
 import { cn } from '@repo/ui/lib/utils'

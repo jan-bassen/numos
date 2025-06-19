@@ -19,7 +19,7 @@ import { getAllLayers } from '@/lib/supabase/db/layers/read'
 import { getExtendedCollectionFromSlug } from '@/lib/supabase/db/collections'
 import { LayerView } from '@/app/collections/[collection]/image/(components)/layer-view/layer-view'
 import { NewLayerDialog } from '@/app/collections/[collection]/image/(components)/new-layer/new-layer-dialog'
-import { Button } from '@repo/ui/components/ui/button'
+import { Button } from '@repo/ui/components/button'
 
 export default async function Collection(props: {
   params: Promise<{ collection: string }>

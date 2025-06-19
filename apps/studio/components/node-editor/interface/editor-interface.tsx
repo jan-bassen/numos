@@ -1,5 +1,5 @@
 import { AddNodeMenu } from '@/components/node-editor/menus/add-node-menu'
-import { useSecondarySidebar } from '@repo/ui/components/ui/sidebar-secondary'
+import { useSecondarySidebar } from '@repo/ui/components/sidebar-secondary'
 import {
   PiCheckTick,
   PiChevronBigLeftStroke,
@@ -11,7 +11,7 @@ import {
 } from '@repo/ui/icons/pika'
 import { cn } from '@repo/ui/lib/utils'
 import { Focus, Minus, Plus, Redo2, Undo2 } from 'lucide-react'
-import { Button } from '@repo/ui/components/ui/button'
+import { Button } from '@repo/ui/components/button'
 import type { Editor } from '@/types/editor.types'
 import BackButton from './back-button'
 import TopBar from './top-bar'
@@ -127,7 +127,7 @@ export default function EditorInterface({
           <Button
             variant={'outline'}
             size={'none'}
-            className="size-8 rounded-l-lg border-r-0 shadow-xs"
+            className="size-8 rounded-r-none border-r-0 shadow-xs"
             onClick={() => {
               editor?.area.area.zoomAtCenter(-0.2)
             }}
@@ -138,7 +138,7 @@ export default function EditorInterface({
             <Button
               variant={'outline'}
               size={'none'}
-              className="h-8 w-12 border-x-0 py-1 font-light text-xs shadow-xs"
+              className="h-8 w-12 border-x py-1 rounded-none font-light text-xs shadow-xs"
               onClick={() => {
                 editor?.area.area.resetZoom()
               }}
@@ -149,7 +149,7 @@ export default function EditorInterface({
           <Button
             variant={'outline'}
             size={'none'}
-            className="size-8 rounded-r-lg border-l-0 shadow-xs"
+            className="size-8 rounded-l-none border-l-0 shadow-xs"
             onClick={() => {
               editor?.area.area.zoomAtCenter(0.2)
             }}
@@ -161,7 +161,7 @@ export default function EditorInterface({
           <Button
             variant={'outline'}
             size={'none'}
-            className="size-8 rounded-l-lg border-r-0 shadow-xs"
+            className="size-8 rounded-r-none shadow-xs"
             onClick={() => {
               editor?.history.undo()
             }}
@@ -171,7 +171,7 @@ export default function EditorInterface({
           <Button
             variant={'outline'}
             size={'none'}
-            className="size-8 rounded-r-lg border-l-0 shadow-xs"
+            className="size-8 rounded-l-none border-l-0 shadow-xs"
             onClick={() => {
               editor?.history.redo()
             }}

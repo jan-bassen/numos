@@ -34,7 +34,7 @@ import type {
 import RunSidebar from '@/components/node-editor/run-sidebar/run-sidebar'
 import EditorInterface from '@/components/node-editor/interface/editor-interface'
 import EditorProvider from '@/components/node-editor/editor/editor-provider'
-import { useSecondarySidebar } from '@repo/ui/components/ui/sidebar-secondary'
+import { useSecondarySidebar } from '@repo/ui/components/sidebar-secondary'
 
 //TODO: Clean up
 export default function BaseEditor({

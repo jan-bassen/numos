@@ -1,4 +1,4 @@
-import { Input } from '@repo/ui/components/ui/input'
+import { Input } from '@repo/ui/components/input'
 import { cn } from '@repo/ui/lib/utils'
 import { type FocusEvent, forwardRef, useRef } from 'react'
 import { Drag } from 'rete-react-plugin'

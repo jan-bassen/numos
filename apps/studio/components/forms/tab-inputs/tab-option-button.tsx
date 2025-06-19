@@ -1,4 +1,4 @@
-import { Button, type ButtonProps } from '@repo/ui/components/ui/button'
+import { Button, type ButtonProps } from '@repo/ui/components/button'
 import { PiCheckTickCircleBrokenStroke } from '@repo/ui/icons/pika'
 import { cn } from '@repo/ui/lib/utils'
 import type { TabOption } from './tab-option'
@@ -19,13 +19,13 @@ export default function TabOptionButton({
         size={'none'}
         disabled={disabled}
         className={cn(
-          'group relative flex flex-col overflow-visible rounded-xs border border-background outline-[1.7px] outline-border transition-none enabled:outline-foreground data-[state=active]:outline data-[state=inactive]:disabled:bg-muted/30 data-[state=active]:disabled:opacity-100 data-[state=inactive]:enabled:border-border data-[state=active]:enabled:bg-card',
-          ' gap-1 px-6 !py-4',
+          'group relative flex flex-col overflow-visible rounded-xs border outline-[1.7px] transition-none data-[state=active]:!border-primary-700 data-[state=inactive]:disabled:bg-muted/30 data-[state=active]:disabled:opacity-100',
+          ' !py-4',
           className,
         )}
       >
         {!disabled && (
-          <PiCheckTickCircleBrokenStroke className="-left-2 -top-1.5 zoom-in-50 absolute hidden h-5 w-5 animate-in rounded-full bg-background stroke-foreground pr-0.5 pb-0.5 group-data-[state=active]:flex" />
+          <PiCheckTickCircleBrokenStroke className="-left-2 -top-1.5 zoom-in-50 absolute hidden size-5 animate-in rounded-full bg-background stroke-foreground pr-0.5 pb-0.5 group-data-[state=active]:flex group-data-[state=active]:text-primary-700" />
         )}
         <div className="flex w-full shrink-0 items-center justify-start gap-1.5">
           {option.Icon?.({ className: 'size-4' })}
@@ -45,13 +45,13 @@ export default function TabOptionButton({
       size={'none'}
       disabled={disabled}
       className={cn(
-        'group relative flex grow overflow-visible rounded-xs outline-[1.7px] outline-border transition-none enabled:outline-foreground data-[state=active]:enabled:outline data-[state=inactive]:disabled:bg-muted/30 data-[state=active]:disabled:opacity-100 data-[state=inactive]:enabled:border data-[state=active]:enabled:bg-card',
-        'min-h-[6rem] flex-col gap-3 px-2 pt-3 pb-2 md:px-5 lg:w-full xl:grow-0 xl:gap-5 xl:px-2',
+        'group data-[state=data-[state=inactive]:enabled:border relative flex grow overflow-visible rounded-xs outline-[1.7px] outline-border transition-none enabled:outline-foreground data-[state=active]:enabled:bg-card data-[state=active]:!border-primary-700',
+        'min-h-[6rem] flex-col gap-3 px-2 pt-3 pb-2 md:px-5 lg:w-full xl:gap-5 xl:px-2',
         className,
       )}
     >
       {!disabled && (
-        <PiCheckTickCircleBrokenStroke className="-left-2 -top-1.5 zoom-in-50 absolute hidden h-5 w-5 animate-in rounded-full bg-background stroke-foreground pr-0.5 pb-0.5 group-data-[state=active]:flex" />
+        <PiCheckTickCircleBrokenStroke className="-left-2 -top-1 zoom-in-50 absolute hidden size-5 bg-background stroke-foreground pr-0.5 pb-0.5 group-data-[state=active]:flex group-data-[state=active]:text-primary-700" />
       )}
       {option.Icon?.({ className: 'size-4' })}
       <div className="flex flex-col gap-1">

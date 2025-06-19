@@ -16,13 +16,13 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@repo/ui/components/ui/dropdown-menu'
+} from '@repo/ui/components/dropdown-menu'
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from '@repo/ui/components/ui/sidebar'
+} from '@repo/ui/components/sidebar'
 import { Avatar } from '@/components/supabase/avatar'
 import { createSupabaseClient } from '@/lib/supabase/clients/client'
 import { usePathname, useRouter } from 'next/navigation'

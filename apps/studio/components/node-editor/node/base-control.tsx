@@ -4,13 +4,13 @@ import type { Schemes } from '@/types/editor.types'
 import { Drag, Presets, type ReactArea2D } from 'rete-react-plugin'
 import type { Control as ControlClass } from '@/lib/rete/classes/control'
 import { cn } from '@repo/ui/lib/utils'
-import { buttonVariants } from '@repo/ui/components/ui/button'
+import { buttonVariants } from '@repo/ui/components/button'
 import { dataTypes } from '@/lib/constants/datatypes'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@repo/ui/components/ui/popover'
+} from '@repo/ui/components/popover'
 import { useRef } from 'react'
 import DatatypeListInput from '@/components/datatypes/list/datatype-list-input'
 import type { Value, ValueType } from '@repo/shared/types/values'

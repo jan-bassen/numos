@@ -4,16 +4,16 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@repo/ui/components/ui/popover'
+} from '@repo/ui/components/popover'
 import { type FormEvent, useEffect, useRef, useState } from 'react'
-import { Button, buttonVariants } from '@repo/ui/components/ui/button'
+import { Button, buttonVariants } from '@repo/ui/components/button'
 import {
   APIProvider,
   Map as GoogleMap,
   Marker,
 } from '@vis.gl/react-google-maps'
 import { fromAddress, fromLatLng, setKey, setLanguage } from 'react-geocode'
-import { Input } from '@repo/ui/components/ui/input'
+import { Input } from '@repo/ui/components/input'
 import { PiSearchDefaultStroke } from '@repo/ui/icons/pika'
 import { cn } from '@repo/ui/lib/utils'
 import { Drag } from 'rete-react-plugin'

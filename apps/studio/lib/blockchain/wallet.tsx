@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { getWalletClient, getBlockchainClient } from './client'
 import { formatEther } from 'viem'
-import { Button } from '@repo/ui/components/ui/button'
+import { Button } from '@repo/ui/components/button'
 import { PiWalletLinkStroke } from '@repo/ui/icons/pika'
 
 export default function WalletButton() {

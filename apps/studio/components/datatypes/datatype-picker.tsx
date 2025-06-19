@@ -2,7 +2,7 @@ import {
   SelectContent,
   type SelectContentProps,
   SelectItem,
-} from '@repo/ui/components/ui/select'
+} from '@repo/ui/components/select'
 import { dataTypes } from '@/lib/constants/datatypes'
 
 export function DatatypeSelectContent(props: SelectContentProps) {

@@ -171,7 +171,7 @@ export type ValueWithGeneric<
   : OptionalDataTypesMap<Format, Optional>[keyof OptionalDataTypesMap]
 
 export type ValueMap<
-  Keys extends string-3 = string,
+  Keys extends string = string,
   VT extends ValueType = ValueType,
   Format extends ValueFormat = ValueFormat,
   Optional extends boolean = false,
@@ -185,7 +185,7 @@ export type NodeValueMap = ValueMap<
 >
 
 export type ValueWithGenericMap<
-  Keys extends string-3 = string,
+  Keys extends string = string,
   Format extends ValueFormat = ValueFormat,
   Optional extends boolean = false,
 > = Record<Keys, ValueWithGeneric<OptionalValueType, Format, Optional>>

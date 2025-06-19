@@ -5,7 +5,7 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
-} from '@repo/ui/components/ui/tabs'
+} from '@repo/ui/components/tabs'
 import {
   PiBarchartDefaultSolid,
   PiChevronBigRightStroke,
@@ -17,8 +17,8 @@ import { isEqual } from 'lodash'
 import { useState } from 'react'
 import LogsList from './log-list'
 import { GenericDisplay } from '@/components/datatypes/generic-display'
-import LoadingSpinner from '@repo/ui/components/loading/loading-spinner'
-import { Separator } from '@repo/ui/components/ui/separator'
+import LoadingSpinner from '@repo/ui/blocks/loading/loading-spinner'
+import { Separator } from '@repo/ui/components/separator'
 import type { SimulatedTokenStateResult } from '@repo/shared/types/engine-types'
 import type { Attribute } from '@/types/database.types'
 

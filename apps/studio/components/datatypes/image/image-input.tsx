@@ -3,16 +3,16 @@ import { SupabaseImage } from '@/components/supabase/supabase-image'
 import { useRef, useState } from 'react'
 import { Drag } from 'rete-react-plugin'
 import { PiFolderDefaultSolid, PiHomeDefaultSolid } from '@repo/ui/icons/pika'
-import { Button } from '@repo/ui/components/ui/button'
+import { Button } from '@repo/ui/components/button'
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@repo/ui/components/ui/dialog'
+} from '@repo/ui/components/dialog'
 import Breadcrumbs from '@/components/navigation/breadcrumbs'
-import { BreadcrumbItem } from '@repo/ui/components/ui/breadcrumb'
+import { BreadcrumbItem } from '@repo/ui/components/breadcrumb'
 import type { SingleDataTypeInputProps } from '../single-datatype-input'
 
 export function ImageInput({

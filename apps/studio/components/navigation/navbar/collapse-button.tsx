@@ -1,7 +1,7 @@
 'use client'
 
-import { Button } from '@repo/ui/components/ui/button'
-import { useSidebar } from '@repo/ui/components/ui/sidebar'
+import { Button } from '@repo/ui/components/button'
+import { useSidebar } from '@repo/ui/components/sidebar'
 import {
   PiBurgerMenuThreeStroke,
   PiCrossCross,

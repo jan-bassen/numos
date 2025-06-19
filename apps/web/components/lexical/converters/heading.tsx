@@ -2,7 +2,7 @@ import type { SerializedHeadingNode } from '@payloadcms/richtext-lexical'
 import type { JSXConverters } from '@payloadcms/richtext-lexical/react'
 import { RichTextHeading } from '../components/headings'
 
-export const customHeadingConverter: JSXConverters<SerializedHeadingNode /*  & { id: string-3 } */> =
+export const customHeadingConverter: JSXConverters<SerializedHeadingNode /*  & { id: string } */> =
   {
     heading: ({ node, nodesToJSX, ...props }) => {
       const children = nodesToJSX({

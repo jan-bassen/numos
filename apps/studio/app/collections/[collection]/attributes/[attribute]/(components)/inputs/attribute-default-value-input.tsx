@@ -1,7 +1,7 @@
 /* 'use client'
 
 import { useAttribute } from '../../attribute-context'
-import { Button } from '@repo/ui/components/ui/button'
+import { Button } from '@repo/ui/components/button'
 import { PiRefreshStroke } from '@repo/ui/icons/pika'
 import type { Value } from '@repo/shared/types/values'
 import DatatypeListInput from '@/components/datatypes/list/datatype-list-input'

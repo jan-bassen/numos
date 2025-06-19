@@ -7,7 +7,7 @@ import {
   HeaderTitle,
 } from '@/components/page/header'
 import Main from '@/components/page/main'
-import { Button } from '@repo/ui/components/ui/button'
+import { Button } from '@repo/ui/components/button'
 import { PiAddAddStroke } from '@repo/ui/icons/pika'
 import { getAllActions } from '@/lib/supabase/db/actions'
 import { getExtendedCollectionFromSlug } from '@/lib/supabase/db/collections'

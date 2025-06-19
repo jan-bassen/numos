@@ -1,4 +1,4 @@
-import { Button, type ButtonProps } from '@repo/ui/components/ui/button'
+import { Button, type ButtonProps } from '@repo/ui/components/button'
 import { PiLockCloseStroke, PiLockOpenStroke } from '@repo/ui/icons/pika'
 import { cn } from '@repo/ui/lib/utils'
 

@@ -1,4 +1,4 @@
-import { Alert, AlertDescription } from '@repo/ui/components/ui/alert'
+import { Alert, AlertDescription } from '@repo/ui/components/alert'
 import {
   Dialog,
   DialogContent,
@@ -6,7 +6,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@repo/ui/components/ui/dialog'
+} from '@repo/ui/components/dialog'
 import { toast } from 'sonner'
 import {
   PiAlertTriangleStroke,
@@ -24,7 +24,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@repo/ui/components/ui/form'
+} from '@repo/ui/components/form'
 import Link from 'next/link'
 import { type Path, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -38,14 +38,14 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@repo/ui/components/ui/accordion'
+} from '@repo/ui/components/accordion'
 import { useHotkeys } from 'react-hotkeys-hook'
 import {
   annotateMetadata,
   optionalMetadataSchema,
 } from '@/lib/schemas/metadata-schema'
 import { StringInput } from '@/components/datatypes/string/string-input'
-import { Button } from '@repo/ui/components/ui/button'
+import { Button } from '@repo/ui/components/button'
 import { NumberInput } from '@/components/datatypes/number/number-input'
 import { useEffect, useState } from 'react'
 
@@ -439,7 +439,7 @@ export function SimulationForm({
                             {(!!fieldValue || fieldValue === false) && (
                               <Button
                                 variant={'ghost'}
-                                size={'iconXs'}
+                                size={'icon'}
                                 type="button"
                                 className="text-border-highlight"
                                 onClick={() => {

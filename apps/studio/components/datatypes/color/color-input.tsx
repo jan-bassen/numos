@@ -5,13 +5,13 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@repo/ui/components/ui/popover'
+} from '@repo/ui/components/popover'
 import { type FocusEvent, useRef } from 'react'
 import { cn } from '@repo/ui/lib/utils'
 import { Drag } from 'rete-react-plugin'
 import { colorSchema } from '@repo/shared/schemas/datatypes/datatype-schemas/color-schema'
 import type { Color } from '@repo/shared/types/values'
-import { Button } from '@repo/ui/components/ui/button'
+import { Button } from '@repo/ui/components/button'
 import { PiRefreshStroke } from '@repo/ui/icons/pika'
 import type { SingleDataTypeInputProps } from '../single-datatype-input'
 import { toast } from 'sonner'

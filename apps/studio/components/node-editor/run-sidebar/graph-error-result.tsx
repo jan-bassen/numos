@@ -1,4 +1,4 @@
-import { Button } from '@repo/ui/components/ui/button'
+import { Button } from '@repo/ui/components/button'
 import { useEditorContext } from '@/components/node-editor/editor/editor-provider'
 import { PiCrossCross } from '@repo/ui/icons/pika'
 import { Focus } from 'lucide-react'
@@ -14,7 +14,7 @@ export default function GraphErrorResult() {
         </h2>
         <Button
           variant={'ghost'}
-          size={'iconSmall'}
+          size={'iconXs'}
           onClick={() => {
             error && error.type === 'graph' && setError(null)
           }}

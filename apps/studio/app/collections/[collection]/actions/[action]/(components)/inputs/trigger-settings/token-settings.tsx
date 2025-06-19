@@ -1,6 +1,6 @@
 import Segment from '@/components/layouts/segmented/segment'
 import { useAction } from '@/app/collections/[collection]/actions/[action]/action-context'
-import { Label } from '@repo/ui/components/ui/label'
+import { Label } from '@repo/ui/components/label'
 import { SegmentItem } from '@/components/layouts/segmented/segment-item'
 import ErrorMessage from '@/components/state/error-message'
 import { TabSelect } from '@/components/forms/tab-inputs/tab-select'

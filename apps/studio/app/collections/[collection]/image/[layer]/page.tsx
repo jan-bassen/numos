@@ -26,7 +26,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@repo/ui/components/ui/select'
+} from '@repo/ui/components/select'
 import { ComingSoonBadge } from '@/components/misc/coming-soon-badge'
 import { LayerTitle } from '@/app/collections/[collection]/image/[layer]/(components)/layer-title'
 

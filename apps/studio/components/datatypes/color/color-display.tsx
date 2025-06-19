@@ -2,7 +2,7 @@ import {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
-} from '@repo/ui/components/ui/tooltip'
+} from '@repo/ui/components/tooltip'
 import { cn } from '@repo/ui/lib/utils'
 import type { GenericDisplayProps } from '../generic-display'
 import type { Color, OptionalValue } from '@repo/shared/types/values'

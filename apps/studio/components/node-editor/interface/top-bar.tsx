@@ -5,7 +5,7 @@ import {
   PiSwipeDefaultStroke,
 } from '@repo/ui/icons/pika'
 import { cn } from '@repo/ui/lib/utils'
-import { Separator } from '@repo/ui/components/ui/separator'
+import { Separator } from '@repo/ui/components/separator'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,13 +13,13 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@repo/ui/components/ui/dropdown-menu'
+} from '@repo/ui/components/dropdown-menu'
 import { LassoSelect, Mouse, MousePointer, Touchpad } from 'lucide-react'
-import { Button } from '@repo/ui/components/ui/button'
+import { Button } from '@repo/ui/components/button'
 import type { InputMode, Shape } from '@/types/editor.types'
 import { NodeGroupsBar } from '../menus/node-groups-bar'
 import { useEditorContext } from '../editor/editor-provider'
-import { useSecondarySidebar } from '@repo/ui/components/ui/sidebar-secondary'
+import { useSecondarySidebar } from '@repo/ui/components/sidebar-secondary'
 import { AddNodeMenu } from '../menus/add-node-menu'
 
 export default function TopBar() {

@@ -10,16 +10,16 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@repo/ui/components/ui/form'
-import { Input } from '@repo/ui/components/ui/input'
-import { Button } from '@repo/ui/components/ui/button'
+} from '@repo/ui/components/form'
+import { Input } from '@repo/ui/components/input'
+import { Button } from '@repo/ui/components/button'
 import { toast } from 'sonner'
-import { Card } from '@repo/ui/components/ui/card'
+import { Card } from '@repo/ui/components/card'
 import Link from 'next/link'
 import { createSupabaseClient } from '@/lib/supabase/clients/client'
 import { Suspense, useState } from 'react'
 import { getURL } from '@/lib/supabase/clients/client-utils'
-import LogoIcon from '../../../../../packages/ui/src/blocks/brand/logo-icon'
+import LogoIcon from '@repo/ui/blocks/brand/logo-icon'
 
 const formSchema = z.object({
   email: z

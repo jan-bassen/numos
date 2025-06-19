@@ -3,9 +3,9 @@ import { cn } from '@repo/ui/lib/utils'
 import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-} from '@repo/ui/components/ui/sidebar'
+} from '@repo/ui/components/sidebar'
 import type { SidebarSubitem } from './collection-items'
-import { DropdownMenuItem } from '@repo/ui/components/ui/dropdown-menu'
+import { DropdownMenuItem } from '@repo/ui/components/dropdown-menu'
 import Link from 'next/link'
 import type { ComponentProps } from 'react'
 
