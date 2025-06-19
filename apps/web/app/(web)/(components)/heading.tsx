@@ -23,7 +23,7 @@ export function HomeDescription({
   return (
     <p
       className={cn(
-        'max-sm:max-w-[80vw] text-pretty text-secondary-foreground/60 text-sm',
+        'max-sm:max-w-[80vw] text-pretty text-muted-foreground text-sm',
         className,
       )}
     >

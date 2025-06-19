@@ -1,5 +1,5 @@
 import type { Dictionary } from '@/dictionaries/dictionaries'
-import { Link } from '@repo/ui/components/link'
+import  Link  from 'next/link'
 import {
   ResponsiveDialog,
   ResponsiveDialogContent,
@@ -8,7 +8,7 @@ import {
   ResponsiveDialogHeader,
   ResponsiveDialogTitle,
   ResponsiveDialogTrigger,
-} from '@repo/ui/components/extended/responsive-dialog'
+} from '@repo/ui/blocks/dialogs/responsive-dialog'
 import { PiAtMarkStroke, PiXComStroke } from '@repo/ui/icons/pika'
 import type { ReactNode } from 'react'
 import { Button } from '@repo/ui/components/button'
@@ -21,7 +21,7 @@ export function InvestorsDialog({
     <ResponsiveDialog>
       <ResponsiveDialogTrigger asChild>
         <Button
-          variant={'destructive'}
+          variant={'outline'}
           className="h-7 rounded-full border border-border text-xs"
         >
           {dictionary.ctaButton}
@@ -36,20 +36,18 @@ export function InvestorsDialog({
         </ResponsiveDialogHeader>
         <div />
         <ResponsiveDialogFooter>
-          <Link
-            href="mailto:invest@numos.xyz"
-            asButton={{ variant: 'outline' }}
-            className="gap-2"
-          >
-            <PiAtMarkStroke className="size-4" /> {dictionary.contact.email}
+          <Link href="mailto:invest@numos.xyz">
+            <Button variant={'outline'} className="gap-2">
+              <PiAtMarkStroke className="size-4" /> {dictionary.contact.email}
+            </Button>
           </Link>
           <Link
             href="https://x.com/numos_xyz"
             target="_blank"
-            asButton={{ variant: 'outline' }}
-            className="gap-2"
           >
-            <PiXComStroke className="size-4" /> {dictionary.contact.x}
+            <Button variant={'outline'} className="gap-2">
+              <PiXComStroke className="size-4" /> {dictionary.contact.x}
+            </Button>
           </Link>
         </ResponsiveDialogFooter>
       </ResponsiveDialogContent>

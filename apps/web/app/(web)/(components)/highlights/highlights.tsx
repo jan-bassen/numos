@@ -72,7 +72,7 @@ function HighlightsCard({
   return (
     <Card
       className={cn(
-        '!rounded-2xl lg:!rounded-4xl h-80 overflow-hidden md:col-span-3 md:col-start-1 md:row-start-1 md:h-80',
+        'py-0 !rounded-2xl lg:!rounded-4xl h-80 overflow-hidden md:col-span-3 md:col-start-1 md:row-start-1 md:h-80',
         card.className,
       )}
     >

@@ -21,7 +21,7 @@ export function Hero({
           {dictionary.description}
         </p>
         <SignUpDialog dictionary={dictionary}>
-          <Button className="flex h-12 items-center gap-2 rounded-full px-6 sm:px-10">
+          <Button className="flex h-12 text-lg items-center gap-2 rounded-full !px-6 sm:!px-10">
             {dictionary.ctaButton}
             <PiArrowRightStroke className="size-4" />
           </Button>
