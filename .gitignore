@@ -27,6 +27,12 @@ out/
 build
 dist
 
+# TypeScript
+*.tsbuildinfo
+
+# Sentry (if ever added locally)
+.sentryclirc
+
 
 # Debug
 npm-debug.log*

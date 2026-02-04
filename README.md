@@ -1,47 +1,26 @@
 # Numos
 
-## What's inside?
+## What is this repo?
 
-This includes the following packages/apps:
+This is a single **Next.js** app (portfolio/showcase) extracted from an older monorepo.
 
-### Apps and Packages
-- `web`: a Next.js site including the homepage and docs //REMOVED
-- `studio`: a Next.js app for creating and managing dynamic and interactive digital assets
-- `core`: an AWS cdk app for deploying the backend //REMOVED
-- `@repo/tsconfig`: a shared tsconfig used throughout the monorepo
-- `@repo/ui`: a React component library based on shadcn/ui including icons and tailwind config
-- `@repo/shared`: a utility package for shared assets like datatypes or the node engine
-- `@repo/email`: a react email project (not in use yet) //REMOVED
+The former shared packages were vendored into this app:
 
-## Tools
-The repo is build with the following tools and services:
+- `ui/`: UI components (shadcn-style) and styles
+- `shared/`: shared engine/types/schemas utilities
 
-### Services
-- [Vercel](https://vercel.com) for hosting
-- [Supabase](https://supabase.com/docs) as the PaaS of our choice //MOVING TO CONVEX!
-- [AWS](https://aws.amazon.com/de/free/?sc_channel=ps) for email and hosting the core backend //OBSOLETE
-- [Stripe](https://dashboard.stripe.com/login?redirect=/test/dashboard) for payments //OBSOLETE
-- [Posthog](https://eu.posthog.com/) for analytics and monitoring //OBSOLETE
-- [Sentry](sentry.io) for debugging //OBSOLETE
-- [Alchemy](alchemy.com) for RPC and blockchain webhooks //OBSOLETE
+## Development
 
-### Main
-- [Turborepo](https://turborepo.org/) for monorepo management //OBSOLETE
-- [Next.js](https://nextjs.org/) for frontend development
-- [Tailwind](https://tailwindcss.com/) for CSS styling
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [Biome](https://biomejs.dev/) for code linting and formatting
-- [shadcn/ui](https://ui.shadcn.com/docs) for reusable components
-- [Payload](https://payloadcms.com/docs/getting-started/what-is-payload) for the homepage CMS //OBSOLETE
+Install and run:
 
-### Secondary
-- [lodash](https://lodash.com/) for common utilities
-- [zod](https://zod.dev/) for validation
-- [drizzle](https://orm.drizzle.team/docs/overview) for db usage outside of the supabase SDK
-- [viem](https://viem.sh/docs/getting-started) for anything blockchain
-- [ai sdk](https://sdk.vercel.ai/getting-started) for anything ai
-- [sharp](https://sharp.pixelplumbing.com/) for image manipulation
-- [luxon](https://moment.github.io/luxon/#/) for datetime
-- [decimal.js](https://mikemcl.github.io/decimal.js/) for maths
-- [dnd-kit](https://dndkit.com/) for draggable ui
+```bash
+pnpm install
+pnpm dev
+```
+
+Build:
+
+```bash
+pnpm build
+```
 
