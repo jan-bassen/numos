@@ -1,10 +1,8 @@
-'use client'
-import { use } from 'react'
+"use client";
 
-import { resetPassword } from '@/lib/supabase/auth/auth'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 import {
   Form,
   FormControl,
@@ -12,134 +10,128 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@repo/ui/components/form'
-import { Input } from '@repo/ui/components/input'
-import { Button } from '@repo/ui/components/button'
-import { useRouter } from 'next/navigation'
-import { Card } from '@repo/ui/components/card'
-import Logo from '@repo/ui/blocks/brand/logo'
-import Link from 'next/link'
-import { handleReturnInfo } from '@repo/ui/lib/utils'
-import { toast } from 'sonner'
-import { PiAlertTriangleStroke, PiCrossCross } from '@repo/ui/icons/pika'
-import LogoIcon from '@repo/ui/blocks/brand/logo-icon'
+} from "@repo/ui/components/form";
+import { Input } from "@repo/ui/components/input";
+import { Button } from "@repo/ui/components/button";
+import { toast } from "sonner";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Card } from "@repo/ui/components/card";
+import Logo from "@repo/ui/blocks/brand/logo";
+import { authClient } from "@/lib/auth/client";
+import { Suspense } from "react";
 
-const passwordSchema = z
+const formSchema = z
   .object({
     password: z
-      .string({ required_error: 'Please enter your password' })
-      .min(6, 'Please enter a password with at least 6 characters'),
-    confirm: z
-      .string({ required_error: 'Please confirm your password' })
-      .min(6, 'Please enter a password with at least 6 characters'),
+      .string({ required_error: "Please enter a password" })
+      .min(8, "Password must be at least 8 characters"),
+    confirmPassword: z.string({ required_error: "Please confirm your password" }),
   })
-  .refine((data) => data.password === data.confirm, {
+  .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match",
-    path: ['confirm'],
-  })
+    path: ["confirmPassword"],
+  });
 
-type SchemaType = z.infer<typeof passwordSchema>
+function ResetPasswordForm() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token");
 
-export default function ResetPasswordPage(props: {
-  searchParams: Promise<{ error_description: string; code: string }>
-}) {
-  const searchParams = use(props.searchParams)
-  const router = useRouter()
-  const form = useForm<SchemaType>({
-    resolver: zodResolver(passwordSchema),
-  })
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      password: "",
+      confirmPassword: "",
+    },
+  });
 
-  async function onSubmit(data: SchemaType) {
-    if (!searchParams.code) {
-      toast.error('Something went wrong with the reset password link')
-      return
+  async function onSubmit(data: z.infer<typeof formSchema>) {
+    if (!token) {
+      toast.error("Invalid reset link");
+      return;
     }
-    const res = await resetPassword(data.password, searchParams.code)
-    handleReturnInfo(res, () => {
-      setTimeout(() => {
-        router.push('/login')
-      }, 1000)
-    })
+
+    const { error } = await authClient.resetPassword({
+      newPassword: data.password,
+      token,
+    });
+
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+
+    toast.success("Password reset successfully");
+    router.push("/login");
   }
 
   return (
-    <div className="grid h-screen w-full place-items-center ">
-      <div className="w-full p-2 sm:w-[24rem] sm:p-0">
-        <Card className="space-y-8 px-9 pt-6 pb-12 shadow-none sm:shadow-md">
-          <div className="flex w-full items-center gap-2 py-2">
-            <LogoIcon className="size-10" />
-            <h1 className="p-0 font-extrabold font-heading text-2xl">
-              Reset Password
-            </h1>
-          </div>
-          <Form {...form}>
-            <form
-              id="loginForm"
-              className="space-y-4"
-              onSubmit={form.handleSubmit(onSubmit)}
-            >
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem className="space-y-1">
-                    <FormLabel className="text-muted-foreground">
-                      New Password
-                    </FormLabel>
-                    <FormControl>
-                      <Input type="password" className="h-9" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="confirm"
-                render={({ field }) => (
-                  <FormItem className="space-y-1">
-                    <FormLabel className="text-muted-foreground">
-                      Confirm Password
-                    </FormLabel>
-                    <FormControl>
-                      <Input type="password" className="h-9" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <div className="w-full space-y-3 pt-5">
-                <Button type="submit" form="loginForm" className="h-9 w-full">
-                  Reset Password
-                </Button>
-              </div>
-            </form>
-          </Form>
-        </Card>
-        {searchParams.error_description ? (
-          <Card className="mt-3 flex items-center justify-between gap-4 border-none bg-warning/10 py-3 pr-4 pl-5 text-sm shadow-none sm:border sm:shadow-md">
-            <div className="flex items-center gap-2">
-              <PiAlertTriangleStroke className="size-6" />
-              {searchParams.error_description}
-            </div>
+    <Card className="w-full max-w-[24rem] space-y-8 px-9 pt-6 pb-12 shadow-none sm:shadow-md">
+      <div className="flex w-full items-center justify-between gap-2 py-2">
+        <h1 className="p-0 font-extrabold font-heading text-2xl">
+          Reset Password
+        </h1>
+        <Logo className="h-8" size={32} />
+      </div>
+      <Form {...form}>
+        <form
+          id="resetPasswordForm"
+          className="space-y-5"
+          onSubmit={form.handleSubmit(onSubmit)}
+        >
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem className="space-y-1">
+                <FormLabel className="text-muted-foreground">
+                  New Password:
+                </FormLabel>
+                <FormControl>
+                  <Input type="password" className="h-9" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="confirmPassword"
+            render={({ field }) => (
+              <FormItem className="space-y-1">
+                <FormLabel className="text-muted-foreground">
+                  Confirm Password:
+                </FormLabel>
+                <FormControl>
+                  <Input type="password" className="h-9" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <div className="w-full pt-8">
             <Button
-              onClick={() => router.push('/auth/reset-password')}
-              variant={'ghost'}
-              size={'icon'}
-              className="hover:!border hover:!bg-background size-8 shrink-0 bg-transparent"
+              type="submit"
+              form="resetPasswordForm"
+              className="h-9 w-full"
             >
-              <PiCrossCross className="size-4" />
+              Reset Password
             </Button>
-          </Card>
-        ) : (
-          <div className="flex w-full justify-center gap-1.5 py-3 text-[0.8rem] text-muted-foreground">
-            <p>No, I have not forgotten my password?</p>
-            <Link href="/login" className="underline">
-              Login
-            </Link>
           </div>
-        )}
+        </form>
+      </Form>
+    </Card>
+  );
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <div className="grid h-screen w-full place-items-center">
+      <div className="flex w-full flex-col items-center p-2 sm:p-0">
+        <Suspense fallback={<div>Loading...</div>}>
+          <ResetPasswordForm />
+        </Suspense>
       </div>
     </div>
-  )
+  );
 }

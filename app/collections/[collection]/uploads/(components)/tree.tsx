@@ -1,255 +1,202 @@
-'use client'
+"use client";
 
-import type { Collection, UploadsTree } from '@/types/database.types'
-import { type DragEvent, useEffect, useRef, useState } from 'react'
+import type { Collection } from "@/lib/db/schema";
+import type { UploadsTree } from "@/lib/db/queries/uploads";
+import { type DragEvent, useEffect, useRef, useState } from "react";
 import {
   Header,
   HeaderActions,
   HeaderContent,
   HeaderMain,
   HeaderTitle,
-} from '@/components/page/header'
-import { Button, buttonVariants } from '@repo/ui/components/button'
+} from "@/components/page/header";
+import { Button, buttonVariants } from "@repo/ui/components/button";
 import {
   PiFolderPlusStroke,
   PiPhotoImageArrowUpSolid,
   PiPhotoImageArrowUpStroke,
-} from '@repo/ui/icons/pika'
-import { cn } from '@repo/ui/lib/utils'
-import { handleFileUpload } from '@/app/collections/[collection]/uploads/(functions)/upload'
-import UploadFolderView from './upload-folder-view'
+} from "@repo/ui/icons/pika";
+import { cn } from "@repo/ui/lib/utils";
+import { handleFileUpload } from "@/app/collections/[collection]/uploads/(functions)/upload";
+import UploadFolderView from "./upload-folder-view";
 import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger,
-} from '@repo/ui/components/context-menu'
-import { useHotkeys } from 'react-hotkeys-hook'
-import { imageAcceptString } from '@/app/collections/[collection]/uploads/(functions)/file-types'
-import { moveUploadsAndFolders } from '@/lib/supabase/db/uploads'
-import { toast } from 'sonner'
-import Main from '@/components/page/main'
-import { Page } from '@/components/page/page'
+} from "@repo/ui/components/context-menu";
+import { useHotkeys } from "react-hotkeys-hook";
+import { imageAcceptString } from "@/app/collections/[collection]/uploads/(functions)/file-types";
+import { moveUploadsAndFolders } from "@/lib/db/queries/uploads";
+import { toast } from "sonner";
+import Main from "@/components/page/main";
+import { Page } from "@/components/page/page";
 
-// TODO: Clean up
-
-export const childrenOffset = 1.2 // rem
+export const childrenOffset = 1.2; // rem
 
 export type TreeElement = {
-  type: 'folder' | 'upload'
-  id: string
-  path: string[]
-}
-export type TreeSelection = { folder: TreeElement[]; upload: TreeElement[] }
+  type: "folder" | "upload";
+  id: string;
+  path: string[];
+};
+export type TreeSelection = { folder: TreeElement[]; upload: TreeElement[] };
 
 export type TreeContext = {
-  locked: boolean
-  setLocked: (value: boolean) => void
-  draggedElement: TreeElement | null
-  setDraggedElement: (value: TreeElement | null) => void
-  draggedOver: string | null
-  setDraggedOver: (value: string | null) => void
-  selection: TreeSelection
-  resetSelection: () => void
-  setSelection: (value: TreeSelection) => void
-  setSelectionTo: (element: TreeElement) => void
-  addToSelection: (element: TreeElement) => void
-  addBetweenToSelection: (element: TreeElement) => void
-  removeFromSelection: (element: TreeElement) => void
-  moveSelection: (target: TreeElement) => void
-  /* deleteSelection: () => void */
-}
+  locked: boolean;
+  setLocked: (value: boolean) => void;
+  draggedElement: TreeElement | null;
+  setDraggedElement: (value: TreeElement | null) => void;
+  draggedOver: string | null;
+  setDraggedOver: (value: string | null) => void;
+  selection: TreeSelection;
+  resetSelection: () => void;
+  setSelection: (value: TreeSelection) => void;
+  setSelectionTo: (element: TreeElement) => void;
+  addToSelection: (element: TreeElement) => void;
+  addBetweenToSelection: (element: TreeElement) => void;
+  removeFromSelection: (element: TreeElement) => void;
+  moveSelection: (target: TreeElement) => void;
+};
 export type FolderState = {
-  [key: string]: string[]
-}
+  [key: string]: string[];
+};
 
 export default function UploadsTreeView({
   collection,
   tree,
 }: { collection: Collection; tree: UploadsTree }) {
-  const fileInputRef = useRef<HTMLInputElement>(null)
-  const [locked, setLocked] = useState(false)
-  const [newFolder, setNewFolder] = useState(false)
-  const [draggedOver, setDraggedOver] = useState<string | null>(null)
-  const [draggedElement, setDraggedElement] = useState<TreeElement | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [locked, setLocked] = useState(false);
+  const [newFolder, setNewFolder] = useState(false);
+  const [draggedOver, setDraggedOver] = useState<string | null>(null);
+  const [draggedElement, setDraggedElement] = useState<TreeElement | null>(
+    null
+  );
 
   const isEmpty =
     Object.keys(tree.uploads).length === 0 &&
-    Object.keys(tree.folders).length === 0
+    Object.keys(tree.folders).length === 0;
 
-  const [folderState, setFolderState] = useState<FolderState>({})
+  const [folderState, setFolderState] = useState<FolderState>({});
 
   useEffect(() => {
     setFolderState(
-      JSON.parse(localStorage.getItem(`folder-state-${collection.id}`) || '{}'),
-    )
-  }, [collection.id])
+      JSON.parse(localStorage.getItem(`folder-state-${collection.id}`) || "{}")
+    );
+  }, [collection.id]);
 
   const [selection, setSelection] = useState<TreeSelection>({
     folder: [],
     upload: [],
-  })
+  });
 
   useEffect(() => {
     localStorage.setItem(
       `folder-state-${collection.id}`,
-      JSON.stringify(folderState),
-    )
-  }, [folderState, collection.id])
+      JSON.stringify(folderState)
+    );
+  }, [folderState, collection.id]);
 
-  const version = collection.editable_version
-  if (!version) return null
+  const version = collection.editableVersion;
+  if (!version) return null;
 
   const resetSelection = () => {
-    setSelection({ folder: [], upload: [] })
-  }
+    setSelection({ folder: [], upload: [] });
+  };
 
   const setSelectionTo = (element: TreeElement) => {
-    if (element.type === 'folder') {
-      setSelection({ folder: [element], upload: [] })
+    if (element.type === "folder") {
+      setSelection({ folder: [element], upload: [] });
     } else {
-      setSelection({ folder: [], upload: [element] })
+      setSelection({ folder: [], upload: [element] });
     }
-  }
+  };
 
   const addToSelection = (element: TreeElement) => {
     const isAlreadySelected =
-      element.type === 'folder'
+      element.type === "folder"
         ? selection.folder.some((item) => item.id === element.id)
-        : selection.upload.some((item) => item.id === element.id)
-    if (isAlreadySelected) return
-    if (element.type === 'folder') {
+        : selection.upload.some((item) => item.id === element.id);
+    if (isAlreadySelected) return;
+    if (element.type === "folder") {
       setSelection((prev) => ({
         ...prev,
         folder: [...prev.folder, element],
-      }))
+      }));
     } else {
       setSelection({
         ...selection,
         upload: [...selection.upload, element],
-      })
+      });
     }
-  }
+  };
 
   const addBetweenToSelection = (/* element: TreeElement*/) => {
-    //TODO: Implement
-    console.error('addBetweenToSelection not implemented')
-
-    /*     const openFolders = Object.values(folderState).flat()
-    const visibleSelection = selection.folder
-      .concat(selection.upload)
-      .filter(
-        (item) =>
-          item.treePath.length === 0 ||
-          item.treePath.every((id) => openFolders.includes(id)),
-      )
-    const sortedSelection = visibleSelection.sort(
-      (a, b) => a.globalIndex - b.globalIndex,
-    )
-    const selectionAboveElement = sortedSelection.filter(
-      (item) => item.globalIndex < element.globalIndex,
-    )
-    if (selectionAboveElement.length === 0) {
-      console.log('no selection above')
-
-      const selectionBelowElement = sortedSelection.filter(
-        (item) => item.globalIndex > element.globalIndex,
-      )
-      if (selectionBelowElement.length === 0) {
-        console.log('no selection below')
-        return
-      }
-      const closestSelectionBelow =
-        selectionBelowElement[selectionBelowElement.length - 1]
-      console.log(closestSelectionBelow)
-    }
-    const closestSelectionAbove =
-      selectionAboveElement[selectionAboveElement.length - 1]
-    console.log(closestSelectionAbove) */
-  }
+    console.error("addBetweenToSelection not implemented");
+  };
 
   const removeFromSelection = (element: TreeElement) => {
-    if (element.type === 'folder') {
+    if (element.type === "folder") {
       setSelection((prev) => ({
         ...prev,
         folder: prev.folder.filter((el) => el.id !== element.id),
-      }))
+      }));
     } else {
       setSelection((prev) => ({
         ...prev,
         upload: prev.upload.filter((el) => el.id !== element.id),
-      }))
+      }));
     }
-  }
+  };
 
   const moveSelection = async (target: TreeElement | null) => {
-    if (locked) return
-    setLocked(true)
+    if (locked) return;
+    setLocked(true);
     const filteredFolders = selection.folder.filter((selectedFolder) => {
       const isTopLevel =
         selectedFolder.path.length === 0 ||
         selectedFolder.path.filter((folderId) =>
-          selection.folder.some((folder) => folder.id === folderId),
-        ).length === 0
-      const isTarget = target && selectedFolder.id === target.id
+          selection.folder.some((folder) => folder.id === folderId)
+        ).length === 0;
+      const isTarget = target && selectedFolder.id === target.id;
       const isParentOfTarget =
         target?.path.some((folderId) =>
-          selectedFolder.path.includes(folderId),
-        ) || false
-      return isTopLevel && !isTarget && !isParentOfTarget
-    })
+          selectedFolder.path.includes(folderId)
+        ) || false;
+      return isTopLevel && !isTarget && !isParentOfTarget;
+    });
     const filteredUploads = selection.upload.filter((item) => {
       const isTopLevel =
         item.path.length === 0 ||
         item.path.filter((folderId) =>
-          filteredFolders.some((folder) => folder.id === folderId),
-        ).length === 0
-      const isTarget = target && item.id === target.id
+          filteredFolders.some((folder) => folder.id === folderId)
+        ).length === 0;
+      const isTarget = target && item.id === target.id;
       const isParentOfTarget =
-        target?.path.some((folderId) => item.path.includes(folderId)) || false
-      return isTopLevel && !isTarget && !isParentOfTarget
-    })
+        target?.path.some((folderId) => item.path.includes(folderId)) || false;
+      return isTopLevel && !isTarget && !isParentOfTarget;
+    });
 
     const promise = moveUploadsAndFolders(
       filteredUploads.map((upload) => upload.id),
       filteredFolders.map((folder) => folder.id),
-      target?.id || null,
-    )
+      target?.id || null
+    );
 
     toast.promise(promise, {
-      loading: 'Moving...',
+      loading: "Moving...",
       success: () => {
-        setLocked(false)
-        resetSelection()
-        return 'Moved'
+        setLocked(false);
+        resetSelection();
+        return "Moved";
       },
       error: (error) => error.message,
-    })
-  }
+    });
+  };
 
-  // TODO: Doesnt work yet because selection gets cleared too quickly
-  /* const deleteSelection = async () => {
-    if (locked) return
-    setLocked(true)
-    const selectedLayers = selection.layer.map((item) => item.id)
-    const selectedFolders = selection.folder.map((item) => item.id)
-    const layerPromise = deleteLayers(selectedLayers)
-    const folderPromise = deleteFolders(selectedFolders)
-    const promise = Promise.all([layerPromise, folderPromise])
-    toast.promise(promise, {
-      loading: 'Deleting...',
-      success: () => {
-        setLocked(false)
-        resetSelection()
-        return 'Deleted'
-      },
-      error: (error) => error.message,
-    })
-  } */
-
-  useHotkeys('esc', () => {
-    resetSelection()
-  })
+  useHotkeys("esc", () => {
+    resetSelection();
+  });
 
   const directChildren = {
     folder: Object.entries(tree.folders)
@@ -258,54 +205,54 @@ export default function UploadsTreeView({
     upload: Object.entries(tree.uploads)
       .filter(([key, upload]) => upload.folder === null)
       .map(([key, upload]) => key),
-  }
+  };
 
   const isDirectChild = () => {
-    if (!draggedElement) return false
-    return directChildren[draggedElement.type].includes(draggedElement.id)
-  }
+    if (!draggedElement) return false;
+    return directChildren[draggedElement.type].includes(draggedElement.id);
+  };
 
   const handleDrop = async (e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault()
-    e.stopPropagation()
-    setDraggedOver(null)
+    e.preventDefault();
+    e.stopPropagation();
+    setDraggedOver(null);
 
-    if (locked) return
+    if (locked) return;
 
     //Handle internal drop
     if (draggedElement) {
-      if (isDirectChild()) return
-      moveSelection(null)
-      return
+      if (isDirectChild()) return;
+      moveSelection(null);
+      return;
     }
 
     //Handle external drop
     if (e.dataTransfer?.items.length > 0) {
-      if (!collection.editable_version) throw new Error('No version')
+      if (!collection.editableVersion) throw new Error("No version");
       const files = Array.from(e.dataTransfer?.items || [])
-        .filter((item) => item.kind === 'file')
+        .filter((item) => item.kind === "file")
         .map((item) => item.getAsFile())
-        .filter((file) => file !== null)
-      handleFileUpload(collection.editable_version, null, files, null)
+        .filter((file) => file !== null);
+      handleFileUpload(collection.editableVersion, null, files, null);
     }
-  }
+  };
 
   const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault()
-    e.stopPropagation()
+    e.preventDefault();
+    e.stopPropagation();
     if (isDirectChild()) {
-      setDraggedOver(null)
-      return
+      setDraggedOver(null);
+      return;
     }
-    setDraggedOver('root')
-  }
+    setDraggedOver("root");
+  };
 
   return (
     <Page>
       <Header
         back={{
           href: `/collections/${collection.slug}`,
-          label: collection.name ?? 'Collection',
+          label: collection.name ?? "Collection",
         }}
       >
         <HeaderContent>
@@ -314,7 +261,7 @@ export default function UploadsTreeView({
           </HeaderMain>
           <HeaderActions>
             <Button
-              variant={'outline'}
+              variant={"outline"}
               className="shrink-0 gap-2"
               onClick={() => setNewFolder(true)}
             >
@@ -323,7 +270,7 @@ export default function UploadsTreeView({
             </Button>
             <label
               htmlFor="file-input"
-              className={cn(buttonVariants({}), 'cursor-pointer gap-2')}
+              className={cn(buttonVariants({}), "cursor-pointer gap-2")}
             >
               <PiPhotoImageArrowUpStroke className="size-4" />
               Upload
@@ -340,32 +287,32 @@ export default function UploadsTreeView({
           ref={fileInputRef}
           multiple
           onChange={(event) => {
-            if (!collection.editable_version) throw new Error('No version')
+            if (!collection.editableVersion) throw new Error("No version");
             handleFileUpload(
-              collection.editable_version,
+              collection.editableVersion,
               null,
               Array.from(event.target?.files || []),
-              fileInputRef,
-            )
+              fileInputRef
+            );
           }}
         />
         <ContextMenu>
           <ContextMenuTrigger
             className={cn(
-              'h-full',
+              "h-full",
               isEmpty &&
-                'grid cursor-pointer place-items-center rounded-md bg-muted/30 ring-2 ring-border/70 ring-offset-2',
-              draggedOver === 'root' &&
-                'rounded-md ring-2 ring-primary ring-offset-0',
+                "grid cursor-pointer place-items-center rounded-md bg-muted/30 ring-2 ring-border/70 ring-offset-2",
+              draggedOver === "root" &&
+                "rounded-md ring-2 ring-primary ring-offset-0"
             )}
             onDrop={handleDrop}
             onDragLeave={() => {
-              setDraggedOver(null)
+              setDraggedOver(null);
             }}
             onDragOver={handleDragOver}
             onClick={() => {
               if (isEmpty) {
-                fileInputRef.current?.click()
+                fileInputRef.current?.click();
               }
             }}
           >
@@ -401,7 +348,6 @@ export default function UploadsTreeView({
                   addBetweenToSelection,
                   removeFromSelection,
                   moveSelection,
-                  /* deleteSelection, */
                 }}
               />
             )}
@@ -425,5 +371,5 @@ export default function UploadsTreeView({
         </ContextMenu>
       </Main>
     </Page>
-  )
+  );
 }

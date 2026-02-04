@@ -1,9 +1,8 @@
-'use client'
+"use client";
 
-import { signInWithPassword } from '@/lib/supabase/auth/auth'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 import {
   Form,
   FormControl,
@@ -11,117 +10,71 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@repo/ui/components/form'
-import { Input } from '@repo/ui/components/input'
-import { Button, buttonVariants } from '@repo/ui/components/button'
-import { toast } from 'sonner'
-import { useRouter } from 'next/navigation'
-import { Card } from '@repo/ui/components/card'
-import { PiAlertTriangleStroke, PiCrossCross } from '@repo/ui/icons/pika'
-import Link from 'next/link'
-import { createSupabaseClient } from '@/lib/supabase/clients/client'
-import { getURL } from '@/lib/supabase/clients/client-utils'
-import { cn } from '@repo/ui/lib/utils'
-import { Suspense, use } from 'react'
-import posthog from 'posthog-js'
-import Logo from '@repo/ui/blocks/brand/logo'
+} from "@repo/ui/components/form";
+import { Input } from "@repo/ui/components/input";
+import { Button, buttonVariants } from "@repo/ui/components/button";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { Card } from "@repo/ui/components/card";
+import { PiAlertTriangleStroke, PiCrossCross } from "@repo/ui/icons/pika";
+import Link from "next/link";
+import { cn } from "@repo/ui/lib/utils";
+import { Suspense, use } from "react";
+import posthog from "posthog-js";
+import Logo from "@repo/ui/blocks/brand/logo";
+import { signIn } from "@/lib/auth/client";
 
 const formSchema = z.object({
   email: z
-    .string({ required_error: 'Please enter your email' })
-    .email('Please enter a valid email address'),
+    .string({ required_error: "Please enter your email" })
+    .email("Please enter a valid email address"),
   password: z
-    .string({ required_error: 'Please enter your password' })
-    .min(6, 'Please enter a password with at least 6 characters'),
-})
+    .string({ required_error: "Please enter your password" })
+    .min(6, "Please enter a password with at least 6 characters"),
+});
 
 export default function LoginPage(props: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  const searchParams = use(props.searchParams)
-  const router = useRouter()
+  const searchParams = use(props.searchParams);
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
-  })
+  });
 
-  const validating = searchParams.validating === 'true'
-
-  /*   async function signInWithTwitter() {
-    const supabase = await createSupabaseClient();
-    await supabase.auth.signInWithOAuth({
-      provider: "twitter",
-      options: {
-        redirectTo: `${getURL()}auth/callback/`,
-      },
-    });
-  } */
-
-  /*   async function signInWithGithub() {
-    const supabase = await createSupabaseClient();
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: "github",
-      options: {
-        redirectTo: `${getURL()}auth/callback/`,
-      },
-    });
-    console.log(data, error);
-    if (error) {
-      toast.error(error.message);
-    }
-    router.push("/");
-  } */
+  const validating = searchParams.validating === "true";
 
   async function onSubmit(login: z.infer<typeof formSchema>) {
-    const { data, error } = await signInWithPassword(login)
+    const { data, error } = await signIn.email({
+      email: login.email,
+      password: login.password,
+    });
+
     if (error) {
-      toast.error(error.message)
-      return
+      toast.error(error.message);
+      return;
     }
-    localStorage.setItem('cookie_consent', 'yes')
-    if (!posthog.__loaded) {
+
+    localStorage.setItem("cookie_consent", "yes");
+    if (!posthog.__loaded && data?.user) {
       posthog.identify(data.user.id, {
         email: data.user.email,
-        name: data.user.user_metadata.name || null,
-      })
+        name: data.user.name || null,
+      });
     }
-    router.push('/')
-  }
-
-  async function loginWithoutPassword() {
-    const email = form.getValues('email')
-    if (form.getFieldState('email').invalid) {
-      toast.error('Please enter a valid email address')
-      return
-    }
-    if (!email) {
-      toast.error('Please enter your email')
-      return
-    }
-    const supabase = await createSupabaseClient()
-
-    const { error } = await supabase.auth.signInWithOtp({
-      email: email,
-      options: {
-        emailRedirectTo: `${getURL()}/auth/otp?email=${email}&type=login`,
-      },
-    })
-    if (error) {
-      toast.error(error.message)
-      return
-    }
-    router.push(`/auth/otp?email=${email}&type=login`)
+    router.push("/");
   }
 
   return (
     <div className="grid h-screen w-full place-items-center">
       <div
         className={cn(
-          'flex w-full flex-col items-center p-2 sm:p-0',
-          validating && 'space-y-3',
+          "flex w-full flex-col items-center p-2 sm:p-0",
+          validating && "space-y-3"
         )}
       >
         <Card className="w-full max-w-[24rem] space-y-8 px-9 pt-6 pb-12 shadow-none sm:shadow-md">
@@ -129,25 +82,6 @@ export default function LoginPage(props: {
             <h1 className="p-0 font-extrabold font-heading text-2xl">Login</h1>
             <Logo className="h-8" size={32} />
           </div>
-          {/*           <div className="grid w-full grid-cols-2 gap-2">
-            <Button
-              variant="outline"
-              onClick={() => signInWithTwitter()}
-              className="h-9 w-full gap-2 text-sm text-secondary-foreground"
-            >
-              <PiXComStroke className="size-3.5" />
-              Twitter
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => signInWithGithub()}
-              className="h-9 w-full gap-2 text-sm text-secondary-foreground"
-            >
-              <PiGithubStroke className="size-3.5" />
-              Github
-            </Button>
-          </div>
-          <Separator /> */}
           <Form {...form}>
             <form
               id="loginForm"
@@ -181,8 +115,8 @@ export default function LoginPage(props: {
                       <Link
                         href="/auth/forgot-password"
                         className={cn(
-                          buttonVariants({ variant: 'ghost' }),
-                          'h-5 translate-y-0.5 px-1.5 py-0 text-[11px] text-muted-foreground',
+                          buttonVariants({ variant: "ghost" }),
+                          "h-5 translate-y-0.5 px-1.5 py-0 text-[11px] text-muted-foreground"
                         )}
                       >
                         Forgot password?
@@ -210,9 +144,9 @@ export default function LoginPage(props: {
               We&apos;ve sent you an email. Please validate your email address
               before proceeding
               <Button
-                onClick={() => router.push('/login')}
-                variant={'ghost'}
-                size={'icon'}
+                onClick={() => router.push("/login")}
+                variant={"ghost"}
+                size={"icon"}
                 className="hover:!border hover:!bg-background size-8 shrink-0 bg-transparent"
               >
                 <PiCrossCross className="size-4" />
@@ -229,5 +163,5 @@ export default function LoginPage(props: {
         </Suspense>
       </div>
     </div>
-  )
+  );
 }

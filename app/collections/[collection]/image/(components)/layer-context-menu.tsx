@@ -1,31 +1,31 @@
-'use client'
+"use client";
 
-import Link from 'next/link'
-import { handleReturnInfo } from '@repo/ui/lib/utils'
+import Link from "next/link";
+import { handleReturnInfo } from "@repo/ui/lib/utils";
 import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger,
-} from '@repo/ui/components/context-menu'
+} from "@repo/ui/components/context-menu";
 import {
   AlertDialog,
   AlertDialogTrigger,
-} from '@repo/ui/components/alert-dialog'
+} from "@repo/ui/components/alert-dialog";
 import {
   PiAutomationStroke,
   PiDeleteDustbin02Stroke,
   PiPencilEditBoxStroke,
-} from '@repo/ui/icons/pika'
-import DeleteDialogContent from '@repo/ui/blocks/dialogs/delete-dialog'
-import type { ComponentProps } from 'react'
-import { deleteLayerBySlug } from '@/lib/supabase/db/layers/delete'
+} from "@repo/ui/icons/pika";
+import DeleteDialogContent from "@repo/ui/blocks/dialogs/delete-dialog";
+import type { ComponentProps } from "react";
+import { deleteLayerBySlug } from "@/lib/db/queries/layers";
 
 interface LayerContextMenuProps {
-  children?: React.ReactNode
-  layerSlug: string
-  collectionSlug: string
-  versionId: string
+  children?: React.ReactNode;
+  layerSlug: string;
+  collectionSlug: string;
+  versionId: string;
 }
 
 export default function LayerContextMenu({
@@ -36,7 +36,7 @@ export default function LayerContextMenu({
   versionId,
   ...props
 }: LayerContextMenuProps & ComponentProps<typeof ContextMenu>) {
-  const href = `/collections/${collectionSlug}/image/${layerSlug}`
+  const href = `/collections/${collectionSlug}/image/${layerSlug}`;
   return (
     <AlertDialog>
       <ContextMenu {...props}>
@@ -65,10 +65,10 @@ export default function LayerContextMenu({
       <DeleteDialogContent
         title="attribute"
         onDelete={async () => {
-          const res = await deleteLayerBySlug(versionId, layerSlug)
-          handleReturnInfo(res)
+          const res = await deleteLayerBySlug(versionId, layerSlug);
+          handleReturnInfo(res);
         }}
       />
     </AlertDialog>
-  )
+  );
 }

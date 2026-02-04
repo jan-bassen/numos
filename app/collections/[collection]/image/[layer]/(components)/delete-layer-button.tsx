@@ -1,18 +1,18 @@
-'use client'
+"use client";
 
-import DeleteButton from '@/components/forms/buttons/delete-button'
-import { useCollection } from '@/app/collections/[collection]/collection-context'
-import { useLayer } from '@/app/collections/[collection]/image/[layer]/context'
-import { deleteLayer } from '@/lib/supabase/db/layers/delete'
+import DeleteButton from "@/components/forms/buttons/delete-button";
+import { useCollection } from "@/app/collections/[collection]/collection-context";
+import { useLayer } from "@/app/collections/[collection]/image/[layer]/context";
+import { deleteLayer } from "@/lib/db/queries/layers";
 
 export function DeleteLayerButton() {
   const {
     layer: { id, locked },
-  } = useLayer()
+  } = useLayer();
   const {
     collection: { slug: collection },
-  } = useCollection()
-  if (locked) return null
+  } = useCollection();
+  if (locked) return null;
   return (
     <DeleteButton
       title="layer"
@@ -20,8 +20,8 @@ export function DeleteLayerButton() {
       onDelete={async () => {
         await deleteLayer(id, {
           redirect: `/collections/${collection}/image`,
-        })
+        });
       }}
     />
-  )
+  );
 }

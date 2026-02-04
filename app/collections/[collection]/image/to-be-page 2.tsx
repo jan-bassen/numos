@@ -1,13 +1,13 @@
-import { Header } from '@/components/page/header'
-import Main from '@/components/page/main'
-import { ComingSoonBadge } from '@/components/misc/coming-soon-badge'
-import { getExtendedCollectionFromSlug } from '@/lib/supabase/db/collections'
+import { Header } from "@/components/page/header";
+import Main from "@/components/page/main";
+import { ComingSoonBadge } from "@/components/misc/coming-soon-badge";
+import { getExtendedCollectionFromSlug } from "@/lib/db/queries/collections";
 
 export default async function ImageSettingsPage(props: {
-  params: Promise<{ collection: string }>
+  params: Promise<{ collection: string }>;
 }) {
-  const params = await props.params
-  const collection = await getExtendedCollectionFromSlug(params.collection)
+  const params = await props.params;
+  const collection = await getExtendedCollectionFromSlug(params.collection);
 
   return (
     <>
@@ -16,5 +16,5 @@ export default async function ImageSettingsPage(props: {
         <ComingSoonBadge />
       </Main>
     </>
-  )
+  );
 }

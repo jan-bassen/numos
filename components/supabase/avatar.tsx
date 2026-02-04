@@ -1,19 +1,19 @@
-'use client'
+"use client";
 
-import { useProfile } from '@/app/(providers)/profile-context'
-import { SupabaseImage } from '@/components/supabase/supabase-image'
-import type { ImageProps } from 'next/image'
+import { useProfile } from "@/app/(providers)/profile-context";
+import { SupabaseImage } from "@/components/supabase/supabase-image";
+import type { ImageProps } from "next/image";
 
-type AvatarProps = Omit<ImageProps, 'src' | 'alt'> & {
-  placeholder?: boolean
-}
+type AvatarProps = Omit<ImageProps, "src" | "alt"> & {
+  placeholder?: boolean;
+};
 
 export function Avatar(props: AvatarProps) {
   const {
-    profile: { avatar_url },
-  } = useProfile()
+    profile: { avatarUrl },
+  } = useProfile();
 
   return (
-    <SupabaseImage {...props} src={`avatars/${avatar_url}`} alt="User Avatar" />
-  )
+    <SupabaseImage {...props} src={`avatars/${avatarUrl}`} alt="User Avatar" />
+  );
 }

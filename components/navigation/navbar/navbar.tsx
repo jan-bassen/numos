@@ -4,32 +4,32 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
-} from '@repo/ui/components/sidebar'
-import { Support } from './support'
-import type { ActionNavItem } from '@/lib/supabase/db/actions'
-import { NavUser } from '@/components/navigation/navbar/user/nav-user'
-import { Suspense } from 'react'
-import { CollectionParts } from '@/components/navigation/navbar/collection/collection-parts/collection-parts'
-import { NumosButton } from '@/components/navigation/navbar/numos-button'
-import { Collections } from '@/components/navigation/navbar/collections/collections'
-import { CollectionsSkeleton } from '@/components/navigation/navbar/collections/collections-skeleton'
-import { CollectionSettings } from '@/components/navigation/navbar/collection/collection-general'
-import { CollectionPartsSkeleton } from '@/components/navigation/navbar/collection/collection-parts/collection-parts-skeleton'
-import type { AttributeNavItem } from '@/lib/supabase/db/attributes/read'
-import { CollectionSwitcher } from '@/components/navigation/navbar/collection/collection-switcher/collection-switcher'
-import { CollectionSwitcherSkeleton } from '@/components/navigation/navbar/collection/collection-switcher/collection-switcher-skeleton'
-import type { LayerNavItem } from '@/lib/supabase/db/layers/read'
+} from "@repo/ui/components/sidebar";
+import { Support } from "./support";
+import type { ActionNavItem } from "@/lib/db/queries/actions";
+import { NavUser } from "@/components/navigation/navbar/user/nav-user";
+import { Suspense } from "react";
+import { CollectionParts } from "@/components/navigation/navbar/collection/collection-parts/collection-parts";
+import { NumosButton } from "@/components/navigation/navbar/numos-button";
+import { Collections } from "@/components/navigation/navbar/collections/collections";
+import { CollectionsSkeleton } from "@/components/navigation/navbar/collections/collections-skeleton";
+import { CollectionSettings } from "@/components/navigation/navbar/collection/collection-general";
+import { CollectionPartsSkeleton } from "@/components/navigation/navbar/collection/collection-parts/collection-parts-skeleton";
+import type { AttributeNavItem } from "@/lib/db/queries/attributes";
+import { CollectionSwitcher } from "@/components/navigation/navbar/collection/collection-switcher/collection-switcher";
+import { CollectionSwitcherSkeleton } from "@/components/navigation/navbar/collection/collection-switcher/collection-switcher-skeleton";
+import type { LayerNavItem } from "@/lib/db/queries/layers";
 
 type SidebarProps = React.ComponentProps<typeof Sidebar> & {
-  collection?: string
-}
+  collection?: string;
+};
 
-export type NavItems = [AttributeNavItem[], ActionNavItem[], LayerNavItem[]]
+export type NavItems = [AttributeNavItem[], ActionNavItem[], LayerNavItem[]];
 
 export async function Navbar({ collection, ...props }: SidebarProps) {
   return (
     <Sidebar collapsible="icon" {...props}>
-      <SidebarHeader /* className={cn(!!collection && 'pb-5')} */>
+      <SidebarHeader>
         <NumosButton />
       </SidebarHeader>
       <SidebarContent className="scrollbar-thin scrollbar-thumb-sidebar-border scrollbar-track-transparent">
@@ -61,5 +61,5 @@ export async function Navbar({ collection, ...props }: SidebarProps) {
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
-  )
+  );
 }

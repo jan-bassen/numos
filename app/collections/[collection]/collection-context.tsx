@@ -1,66 +1,89 @@
-'use client'
+"use client";
 
-import { useContextState } from '@/lib/state/use-context-state'
-import { updateCollectionSchema } from '@/lib/schemas/collections/collection-schema'
-import type { UpdateOptions } from '@/types/state.types'
-import type {
-  Collection,
-  ReturnInfo,
-  UpdateCollection,
-} from '@/types/database.types'
-import { createContext, useContext, useMemo } from 'react'
-import { updateCollection } from '@/lib/supabase/db/collections/update'
-import type { NestedErrors, Validate } from '@/types/state.types'
+import { useContextState } from "@/lib/state/use-context-state";
+import { updateCollectionSchema } from "@/lib/schemas/collections/collection-schema";
+import type { UpdateOptions, NestedErrors, Validate } from "@/types/state.types";
+import { updateCollection as updateCollectionQuery } from "@/lib/db/queries/collections";
+import type { ReturnInfo } from "@/lib/db/queries/types";
+import { createContext, useContext, useMemo } from "react";
 
-type CollectionContext = {
-  collection: Collection
+// Use a more flexible type for the collection
+type CollectionData = {
+  id: string;
+  slug: string;
+  name: string | null;
+  description: string | null;
+  image: string | null;
+  banner: string | null;
+  symbol: string | null;
+  max_supply: number | null;
+  external_link: string | null;
+  editable_version: string | null;
+  account: string | null;
+  settings_locked: boolean;
+  created_at: string | null;
+  updated_at: string | null;
+};
+
+type UpdateCollectionData = Partial<CollectionData>;
+
+type CollectionContextType = {
+  collection: CollectionData;
   updateCollection: (
-    value: UpdateCollection,
-    options?: UpdateOptions,
-  ) => Promise<ReturnInfo>
-  validateCollection: Validate<UpdateCollection>
-  getError: (path: Array<string | number>) => NestedErrors | undefined
-  getErrorMessage: (path: Array<string | number>) => string | undefined
-}
+    value: UpdateCollectionData,
+    options?: UpdateOptions
+  ) => Promise<ReturnInfo>;
+  validateCollection: Validate<UpdateCollectionData>;
+  getError: (path: Array<string | number>) => NestedErrors | undefined;
+  getErrorMessage: (path: Array<string | number>) => string | undefined;
+};
 
 type CollectionProviderProps = {
-  children: React.ReactNode
-  collection: Collection
-}
-const CollectionContext = createContext<CollectionContext | null>(null)
+  children: React.ReactNode;
+  collection: CollectionData;
+};
+
+const CollectionContext = createContext<CollectionContextType | null>(null);
 
 export function CollectionProvider({
   children,
   collection,
 }: CollectionProviderProps) {
-  const { state, update, validate, getError, getErrorMessage } =
-    useContextState<Collection, UpdateCollection>(
-      collection,
-      updateCollection,
-      updateCollectionSchema,
-    )
+  const updateFn = async (
+    id: string,
+    values: UpdateCollectionData
+  ): Promise<ReturnInfo> => {
+    return updateCollectionQuery({ ...values, id });
+  };
 
-  const contextValue = useMemo<CollectionContext>(() => {
+  const { state, update, validate, getError, getErrorMessage } =
+    useContextState<CollectionData, UpdateCollectionData>(
+      collection,
+      updateFn,
+      updateCollectionSchema
+    );
+
+  const contextValue = useMemo<CollectionContextType>(() => {
     return {
       collection: state,
       updateCollection: update,
       validateCollection: validate,
       getError,
       getErrorMessage,
-    }
-  }, [state, update, validate, getError, getErrorMessage])
+    };
+  }, [state, update, validate, getError, getErrorMessage]);
 
   return (
     <CollectionContext.Provider value={contextValue}>
       {children}
     </CollectionContext.Provider>
-  )
+  );
 }
 
 export function useCollection() {
-  const context = useContext(CollectionContext)
+  const context = useContext(CollectionContext);
   if (!context) {
-    throw new Error('useCollection must be used within a CollectionProvider')
+    throw new Error("useCollection must be used within a CollectionProvider");
   }
-  return context
+  return context;
 }

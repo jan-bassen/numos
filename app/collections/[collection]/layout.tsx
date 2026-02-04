@@ -1,24 +1,24 @@
-import { Navbar } from '@/components/navigation/navbar/navbar'
-import { getExtendedCollectionFromSlug } from '@/lib/supabase/db/collections'
-import { CollectionProvider } from '@/app/collections/[collection]/collection-context'
-import { VersionProvider } from '@/app/collections/[collection]/version-context'
+import { Navbar } from "@/components/navigation/navbar/navbar";
+import { getExtendedCollectionFromSlug } from "@/lib/db/queries/collections";
+import { CollectionProvider } from "@/app/collections/[collection]/collection-context";
+import { VersionProvider } from "@/app/collections/[collection]/version-context";
 
 export default async function Layout({
   params,
   children,
 }: {
-  children: React.ReactNode
-  params: Promise<{ collection: string }>
+  children: React.ReactNode;
+  params: Promise<{ collection: string }>;
 }) {
-  const { collection: collectionSlug } = await params
+  const { collection: collectionSlug } = await params;
   const extended_collection =
-    await getExtendedCollectionFromSlug(collectionSlug)
+    await getExtendedCollectionFromSlug(collectionSlug);
 
-  const version = extended_collection.editable_version
+  const version = extended_collection.editableVersion;
   const collection = {
     ...extended_collection,
     editable_version: version.id,
-  }
+  };
   return (
     <CollectionProvider collection={collection}>
       <VersionProvider version={version}>
@@ -26,5 +26,5 @@ export default async function Layout({
         {children}
       </VersionProvider>
     </CollectionProvider>
-  )
+  );
 }

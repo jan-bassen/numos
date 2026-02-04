@@ -1,15 +1,15 @@
-'use client'
+"use client";
 
-import type { InsertAttribute } from '@/types/database.types'
-import type { z } from 'zod'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useState } from 'react'
-import { handleReturnInfo } from '@repo/ui/lib/utils'
-import { FormControl, FormItem, FormMessage } from '@repo/ui/components/form'
-import { toast } from 'sonner'
-import { Input } from '@repo/ui/components/input'
-import { useRouter } from 'next/navigation'
+import type { NewAttribute } from "@/lib/db/schema";
+import type { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { handleReturnInfo } from "@repo/ui/lib/utils";
+import { FormControl, FormItem, FormMessage } from "@repo/ui/components/form";
+import { toast } from "sonner";
+import { Input } from "@repo/ui/components/input";
+import { useRouter } from "next/navigation";
 import {
   Dialog,
   DialogContent,
@@ -17,65 +17,64 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@repo/ui/components/dialog'
-import { Fingerprint, List, Milestone, Tag } from 'lucide-react'
+} from "@repo/ui/components/dialog";
+import { Fingerprint, Milestone, Tag } from "lucide-react";
 import {
   type StaticStageDefinition,
   StagedForm,
-} from '@/components/forms/staged-form'
-import { newAttributeSchema } from '@/lib/schemas/attributes/attribute-schema'
-import { insertAttribute } from '@/lib/supabase/db/attributes/create'
-import { DatatypeSelectContent } from '@/components/datatypes/datatype-picker'
-import type { NewElementDialogProps } from '@/components/elements/new-dialog'
+} from "@/components/forms/staged-form";
+import { newAttributeSchema } from "@/lib/schemas/attributes/attribute-schema";
+import { insertAttribute } from "@/lib/db/queries/attributes";
+import { DatatypeSelectContent } from "@/components/datatypes/datatype-picker";
+import type { NewElementDialogProps } from "@/components/elements/new-dialog";
 import {
   Select,
   SelectTrigger,
   SelectValue,
-} from '@repo/ui/components/select'
-import { Switch } from '@repo/ui/components/switch'
-import { slugify } from '@/lib/utils'
-import { useCollection } from '@/app/collections/[collection]/collection-context'
+} from "@repo/ui/components/select";
+import { slugify } from "@/lib/utils";
+import { useCollection } from "@/app/collections/[collection]/collection-context";
 
 export function NewAttributeDialog({
   children,
   versionId,
 }: NewElementDialogProps) {
-  const [dialogOpen, setDialogOpen] = useState(false)
-  const router = useRouter()
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const router = useRouter();
   const {
     collection: { slug: collectionSlug },
-  } = useCollection()
+  } = useCollection();
 
-  const schema = newAttributeSchema
-  type SchemaType = z.infer<typeof schema>
+  const schema = newAttributeSchema;
+  type SchemaType = z.infer<typeof schema>;
 
   const form = useForm<SchemaType>({
     resolver: zodResolver(schema),
-    mode: 'onBlur',
+    mode: "onBlur",
     defaultValues: {
-      name: ' ',
-      slug: ' ',
+      name: " ",
+      slug: " ",
     },
-  })
+  });
 
   function inferSlug(name: string) {
-    if (form.getFieldState('slug').isDirty) return
-    form.setValue('slug', slugify(name), {
+    if (form.getFieldState("slug").isDirty) return;
+    form.setValue("slug", slugify(name), {
       shouldValidate: true,
       shouldDirty: false,
-    })
+    });
   }
 
-  const typeStage: StaticStageDefinition<SchemaType, 'type'> = {
-    key: 'type',
-    title: 'Select the type of attribute',
+  const typeStage: StaticStageDefinition<SchemaType, "type"> = {
+    key: "type",
+    title: "Select the type of attribute",
     description:
-      'Attributes are the traits of your token. They can be different types of data like a number, text, a date, or something else.',
+      "Attributes are the traits of your token. They can be different types of data like a number, text, a date, or something else.",
     icon: Milestone,
     field: ({ onChange, value, ...rest }) => (
       <FormItem className="min-h-18 w-full">
         <Select onValueChange={onChange} defaultValue={value} {...rest}>
-          <SelectTrigger className={value && 'h-14'}>
+          <SelectTrigger className={value && "h-14"}>
             <SelectValue placeholder="Select a data type" />
           </SelectTrigger>
           <DatatypeSelectContent />
@@ -83,40 +82,13 @@ export function NewAttributeDialog({
         <FormMessage />
       </FormItem>
     ),
-  }
+  };
 
-  /* const listStage: StaticStageDefinition<SchemaType, 'list'> = {
-    key: 'list',
-    title: 'Select whether this is a list',
+  const nameStage: StaticStageDefinition<SchemaType, "name"> = {
+    key: "name",
+    title: "Name your new attribute",
     description:
-      'Usually, attributes are single values. If you want to store multiple values in it as a list, you can turn it on here.',
-    icon: List,
-    field: (field) => {
-      const { onChange, value, ...rest } = field
-      return (
-        <FormItem className="min-h-18 w-full">
-          <div className="flex items-center justify-center gap-3 pt-3">
-            <p className="m-0 p-0 font-medium text-base">Single Value</p>
-            <FormControl>
-              <Switch
-                checked={value}
-                onCheckedChange={onChange}
-                {...rest}
-                className=""
-              />
-            </FormControl>
-            <p className="m-0 p-0 font-medium text-base">List of Values</p>
-          </div>
-        </FormItem>
-      )
-    },
-  } */
-
-  const nameStage: StaticStageDefinition<SchemaType, 'name'> = {
-    key: 'name',
-    title: 'Name your new attribute',
-    description:
-      'The name will show up throughout the studio and wherever your attribute is displayed. You can change it later.',
+      "The name will show up throughout the studio and wherever your attribute is displayed. You can change it later.",
     icon: Tag,
     field: ({ value, ...field }) => (
       <FormItem className="min-h-18 w-full">
@@ -126,40 +98,40 @@ export function NewAttributeDialog({
             placeholder="Name"
             value={value || undefined}
             onChange={(e) => {
-              inferSlug(e.target.value)
-              field.onChange(e)
+              inferSlug(e.target.value);
+              field.onChange(e);
             }}
           />
         </FormControl>
         <FormMessage />
       </FormItem>
     ),
-  }
+  };
 
-  const slugStage: StaticStageDefinition<SchemaType, 'slug'> = {
-    key: 'slug',
-    title: 'Choose a unique identifier',
+  const slugStage: StaticStageDefinition<SchemaType, "slug"> = {
+    key: "slug",
+    title: "Choose a unique identifier",
     description:
-      'We will use this to identify your attribute, so it must be unique within this collection.',
+      "We will use this to identify your attribute, so it must be unique within this collection.",
     icon: Fingerprint,
     field: ({ value, ...field }) => (
       <FormItem className="min-h-18 w-full">
         <FormControl>
-          <Input {...field} value={value || ''} />
+          <Input {...field} value={value || ""} />
         </FormControl>
         <FormMessage />
       </FormItem>
     ),
-  }
+  };
 
   const stages = [
     typeStage,
     nameStage,
     slugStage,
-  ] as StaticStageDefinition<SchemaType>[]
+  ] as StaticStageDefinition<SchemaType>[];
 
   async function onSubmit(values: SchemaType) {
-    const newAttribute: InsertAttribute = {
+    const newAttribute: NewAttribute = {
       name: values.name,
       slug: values.slug,
       value: {
@@ -168,24 +140,24 @@ export function NewAttributeDialog({
         optional: false,
       },
       version: versionId,
-      token_specific: true,
-      display: 'public',
-    }
+      tokenSpecific: true,
+      display: "public",
+    };
 
-    const res = await insertAttribute(newAttribute)
+    const res = await insertAttribute(newAttribute);
     handleReturnInfo(
       res,
       () => {
-        setDialogOpen(false)
-        router.push(`/collections/${collectionSlug}/attributes/${values.slug}`)
+        setDialogOpen(false);
+        router.push(`/collections/${collectionSlug}/attributes/${values.slug}`);
       },
-      () => {},
-    )
+      () => {}
+    );
   }
 
-  function onError(errors: any) {
-    console.log(errors)
-    toast.error('Error with inputs')
+  function onError(errors: unknown) {
+    console.log(errors);
+    toast.error("Error with inputs");
   }
 
   return (
@@ -206,5 +178,5 @@ export function NewAttributeDialog({
         />
       </DialogContent>
     </Dialog>
-  )
+  );
 }

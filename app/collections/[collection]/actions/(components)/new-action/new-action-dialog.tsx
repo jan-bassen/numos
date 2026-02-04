@@ -1,13 +1,13 @@
-'use client'
+"use client";
 
-import type { InsertAction } from '@/types/database.types'
-import type { z } from 'zod'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useState } from 'react'
-import { handleReturnInfo } from '@repo/ui/lib/utils'
-import { toast } from 'sonner'
-import { useRouter } from 'next/navigation'
+import type { NewAction } from "@/lib/db/schema";
+import type { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { handleReturnInfo } from "@repo/ui/lib/utils";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 import {
   Dialog,
   DialogContent,
@@ -15,70 +15,69 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@repo/ui/components/dialog'
+} from "@repo/ui/components/dialog";
 import {
   StagedForm,
   type StaticStageDefinition,
-} from '@/components/forms/staged-form'
-import type { NewElementDialogProps } from '@/components/elements/new-dialog'
-import { newActionSchema } from '@/lib/schemas/actions/action-schema'
-import { insertAction } from '@/lib/supabase/db/actions'
-import { triggerStage } from '@/app/collections/[collection]/actions/(components)/new-action/stages/trigger'
-import { nameStage } from '@/app/collections/[collection]/actions/(components)/new-action/stages/name'
-import { slugStage } from '@/app/collections/[collection]/actions/(components)/new-action/stages/slug'
-import { useCollection } from '@/app/collections/[collection]/collection-context'
+} from "@/components/forms/staged-form";
+import type { NewElementDialogProps } from "@/components/elements/new-dialog";
+import { newActionSchema } from "@/lib/schemas/actions/action-schema";
+import { insertAction } from "@/lib/db/queries/actions";
+import { triggerStage } from "@/app/collections/[collection]/actions/(components)/new-action/stages/trigger";
+import { nameStage } from "@/app/collections/[collection]/actions/(components)/new-action/stages/name";
+import { slugStage } from "@/app/collections/[collection]/actions/(components)/new-action/stages/slug";
+import { useCollection } from "@/app/collections/[collection]/collection-context";
 
-export type NewActionSchema = z.infer<typeof newActionSchema>
-export type NewActionStage = StaticStageDefinition<NewActionSchema>
+export type NewActionSchema = z.infer<typeof newActionSchema>;
+export type NewActionStage = StaticStageDefinition<NewActionSchema>;
 
 export function NewActionDialog({
   children,
   versionId,
 }: NewElementDialogProps) {
-  const [dialogOpen, setDialogOpen] = useState(false)
-  const router = useRouter()
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const router = useRouter();
   const {
     collection: { slug: collectionSlug },
-  } = useCollection()
+  } = useCollection();
 
-  const schema = newActionSchema
-  type SchemaType = z.infer<typeof schema>
+  const schema = newActionSchema;
+  type SchemaType = z.infer<typeof schema>;
 
   const form = useForm<SchemaType>({
     resolver: zodResolver(schema),
-    mode: 'onBlur',
+    mode: "onBlur",
     defaultValues: {
-      name: '',
-      slug: '',
+      name: "",
+      slug: "",
     },
-  })
+  });
 
-  const _triggerStage = triggerStage(form) as NewActionStage
-  const _nameStage = nameStage(form) as NewActionStage
-  const _slugStage = slugStage(form) as NewActionStage
+  const _triggerStage = triggerStage(form) as NewActionStage;
+  const _nameStage = nameStage(form) as NewActionStage;
+  const _slugStage = slugStage(form) as NewActionStage;
 
-  const stages: NewActionStage[] = [_triggerStage, _nameStage, _slugStage]
+  const stages: NewActionStage[] = [_triggerStage, _nameStage, _slugStage];
 
   async function onSubmit(values: SchemaType) {
-    const newAction: InsertAction = {
+    const newAction: NewAction = {
       ...values,
       version: versionId,
-      created_at: undefined,
-    }
+    };
 
-    const res = await insertAction(newAction)
+    const res = await insertAction(newAction);
     handleReturnInfo(
       res,
       () => {
-        router.push(`/collections/${collectionSlug}/actions/${values.slug}`)
+        router.push(`/collections/${collectionSlug}/actions/${values.slug}`);
       },
-      () => {},
-    )
+      () => {}
+    );
   }
 
-  function onError(errors: any) {
-    console.log(errors)
-    toast.error('Error with inputs')
+  function onError(errors: unknown) {
+    console.log(errors);
+    toast.error("Error with inputs");
   }
 
   return (
@@ -99,5 +98,5 @@ export function NewActionDialog({
         />
       </DialogContent>
     </Dialog>
-  )
+  );
 }

@@ -1,65 +1,65 @@
-'use client'
+"use client";
 
-import type { Layer } from '@/types/database.types'
-import { LayerCard } from '@/app/collections/[collection]/image/(components)/layer-view/layer-card'
+import type { Layer } from "@/lib/db/schema";
+import { LayerCard } from "@/app/collections/[collection]/image/(components)/layer-view/layer-card";
 import ListInput, {
   type ListItem,
-} from '@/components/datatypes/list/list-input'
+} from "@/components/datatypes/list/list-input";
 import {
   type LayerOrderChange,
   updateLayerOrder,
-} from '@/lib/supabase/db/layers/update'
-import { toast } from 'sonner'
-import { useEffect, useState } from 'react'
+} from "@/lib/db/queries/layers";
+import { toast } from "sonner";
+import { useEffect, useState } from "react";
 
 const updateOrder = async (changedIndices: LayerOrderChange) => {
-  const res = await updateLayerOrder(changedIndices)
+  const res = await updateLayerOrder(changedIndices);
   if (!res.ok) {
-    toast.error(res.message)
+    toast.error(res.message);
   }
-}
+};
 
 export function LayerView({
   layers,
   collectionSlug,
 }: { layers: Layer[]; collectionSlug: string }) {
   const [_layers, setLayers] = useState<ListItem<Layer>[]>(
-    layers.map((layer) => ({ id: layer.id, value: layer })),
-  )
+    layers.map((layer) => ({ id: layer.id, value: layer }))
+  );
 
   const indexMap: { [key: string]: number } = layers.reduce(
     (acc, layer, index) => {
-      acc[layer.id] = index
-      return acc
+      acc[layer.id] = index;
+      return acc;
     },
-    {} as { [key: string]: number },
-  )
+    {} as { [key: string]: number }
+  );
 
   useEffect(() => {
-    const changedIndices: LayerOrderChange = []
+    const changedIndices: LayerOrderChange = [];
     _layers.map((item, index) => {
-      const oldIndex = indexMap[item.id]
+      const oldIndex = indexMap[item.id];
       if (oldIndex !== undefined && oldIndex !== index && item.value) {
-        changedIndices.push({ id: item.value.id, index })
+        changedIndices.push({ id: item.value.id, index });
       }
-    })
+    });
     if (changedIndices.length > 0) {
-      updateOrder(changedIndices)
+      updateOrder(changedIndices);
     }
-  }, [_layers, indexMap])
+  }, [_layers, indexMap]);
 
   return (
     <ListInput<Layer>
       value={_layers}
       onChange={setLayers}
       classNames={{
-        container: 'max-w-full',
-        button: 'hidden',
+        container: "max-w-full",
+        button: "hidden",
       }}
       addButtonLabel="New Layer"
       input={(props) => (
         <LayerCard {...props} collectionSlug={collectionSlug} />
       )}
     />
-  )
+  );
 }

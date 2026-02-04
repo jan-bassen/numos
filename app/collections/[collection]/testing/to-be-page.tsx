@@ -1,4 +1,4 @@
-import { getExtendedCollectionFromSlug } from '@/lib/supabase/db/collections'
+import { getExtendedCollectionFromSlug } from "@/lib/db/queries/collections";
 import {
   Header,
   HeaderActions,
@@ -7,28 +7,28 @@ import {
   HeaderTabBar,
   HeaderTabBarItem,
   HeaderTitle,
-} from '@/components/page/header'
-import Main from '@/components/page/main'
-import { PiBugStroke, PiListCheckStroke } from '@repo/ui/icons/pika'
-import { getActionIssues } from '@/lib/supabase/db/actions/issues/read'
-import IssuesButton from '@/app/collections/[collection]/testing/(components)/issues-button'
-import { Page } from '@/components/page/page'
-import ActionIssueCard from '@/app/collections/[collection]/testing/(components)/issue-card'
-import type { ValidationIssueData } from '@repo/shared/types/validation-types'
+} from "@/components/page/header";
+import Main from "@/components/page/main";
+import { PiBugStroke, PiListCheckStroke } from "@repo/ui/icons/pika";
+import { getActionIssues } from "@/lib/db/queries/action-issues";
+import IssuesButton from "@/app/collections/[collection]/testing/(components)/issues-button";
+import { Page } from "@/components/page/page";
+import ActionIssueCard from "@/app/collections/[collection]/testing/(components)/issue-card";
+import type { ValidationIssueData } from "@repo/shared/types/validation-types";
 
 export default async function TestingPage(props: {
-  params: Promise<{ collection: string }>
+  params: Promise<{ collection: string }>;
 }) {
-  const params = await props.params
-  const collection = await getExtendedCollectionFromSlug(params.collection)
-  const issues = await getActionIssues(collection.editable_version.id)
+  const params = await props.params;
+  const collection = await getExtendedCollectionFromSlug(params.collection);
+  const issues = await getActionIssues(collection.editableVersion.id);
 
   return (
-    <Page tabs tabsProps={{ pageid: 'testing', defaultValue: 'issues' }}>
+    <Page tabs tabsProps={{ pageid: "testing", defaultValue: "issues" }}>
       <Header
         back={{
           href: `/collections/${collection.slug}`,
-          label: collection.name ?? 'Collection',
+          label: collection.name ?? "Collection",
         }}
       >
         <HeaderContent>
@@ -37,7 +37,7 @@ export default async function TestingPage(props: {
           </HeaderMain>
           <HeaderActions>
             <IssuesButton
-              version={collection.editable_version.id}
+              version={collection.editableVersion.id}
               hasIssues={issues.length > 0}
             />
           </HeaderActions>
@@ -61,5 +61,5 @@ export default async function TestingPage(props: {
       </Main>
       <Main value="tests">Hi2</Main>
     </Page>
-  )
+  );
 }

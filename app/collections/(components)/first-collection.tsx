@@ -1,11 +1,10 @@
-'use client'
+"use client";
 
-import { Button } from '@repo/ui/components/button'
-import type { InsertCollection } from '@/types/database.types'
-import type { z } from 'zod'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { cn, handleReturnInfo } from '@repo/ui/lib/utils'
+import { Button } from "@repo/ui/components/button";
+import type { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { cn, handleReturnInfo } from "@repo/ui/lib/utils";
 import {
   Form,
   FormControl,
@@ -13,49 +12,50 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@repo/ui/components/form'
-import { toast } from 'sonner'
-import { Input } from '@repo/ui/components/input'
-import { useRouter } from 'next/navigation'
-import { Textarea } from '@repo/ui/components/textarea'
-import { insertCollection } from '@/lib/supabase/db/collections'
-import type { User } from '@supabase/supabase-js'
-import { collectionSchema } from '@/lib/schemas/collection-schema'
+} from "@repo/ui/components/form";
+import { toast } from "sonner";
+import { Input } from "@repo/ui/components/input";
+import { useRouter } from "next/navigation";
+import { Textarea } from "@repo/ui/components/textarea";
+import { insertCollection } from "@/lib/db/queries/collections";
+import type { NewCollection } from "@/lib/db/schema";
+import { collectionSchema } from "@/lib/schemas/collection-schema";
+import type { User } from "@/lib/auth";
 
 export function FirstCollection({ user }: { user: User }) {
-  const router = useRouter()
+  const router = useRouter();
 
-  const schema = collectionSchema(undefined)
+  const schema = collectionSchema(undefined);
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
-    mode: 'onBlur',
-  })
+    mode: "onBlur",
+  });
 
   async function onSubmit(values: z.infer<typeof schema>) {
     if (!user) {
-      throw new Error('User not found')
+      throw new Error("User not found");
     }
 
-    const newCollection: InsertCollection = {
+    const newCollection: NewCollection = {
       name: values.name,
       slug: values.slug,
-      max_supply: values.max_supply,
-    }
+      maxSupply: values.max_supply,
+    };
 
-    const res = await insertCollection(newCollection)
+    const res = await insertCollection(newCollection);
     handleReturnInfo(
       res,
       () => {
-        router.push(`/collections/${values.slug}`)
+        router.push(`/collections/${values.slug}`);
       },
-      () => {},
-    )
+      () => {}
+    );
   }
 
-  function onError(errors: any) {
-    console.log(errors)
-    toast.error('Error with inputs')
+  function onError(errors: unknown) {
+    console.log(errors);
+    toast.error("Error with inputs");
   }
 
   return (
@@ -124,8 +124,8 @@ export function FirstCollection({ user }: { user: User }) {
             type="submit"
             form="basicAttributeForm"
             className={cn(
-              'w-full md:w-fit',
-              !form.formState.isValid && 'bg-muted',
+              "w-full md:w-fit",
+              !form.formState.isValid && "bg-muted"
             )}
             aria-disabled={!form.formState.isValid}
           >
@@ -134,5 +134,5 @@ export function FirstCollection({ user }: { user: User }) {
         </div>
       </form>
     </Form>
-  )
+  );
 }

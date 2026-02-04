@@ -1,31 +1,31 @@
-'use client'
+"use client";
 
-import Link from 'next/link'
-import { handleReturnInfo } from '@repo/ui/lib/utils'
+import Link from "next/link";
+import { handleReturnInfo } from "@repo/ui/lib/utils";
 import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger,
-} from '@repo/ui/components/context-menu'
+} from "@repo/ui/components/context-menu";
 import {
   AlertDialog,
   AlertDialogTrigger,
-} from '@repo/ui/components/alert-dialog'
+} from "@repo/ui/components/alert-dialog";
 import {
   PiDeleteDustbin02Stroke,
   PiPencilEditBoxStroke,
-} from '@repo/ui/icons/pika'
-import { deleteAttributeBySlug } from '@/lib/supabase/db/attributes/delete'
-import DeleteDialogContent from '@repo/ui/blocks/dialogs/delete-dialog'
-import { removeAttributeFromLocalForm } from '@/app/collections/[collection]/attributes/(functions)/utils'
-import type { ComponentProps } from 'react'
+} from "@repo/ui/icons/pika";
+import { deleteAttributeBySlug } from "@/lib/db/queries/attributes";
+import DeleteDialogContent from "@repo/ui/blocks/dialogs/delete-dialog";
+import { removeAttributeFromLocalForm } from "@/app/collections/[collection]/attributes/(functions)/utils";
+import type { ComponentProps } from "react";
 
 interface AttributeContextMenuProps {
-  children?: React.ReactNode
-  attributeSlug: string
-  collectionSlug: string
-  versionId: string
+  children?: React.ReactNode;
+  attributeSlug: string;
+  collectionSlug: string;
+  versionId: string;
 }
 
 export default function AttributeContextMenu({
@@ -36,7 +36,7 @@ export default function AttributeContextMenu({
   versionId,
   ...props
 }: AttributeContextMenuProps & ComponentProps<typeof ContextMenu>) {
-  const href = `/collections/${collectionSlug}/attributes/${attributeSlug}`
+  const href = `/collections/${collectionSlug}/attributes/${attributeSlug}`;
   return (
     <AlertDialog>
       <ContextMenu {...props}>
@@ -59,12 +59,12 @@ export default function AttributeContextMenu({
       <DeleteDialogContent
         title="attribute"
         onDelete={async () => {
-          const res = await deleteAttributeBySlug(versionId, attributeSlug)
+          const res = await deleteAttributeBySlug(versionId, attributeSlug);
           handleReturnInfo(res, () => {
-            removeAttributeFromLocalForm(collectionSlug, attributeSlug)
-          })
+            removeAttributeFromLocalForm(collectionSlug, attributeSlug);
+          });
         }}
       />
     </AlertDialog>
-  )
+  );
 }

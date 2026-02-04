@@ -1,33 +1,33 @@
-import ActionNodeEditor from '@/app/collections/[collection]/actions/[action]/logic/(components)/action-node-editor'
-import { getActionGraph } from '@/lib/supabase/db/action-graph'
-import { getActionBySlug } from '@/lib/supabase/db/actions'
-import { getAllAttributes } from '@/lib/supabase/db/attributes/read'
-import { getExtendedCollectionFromSlug } from '@/lib/supabase/db/collections'
+import ActionNodeEditor from "@/app/collections/[collection]/actions/[action]/logic/(components)/action-node-editor";
+import { getActionGraph } from "@/lib/db/queries/action-graph";
+import { getActionBySlug } from "@/lib/db/queries/actions";
+import { getAllAttributes } from "@/lib/db/queries/attributes";
+import { getExtendedCollectionFromSlug } from "@/lib/db/queries/collections";
 
 export default async function ActionPage(props: {
   params: Promise<{
-    collection: string
-    action: string
-  }>
+    collection: string;
+    action: string;
+  }>;
 }) {
-  const params = await props.params
+  const params = await props.params;
 
-  const { collection: collectionSlug, action: actionSlug } = params
+  const { collection: collectionSlug, action: actionSlug } = params;
 
-  const collection = await getExtendedCollectionFromSlug(collectionSlug)
+  const collection = await getExtendedCollectionFromSlug(collectionSlug);
   const action = await getActionBySlug(
     actionSlug,
-    collection.editable_version.id,
-  )
-  const graph = await getActionGraph(action.id)
-  const attributes = await getAllAttributes(collection.editable_version.id)
+    collection.editableVersion.id
+  );
+  const graph = await getActionGraph(action.id);
+  const attributes = await getAllAttributes(collection.editableVersion.id);
   return (
     <ActionNodeEditor
       initialGraph={graph}
-      version={collection.editable_version}
+      version={collection.editableVersion}
       action={action}
       attributes={attributes}
       collectionSlug={collectionSlug}
     />
-  )
+  );
 }

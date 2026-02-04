@@ -1,13 +1,13 @@
-'use client'
+"use client";
 
-import Link from 'next/link'
-import { handleReturnInfo } from '@repo/ui/lib/utils'
+import Link from "next/link";
+import { handleReturnInfo } from "@repo/ui/lib/utils";
 import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger,
-} from '@repo/ui/components/context-menu'
+} from "@repo/ui/components/context-menu";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,23 +18,23 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@repo/ui/components/alert-dialog'
+} from "@repo/ui/components/alert-dialog";
 import {
   PiDeleteDustbin02Stroke,
   PiPencilEditBoxStroke,
-} from '@repo/ui/icons/pika'
-import { deleteCollectionBySlug } from '@/lib/supabase/db/collections'
+} from "@repo/ui/icons/pika";
+import { deleteCollectionBySlug } from "@/lib/db/queries/collections";
 
 interface CollectionContextMenuProps {
-  children?: React.ReactNode
-  slug: string
+  children?: React.ReactNode;
+  slug: string;
 }
 
 export default function ActionContextMenu({
   children,
   slug,
 }: CollectionContextMenuProps) {
-  const href = `/collections/${slug}/`
+  const href = `/collections/${slug}/`;
   return (
     <AlertDialog>
       <ContextMenu>
@@ -67,8 +67,8 @@ export default function ActionContextMenu({
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
             onClick={async () => {
-              const res = await deleteCollectionBySlug(slug)
-              handleReturnInfo(res)
+              const res = await deleteCollectionBySlug(slug);
+              handleReturnInfo(res);
             }}
           >
             Delete
@@ -76,5 +76,5 @@ export default function ActionContextMenu({
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  )
+  );
 }

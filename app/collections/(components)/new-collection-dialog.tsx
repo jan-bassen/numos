@@ -1,15 +1,15 @@
-'use client'
+"use client";
 
-import type { z } from 'zod'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { type ReactNode, useState } from 'react'
-import { handleReturnInfo } from '@repo/ui/lib/utils'
-import { toast } from 'sonner'
-import { Input } from '@repo/ui/components/input'
-import { useRouter } from 'next/navigation'
-import { insertCollection } from '@/lib/supabase/db/collections'
-import { collectionSchema } from '@/lib/schemas/collection-schema'
+import type { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { type ReactNode, useState } from "react";
+import { handleReturnInfo } from "@repo/ui/lib/utils";
+import { toast } from "sonner";
+import { Input } from "@repo/ui/components/input";
+import { useRouter } from "next/navigation";
+import { insertCollection } from "@/lib/db/queries/collections";
+import { collectionSchema } from "@/lib/schemas/collection-schema";
 import {
   Dialog,
   DialogContent,
@@ -17,45 +17,45 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@repo/ui/components/dialog'
-import { Fingerprint, Tag } from 'lucide-react'
+} from "@repo/ui/components/dialog";
+import { Fingerprint, Tag } from "lucide-react";
 import {
   type StaticStageDefinition,
   StagedForm,
-} from '@/components/forms/staged-form'
-import { FormControl, FormItem, FormMessage } from '@repo/ui/components/form'
-import { slugify } from '@/lib/utils'
+} from "@/components/forms/staged-form";
+import { FormControl, FormItem, FormMessage } from "@repo/ui/components/form";
+import { slugify } from "@/lib/utils";
 
 export function NewCollectionDialog({ children }: { children: ReactNode }) {
-  const [dialogOpen, setDialogOpen] = useState(false)
-  const router = useRouter()
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const router = useRouter();
 
-  const schema = collectionSchema(undefined)
-  type SchemaType = z.infer<typeof schema>
+  const schema = collectionSchema(undefined);
+  type SchemaType = z.infer<typeof schema>;
 
   const form = useForm<SchemaType>({
     resolver: zodResolver(schema),
-    mode: 'onBlur',
+    mode: "onBlur",
     defaultValues: {
-      name: '',
-      slug: ' ',
+      name: "",
+      slug: " ",
     },
-  })
+  });
 
   function inferSlug(name: string) {
-    if (form.getFieldState('slug').isDirty) return
-    form.setValue('slug', slugify(name), {
+    if (form.getFieldState("slug").isDirty) return;
+    form.setValue("slug", slugify(name), {
       shouldValidate: true,
       shouldDirty: false,
-    })
+    });
   }
 
   const stages: StaticStageDefinition<SchemaType>[] = [
     {
-      key: 'name',
-      title: 'Name your new collection',
+      key: "name",
+      title: "Name your new collection",
       description:
-        'The name will show up throughout the studio and wherever your collection is displayed. You can change it later.',
+        "The name will show up throughout the studio and wherever your collection is displayed. You can change it later.",
       icon: Tag,
       field: (field) => (
         <FormItem className="min-h-[80px] w-full">
@@ -64,8 +64,8 @@ export function NewCollectionDialog({ children }: { children: ReactNode }) {
               placeholder="Name"
               {...field}
               onChange={(e) => {
-                inferSlug(e.target.value)
-                field.onChange(e)
+                inferSlug(e.target.value);
+                field.onChange(e);
               }}
             />
           </FormControl>
@@ -74,10 +74,10 @@ export function NewCollectionDialog({ children }: { children: ReactNode }) {
       ),
     },
     {
-      key: 'slug',
-      title: 'Choose a unique identifier',
+      key: "slug",
+      title: "Choose a unique identifier",
       description:
-        'We will use this to identify your collection, so it must be unique across the platform.',
+        "We will use this to identify your collection, so it must be unique across the platform.",
       icon: Fingerprint,
       field: (field) => (
         <FormItem className="min-h-[80px] w-full">
@@ -88,28 +88,28 @@ export function NewCollectionDialog({ children }: { children: ReactNode }) {
         </FormItem>
       ),
     },
-  ]
+  ];
 
   async function onSubmit(values: SchemaType) {
-    const res = await insertCollection(values)
+    const res = await insertCollection(values);
     handleReturnInfo(
       res,
       () => {
-        setDialogOpen(false)
-        router.push(`/collections/${values.slug}`)
+        setDialogOpen(false);
+        router.push(`/collections/${values.slug}`);
       },
-      () => {},
-    )
+      () => {}
+    );
   }
 
   function onError(errors: unknown) {
     if (errors instanceof Error) {
       toast.error(
-        `Error with inputs, please check beforehand: ${errors.message}`,
-      )
-      return
+        `Error with inputs, please check beforehand: ${errors.message}`
+      );
+      return;
     }
-    toast.error('Error with inputs, please check beforehand')
+    toast.error("Error with inputs, please check beforehand");
   }
 
   return (
@@ -130,5 +130,5 @@ export function NewCollectionDialog({ children }: { children: ReactNode }) {
         />
       </DialogContent>
     </Dialog>
-  )
+  );
 }

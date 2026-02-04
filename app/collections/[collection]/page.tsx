@@ -1,66 +1,65 @@
-import { NewActionDialog } from '@/app/collections/[collection]/actions/(components)/new-action/new-action-dialog'
-import { NewAttributeDialog } from '@/app/collections/[collection]/attributes/(components)/new-attribute-dialog'
-import Section from '@/components/layouts/simple/section'
+import { NewActionDialog } from "@/app/collections/[collection]/actions/(components)/new-action/new-action-dialog";
+import { NewAttributeDialog } from "@/app/collections/[collection]/attributes/(components)/new-attribute-dialog";
+import Section from "@/components/layouts/simple/section";
 import {
   Header,
   HeaderActions,
   HeaderContent,
-  HeaderDescription,
   HeaderIcon,
   HeaderMain,
   HeaderTabBar,
   HeaderTabBarItem,
-} from '@/components/page/header'
-import Main from '@/components/page/main'
-import { getLatestActions } from '@/lib/supabase/db/actions'
-import { getLatestAttributes } from '@/lib/supabase/db/attributes/read'
-import { getExtendedCollectionFromSlug } from '@/lib/supabase/db/collections'
-import DeleteCollectionButton from '@/app/collections/[collection]/(components)/delete-collection-button'
-import { Page } from '@/components/page/page'
+} from "@/components/page/header";
+import Main from "@/components/page/main";
+import { getLatestActions } from "@/lib/db/queries/actions";
+import { getLatestAttributes } from "@/lib/db/queries/attributes";
+import { getExtendedCollectionFromSlug } from "@/lib/db/queries/collections";
+import DeleteCollectionButton from "@/app/collections/[collection]/(components)/delete-collection-button";
+import { Page } from "@/components/page/page";
 import {
   PiGridDashboard02Solid,
   PiSettings02Solid,
   PiReceipt01Solid,
-} from '@repo/ui/icons/pika'
-import Segment from '@/components/layouts/segmented/segment'
-import SegmentedLayout from '@/components/layouts/segmented/segmented-layout'
-import { CollectionImage } from '@/app/collections/[collection]/(components)/collection-image'
-import { LockCollectionButton } from '@/app/collections/[collection]/(components)/lock-collection-button'
-import { CollectionTitle } from '@/app/collections/[collection]/(components)/inputs/collection-title'
-import { CollectionSlugInput } from '@/app/collections/[collection]/(components)/inputs/collection-slug-input'
-import { CollectionExternalLinkInput } from '@/app/collections/[collection]/(components)/inputs/collection-external-link-input'
-import SimpleGrid from '@/components/layouts/simple/simple-grid'
-import ActionContextMenu from '@/app/collections/[collection]/actions/(components)/action-context-menu'
+} from "@repo/ui/icons/pika";
+import Segment from "@/components/layouts/segmented/segment";
+import SegmentedLayout from "@/components/layouts/segmented/segmented-layout";
+import { CollectionImage } from "@/app/collections/[collection]/(components)/collection-image";
+import { LockCollectionButton } from "@/app/collections/[collection]/(components)/lock-collection-button";
+import { CollectionTitle } from "@/app/collections/[collection]/(components)/inputs/collection-title";
+import { CollectionSlugInput } from "@/app/collections/[collection]/(components)/inputs/collection-slug-input";
+import { CollectionExternalLinkInput } from "@/app/collections/[collection]/(components)/inputs/collection-external-link-input";
+import SimpleGrid from "@/components/layouts/simple/simple-grid";
+import ActionContextMenu from "@/app/collections/[collection]/actions/(components)/action-context-menu";
 import {
   ElementCardButton,
   ElementCardLink,
-} from '@/components/elements/element-card'
-import { triggerOptions } from '@/lib/constants/triggers'
-import AttributeContextMenu from '@/app/collections/[collection]/attributes/(components)/attribute-context-menu'
-import { dataTypes } from '@/lib/constants/datatypes'
-import LayerContextMenu from '@/app/collections/[collection]/image/(components)/layer-context-menu'
-import { getLatestLayers } from '@/lib/supabase/db/layers/read'
-import { NewLayerDialog } from '@/app/collections/[collection]/image/(components)/new-layer/new-layer-dialog'
-import { layerOptions } from '@/lib/constants/layers'
-import { VersionDescriptionInput } from '@/app/collections/[collection]/(components)/inputs/version-description-input'
+} from "@/components/elements/element-card";
+import { triggerOptions } from "@/lib/constants/triggers";
+import AttributeContextMenu from "@/app/collections/[collection]/attributes/(components)/attribute-context-menu";
+import { dataTypes } from "@/lib/constants/datatypes";
+import LayerContextMenu from "@/app/collections/[collection]/image/(components)/layer-context-menu";
+import { getLatestLayers } from "@/lib/db/queries/layers";
+import { NewLayerDialog } from "@/app/collections/[collection]/image/(components)/new-layer/new-layer-dialog";
+import { layerOptions } from "@/lib/constants/layers";
+import { VersionDescriptionInput } from "@/app/collections/[collection]/(components)/inputs/version-description-input";
 
 export default async function Collection(props: {
-  params: Promise<{ collection: string }>
+  params: Promise<{ collection: string }>;
 }) {
-  const params = await props.params
-  const collection = await getExtendedCollectionFromSlug(params.collection)
-  const version = collection.editable_version
+  const params = await props.params;
+  const collection = await getExtendedCollectionFromSlug(params.collection);
+  const version = collection.editableVersion;
 
-  const attributePromise = getLatestAttributes(version.id, 5)
-  const actionPromise = getLatestActions(version.id, 5)
-  const layerPromise = getLatestLayers(version.id, 5)
+  const attributePromise = getLatestAttributes(version.id, 5);
+  const actionPromise = getLatestActions(version.id, 5);
+  const layerPromise = getLatestLayers(version.id, 5);
   const [attributes, actions, layers] = await Promise.all([
     attributePromise,
     actionPromise,
     layerPromise,
-  ])
+  ]);
   return (
-    <Page tabs tabsProps={{ defaultValue: 'overview', pageid: 'collection' }}>
+    <Page tabs tabsProps={{ defaultValue: "overview", pageid: "collection" }}>
       <Header>
         <HeaderContent>
           <HeaderMain>
@@ -92,7 +91,7 @@ export default async function Collection(props: {
           link={`/collections/${collection.slug}/attributes`}
           info={{
             description:
-              'Attributes are basically the traits of all of your tokens. They are used to define the properties of the collection.',
+              "Attributes are basically the traits of all of your tokens. They are used to define the properties of the collection.",
           }}
         >
           <SimpleGrid>
@@ -106,12 +105,12 @@ export default async function Collection(props: {
                 >
                   <ElementCardLink
                     href={`/collections/${collection.slug}/attributes/${attribute.slug}`}
-                    label={attribute.name ?? 'New Attribute'}
+                    label={attribute.name ?? "New Attribute"}
                     subtitle={attribute.description}
-                    icon={dataTypes[attribute.value.type].icons.stroke}
+                    icon={dataTypes[attribute.value?.type]?.icons.stroke}
                   />
                 </AttributeContextMenu>
-              )
+              );
             })}
             <NewAttributeDialog versionId={version.id}>
               <ElementCardButton
@@ -127,7 +126,7 @@ export default async function Collection(props: {
           link={`/collections/${collection.slug}/actions`}
           info={{
             description:
-              'Actions change the state of one or more tokens. They are used to make your collection dynamic.',
+              "Actions change the state of one or more tokens. They are used to make your collection dynamic.",
           }}
         >
           <SimpleGrid>
@@ -141,12 +140,12 @@ export default async function Collection(props: {
                 >
                   <ElementCardLink
                     href={`/collections/${collection.slug}/actions/${action.slug}`}
-                    label={action.name ?? 'Unnamed Action'}
+                    label={action.name ?? "Unnamed Action"}
                     subtitle={action.description}
-                    icon={triggerOptions[action.trigger?.type || 'api'].Icon}
+                    icon={triggerOptions[action.trigger?.type || "api"].Icon}
                   />
                 </ActionContextMenu>
-              )
+              );
             })}
             <NewActionDialog versionId={version.id}>
               <ElementCardButton variant="new" label="New Action" />
@@ -158,7 +157,7 @@ export default async function Collection(props: {
           link={`/collections/${collection.slug}/image`}
           info={{
             description:
-              'Layers are literally the layers of the tokens image. Use them to control the visual appearance of your collection.',
+              "Layers are literally the layers of the tokens image. Use them to control the visual appearance of your collection.",
           }}
         >
           <SimpleGrid>
@@ -172,12 +171,12 @@ export default async function Collection(props: {
                 >
                   <ElementCardLink
                     href={`/collections/${collection.slug}/image/${layer.slug}`}
-                    label={layer.name ?? 'New Layer'}
+                    label={layer.name ?? "New Layer"}
                     subtitle={layer.description}
                     icon={layerOptions[layer.definition?.type]?.Icon}
                   />
                 </LayerContextMenu>
-              )
+              );
             })}
             <NewLayerDialog versionId={version.id}>
               <ElementCardButton
@@ -195,27 +194,11 @@ export default async function Collection(props: {
             title="Identifier"
             info={{
               description:
-                'Define a unique identifier for the collection. This will be used to reference the collection in the API.',
+                "Define a unique identifier for the collection. This will be used to reference the collection in the API.",
             }}
           >
             <CollectionSlugInput />
           </Segment>
-          {/* <Segment
-            title="Max Supply"
-            description="Define the maximum supply for the collection. This will limit the number of tokens that can be minted."
-          >
-            <CollectionMaxSupplyInput />
-          </Segment> */}
-
-          {/*  <Segment
-            title="API-Keys"
-            info={{
-              description:
-                'Manage the API-Keys for the collection. These keys can be used to access the collection via the API.',
-            }}
-          >
-            <ApiKeys />
-          </Segment> */}
         </SegmentedLayout>
       </Main>
       <Main value="metadata">
@@ -224,7 +207,7 @@ export default async function Collection(props: {
             title="Description"
             info={{
               description:
-                'Describe the collection in a few sentences. This will show up publicly e.g. on marketplaces.',
+                "Describe the collection in a few sentences. This will show up publicly e.g. on marketplaces.",
             }}
           >
             <VersionDescriptionInput />
@@ -233,7 +216,7 @@ export default async function Collection(props: {
             title="External Link"
             info={{
               description:
-                'Link to the collection on an external website. This will show up publicly e.g. on marketplaces.',
+                "Link to the collection on an external website. This will show up publicly e.g. on marketplaces.",
             }}
           >
             <CollectionExternalLinkInput />
@@ -241,5 +224,5 @@ export default async function Collection(props: {
         </SegmentedLayout>
       </Main>
     </Page>
-  )
+  );
 }

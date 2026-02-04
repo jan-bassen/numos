@@ -1,26 +1,26 @@
-import { getAllCollections } from '@/lib/supabase/db/collections'
-import { SupabaseImage } from '@/components/supabase/supabase-image'
+import { getAllCollections } from "@/lib/db/queries/collections";
+import { SupabaseImage } from "@/components/supabase/supabase-image";
 import {
   SidebarGroup,
   SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from '@repo/ui/components/sidebar'
-import Link from 'next/link'
+} from "@repo/ui/components/sidebar";
+import Link from "next/link";
 
 export async function Collections() {
-  const collections = await getAllCollections()
+  const collections = await getAllCollections();
   return (
     <SidebarGroup>
       <SidebarGroupLabel>
-        <Link href={'/collections'} className="hover:underline">
-          {'Collections'}
+        <Link href={"/collections"} className="hover:underline">
+          {"Collections"}
         </Link>
       </SidebarGroupLabel>
       <SidebarMenu>
         {collections.map((collection) => {
-          const href = `/collections/${collection.slug}`
+          const href = `/collections/${collection.slug}`;
           return (
             <SidebarMenuItem key={collection.slug}>
               <SidebarMenuButton asChild>
@@ -40,13 +40,13 @@ export async function Collections() {
                     height={20}
                     className="!size-5 shrink-0 rounded-md object-cover"
                   />
-                  <span>{collection.name || 'Unnamed Collection'}</span>
+                  <span>{collection.name || "Unnamed Collection"}</span>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
-          )
+          );
         })}
       </SidebarMenu>
     </SidebarGroup>
-  )
+  );
 }

@@ -1,29 +1,28 @@
-import { getAllExtendedCollections } from '@/lib/supabase/db/collections'
-import Main from '@/components/page/main'
-import type { ExtendedCollection } from '@/types/database.types'
-import { Navbar } from '@/components/navigation/navbar/navbar'
+import { getAllExtendedCollections, type ExtendedCollection } from "@/lib/db/queries/collections";
+import Main from "@/components/page/main";
+import { Navbar } from "@/components/navigation/navbar/navbar";
 import {
   Header,
   HeaderActions,
   HeaderContent,
   HeaderMain,
   HeaderTitle,
-} from '@/components/page/header'
-import EmptyCollectionsView from '@/app/collections/(components)/empty-collections-view'
-import { NewCollectionDialog } from '@/app/collections/(components)/new-collection-dialog'
-import { Button } from '@repo/ui/components/button'
-import { PiAddAddStroke } from '@repo/ui/icons/pika'
-import { Page } from '@/components/page/page'
-import SimpleGrid from '@/components/layouts/simple/simple-grid'
+} from "@/components/page/header";
+import EmptyCollectionsView from "@/app/collections/(components)/empty-collections-view";
+import { NewCollectionDialog } from "@/app/collections/(components)/new-collection-dialog";
+import { Button } from "@repo/ui/components/button";
+import { PiAddAddStroke } from "@repo/ui/icons/pika";
+import { Page } from "@/components/page/page";
+import SimpleGrid from "@/components/layouts/simple/simple-grid";
 import {
   ElementCardButton,
   ElementCardLink,
-} from '@/components/elements/element-card'
-import { SupabaseImage } from '@/components/supabase/supabase-image'
-import CollectionContextMenu from '@/app/collections/(components)/collection-context-menu'
+} from "@/components/elements/element-card";
+import { SupabaseImage } from "@/components/supabase/supabase-image";
+import CollectionContextMenu from "@/app/collections/(components)/collection-context-menu";
 
 export default async function HomePage() {
-  const collections: ExtendedCollection[] = await getAllExtendedCollections()
+  const collections: ExtendedCollection[] = await getAllExtendedCollections();
   return (
     <>
       <Navbar />
@@ -62,7 +61,7 @@ export default async function HomePage() {
                   >
                     <ElementCardLink
                       href={`/collections/${collection.slug}`}
-                      label={collection.name ?? 'Unnamed Collection'}
+                      label={collection.name ?? "Unnamed Collection"}
                       subtitle={collection.description}
                       image={
                         <SupabaseImage
@@ -76,7 +75,7 @@ export default async function HomePage() {
                       }
                     />
                   </CollectionContextMenu>
-                )
+                );
               })}
               <NewCollectionDialog>
                 <ElementCardButton label="New Collection" variant="new" />
@@ -86,5 +85,5 @@ export default async function HomePage() {
         </Main>
       </Page>
     </>
-  )
+  );
 }

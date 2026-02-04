@@ -1,27 +1,34 @@
-import { SupabaseImage } from '@/components/supabase/supabase-image'
-import {
-  locationToFullPath,
-  type StorageLocation,
-  uploadFile,
-} from '@/lib/supabase/storage/uploaders'
-import { PiPencilEditSolid } from '@repo/ui/icons/pika'
-import { cn } from '@repo/ui/lib/utils'
-import type { FileOptions } from '@supabase/storage-js'
-import type { ImageProps } from 'next/image'
-import { type ChangeEvent, useRef, useState } from 'react'
+"use client";
+
+import { SupabaseImage } from "@/components/supabase/supabase-image";
+import { uploadFile, type UploadLocation } from "@/lib/storage/uploaders";
+import { BUCKETS, type BucketName } from "@/lib/storage";
+import { PiPencilEditSolid } from "@repo/ui/icons/pika";
+import { cn } from "@repo/ui/lib/utils";
+import type { ImageProps } from "next/image";
+import { type ChangeEvent, useRef, useState } from "react";
+
+export type StorageLocation = {
+  bucket: BucketName;
+  name: string | null;
+};
+
+export function locationToFullPath(location: StorageLocation): string {
+  return `${location.bucket}/${location.name}`;
+}
 
 export type EditableImageProps = {
-  location: StorageLocation
-  uploadTo: StorageLocation
-  onUpload?: (location: StorageLocation) => Promise<void>
-  onUploadError?: (error: string) => void
-  locked?: boolean
+  location: StorageLocation;
+  uploadTo: StorageLocation;
+  onUpload?: (location: StorageLocation) => Promise<void>;
+  onUploadError?: (error: string) => void;
+  locked?: boolean;
   options?: {
-    placeholder?: boolean
-    keepExtension?: boolean
-    keepOld?: boolean
-  } & FileOptions
-} & Omit<ImageProps, 'src' | 'placeholder'>
+    placeholder?: boolean;
+    keepExtension?: boolean;
+    keepOld?: boolean;
+  };
+} & Omit<ImageProps, "src" | "placeholder">;
 
 export function EditableImage({
   location,
@@ -33,31 +40,38 @@ export function EditableImage({
   options,
   ...props
 }: EditableImageProps) {
-  const { keepOld, ...fileOptions } = options || {}
+  const { keepOld, ...fileOptions } = options || {};
 
   const [fullPath, setFullPath] = useState<string | null>(
-    location.name ? locationToFullPath(location) : null,
-  )
+    location.name ? locationToFullPath(location) : null
+  );
 
-  const imageInputRef = useRef<HTMLInputElement>(null)
+  const imageInputRef = useRef<HTMLInputElement>(null);
 
   async function upload(event: ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files?.[event.target.files.length - 1]
+    const file = event.target.files?.[event.target.files.length - 1];
 
-    if (!file) return
-    const newImage = await uploadFile(
-      uploadTo,
-      file,
-      keepOld ? undefined : location,
-      fileOptions,
-    )
+    if (!file || !uploadTo.name) return;
 
-    console.log('newImage', newImage)
-    if (newImage.error) {
-      onUploadError?.(newImage.error)
-    } else if (newImage.result) {
-      setFullPath(locationToFullPath(newImage.result))
-      onUpload?.(newImage.result)
+    const uploadLocation: UploadLocation = {
+      bucket: uploadTo.bucket,
+      name: uploadTo.name,
+    };
+
+    const result = await uploadFile(file, uploadLocation, {
+      keepExtension: fileOptions?.keepExtension,
+      replaceExisting: keepOld ? null : location.name,
+    });
+
+    if (!result.ok) {
+      onUploadError?.(result.message || "Upload failed");
+    } else if (result.url) {
+      const newLocation: StorageLocation = {
+        bucket: uploadTo.bucket,
+        name: uploadTo.name,
+      };
+      setFullPath(result.url);
+      onUpload?.(newLocation);
     }
   }
 
@@ -87,12 +101,12 @@ export function EditableImage({
             placeholder={fileOptions?.placeholder}
             src={fullPath}
             className={cn(
-              'col-span-1 col-start-1 row-span-1 row-start-1 aspect-square rounded-md object-cover',
-              className,
+              "col-span-1 col-start-1 row-span-1 row-start-1 aspect-square rounded-md object-cover",
+              className
             )}
           />
         </>
       </button>
     </div>
-  )
+  );
 }

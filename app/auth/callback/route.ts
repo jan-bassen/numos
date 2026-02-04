@@ -1,19 +1,11 @@
-import { NextResponse } from 'next/server'
-import { createSupabaseServerClient } from '@/lib/supabase/clients/server-client'
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
-export async function GET(request: Request) {
-  const { searchParams, origin } = new URL(request.url)
-  const code = searchParams.get('code')
-  const next = searchParams.get('next') ?? '/'
+// Better Auth handles OAuth callbacks automatically via the /api/auth/[...all] route
+// This route is kept for backwards compatibility and redirects to home
+export async function GET(request: NextRequest) {
+  const searchParams = request.nextUrl.searchParams;
+  const next = searchParams.get("next") ?? "/";
 
-  if (code) {
-    const supabase = await createSupabaseServerClient()
-    const { error } = await supabase.auth.exchangeCodeForSession(code)
-    if (!error) {
-      return NextResponse.redirect(`${origin}${next}`)
-    }
-  }
-
-  // return the user to an error page with instructions
-  return NextResponse.redirect(`${origin}/auth/error`)
+  return NextResponse.redirect(new URL(next, request.url));
 }

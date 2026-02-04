@@ -1,10 +1,10 @@
-import { Input } from '@repo/ui/components/input'
-import { PiFolderPlusSolid } from '@repo/ui/icons/pika'
-import { insertFolder } from '@/lib/supabase/db/uploads'
-import type { InsertFolder } from '@/types/database.types'
-import { useEffect, useRef, useState } from 'react'
-import { toast } from 'sonner'
-import { childrenOffset } from './tree'
+import { Input } from "@repo/ui/components/input";
+import { PiFolderPlusSolid } from "@repo/ui/icons/pika";
+import { insertFolder } from "@/lib/db/queries/uploads";
+import type { NewFolder } from "@/lib/db/schema";
+import { useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
+import { childrenOffset } from "./tree";
 
 export default function NewFolderListItem({
   version,
@@ -12,38 +12,38 @@ export default function NewFolderListItem({
   setNewFolder,
   level,
 }: {
-  version: string
-  parentId: string | null
-  setNewFolder: (value: boolean) => void
-  level: number
+  version: string;
+  parentId: string | null;
+  setNewFolder: (value: boolean) => void;
+  level: number;
 }) {
-  const [name, setName] = useState('')
-  const nameInputRef = useRef<HTMLInputElement>(null)
+  const [name, setName] = useState("");
+  const nameInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setTimeout(() => {
-      nameInputRef.current?.select()
-    }, 200)
-  }, [])
+      nameInputRef.current?.select();
+    }, 200);
+  }, []);
 
   const handleNewFolder = async () => {
-    if (name === '') {
-      setNewFolder(false)
-      return
+    if (name === "") {
+      setNewFolder(false);
+      return;
     }
-    const folder: InsertFolder = {
+    const folder: NewFolder = {
       version: version,
       name: name,
       parent: parentId,
-    }
-    const res = await insertFolder(folder)
+    };
+    const res = await insertFolder(folder);
     if (!res.ok) {
-      toast.error(res.message)
-      return
+      toast.error(res.message);
+      return;
     }
-    setName('')
-    setNewFolder(false)
-  }
+    setName("");
+    setNewFolder(false);
+  };
 
   return (
     <div
@@ -61,12 +61,12 @@ export default function NewFolderListItem({
         ref={nameInputRef}
         onBlur={handleNewFolder}
         onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            handleNewFolder()
+          if (e.key === "Enter") {
+            handleNewFolder();
           }
         }}
         autoFocus
       />
     </div>
-  )
+  );
 }

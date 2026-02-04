@@ -1,50 +1,28 @@
-'use client'
+"use client";
 
-import type { StaticImport } from 'next/dist/shared/lib/get-img-props'
-import Image, { type ImageLoaderProps, type ImageProps } from 'next/image'
-import { placeholderImage } from '@repo/shared/utils/placeholder-image'
-import { useState } from 'react'
+import type { StaticImport } from "next/dist/shared/lib/get-img-props";
+import Image, { type ImageLoaderProps, type ImageProps } from "next/image";
+import { useState } from "react";
 
-const projectId = process.env.NEXT_PUBLIC_SUPABASE_PROJECT_ID
-if (!projectId) {
-  throw new Error('Missing database service key environment variable')
-}
-
-/* async function privateSupabaseLoader(payload: ImagePayload) {
-  const supabase = await createSupabaseClient()
-  const bucketName = payload.src.split('/')[0]
-  const imagePath = payload.src.split('/').slice(1).join('/')
-  const { data, error } = await supabase.storage
-    .from(bucketName)
-    .download(imagePath)
-  if (error) {
-    throw new Error('Error with fetching image')
+// Vercel Blob image loader
+export function blobImageLoader({ src, width, quality }: ImageLoaderProps) {
+  // If src is already a full URL, use it directly
+  if (src.startsWith("http://") || src.startsWith("https://")) {
+    const url = new URL(src);
+    url.searchParams.set("w", width.toString());
+    if (quality) {
+      url.searchParams.set("q", quality.toString());
+    }
+    return url.href;
   }
-  return URL.createObjectURL(data)
-} */
 
-export function publicSupabaseLoader({
-  src,
-  width,
-  quality,
-}: ImageLoaderProps) {
-  const url = new URL(
-    `https://${projectId}.supabase.co/storage/v1/object/public/${src}`,
-  )
-  url.searchParams.set('width', width.toString())
-  url.searchParams.set('quality', (quality || 75).toString())
-  return url.href
-}
-
-export function signedSupabaseLoader({
-  src,
-  width,
-  quality,
-}: ImageLoaderProps) {
-  const url = new URL(src)
-  url.searchParams.set('width', width.toString())
-  url.searchParams.set('quality', (quality || 75).toString())
-  return url.href
+  // Otherwise, construct the Vercel Blob URL
+  const blobUrl = process.env.NEXT_PUBLIC_BLOB_URL;
+  if (!blobUrl) {
+    // Fallback to using src as-is
+    return src;
+  }
+  return `${blobUrl}/${src}?w=${width}&q=${quality || 75}`;
 }
 
 export function SupabaseImage({
@@ -52,46 +30,51 @@ export function SupabaseImage({
   signed,
   src,
   ...props
-}: Omit<ImageProps, 'src' | 'placeholder'> & {
-  src?: string | StaticImport | null
-  signed?: 'true' | 'false'
-  placeholder?: boolean
+}: Omit<ImageProps, "src" | "placeholder"> & {
+  src?: string | StaticImport | null;
+  signed?: "true" | "false";
+  placeholder?: boolean;
 }) {
-  const [showPlaceholder, setShowPlaceholder] = useState(false)
+  const [showPlaceholder, setShowPlaceholder] = useState(false);
 
   if (!src || showPlaceholder) {
     if (!placeholder) {
-      return null
+      return null;
     }
     return (
       <Image
         {...props}
-        alt={props.alt || 'Image'}
-        src={'/images/placeholder.png'}
+        alt={props.alt || "Image"}
+        src={"/images/placeholder.png"}
       />
-    )
+    );
   }
 
-  if (signed === 'true') {
+  // For signed URLs or full URLs, use direct loading
+  if (
+    signed === "true" ||
+    (typeof src === "string" && src.startsWith("http"))
+  ) {
     return (
       <Image
         {...props}
         src={src}
         key={Date.now()}
-        alt={props.alt || 'Image'}
-        loader={signedSupabaseLoader}
+        alt={props.alt || "Image"}
+        unoptimized
         onError={() => setShowPlaceholder(true)}
       />
-    )
+    );
   }
+
   return (
     <Image
       {...props}
       key={Date.now()}
-      alt={props.alt || 'Image'}
-      loader={publicSupabaseLoader}
+      alt={props.alt || "Image"}
+      loader={blobImageLoader}
       src={src}
       onError={() => setShowPlaceholder(true)}
     />
-  )
+  );
 }

@@ -1,13 +1,13 @@
-'use client'
+"use client";
 
-import Link from 'next/link'
-import { handleReturnInfo } from '@repo/ui/lib/utils'
+import Link from "next/link";
+import { handleReturnInfo } from "@repo/ui/lib/utils";
 import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger,
-} from '@repo/ui/components/context-menu'
+} from "@repo/ui/components/context-menu";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,19 +18,19 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@repo/ui/components/alert-dialog'
+} from "@repo/ui/components/alert-dialog";
 import {
   PiAutomationStroke,
   PiDeleteDustbin02Stroke,
   PiPencilEditBoxStroke,
-} from '@repo/ui/icons/pika'
-import { deleteActionBySlug } from '@/lib/supabase/db/actions'
+} from "@repo/ui/icons/pika";
+import { deleteActionBySlug } from "@/lib/db/queries/actions";
 
 interface ActionContextMenuProps {
-  children?: React.ReactNode
-  actionSlug: string
-  collectionSlug: string
-  versionId: string
+  children?: React.ReactNode;
+  actionSlug: string;
+  collectionSlug: string;
+  versionId: string;
 }
 
 export default function ActionContextMenu({
@@ -39,7 +39,7 @@ export default function ActionContextMenu({
   collectionSlug,
   versionId,
 }: ActionContextMenuProps) {
-  const href = `/collections/${collectionSlug}/actions/${actionSlug}`
+  const href = `/collections/${collectionSlug}/actions/${actionSlug}`;
   return (
     <AlertDialog>
       <ContextMenu>
@@ -51,7 +51,6 @@ export default function ActionContextMenu({
               Edit
             </Link>
           </ContextMenuItem>
-          {/* TODO: Make this depending on the action type */}
           <ContextMenuItem asChild>
             <Link href={`${href}/logic`} className="flex gap-1.5">
               <PiAutomationStroke className="h-4 w-4" />
@@ -79,8 +78,8 @@ export default function ActionContextMenu({
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
             onClick={async () => {
-              const res = await deleteActionBySlug(versionId, actionSlug)
-              handleReturnInfo(res)
+              const res = await deleteActionBySlug(versionId, actionSlug);
+              handleReturnInfo(res);
             }}
           >
             Delete
@@ -88,5 +87,5 @@ export default function ActionContextMenu({
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  )
+  );
 }

@@ -1,29 +1,25 @@
-'use client'
+"use client";
 
-import DeleteButton from '@/components/forms/buttons/delete-button'
-import { useRouter } from 'next/navigation'
-import { useAttribute } from '@/app/collections/[collection]/attributes/[attribute]/attribute-context'
-import { deleteAttribute } from '@/lib/supabase/db/attributes/delete'
-import { handleReturnInfo } from '@repo/ui/lib/utils'
-import { useCollection } from '@/app/collections/[collection]/collection-context'
-import { removeAttributeFromLocalForm } from '@/app/collections/[collection]/attributes/(functions)/utils'
+import DeleteButton from "@/components/forms/buttons/delete-button";
+import { useAttribute } from "@/app/collections/[collection]/attributes/[attribute]/attribute-context";
+import { deleteAttribute } from "@/lib/db/queries/attributes";
+import { useCollection } from "@/app/collections/[collection]/collection-context";
 
 export function DeleteAttributeButton() {
-  const router = useRouter()
   const {
     attribute: { id, locked },
-  } = useAttribute()
+  } = useAttribute();
   const {
-    collection: { id: collectionId, slug: collectionSlug },
-  } = useCollection()
-  if (locked) return null
+    collection: { slug: collectionSlug },
+  } = useCollection();
+  if (locked) return null;
   return (
     <DeleteButton
       title="attribute"
       disabled={locked}
       onDelete={async () => {
-        await deleteAttribute(id, `/collections/${collectionSlug}/attributes`)
+        await deleteAttribute(id, `/collections/${collectionSlug}/attributes`);
       }}
     />
-  )
+  );
 }

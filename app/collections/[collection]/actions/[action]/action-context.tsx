@@ -1,60 +1,69 @@
-'use client'
+"use client";
 
-import { createContext, useContext, useMemo } from 'react'
-import { useContextState } from '@/lib/state/use-context-state'
-import type { ReturnInfo } from '@repo/ui/lib/utils'
-import type { NestedErrors, UpdateOptions, Validate } from '@/types/state.types'
-import type { Action, UpdateAction } from '@/types/database.types'
-import { updateAction } from '@/lib/supabase/db/actions/update'
-import { updateActionSchema } from '@/lib/schemas/actions/action-schema'
+import { createContext, useContext, useMemo } from "react";
+import { useContextState } from "@/lib/state/use-context-state";
+import type { NestedErrors, UpdateOptions, Validate } from "@/types/state.types";
+import type { Action } from "@/lib/db/schema";
+import { editAction } from "@/lib/db/queries/actions";
+import { updateActionSchema } from "@/lib/schemas/actions/action-schema";
+import type { ReturnInfo } from "@/lib/db/queries/types";
 
-type ActionContext = {
-  action: Action
+type UpdateActionData = Partial<Action>;
+
+type ActionContextType = {
+  action: Action;
   updateAction: (
-    value: UpdateAction,
-    options?: UpdateOptions,
-  ) => Promise<ReturnInfo>
-  validateAction: Validate<UpdateAction>
-  getError: (path: Array<string | number>) => NestedErrors | undefined
-  getErrorMessage: (path: Array<string | number>) => string | undefined
-}
+    value: UpdateActionData,
+    options?: UpdateOptions
+  ) => Promise<ReturnInfo>;
+  validateAction: Validate<UpdateActionData>;
+  getError: (path: Array<string | number>) => NestedErrors | undefined;
+  getErrorMessage: (path: Array<string | number>) => string | undefined;
+};
 
 type ActionProviderProps = {
-  children: React.ReactNode
-  action: Action
-}
+  children: React.ReactNode;
+  action: Action;
+};
 
-const ActionContext = createContext<ActionContext | null>(null)
+const ActionContext = createContext<ActionContextType | null>(null);
 
 export function ActionProvider({ children, action }: ActionProviderProps) {
-  const { state, update, validate, getError, getErrorMessage } =
-    useContextState<Action, UpdateAction>(
-      action,
-      updateAction,
-      updateActionSchema,
-    )
+  const updateFn = async (
+    id: string,
+    values: UpdateActionData
+  ): Promise<ReturnInfo> => {
+    return editAction({ ...values, id });
+  };
 
-  const contextValue = useMemo<ActionContext>(() => {
+  const { state, update, validate, getError, getErrorMessage } =
+    useContextState<Action, UpdateActionData>(
+      action,
+      updateFn,
+      updateActionSchema
+    );
+
+  const contextValue = useMemo<ActionContextType>(() => {
     return {
       action: state,
       updateAction: update,
       validateAction: validate,
       getError,
       getErrorMessage,
-    }
-  }, [state, update, validate, getError, getErrorMessage])
+    };
+  }, [state, update, validate, getError, getErrorMessage]);
 
   return (
     <ActionContext.Provider value={contextValue}>
       {children}
     </ActionContext.Provider>
-  )
+  );
 }
 
 export function useAction() {
-  const context = useContext(ActionContext)
+  const context = useContext(ActionContext);
   if (!context) {
-    throw new Error('useAction must be used within an ActionProvider')
+    throw new Error("useAction must be used within an ActionProvider");
   }
-  return context
+  return context;
 }

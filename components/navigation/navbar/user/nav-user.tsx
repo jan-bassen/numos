@@ -1,13 +1,10 @@
-'use client'
+"use client";
 
 import {
   BadgeCheck,
-  Bell,
   ChevronsUpDown,
-  CreditCard,
   LogOut,
-  Sparkles,
-} from 'lucide-react'
+} from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,38 +13,40 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@repo/ui/components/dropdown-menu'
+} from "@repo/ui/components/dropdown-menu";
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from '@repo/ui/components/sidebar'
-import { Avatar } from '@/components/supabase/avatar'
-import { createSupabaseClient } from '@/lib/supabase/clients/client'
-import { usePathname, useRouter } from 'next/navigation'
-import posthog from 'posthog-js'
-import Link from 'next/link'
-import { ThemeTabSelect } from './theme-tab-select'
-import { useUser } from '@/app/(providers)/user-context'
-import { useProfile } from '@/app/(providers)/profile-context'
+} from "@repo/ui/components/sidebar";
+import { Avatar, AvatarFallback, AvatarImage } from "@repo/ui/components/avatar";
+import { useRouter } from "next/navigation";
+import posthog from "posthog-js";
+import Link from "next/link";
+import { ThemeTabSelect } from "./theme-tab-select";
+import { useUser } from "@/app/(providers)/user-context";
+import { useProfile } from "@/app/(providers)/profile-context";
+import { signOut } from "@/lib/auth/client";
 
 export function NavUser() {
-  const { user } = useUser()
-  const { profile } = useProfile()
-  const { isMobile } = useSidebar()
-  const router = useRouter()
-  const pathname = usePathname()
+  const { user } = useUser();
+  const { profile } = useProfile();
+  const { isMobile } = useSidebar();
+  const router = useRouter();
 
-  const signOut = async () => {
-    const supabase = await createSupabaseClient()
-    const { error } = await supabase.auth.signOut()
-    if (error) {
-      throw new Error('Error signing out')
-    }
-    posthog.reset()
-    router.push('/login')
-  }
+  const handleSignOut = async () => {
+    await signOut();
+    posthog.reset();
+    router.push("/login");
+  };
+
+  const initials = (profile.fullName || user.name || "U")
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
 
   return (
     <SidebarMenu>
@@ -58,14 +57,13 @@ export function NavUser() {
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <Avatar
-                width={32}
-                height={32}
-                className="size-8 shrink-0 rounded-lg object-contain"
-              />
+              <Avatar className="size-8 shrink-0 rounded-lg">
+                {user.image && <AvatarImage src={user.image} />}
+                <AvatarFallback className="rounded-lg">{initials}</AvatarFallback>
+              </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-semibold">
-                  {profile.full_name}
+                  {profile.fullName || user.name}
                 </span>
                 <span className="truncate text-xs">{user.email}</span>
               </div>
@@ -74,20 +72,19 @@ export function NavUser() {
           </DropdownMenuTrigger>
           <DropdownMenuContent
             className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
-            side={isMobile ? 'bottom' : 'right'}
+            side={isMobile ? "bottom" : "right"}
             align="end"
             sideOffset={4}
           >
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                <Avatar
-                  width={32}
-                  height={32}
-                  className="size-8 shrink-0 rounded-lg object-contain"
-                />
+                <Avatar className="size-8 shrink-0 rounded-lg">
+                  {user.image && <AvatarImage src={user.image} />}
+                  <AvatarFallback className="rounded-lg">{initials}</AvatarFallback>
+                </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-semibold">
-                    {profile.full_name || 'Account'}
+                    {profile.fullName || user.name || "Account"}
                   </span>
                   <span className="truncate text-xs">{user.email}</span>
                 </div>
@@ -103,7 +100,7 @@ export function NavUser() {
                   Account
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem className="flex gap-2" onClick={signOut}>
+              <DropdownMenuItem className="flex gap-2" onClick={handleSignOut}>
                 <LogOut className="size-4" />
                 Log out
               </DropdownMenuItem>
@@ -112,5 +109,5 @@ export function NavUser() {
         </DropdownMenu>
       </SidebarMenuItem>
     </SidebarMenu>
-  )
+  );
 }

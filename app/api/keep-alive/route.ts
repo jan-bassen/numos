@@ -1,21 +1,17 @@
-import type { NextRequest } from 'next/server';
-import { createSupabaseServerClient } from '@/lib/supabase/clients/server-client';
- 
-export async function GET(request: NextRequest) {
-  const authHeader = request.headers.get('authorization');
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-    return new Response('Unauthorized', {
-      status: 401,
-    });
+import { NextResponse } from "next/server";
+import { db } from "@/lib/db";
+import { actions } from "@/lib/db/schema";
+import { count } from "drizzle-orm";
+
+// Keep-alive route to prevent database from sleeping
+export async function GET() {
+  try {
+    const result = await db.select({ count: count() }).from(actions);
+    return NextResponse.json({ ok: true, count: result[0]?.count ?? 0 });
+  } catch (error) {
+    return NextResponse.json(
+      { ok: false, error: "Database connection failed" },
+      { status: 500 }
+    );
   }
-
-  const supabase = await createSupabaseServerClient();
-
-  const { data, error } = await supabase.from('actions').select('*').limit(1);
-
-  if (error) {
-    return new Response('Error fetching actions', { status: 500 });
-  }
- 
-  return Response.json({ success: !!data?.length });
 }

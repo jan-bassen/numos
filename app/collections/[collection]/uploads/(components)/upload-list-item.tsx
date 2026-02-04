@@ -1,17 +1,17 @@
-import { Button } from '@repo/ui/components/button'
+import { Button } from "@repo/ui/components/button";
 import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger,
-} from '@repo/ui/components/context-menu'
+} from "@repo/ui/components/context-menu";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogTitle,
-} from '@repo/ui/components/dialog'
-import { Input } from '@repo/ui/components/input'
+} from "@repo/ui/components/dialog";
+import { Input } from "@repo/ui/components/input";
 import {
   PiCalendarCheckContrast,
   PiDatabaseContrast,
@@ -19,15 +19,15 @@ import {
   PiInputFieldStroke,
   PiPhotoImageDefaultContrast,
   PiPhotoImageDefaultStroke,
-} from '@repo/ui/icons/pika'
-import { deleteUpload, updateUpload } from '@/lib/supabase/db/uploads'
-import { SupabaseImage } from '@/components/supabase/supabase-image'
-import type { UploadsTree } from '@/types/database.types'
-import Decimal from 'decimal.js'
-import { type DragEvent, type MouseEvent, useRef, useState } from 'react'
-import { toast } from 'sonner'
-import { childrenOffset, type TreeContext, type TreeElement } from './tree'
-import { cn, handleReturnInfo } from '@repo/ui/lib/utils'
+} from "@repo/ui/icons/pika";
+import { deleteUpload, updateUpload } from "@/lib/db/queries/uploads";
+import { SupabaseImage } from "@/components/supabase/supabase-image";
+import type { UploadsTree } from "@/lib/db/queries/uploads";
+import Decimal from "decimal.js";
+import { type DragEvent, type MouseEvent, useRef, useState } from "react";
+import { toast } from "sonner";
+import { childrenOffset, type TreeContext, type TreeElement } from "./tree";
+import { cn, handleReturnInfo } from "@repo/ui/lib/utils";
 
 export default function UploadsListItem({
   uploadId,
@@ -35,77 +35,77 @@ export default function UploadsListItem({
   level,
   context,
 }: {
-  uploadId: string
-  tree: UploadsTree
-  level: number
-  context: TreeContext
+  uploadId: string;
+  tree: UploadsTree;
+  level: number;
+  context: TreeContext;
 }) {
-  const upload = tree.uploads[uploadId]
-  const [dialogOpen, setDialogOpen] = useState(false)
-  const [renaming, setRenaming] = useState(false)
-  const [name, setName] = useState(upload?.name || '')
-  const nameInputRef = useRef<HTMLInputElement>(null)
+  const upload = tree.uploads[uploadId];
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [renaming, setRenaming] = useState(false);
+  const [name, setName] = useState(upload?.name || "");
+  const nameInputRef = useRef<HTMLInputElement>(null);
 
-  if (!upload) return null
+  if (!upload) return null;
 
-  const folder = upload.folder ? tree.folders[upload.folder] : undefined
+  const folder = upload.folder ? tree.folders[upload.folder] : undefined;
   const selectionElement: TreeElement = {
-    type: 'upload' as const,
+    type: "upload" as const,
     id: upload.id,
     path: upload.folder && folder ? folder.path.concat(upload.folder) : [],
-  }
+  };
   const isSelected = context.selection.upload.some(
-    (item) => item.id === upload.id,
-  )
+    (item) => item.id === upload.id
+  );
 
   const handleRename = async () => {
     if (name === upload.name) {
-      setRenaming(false)
-      return
+      setRenaming(false);
+      return;
     }
 
-    const res = await updateUpload(upload.id, { name })
+    const res = await updateUpload(upload.id, { name });
     if (!res.ok) {
-      toast.error(res.message)
-      return
+      toast.error(res.message);
+      return;
     }
-    setName(name)
-    setRenaming(false)
-  }
+    setName(name);
+    setRenaming(false);
+  };
 
   const handleClick = (e: MouseEvent<HTMLSpanElement>) => {
-    if (e.button !== 0 && e.button !== 2) return
+    if (e.button !== 0 && e.button !== 2) return;
     if (e.button === 0) {
-      e.stopPropagation()
-      e.preventDefault()
+      e.stopPropagation();
+      e.preventDefault();
     }
     if (e.metaKey) {
       if (isSelected) {
-        context.removeFromSelection(selectionElement)
-        return
+        context.removeFromSelection(selectionElement);
+        return;
       }
-      context.addToSelection(selectionElement)
-      return
+      context.addToSelection(selectionElement);
+      return;
     }
     if (e.shiftKey) {
-      if (isSelected) return
-      context.addBetweenToSelection(selectionElement)
-      return
+      if (isSelected) return;
+      context.addBetweenToSelection(selectionElement);
+      return;
     }
-    context.setSelectionTo(selectionElement)
-  }
+    context.setSelectionTo(selectionElement);
+  };
 
   const handleDragStart = (e: DragEvent<HTMLButtonElement>) => {
-    e.stopPropagation()
+    e.stopPropagation();
     if (context.locked || renaming) {
-      e.preventDefault()
-      return
+      e.preventDefault();
+      return;
     }
-    context.addToSelection(selectionElement)
-    e.dataTransfer.effectAllowed = 'move'
-    e.dataTransfer.setData('text/plain', upload.id || '')
-    context.setDraggedElement(selectionElement)
-  }
+    context.addToSelection(selectionElement);
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/plain", upload.id || "");
+    context.setDraggedElement(selectionElement);
+  };
 
   return (
     <ContextMenu>
@@ -115,8 +115,8 @@ export default function UploadsListItem({
             variant="ghost"
             size="none"
             className={cn(
-              'h-10 w-full justify-start gap-1 rounded-md p-1.5 focus-visible:ring-0',
-              isSelected && 'bg-muted',
+              "h-10 w-full justify-start gap-1 rounded-md p-1.5 focus-visible:ring-0",
+              isSelected && "bg-muted"
             )}
             style={{
               paddingLeft: `${2 + level * childrenOffset}rem`,
@@ -126,13 +126,13 @@ export default function UploadsListItem({
             onContextMenu={handleClick}
             onDragStart={handleDragStart}
             onDragEnd={(e) => {
-              context.setDraggedElement(null)
+              context.setDraggedElement(null);
             }}
             draggable
           >
             <SupabaseImage
               src={upload.signedUrl}
-              alt={upload.name || 'Unnamed Upload'}
+              alt={upload.name || "Unnamed Upload"}
               className="size-8 shrink-0 rounded-md object-cover "
               width={64}
               height={64}
@@ -149,8 +149,8 @@ export default function UploadsListItem({
                 aria-readonly={!renaming}
                 onBlur={handleRename}
                 onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    handleRename()
+                  if (e.key === "Enter") {
+                    handleRename();
                   }
                 }}
                 autoFocus
@@ -159,15 +159,15 @@ export default function UploadsListItem({
               <p
                 className="line-clamp-1 cursor-text text-ellipsis p-3 font-normal text-sm"
                 onDoubleClick={(e) => {
-                  e.stopPropagation()
-                  context.setSelectionTo(selectionElement)
-                  setRenaming(true)
+                  e.stopPropagation();
+                  context.setSelectionTo(selectionElement);
+                  setRenaming(true);
                   setTimeout(() => {
-                    nameInputRef.current?.select()
-                  }, 50)
+                    nameInputRef.current?.select();
+                  }, 50);
                 }}
               >
-                {name || 'Unnamed Upload'}
+                {name || "Unnamed Upload"}
               </p>
             )}
           </Button>
@@ -182,10 +182,10 @@ export default function UploadsListItem({
           </ContextMenuItem>
           <ContextMenuItem
             onClick={() => {
-              setRenaming(true)
+              setRenaming(true);
               setTimeout(() => {
-                nameInputRef.current?.select()
-              }, 200)
+                nameInputRef.current?.select();
+              }, 200);
             }}
             className="flex gap-1.5"
           >
@@ -194,8 +194,8 @@ export default function UploadsListItem({
           </ContextMenuItem>
           <ContextMenuItem
             onClick={async () => {
-              const res = await deleteUpload(upload.id)
-              handleReturnInfo(res)
+              const res = await deleteUpload(upload.id);
+              handleReturnInfo(res);
             }}
             className="flex gap-1.5"
           >
@@ -211,7 +211,7 @@ export default function UploadsListItem({
             <div className="max-h-[50vh] w-full md:max-w-[33vw]">
               <SupabaseImage
                 src={upload.signedUrl}
-                alt={upload.name || 'Unnamed Upload'}
+                alt={upload.name || "Unnamed Upload"}
                 loading="eager"
                 className="contain h-full w-full drop-shadow-xs"
                 width={1000}
@@ -234,7 +234,7 @@ export default function UploadsListItem({
                 </span>
                 <span className="flex items-center gap-[0.28rem]">
                   <PiCalendarCheckContrast className="size-[0.75rem] opacity-80" />
-                  {new Date(upload.created_at).toLocaleString()}
+                  {new Date(upload.createdAt).toLocaleString()}
                 </span>
               </DialogDescription>
               <DialogTitle className="font-semibold text-2xl leading-tight">
@@ -246,5 +246,5 @@ export default function UploadsListItem({
         </DialogContent>
       </Dialog>
     </ContextMenu>
-  )
+  );
 }
