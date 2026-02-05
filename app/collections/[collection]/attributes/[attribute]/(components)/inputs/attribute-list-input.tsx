@@ -34,6 +34,7 @@ export function AttributeListInput() {
     attribute: { locked, value, slug },
     updateAttribute,
   } = useAttribute()
+  if (!value) return null
   return (
     <TabToggle
       disabled={locked}
@@ -45,9 +46,8 @@ export function AttributeListInput() {
           value: {
             ...value,
             list: v ?? false,
-            default: undefined,
             restrictions: undefined,
-          },
+          } as typeof value,
         })
         removeAttributeFromLocalForm(collection, slug)
       }}

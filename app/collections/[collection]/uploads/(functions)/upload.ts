@@ -14,7 +14,7 @@ import { RestrictionError } from "@uppy/core/lib/Restricter";
 import { validImageExtensions, validImageTypes } from "./file-types";
 import { toast } from "sonner";
 
-type ImageType = "png" | "jpeg" | "jpg" | "gif" | "webp" | "svg";
+type ImageType = "png" | "jpeg" | "jpg" | "gif" | "webp" | "svg+xml" | "avif";
 
 export async function handleFileUpload(
   version: string,
@@ -73,8 +73,7 @@ export async function uploadFileToStorage(
   const fileName = `${folder}/${fileId}`;
 
   try {
-    const result = await uploadToBlob({
-      file,
+    const result = await uploadToBlob(file, {
       bucket: BUCKETS.UPLOADS,
       name: fileName,
     });

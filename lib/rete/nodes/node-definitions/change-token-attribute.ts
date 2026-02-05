@@ -44,7 +44,8 @@ export const changeTokenAttributeDefinition: SpecificNodeDefinition<ChangeTokenA
       ]
       const attributeId = getControlValue('attribute')?.value
       if (attributeId) {
-        const attributeType = getTokenAttribute(attributeId)?.value.type
+        const attr = getTokenAttribute(attributeId)
+        const attributeType = attr?.value?.type
         if (attributeType === 'number') {
           controls.push({
             key: 'mode',
@@ -68,7 +69,7 @@ export const changeTokenAttributeDefinition: SpecificNodeDefinition<ChangeTokenA
       const attributeId = getControlValue('attribute')
       if (!attributeId?.value) return []
       const attribute = getTokenAttribute(attributeId.value)
-      if (!attribute) return []
+      if (!attribute || !attribute.value) return []
       const inputs: DataSocketDefinition<
         ChangeTokenAttributeNode,
         'inputs',

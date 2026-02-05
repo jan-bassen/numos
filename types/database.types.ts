@@ -1,221 +1,146 @@
 import type { ZodType } from 'zod'
+import type { JSX } from 'react'
 
-import type { MergeDeep } from 'type-fest'
-import type { Database as DatabaseGenerated } from './database-generated.types'
+// Import shared types
 import type {
   Value,
   ValueFormat,
   ValueMap,
-  ValueSettings,
   ValueType,
-  ValueTypeLiteral,
 } from '@repo/shared/types/values'
-import type {
-  OLDSavedControlMap,
-  OLDSavedInputMap,
-  OLDSavedOutputMap,
-  SavedNodeState,
-} from '@repo/shared/types/graph-types'
-import type { JSX } from 'react'
-import type { ValidationIssueData } from '@repo/shared/types/validation-types'
-import type { LayerDefinition } from '@/lib/schemas/layers/layer-schema'
-import type { FullValue } from '@repo/shared/schemas/datatypes/datatype-schema'
-import type { ActionTrigger } from '@/lib/schemas/actions/action-schema'
 
-// Type overrides for specific columns:
-export type Database = MergeDeep<
-  DatabaseGenerated,
-  {
-    public: {
-      Tables: {
-        actions: {
-          Row: {
-            trigger: ActionTrigger | null
-          }
-          Insert: {
-            trigger?: ActionTrigger | null
-          }
-          Update: {
-            trigger?: ActionTrigger | null
-          }
-        }
-        attributes: {
-          Row: {
-            settings: ValueSettings | null
-            value: FullValue
-          }
-          Insert: {
-            settings?: ValueSettings | null
-            value: FullValue
-          }
-          Update: {
-            settings?: ValueSettings | null
-            value?: FullValue | null
-          }
-        }
-        layers: {
-          Row: {
-            definition: LayerDefinition
-          }
-          Insert: {
-            definition?: LayerDefinition | null
-          }
-          Update: {
-            definition?: LayerDefinition | null
-          }
-        }
-        action_nodes: {
-          Row: {
-            state: SavedNodeState | null
-            inputs: OLDSavedInputMap | null
-            outputs: OLDSavedOutputMap
-            controls: OLDSavedControlMap
-          }
-          Insert: {
-            state?: SavedNodeState | null
-            inputs?: OLDSavedInputMap | null
-            outputs?: OLDSavedOutputMap
-            controls?: OLDSavedControlMap
-          }
-          Update: {
-            state?: SavedNodeState | null
-            inputs?: OLDSavedInputMap | null
-            outputs?: OLDSavedOutputMap
-            controls?: OLDSavedControlMap
-          }
-        }
-        image_nodes: {
-          Row: {
-            state: SavedNodeState | null
-            inputs: OLDSavedInputMap | null
-            outputs: OLDSavedOutputMap
-            controls: OLDSavedControlMap
-          }
-          Insert: {
-            state?: SavedNodeState | null
-            inputs?: OLDSavedInputMap | null
-            outputs?: OLDSavedOutputMap
-            controls?: OLDSavedControlMap
-          }
-          Update: {
-            state?: SavedNodeState | null
-            inputs?: OLDSavedInputMap | null
-            outputs?: OLDSavedOutputMap
-            controls?: OLDSavedControlMap
-          }
-        }
-        action_issues: {
-          Row: {
-            data: ValidationIssueData
-          }
-          Insert: {
-            data: ValidationIssueData
-          }
-          Update: {
-            data: ValidationIssueData
-          }
-        }
-      }
-    }
-  }
->
+// Re-export all table types from Drizzle schema
+export type {
+  // Accounts
+  Account,
+  NewAccount,
+  AccountMembership,
+  NewAccountMembership,
+  Profile,
+  NewProfile,
+  // Collections
+  Collection,
+  NewCollection,
+  Version,
+  NewVersion,
+  // Attributes
+  Attribute,
+  NewAttribute,
+  // Layers
+  Layer,
+  NewLayer,
+  ImageNode,
+  NewImageNode,
+  ImageConnection,
+  NewImageConnection,
+  // Actions
+  Action,
+  NewAction,
+  ActionNode,
+  NewActionNode,
+  ActionConnection,
+  NewActionConnection,
+  ActionIssue,
+  NewActionIssue,
+  // Uploads
+  Folder,
+  NewFolder,
+  Upload,
+  NewUpload,
+} from '@/lib/db/schema'
 
-export type DataType = Enums<'datatype'>
+// Import enum values for type extraction
+import {
+  datatypeEnum,
+  displayEnum,
+  versionStatusEnum,
+  directionEnum,
+  imageTypeEnum,
+  intervalUnitEnum,
+  requiredEnum,
+} from '@/lib/db/schema'
 
-export type SocketType = DataType | 'generic'
-export type ValueDataType = Exclude<DataType, 'exec'> | 'generic'
+// Create enum types from Drizzle enums (for database operations)
+export type DbDataType = (typeof datatypeEnum.enumValues)[number]
+export type Display = (typeof displayEnum.enumValues)[number]
+export type VersionStatus = (typeof versionStatusEnum.enumValues)[number]
+export type Direction = (typeof directionEnum.enumValues)[number]
+export type ImageType = (typeof imageTypeEnum.enumValues)[number]
+export type IntervalUnit = (typeof intervalUnitEnum.enumValues)[number]
+export type Required = (typeof requiredEnum.enumValues)[number]
+
+// Import WeatherCode from shared (source of truth)
+export type { WeatherCode } from '@repo/shared/constants/weather-codes'
+
+// Import DataType and related types from shared package (for runtime/editor)
+// These include additional types like 'direction', 'image', 'buffer' that aren't in the DB enum
+export type {
+  DataType,
+  OptionalDataType,
+  ValueType,
+  OptionalValueType,
+} from '@repo/shared/types/values'
+
+// Socket types (for the node editor, includes all runtime types)
+export type SocketType = import('@repo/shared/types/values').OptionalDataType | 'generic'
+export type ValueDataType = Exclude<import('@repo/shared/types/values').DataType, 'exec'> | 'generic'
 export type ValueSocketType = ValueDataType | 'generic'
 
-export type Required = Enums<'required'>
-
-export type Direction = Enums<'direction'>
-export type WeatherCode = Enums<'weather-code'>
-export type Display = Enums<'display'>
-export type VersionStatus = Enums<'version-status'>
-
-// TODO: Move to shared
+// Trigger types
 export type TriggerType = 'api' | 'time' | 'token'
-export type IntervalUnit = Enums<'interval-unit'>
-export type ImageType = Enums<'image-type'>
 
-export type Collection = Tables<'collections'>
-export type InsertCollection = TablesInsert<'collections'>
-export type UpdateCollection = TablesUpdate<'collections'>
-export type Attribute = Tables<'attributes'>
-export type InsertAttribute = TablesInsert<'attributes'>
-export type UpdateAttribute = TablesUpdate<'attributes'>
-export type Action = Tables<'actions'>
-export type InsertAction = TablesInsert<'actions'>
-export type UpdateAction = TablesUpdate<'actions'>
-export type Version = Tables<'versions'>
-export type InsertVersion = TablesInsert<'versions'>
-export type UpdateVersion = TablesUpdate<'versions'>
-export type NewVersion = Omit<InsertVersion, 'collection_id'> | undefined
-export type ImageNode = Tables<'image_nodes'>
-export type InsertImageNode = TablesInsert<'image_nodes'>
-export type UpdateImageNode = TablesUpdate<'image_nodes'>
-export type ImageConnection = Tables<'image_connections'>
-export type InsertImageConnection = TablesInsert<'image_connections'>
-export type UpdateImageConnection = TablesUpdate<'image_connections'>
-export type ActionNode = Tables<'action_nodes'>
-export type InsertActionNode = TablesInsert<'action_nodes'>
-export type UpdateActionNode = TablesUpdate<'action_nodes'>
-export type ActionConnection = Tables<'action_connections'>
-export type InsertActionConnection = TablesInsert<'action_connections'>
-export type UpdateActionConnection = TablesUpdate<'action_connections'>
-export type ActionIssue = Tables<'action_issues'>
-export type InsertActionIssue = TablesInsert<'action_issues'>
-export type UpdateActionIssue = TablesUpdate<'action_issues'>
+// Import table types for use in composite types
+import type {
+  Collection,
+  Version,
+  ImageNode,
+  ImageConnection,
+} from '@/lib/db/schema'
 
-export type Layer = Tables<'layers'>
-export type InsertLayer = TablesInsert<'layers'>
+// Update types (Partial of the table types)
+export type UpdateCollection = Partial<Collection>
+export type UpdateAttribute = Partial<import('@/lib/db/schema').Attribute>
+export type UpdateAction = Partial<import('@/lib/db/schema').Action>
+export type UpdateVersion = Partial<Version>
+export type UpdateImageNode = Partial<ImageNode>
+export type UpdateImageConnection = Partial<ImageConnection>
+export type UpdateActionNode = Partial<import('@/lib/db/schema').ActionNode>
+export type UpdateActionConnection = Partial<import('@/lib/db/schema').ActionConnection>
+export type UpdateActionIssue = Partial<import('@/lib/db/schema').ActionIssue>
+export type UpdateLayer = Partial<import('@/lib/db/schema').Layer>
+export type UpdateUpload = Partial<import('@/lib/db/schema').Upload>
+export type UpdateFolder = Partial<import('@/lib/db/schema').Folder>
+
+// Insert types (alias for New* types)
+export type InsertCollection = import('@/lib/db/schema').NewCollection
+export type InsertAttribute = import('@/lib/db/schema').NewAttribute
+export type InsertAction = import('@/lib/db/schema').NewAction
+export type InsertVersion = import('@/lib/db/schema').NewVersion
+export type InsertImageNode = import('@/lib/db/schema').NewImageNode
+export type InsertImageConnection = import('@/lib/db/schema').NewImageConnection
+export type InsertActionNode = import('@/lib/db/schema').NewActionNode
+export type InsertActionConnection = import('@/lib/db/schema').NewActionConnection
+export type InsertActionIssue = import('@/lib/db/schema').NewActionIssue
+export type InsertLayer = import('@/lib/db/schema').NewLayer
+export type InsertUpload = import('@/lib/db/schema').NewUpload
+export type InsertFolder = import('@/lib/db/schema').NewFolder
+
+// Derived insert types
+export type PartialNewVersion = Omit<InsertVersion, 'collection'> | undefined
 export type UnorderedInsertLayer = Omit<InsertLayer, 'index'>
-export type UpdateLayer = TablesUpdate<'layers'>
 
-export type Upload = Tables<'uploads'>
-export type InsertUpload = TablesInsert<'uploads'>
-export type UpdateUpload = TablesUpdate<'uploads'>
-
-export type Folder = Tables<'folders'>
-export type InsertFolder = TablesInsert<'folders'>
-export type UpdateFolder = TablesUpdate<'folders'>
-
-export type ResolvedUpload = Upload & {
-  signedUrl: string
+// Extended collection type (with version relationship)
+export type ExtendedCollection = Omit<Collection, 'editableVersion'> & {
+  editableVersion: Version
 }
 
-export type ResolvedFolder = Folder & {
-  path: string[]
-  subfolders: string[]
-  uploads: string[]
+// Image graph type
+export type ImageGraph = {
+  nodes: ImageNode[]
+  connections: ImageConnection[]
 }
 
-export type UploadsTree = {
-  folders: Record<string, ResolvedFolder>
-  uploads: Record<string, ResolvedUpload>
-}
-
-export type LegacyResolvedUploads = Upload & {
-  globalIndex: number
-  signedUrl: string
-}
-
-export type LegacyResolvedFolder = Folder & {
-  globalIndex: number
-  path: string
-  subfolders: LegacyResolvedFolder[]
-  uploads: LegacyResolvedUploads[]
-}
-
-export type LegacyUploadsTree = {
-  folders: LegacyResolvedFolder[]
-  uploads: LegacyResolvedUploads[]
-}
-
-export type Profile = Tables<'profiles'>
-export type InsertProfile = TablesInsert<'profiles'>
-export type UpdateProfile = TablesUpdate<'profiles'>
-
+// User data type (for profile display)
 export type UserData = {
   username: string
   name: string
@@ -224,15 +149,7 @@ export type UserData = {
   external_avatar?: string
 }
 
-export type ImageGraph = {
-  nodes: ImageNode[]
-  connections: ImageConnection[]
-}
-
-export type ExtendedCollection = Omit<Collection, 'editable_version'> & {
-  editable_version: Version
-}
-
+// Value type definition (for UI)
 export type ValueTypeDefinition = {
   title: string
   description?: string
@@ -244,6 +161,7 @@ export type ValueTypeDefinition = {
   parameter: boolean
 }
 
+// Simulated changes types
 export type SimulatedMetadataChange = {
   name?: SimulatedValueChange
   description?: SimulatedValueChange
@@ -257,32 +175,28 @@ export type SimulatedValueChange = {
 
 export type SimulatedStateChange = Record<string, SimulatedValueChange>
 
-/*  type SimulatedTokenStateResult = {
-  metadataChange: SimulatedStateChange
-  stateChange: SimulatedStateChange
-  logs: string[]
-}
- */
 export type SimulatedImageResult = {
   image: ArrayBuffer
   logs: string[]
 }
+
+// Schema map type
 export type SchemaMap = Record<string, ZodType>
 
+// Navigation item type
 export type NavItem = {
   name: string | null
   slug: string
   icon: JSX.Element
 }
 
-//TODO: Move all References to shared
+// Return info type (for API responses)
 export type ReturnInfo = {
   ok: boolean
   message: string | null
 }
 
-// Tokens
-
+// Token types
 export type TokenState = {
   metadata: TokenMetadata
   attributes: ValueMap
@@ -305,85 +219,23 @@ export type OptionalTokenMetadata = {
   description?: string | null
 }
 
-// Supabase shema extraction
-type PublicSchema = Database[Extract<keyof Database, 'public'>]
+// Legacy upload types (for backward compatibility with nested folder structure)
+// These are used in components that haven't migrated to the new flat structure
+import type { Upload, Folder } from '@/lib/db/schema'
 
-export type Tables<
-  PublicTableNameOrOptions extends
-    | keyof (PublicSchema['Tables'] & PublicSchema['Views'])
-    | { schema: keyof Database },
-  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof (Database[PublicTableNameOrOptions['schema']]['Tables'] &
-        Database[PublicTableNameOrOptions['schema']]['Views'])
-    : never = never,
-> = PublicTableNameOrOptions extends { schema: keyof Database }
-  ? (Database[PublicTableNameOrOptions['schema']]['Tables'] &
-      Database[PublicTableNameOrOptions['schema']]['Views'])[TableName] extends {
-      Row: infer R
-    }
-    ? R
-    : never
-  : PublicTableNameOrOptions extends keyof (PublicSchema['Tables'] &
-        PublicSchema['Views'])
-    ? (PublicSchema['Tables'] &
-        PublicSchema['Views'])[PublicTableNameOrOptions] extends {
-        Row: infer R
-      }
-      ? R
-      : never
-    : never
+export type LegacyResolvedUploads = Upload & {
+  globalIndex: number
+  signedUrl: string
+}
 
-export type TablesInsert<
-  PublicTableNameOrOptions extends
-    | keyof PublicSchema['Tables']
-    | { schema: keyof Database },
-  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicTableNameOrOptions['schema']]['Tables']
-    : never = never,
-> = PublicTableNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicTableNameOrOptions['schema']]['Tables'][TableName] extends {
-      Insert: infer I
-    }
-    ? I
-    : never
-  : PublicTableNameOrOptions extends keyof PublicSchema['Tables']
-    ? PublicSchema['Tables'][PublicTableNameOrOptions] extends {
-        Insert: infer I
-      }
-      ? I
-      : never
-    : never
+export type LegacyResolvedFolder = Folder & {
+  globalIndex: number
+  path: string
+  subfolders: LegacyResolvedFolder[]
+  uploads: LegacyResolvedUploads[]
+}
 
-export type TablesUpdate<
-  PublicTableNameOrOptions extends
-    | keyof PublicSchema['Tables']
-    | { schema: keyof Database },
-  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicTableNameOrOptions['schema']]['Tables']
-    : never = never,
-> = PublicTableNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicTableNameOrOptions['schema']]['Tables'][TableName] extends {
-      Update: infer U
-    }
-    ? U
-    : never
-  : PublicTableNameOrOptions extends keyof PublicSchema['Tables']
-    ? PublicSchema['Tables'][PublicTableNameOrOptions] extends {
-        Update: infer U
-      }
-      ? U
-      : never
-    : never
-
-export type Enums<
-  PublicEnumNameOrOptions extends
-    | keyof PublicSchema['Enums']
-    | { schema: keyof Database },
-  EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicEnumNameOrOptions['schema']]['Enums']
-    : never = never,
-> = PublicEnumNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicEnumNameOrOptions['schema']]['Enums'][EnumName]
-  : PublicEnumNameOrOptions extends keyof PublicSchema['Enums']
-    ? PublicSchema['Enums'][PublicEnumNameOrOptions]
-    : never
+export type LegacyUploadsTree = {
+  folders: LegacyResolvedFolder[]
+  uploads: LegacyResolvedUploads[]
+}

@@ -9,6 +9,7 @@ export function getSchemaFromAttributes(
 ) {
   const schema: SchemaMap = {}
   for (const attribute of attributes) {
+    if (!attribute.value) continue
     const singleSchema = getRestrictionsValidation(attribute.value, {
       optional,
       format: attribute.value.list ? 'objectarray' : 'single',

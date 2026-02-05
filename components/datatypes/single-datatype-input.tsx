@@ -17,7 +17,7 @@ import { NumberInput } from '@/components/datatypes/number/number-input'
 import { AddressInput } from '@/components/datatypes/address/address-input'
 import { BooleanInput } from '@/components/datatypes/boolean/boolean-input'
 import type { ChangeEvent, JSX } from 'react'
-import type { UploadsTree } from '@/types/database.types'
+import type { UploadsTree } from '@/lib/db/queries/uploads'
 
 export type SingleDataTypeInputEnvironment =
   | 'node'

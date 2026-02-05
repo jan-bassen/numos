@@ -107,7 +107,7 @@ export default async function Collection(props: {
                     href={`/collections/${collection.slug}/attributes/${attribute.slug}`}
                     label={attribute.name ?? "New Attribute"}
                     subtitle={attribute.description}
-                    icon={dataTypes[attribute.value?.type]?.icons.stroke}
+                    icon={attribute.value?.type ? dataTypes[attribute.value.type]?.icons.stroke : undefined}
                   />
                 </AttributeContextMenu>
               );

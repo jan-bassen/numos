@@ -7,8 +7,8 @@ import {
 import { valueTypeKeys } from '@repo/shared/constants/value-types'
 import { fullDatatypeSchema } from '@repo/shared/schemas/datatypes/datatype-schema'
 
-//TODO: Delete token_specific, type, list & settings
-const token_specific = z.boolean().default(true)
+//TODO: Delete tokenSpecific, type, list & settings
+const tokenSpecific = z.boolean().default(true)
 const settings = z.null().optional()
 const list = z.boolean().default(false)
 const type = z.enum(valueTypeKeys, {
@@ -31,7 +31,7 @@ export const updateAttributeSchema = z.object({
   display: display.optional(),
   value: fullDatatypeSchema.nullable().optional(),
   //------------
-  token_specific: token_specific.optional(),
+  tokenSpecific: tokenSpecific.optional(),
   list: list.optional(),
   type: type.optional(),
   settings,
@@ -43,7 +43,7 @@ export const newAttributeSchema = z.object({
   display: display.optional(),
   value: fullDatatypeSchema.nullable().optional(),
   //------------
-  token_specific: token_specific.optional(),
+  tokenSpecific: tokenSpecific.optional(),
   list: list,
   type: type,
   settings: settings.optional(),

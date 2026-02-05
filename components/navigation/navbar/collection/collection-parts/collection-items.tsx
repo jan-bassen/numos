@@ -61,7 +61,7 @@ const getItems = (items: NavItems): SidebarItem[] => {
       },
       items: attributes.map((attribute) => ({
         title:
-          attribute.name || `Unnamed ${dataTypes[attribute.value.type].title}`,
+          attribute.name || (attribute.value ? `Unnamed ${dataTypes[attribute.value.type].title}` : 'Unnamed Attribute'),
         slug: attribute.slug,
       })),
     },
@@ -119,7 +119,7 @@ export function CollectionItems({ collection, navItems }: NavMainProps) {
   const { open: sidebarOpen } = useSidebar()
   const items = getItems(navItems)
   const segments = useSelectedLayoutSegments()
-  const version = collection.editable_version
+  const version = collection.editableVersion
   if (!version) throw new Error('No version')
   return (
     <SidebarGroup>

@@ -7,22 +7,22 @@ import { cn } from '@repo/ui/lib/utils'
 
 export function CollectionMaxSupplyInput() {
   const {
-    collection: { max_supply, settings_locked },
+    collection: { maxSupply, settingsLocked },
     updateCollection,
     getErrorMessage,
   } = useCollection()
 
-  const error = getErrorMessage(['max_supply'])
+  const error = getErrorMessage(['maxSupply'])
 
   return (
     <>
       <Input
         type="numeric"
-        disabled={settings_locked}
-        value={max_supply ?? ''}
+        disabled={settingsLocked}
+        value={maxSupply ?? ''}
         onChange={async (e) => {
           await updateCollection(
-            { max_supply: Number(e.target.value) },
+            { maxSupply: Number(e.target.value) },
             { debounce: true },
           )
         }}

@@ -7,7 +7,7 @@ import { updateCollection as updateCollectionQuery } from "@/lib/db/queries/coll
 import type { ReturnInfo } from "@/lib/db/queries/types";
 import { createContext, useContext, useMemo } from "react";
 
-// Use a more flexible type for the collection
+// Use a more flexible type for the collection (camelCase to match Drizzle schema)
 type CollectionData = {
   id: string;
   slug: string;
@@ -16,13 +16,13 @@ type CollectionData = {
   image: string | null;
   banner: string | null;
   symbol: string | null;
-  max_supply: number | null;
-  external_link: string | null;
-  editable_version: string | null;
+  maxSupply: number | null;
+  externalLink: string | null;
+  editableVersion: string | null;
   account: string | null;
-  settings_locked: boolean;
-  created_at: string | null;
-  updated_at: string | null;
+  settingsLocked: boolean;
+  createdAt: Date | null;
+  updatedAt: Date | null;
 };
 
 type UpdateCollectionData = Partial<CollectionData>;

@@ -1,15 +1,12 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
 
 export async function middleware(request: NextRequest) {
-  // Get session from Better Auth
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  // Check for session cookie (Better Auth uses 'better-auth.session_token' cookie by default)
+  // This is a simple check - full session validation happens in server components/API routes
+  const sessionCookie = request.cookies.get("better-auth.session_token");
 
-  // If no session and not on a public route, redirect to login
-  if (!session) {
+  // If no session cookie and not on a public route, redirect to login
+  if (!sessionCookie?.value) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 

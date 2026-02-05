@@ -17,7 +17,7 @@ export default async function Layout({
   const version = extended_collection.editableVersion;
   const collection = {
     ...extended_collection,
-    editable_version: version.id,
+    editableVersion: version.id,
   };
   return (
     <CollectionProvider collection={collection}>

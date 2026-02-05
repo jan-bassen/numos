@@ -1,9 +1,5 @@
-import type {
-  Action,
-  Attribute,
-  ReturnInfo,
-  UploadsTree,
-} from './database.types'
+import type { Action, Attribute, ReturnInfo } from './database.types'
+import type { UploadsTree } from '@/lib/db/queries/uploads'
 import type { Connection } from '@/lib/rete/classes/connection'
 import type { Node } from '@/lib/rete/classes/node'
 import type { ContextMenuExtra } from 'rete-context-menu-plugin'

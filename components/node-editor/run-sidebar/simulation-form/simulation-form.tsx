@@ -410,9 +410,11 @@ export function SimulationForm({
             </AccordionTrigger>
             <AccordionContent className="space-y-4 border-b bg-muted/20 p-3 pt-5 pb-7">
               {attributes.map((attribute) => {
-                if (!attribute.token_specific) return null
-                if (attribute.value.type === 'buffer') return null
-                if (attribute.value.list) {
+                if (!attribute.tokenSpecific) return null
+                if (!attribute.value) return null
+                const attrValue = attribute.value // Capture for TypeScript narrowing
+                if (attrValue.type === 'buffer') return null
+                if (attrValue.list) {
                   const itemKey = `attributes.${attribute.id}` as Path<
                     z.infer<typeof schema>
                   >
@@ -456,11 +458,11 @@ export function SimulationForm({
                           <FormControl>
                             <DatatypeListInput
                               environment="simulation"
-                              type={attribute.value.type}
-                              restrictions={attribute.value.restrictions}
+                              type={attrValue.type}
+                              restrictions={attrValue.restrictions}
                               locked={false}
                               value={{
-                                type: attribute.value.type,
+                                type: attrValue.type,
                                 format: 'objectarray',
                                 value: field.value || [],
                               }}
@@ -481,20 +483,20 @@ export function SimulationForm({
                     key={`attributes.${attribute.id}`}
                     render={({ field }) => {
                       const DataTypeInput = getDataTypeInput<
-                        typeof attribute.value.type | 'buffer'
-                      >(attribute.value.type)
+                        typeof attrValue.type | 'buffer'
+                      >(attrValue.type)
                       const props: SingleDataTypeInputProps<
-                        typeof attribute.value.type | 'buffer'
+                        typeof attrValue.type | 'buffer'
                       > = {
-                        type: attribute.value.type,
-                        restrictions: attribute.value.restrictions,
+                        type: attrValue.type,
+                        restrictions: attrValue.restrictions,
                         placeholder: attribute.name || undefined,
                         locked: false,
                         value: {
-                          type: attribute.value.type,
+                          type: attrValue.type,
                           format: 'single',
                           value: field.value,
-                        } as Value<typeof attribute.value.type, 'single', true>,
+                        } as Value<typeof attrValue.type, 'single', true>,
                         onChange: (v) => {
                           field.onChange(v.value)
                         },
@@ -506,7 +508,7 @@ export function SimulationForm({
                           <div
                             className={cn(
                               'flex w-full space-y-2',
-                              attribute.value.type === 'boolean'
+                              attrValue.type === 'boolean'
                                 ? 'my-1 flex-row items-center justify-between'
                                 : 'flex-col',
                             )}

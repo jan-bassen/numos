@@ -1,4 +1,4 @@
-import type { UploadsTree, ResolvedFolder } from '@/types/database.types'
+import type { UploadsTree, ResolvedFolder } from '@/lib/db/queries/uploads'
 import FolderListItem from './folder-list-item'
 import UploadsListItem from './upload-list-item'
 import NewFolderListItem from './new-folder-list-item'

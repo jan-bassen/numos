@@ -164,7 +164,7 @@ export class Node extends NodePreset {
       },
       getTokenAttributes: () => {
         return this.context.editor.context.attributes?.filter(
-          (attr) => attr.token_specific,
+          (attr) => attr.tokenSpecific,
         )
       },
       getCollectionAttribute: (id: string) => {
@@ -174,7 +174,7 @@ export class Node extends NodePreset {
       },
       getCollectionAttributes: () => {
         return this.context.editor.context.attributes?.filter(
-          (attr) => !attr.token_specific,
+          (attr) => !attr.tokenSpecific,
         )
       },
     }

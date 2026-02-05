@@ -17,7 +17,7 @@ export const enumInputDefinition: SpecificNodeDefinition<EnumInputNode> = {
   controls: ({ getTokenAttributes, getControlValue }) => {
     const attributes = getTokenAttributes() || []
     const enumAttributes = attributes.filter(
-      (attribute) => attribute.value.type === 'enum',
+      (attribute) => attribute.value?.type === 'enum',
     )
     const options = enumAttributes?.map((attribute) => {
       return {
@@ -48,9 +48,8 @@ export const enumInputDefinition: SpecificNodeDefinition<EnumInputNode> = {
     ]
     const value = getControlValue('attribute')?.value
     if (value) {
-      const restrictions = enumAttributes?.find(
-        (attribute) => attribute.slug === value,
-      )?.value.restrictions as ValueRestrictions<'enum'>
+      const attr = enumAttributes?.find((attribute) => attribute.slug === value)
+      const restrictions = attr?.value?.restrictions as ValueRestrictions<'enum'> | undefined
       controls.push({
         key: 'output',
         type: 'enum',
@@ -65,7 +64,7 @@ export const enumInputDefinition: SpecificNodeDefinition<EnumInputNode> = {
     if (attributeId) {
       const attribute = getTokenAttribute(attributeId)
 
-      if (!attribute) return []
+      if (!attribute || !attribute.value) return []
       return [
         {
           key: 'output',

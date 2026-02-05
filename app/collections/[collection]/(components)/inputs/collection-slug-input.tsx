@@ -10,7 +10,7 @@ import { PiCheckTick } from '@repo/ui/icons/pika'
 
 export function CollectionSlugInput() {
   const {
-    collection: { slug, settings_locked },
+    collection: { slug, settingsLocked },
     updateCollection,
     validateCollection,
     getErrorMessage,
@@ -23,7 +23,7 @@ export function CollectionSlugInput() {
     <>
       <div className="flex w-full gap-2">
         <Input
-          disabled={settings_locked}
+          disabled={settingsLocked}
           value={value}
           onChange={async (e) => {
             setValue(e.target.value)
@@ -31,7 +31,7 @@ export function CollectionSlugInput() {
           }}
           className={cn('', error && 'border-destructive bg-destructive/10')}
         />
-        {value !== slug && !error && !settings_locked && (
+        {value !== slug && !error && !settingsLocked && (
           <Button
             variant={'outline'}
             size={'icon'}

@@ -25,7 +25,7 @@ export function AttributeOptionsInput() {
     errors = errorArray.map((e) => e?.value)
   }
 
-  if (_value.type !== 'enum') {
+  if (!_value || _value.type !== 'enum') {
     return null
   }
 

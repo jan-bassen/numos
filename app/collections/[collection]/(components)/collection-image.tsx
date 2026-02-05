@@ -35,7 +35,7 @@ export function CollectionImage({ className }: { className?: string }) {
       }}
       alt="Collection Image"
       className={cn("size-20", className)}
-      locked={collection.settings_locked}
+      locked={collection.settingsLocked}
       width={80}
       height={80}
     />

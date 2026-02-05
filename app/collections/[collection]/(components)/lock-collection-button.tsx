@@ -6,13 +6,13 @@ import { useCollection } from '../collection-context'
 export function LockCollectionButton() {
   const {
     updateCollection,
-    collection: { settings_locked },
+    collection: { settingsLocked },
   } = useCollection()
   return (
     <LockButton
-      locked={settings_locked}
+      locked={settingsLocked}
       setLocked={async (l) => {
-        await updateCollection({ settings_locked: l })
+        await updateCollection({ settingsLocked: l })
       }}
       unlock_text="Unlock Settings"
       lock_text="Lock Settings"

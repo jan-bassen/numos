@@ -15,19 +15,20 @@ export function AttributeTypeInput() {
   const {
     collection: { slug: collection },
   } = useCollection()
+  if (!value) return null
   return (
     <TabSelect
       disabled={locked}
       options={attributeTypeOptions}
-      value={value?.type}
+      value={value.type}
       onValueChange={async (v: string) => {
+        const newValue = {
+          ...value,
+          type: v as ValueType,
+          restrictions: undefined,
+        }
         const res = await updateAttribute({
-          value: {
-            ...value,
-            type: v as ValueType,
-            default: undefined,
-            restrictions: undefined,
-          },
+          value: newValue as typeof value,
         })
         console.log('res', res)
         removeAttributeFromLocalForm(collection, slug)

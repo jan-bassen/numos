@@ -7,22 +7,22 @@ import { Input } from '@repo/ui/components/input'
 
 export function CollectionExternalLinkInput() {
   const {
-    collection: { external_link, settings_locked },
+    collection: { externalLink, settingsLocked },
     updateCollection,
     getErrorMessage,
   } = useCollection()
 
-  const error = getErrorMessage(['external_link'])
+  const error = getErrorMessage(['externalLink'])
 
   return (
     <>
       <Input
         placeholder="https://example.com"
-        disabled={settings_locked}
-        value={external_link || ''}
+        disabled={settingsLocked}
+        value={externalLink || ''}
         onChange={async (e) => {
           await updateCollection(
-            { external_link: e.target.value },
+            { externalLink: e.target.value },
             { debounce: true },
           )
         }}

@@ -22,6 +22,7 @@ export function getDefaultValuesFromAttributes(
 
 export const getAttributeTypes = (attributes: Attribute[]): ValueTypeMap => {
   return attributes.reduce((accumulator, attribute) => {
+    if (!attribute.value) return accumulator
     accumulator[attribute.id] = {
       type: attribute.value.type,
       list: attribute.value.list,

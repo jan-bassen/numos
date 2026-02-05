@@ -33,6 +33,7 @@ export function AttributeOptionalInput() {
     attribute: { locked, value },
     updateAttribute,
   } = useAttribute()
+  if (!value) return null
   return (
     <TabToggle
       disabled={locked}
@@ -44,7 +45,7 @@ export function AttributeOptionalInput() {
           value: {
             ...value,
             optional: v ?? false,
-          },
+          } as typeof value,
         })
       }}
     />

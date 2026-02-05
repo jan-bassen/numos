@@ -11,7 +11,6 @@ import type {
   MapGraphConnection,
 } from '@repo/shared/types/graph-types'
 import { resolveObjectArrayValue } from '@repo/shared/schemas/datatypes/utils'
-import { createSupabaseServiceClient } from '@repo/shared/engine/temp-service-client'
 import sharp from 'sharp'
 import type { NodeType } from '@repo/shared/types/node-types'
 import { nodeLogic } from '@repo/shared/engine/nodes/nodetypes'
@@ -122,28 +121,30 @@ export class EngineBase {
     node: string,
   ): Promise<Value<'buffer', 'single'>> {
     const context = this.getContext()
-    const path = `/${context.versionId}/${image}`
+    // Construct Vercel Blob URL
+    const blobBaseUrl = process.env.BLOB_BASE_URL || ''
+    const path = `uploads/${context.versionId}/${image}`
+    const url = `${blobBaseUrl}/${path}`
 
-    //TODO: Remove Service Client from Package!
-    const supabaseService = await createSupabaseServiceClient()
-    console.log('path', path)
-    const { data: layer, error } = await supabaseService.storage
-      .from('uploads')
-      .download(path)
-
-    if (error) {
-      console.error(error)
-      throw new GraphError(`Error downloading upload: ${error.message}`, {
-        node,
-      })
-    }
-    if (!layer /* || layer.type.split('/')[0] !== 'image' */)
-      throw new GraphError('Upload is not an image', { node })
-    const value = await sharp(await layer.arrayBuffer()).toBuffer()
-    return {
-      type: 'buffer',
-      format: 'single',
-      value,
+    try {
+      const response = await fetch(url)
+      if (!response.ok) {
+        throw new GraphError(`Error downloading upload: ${response.statusText}`, {
+          node,
+        })
+      }
+      const blob = await response.blob()
+      const value = await sharp(await blob.arrayBuffer()).toBuffer()
+      return {
+        type: 'buffer',
+        format: 'single',
+        value,
+      }
+    } catch (error) {
+      throw new GraphError(
+        `Error downloading upload: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        { node }
+      )
     }
   }
 

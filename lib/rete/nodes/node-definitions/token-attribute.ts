@@ -38,7 +38,7 @@ export const tokenAttributeDefinition: SpecificNodeDefinition<TokenAttributeNode
       const attributeId = getControlValue('attribute')?.value
       if (!attributeId) return []
       const attribute = getTokenAttribute(attributeId)
-      if (!attribute) return []
+      if (!attribute || !attribute.value) return []
       return [
         {
           key: 'attribute',

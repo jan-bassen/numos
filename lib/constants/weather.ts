@@ -1,4 +1,4 @@
-import type { WeatherCode } from '@/types/database.types'
+import type { WeatherCode } from '@repo/shared/constants/weather-codes'
 import {
   CloudDrizzle,
   CloudLightning,

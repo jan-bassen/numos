@@ -20,7 +20,7 @@ const sampleData = [
 
 export default function ApiKeys() {
   const {
-    collection: { settings_locked },
+    collection: { settingsLocked },
   } = useCollection()
   return (
     <>
@@ -41,12 +41,12 @@ export default function ApiKeys() {
                   </div>
                 </div>
               </div>
-              {!settings_locked && <DeleteKeyButton key={item.id} />}
+              {!settingsLocked && <DeleteKeyButton key={item.id} />}
             </div>
           )
         })}
       </div>
-      {!settings_locked && <CreateKeyButton />}
+      {!settingsLocked && <CreateKeyButton />}
     </>
   )
 }

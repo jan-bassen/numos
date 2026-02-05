@@ -63,7 +63,7 @@ export default async function AttributesPage(props: {
                 href={`/collections/${collectionSlug}/attributes/${attribute.slug}`}
                 label={attribute.name ?? "New Attribute"}
                 subtitle={attribute.description}
-                icon={dataTypes[attribute.value?.type]?.icons.stroke}
+                icon={attribute.value?.type ? dataTypes[attribute.value.type]?.icons.stroke : undefined}
               />
             );
           })}
