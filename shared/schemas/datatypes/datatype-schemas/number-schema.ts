@@ -6,8 +6,7 @@ import {
 } from '@repo/shared/schemas/datatypes/refinements'
 
 export const numberSchema = z.coerce.number({
-  required_error: 'Value is required',
-  invalid_type_error: 'Must be a number',
+  error: (issue) => issue.input === undefined ? 'Value is required' : 'Must be a number',
 })
 
 /* export const newNumberSchema = z

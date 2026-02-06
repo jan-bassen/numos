@@ -23,8 +23,8 @@ import { authClient } from "@/lib/auth/client";
 
 const formSchema = z.object({
   email: z
-    .string({ required_error: "Please enter your email" })
-    .email("Please enter a valid email address"),
+    .string({ error: "Please enter your email" })
+    .email({ error: "Please enter a valid email address" }),
 });
 
 export default function ForgotPasswordPage() {

@@ -26,10 +26,10 @@ import { signIn } from "@/lib/auth/client";
 
 const formSchema = z.object({
   email: z
-    .string({ required_error: "Please enter your email" })
+    .string({ error: "Please enter your email" })
     .email("Please enter a valid email address"),
   password: z
-    .string({ required_error: "Please enter your password" })
+    .string({ error: "Please enter your password" })
     .min(6, "Please enter a password with at least 6 characters"),
 });
 

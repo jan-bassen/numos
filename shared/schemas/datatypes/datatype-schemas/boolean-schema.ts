@@ -3,8 +3,7 @@ import { valueSchemas } from '../value-schema'
 import { validateDefaultFormat } from '../refinements'
 
 export const booleanSchema = z.boolean({
-  required_error: 'Value is required',
-  invalid_type_error: 'Must be true or false',
+  error: (issue) => issue.input === undefined ? 'Value is required' : 'Must be true or false',
 })
 
 export const fullBooleanSchema = z

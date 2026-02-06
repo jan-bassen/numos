@@ -12,7 +12,7 @@ const tokenSpecific = z.boolean().default(true)
 const settings = z.null().optional()
 const list = z.boolean().default(false)
 const type = z.enum(valueTypeKeys, {
-  required_error: 'You need to select a data type',
+  error: 'You need to select a data type',
 })
 const slug = sharedSlug
 /* .refine(

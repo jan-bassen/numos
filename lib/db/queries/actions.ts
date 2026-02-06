@@ -4,7 +4,7 @@ import { eq, and, desc, asc, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
-import { actions, collections } from "@/lib/db/schema";
+import { actions } from "@/lib/db/schema/actions";
 import { FetchError } from "@/lib/errors";
 import { getCollectionFromSlug } from "./collections";
 import type { Action, NewAction } from "@/lib/db/schema";

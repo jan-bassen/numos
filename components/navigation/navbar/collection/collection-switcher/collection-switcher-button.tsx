@@ -12,7 +12,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from '@repo/ui/components/dropdown-menu'
-import { SupabaseImage } from '@/components/supabase/supabase-image'
+import { StorageImage } from '@/components/storage/storage-image'
 import { useSidebar } from '@repo/ui/components/sidebar'
 
 export function CollectionSwitcherButton({
@@ -39,7 +39,7 @@ export function CollectionSwitcherButton({
               : 'h-8 w-full justify-center rounded-lg',
           )}
         >
-          <SupabaseImage
+          <StorageImage
             src={
               currentCollection?.image
                 ? `collection-images/${currentCollection.id}/${currentCollection.image}`
@@ -86,7 +86,7 @@ export function CollectionSwitcherButton({
               key={collection.id}
               className="flex h-9 shrink-0 gap-2 font-medium"
             >
-              <SupabaseImage
+              <StorageImage
                 src={
                   collection?.image
                     ? `collection-images/${collection.id}/${collection.image}`

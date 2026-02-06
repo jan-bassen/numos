@@ -1,26 +1,11 @@
 import { relations } from "drizzle-orm";
-import { accounts, accountMemberships, profiles } from "./accounts";
 import { collections, versions } from "./collections";
 import { attributes } from "./attributes";
 import { layers, imageNodes, imageConnections } from "./layers";
 import { actions, actionNodes, actionConnections, actionIssues } from "./actions";
 import { folders, uploads } from "./uploads";
+import { accounts } from "./auth";
 
-// Account relations
-export const accountsRelations = relations(accounts, ({ many }) => ({
-  memberships: many(accountMemberships),
-  collections: many(collections),
-}));
-
-export const accountMembershipsRelations = relations(
-  accountMemberships,
-  ({ one }) => ({
-    account: one(accounts, {
-      fields: [accountMemberships.account],
-      references: [accounts.id],
-    }),
-  })
-);
 
 // Collection relations
 export const collectionsRelations = relations(collections, ({ one, many }) => ({

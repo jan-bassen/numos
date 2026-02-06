@@ -1,6 +1,6 @@
 "use client";
 
-import { SupabaseImage } from "@/components/supabase/supabase-image";
+import { StorageImage } from "@/components/storage/storage-image";
 import { uploadFile, type UploadLocation } from "@/lib/storage/uploaders";
 import { BUCKETS, type BucketName } from "@/lib/storage";
 import { PiPencilEditSolid } from "@repo/ui/icons/pika";
@@ -96,7 +96,7 @@ export function EditableImage({
           {!locked && (
             <PiPencilEditSolid className="z-10 col-span-1 col-start-1 row-span-1 row-start-1 size-5 stroke-1 stroke-muted-foreground text-background opacity-0 transition-opacity group-hover:opacity-100" />
           )}
-          <SupabaseImage
+          <StorageImage
             {...props}
             placeholder={fileOptions?.placeholder}
             src={fullPath}

@@ -5,13 +5,12 @@ export const intervalSchema = z.object({
   type: z.literal('interval'),
   interval: z.coerce
     .number({
-      required_error: 'To use an interval trigger, you need to set an interval',
-      invalid_type_error: 'Interval must be a number',
+      error: 'Interval must be a number',
     })
     .positive('Interval must be positive')
     .int('Interval must be a whole number'),
   unit: z.enum(['minutes', 'hours', 'days'], {
-    required_error: 'You need to select a unit',
+    error: 'You need to select a unit',
   }),
 })
 
@@ -19,7 +18,7 @@ export const cronSchema = z.object({
   type: z.literal('cron'),
   schedule: z
     .string({
-      required_error: 'To use a cron trigger, you need to set a cron schedule',
+      error: 'To use a cron trigger, you need to set a cron schedule',
     })
     .optional()
     .refine((schedule) => {

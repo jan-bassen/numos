@@ -4,8 +4,7 @@ import { isCollectionSlugTaken } from "@/lib/db/queries/collections";
 
 export const updateSlug = z
   .string({
-    required_error:
-      "We need a unique identifier to differentiate this attribute",
+    error: "We need a unique identifier to differentiate this attribute",
   })
   .max(40, {
     message: "Identifier must be less than 40 characters.",

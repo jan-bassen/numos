@@ -77,7 +77,7 @@ export function explicitlyValidateValue<
   const schema = getDataTypeSchema(type, format, optional)
   if (!schema) throw new Error('No schema defined')
   try {
-    const newValue = schema.parse(value)
+    const newValue = schema.parse(value) as { value: any }
     return {
       validated: { type: type, format, value: newValue.value } as Value<
         T,

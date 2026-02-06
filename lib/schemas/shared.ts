@@ -30,8 +30,7 @@ export const sharedLocked = z.boolean().default(false)
 
 export const sharedSlug = z
   .string({
-    required_error:
-      'We need a unique identifier to differentiate this attribute',
+    error: "We need a unique identifier to differentiate this attribute",
   })
   .max(40, {
     message: 'Identifier must be less than 40 characters.',

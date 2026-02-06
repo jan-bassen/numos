@@ -4,8 +4,7 @@ import { integerSchema } from '@repo/shared/schemas/datatypes/datatype-schemas/n
 import { validateDefaultFormat } from '../refinements'
 
 export const stringSchema = z.string({
-  required_error: 'Value is required',
-  invalid_type_error: 'Must be a text value',
+  error: (issue) => issue.input === undefined ? 'Value is required' : 'Must be a text value',
 })
 
 export type StringRestrictions = z.infer<typeof stringRestrictionsSchema>

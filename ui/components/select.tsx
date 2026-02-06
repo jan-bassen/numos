@@ -1,7 +1,7 @@
 'use client'
 
 import type * as React from 'react'
-import * as SelectPrimitive from '@radix-ui/react-select'
+import { Select as SelectPrimitive } from 'radix-ui'
 import {
   Check,
   ChevronDown,

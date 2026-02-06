@@ -7,8 +7,7 @@ const parameterSchema = z.object({
   id: z.string().uuid(),
   key: z
     .string({
-      required_error: 'Every parameter needs a key',
-      invalid_type_error: 'Key must be a string',
+      error: 'Key must be a string',
     })
     .min(1, 'Every parameter needs a key')
     .regex(/^[a-zA-Z]/, {

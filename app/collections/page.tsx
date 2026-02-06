@@ -18,7 +18,7 @@ import {
   ElementCardButton,
   ElementCardLink,
 } from "@/components/elements/element-card";
-import { SupabaseImage } from "@/components/supabase/supabase-image";
+import { StorageImage } from "@/components/storage/storage-image";
 import CollectionContextMenu from "@/app/collections/(components)/collection-context-menu";
 
 export default async function HomePage() {
@@ -64,7 +64,7 @@ export default async function HomePage() {
                       label={collection.name ?? "Unnamed Collection"}
                       subtitle={collection.description}
                       image={
-                        <SupabaseImage
+                        <StorageImage
                           src={`collection-images/${collection.id}/${collection.image}`}
                           placeholder
                           alt="Collection Image"

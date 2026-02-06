@@ -3,8 +3,7 @@ import { valueSchemas } from '../value-schema'
 import { validateDefaultFormat, validateDefaultValue } from '../refinements'
 
 export const enumSchema = z.string({
-  required_error: 'Value is required',
-  invalid_type_error: 'Must be a text value',
+  error: (issue) => issue.input === undefined ? 'Value is required' : 'Must be a text value',
 })
 
 const enumOptionsSchema = z
@@ -14,8 +13,7 @@ const enumOptionsSchema = z
       label: z.string().optional(),
       value: z
         .string({
-          required_error: "Options can't be empty",
-          invalid_type_error: "Options can't be empty",
+          error: "Options can't be empty",
         })
         .min(1, "Options can't be empty")
         .max(50, "Options can't be longer than 50 characters"),

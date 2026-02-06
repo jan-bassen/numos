@@ -3,6 +3,7 @@
 import { useBreakpoint } from '@repo/ui/hooks/media-query'
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -21,7 +22,6 @@ import {
   DrawerTrigger,
 } from '@repo/ui/components/drawer'
 import type { AnimationEventHandler, ComponentProps } from 'react'
-import { DialogClose } from '@radix-ui/react-dialog'
 
 /* export function ResponsiveDialog({
   button,

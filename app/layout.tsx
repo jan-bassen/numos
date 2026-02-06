@@ -5,14 +5,8 @@ import { Toaster } from "@repo/ui/components/sonner";
 import { cn } from "@repo/ui/lib/utils";
 import localFont from "next/font/local";
 import type { CssVariable } from "next/dist/compiled/@next/font";
-import { Suspense } from "react";
-import PostHogPageView from "@/lib/posthog/posthog-pageview";
 import Providers from "@/app/(providers)/external-providers";
-import CookieBanner from "@/lib/posthog/cookie-banner";
 import { Maintanance } from "@/app/maintanance";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
-import type { User } from "@/lib/auth";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
@@ -35,23 +29,12 @@ export const metadata: Metadata = {
   ],
 };
 
-export const dynamic = "force-dynamic";
 
 export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  let user: User | null = null;
-  try {
-    const session = await auth.api.getSession({
-      headers: await headers(),
-    });
-    user = session?.user ?? null;
-  } catch {
-    // no-op: allow rendering without auth configured
-  }
-  
   const maintanance = false;
   
   return (
@@ -65,12 +48,8 @@ export default async function RootLayout({
           <Maintanance />
         ) : (
           <>
-            <Providers user={user}>
-              <Suspense fallback={null}>
-                <PostHogPageView />
-              </Suspense>
+            <Providers>
               {children}
-              <CookieBanner isLoggedIn={!!user} />
               <Toaster position="bottom-right" richColors />
             </Providers>
           </>

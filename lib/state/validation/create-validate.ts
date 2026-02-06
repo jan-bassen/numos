@@ -9,7 +9,7 @@ export function validateStateSchema<T extends Record<string, any>>(
   schema: ZodType,
 ): Result<Partial<T>, ZodError> {
   try {
-    return { result: schema.parse(value) }
+    return { result: schema.parse(value) as Partial<T> }
   } catch (e) {
     if (e instanceof ZodError) {
       return { error: e }
@@ -28,7 +28,7 @@ export function createValidate<UT extends Record<string, any>>(
     async (value) => {
       try {
         const changedKeys = Object.keys(value)
-        const res = { result: await schema.parseAsync(value) }
+        const res = { result: await schema.parseAsync(value) as UT }
         const newErrorState = { ...errors }
         for (const key of changedKeys) {
           newErrorState[key] = null
@@ -46,7 +46,7 @@ export function createValidate<UT extends Record<string, any>>(
 
           if (error) {
             for (const issue of error.issues) {
-              const n = setValueAtPath(newErrorState, issue.path, {
+              const n = setValueAtPath(newErrorState, issue.path as string[], {
                 message: issue.message,
                 code: issue.code,
               })

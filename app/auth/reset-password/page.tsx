@@ -23,9 +23,9 @@ import { Suspense } from "react";
 const formSchema = z
   .object({
     password: z
-      .string({ required_error: "Please enter a password" })
+      .string({ error: "Please enter a password" })
       .min(8, "Password must be at least 8 characters"),
-    confirmPassword: z.string({ required_error: "Please confirm your password" }),
+    confirmPassword: z.string({ error: (issue) => issue.input === undefined ? "Please confirm your password" : "Please enter a valid password" }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match",

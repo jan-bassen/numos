@@ -21,7 +21,7 @@ import {
   PiPhotoImageDefaultStroke,
 } from "@repo/ui/icons/pika";
 import { deleteUpload, updateUpload } from "@/lib/db/queries/uploads";
-import { SupabaseImage } from "@/components/supabase/supabase-image";
+import { StorageImage } from "@/components/storage/storage-image";
 import type { UploadsTree } from "@/lib/db/queries/uploads";
 import Decimal from "decimal.js";
 import { type DragEvent, type MouseEvent, useRef, useState } from "react";
@@ -130,13 +130,13 @@ export default function UploadsListItem({
             }}
             draggable
           >
-            <SupabaseImage
+            <StorageImage
               src={upload.signedUrl}
               alt={upload.name || "Unnamed Upload"}
               className="size-8 shrink-0 rounded-md object-cover "
               width={64}
               height={64}
-              signed="true"
+
               onClick={() => setDialogOpen(true)}
             />
             {renaming ? (
@@ -209,14 +209,14 @@ export default function UploadsListItem({
         >
           <div className="flex max-md:flex-col gap-10">
             <div className="max-h-[50vh] w-full md:max-w-[33vw]">
-              <SupabaseImage
+              <StorageImage
                 src={upload.signedUrl}
                 alt={upload.name || "Unnamed Upload"}
                 loading="eager"
                 className="contain h-full w-full drop-shadow-xs"
                 width={1000}
                 height={1000}
-                signed="true"
+  
               />
             </div>
             <div className="flex max-md:w-full flex-col justify-end gap-3 md:min-w-56 md:max-w-[33vw] md:gap-2">

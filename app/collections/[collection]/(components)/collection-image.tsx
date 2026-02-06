@@ -1,6 +1,6 @@
 "use client";
 
-import { EditableImage } from "@/components/supabase/editable-image";
+import { EditableImage } from "@/components/storage/editable-image";
 import { cn } from "@repo/ui/lib/utils";
 import { toast } from "sonner";
 import { useCollection } from "@/app/collections/[collection]/collection-context";

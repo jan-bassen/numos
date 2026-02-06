@@ -11,13 +11,6 @@ import type {
 
 // Re-export all table types from Drizzle schema
 export type {
-  // Accounts
-  Account,
-  NewAccount,
-  AccountMembership,
-  NewAccountMembership,
-  Profile,
-  NewProfile,
   // Collections
   Collection,
   NewCollection,

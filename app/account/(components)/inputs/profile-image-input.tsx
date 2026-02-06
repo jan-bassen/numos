@@ -1,9 +1,10 @@
 "use client";
 
-import { useProfile } from "@/app/(providers)/profile-context";
-import { EditableImage } from "@/components/supabase/editable-image";
-import { cn } from "@repo/ui/lib/utils";
-import { toast } from "sonner";
+  import { cn } from "@repo/ui/lib/utils";
+  import { toast } from "sonner";
+  import Image from "next/image";
+
+// TODO: Implement profile image input
 
 export function ProfileImageInput({
   width,
@@ -14,23 +15,9 @@ export function ProfileImageInput({
   height?: number;
   className?: string;
 }) {
-  const { profile, updateProfile } = useProfile();
   return (
-    <EditableImage
-      location={{ bucket: "avatars", name: profile?.avatarUrl ?? null }}
-      uploadTo={{ bucket: "avatars", name: profile?.id }}
-      className={cn("size-20", className)}
-      onUpload={async (location) => {
-        const res = await updateProfile({
-          avatarUrl: location.name,
-        });
-        if (!res.ok) {
-          toast.error(res.message);
-        }
-      }}
-      alt="Profile Image"
-      width={width || 80}
-      height={height || 80}
-    />
+    <div className={cn("size-20", className)}>
+      
+    </div>
   );
 }

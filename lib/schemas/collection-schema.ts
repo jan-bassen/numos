@@ -11,8 +11,7 @@ export const collectionSchema = (currentSlug: string | undefined) =>
       .optional(),
     slug: z
       .string({
-        required_error:
-          "We need a unique identifier to differentiate this collection from others",
+        error: "We need a unique identifier to differentiate this collection from others",
       })
       .max(40, {
         message: "Identifier must be less than 40 characters.",

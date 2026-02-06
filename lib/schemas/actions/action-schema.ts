@@ -14,9 +14,6 @@ export type ActionTrigger = z.infer<typeof triggerSchema>
 export const triggerSchema = zDiscriminatedUnion(
   'type',
   [apiTriggerSchema, timeTriggerSchema, tokenTriggerSchema],
-  {
-    invalid_union_discriminator: 'Select a trigger type',
-  },
 )
 
 export const newActionSchema = z.object({

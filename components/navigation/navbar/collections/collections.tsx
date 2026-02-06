@@ -1,5 +1,5 @@
 import { getAllCollections } from "@/lib/db/queries/collections";
-import { SupabaseImage } from "@/components/supabase/supabase-image";
+import { StorageImage } from "@/components/storage/storage-image";
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -28,7 +28,7 @@ export async function Collections() {
                   href={href}
                   className="group-data-[collapsible=icon]:!px-1.5 group-data-[collapsible=icon]:!py-1.5 flex items-center gap-3"
                 >
-                  <SupabaseImage
+                  <StorageImage
                     src={
                       collection.image
                         ? `collection-images/${collection.id}/${collection.image}`

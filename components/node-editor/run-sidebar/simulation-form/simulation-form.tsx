@@ -114,7 +114,7 @@ export function SimulationForm({
     parameters:
       parameters && parameters.length > 0
         ? getSchemaFromParameters(parameters, true)
-        : z.undefined(),
+        : z.undefined().optional(),
   })
 
   const form = useForm<z.infer<typeof schema>>({
@@ -464,7 +464,9 @@ export function SimulationForm({
                               value={{
                                 type: attrValue.type,
                                 format: 'objectarray',
-                                value: field.value || [],
+                                value: Array.isArray(field.value)
+                                  ? field.value
+                                  : [],
                               }}
                               onChange={(v) => {
                                 field.onChange(v.value)
@@ -610,14 +612,16 @@ export function SimulationForm({
                                 type={parameter.value.type}
                                 restrictions={parameter.value.restrictions}
                                 locked={false}
-                                value={
-                                  field.value || {
-                                    type: parameter.value.type,
-                                    format: 'objectarray',
-                                    value: [],
-                                  }
-                                }
-                                onChange={field.onChange}
+                                value={{
+                                  type: parameter.value.type,
+                                  format: 'objectarray',
+                                  value: Array.isArray(field.value)
+                                    ? field.value
+                                    : [],
+                                }}
+                                onChange={(v) => {
+                                  field.onChange(v.value)
+                                }}
                               />
                             </FormItem>
                           )}

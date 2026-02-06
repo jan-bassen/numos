@@ -2,6 +2,7 @@
 
 import { createContext, useContext } from "react";
 import type { User } from "@/lib/auth";
+import { authClient } from "@/lib/auth/client";
 
 type UserContextType = {
   user: User;
@@ -15,9 +16,7 @@ type UserProviderProps = {
 };
 
 export function UserProvider({ children, user }: UserProviderProps) {
-  return (
-    <UserContext.Provider value={{ user }}>{children}</UserContext.Provider>
-  );
+  return <UserContext.Provider value={{ user }}>{children}</UserContext.Provider>;
 }
 
 export function useUser() {

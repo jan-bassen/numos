@@ -3,7 +3,7 @@ import { z } from 'zod'
 export type TokenEvent = z.infer<typeof tokenEventSchema>
 
 const tokenEventSchema = z.enum(['mint', 'transfer', 'burn', 'approve'], {
-  required_error: 'To use token trigger, you need to specify the event type',
+  error: 'To use token trigger, you need to specify the event type',
 })
 
 export const tokenTriggerSchema = z.object({

@@ -25,14 +25,12 @@ export function blobImageLoader({ src, width, quality }: ImageLoaderProps) {
   return `${blobUrl}/${src}?w=${width}&q=${quality || 75}`;
 }
 
-export function SupabaseImage({
+export function StorageImage({
   placeholder,
-  signed,
   src,
   ...props
 }: Omit<ImageProps, "src" | "placeholder"> & {
   src?: string | StaticImport | null;
-  signed?: "true" | "false";
   placeholder?: boolean;
 }) {
   const [showPlaceholder, setShowPlaceholder] = useState(false);
@@ -50,11 +48,8 @@ export function SupabaseImage({
     );
   }
 
-  // For signed URLs or full URLs, use direct loading
-  if (
-    signed === "true" ||
-    (typeof src === "string" && src.startsWith("http"))
-  ) {
+  // For full URLs, use direct loading (Vercel Blob URLs are always full https:// URLs)
+  if (typeof src === "string" && src.startsWith("http")) {
     return (
       <Image
         {...props}

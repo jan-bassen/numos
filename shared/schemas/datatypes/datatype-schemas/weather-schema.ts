@@ -4,8 +4,7 @@ import { valueSchemas } from '../value-schema'
 import { validateDefaultFormat } from '../refinements'
 
 export const weatherSchema = z.enum(weatherCodes, {
-  invalid_type_error: 'Must be a valid weather condition',
-  required_error: 'Value is required',
+  error: (issue) => issue.input === undefined ? 'Value is required' : 'Must be a valid weather condition',
 })
 
 export const fullWeatherSchema = z

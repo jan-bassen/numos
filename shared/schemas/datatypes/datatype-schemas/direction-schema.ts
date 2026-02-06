@@ -4,8 +4,7 @@ import { valueSchemas } from '../value-schema'
 import { validateDefaultFormat } from '../refinements'
 
 export const directionSchema = z.enum(directions, {
-  invalid_type_error: 'Must be a valid direction',
-  required_error: 'Value is required',
+  error: (issue) => issue.input === undefined ? 'Value is required' : 'Must be a valid direction',
 })
 
 export const fullDirectionSchema = z

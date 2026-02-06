@@ -1,12 +1,12 @@
 import type { Result } from '@repo/shared/types/result'
 import type { ReturnInfo } from '@repo/ui/lib/utils'
-import type { ZodIssueCode } from 'zod'
+import { ZodIssueCode } from 'zod'
 
 // Schema
 
 export type ZodErrorInfo = {
   message: string
-  code: ZodIssueCode | null
+  code: (typeof ZodIssueCode)[keyof typeof ZodIssueCode] | null
   validation?: string | null
 }
 

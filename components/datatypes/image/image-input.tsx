@@ -1,5 +1,5 @@
 import { cn } from '@repo/ui/lib/utils'
-import { SupabaseImage } from '@/components/supabase/supabase-image'
+import { StorageImage } from '@/components/storage/storage-image'
 import { useRef, useState } from 'react'
 import { Drag } from 'rete-react-plugin'
 import { PiFolderDefaultSolid, PiHomeDefaultSolid } from '@repo/ui/icons/pika'
@@ -114,7 +114,7 @@ export function ImageInput({
           environment === 'node' && 'translate-y-0.5 transform',
         )}
       >
-        <SupabaseImage
+        <StorageImage
           src={
             value.value ? uploads?.uploads[value.value]?.signedUrl : undefined
           }
@@ -122,7 +122,7 @@ export function ImageInput({
           width={160}
           height={160}
           alt="Image"
-          signed="true"
+
         />
       </DialogTrigger>
       <DialogContent
@@ -183,13 +183,13 @@ export function ImageInput({
                     setOpen(false)
                   }}
                 >
-                  <SupabaseImage
+                  <StorageImage
                     src={upload.signedUrl}
                     alt={upload.name || 'Unnamed Upload'}
                     className="size-24 shrink-0 rounded-md object-cover"
                     width={192}
                     height={192}
-                    signed="true"
+          
                   />
                 </Button>
                 <label

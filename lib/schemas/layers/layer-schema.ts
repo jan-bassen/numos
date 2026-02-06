@@ -14,9 +14,6 @@ export type LayerType = LayerDefinition['type']
 export const layerDefinitionSchema = zDiscriminatedUnion(
   'type',
   [customLayerDefinitionSchema, choiceMapLayerDefinitionSchema],
-  {
-    invalid_union_discriminator: 'Select a layer type',
-  },
 )
 
 export const newLayerSchema = z.object({

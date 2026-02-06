@@ -1,7 +1,6 @@
 import type {
   ObjectValue,
   RawSingleValue,
-  RawValueMap,
   Value,
   ValueFormat,
   ValueMap,
@@ -102,7 +101,7 @@ export function resolveObjectArrayValue<
 }
 
 export function generateValueMap(
-  state: RawValueMap,
+  state: Record<string, unknown>,
   typeMap: ValueTypeMap,
 ): ValueMap<string, ValueType, 'single' | 'objectarray', true> {
   return Object.entries(state).reduce<

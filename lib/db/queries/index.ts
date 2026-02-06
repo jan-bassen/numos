@@ -11,5 +11,4 @@ export * from "./attributes";
 export * from "./layers";
 export * from "./image-graph";
 export * from "./uploads";
-export * from "./profiles";
 export * from "./versions";

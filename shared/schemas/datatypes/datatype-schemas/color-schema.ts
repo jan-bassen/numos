@@ -4,8 +4,7 @@ import { validateDefaultFormat } from '@repo/shared/schemas/datatypes/refinement
 
 const colorChannelSchema = z.coerce
   .number({
-    required_error: 'Value is required',
-    invalid_type_error: 'Must be a number',
+    error: (issue) => issue.input === undefined ? 'Value is required' : 'Must be a number',
   })
   .int('Must be an integer')
   .min(0, 'Must be positive')
@@ -17,8 +16,7 @@ export const colorSchema = z.object({
   b: colorChannelSchema,
   a: z.coerce
     .number({
-      required_error: 'Value is required',
-      invalid_type_error: 'Must be a number',
+      error: (issue) => issue.input === undefined ? 'Value is required' : 'Must be a number',
     })
     .min(0, 'Must be positive')
     .max(1, "Can't be greater than 100%")

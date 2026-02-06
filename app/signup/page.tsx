@@ -25,10 +25,10 @@ import { useEffect } from "react";
 const signupSchema = z.object({
   name: z.string().min(1, "Please enter your name"),
   email: z
-    .string({ required_error: "Please enter your email" })
+    .string({ error: "Please enter your email" })
     .email("Please enter a valid email address"),
   password: z
-    .string({ required_error: "Please enter your password" })
+    .string({ error: "Please enter your password" })
     .min(8, "Password must be at least 8 characters"),
 });
 

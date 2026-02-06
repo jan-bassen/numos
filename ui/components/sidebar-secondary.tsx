@@ -1,7 +1,8 @@
 'use client'
 
 import * as React from 'react'
-import { Slot } from '@radix-ui/react-slot'
+import { Slot as SlotPrimitive } from 'radix-ui'
+const Slot = SlotPrimitive.Slot
 import type { VariantProps } from 'class-variance-authority'
 import { PanelLeft } from 'lucide-react'
 import { useIsMobile } from '@repo/ui/hooks/use-mobile'
