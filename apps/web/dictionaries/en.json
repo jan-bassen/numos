@@ -23,15 +23,7 @@
       "health": "Health",
       "reset": "Reset"
     },
-    "investors": {
-      "ctaButton": "We're open to new investors",
-      "title": "Interested in investing?",
-      "description": "We're currently looking for new investors to help us grow. If you're interested in partnering with us, please reach out.",
-      "contact": {
-        "email": "Email",
-        "x": "Message"
-      }
-    },
+    "eyebrow": "Project paused — showcase only",
     "architecture": {
       "title": "Easy, but incredibly powerful",
       "description": "Building with Numos is simple - your vision grows, and we grow with you. Our modular platform lets you create collections that evolve and expand seamlessly, adapting to your journey and ideas every step of the way.",

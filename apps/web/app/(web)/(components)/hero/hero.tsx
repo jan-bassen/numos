@@ -3,7 +3,6 @@ import { Button } from '@repo/ui/components/button'
 import { PiArrowRightStroke } from '@repo/ui/icons/pika'
 import Image from 'next/image'
 import { SignUpDialog } from '@/components/sign-up/sign-up-dialog'
-import { InvestorsDialog } from '@/app/(web)/(components)/hero/investors-dialog'
 
 export function Hero({
   dictionary,
@@ -13,7 +12,9 @@ export function Hero({
   return (
     <div className="relative w-full overflow-visible pt-28 pb-12 md:pt-64 md:pb-64">
       <div className="flex w-full flex-col items-center space-y-6 pl-3 font-heading sm:space-y-4 md:space-y-6 md:pl-4">
-        <InvestorsDialog dictionary={dictionary.investors} />
+        <div className="flex h-7 items-center rounded-full border border-border bg-muted/40 px-3 text-muted-foreground text-xs">
+          {dictionary.eyebrow}
+        </div>
         <h1 className="!leading-[1.1] sm:!leading-[1.2] md:!text-[3.2rem] w-full max-w-[23rem] xs:max-w-[26rem] px-2 xs:px-0 text-center font-black xs:font-extrabold text-[2.8rem] xs:text-[3.2rem]">
           {dictionary.title}
         </h1>
