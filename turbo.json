@@ -5,40 +5,6 @@
     "build": {
       "dependsOn": ["^build"]
     },
-    "hub#build": {
-      "dependsOn": ["@repo/shared#build"]
-    },
-    "hub#typecheck": {},
-    "hub#typecheck:watch": {},
-    "hub#typecheck:clean": {
-      "cache": false
-    },
-    "hub#db:generate": {
-      "interactive": true,
-      "cache": false
-    },
-    "hub#db:migrate": {
-      "interactive": true,
-      "cache": false
-    },
-    "hub#auth:generate": {
-      "interactive": true,
-      "cache": false,
-      "env": ["BETTER_AUTH_SECRET", "DATABASE_URL"]
-    },
-    "core#deploy": {
-      "cache": false,
-      "dependsOn": ["core#build"],
-      "env": ["DATABASE_URL"]
-    },
-    "core#build": {
-      "cache": false,
-      "outputs": ["dist/**"],
-      "dependsOn": ["@repo/tsconfig#build", "@repo/shared#build"]
-    },
-    "core#test": {
-      "cache": false
-    },
     "studio#build": {
       "dependsOn": ["@repo/shared#build"],
       "env": [

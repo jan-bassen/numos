@@ -1,67 +1,47 @@
 # Numos
 
-This is the main monorepo for Numos.
+Monorepo for the **Numos** portfolio showcase. Two apps, self-hosted on
+[Coolify](https://coolify.io/) (Hetzner, Docker):
 
-## Building the stack
+- `web` — Next.js marketing site (static; no external services).
+- `studio` — Next.js visual node-editor demo (client-side, ephemeral data; no signup).
 
-Start the entire stack with:
+> Migration in progress. See [`CLAUDE.md`](./CLAUDE.md) for durable context/decisions and
+> [`docs/portfolio-migration.md`](./docs/portfolio-migration.md) for live status.
+
+## Commands
+
 ```sh
-turbo build
+pnpm install                 # install (pnpm@9.1.4, node >=18)
+pnpm dev                     # turbo dev (all apps)
+turbo dev --filter=studio    # studio only
+turbo dev --filter=web       # web only
+turbo build                  # build all
+pnpm lint                    # biome check
 ```
 
-Test just the studio with:
-```sh
-turbo dev --filter=studio
-```
-
-Install npm package in homepage with:
-```sh
-pnpm i package --filter=web
-```
+Install a package into one app: `pnpm i <pkg> --filter=<app>`.
 
 ## What's inside?
 
-This includes the following packages/apps:
+### Apps
+- `web`: Next.js marketing site (homepage; static via `dictionaries/en.json` + components).
+- `studio`: Next.js node-editor app for building dynamic/interactive digital assets.
 
-### Apps and Packages
-- `web`: a Next.js site including the homepage and docs
-- `studio`: a Next.js app for creating and managing dynamic and interactive digital assets
-- `core`: an AWS cdk app for deploying the backend
-- `@repo/tsconfig`: a shared tsconfig used throughout the monorepo
-- `@repo/ui`: a React component library based on shadcn/ui including icons and tailwind config
-- `@repo/shared`: a utility package for shared assets like datatypes or the node engine
-- `@repo/email`: a react email project (not in use yet)
+### Packages
+- `@repo/shared`: shared datatypes, schemas, utils, and the node engine.
+- `@repo/ui`: React component library (shadcn/ui), icons, and Tailwind config.
+- `@repo/tsconfig`: shared TypeScript config.
 
-## Tools
-The repo is build with the following tools and services:
+## Tooling
 
-### Services
-- [Vercel](https://vercel.com) for hosting
-- [Supabase](https://supabase.com/docs) as the PaaS of our choice
-- [AWS](https://aws.amazon.com/de/free/?sc_channel=ps) for email and hosting the core backend
-- [Linear](https://linear.app/) for development management
-- [Stripe](https://dashboard.stripe.com/login?redirect=/test/dashboard) for payments
-- [Posthog](https://eu.posthog.com/) for analytics and monitoring
-- [Sentry](sentry.io) for debugging
-- [Alchemy](alchemy.com) for RPC and blockchain webhooks
-
-### Main
 - [Turborepo](https://turborepo.org/) for monorepo management
-- [Next.js](https://nextjs.org/) for frontend development
-- [Tailwind](https://tailwindcss.com/) for CSS styling
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [Biome](https://biomejs.dev/) for code linting and formatting
+- [Next.js](https://nextjs.org/) (15 / React 19) for the apps
+- [Tailwind](https://tailwindcss.com/) for styling
+- [TypeScript](https://www.typescriptlang.org/) for static typing
+- [Biome](https://biomejs.dev/) for linting and formatting
 - [shadcn/ui](https://ui.shadcn.com/docs) for reusable components
-- [Payload](https://payloadcms.com/docs/getting-started/what-is-payload) for the homepage CMS
-
-### Secondary
-- [lodash](https://lodash.com/) for common utilities
+- [rete.js](https://retejs.org/) for the studio node graph
 - [zod](https://zod.dev/) for validation
-- [drizzle](https://orm.drizzle.team/docs/overview) for db usage outside of the supabase SDK
-- [viem](https://viem.sh/docs/getting-started) for anything blockchain
-- [ai sdk](https://sdk.vercel.ai/getting-started) for anything ai
-- [sharp](https://sharp.pixelplumbing.com/) for image manipulation
-- [luxon](https://moment.github.io/luxon/#/) for datetime
-- [decimal.js](https://mikemcl.github.io/decimal.js/) for maths
-- [dnd-kit](https://dndkit.com/) for draggable ui
-
+- [decimal.js](https://mikemcl.github.io/decimal.js/) for maths, [luxon](https://moment.github.io/luxon/#/) for datetime
+- [dnd-kit](https://dndkit.com/) for draggable UI
