@@ -1,7 +1,5 @@
 import DoubleImage from '@/components/animation/double-image'
 import type { Dictionary } from '@/dictionaries/dictionaries'
-import { PiLinkedinSolid, PiXComStroke } from '@repo/ui/icons/pika'
-import Link from 'next/link'
 
 export function Team({
   dictionary,
@@ -24,24 +22,6 @@ export function Team({
             <div className="pl-2">
               <h3 className="font-bold text-xl">{person.name}</h3>
               <p className="text-muted-foreground ">{person.role}</p>
-            </div>
-            <div className="flex gap-2 pl-2">
-              <Link
-                target="_blank"
-                href={`https://twitter.com/${person.twitter}`}
-                className=" size-fit p-1 text-muted-foreground hover:text-foreground"
-              >
-                <PiXComStroke className="size-4" />
-              </Link>
-              {person.linkedin && (
-                <Link
-                  target="_blank"
-                  href={`https://linkedin.com/in/${person.linkedin}`}
-                  className=" size-fit p-1 text-muted-foreground hover:text-foreground"
-                >
-                  <PiLinkedinSolid className="size-4" />
-                </Link>
-              )}
             </div>
           </div>
         </div>
