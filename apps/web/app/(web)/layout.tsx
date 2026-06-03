@@ -6,11 +6,7 @@ import { Toaster } from '@repo/ui/components/sonner'
 import { cn } from '@repo/ui/lib/utils'
 import localFont from 'next/font/local'
 import type { CssVariable } from 'next/dist/compiled/@next/font'
-import Script from 'next/script'
-import PostHogPageView from '@/lib/posthog/posthog-pageview'
 import Providers from './providers'
-import CookieBanner from '@/components/layout/cookie-banner'
-import { Suspense } from 'react'
 import { Navigation } from '@/components/layout/navigation/navigation'
 import Footer from '@/components/layout/footer'
 import { getDictionary } from '@/dictionaries/dictionaries'
@@ -78,24 +74,13 @@ export default async function RootLayout({
     >
       <body className={cn(outfit.className, 'relative bg-background')}>
         <Providers>
-          <Suspense>
-            <PostHogPageView />
-          </Suspense>
           <div className="relative flex w-full flex-col items-center">
             <Navigation dictionary={{ navbar: d.navbar, home: d.home }} />
             {children}
             <Footer dictionary={d.numos} />
           </div>
-          <CookieBanner />
           <Toaster position="bottom-right" richColors />
         </Providers>
-        <Script
-          async
-          defer
-          type="text/javascript"
-          id="hs-script-loader"
-          src="//js-eu1.hs-scripts.com/144826452.js"
-        />
       </body>
     </html>
   )

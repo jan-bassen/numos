@@ -15,8 +15,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@repo/ui/components/form'
-import { handleReturnInfo } from '@repo/ui/lib/utils'
-import { signUp } from '@/lib/hubspot/sign-up'
+import { toast } from '@repo/ui/components/sonner'
 import type { Dictionary } from '@/dictionaries/dictionaries'
 
 const formSchema = z.object({
@@ -27,9 +26,12 @@ const formSchema = z.object({
   twitter: z.string().optional(),
 })
 
-async function onSubmit(values: z.infer<typeof formSchema>) {
-  const res = await signUp(values)
-  handleReturnInfo(res)
+// Portfolio demo: this site has no backend, so the beta form just acknowledges
+// the submission instead of posting to a CRM.
+async function onSubmit(_values: z.infer<typeof formSchema>) {
+  toast.success('Thanks for your interest!', {
+    description: 'This is a portfolio demo, so nothing was sent — but it works.',
+  })
 }
 
 export default function SignUpForm({

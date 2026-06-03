@@ -40,27 +40,8 @@
       "inputs": ["$TURBO_DEFAULT$", ".env*"]
     },
     "studio#scan": {},
-    "web#typegen": {
-      "env": ["DATABASE_URI"],
-      "inputs": ["$TURBO_DEFAULT$", ".env*"]
-    },
-    "web#importgen": {
-      "env": ["DATABASE_URI"],
-      "inputs": ["$TURBO_DEFAULT$", ".env*"]
-    },
     "web#build": {
-      "dependsOn": ["@repo/tsconfig#build", "@repo/shared#build"],
-      "env": [
-        "NEXT_PUBLIC_POSTHOG_HOST",
-        "NEXT_PUBLIC_POSTHOG_KEY",
-        "HUBSPOT_ACCESS_TOKEN",
-        "DATABASE_URI",
-        "PAYLOAD_SECRET",
-        "BLOB_READ_WRITE_TOKEN",
-        "SMTP_HOST",
-        "SMTP_USER",
-        "SMTP_PASS"
-      ]
+      "dependsOn": ["@repo/tsconfig#build", "@repo/shared#build"]
     },
     "@repo/shared#build": {
       "outputs": ["dist/**"]

@@ -8,14 +8,16 @@ Durable context (architecture, conventions, locked decisions) lives in
 
 ## Status — You are here
 
-- **Phase:** 1 — complete. Repo trimmed to the two target apps + 3 kept packages.
-- **Last done:** Phase 1 (2026-06-03): deleted `apps/hub`, `apps/core`, `packages/email`;
-  removed orphaned `hub#*`/`core#*` tasks from `turbo.json`; rewrote `README.md` to the
-  two-app reality. `pnpm install` clean; both builds still fail **only** at the pre-existing
-  baseline points (web → Payload `/api/graphql`, studio → `next.config.ts`), i.e. the trim
-  added no new breakage. (Phase 0 baseline before this: see [findings](#phase-0-findings).)
-- **Next up:** Phase 2 — `web` migration: remove Payload entirely (gets web building), then
-  HubSpot + PostHog.
+- **Phase:** 2 — complete. `web` builds green with zero external services.
+- **Last done:** Phase 2 (2026-06-03): removed Payload, the docs section, lexical, HubSpot,
+  and PostHog from `web`. `web` source now has **zero `process.env` references**;
+  `next build` is green and `/` is fully static. Verified all landing sections render via
+  `next start` with no env set. Also fixed a latent crash in the Tweets section (react-tweet
+  `enrichTweet` chokes on the syndication API now omitting empty entity arrays). See
+  [Phase 2 notes](#phase-2-notes).
+- **Next up:** Phase 3 — `studio` migration (Supabase → client-side, remove auth, strip
+  non-demo integrations). Start by decoupling `next.config.ts` from Supabase so studio can
+  build/boot at all.
 - **Blockers / open questions:** see [Open questions](#open-questions).
 
 > Update this block at the end of each session: Phase, Last done, Next up, Blockers.
@@ -133,19 +135,40 @@ external services** — no DB, no blob storage, no SMTP, no analytics.
 > `_docs` section, which is an unrouted private folder (`_docs`/`_pricing` are underscore-
 > prefixed, so not live). Nothing public depends on the CMS → we drop Payload wholesale.
 
-- [ ] **Remove Payload entirely:** the `app/(payload)/*` route group, `payload.config.ts`,
+- [x] **Remove Payload entirely:** the `app/(payload)/*` route group, `payload.config.ts`,
       `payload-types.ts`, `collections/*`, `lib/payload/*`, and all `@payloadcms/*` + `payload`
-      + `graphql` + `@payloadcms/db-postgres`/`pg` deps. Also remove the `typegen`/`importgen`
-      payload scripts.
-- [ ] **Remove the docs section** (`app/(web)/_docs/*`) since it was Payload-driven and
+      + `graphql` deps. Also removed the `typegen`/`importgen` payload scripts, the
+      `withPayload` wrapper in `next.config.ts`, and the `@payload-config` tsconfig path.
+      _(No `pg`/`@payloadcms/db-postgres` left; `components/admin/*` (Payload admin avatar)
+      and `components/lexical/*` (docs-only rich-text) removed too.)_
+- [x] **Remove the docs section** (`app/(web)/_docs/*`) since it was Payload-driven and
       unrouted. (Revisit later as static MDX if docs are wanted — out of scope for now.)
-- [ ] **HubSpot:** remove the signup→HubSpot integration (`lib/hubspot/*`,
-      `components/sign-up/*`, the HubSpot bits of `app/(web)/providers.tsx`). Replace the
-      signup CTA with a no-op / mailto / "coming soon" appropriate for a portfolio.
-- [ ] **PostHog:** remove or make fully no-op when keys are absent (`lib/posthog/*`,
-      `app/(web)/layout.tsx`, `providers.tsx`, cookie banner).
-- [ ] Prune now-dead deps; update what remains; get `next build` green.
-- [ ] Verify all landing-page sections render with no env vars set.
+- [x] **HubSpot:** remove the signup→HubSpot integration (`lib/hubspot/*`, the HubSpot bits
+      of `providers.tsx`, the `hs-script-loader` `<Script>` in `layout.tsx`). Signup CTA now
+      shows a success toast ("portfolio demo, nothing was sent"); the form UI is kept so the
+      hero/nav dialog and beta section still look complete.
+- [x] **PostHog:** removed `lib/posthog/*`, the `PostHogProvider`/init in `providers.tsx`,
+      `PostHogPageView` in `layout.tsx`, and the analytics-only cookie banner.
+- [x] Prune now-dead deps; update what remains; get `next build` green.
+- [x] Verify all landing-page sections render with no env vars set.
+
+### Phase 2 notes
+
+- **`web` is now external-service-free:** zero `process.env.*` in source (`grep` confirms).
+  No DB, blob storage, SMTP, analytics, or CMS. `next build` → `/` is `○ (Static)`.
+- **Tweets section bug (fixed):** `react-tweet@3.2.1`'s `enrichTweet` does
+  `for (const e of tweet.entities.<arr>)` unguarded, but Twitter's syndication API now omits
+  empty `hashtags`/`urls`/`symbols`/`user_mentions` arrays → `TypeError: entities is not
+  iterable`, which crashed static prerender of `/`. Was previously masked by the Payload
+  build failure. Fixed by normalizing missing entity arrays to `[]` in
+  `tweets/custom-tweet.tsx` before calling `enrichTweet`. (Note: this section still fetches
+  from Twitter's syndication API at build time — the one remaining build-time network call in
+  `web`. It degrades to "Tweet not found" cards if unreachable, so it won't break the build.)
+- **`_pricing/*`** (unrouted, underscore-prefixed) left in place — it's static components, not
+  Payload-driven, and harmless. Footer/nav still have commented/dead `/docs`,`/pricing` links
+  (pre-existing); not touched in this phase.
+- Kept `sharp` (Next.js image optimization) and `react-canvas-confetti` (used by the unused-
+  but-present `Example` component) — neither is an external service.
 
 ---
 
@@ -221,6 +244,13 @@ Append-only. Newest at bottom. Format: `YYYY-MM-DD — decision — rationale`.
 - 2026-06-02 — **Remove `apps/hub`, `apps/core`, `packages/email`; keep the monorepo.** —
   Out of scope and the only `@repo/email` dependent was hub. Keep `web`, `studio`,
   `packages/{shared,ui,tsconfig}` and the Turborepo/pnpm-workspace structure.
+- 2026-06-03 — **Web signup CTA = keep the form UI, submit shows a "portfolio demo" toast.**
+  — Rather than a mailto or deleting the beta section, keep the visual design intact and make
+  submit a no-op acknowledgement. No backend/CRM, nothing to host or secure.
+- 2026-06-03 — **Keep the Tweets section but harden it** (normalize missing entity arrays
+  before `enrichTweet`). — It's a confirmed landing component; the crash was an upstream
+  react-tweet/syndication data-shape bug, not a reason to drop the section. Still a build-time
+  network call, but it degrades gracefully so it can't break the build.
 
 ---
 
