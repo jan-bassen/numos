@@ -280,7 +280,8 @@ remain; smooth tap-around demo.
 
 ## Phase 4 — Deployment (Coolify / Hetzner)
 
-- [ ] Dockerfile (or Nixpacks config) per app, monorepo-aware (build only the target).
+- [x] Dockerfile for `web`, monorepo-aware (`turbo prune` + Next standalone). Verified: image
+      builds clean-room and serves HTTP 200 + static assets. Studio Dockerfile still TODO.
 - [ ] Coolify app for `web` (static-ish — no DB, storage, or other services needed).
 - [ ] Coolify app for `studio` (stateless — client-side data, so no DB service needed).
 - [ ] Env/secret wiring per app; domains; HTTPS.
@@ -308,6 +309,13 @@ Append-only. Newest at bottom. Format: `YYYY-MM-DD — decision — rationale`.
 - 2026-06-02 — **Remove `apps/hub`, `apps/core`, `packages/email`; keep the monorepo.** —
   Out of scope and the only `@repo/email` dependent was hub. Keep `web`, `studio`,
   `packages/{shared,ui,tsconfig}` and the Turborepo/pnpm-workspace structure.
+- 2026-06-04 — **Deploy via per-app Dockerfile, not Nixpacks.** — Coolify's Nixpacks
+  autodetect ran `npm i` against `apps/web` and choked on the `workspace:*` protocol; it also
+  can't resolve workspace deps from a subfolder. `apps/web/Dockerfile` uses `turbo prune web
+  --docker` (excludes studio's heavy deps) + Next `output: 'standalone'`, built from the repo
+  root. In Coolify set Build Pack = Dockerfile, Base Directory = `/`, Dockerfile =
+  `apps/web/Dockerfile`. Also fixed a stale `web#build` turbo dep on `@repo/shared` (web
+  doesn't import shared; it transpiles `@repo/ui` from source).
 - 2026-06-03 — **Web signup CTA = keep the form UI, submit shows a "portfolio demo" toast.**
   — Rather than a mailto or deleting the beta section, keep the visual design intact and make
   submit a no-op acknowledgement. No backend/CRM, nothing to host or secure.

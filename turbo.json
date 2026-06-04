@@ -40,9 +40,7 @@
       "inputs": ["$TURBO_DEFAULT$", ".env*"]
     },
     "studio#scan": {},
-    "web#build": {
-      "dependsOn": ["@repo/tsconfig#build", "@repo/shared#build"]
-    },
+    "web#build": {},
     "@repo/shared#build": {
       "outputs": ["dist/**"]
     },
