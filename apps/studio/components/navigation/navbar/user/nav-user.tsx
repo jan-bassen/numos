@@ -1,6 +1,5 @@
 'use client'
 
-import { ChevronsUpDown } from 'lucide-react'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,10 +13,12 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@repo/ui/components/sidebar'
-import { Avatar } from '@/components/supabase/avatar'
-import { ThemeTabSelect } from './theme-tab-select'
-import { useUser } from '@/app/(providers)/user-context'
+import { ChevronsUpDown } from 'lucide-react'
 import { useProfile } from '@/app/(providers)/profile-context'
+import { useUser } from '@/app/(providers)/user-context'
+import { Avatar } from '@/components/supabase/avatar'
+import { ResetDemo } from './reset-demo'
+import { ThemeTabSelect } from './theme-tab-select'
 
 export function NavUser() {
   const { user } = useUser()
@@ -70,6 +71,8 @@ export function NavUser() {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <ThemeTabSelect />
+            <DropdownMenuSeparator />
+            <ResetDemo />
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>

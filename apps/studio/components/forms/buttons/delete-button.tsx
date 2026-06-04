@@ -3,12 +3,6 @@
 import InputDeleteDialogContent from '@repo/ui/blocks/dialogs/input-delete-dialog'
 import {
   AlertDialog,
-  AlertDialogTrigger,
-} from '@repo/ui/components/alert-dialog'
-import { Button, type ButtonProps } from '@repo/ui/components/button'
-import { PiDeleteDustbin01Stroke } from '@repo/ui/icons/pika'
-import { cn, type ReturnInfo } from '@repo/ui/lib/utils'
-import {
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
@@ -16,8 +10,15 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
+  AlertDialogTrigger,
 } from '@repo/ui/components/alert-dialog'
-import { buttonVariants } from '@repo/ui/components/button'
+import {
+  Button,
+  type ButtonProps,
+  buttonVariants,
+} from '@repo/ui/components/button'
+import { PiDeleteDustbin01Stroke } from '@repo/ui/icons/pika'
+import { cn, type ReturnInfo } from '@repo/ui/lib/utils'
 
 export type DeleteButtonProps = ButtonProps & {
   title: string
@@ -55,7 +56,7 @@ export default function DeleteButton({
             </AlertDialogTitle>
             <AlertDialogDescription>
               This action cannot be undone. This will permanently delete the
-              entire {title} and remove all the data from our servers.
+              entire {title} and remove all of its data.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
