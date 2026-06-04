@@ -29,7 +29,7 @@ export default function InputDeleteDialogContent({
         </AlertDialogTitle>
         <AlertDialogDescription>
           This action cannot be undone. This will permanently delete the entire{' '}
-          {title} and remove all the data from our servers.
+          {title} and remove all of its data.
         </AlertDialogDescription>
       </AlertDialogHeader>
       <Input

@@ -8,9 +8,19 @@ Durable context (architecture, conventions, locked decisions) lives in
 
 ## Status — You are here
 
-- **Phase:** 3 — in progress. **3a + 3b + 3c complete**: studio builds green with zero
-  external services/SDKs and boots straight into a seeded demo (no auth).
-- **Last done:** Phase 3c (2026-06-04): stripped the last external integrations. Deleted the
+- **Phase:** 3 — in progress. **3a + 3b + 3c complete**, **3d mostly complete** (static
+  pass done; interactive browser walk still pending). Studio builds green with zero external
+  services/SDKs and boots straight into a seeded demo (no auth).
+- **Last done:** Phase 3d (2026-06-04): pruned unfinished/broken scaffolding. Audited the ~33
+  `TODO/FIXME` markers — removed the dead **API-Keys** settings block (3 files, only reachable
+  from a commented-out segment; its delete button was a no-op stub) + the orphaned **Max
+  Supply** input, and the unimplemented **uploads** `addBetweenToSelection` shift-range-select
+  (it only `console.error`ed) and dead `deleteSelection`; shift-click now degrades to a plain
+  add-to-selection. Left the remaining markers (benign "clean up"/"fix types" notes — none
+  gate a demo-path feature). Fixed two copy bugs: the delete-action dialog said "delete this
+  attribute?" and the shared delete dialog claimed it removes data "from our servers" (no
+  server here). `turbo build --filter=studio` **green**. See [3d checklist](#3d-prune-unfinished--broken).
+- **Earlier:** Phase 3c (2026-06-04): stripped the last external integrations. Deleted the
   orphaned **AWS** (`lib/core/*`) and **blockchain** (`lib/blockchain/*`) code; deleted the
   **AI** cron generator (`lib/ai/cron.ts`) and removed the AI tab from `cron-input.tsx`
   (manual cron entry remains); **Google Maps** location datatype degraded to plain lat/lng
@@ -32,10 +42,11 @@ Durable context (architecture, conventions, locked decisions) lives in
   `typegen` script. `turbo build --filter=studio` is **green with zero env**; `next start`
   serves `/`→`/collections` and all route shells 200 with no server errors. See
   [Phase 3 notes](#phase-3-notes).
-- **Next up:** **Phase 3d** (audit ~35 TODO/FIXME markers; prune remaining scaffolding not on
-  the demo path) and **3e** (polish + reset affordance). Plus the still-pending **interactive
-  browser verification** of the happy path (Chrome wasn't connected during the build sessions)
-  — seed renders, attribute/action/image editors, rete graphs, uploads add.
+- **Next up:** **Phase 3e** (friendly first-run state; obvious entry into the node editor;
+  wire a "start over / reset demo" affordance — `clearAll()` already exists in
+  `lib/data/store.ts`). Plus the still-pending **interactive browser verification** of the
+  happy path (Chrome wasn't connected during any build session) — seed renders,
+  attribute/action/image editors, rete graphs, uploads add. This is the only thing left in 3d.
 - **Blockers / open questions:** see [Open questions](#open-questions).
 
 > Update this block at the end of each session: Phase, Last done, Next up, Blockers.
@@ -240,9 +251,28 @@ remain; smooth tap-around demo.
 - [x] **HubSpot / PostHog:** already removed in 3b (they blocked boot) — nothing left.
 
 ### 3d. Prune unfinished / broken
-- [ ] Audit ~35 TODO/FIXME/maintenance markers; remove the `Maintanance` screen path if not
-      needed; delete `/test` route and other scaffolding not on the demo path.
-- [ ] Walk the happy path from Phase 0; fix or remove anything that errors or dead-ends.
+- [x] Audited the ~33 `TODO/FIXME` markers. The `Maintanance` screen and `/test` route were
+      already gone (3b). The remainder split into: **(a) dead/broken scaffolding → removed**,
+      **(b) benign code-quality notes → left in place** (e.g. "clean up", "fix these types",
+      "add sorting" — none gate a demo-path feature; chasing them is a rewrite, not a prune).
+      Removed in (a): the **API-Keys** settings block (`api-keys.tsx`, `create-key-button.tsx`,
+      `delete-key-button.tsx` — only reachable from a commented-out `<Segment>` in the
+      collection `page.tsx`; `DeleteKeyButton` was a dead-end that only `console.log`ged) and
+      its sibling commented-out **Max Supply** segment + the orphaned
+      `collection-max-supply-input.tsx` (vestigial NFT-minting concept; the `max_supply` data
+      field stays — it's still in the seed/create form). In the **uploads tree**, deleted the
+      unimplemented `addBetweenToSelection` (shift-click range-select that only
+      `console.error`ed "not implemented") and the commented-out `deleteSelection`; shift-click
+      now falls back to a plain add-to-selection (like ⌘-click) instead of erroring.
+- [~] Static happy-path pass done (no interactive browser yet — Chrome still not connected).
+      Confirmed **zero source refs** remain to any module/dep deleted in 3a–3c. All four
+      entity delete buttons call the real `lib/data` deletes; fixed two copy bugs surfaced
+      along the way: the **delete-action** dialog said *"delete this attribute?"* (→ `action`),
+      and the shared delete dialog claimed it would *"remove all the data from our servers"*
+      (→ *"remove all of its data"* — there is no server in this demo). `turbo build
+      --filter=studio` **green**. **Still pending:** the click-through verification of seed →
+      attribute/action/image editors → rete graphs → uploads, which needs the Chrome extension
+      connected.
 
 ### 3e. Polish for "tap around"
 - [ ] Friendly empty/first-run state; obvious entry point into the node editor.
@@ -346,6 +376,15 @@ Append-only. Newest at bottom. Format: `YYYY-MM-DD — decision — rationale`.
   inputs; map + geocode UI deleted). — `location` is a `@repo/shared` `ValueType` wired into
   the engine/schemas/rete nodes, so deleting it would be a cross-package change out of 3c
   scope; degrading keeps the datatype usable in the demo with zero deps/keys.
+- 2026-06-04 — **3d TODO audit: prune only the dead/broken markers, keep code-quality notes.**
+  — Of the ~33 `TODO/FIXME`s, only a handful marked actually-broken demo-path code (API-Keys
+  block, uploads range-select, a no-op delete-key button); those were removed. The rest are
+  ordinary "clean up / fix types" notes that don't gate any feature — fixing them is a rewrite,
+  not the targeted prune this phase calls for, so they stay.
+- 2026-06-04 — **Uploads shift-click degrades to add-to-selection** instead of the
+  unimplemented range-select. — Range-select was never finished (only `console.error`ed); for a
+  tap-around demo a plain add (matching ⌘-click) is a convincing, non-erroring behavior, and
+  "delete > disable" removes the half-built code rather than leaving a dead branch.
 
 ---
 

@@ -16,7 +16,7 @@ export function DeleteActionButton() {
   if (locked) return null
   return (
     <DeleteButton
-      title="attribute"
+      title="action"
       disabled={locked}
       onDelete={async () => {
         await deleteAction(id, `/collections/${collection}/actions`)

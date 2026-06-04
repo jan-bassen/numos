@@ -212,22 +212,6 @@ export default function Collection() {
           >
             <CollectionSlugInput />
           </Segment>
-          {/* <Segment
-            title="Max Supply"
-            description="Define the maximum supply for the collection. This will limit the number of tokens that can be minted."
-          >
-            <CollectionMaxSupplyInput />
-          </Segment> */}
-
-          {/*  <Segment
-            title="API-Keys"
-            info={{
-              description:
-                'Manage the API-Keys for the collection. These keys can be used to access the collection via the API.',
-            }}
-          >
-            <ApiKeys />
-          </Segment> */}
         </SegmentedLayout>
       </Main>
       <Main value="metadata">

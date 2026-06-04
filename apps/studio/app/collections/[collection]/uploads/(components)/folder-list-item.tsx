@@ -137,7 +137,7 @@ export default function FolderListItem({
     }
     if (e.shiftKey) {
       if (isSelected) return
-      context.addBetweenToSelection(selectionElement)
+      context.addToSelection(selectionElement)
       return
     }
     context.setSelectionTo(selectionElement)

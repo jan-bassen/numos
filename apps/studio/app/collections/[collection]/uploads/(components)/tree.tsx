@@ -54,10 +54,8 @@ export type TreeContext = {
   setSelection: (value: TreeSelection) => void
   setSelectionTo: (element: TreeElement) => void
   addToSelection: (element: TreeElement) => void
-  addBetweenToSelection: (element: TreeElement) => void
   removeFromSelection: (element: TreeElement) => void
   moveSelection: (target: TreeElement) => void
-  /* deleteSelection: () => void */
 }
 export type FolderState = {
   [key: string]: string[]
@@ -131,43 +129,6 @@ export default function UploadsTreeView({
     }
   }
 
-  const addBetweenToSelection = (/* element: TreeElement*/) => {
-    //TODO: Implement
-    console.error('addBetweenToSelection not implemented')
-
-    /*     const openFolders = Object.values(folderState).flat()
-    const visibleSelection = selection.folder
-      .concat(selection.upload)
-      .filter(
-        (item) =>
-          item.treePath.length === 0 ||
-          item.treePath.every((id) => openFolders.includes(id)),
-      )
-    const sortedSelection = visibleSelection.sort(
-      (a, b) => a.globalIndex - b.globalIndex,
-    )
-    const selectionAboveElement = sortedSelection.filter(
-      (item) => item.globalIndex < element.globalIndex,
-    )
-    if (selectionAboveElement.length === 0) {
-      console.log('no selection above')
-
-      const selectionBelowElement = sortedSelection.filter(
-        (item) => item.globalIndex > element.globalIndex,
-      )
-      if (selectionBelowElement.length === 0) {
-        console.log('no selection below')
-        return
-      }
-      const closestSelectionBelow =
-        selectionBelowElement[selectionBelowElement.length - 1]
-      console.log(closestSelectionBelow)
-    }
-    const closestSelectionAbove =
-      selectionAboveElement[selectionAboveElement.length - 1]
-    console.log(closestSelectionAbove) */
-  }
-
   const removeFromSelection = (element: TreeElement) => {
     if (element.type === 'folder') {
       setSelection((prev) => ({
@@ -226,26 +187,6 @@ export default function UploadsTreeView({
       error: (error) => error.message,
     })
   }
-
-  // TODO: Doesnt work yet because selection gets cleared too quickly
-  /* const deleteSelection = async () => {
-    if (locked) return
-    setLocked(true)
-    const selectedLayers = selection.layer.map((item) => item.id)
-    const selectedFolders = selection.folder.map((item) => item.id)
-    const layerPromise = deleteLayers(selectedLayers)
-    const folderPromise = deleteFolders(selectedFolders)
-    const promise = Promise.all([layerPromise, folderPromise])
-    toast.promise(promise, {
-      loading: 'Deleting...',
-      success: () => {
-        setLocked(false)
-        resetSelection()
-        return 'Deleted'
-      },
-      error: (error) => error.message,
-    })
-  } */
 
   useHotkeys('esc', () => {
     resetSelection()
@@ -398,10 +339,8 @@ export default function UploadsTreeView({
                   setSelection,
                   setSelectionTo,
                   addToSelection,
-                  addBetweenToSelection,
                   removeFromSelection,
                   moveSelection,
-                  /* deleteSelection, */
                 }}
               />
             )}
