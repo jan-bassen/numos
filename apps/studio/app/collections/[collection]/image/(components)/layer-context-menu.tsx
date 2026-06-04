@@ -19,7 +19,7 @@ import {
 } from '@repo/ui/icons/pika'
 import DeleteDialogContent from '@repo/ui/blocks/dialogs/delete-dialog'
 import type { ComponentProps } from 'react'
-import { deleteLayerBySlug } from '@/lib/supabase/db/layers/delete'
+import { deleteLayerBySlug } from '@/lib/data/layers/delete'
 
 interface LayerContextMenuProps {
   children?: React.ReactNode

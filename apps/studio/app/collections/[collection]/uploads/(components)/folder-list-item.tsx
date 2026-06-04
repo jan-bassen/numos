@@ -1,3 +1,5 @@
+'use client'
+
 import {
   AccordionContent,
   AccordionItem,
@@ -30,7 +32,7 @@ import {
   ContextMenuSeparator,
   ContextMenuTrigger,
 } from '@repo/ui/components/context-menu'
-import { deleteFolder, updateFolder } from '@/lib/supabase/db/uploads'
+import { deleteFolder, updateFolder } from '@/lib/data/uploads'
 import { toast } from 'sonner'
 import { Input } from '@repo/ui/components/input'
 import {

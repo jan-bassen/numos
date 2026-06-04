@@ -9,7 +9,7 @@ import type {
   UpdateCollection,
 } from '@/types/database.types'
 import { createContext, useContext, useMemo } from 'react'
-import { updateCollection } from '@/lib/supabase/db/collections/update'
+import { updateCollection } from '@/lib/data/collections/update'
 import type { NestedErrors, Validate } from '@/types/state.types'
 
 type CollectionContext = {

@@ -16,7 +16,7 @@ import {
   PiDeleteDustbin02Stroke,
   PiPencilEditBoxStroke,
 } from '@repo/ui/icons/pika'
-import { deleteAttributeBySlug } from '@/lib/supabase/db/attributes/delete'
+import { deleteAttributeBySlug } from '@/lib/data/attributes/delete'
 import DeleteDialogContent from '@repo/ui/blocks/dialogs/delete-dialog'
 import { removeAttributeFromLocalForm } from '@/app/collections/[collection]/attributes/(functions)/utils'
 import type { ComponentProps } from 'react'

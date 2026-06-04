@@ -3,7 +3,7 @@
 import DeleteButton from '@/components/forms/buttons/delete-button'
 import { useCollection } from '@/app/collections/[collection]/collection-context'
 import { useLayer } from '@/app/collections/[collection]/image/[layer]/context'
-import { deleteLayer } from '@/lib/supabase/db/layers/delete'
+import { deleteLayer } from '@/lib/data/layers/delete'
 
 export function DeleteLayerButton() {
   const {

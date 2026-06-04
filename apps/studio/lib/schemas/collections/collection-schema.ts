@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { noId } from '@/lib/schemas/shared'
-import { isCollectionSlugTaken } from '@/lib/supabase/db/collections'
+import { isCollectionSlugTaken } from '@/lib/data/collections'
 
 export const updateSlug = z
   .string({

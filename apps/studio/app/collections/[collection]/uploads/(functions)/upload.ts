@@ -1,18 +1,19 @@
 'use client'
 
-import * as tus from 'tus-js-client'
-import { createSupabaseClient } from '@/lib/supabase/clients/client'
 import type { ImageType, InsertUpload } from '@/types/database.types'
-import {
-  deleteUpload,
-  insertUploads,
-  revalidateUploads,
-} from '@/lib/supabase/db/uploads'
+import { insertUploads, revalidateUploads } from '@/lib/data/uploads'
+import { putBlob } from '@/lib/data/store'
 import type { RefObject } from 'react'
-
-import { RestrictionError } from '@uppy/core/lib/Restricter'
 import { validImageExtensions, validImageTypes } from './file-types'
 import { toast } from 'sonner'
+
+/** Broadcast so the uploads view can re-read the store after a change. */
+export const UPLOADS_CHANGED_EVENT = 'numos:uploads-changed'
+function notifyUploadsChanged() {
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new Event(UPLOADS_CHANGED_EVENT))
+  }
+}
 
 export async function handleFileUpload(
   version: string,
@@ -35,101 +36,22 @@ export async function handleFileUpload(
     toast.error(res.message)
     return
   }
-  const promises: Promise<string>[] = []
-  for (const [id, file] of Object.entries(fileMap)) {
-    try {
-      const promise = uploadFile('uploads', version, id, file)
-      promises.push(promise)
-    } catch (err) {
-      if (err instanceof RestrictionError) {
-        if (err.isUserFacing) {
-          toast.error(err.message)
-        }
-      } else {
-        throw err
-      }
+
+  const consolidatedPromise = (async () => {
+    for (const [id, file] of Object.entries(fileMap)) {
+      await putBlob(id, file)
     }
-  }
-  const consolidatedPromise = Promise.all(promises)
+  })()
+
   toast.promise(consolidatedPromise, {
     loading: 'Uploading...',
     success: () => {
       revalidateUploads()
+      notifyUploadsChanged()
       return 'Successfully uploaded'
     },
-    error: (error: string) => {
-      return error
-    },
+    error: (error: string) => error,
   })
-}
-
-export async function uploadFile(
-  bucketName: string,
-  folder: string,
-  fileId: string,
-  file: File,
-) {
-  const supabase = await createSupabaseClient()
-  const { data, error } = await supabase.auth.getSession()
-  if (error || !data.session) {
-    throw new Error('Error with fetching session')
-  }
-  const session = data.session
-
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-
-  if (!supabaseUrl || !anonKey) {
-    throw new Error('Missing database service key environment variable')
-  }
-  const fileName = `${folder}/${fileId}`
-
-  return new Promise(
-    (resolve: (id: string) => void, reject: (reason?: string) => void) => {
-      const newFile = new File([file], fileName, { type: file.type })
-
-      const upload = new tus.Upload(newFile, {
-        endpoint: `${supabaseUrl}/storage/v1/upload/resumable`,
-        retryDelays: [0, 3000, 5000, 10000, 20000],
-        headers: {
-          authorization: `Bearer ${session.access_token}`,
-          'x-upsert': 'true', // optionally set upsert to true to overwrite existing files
-        },
-        uploadDataDuringCreation: true,
-        removeFingerprintOnSuccess: true, // Important if you want to allow re-uploading the same file https://github.com/tus/tus-js-client/blob/main/docs/api.md#removefingerprintonsuccess
-        metadata: {
-          bucketName: bucketName,
-          objectName: fileName,
-          contentType: file.type,
-          cacheControl: '3600',
-        },
-        chunkSize: 6 * 1024 * 1024, // NOTE: it must be set to 6MB (for now) do not change it
-        onError: (error) => {
-          deleteUpload(fileId)
-          reject(error.message)
-        },
-        onProgress: (bytesUploaded, bytesTotal) => {
-          const percentage = ((bytesUploaded / bytesTotal) * 100).toFixed(2)
-          console.log(bytesUploaded, bytesTotal, `${percentage}%`)
-        },
-        onSuccess: () => {
-          console.log('Download %s from %s', fileName, upload.url)
-          resolve(fileId)
-        },
-      })
-
-      // Check if there are any previous uploads to continue.
-      return upload.findPreviousUploads().then((previousUploads) => {
-        // Found previous uploads so we select the first one.
-        if (previousUploads[0]) {
-          upload.resumeFromPreviousUpload(previousUploads[0])
-        }
-
-        // Start the upload
-        upload.start()
-      })
-    },
-  )
 }
 
 const verifyFile = (
@@ -218,6 +140,7 @@ async function getImageDimensions(file: File) {
   await img.decode()
   const width = img.width
   const height = img.height
+  URL.revokeObjectURL(img.src)
   return {
     width,
     height,

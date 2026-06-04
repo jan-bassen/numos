@@ -24,7 +24,7 @@ import {
   PiDeleteDustbin02Stroke,
   PiPencilEditBoxStroke,
 } from '@repo/ui/icons/pika'
-import { deleteActionBySlug } from '@/lib/supabase/db/actions'
+import { deleteActionBySlug } from '@/lib/data/actions'
 
 interface ActionContextMenuProps {
   children?: React.ReactNode

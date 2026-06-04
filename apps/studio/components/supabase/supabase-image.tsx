@@ -2,49 +2,76 @@
 
 import type { StaticImport } from 'next/dist/shared/lib/get-img-props'
 import Image, { type ImageLoaderProps, type ImageProps } from 'next/image'
-import { placeholderImage } from '@repo/shared/utils/placeholder-image'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { getBlob } from '@/lib/data/store'
 
-const projectId = process.env.NEXT_PUBLIC_SUPABASE_PROJECT_ID
-if (!projectId) {
-  throw new Error('Missing database service key environment variable')
+/** Passthrough loader — images are local object/data URLs, nothing to optimize. */
+function passthroughLoader({ src }: ImageLoaderProps) {
+  return src
 }
 
-/* async function privateSupabaseLoader(payload: ImagePayload) {
-  const supabase = await createSupabaseClient()
-  const bucketName = payload.src.split('/')[0]
-  const imagePath = payload.src.split('/').slice(1).join('/')
-  const { data, error } = await supabase.storage
-    .from(bucketName)
-    .download(imagePath)
-  if (error) {
-    throw new Error('Error with fetching image')
-  }
-  return URL.createObjectURL(data)
-} */
-
-export function publicSupabaseLoader({
-  src,
-  width,
-  quality,
-}: ImageLoaderProps) {
-  const url = new URL(
-    `https://${projectId}.supabase.co/storage/v1/object/public/${src}`,
+function isDirectUrl(src: string) {
+  return (
+    src.startsWith('data:') ||
+    src.startsWith('blob:') ||
+    src.startsWith('http://') ||
+    src.startsWith('https://') ||
+    src.startsWith('/')
   )
-  url.searchParams.set('width', width.toString())
-  url.searchParams.set('quality', (quality || 75).toString())
-  return url.href
 }
 
-export function signedSupabaseLoader({
-  src,
-  width,
-  quality,
-}: ImageLoaderProps) {
-  const url = new URL(src)
-  url.searchParams.set('width', width.toString())
-  url.searchParams.set('quality', (quality || 75).toString())
-  return url.href
+/**
+ * Resolves an image `src` to something renderable. Direct URLs (object/data/http
+ * or a local public path) pass through untouched. Anything else is treated as a
+ * stored-blob key (e.g. an upload id or `bucket/.../id` path) and resolved to an
+ * object URL from IndexedDB.
+ */
+function useResolvedSrc(src?: string | StaticImport | null) {
+  const [resolved, setResolved] = useState<string | StaticImport | null>(null)
+
+  useEffect(() => {
+    if (!src) {
+      setResolved(null)
+      return
+    }
+    if (typeof src !== 'string') {
+      setResolved(src)
+      return
+    }
+    if (isDirectUrl(src)) {
+      setResolved(src)
+      return
+    }
+
+    const key = src.split('/').filter(Boolean).pop()
+    if (!key || key === 'null' || key === 'undefined') {
+      setResolved(null)
+      return
+    }
+
+    let objectUrl: string | null = null
+    let active = true
+    getBlob(key)
+      .then((blob) => {
+        if (!active) return
+        if (blob) {
+          objectUrl = URL.createObjectURL(blob)
+          setResolved(objectUrl)
+        } else {
+          setResolved(null)
+        }
+      })
+      .catch(() => {
+        if (active) setResolved(null)
+      })
+
+    return () => {
+      active = false
+      if (objectUrl) URL.revokeObjectURL(objectUrl)
+    }
+  }, [src])
+
+  return resolved
 }
 
 export function SupabaseImage({
@@ -58,8 +85,9 @@ export function SupabaseImage({
   placeholder?: boolean
 }) {
   const [showPlaceholder, setShowPlaceholder] = useState(false)
+  const resolved = useResolvedSrc(src)
 
-  if (!src || showPlaceholder) {
+  if (!resolved || showPlaceholder) {
     if (!placeholder) {
       return null
     }
@@ -72,25 +100,14 @@ export function SupabaseImage({
     )
   }
 
-  if (signed === 'true') {
-    return (
-      <Image
-        {...props}
-        src={src}
-        key={Date.now()}
-        alt={props.alt || 'Image'}
-        loader={signedSupabaseLoader}
-        onError={() => setShowPlaceholder(true)}
-      />
-    )
-  }
   return (
     <Image
       {...props}
-      key={Date.now()}
+      key={typeof resolved === 'string' ? resolved : undefined}
       alt={props.alt || 'Image'}
-      loader={publicSupabaseLoader}
-      src={src}
+      src={resolved}
+      loader={typeof resolved === 'string' ? passthroughLoader : undefined}
+      unoptimized
       onError={() => setShowPlaceholder(true)}
     />
   )

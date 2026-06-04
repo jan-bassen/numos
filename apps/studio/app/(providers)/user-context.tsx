@@ -1,17 +1,29 @@
 'use client'
 
-import type { User } from '@supabase/supabase-js'
 import { createContext, useContext } from 'react'
 
+/**
+ * Minimal stand-in for the former Supabase `User`. Auth is removed for the demo;
+ * the studio runs as a single anonymous visitor (see `@/lib/data/demo-constants`).
+ */
+export type DemoUser = {
+  id: string
+  email: string
+  user_metadata: {
+    name?: string | null
+    avatar_url?: string | null
+  }
+}
+
 type UserContextType = {
-  user: User
+  user: DemoUser
 }
 
 export const UserContext = createContext<UserContextType | null>(null)
 
 type UserProviderProps = {
   children: React.ReactNode
-  user: User
+  user: DemoUser
 }
 
 export function UserProvider({ children, user }: UserProviderProps) {

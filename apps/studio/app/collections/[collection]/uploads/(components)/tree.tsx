@@ -26,7 +26,7 @@ import {
 } from '@repo/ui/components/context-menu'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { imageAcceptString } from '@/app/collections/[collection]/uploads/(functions)/file-types'
-import { moveUploadsAndFolders } from '@/lib/supabase/db/uploads'
+import { moveUploadsAndFolders } from '@/lib/data/uploads'
 import { toast } from 'sonner'
 import Main from '@/components/page/main'
 import { Page } from '@/components/page/page'

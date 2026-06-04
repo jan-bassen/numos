@@ -1,4 +1,4 @@
-import { isCollectionSlugTaken } from '@/lib/supabase/db/collections'
+import { isCollectionSlugTaken } from '@/lib/data/collections'
 import { symbol, z } from 'zod'
 
 export const collectionSchema = (currentSlug: string | undefined) =>

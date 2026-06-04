@@ -18,11 +18,10 @@ import { toast } from 'sonner'
 import { Input } from '@repo/ui/components/input'
 import { useRouter } from 'next/navigation'
 import { Textarea } from '@repo/ui/components/textarea'
-import { insertCollection } from '@/lib/supabase/db/collections'
-import type { User } from '@supabase/supabase-js'
+import { insertCollection } from '@/lib/data/collections'
 import { collectionSchema } from '@/lib/schemas/collection-schema'
 
-export function FirstCollection({ user }: { user: User }) {
+export function FirstCollection() {
   const router = useRouter()
 
   const schema = collectionSchema(undefined)
@@ -33,10 +32,6 @@ export function FirstCollection({ user }: { user: User }) {
   })
 
   async function onSubmit(values: z.infer<typeof schema>) {
-    if (!user) {
-      throw new Error('User not found')
-    }
-
     const newCollection: InsertCollection = {
       name: values.name,
       slug: values.slug,

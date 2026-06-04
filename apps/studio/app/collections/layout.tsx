@@ -1,23 +1,26 @@
+'use client'
+
 import { UserProvider } from '@/app/(providers)/user-context'
 import { ProfileProvider } from '@/app/(providers)/profile-context'
 import type { ReactNode } from 'react'
-import { getProfile } from '@/lib/supabase/db/profile/read'
-import { redirect } from 'next/navigation'
-import { createSupabaseServerComponentClient } from '@/lib/supabase/clients/server-client'
+import { getProfile } from '@/lib/data/profile/read'
+import { useAsyncResource } from '@/lib/data/use-async-resource'
+import { DEMO_USER, DEMO_USER_ID } from '@/lib/data/demo-constants'
 
-export default async function CollectionsLayout({
+export default function CollectionsLayout({
   children,
 }: {
   children: ReactNode
 }) {
-  const supabase = await createSupabaseServerComponentClient()
-  const { data: user, error } = await supabase.auth.getUser()
-  if (error || !user) {
-    redirect('/login')
-  }
-  const profile = await getProfile(user?.user?.id)
+  const { data: profile } = useAsyncResource(
+    () => getProfile(DEMO_USER_ID),
+    [],
+  )
+
+  if (!profile) return null
+
   return (
-    <UserProvider user={user.user || undefined}>
+    <UserProvider user={DEMO_USER}>
       <ProfileProvider profile={profile}>{children}</ProfileProvider>
     </UserProvider>
   )

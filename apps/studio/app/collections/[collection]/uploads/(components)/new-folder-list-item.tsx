@@ -1,6 +1,8 @@
+'use client'
+
 import { Input } from '@repo/ui/components/input'
 import { PiFolderPlusSolid } from '@repo/ui/icons/pika'
-import { insertFolder } from '@/lib/supabase/db/uploads'
+import { insertFolder } from '@/lib/data/uploads'
 import type { InsertFolder } from '@/types/database.types'
 import { useEffect, useRef, useState } from 'react'
 import { toast } from 'sonner'

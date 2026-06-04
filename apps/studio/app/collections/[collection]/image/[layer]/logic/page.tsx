@@ -1,36 +1,52 @@
-import { getExtendedCollectionFromSlug } from '@/lib/supabase/db/collections'
-import { getAllAttributes } from '@/lib/supabase/db/attributes/read'
-import { getImageGraph } from '@/lib/supabase/db/image-graph'
+'use client'
+
+import { getExtendedCollectionFromSlug } from '@/lib/data/collections'
+import { getAllAttributes } from '@/lib/data/attributes/read'
+import { getImageGraph } from '@/lib/data/image-graph'
 import ImageNodeEditor from '@/app/collections/[collection]/image/[layer]/logic/(components)/image-node-editor'
-import { getUploadsTree } from '@/lib/supabase/db/uploads'
-import { z } from 'zod'
-import { getLayerBySlugs } from '@/lib/supabase/db/layers/read'
-import { notFound } from 'next/navigation'
+import { getUploadsTree } from '@/lib/data/uploads'
+import { getLayerBySlugs } from '@/lib/data/layers/read'
+import { notFound, useParams } from 'next/navigation'
+import { useAsyncResource } from '@/lib/data/use-async-resource'
 
-export default async function LayerLogicPage(props: {
-  params: Promise<{ collection: string; layer: string }>
-}) {
-  const params = await props.params
-  const collection = await getExtendedCollectionFromSlug(params.collection)
+export default function LayerLogicPage() {
+  const params = useParams<{ collection: string; layer: string }>()
+  const { data: collection } = useAsyncResource(
+    () => getExtendedCollectionFromSlug(params.collection),
+    [params.collection],
+  )
+  const version = collection?.editable_version
+  const { data: attributes } = useAsyncResource(
+    () => (version ? getAllAttributes(version.id) : Promise.resolve([])),
+    [version?.id],
+  )
+  const { data: uploadsTree } = useAsyncResource(
+    () => (version ? getUploadsTree(version.id) : Promise.resolve(undefined)),
+    [version?.id],
+  )
+  const { data: layer, loading: layerLoading } = useAsyncResource(
+    () => getLayerBySlugs(params.collection, params.layer),
+    [params.collection, params.layer],
+  )
+  const { data: graph } = useAsyncResource(
+    () => (layer ? getImageGraph(layer.id) : Promise.resolve(undefined)),
+    [layer?.id],
+  )
 
-  const [attributes, layer, uploadsTree] = await Promise.all([
-    getAllAttributes(collection.editable_version.id),
-    getLayerBySlugs(params.collection, params.layer),
-    getUploadsTree(collection.editable_version.id),
-  ])
-
-  if (!layer) {
+  if (!layerLoading && !layer) {
     notFound()
   }
 
-  const graph = await getImageGraph(layer.id)
+  if (!collection || !version || !layer || !graph || !uploadsTree) {
+    return null
+  }
 
   return (
     <ImageNodeEditor
       initialGraph={graph}
-      version={collection.editable_version}
+      version={version}
       uploads={uploadsTree}
-      attributes={attributes}
+      attributes={attributes ?? []}
       layer={layer}
       collectionSlug={params.collection}
     />

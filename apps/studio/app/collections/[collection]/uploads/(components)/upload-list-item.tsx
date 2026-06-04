@@ -1,3 +1,5 @@
+'use client'
+
 import { Button } from '@repo/ui/components/button'
 import {
   ContextMenu,
@@ -20,7 +22,7 @@ import {
   PiPhotoImageDefaultContrast,
   PiPhotoImageDefaultStroke,
 } from '@repo/ui/icons/pika'
-import { deleteUpload, updateUpload } from '@/lib/supabase/db/uploads'
+import { deleteUpload, updateUpload } from '@/lib/data/uploads'
 import { SupabaseImage } from '@/components/supabase/supabase-image'
 import type { UploadsTree } from '@/types/database.types'
 import Decimal from 'decimal.js'

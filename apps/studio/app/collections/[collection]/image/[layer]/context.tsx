@@ -5,7 +5,7 @@ import { useContextState } from '@/lib/state/use-context-state'
 import type { ReturnInfo } from '@repo/ui/lib/utils'
 import type { NestedErrors, UpdateOptions, Validate } from '@/types/state.types'
 import type { Layer, UpdateLayer } from '@/types/database.types'
-import { updateLayer } from '@/lib/supabase/db/layers/update'
+import { updateLayer } from '@/lib/data/layers/update'
 import { updateLayerSchema } from '@/lib/schemas/layers/layer-schema'
 
 type LayerContext = {

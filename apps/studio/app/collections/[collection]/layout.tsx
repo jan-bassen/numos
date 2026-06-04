@@ -1,18 +1,22 @@
+'use client'
+
+import { useParams } from 'next/navigation'
+import { useAsyncResource } from '@/lib/data/use-async-resource'
 import { Navbar } from '@/components/navigation/navbar/navbar'
-import { getExtendedCollectionFromSlug } from '@/lib/supabase/db/collections'
+import { getExtendedCollectionFromSlug } from '@/lib/data/collections'
 import { CollectionProvider } from '@/app/collections/[collection]/collection-context'
 import { VersionProvider } from '@/app/collections/[collection]/version-context'
 
-export default async function Layout({
-  params,
-  children,
-}: {
-  children: React.ReactNode
-  params: Promise<{ collection: string }>
-}) {
-  const { collection: collectionSlug } = await params
-  const extended_collection =
-    await getExtendedCollectionFromSlug(collectionSlug)
+export default function Layout({ children }: { children: React.ReactNode }) {
+  const { collection: collectionSlug } = useParams<{ collection: string }>()
+  const { data: extended_collection } = useAsyncResource(
+    () => getExtendedCollectionFromSlug(collectionSlug),
+    [collectionSlug],
+  )
+
+  if (!extended_collection || !extended_collection.editable_version) {
+    return null
+  }
 
   const version = extended_collection.editable_version
   const collection = {

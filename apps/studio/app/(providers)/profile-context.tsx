@@ -2,7 +2,7 @@
 
 import { useContextState } from '@/lib/state/use-context-state'
 import { updateProfileSchema } from '@/lib/schemas/profile/profile-schema'
-import { updateProfile } from '@/lib/supabase/db/profile/update'
+import { updateProfile } from '@/lib/data/profile/update'
 import type { Profile, ReturnInfo, UpdateProfile } from '@/types/database.types'
 import type { NestedErrors, UpdateOptions, Validate } from '@/types/state.types'
 import { createContext, useContext, useMemo } from 'react'

@@ -18,7 +18,7 @@ import {
   saveImageNodePosition,
   updateImageNode,
   upsertImageConnection,
-} from '@/lib/supabase/db/image-graph'
+} from '@/lib/data/image-graph'
 import { toast } from 'sonner'
 import { imageConfig } from '@/lib/rete/nodes/configs/image-config'
 import type {

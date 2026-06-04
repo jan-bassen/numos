@@ -1,8 +1,6 @@
-'use server'
-
-import { getActionGraph } from '@/lib/supabase/db/actions/graph/read'
-import { getAllActions } from '@/lib/supabase/db/actions/read'
-import { insertActionIssues } from '@/lib/supabase/db/actions/issues/create'
+import { getActionGraph } from '@/lib/data/actions/graph/read'
+import { getAllActions } from '@/lib/data/actions/read'
+import { insertActionIssues } from '@/lib/data/actions/issues/create'
 import { validateAction } from './validate-action'
 import { handleReturnInfo } from '@repo/ui/lib/utils'
 

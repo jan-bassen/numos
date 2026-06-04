@@ -20,7 +20,7 @@ import {
   DropdownMenuTrigger,
 } from '@repo/ui/components/dropdown-menu'
 import { MoreHorizontal } from 'lucide-react'
-import { deleteAttribute } from '@/lib/supabase/db/attributes/delete'
+import { deleteAttribute } from '@/lib/data/attributes/delete'
 import {
   AlertDialog,
   AlertDialogTrigger,

@@ -1,7 +1,7 @@
 'use client'
 
 import DeleteButton from '@/components/forms/buttons/delete-button'
-import { deleteCollection } from '@/lib/supabase/db/collections'
+import { deleteCollection } from '@/lib/data/collections'
 import { handleReturnInfo } from '@repo/ui/lib/utils'
 import { useCollection } from '../collection-context'
 

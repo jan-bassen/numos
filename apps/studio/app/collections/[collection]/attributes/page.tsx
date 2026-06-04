@@ -1,9 +1,10 @@
+'use client'
+
+import { useParams } from 'next/navigation'
+import { useAsyncResource } from '@/lib/data/use-async-resource'
 import Main from '@/components/page/main'
-import { getAllAttributes } from '@/lib/supabase/db/attributes/read'
-import {
-  getCollectionFromSlug,
-  getVersionIdFromCollectionSlug,
-} from '@/lib/supabase/db/collections'
+import { getAllAttributes } from '@/lib/data/attributes/read'
+import { getCollectionFromSlug } from '@/lib/data/collections'
 import {
   DataTable,
   type DataTableOptions,
@@ -30,15 +31,22 @@ import {
 import SimpleGrid from '@/components/layouts/simple/simple-grid'
 import { dataTypes } from '@/lib/constants/datatypes'
 
-export default async function AttributesPage(props: {
-  params: Promise<{ collection: string; attribute: string }>
-}) {
-  const { collection: collectionSlug } = await props.params
-  const collection = await getCollectionFromSlug(collectionSlug)
-  if (!collection.editable_version) {
-    throw new Error('Collection has no editable version')
-  }
-  const attributes = await getAllAttributes(collection.editable_version)
+export default function AttributesPage() {
+  const { collection: collectionSlug } = useParams<{
+    collection: string
+    attribute: string
+  }>()
+  const { data: collection } = useAsyncResource(
+    () => getCollectionFromSlug(collectionSlug),
+    [collectionSlug],
+  )
+  const version = collection?.editable_version
+  const { data: attributes } = useAsyncResource(
+    () => (version ? getAllAttributes(version) : Promise.resolve([])),
+    [version],
+  )
+
+  if (!collection || !collection.editable_version) return null
 
   /* const attributeRows: ExtendedAttribute[] = attributes.map((attribute) => ({
     ...attribute,
@@ -84,7 +92,7 @@ export default async function AttributesPage(props: {
       </Header>
       <Main>
         <SimpleGrid>
-          {attributes.map((attribute) => {
+          {(attributes ?? []).map((attribute) => {
             return (
               <ElementCardLink
                 key={attribute.id}

@@ -5,7 +5,7 @@ import { useContextState } from '@/lib/state/use-context-state'
 import type { ReturnInfo } from '@repo/ui/lib/utils'
 import type { NestedErrors, UpdateOptions, Validate } from '@/types/state.types'
 import type { Action, UpdateAction } from '@/types/database.types'
-import { updateAction } from '@/lib/supabase/db/actions/update'
+import { updateAction } from '@/lib/data/actions/update'
 import { updateActionSchema } from '@/lib/schemas/actions/action-schema'
 
 type ActionContext = {

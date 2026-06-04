@@ -1,3 +1,7 @@
+'use client'
+
+import { useParams } from 'next/navigation'
+import { useAsyncResource } from '@/lib/data/use-async-resource'
 import { NewActionDialog } from '@/app/collections/[collection]/actions/(components)/new-action/new-action-dialog'
 import { NewAttributeDialog } from '@/app/collections/[collection]/attributes/(components)/new-attribute-dialog'
 import Section from '@/components/layouts/simple/section'
@@ -12,9 +16,9 @@ import {
   HeaderTabBarItem,
 } from '@/components/page/header'
 import Main from '@/components/page/main'
-import { getLatestActions } from '@/lib/supabase/db/actions'
-import { getLatestAttributes } from '@/lib/supabase/db/attributes/read'
-import { getExtendedCollectionFromSlug } from '@/lib/supabase/db/collections'
+import { getLatestActions } from '@/lib/data/actions'
+import { getLatestAttributes } from '@/lib/data/attributes/read'
+import { getExtendedCollectionFromSlug } from '@/lib/data/collections'
 import DeleteCollectionButton from '@/app/collections/[collection]/(components)/delete-collection-button'
 import { Page } from '@/components/page/page'
 import {
@@ -39,26 +43,34 @@ import { triggerOptions } from '@/lib/constants/triggers'
 import AttributeContextMenu from '@/app/collections/[collection]/attributes/(components)/attribute-context-menu'
 import { dataTypes } from '@/lib/constants/datatypes'
 import LayerContextMenu from '@/app/collections/[collection]/image/(components)/layer-context-menu'
-import { getLatestLayers } from '@/lib/supabase/db/layers/read'
+import { getLatestLayers } from '@/lib/data/layers/read'
 import { NewLayerDialog } from '@/app/collections/[collection]/image/(components)/new-layer/new-layer-dialog'
 import { layerOptions } from '@/lib/constants/layers'
 import { VersionDescriptionInput } from '@/app/collections/[collection]/(components)/inputs/version-description-input'
 
-export default async function Collection(props: {
-  params: Promise<{ collection: string }>
-}) {
-  const params = await props.params
-  const collection = await getExtendedCollectionFromSlug(params.collection)
-  const version = collection.editable_version
+export default function Collection() {
+  const params = useParams<{ collection: string }>()
+  const { data: collection } = useAsyncResource(
+    () => getExtendedCollectionFromSlug(params.collection),
+    [params.collection],
+  )
+  const version = collection?.editable_version
 
-  const attributePromise = getLatestAttributes(version.id, 5)
-  const actionPromise = getLatestActions(version.id, 5)
-  const layerPromise = getLatestLayers(version.id, 5)
-  const [attributes, actions, layers] = await Promise.all([
-    attributePromise,
-    actionPromise,
-    layerPromise,
-  ])
+  const { data: attributes } = useAsyncResource(
+    () => (version ? getLatestAttributes(version.id, 5) : Promise.resolve([])),
+    [version?.id],
+  )
+  const { data: actions } = useAsyncResource(
+    () => (version ? getLatestActions(version.id, 5) : Promise.resolve([])),
+    [version?.id],
+  )
+  const { data: layers } = useAsyncResource(
+    () => (version ? getLatestLayers(version.id, 5) : Promise.resolve([])),
+    [version?.id],
+  )
+
+  if (!collection || !version) return null
+
   return (
     <Page tabs tabsProps={{ defaultValue: 'overview', pageid: 'collection' }}>
       <Header>
@@ -96,7 +108,7 @@ export default async function Collection(props: {
           }}
         >
           <SimpleGrid>
-            {attributes.map((attribute) => {
+            {(attributes ?? []).map((attribute) => {
               return (
                 <AttributeContextMenu
                   key={attribute.id}
@@ -131,7 +143,7 @@ export default async function Collection(props: {
           }}
         >
           <SimpleGrid>
-            {actions.map((action) => {
+            {(actions ?? []).map((action) => {
               return (
                 <ActionContextMenu
                   key={action.slug}
@@ -162,7 +174,7 @@ export default async function Collection(props: {
           }}
         >
           <SimpleGrid>
-            {layers.map((layer) => {
+            {(layers ?? []).map((layer) => {
               return (
                 <LayerContextMenu
                   key={layer.id}

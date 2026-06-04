@@ -1,3 +1,7 @@
+'use client'
+
+import { useParams } from 'next/navigation'
+import { useAsyncResource } from '@/lib/data/use-async-resource'
 import {
   Header,
   HeaderActions,
@@ -15,18 +19,26 @@ import {
 import Main from '@/components/page/main'
 import { Page } from '@/components/page/page'
 import { ComingSoonBadge } from '@/components/misc/coming-soon-badge'
-import { getAllLayers } from '@/lib/supabase/db/layers/read'
-import { getExtendedCollectionFromSlug } from '@/lib/supabase/db/collections'
+import { getAllLayers } from '@/lib/data/layers/read'
+import { getExtendedCollectionFromSlug } from '@/lib/data/collections'
 import { LayerView } from '@/app/collections/[collection]/image/(components)/layer-view/layer-view'
 import { NewLayerDialog } from '@/app/collections/[collection]/image/(components)/new-layer/new-layer-dialog'
 import { Button } from '@repo/ui/components/button'
 
-export default async function Collection(props: {
-  params: Promise<{ collection: string }>
-}) {
-  const { collection: collectionSlug } = await props.params
-  const collection = await getExtendedCollectionFromSlug(collectionSlug)
-  const layers = await getAllLayers(collection.editable_version.id)
+export default function Collection() {
+  const { collection: collectionSlug } = useParams<{ collection: string }>()
+  const { data: collection } = useAsyncResource(
+    () => getExtendedCollectionFromSlug(collectionSlug),
+    [collectionSlug],
+  )
+  const version = collection?.editable_version
+  const { data: layers } = useAsyncResource(
+    () => (version ? getAllLayers(version.id) : Promise.resolve([])),
+    [version?.id],
+  )
+
+  if (!collection || !version) return null
+
   return (
     <Page tabs tabsProps={{ pageid: 'image', defaultValue: 'layers' }}>
       <Header
@@ -58,7 +70,7 @@ export default async function Collection(props: {
         </HeaderTabBar>
       </Header>
       <Main value="layers">
-        <LayerView layers={layers} collectionSlug={collectionSlug} />
+        <LayerView layers={layers ?? []} collectionSlug={collectionSlug} />
       </Main>
       <Main value="tests">
         <ComingSoonBadge />

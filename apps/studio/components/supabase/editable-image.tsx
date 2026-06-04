@@ -1,12 +1,13 @@
+'use client'
+
 import { SupabaseImage } from '@/components/supabase/supabase-image'
 import {
   locationToFullPath,
   type StorageLocation,
   uploadFile,
-} from '@/lib/supabase/storage/uploaders'
+} from '@/lib/data/uploaders'
 import { PiPencilEditSolid } from '@repo/ui/icons/pika'
 import { cn } from '@repo/ui/lib/utils'
-import type { FileOptions } from '@supabase/storage-js'
 import type { ImageProps } from 'next/image'
 import { type ChangeEvent, useRef, useState } from 'react'
 
@@ -20,7 +21,7 @@ export type EditableImageProps = {
     placeholder?: boolean
     keepExtension?: boolean
     keepOld?: boolean
-  } & FileOptions
+  }
 } & Omit<ImageProps, 'src' | 'placeholder'>
 
 export function EditableImage({

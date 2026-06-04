@@ -1,4 +1,7 @@
-import { getAllCollections } from '@/lib/supabase/db/collections'
+'use client'
+
+import { getAllCollections } from '@/lib/data/collections'
+import { useAsyncResource } from '@/lib/data/use-async-resource'
 import { SupabaseImage } from '@/components/supabase/supabase-image'
 import {
   SidebarGroup,
@@ -9,8 +12,9 @@ import {
 } from '@repo/ui/components/sidebar'
 import Link from 'next/link'
 
-export async function Collections() {
-  const collections = await getAllCollections()
+export function Collections() {
+  const { data } = useAsyncResource(() => getAllCollections(), [])
+  const collections = data ?? []
   return (
     <SidebarGroup>
       <SidebarGroupLabel>

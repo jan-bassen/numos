@@ -1,18 +1,9 @@
 'use client'
 
-import {
-  BadgeCheck,
-  Bell,
-  ChevronsUpDown,
-  CreditCard,
-  LogOut,
-  Sparkles,
-} from 'lucide-react'
+import { ChevronsUpDown } from 'lucide-react'
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
@@ -24,10 +15,6 @@ import {
   useSidebar,
 } from '@repo/ui/components/sidebar'
 import { Avatar } from '@/components/supabase/avatar'
-import { createSupabaseClient } from '@/lib/supabase/clients/client'
-import { usePathname, useRouter } from 'next/navigation'
-import posthog from 'posthog-js'
-import Link from 'next/link'
 import { ThemeTabSelect } from './theme-tab-select'
 import { useUser } from '@/app/(providers)/user-context'
 import { useProfile } from '@/app/(providers)/profile-context'
@@ -36,18 +23,6 @@ export function NavUser() {
   const { user } = useUser()
   const { profile } = useProfile()
   const { isMobile } = useSidebar()
-  const router = useRouter()
-  const pathname = usePathname()
-
-  const signOut = async () => {
-    const supabase = await createSupabaseClient()
-    const { error } = await supabase.auth.signOut()
-    if (error) {
-      throw new Error('Error signing out')
-    }
-    posthog.reset()
-    router.push('/login')
-  }
 
   return (
     <SidebarMenu>
@@ -95,19 +70,6 @@ export function NavUser() {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <ThemeTabSelect />
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem asChild>
-                <Link href="/account" className="flex gap-2">
-                  <BadgeCheck className="size-4" />
-                  Account
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem className="flex gap-2" onClick={signOut}>
-                <LogOut className="size-4" />
-                Log out
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>

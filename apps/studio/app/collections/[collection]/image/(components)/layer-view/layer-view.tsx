@@ -8,7 +8,7 @@ import ListInput, {
 import {
   type LayerOrderChange,
   updateLayerOrder,
-} from '@/lib/supabase/db/layers/update'
+} from '@/lib/data/layers/update'
 import { toast } from 'sonner'
 import { useEffect, useState } from 'react'
 

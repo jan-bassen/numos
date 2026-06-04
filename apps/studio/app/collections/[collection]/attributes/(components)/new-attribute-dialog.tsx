@@ -24,7 +24,7 @@ import {
   StagedForm,
 } from '@/components/forms/staged-form'
 import { newAttributeSchema } from '@/lib/schemas/attributes/attribute-schema'
-import { insertAttribute } from '@/lib/supabase/db/attributes/create'
+import { insertAttribute } from '@/lib/data/attributes/create'
 import { DatatypeSelectContent } from '@/components/datatypes/datatype-picker'
 import type { NewElementDialogProps } from '@/components/elements/new-dialog'
 import {

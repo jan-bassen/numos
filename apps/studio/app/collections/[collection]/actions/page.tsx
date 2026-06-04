@@ -1,3 +1,7 @@
+'use client'
+
+import { useParams } from 'next/navigation'
+import { useAsyncResource } from '@/lib/data/use-async-resource'
 import { NewActionDialog } from '@/app/collections/[collection]/actions/(components)/new-action/new-action-dialog'
 import {
   Header,
@@ -9,8 +13,8 @@ import {
 import Main from '@/components/page/main'
 import { Button } from '@repo/ui/components/button'
 import { PiAddAddStroke } from '@repo/ui/icons/pika'
-import { getAllActions } from '@/lib/supabase/db/actions'
-import { getExtendedCollectionFromSlug } from '@/lib/supabase/db/collections'
+import { getAllActions } from '@/lib/data/actions'
+import { getExtendedCollectionFromSlug } from '@/lib/data/collections'
 import { Page } from '@/components/page/page'
 import SimpleGrid from '@/components/layouts/simple/simple-grid'
 import ActionContextMenu from '@/app/collections/[collection]/actions/(components)/action-context-menu'
@@ -20,12 +24,19 @@ import {
 } from '@/components/elements/element-card'
 import { triggerOptions } from '@/lib/constants/triggers'
 
-export default async function ActionsPage(props: {
-  params: Promise<{ collection: string }>
-}) {
-  const params = await props.params
-  const collection = await getExtendedCollectionFromSlug(params.collection)
-  const actions = await getAllActions(collection.editable_version.id)
+export default function ActionsPage() {
+  const params = useParams<{ collection: string }>()
+  const { data: collection } = useAsyncResource(
+    () => getExtendedCollectionFromSlug(params.collection),
+    [params.collection],
+  )
+  const version = collection?.editable_version
+  const { data: actions } = useAsyncResource(
+    () => (version ? getAllActions(version.id) : Promise.resolve([])),
+    [version?.id],
+  )
+
+  if (!collection || !version) return null
 
   return (
     <Page>
@@ -51,7 +62,7 @@ export default async function ActionsPage(props: {
       </Header>
       <Main>
         <SimpleGrid>
-          {actions.map((action) => {
+          {(actions ?? []).map((action) => {
             return (
               <ActionContextMenu
                 key={action.slug}

@@ -9,7 +9,7 @@ import {
   saveActionNodePosition,
   updateActionNode,
   upsertActionConnection,
-} from '@/lib/supabase/db/action-graph'
+} from '@/lib/data/action-graph'
 import { simulateActionGraph } from '@/lib/rete/engine'
 import type { SimulationCheck } from '@/lib/errors'
 import { toast } from 'sonner'

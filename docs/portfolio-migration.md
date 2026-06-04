@@ -8,16 +8,25 @@ Durable context (architecture, conventions, locked decisions) lives in
 
 ## Status — You are here
 
-- **Phase:** 2 — complete. `web` builds green with zero external services.
-- **Last done:** Phase 2 (2026-06-03): removed Payload, the docs section, lexical, HubSpot,
-  and PostHog from `web`. `web` source now has **zero `process.env` references**;
-  `next build` is green and `/` is fully static. Verified all landing sections render via
-  `next start` with no env set. Also fixed a latent crash in the Tweets section (react-tweet
-  `enrichTweet` chokes on the syndication API now omitting empty entity arrays). See
-  [Phase 2 notes](#phase-2-notes).
-- **Next up:** Phase 3 — `studio` migration (Supabase → client-side, remove auth, strip
-  non-demo integrations). Start by decoupling `next.config.ts` from Supabase so studio can
-  build/boot at all.
+- **Phase:** 3 — in progress. **3a + 3b complete**: studio builds green with zero external
+  services and boots straight into a seeded demo (no auth).
+- **Last done:** Phase 3a+3b (2026-06-03): replaced the entire Supabase data layer (~108
+  `'use server'` fns) with a **client-side IndexedDB store** (`lib/data/*`) mirroring the old
+  function signatures; added a **seed** (`lib/data/seed.ts`) + `DataBootProvider` so a fresh
+  visitor lands on a non-empty "Demo Collection". Converted the ~19 data-fetching server
+  layouts/pages to **client components** (`useParams` + `useAsyncResource`). **Removed auth
+  entirely**: deleted `middleware.ts`, `/login`,`/signup`,`/auth/*`,`/account`,
+  `/api/keep-alive`,`/test`, and `lib/supabase/*`; stubbed `UserProvider` with a demo user.
+  Uploads now store **client-side blobs** (object URLs via `SupabaseImage` blob resolution).
+  Stripped PostHog/HubSpot from the root layout/providers (mirror of web Phase 2) and dropped
+  `@supabase/*`,`@uppy/*`,`tus-js-client`,`posthog-*`,`@hubspot/api-client` deps + the
+  `typegen` script. `turbo build --filter=studio` is **green with zero env**; `next start`
+  serves `/`→`/collections` and all route shells 200 with no server errors. See
+  [Phase 3 notes](#phase-3-notes).
+- **Next up:** **Interactive browser verification** of the happy path (Chrome wasn't
+  connected during the build session) — seed renders, attribute/action/image editors, rete
+  graphs, uploads add. Then **Phase 3c** (strip AWS/blockchain/AI/Google-Maps), **3d** (prune
+  remaining scaffolding/TODOs), **3e** (polish + reset affordance).
 - **Blockers / open questions:** see [Open questions](#open-questions).
 
 > Update this block at the end of each session: Phase, Last done, Next up, Blockers.
@@ -178,21 +187,29 @@ Goal: Supabase fully removed; client-side ephemeral data; no auth; only working 
 remain; smooth tap-around demo.
 
 ### 3a. Decouple from Supabase data layer
-- [ ] Map every `lib/supabase/db/*` server action to the entity it touches.
-- [ ] Design a **client-side data layer** (localStorage/IndexedDB) mirroring those entities
-      with the same function signatures where possible, so call-sites change minimally.
-      _Idea source (verify, don't copy): `origin/localStorage` branch's data layer._
-- [ ] Provide a **seed dataset** (a sample collection with attributes/actions/layers) loaded
-      on first visit so the app is non-empty.
-- [ ] Replace `'use server'` DB actions with client-side equivalents (these become client
-      calls; remove server-only assumptions). Migrate folder-by-folder.
+- [x] Map every `lib/supabase/db/*` server action to the entity it touches.
+- [x] Design a **client-side data layer** (IndexedDB) mirroring those entities with the same
+      function signatures. Lives in `lib/data/*`; `lib/data/store.ts` is a hand-rolled
+      IndexedDB wrapper (one object store per entity + an `upload_blobs` store). No new dep.
+- [x] Provide a **seed dataset** (`lib/data/seed.ts` → `seedIfEmpty()`) loaded on first visit
+      via `app/(providers)/data-boot-provider.tsx` so the app opens on a non-empty collection.
+- [x] Replace `'use server'` DB actions with client-side equivalents; rewrote ~50 call-site
+      imports `@/lib/supabase/db/*` → `@/lib/data/*`; deleted `lib/supabase/db/*`. The ~19
+      data-fetching server layouts/pages became client components (`useParams` +
+      `lib/data/use-async-resource.ts`).
 
 ### 3b. Remove Supabase auth + storage
-- [ ] Delete auth middleware redirect (`middleware.ts`) and `/login`, `/signup`, `/auth/*`.
-- [ ] Remove `lib/supabase/clients/*`, `lib/supabase/auth/*`, `components/supabase/*`.
-- [ ] Replace image storage (Supabase storage) with client-side blobs / object URLs
-      (`lib/supabase/storage/*`, uppy/tus uploads → local handling or drop upload feature).
-- [ ] Drop `@supabase/*`, `supabase`, `pg` deps once references are gone.
+- [x] Delete auth middleware redirect (`middleware.ts`) and `/login`, `/signup`, `/auth/*`
+      (also `/account`, `/api/keep-alive`, `/test`).
+- [x] Remove `lib/supabase/clients/*`, `lib/supabase/auth/*`. `components/supabase/*` kept but
+      rewired: `SupabaseImage` now resolves stored blobs → object URLs; `editable-image`/
+      `avatar` use the new uploaders. `UserProvider` stubbed with a demo user
+      (`lib/data/demo-constants.ts`).
+- [x] Replace image storage with client-side blobs / object URLs (`lib/data/uploaders.ts` +
+      `upload.ts` store `File`s in IndexedDB; uppy/tus removed). Uploads feature kept.
+- [x] Drop `@supabase/*`, `@uppy/*`, `tus-js-client`, `posthog-*`, `@hubspot/api-client` deps
+      + the `typegen` script. (PostHog/HubSpot removal from the root layout/providers was
+      folded in here since they blocked boot — mirrors web Phase 2.)
 
 ### 3c. Strip non-demo external integrations
 - [ ] **AWS** (`@aws-sdk/*` — S3/Lambda/SES, ~2 files): remove or stub.
@@ -209,8 +226,35 @@ remain; smooth tap-around demo.
 
 ### 3e. Polish for "tap around"
 - [ ] Friendly empty/first-run state; obvious entry point into the node editor.
-- [ ] Reset/"start over" affordance (clear local data).
-- [ ] `next build` green; no console errors on the demo path.
+- [ ] Reset/"start over" affordance (clear local data). _Store helper `clearAll()` already
+      exists in `lib/data/store.ts`; just needs a UI hook._
+- [x] `next build` green (zero env). Console-on-demo-path check still pending browser verify.
+
+### Phase 3 notes (3a + 3b)
+
+- **Data layer = `lib/data/*`**, a faithful re-implementation of the old `lib/supabase/db/*`
+  surface (same function names/signatures) over IndexedDB. Reads return typed rows / throw
+  `FetchError`; writes return `ReturnInfo`. `revalidatePath` became a no-op (contexts hold
+  authoritative local state via `use-context-state`); `redirect`/`notFound` from
+  `next/navigation` are kept (they work in client components).
+- **`insertCollection` now also creates the editable version** — the old Postgres trigger did
+  this implicitly, and without it freshly created collections 404'd. Deletes cascade manually
+  (no FK cascade in IndexedDB).
+- **Server→client:** studio is now effectively client-rendered. Build still lists the dynamic
+  routes as `ƒ`, but they render a thin shell and fetch from IndexedDB on the client.
+- **Images:** every image blob is stored keyed by its last path segment (upload id / uuid).
+  `SupabaseImage` renders direct URLs (object/data/http/`/public`) as-is and otherwise
+  resolves the key → an object URL from the blob store. Collection-image upload keeps the uuid
+  contract so `updateCollectionSchema`'s `image: uuid` still validates.
+- **Seed graphs are empty** (nodes/connections `[]`) so the rete editors render a usable empty
+  canvas without risking a crash from a mis-shaped seed node — seeding richer example graphs
+  is a 3e polish item.
+- **Dead code removed along the way:** `lib/supabase/db/nodes.ts` (no consumers),
+  `lib/node-migration.ts`, `app/.../to-be-page*.tsx`, `app/maintanance.tsx`.
+- **Known follow-ups:** interactive happy-path verification (Chrome was offline this session);
+  `lib/{ai,blockchain,core/api}` still hold `'use server'` actions for 3c features (compile
+  fine, off the demo path); object URLs from `getUploadsTree` aren't revoked (page-scoped leak,
+  fine for a demo).
 
 ---
 
@@ -251,15 +295,27 @@ Append-only. Newest at bottom. Format: `YYYY-MM-DD — decision — rationale`.
   before `enrichTweet`). — It's a confirmed landing component; the crash was an upstream
   react-tweet/syndication data-shape bug, not a reason to drop the section. Still a build-time
   network call, but it degrades gracefully so it can't break the build.
+- 2026-06-03 — **Studio data layer = IndexedDB via a hand-rolled wrapper in `lib/data/*`** (no
+  new dep), mirroring the old `lib/supabase/db` signatures. — Graph + blob data exceed
+  localStorage's ~5MB and uploads need blob storage; a thin custom wrapper avoids a dependency
+  while keeping call-sites stable.
+- 2026-06-03 — **Studio becomes client-rendered: the ~19 data-fetching layouts/pages are now
+  client components** (`useParams` + `useAsyncResource`). — Browser-only storage can't be read
+  in RSCs; acceptable for a tap-around demo and keeps the existing Provider/context tree.
+- 2026-06-03 — **Uploads kept as client-side blobs** (object URLs), per the locked decision. —
+  Preserves a visibly complete uploads tab + image layers with no backend.
+- 2026-06-03 — **Auth removed by deleting routes, not stubbing them**: `middleware.ts`,
+  `/login`,`/signup`,`/auth/*`,`/account`,`/api/keep-alive`,`/test`, and `lib/supabase/*` are
+  gone; `UserProvider` serves a fixed demo user. — "Delete > disable"; visitors land straight
+  in the app.
 
 ---
 
 ## Open questions
 
-- **Which studio features make the demo cut?** Maps, blockchain, AI, and uploads each need a
+- **Which studio features make the demo cut?** Maps, blockchain, and AI each need a
   key/backend today — confirm per-feature whether to stub, degrade, or remove. (Phase 3c)
-- **Image uploads in studio:** keep as client-side blobs, or drop the upload feature for the
-  demo? (Phase 3b)
+  _(Uploads: resolved — kept as client-side blobs.)_
 
 ---
 

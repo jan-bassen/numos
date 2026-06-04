@@ -1,32 +1,48 @@
-import ActionNodeEditor from '@/app/collections/[collection]/actions/[action]/logic/(components)/action-node-editor'
-import { getActionGraph } from '@/lib/supabase/db/action-graph'
-import { getActionBySlug } from '@/lib/supabase/db/actions'
-import { getAllAttributes } from '@/lib/supabase/db/attributes/read'
-import { getExtendedCollectionFromSlug } from '@/lib/supabase/db/collections'
+'use client'
 
-export default async function ActionPage(props: {
-  params: Promise<{
+import { useParams } from 'next/navigation'
+import { useAsyncResource } from '@/lib/data/use-async-resource'
+import ActionNodeEditor from '@/app/collections/[collection]/actions/[action]/logic/(components)/action-node-editor'
+import { getActionGraph } from '@/lib/data/action-graph'
+import { getActionBySlug } from '@/lib/data/actions'
+import { getAllAttributes } from '@/lib/data/attributes/read'
+import { getExtendedCollectionFromSlug } from '@/lib/data/collections'
+
+export default function ActionPage() {
+  const { collection: collectionSlug, action: actionSlug } = useParams<{
     collection: string
     action: string
-  }>
-}) {
-  const params = await props.params
+  }>()
 
-  const { collection: collectionSlug, action: actionSlug } = params
-
-  const collection = await getExtendedCollectionFromSlug(collectionSlug)
-  const action = await getActionBySlug(
-    actionSlug,
-    collection.editable_version.id,
+  const { data: collection } = useAsyncResource(
+    () => getExtendedCollectionFromSlug(collectionSlug),
+    [collectionSlug],
   )
-  const graph = await getActionGraph(action.id)
-  const attributes = await getAllAttributes(collection.editable_version.id)
+  const version = collection?.editable_version
+  const { data: action } = useAsyncResource(
+    () =>
+      version
+        ? getActionBySlug(actionSlug, version.id)
+        : Promise.resolve(undefined),
+    [actionSlug, version?.id],
+  )
+  const { data: graph } = useAsyncResource(
+    () => (action ? getActionGraph(action.id) : Promise.resolve(undefined)),
+    [action?.id],
+  )
+  const { data: attributes } = useAsyncResource(
+    () => (version ? getAllAttributes(version.id) : Promise.resolve([])),
+    [version?.id],
+  )
+
+  if (!collection || !version || !action || !graph) return null
+
   return (
     <ActionNodeEditor
       initialGraph={graph}
-      version={collection.editable_version}
+      version={version}
       action={action}
-      attributes={attributes}
+      attributes={attributes ?? []}
       collectionSlug={collectionSlug}
     />
   )

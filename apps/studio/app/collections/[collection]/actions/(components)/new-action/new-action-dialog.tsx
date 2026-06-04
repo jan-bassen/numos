@@ -22,7 +22,7 @@ import {
 } from '@/components/forms/staged-form'
 import type { NewElementDialogProps } from '@/components/elements/new-dialog'
 import { newActionSchema } from '@/lib/schemas/actions/action-schema'
-import { insertAction } from '@/lib/supabase/db/actions'
+import { insertAction } from '@/lib/data/actions'
 import { triggerStage } from '@/app/collections/[collection]/actions/(components)/new-action/stages/trigger'
 import { nameStage } from '@/app/collections/[collection]/actions/(components)/new-action/stages/name'
 import { slugStage } from '@/app/collections/[collection]/actions/(components)/new-action/stages/slug'

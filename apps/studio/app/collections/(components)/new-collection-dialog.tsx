@@ -8,7 +8,7 @@ import { handleReturnInfo } from '@repo/ui/lib/utils'
 import { toast } from 'sonner'
 import { Input } from '@repo/ui/components/input'
 import { useRouter } from 'next/navigation'
-import { insertCollection } from '@/lib/supabase/db/collections'
+import { insertCollection } from '@/lib/data/collections'
 import { collectionSchema } from '@/lib/schemas/collection-schema'
 import {
   Dialog,

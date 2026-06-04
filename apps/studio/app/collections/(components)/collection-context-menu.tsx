@@ -23,7 +23,7 @@ import {
   PiDeleteDustbin02Stroke,
   PiPencilEditBoxStroke,
 } from '@repo/ui/icons/pika'
-import { deleteCollectionBySlug } from '@/lib/supabase/db/collections'
+import { deleteCollectionBySlug } from '@/lib/data/collections'
 
 interface CollectionContextMenuProps {
   children?: React.ReactNode

@@ -5,14 +5,7 @@ import { Toaster } from '@repo/ui/components/sonner'
 import { cn } from '@repo/ui/lib/utils'
 import localFont from 'next/font/local'
 import type { CssVariable } from 'next/dist/compiled/@next/font'
-import { createSupabaseServerComponentClient } from '@/lib/supabase/clients/server-client'
-import Script from 'next/script'
-import { Suspense } from 'react'
-import PostHogPageView from '@/lib/posthog/posthog-pageview'
 import Providers from '@/app/(providers)/external-providers'
-import CookieBanner from '@/lib/posthog/cookie-banner'
-import ChatWidget from '@/lib/hubspot/chat'
-import { Maintanance } from '@/app/maintanance'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' })
@@ -35,14 +28,11 @@ export const metadata: Metadata = {
   ],
 }
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  const supabase = await createSupabaseServerComponentClient()
-  const { data: user } = await supabase.auth.getUser()
-  const maintanance = false
   return (
     <html
       lang="en"
@@ -50,28 +40,10 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <body className={cn(outfit.className, 'relative bg-background')}>
-        {maintanance ? (
-          <Maintanance />
-        ) : (
-          <>
-            <Providers user={user.user}>
-              <Suspense fallback={null}>
-                <PostHogPageView />
-              </Suspense>
-              {children}
-              <ChatWidget />
-              <CookieBanner isLoggedIn={!!user} />
-              <Toaster position="bottom-right" richColors />
-            </Providers>
-            <Script
-              async
-              defer
-              type="text/javascript"
-              id="hs-script-loader"
-              src="//js-eu1.hs-scripts.com/144826452.js"
-            />
-          </>
-        )}
+        <Providers>
+          {children}
+          <Toaster position="bottom-right" richColors />
+        </Providers>
       </body>
     </html>
   )

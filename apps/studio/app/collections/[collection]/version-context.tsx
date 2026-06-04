@@ -6,7 +6,7 @@ import type { ReturnInfo, UpdateVersion, Version } from '@/types/database.types'
 import { createContext, useContext, useMemo } from 'react'
 import type { NestedErrors, Validate } from '@/types/state.types'
 import { updateVersionSchema } from '@/lib/schemas/versions/version-schema'
-import { updateVersion } from '@/lib/supabase/db/versions/update'
+import { updateVersion } from '@/lib/data/versions/update'
 
 type VersionContext = {
   version: Version

@@ -1,16 +1,24 @@
-import { getAttributeBySlugs } from '@/lib/supabase/db/attributes/read'
-import { AttributeProvider } from './attribute-context'
-import { notFound } from 'next/navigation'
+'use client'
 
-export default async function AttributeLayout({
-  params,
+import { getAttributeBySlugs } from '@/lib/data/attributes/read'
+import { AttributeProvider } from './attribute-context'
+import { notFound, useParams } from 'next/navigation'
+import { useAsyncResource } from '@/lib/data/use-async-resource'
+
+export default function AttributeLayout({
   children,
 }: {
-  params: Promise<{ collection: string; attribute: string }>
   children: React.ReactNode
 }) {
-  const { collection: collectionSlug, attribute: attributeSlug } = await params
-  const attribute = await getAttributeBySlugs(collectionSlug, attributeSlug)
+  const { collection: collectionSlug, attribute: attributeSlug } = useParams<{
+    collection: string
+    attribute: string
+  }>()
+  const { data: attribute, loading } = useAsyncResource(
+    () => getAttributeBySlugs(collectionSlug, attributeSlug),
+    [collectionSlug, attributeSlug],
+  )
+  if (loading) return null
   if (!attribute) {
     notFound()
   }

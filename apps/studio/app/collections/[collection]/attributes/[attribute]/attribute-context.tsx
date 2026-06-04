@@ -1,6 +1,6 @@
 'use client'
 
-import { updateAttribute } from '@/lib/supabase/db/attributes/update'
+import { updateAttribute } from '@/lib/data/attributes/update'
 import type { Attribute, UpdateAttribute } from '@/types/database.types'
 import { createContext, useContext, useMemo } from 'react'
 import { useContextState } from '@/lib/state/use-context-state'

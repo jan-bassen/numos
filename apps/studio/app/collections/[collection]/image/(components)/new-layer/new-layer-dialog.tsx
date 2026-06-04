@@ -22,7 +22,7 @@ import {
 } from '@/components/forms/staged-form'
 import { newLayerSchema } from '@/lib/schemas/layers/layer-schema'
 import { defaultLayerSettings } from '@/lib/defaults/actions/layer-definitions'
-import { insertLayerAtTop } from '@/lib/supabase/db/layers/create'
+import { insertLayerAtTop } from '@/lib/data/layers/create'
 import { nameStage } from '@/app/collections/[collection]/image/(components)/new-layer/stages/name'
 import { slugStage } from '@/app/collections/[collection]/image/(components)/new-layer/stages/slug'
 import { useCollection } from '@/app/collections/[collection]/collection-context'

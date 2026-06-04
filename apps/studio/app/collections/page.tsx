@@ -1,6 +1,8 @@
-import { getAllExtendedCollections } from '@/lib/supabase/db/collections'
+'use client'
+
+import { getAllExtendedCollections } from '@/lib/data/collections'
+import { useAsyncResource } from '@/lib/data/use-async-resource'
 import Main from '@/components/page/main'
-import type { ExtendedCollection } from '@/types/database.types'
 import { Navbar } from '@/components/navigation/navbar/navbar'
 import {
   Header,
@@ -22,8 +24,9 @@ import {
 import { SupabaseImage } from '@/components/supabase/supabase-image'
 import CollectionContextMenu from '@/app/collections/(components)/collection-context-menu'
 
-export default async function HomePage() {
-  const collections: ExtendedCollection[] = await getAllExtendedCollections()
+export default function HomePage() {
+  const { data } = useAsyncResource(() => getAllExtendedCollections(), [])
+  const collections = data ?? []
   return (
     <>
       <Navbar />
