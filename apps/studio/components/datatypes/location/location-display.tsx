@@ -1,17 +1,14 @@
 'use client'
 
+import type { Location, OptionalValue } from '@repo/shared/types/values'
+import { Separator } from '@repo/ui/components/separator'
 import {
   Tooltip,
-  TooltipTrigger,
   TooltipContent,
+  TooltipTrigger,
 } from '@repo/ui/components/tooltip'
 import { cn } from '@repo/ui/lib/utils'
-import { useState } from 'react'
-import { fromLatLng } from 'react-geocode'
-import { getAddressFromGeocoder } from './address'
-import { Separator } from '@repo/ui/components/separator'
 import type { GenericDisplayProps } from '../generic-display'
-import type { Location, OptionalValue } from '@repo/shared/types/values'
 
 export type LocationDisplayProps = Omit<GenericDisplayProps, 'value'> & {
   value: OptionalValue<Location>
@@ -21,14 +18,8 @@ export default function LocationDisplay({
   value,
   className,
 }: LocationDisplayProps) {
-  const [shortAddress, setShortAddress] = useState<string>('')
-  const [longAddress, setLongAddress] = useState<string>('')
   if (!value) return null
-  fromLatLng(value.lat, value.lng).then(({ results }) => {
-    const address = getAddressFromGeocoder(results, value)
-    setShortAddress(address.short)
-    setLongAddress(address.long)
-  })
+  const short = `${value.lat.toFixed(4)}, ${value.lng.toFixed(4)}`
   return (
     <Tooltip>
       <TooltipTrigger
@@ -37,14 +28,12 @@ export default function LocationDisplay({
           className,
         )}
       >
-        <p className="line-clamp-1 px-1 h-fit w-full text-ellipsis">
-          {shortAddress}
-        </p>
+        <p className="line-clamp-1 h-fit w-full text-ellipsis px-1">{short}</p>
       </TooltipTrigger>
       <TooltipContent className="z-[60] space-y-1 rounded-md border border-border bg-background p-2">
-        <p className="w-full text-center font-medium">{longAddress}</p>
+        <p className="w-full text-center font-medium">Coordinates</p>
         <Separator />
-        <p className="w-full text-center text-xs text-muted-foreground">
+        <p className="w-full text-center text-muted-foreground text-xs">
           {value.lat.toFixed(8)}, {value.lng.toFixed(8)}
         </p>
       </TooltipContent>

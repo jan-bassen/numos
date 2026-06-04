@@ -1,27 +1,20 @@
 'use client'
 
+import { locationSchema } from '@repo/shared/schemas/datatypes/datatype-schemas/location-schema'
+import type { Location } from '@repo/shared/types/values'
+import { buttonVariants } from '@repo/ui/components/button'
+import { Input } from '@repo/ui/components/input'
+import { Label } from '@repo/ui/components/label'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@repo/ui/components/popover'
-import { type FormEvent, useEffect, useRef, useState } from 'react'
-import { Button, buttonVariants } from '@repo/ui/components/button'
-import {
-  APIProvider,
-  Map as GoogleMap,
-  Marker,
-} from '@vis.gl/react-google-maps'
-import { fromAddress, fromLatLng, setKey, setLanguage } from 'react-geocode'
-import { Input } from '@repo/ui/components/input'
-import { PiSearchDefaultStroke } from '@repo/ui/icons/pika'
 import { cn } from '@repo/ui/lib/utils'
+import { useRef } from 'react'
 import { Drag } from 'rete-react-plugin'
-import { getAddressFromGeocoder } from './address'
-import { locationSchema } from '@repo/shared/schemas/datatypes/datatype-schemas/location-schema'
-import type { Location } from '@repo/shared/types/values'
-import type { SingleDataTypeInputProps } from '../single-datatype-input'
 import { toast } from 'sonner'
+import type { SingleDataTypeInputProps } from '../single-datatype-input'
 
 export function LocationInput({
   value,
@@ -42,56 +35,19 @@ export function LocationInput({
     toast.error('invalid location')
   }
 
-  const [zoom, setZoom] = useState(2)
-  const [address, setAddress] = useState<string>('')
-  const [center, setCenter] = useState<Location | null>(location)
-
-  useEffect(() => {
-    if (!location) {
-      setCenter(null)
-      setAddress('')
-      return
+  function update(part: Partial<Location>) {
+    if (locked) return
+    const next: Location = {
+      lat: location?.lat ?? 0,
+      lng: location?.lng ?? 0,
+      ...part,
     }
-    fromLatLng(location.lat, location.lng)
-      .then(({ results }) => {
-        setAddress(getAddressFromGeocoder(results, location).long)
-      })
-      .catch((e) => {
-        throw e
-      })
-  }, [location])
-
-  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
-  if (!apiKey) return null
-
-  setKey(apiKey)
-  setLanguage('en')
-
-  function handleAddressInput(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault()
-    e.stopPropagation()
-    const input = e.currentTarget[0] as HTMLInputElement
-    const address = input.value
-    if (!address) return
-    fromAddress(address)
-      .then(({ results }) => {
-        const location = results[0].geometry.location
-        if (!location || locked) return
-        const newLocation: Location = {
-          lat: location.lat,
-          lng: location.lng,
-        }
-        onChange?.({ value: newLocation, type: 'location', format: 'single' })
-        setCenter({
-          lat: location.lat,
-          lng: location.lng,
-        })
-        setZoom(7)
-      })
-      .catch((e) => {
-        throw e
-      })
+    onChange?.({ value: next, type: 'location', format: 'single' })
   }
+
+  const label = location
+    ? `${location.lat.toFixed(4)}, ${location.lng.toFixed(4)}`
+    : 'Set Location'
 
   return (
     <Popover>
@@ -114,59 +70,51 @@ export function LocationInput({
           className,
         )}
       >
-        {address || 'Set Location'}
+        {label}
       </PopoverTrigger>
       <PopoverContent
         side="top"
         sideOffset={6}
-        className="m-1 w-fit max-w-[100vw] overflow-hidden rounded-lg border-none p-0"
+        className="m-1 w-64 space-y-2 rounded-lg p-3"
       >
-        <APIProvider apiKey={apiKey}>
-          <GoogleMap
-            style={{ width: '25rem', height: '20rem' }}
-            defaultCenter={location || undefined}
-            center={center || undefined}
-            onCenterChanged={(e) => {
-              setCenter({
-                lat: e.detail.center?.lat || 0,
-                lng: e.detail.center?.lng || 0,
-              })
-            }}
-            onClick={(e) => {
-              if (locked) return
-              const newLocation: Location = {
-                lat: e.detail.latLng?.lat || 0,
-                lng: e.detail.latLng?.lng || 0,
-              }
-              onChange?.({
-                value: newLocation,
-                type: 'location',
-                format: 'single',
-              })
-            }}
-            defaultZoom={3}
-            zoom={zoom}
-            onZoomChanged={(e) => setZoom(e.detail.zoom)}
-            gestureHandling={'greedy'}
-            disableDefaultUI={true}
+        <div className="space-y-0.5">
+          <Label
+            htmlFor="location-lat"
+            className="pl-0.5 text-muted-foreground text-sm"
           >
-            <Marker position={location} />
-          </GoogleMap>
-        </APIProvider>
-        <form className="flex" id="searchAddress" onSubmit={handleAddressInput}>
+            Latitude
+          </Label>
           <Input
-            className="w-full rounded-none border-none"
-            placeholder={address}
+            id="location-lat"
+            type="number"
+            min={-90}
+            max={90}
+            step="any"
+            disabled={locked}
+            value={location?.lat ?? ''}
+            placeholder="0"
+            onChange={(e) => update({ lat: Number(e.target.value) })}
           />
-          <Button
-            className="flex h-10 items-center rounded-none"
-            variant={'ghost'}
-            type="submit"
-            form="searchAddress"
+        </div>
+        <div className="space-y-0.5">
+          <Label
+            htmlFor="location-lng"
+            className="pl-0.5 text-muted-foreground text-sm"
           >
-            <PiSearchDefaultStroke className="size-5" />
-          </Button>
-        </form>
+            Longitude
+          </Label>
+          <Input
+            id="location-lng"
+            type="number"
+            min={-180}
+            max={180}
+            step="any"
+            disabled={locked}
+            value={location?.lng ?? ''}
+            placeholder="0"
+            onChange={(e) => update({ lng: Number(e.target.value) })}
+          />
+        </div>
       </PopoverContent>
     </Popover>
   )

@@ -8,9 +8,18 @@ Durable context (architecture, conventions, locked decisions) lives in
 
 ## Status — You are here
 
-- **Phase:** 3 — in progress. **3a + 3b complete**: studio builds green with zero external
-  services and boots straight into a seeded demo (no auth).
-- **Last done:** Phase 3a+3b (2026-06-03): replaced the entire Supabase data layer (~108
+- **Phase:** 3 — in progress. **3a + 3b + 3c complete**: studio builds green with zero
+  external services/SDKs and boots straight into a seeded demo (no auth).
+- **Last done:** Phase 3c (2026-06-04): stripped the last external integrations. Deleted the
+  orphaned **AWS** (`lib/core/*`) and **blockchain** (`lib/blockchain/*`) code; deleted the
+  **AI** cron generator (`lib/ai/cron.ts`) and removed the AI tab from `cron-input.tsx`
+  (manual cron entry remains); **Google Maps** location datatype degraded to plain lat/lng
+  inputs (`location-input`/`location-display` rewritten, map components deleted). Dropped 8
+  deps (`@ai-sdk/openai`, `ai`, `@aws-sdk/client-{lambda,s3,ses}`, `viem`,
+  `@vis.gl/react-google-maps`, `react-geocode`, `@types/google-map-react`). `turbo build
+  --filter=studio` **green**; no source refs to any removed module/dep remain. See
+  [3c checklist](#3c-strip-non-demo-external-integrations).
+- **Earlier:** Phase 3a+3b (2026-06-03): replaced the entire Supabase data layer (~108
   `'use server'` fns) with a **client-side IndexedDB store** (`lib/data/*`) mirroring the old
   function signatures; added a **seed** (`lib/data/seed.ts`) + `DataBootProvider` so a fresh
   visitor lands on a non-empty "Demo Collection". Converted the ~19 data-fetching server
@@ -23,10 +32,10 @@ Durable context (architecture, conventions, locked decisions) lives in
   `typegen` script. `turbo build --filter=studio` is **green with zero env**; `next start`
   serves `/`→`/collections` and all route shells 200 with no server errors. See
   [Phase 3 notes](#phase-3-notes).
-- **Next up:** **Interactive browser verification** of the happy path (Chrome wasn't
-  connected during the build session) — seed renders, attribute/action/image editors, rete
-  graphs, uploads add. Then **Phase 3c** (strip AWS/blockchain/AI/Google-Maps), **3d** (prune
-  remaining scaffolding/TODOs), **3e** (polish + reset affordance).
+- **Next up:** **Phase 3d** (audit ~35 TODO/FIXME markers; prune remaining scaffolding not on
+  the demo path) and **3e** (polish + reset affordance). Plus the still-pending **interactive
+  browser verification** of the happy path (Chrome wasn't connected during the build sessions)
+  — seed renders, attribute/action/image editors, rete graphs, uploads add.
 - **Blockers / open questions:** see [Open questions](#open-questions).
 
 > Update this block at the end of each session: Phase, Last done, Next up, Blockers.
@@ -212,12 +221,23 @@ remain; smooth tap-around demo.
       folded in here since they blocked boot — mirrors web Phase 2.)
 
 ### 3c. Strip non-demo external integrations
-- [ ] **AWS** (`@aws-sdk/*` — S3/Lambda/SES, ~2 files): remove or stub.
-- [ ] **Blockchain** (`viem`, Alchemy, Etherscan, ~3 files): remove or stub the feature.
-- [ ] **AI SDK** (`@ai-sdk/openai`, `ai`): remove, or gate behind absent-key no-op.
-- [ ] **Google Maps** (`@vis.gl/react-google-maps`): remove the maps feature or make it
-      degrade gracefully without a key.
-- [ ] **HubSpot / PostHog:** remove or make optional/no-op (mirror web).
+- [x] **AWS** (`@aws-sdk/*` — S3/Lambda/SES): **deleted** `lib/core/*` (`test-button`,
+      `api/create-api-key`, `clients/lambda`) — all orphaned (only the deleted `/test` route
+      used them). Dropped `@aws-sdk/client-{lambda,s3,ses}`.
+- [x] **Blockchain** (`viem`, Alchemy, Etherscan): **deleted** `lib/blockchain/*` (`wallet`,
+      `abi-button`, `abi`, `client`, `test`) — all orphaned. Dropped `viem`; the `ALCHEMY`/
+      `ETHERSCAN` env vars are now unreferenced.
+- [x] **AI SDK** (`@ai-sdk/openai`, `ai`): **deleted** `lib/ai/cron.ts` and the **AI tab** in
+      `cron-input.tsx`; the cron popover now only offers **manual** schedule + description
+      entry. Dropped `@ai-sdk/openai` + `ai`. (`cron-validate` kept — still used by
+      `lib/schemas/actions/triggers/time.ts`.)
+- [x] **Google Maps** (`@vis.gl/react-google-maps`): **degraded gracefully** — kept the
+      `location` datatype (it's a `@repo/shared` `ValueType`, can't be cleanly removed) but
+      rewrote `location-input` to plain lat/lng number fields and `location-display` to show
+      coordinates; deleted the map components (`address.ts`, `map-picker.tsx`). Dropped
+      `@vis.gl/react-google-maps`, `react-geocode`, `@types/google-map-react`; `GOOGLE_MAPS`
+      env now unreferenced.
+- [x] **HubSpot / PostHog:** already removed in 3b (they blocked boot) — nothing left.
 
 ### 3d. Prune unfinished / broken
 - [ ] Audit ~35 TODO/FIXME/maintenance markers; remove the `Maintanance` screen path if not
@@ -308,14 +328,24 @@ Append-only. Newest at bottom. Format: `YYYY-MM-DD — decision — rationale`.
   `/login`,`/signup`,`/auth/*`,`/account`,`/api/keep-alive`,`/test`, and `lib/supabase/*` are
   gone; `UserProvider` serves a fixed demo user. — "Delete > disable"; visitors land straight
   in the app.
+- 2026-06-04 — **AWS + blockchain code deleted outright** (`lib/core/*`, `lib/blockchain/*`).
+  — Both were orphaned (only the now-deleted `/test` route referenced them); off the demo path
+  with no consumers, so "delete > disable" applies cleanly.
+- 2026-06-04 — **AI cron generator removed; cron-input keeps manual entry only.** — The AI tab
+  needed OpenAI; the manual schedule + description fields fully cover the demo, so we dropped
+  `@ai-sdk/openai`/`ai` and the AI tab rather than gating a key-less no-op.
+- 2026-06-04 — **Google Maps `location` datatype degraded, not removed** (plain lat/lng number
+  inputs; map + geocode UI deleted). — `location` is a `@repo/shared` `ValueType` wired into
+  the engine/schemas/rete nodes, so deleting it would be a cross-package change out of 3c
+  scope; degrading keeps the datatype usable in the demo with zero deps/keys.
 
 ---
 
 ## Open questions
 
-- **Which studio features make the demo cut?** Maps, blockchain, and AI each need a
-  key/backend today — confirm per-feature whether to stub, degrade, or remove. (Phase 3c)
-  _(Uploads: resolved — kept as client-side blobs.)_
+- _(Resolved 3c)_ **Which studio features make the demo cut?** Uploads → kept as client-side
+  blobs. AWS + blockchain → deleted (orphaned). AI cron → removed, manual entry kept. Google
+  Maps location → degraded to plain lat/lng inputs.
 
 ---
 
