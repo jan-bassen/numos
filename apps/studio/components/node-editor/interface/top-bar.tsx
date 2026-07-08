@@ -1,3 +1,16 @@
+import type { InputMode, Shape } from '@/types/editor.types'
+import { Button } from '@repo/ui/components/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@repo/ui/components/dropdown-menu'
+import { Separator } from '@repo/ui/components/separator'
+import { useSecondarySidebar } from '@repo/ui/components/sidebar-secondary'
 import {
   PiPlusSquareStroke,
   PiPointerCursorDefaultStroke,
@@ -5,26 +18,31 @@ import {
   PiSwipeDefaultStroke,
 } from '@repo/ui/icons/pika'
 import { cn } from '@repo/ui/lib/utils'
-import { Separator } from '@repo/ui/components/separator'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@repo/ui/components/dropdown-menu'
-import { LassoSelect, Mouse, MousePointer, Touchpad } from 'lucide-react'
-import { Button } from '@repo/ui/components/button'
-import type { InputMode, Shape } from '@/types/editor.types'
-import { NodeGroupsBar } from '../menus/node-groups-bar'
+import { Copy, LassoSelect, Mouse, MousePointer, Touchpad } from 'lucide-react'
+import { toast } from 'sonner'
 import { useEditorContext } from '../editor/editor-provider'
-import { useSecondarySidebar } from '@repo/ui/components/sidebar-secondary'
 import { AddNodeMenu } from '../menus/add-node-menu'
+import { NodeGroupsBar } from '../menus/node-groups-bar'
 
 export default function TopBar() {
   const { editor, settings, setSettings } = useEditorContext()
   const { open: sidebarOpen, setOpen: setSidebarOpen } = useSecondarySidebar()
+
+  async function copyGraphJson() {
+    const graph = editor?.editor.getGraph()
+    if (!graph) {
+      toast.error('No graph available to copy')
+      return
+    }
+
+    try {
+      await navigator.clipboard.writeText(JSON.stringify(graph, null, 2))
+      toast.success('Graph JSON copied')
+    } catch {
+      toast.error('Could not copy graph JSON')
+    }
+  }
+
   return (
     <div className="size-full items-center gap-1.5 rounded-lg border border-border bg-background pr-1.5 pl-1 shadow-xs md:flex">
       <div className="flex w-fit items-center gap-0.5">
@@ -126,6 +144,11 @@ export default function TopBar() {
                 Touchpad
               </DropdownMenuRadioItem>
             </DropdownMenuRadioGroup>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="gap-2" onClick={copyGraphJson}>
+              <Copy className="size-4" />
+              Copy Graph JSON
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

@@ -1,24 +1,26 @@
 import 'server-only'
-import { validateValue } from '@repo/shared/validation/validate-value'
+import { readFile } from 'node:fs/promises'
+import path from 'node:path'
+import { nodeLogic } from '@repo/shared/engine/nodes/nodetypes'
+import { createSupabaseServiceClient } from '@repo/shared/engine/temp-service-client'
+import {
+  GraphError,
+  type GraphErrorLocation,
+} from '@repo/shared/errors/graph-error'
+import { resolveObjectArrayValue } from '@repo/shared/schemas/datatypes/utils'
 import type {
   EngineContext,
   GraphErrorData,
   UnknownErrorData,
 } from '@repo/shared/types/engine-types'
-import type { Value, ValueFormat, ValueType } from '@repo/shared/types/values'
 import type {
   MapGraph,
   MapGraphConnection,
 } from '@repo/shared/types/graph-types'
-import { resolveObjectArrayValue } from '@repo/shared/schemas/datatypes/utils'
-import { createSupabaseServiceClient } from '@repo/shared/engine/temp-service-client'
-import sharp from 'sharp'
 import type { NodeType } from '@repo/shared/types/node-types'
-import { nodeLogic } from '@repo/shared/engine/nodes/nodetypes'
-import {
-  type GraphErrorLocation,
-  GraphError,
-} from '@repo/shared/errors/graph-error'
+import type { Value, ValueFormat, ValueType } from '@repo/shared/types/values'
+import { validateValue } from '@repo/shared/validation/validate-value'
+import sharp from 'sharp'
 
 export class EngineBase {
   constructor(
@@ -121,6 +123,9 @@ export class EngineBase {
     image: string,
     node: string,
   ): Promise<Value<'buffer', 'single'>> {
+    const localDemoImage = await this.getLocalDemoUpload(image)
+    if (localDemoImage) return localDemoImage
+
     const context = this.getContext()
     const path = `/${context.versionId}/${image}`
 
@@ -145,6 +150,33 @@ export class EngineBase {
       format: 'single',
       value,
     }
+  }
+
+  async getLocalDemoUpload(
+    image: string,
+  ): Promise<Value<'buffer', 'single'> | undefined> {
+    const localImage = image.startsWith('/') ? image.slice(1) : image
+    if (!localImage.startsWith('flower/')) return undefined
+
+    const candidates = [
+      path.join(process.cwd(), 'public', localImage),
+      path.join(process.cwd(), 'apps', 'studio', 'public', localImage),
+    ]
+
+    for (const candidate of candidates) {
+      try {
+        const buffer = await readFile(candidate)
+        return {
+          type: 'buffer',
+          format: 'single',
+          value: await sharp(buffer).toBuffer(),
+        }
+      } catch {
+        // Try the next likely workspace root.
+      }
+    }
+
+    return undefined
   }
 
   validateAndResolveValue(value: Value<ValueType, ValueFormat, true>) {
