@@ -1,36 +1,37 @@
 import { AddNodeMenu } from '@/components/node-editor/menus/add-node-menu'
-import { createRoot, type Root } from 'react-dom/client'
 import type { Area, EditorMode, Item } from '@/types/editor.types'
 import { useEffect, useRef } from 'react'
+import { type Root, createRoot } from 'react-dom/client'
+
+const backgroundId = 'editor-background'
+const backgroundRoots: Map<string, Root> = new Map()
 
 export function addBackground(area: Area, nodeList: Item[], mode?: EditorMode) {
   const background = document.createElement('div')
-  background.id = 'background'
+  background.id = backgroundId
   area.area.content.add(background)
   const root = createRoot(background)
+  backgroundRoots.set(backgroundId, root)
   root.render(<CustomBackground nodeList={nodeList} mode={mode} />)
   return root
 }
-
-const backgroundRoots: Map<string, Root> = new Map()
 
 export function updateBackground(
   area: Area,
   nodeList: Item[],
   mode?: EditorMode,
 ) {
-  const background = document.getElementById('editor-background')
+  const background = document.getElementById(backgroundId)
 
   if (background) {
-    let root = backgroundRoots.get('editor-background')
+    let root = backgroundRoots.get(backgroundId)
     if (!root) {
       root = createRoot(background)
-      backgroundRoots.set('editor-background', root)
+      backgroundRoots.set(backgroundId, root)
     }
     root.render(<CustomBackground nodeList={nodeList} mode={mode} />)
   } else {
-    const root = addBackground(area, nodeList, mode)
-    backgroundRoots.set('editor-background', root)
+    addBackground(area, nodeList, mode)
   }
 }
 
@@ -95,8 +96,9 @@ function CustomBackground({
     >
       <div
         ref={ref}
-        className="-left-[320000px] -top-[320000px] - absolute table size-[640000px] overscroll-contain bg-[50px_50px] bg-[length:100px_100px] bg-dots_grid opacity-15"
+        className="-left-[320000px] -top-[320000px] absolute table size-[640000px] overscroll-contain bg-[50px_50px] bg-[length:100px_100px] opacity-15"
         style={{
+          backgroundImage: 'var(--dots-grid)',
           cursor: mode === 'drag' ? 'grab' : 'default',
         }}
       />

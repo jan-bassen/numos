@@ -1,16 +1,16 @@
 #lasso {
-    position: absolute;
-    top: 0;
-    left: 0;
-    pointer-events: none;
-  }
-  
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
 #lasso polygon {
-    stroke: hsl(var(--border));
-    stroke-dasharray: 6 3;
-    stroke-width: 2;
-    fill: hsl(var(--muted)/ 0.2);
-    z-index: 5;
+  stroke: var(--border);
+  stroke-dasharray: 6 3;
+  stroke-width: 2;
+  fill: color-mix(in oklab, var(--primary-500) 14%, transparent);
+  z-index: 5;
 }
 
 @media screen and (max-width: 768px) {
@@ -18,4 +18,3 @@
     display: none;
   }
 }
-  

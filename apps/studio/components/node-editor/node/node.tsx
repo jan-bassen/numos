@@ -1,20 +1,13 @@
 'use client'
 
-import { cn } from '@repo/ui/lib/utils'
-import {
-  PiAnnotationDefaultStroke,
-  PiCopyDefaultStroke,
-  PiDeleteDustbin02Stroke,
-  PiInformationCircleStroke,
-  PiThreeByTwoDotsVertical,
-} from '@repo/ui/icons/pika'
+import SpeechbubbleTick from '@/public/graphics/speechbubble-tick'
+import type { Props } from '@/types/nodes.types'
 import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger,
 } from '@repo/ui/components/context-menu'
-import type { Props } from '@/types/nodes.types'
 import {
   Dialog,
   DialogContent,
@@ -23,13 +16,20 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@repo/ui/components/dialog'
-import Input from './input'
-import Control from './control'
-import Output from './output'
-import { useEffect, useRef, useState } from 'react'
 import { Textarea } from '@repo/ui/components/textarea'
+import {
+  PiAnnotationDefaultStroke,
+  PiCopyDefaultStroke,
+  PiDeleteDustbin02Stroke,
+  PiInformationCircleStroke,
+  PiThreeByTwoDotsVertical,
+} from '@repo/ui/icons/pika'
+import { cn } from '@repo/ui/lib/utils'
+import { useEffect, useRef, useState } from 'react'
 import { Drag } from 'rete-react-plugin'
-import SpeechbubbleTick from '@/public/graphics/speechbubble-tick'
+import Control from './control'
+import Input from './input'
+import Output from './output'
 
 function sortByIndex<T extends [string, undefined | { index?: number }][]>(
   entries: T,
@@ -95,8 +95,8 @@ export function NodeComponent(props: Props) {
             className={cn(
               'relative box-border flex cursor-grab select-none rounded-lg shadow-md',
               root
-                ? 'border-2 border-secondary-100 bg-secondary-50 hover:bg-secondary-100 hover:border-secondary-100 '
-                : 'border border-border bg-grid hover:bg-primary-50 hover:border-primary-100',
+                ? 'border-2 border-secondary-100 bg-secondary-50 hover:border-secondary-100 hover:bg-secondary-100 '
+                : 'border border-border bg-card hover:border-primary-100 hover:bg-primary-50',
               selected && 'border-primary-300',
               definition.componentType === 'input'
                 ? 'flex-row items-center justify-between gap-1'
