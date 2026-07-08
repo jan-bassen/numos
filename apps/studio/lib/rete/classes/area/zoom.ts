@@ -1,5 +1,5 @@
-import type { Position } from '@/types/nodes.types'
 import type { InputMode } from '@/types/editor.types'
+import type { Position } from '@/types/nodes.types'
 
 /**
  * Zoom source
@@ -67,8 +67,11 @@ export class Zoom {
   private mouseWheel = (e: WheelEvent) => {
     e.preventDefault()
     const { left, top } = this.element.getBoundingClientRect()
+    const zoomSensitivity = 0.4
     const isNegative = e.deltaY < 0
-    const delta = isNegative ? this.intensity : -this.intensity
+    const delta = isNegative
+      ? this.intensity * zoomSensitivity
+      : -this.intensity * zoomSensitivity
     const ox = (left - e.clientX) * delta
     const oy = (top - e.clientY) * delta
     this.events.zoom(delta, ox, oy, 'wheel')
