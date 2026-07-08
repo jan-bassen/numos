@@ -1,52 +1,77 @@
 'use client'
 
-import { useParams } from 'next/navigation'
-import { useAsyncResource } from '@/lib/data/use-async-resource'
+import { CollectionDemo } from '@/app/collections/[collection]/(components)/collection-demo'
+import { CollectionImage } from '@/app/collections/[collection]/(components)/collection-image'
+import DeleteCollectionButton from '@/app/collections/[collection]/(components)/delete-collection-button'
+import { CollectionExternalLinkInput } from '@/app/collections/[collection]/(components)/inputs/collection-external-link-input'
+import { CollectionSlugInput } from '@/app/collections/[collection]/(components)/inputs/collection-slug-input'
+import { CollectionTitle } from '@/app/collections/[collection]/(components)/inputs/collection-title'
+import { VersionDescriptionInput } from '@/app/collections/[collection]/(components)/inputs/version-description-input'
+import { LockCollectionButton } from '@/app/collections/[collection]/(components)/lock-collection-button'
+import ActionContextMenu from '@/app/collections/[collection]/actions/(components)/action-context-menu'
 import { NewActionDialog } from '@/app/collections/[collection]/actions/(components)/new-action/new-action-dialog'
+import AttributeContextMenu from '@/app/collections/[collection]/attributes/(components)/attribute-context-menu'
 import { NewAttributeDialog } from '@/app/collections/[collection]/attributes/(components)/new-attribute-dialog'
+import LayerContextMenu from '@/app/collections/[collection]/image/(components)/layer-context-menu'
+import { NewLayerDialog } from '@/app/collections/[collection]/image/(components)/new-layer/new-layer-dialog'
+import {
+  ElementCardButton,
+  ElementCardLink,
+} from '@/components/elements/element-card'
+import Segment from '@/components/layouts/segmented/segment'
+import SegmentedLayout from '@/components/layouts/segmented/segmented-layout'
 import Section from '@/components/layouts/simple/section'
+import SimpleGrid from '@/components/layouts/simple/simple-grid'
 import {
   Header,
   HeaderActions,
   HeaderContent,
-  HeaderDescription,
   HeaderIcon,
   HeaderMain,
   HeaderTabBar,
   HeaderTabBarItem,
 } from '@/components/page/header'
 import Main from '@/components/page/main'
-import { getLatestActions } from '@/lib/data/actions'
-import { getLatestAttributes } from '@/lib/data/attributes/read'
-import { getExtendedCollectionFromSlug } from '@/lib/data/collections'
-import DeleteCollectionButton from '@/app/collections/[collection]/(components)/delete-collection-button'
 import { Page } from '@/components/page/page'
+import { dataTypes } from '@/lib/constants/datatypes'
+import { layerOptions } from '@/lib/constants/layers'
+import { triggerOptions } from '@/lib/constants/triggers'
+import { getActionGraph } from '@/lib/data/action-graph'
+import { getAllActions } from '@/lib/data/actions'
+import { getAllAttributes } from '@/lib/data/attributes/read'
+import { getExtendedCollectionFromSlug } from '@/lib/data/collections'
+import { getImageGraph } from '@/lib/data/image-graph'
+import { getAllLayers } from '@/lib/data/layers/read'
+import { useAsyncResource } from '@/lib/data/use-async-resource'
 import {
   PiGridDashboard02Solid,
-  PiSettings02Solid,
   PiReceipt01Solid,
+  PiSettings02Solid,
 } from '@repo/ui/icons/pika'
-import Segment from '@/components/layouts/segmented/segment'
-import SegmentedLayout from '@/components/layouts/segmented/segmented-layout'
-import { CollectionImage } from '@/app/collections/[collection]/(components)/collection-image'
-import { LockCollectionButton } from '@/app/collections/[collection]/(components)/lock-collection-button'
-import { CollectionTitle } from '@/app/collections/[collection]/(components)/inputs/collection-title'
-import { CollectionSlugInput } from '@/app/collections/[collection]/(components)/inputs/collection-slug-input'
-import { CollectionExternalLinkInput } from '@/app/collections/[collection]/(components)/inputs/collection-external-link-input'
-import SimpleGrid from '@/components/layouts/simple/simple-grid'
-import ActionContextMenu from '@/app/collections/[collection]/actions/(components)/action-context-menu'
-import {
-  ElementCardButton,
-  ElementCardLink,
-} from '@/components/elements/element-card'
-import { triggerOptions } from '@/lib/constants/triggers'
-import AttributeContextMenu from '@/app/collections/[collection]/attributes/(components)/attribute-context-menu'
-import { dataTypes } from '@/lib/constants/datatypes'
-import LayerContextMenu from '@/app/collections/[collection]/image/(components)/layer-context-menu'
-import { getLatestLayers } from '@/lib/data/layers/read'
-import { NewLayerDialog } from '@/app/collections/[collection]/image/(components)/new-layer/new-layer-dialog'
-import { layerOptions } from '@/lib/constants/layers'
-import { VersionDescriptionInput } from '@/app/collections/[collection]/(components)/inputs/version-description-input'
+import { useParams } from 'next/navigation'
+import type React from 'react'
+
+function LabFlaskConical(props: React.JSX.IntrinsicElements['svg']) {
+  return (
+    <svg
+      {...props}
+      aria-hidden="true"
+      focusable="false"
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <path
+        fillRule="evenodd"
+        d="M8 3a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2v4.523a.5.5 0 0 0 .092.289l3.8 5.364 1.63 2.3c1.642 2.32-.016 5.524-2.856 5.524H6.335c-2.841 0-4.498-3.205-2.857-5.523l2.47-3.486 2.96-4.18A.5.5 0 0 0 9 8.524V4a1 1 0 0 1-1-1Zm3 1v4.523a2.5 2.5 0 0 1-.46 1.445l-1.364 1.925a6.3 6.3 0 0 1 1.28.044c1.185.163 2.165.642 2.985 1.08q.166.087.323.173h.002c1.043.56 1.807.971 2.655.958l-2.961-4.18A2.5 2.5 0 0 1 13 8.523V4zM9 15a1 1 0 0 0 0 2h.01a1 1 0 0 0 0-2z"
+        clipRule="evenodd"
+        fill="currentColor"
+      />
+    </svg>
+  )
+}
 
 export default function Collection() {
   const params = useParams<{ collection: string }>()
@@ -56,23 +81,52 @@ export default function Collection() {
   )
   const version = collection?.editable_version
 
-  const { data: attributes } = useAsyncResource(
-    () => (version ? getLatestAttributes(version.id, 5) : Promise.resolve([])),
-    [version?.id],
-  )
-  const { data: actions } = useAsyncResource(
-    () => (version ? getLatestActions(version.id, 5) : Promise.resolve([])),
-    [version?.id],
-  )
-  const { data: layers } = useAsyncResource(
-    () => (version ? getLatestLayers(version.id, 5) : Promise.resolve([])),
-    [version?.id],
-  )
+  const { data: demoData } = useAsyncResource(async () => {
+    if (!version) {
+      return {
+        attributes: [],
+        actions: [],
+        layers: [],
+        actionGraphs: {},
+        imageLayer: undefined,
+        imageGraph: undefined,
+      }
+    }
+
+    const [attributes, actions, layers] = await Promise.all([
+      getAllAttributes(version.id),
+      getAllActions(version.id),
+      getAllLayers(version.id),
+    ])
+    const actionGraphEntries = await Promise.all(
+      actions.map(async (action) => {
+        const graph = await getActionGraph(action.id)
+        return [action.id, graph] as const
+      }),
+    )
+    const imageLayer =
+      layers.find((layer) => layer.definition?.type === 'custom') ?? layers[0]
+    const imageGraph = imageLayer
+      ? await getImageGraph(imageLayer.id)
+      : undefined
+
+    return {
+      attributes,
+      actions,
+      layers,
+      actionGraphs: Object.fromEntries(actionGraphEntries),
+      imageLayer,
+      imageGraph,
+    }
+  }, [version?.id])
+  const attributes = demoData?.attributes ?? []
+  const actions = demoData?.actions ?? []
+  const layers = demoData?.layers ?? []
 
   if (!collection || !version) return null
 
   return (
-    <Page tabs tabsProps={{ defaultValue: 'overview', pageid: 'collection' }}>
+    <Page tabs tabsProps={{ defaultValue: 'demo', pageid: 'collection' }}>
       <Header>
         <HeaderContent>
           <HeaderMain>
@@ -87,6 +141,9 @@ export default function Collection() {
           </HeaderActions>
         </HeaderContent>
         <HeaderTabBar>
+          <HeaderTabBarItem value="demo" icon={LabFlaskConical}>
+            Demo
+          </HeaderTabBarItem>
           <HeaderTabBarItem value="overview" icon={PiGridDashboard02Solid}>
             Overview
           </HeaderTabBarItem>
@@ -98,6 +155,17 @@ export default function Collection() {
           </HeaderTabBarItem>
         </HeaderTabBar>
       </Header>
+      <Main value="demo">
+        <CollectionDemo
+          collection={collection}
+          version={version}
+          attributes={attributes}
+          actions={actions}
+          actionGraphs={demoData?.actionGraphs ?? {}}
+          imageGraph={demoData?.imageGraph}
+          imageLayer={demoData?.imageLayer}
+        />
+      </Main>
       <Main value="overview">
         <Section
           title="Attributes"

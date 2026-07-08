@@ -158,18 +158,26 @@ export class EngineBase {
     const localImage = image.startsWith('/') ? image.slice(1) : image
     if (!localImage.startsWith('flower/')) return undefined
 
+    const localImages = localImage.endsWith('.png')
+      ? [localImage.replace(/\.png$/, '.svg'), localImage]
+      : [localImage]
     const candidates = [
-      path.join(process.cwd(), 'public', localImage),
-      path.join(process.cwd(), 'apps', 'studio', 'public', localImage),
+      ...localImages.map((image) => path.join(process.cwd(), 'public', image)),
+      ...localImages.map((image) =>
+        path.join(process.cwd(), 'apps', 'studio', 'public', image),
+      ),
     ]
 
     for (const candidate of candidates) {
       try {
         const buffer = await readFile(candidate)
+        const image = candidate.endsWith('.svg')
+          ? sharp(buffer, { density: 288 })
+          : sharp(buffer)
         return {
           type: 'buffer',
           format: 'single',
-          value: await sharp(buffer).toBuffer(),
+          value: await image.toBuffer(),
         }
       } catch {
         // Try the next likely workspace root.

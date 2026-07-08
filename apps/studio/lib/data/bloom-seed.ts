@@ -50,30 +50,30 @@ const ACTION = {
 } as const
 
 const flowerFiles = [
-  '1-1.png',
-  '1-2.png',
-  '1-3.png',
-  '1-4.png',
-  '2-1.png',
-  '2-2.png',
-  '2-3.png',
-  '2-4.png',
-  '3-1-1.png',
-  '3-1-2.png',
-  '3-2-1.png',
-  '3-2-2.png',
-  '3-3-1.png',
-  '3-3-2.png',
-  '3-4-1.png',
-  '3-4-2.png',
-  '4-1-1.png',
-  '4-1-2.png',
-  '4-2-1.png',
-  '4-2-2.png',
-  '4-3-1.png',
-  '4-3-2.png',
-  '4-4-1.png',
-  '4-4-2.png',
+  '1-1.svg',
+  '1-2.svg',
+  '1-3.svg',
+  '1-4.svg',
+  '2-1.svg',
+  '2-2.svg',
+  '2-3.svg',
+  '2-4.svg',
+  '3-1-1.svg',
+  '3-1-2.svg',
+  '3-2-1.svg',
+  '3-2-2.svg',
+  '3-3-1.svg',
+  '3-3-2.svg',
+  '3-4-1.svg',
+  '3-4-2.svg',
+  '4-1-1.svg',
+  '4-1-2.svg',
+  '4-2-1.svg',
+  '4-2-2.svg',
+  '4-3-1.svg',
+  '4-3-2.svg',
+  '4-4-1.svg',
+  '4-4-2.svg',
 ]
 
 function numberValue(value: number) {
@@ -613,7 +613,7 @@ function buildBloomImageGraph() {
   const growthOne = buildHealthImageMap(
     graph,
     'growth-1-health',
-    ['1-1.png', '1-2.png', '1-3.png', '1-4.png'],
+    ['1-1.svg', '1-2.svg', '1-3.svg', '1-4.svg'],
     health,
     -420,
     -650,
@@ -621,7 +621,7 @@ function buildBloomImageGraph() {
   const growthTwo = buildHealthImageMap(
     graph,
     'growth-2-health',
-    ['2-1.png', '2-2.png', '2-3.png', '2-4.png'],
+    ['2-1.svg', '2-2.svg', '2-3.svg', '2-4.svg'],
     health,
     -420,
     160,
@@ -629,7 +629,7 @@ function buildBloomImageGraph() {
   const growthThreeBloomOne = buildHealthImageMap(
     graph,
     'growth-3-bloom-1-health',
-    ['3-1-1.png', '3-2-1.png', '3-3-1.png', '3-4-1.png'],
+    ['3-1-1.svg', '3-2-1.svg', '3-3-1.svg', '3-4-1.svg'],
     health,
     660,
     -650,
@@ -637,7 +637,7 @@ function buildBloomImageGraph() {
   const growthThreeBloomTwo = buildHealthImageMap(
     graph,
     'growth-3-bloom-2-health',
-    ['3-1-2.png', '3-2-2.png', '3-3-2.png', '3-4-2.png'],
+    ['3-1-2.svg', '3-2-2.svg', '3-3-2.svg', '3-4-2.svg'],
     health,
     660,
     160,
@@ -645,7 +645,7 @@ function buildBloomImageGraph() {
   const growthFourBloomOne = buildHealthImageMap(
     graph,
     'growth-4-bloom-1-health',
-    ['4-1-1.png', '4-2-1.png', '4-3-1.png', '4-4-1.png'],
+    ['4-1-1.svg', '4-2-1.svg', '4-3-1.svg', '4-4-1.svg'],
     health,
     660,
     980,
@@ -653,7 +653,7 @@ function buildBloomImageGraph() {
   const growthFourBloomTwo = buildHealthImageMap(
     graph,
     'growth-4-bloom-2-health',
-    ['4-1-2.png', '4-2-2.png', '4-3-2.png', '4-4-2.png'],
+    ['4-1-2.svg', '4-2-2.svg', '4-3-2.svg', '4-4-2.svg'],
     health,
     660,
     1790,
@@ -717,11 +717,11 @@ async function seedFlowerUploads() {
     id: `flower/${file}`,
     version: VERSION_ID,
     folder: FLOWER_FOLDER_ID,
-    name: file.replace('.png', ''),
-    type: 'png',
+    name: file.replace('.svg', ''),
+    type: 'svg+xml',
     bytes: 0,
-    width: 360,
-    height: 360,
+    width: 750,
+    height: 751,
     tags: ['flower', 'demo'],
     created_at: now(),
     updated_at: now(),
@@ -734,13 +734,13 @@ async function seedFlowerUploads() {
     const blob = await res.blob()
     upload.bytes = blob.size
     await putBlob(upload.id, blob)
-    if (upload.id === 'flower/4-4-2.png') {
+    if (upload.id === 'flower/4-4-2.svg') {
       coverBlob = blob
     }
   }
 
   if (coverBlob) {
-    await putBlob('bloom-collection-cover.png', coverBlob)
+    await putBlob('bloom-collection-cover.svg', coverBlob)
   }
 
   await bulkPut('uploads', uploads)
@@ -1032,7 +1032,7 @@ export async function seedBloomLab(): Promise<void> {
       'A living flower collection built from editable no-code logic.',
     symbol: 'BLOOM',
     external_link: null,
-    image: 'bloom-collection-cover.png',
+    image: 'bloom-collection-cover.svg',
     banner: null,
     max_supply: 1000,
     editable_version: VERSION_ID,
