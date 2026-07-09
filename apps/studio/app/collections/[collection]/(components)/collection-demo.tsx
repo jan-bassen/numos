@@ -81,7 +81,7 @@ const bloomDefaults: Record<string, number> = {
 }
 
 const actionOrder: Record<string, number> = {
-  'water-flower': 1,
+  water: 1,
   'give-sun': 2,
   fertilize: 3,
   prune: 4,

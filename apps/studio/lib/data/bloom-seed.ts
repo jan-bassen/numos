@@ -5,7 +5,14 @@ import {
   DEMO_PROFILE,
   DEMO_USER_ID,
 } from '@/lib/data/demo-constants'
-import { bulkPut, put, putBlob } from '@/lib/data/store'
+import {
+  bulkPut,
+  getAll,
+  patch,
+  put,
+  putBlob,
+  removeMany,
+} from '@/lib/data/store'
 import type {
   Action,
   Attribute,
@@ -378,141 +385,1250 @@ function createInlineClampedAttributeChange(
 
 function buildWaterFlowerGraph() {
   const graph = new GraphBuilder('water-flower')
-  const root = graph.node(
+  const trigger = graph.node(
     'action-root',
     'trigger',
-    -620,
-    150,
+    -739.1982421875,
+    171.55322265625,
     {},
-    'Run this action in the simulation panel to see how it changes the flower token state.',
+    '',
+  )
+  const hydrationCurrent = graph.node(
+    'token-attribute',
+    'hydration-current',
+    -530.3359375,
+    -145.08203125,
+    { inputs: {}, controls: { attribute: enumValue(ATTR.hydration) } },
+  )
+  const hydrationMath = graph.node(
+    'maths',
+    'hydration-math',
+    -298.3046875,
+    -160.03515625,
+    {
+      inputs: {
+        number1: { type: 'number', format: 'single' },
+        number2: numberValue(1),
+      },
+      controls: { mode: enumValue('add') },
+    },
+  )
+  const hydrationClamp = graph.node(
+    'clamp',
+    'hydration-clamp',
+    -51.37890625,
+    -102.22265625,
+    {
+      inputs: {
+        number: { type: 'number', format: 'single' },
+        min: numberValue(0),
+        max: numberValue(3),
+      },
+      controls: {},
+    },
+  )
+  const hydrationChange = graph.node(
+    'change-token-attribute',
+    'hydration-change',
+    211.96484375,
+    -45.66015625,
+    {
+      inputs: { value: { type: 'number', format: 'single' } },
+      controls: {
+        attribute: enumValue(ATTR.hydration),
+        mode: enumValue('set'),
+      },
+    },
+    'Watering increases hydration...',
+  )
+  const healthCurrent = graph.node(
+    'token-attribute',
+    'health-current',
+    -277.6376953125,
+    344.267578125,
+    { inputs: {}, controls: { attribute: enumValue(ATTR.health) } },
+  )
+  const healthMath = graph.node(
+    'maths',
+    'health-math',
+    -45.29052734375,
+    319.77734375,
+    {
+      inputs: {
+        number1: { type: 'number', format: 'single' },
+        number2: numberValue(1),
+      },
+      controls: { mode: enumValue('add') },
+    },
+  )
+  const healthClamp = graph.node(
+    'clamp',
+    'health-clamp',
+    217.8125,
+    316.12890625,
+    {
+      inputs: {
+        number: { type: 'number', format: 'single' },
+        min: numberValue(1),
+        max: numberValue(4),
+      },
+      controls: {},
+    },
+  )
+  const healthChange = graph.node(
+    'change-token-attribute',
+    'health-change',
+    537.6953125,
+    108.546875,
+    {
+      inputs: { value: { type: 'number', format: 'single' } },
+      controls: {
+        attribute: enumValue(ATTR.health),
+        mode: enumValue('set'),
+      },
+    },
+    '...and health',
   )
 
-  const hydrationChange = createInlineClampedAttributeChange(graph, {
-    key: 'hydration',
-    attribute: ATTR.hydration,
-    delta: 1,
-    min: 0,
-    max: 3,
-    x: -460,
-    y: -190,
-    execFrom: root,
-    comment: 'Watering increases Hydration by one, but at max to 3.',
-  })
-  createInlineClampedAttributeChange(graph, {
-    key: 'health',
-    attribute: ATTR.health,
-    delta: 1,
-    min: 1,
-    max: 4,
-    x: -260,
-    y: 330,
-    execFrom: hydrationChange,
-  })
+  graph.connect(trigger, 'exec', hydrationChange, 'exec', 'exec')
+  graph.connect(
+    hydrationCurrent,
+    'attribute',
+    hydrationMath,
+    'number1',
+    'number',
+  )
+  graph.connect(hydrationMath, 'output', hydrationClamp, 'number', 'number')
+  graph.connect(hydrationClamp, 'output', hydrationChange, 'value', 'number')
+  graph.connect(hydrationChange, 'exec', healthChange, 'exec', 'exec')
+  graph.connect(healthCurrent, 'attribute', healthMath, 'number1', 'number')
+  graph.connect(healthMath, 'output', healthClamp, 'number', 'number')
+  graph.connect(healthClamp, 'output', healthChange, 'value', 'number')
+
+  return graph
+}
+
+function buildFertilizeGraph() {
+  const graph = new GraphBuilder('fertilize')
+  const trigger = graph.node(
+    'action-root',
+    'trigger',
+    -717.7272879636481,
+    -19.14542961711251,
+    {},
+    '',
+  )
+  const growthCurrent = graph.node(
+    'token-attribute',
+    'growth-current',
+    -381.5857553665198,
+    -292.0778411074698,
+    { controls: { attribute: enumValue(ATTR.growth) } },
+    '',
+  )
+  const growthMath = graph.node(
+    'maths',
+    'growth-math',
+    -128.86932336116595,
+    -309.91275009333407,
+    {
+      inputs: {
+        number1: { type: 'number', format: 'single' },
+        number2: numberValue(1),
+      },
+      controls: { mode: enumValue('add') },
+    },
+  )
+  const growthClamp = graph.node(
+    'clamp',
+    'growth-clamp',
+    107.90037993588972,
+    -182.65677451477413,
+    {
+      inputs: {
+        number: { type: 'number', format: 'single' },
+        min: numberValue(1),
+        max: numberValue(4),
+      },
+      controls: {},
+    },
+  )
+  const growthChange = graph.node(
+    'change-token-attribute',
+    'growth-change',
+    380,
+    -135,
+    {
+      inputs: { value: { type: 'number', format: 'single' } },
+      controls: {
+        attribute: enumValue(ATTR.growth),
+        mode: enumValue('set'),
+      },
+    },
+    'Fertilizer pushes growth...',
+  )
+  const stressCurrent = graph.node(
+    'token-attribute',
+    'stress-current',
+    -183.76781747862913,
+    234.2513601430761,
+    { inputs: {}, controls: { attribute: enumValue(ATTR.stress) } },
+  )
+  const stressMath = graph.node(
+    'maths',
+    'stress-math',
+    67.65533315365786,
+    220.5181552609135,
+    {
+      inputs: {
+        number1: { type: 'number', format: 'single' },
+        number2: numberValue(1),
+      },
+      controls: { mode: enumValue('add') },
+    },
+  )
+  const stressClamp = graph.node(
+    'clamp',
+    'stress-clamp',
+    372.18432244880324,
+    223.74898828427325,
+    {
+      inputs: {
+        number: { type: 'number', format: 'single' },
+        min: numberValue(0),
+        max: numberValue(3),
+      },
+      controls: {},
+    },
+  )
+  const stressChange = graph.node(
+    'change-token-attribute',
+    'stress-change',
+    744.0181223748198,
+    21.483195868223806,
+    {
+      inputs: { value: { type: 'number', format: 'single' } },
+      controls: {
+        attribute: enumValue(ATTR.stress),
+        mode: enumValue('set'),
+      },
+    },
+    '... but adds stress.',
+  )
+
+  graph.connect(trigger, 'exec', growthChange, 'exec', 'exec')
+  graph.connect(growthChange, 'exec', stressChange, 'exec', 'exec')
+  graph.connect(growthCurrent, 'attribute', growthMath, 'number1', 'number')
+  graph.connect(growthMath, 'output', growthClamp, 'number', 'number')
+  graph.connect(growthClamp, 'output', growthChange, 'value', 'number')
+  graph.connect(stressCurrent, 'attribute', stressMath, 'number1', 'number')
+  graph.connect(stressMath, 'output', stressClamp, 'number', 'number')
+  graph.connect(stressClamp, 'output', stressChange, 'value', 'number')
+
+  return graph
+}
+
+function buildGiveSunGraph() {
+  const graph = new GraphBuilder('give-sun')
+  const trigger = graph.node(
+    'action-root',
+    'trigger',
+    -637.3021910148884,
+    -18.010369936935177,
+    {},
+    '',
+  )
+  const sunlightCurrent = graph.node(
+    'token-attribute',
+    'sunlight-current',
+    -413.8280183343086,
+    -263.4739288732852,
+    { inputs: {}, controls: { attribute: enumValue(ATTR.sunlight) } },
+    '',
+  )
+  const sunlightMath = graph.node(
+    'maths',
+    'sunlight-math',
+    -165.8769138872635,
+    -240.12213729601456,
+    {
+      inputs: {
+        number1: { type: 'number', format: 'single' },
+        number2: numberValue(1),
+      },
+      controls: { mode: enumValue('add') },
+    },
+  )
+  const sunlightClamp = graph.node(
+    'clamp',
+    'sunlight-clamp',
+    108.26303556335739,
+    -193.18283312203368,
+    {
+      inputs: {
+        number: { type: 'number', format: 'single' },
+        min: numberValue(0),
+        max: numberValue(3),
+      },
+      controls: {},
+    },
+  )
+  const sunlightChange = graph.node(
+    'change-token-attribute',
+    'sunlight-change',
+    380,
+    -135,
+    {
+      inputs: { value: { type: 'number', format: 'single' } },
+      controls: {
+        attribute: enumValue(ATTR.sunlight),
+        mode: enumValue('set'),
+      },
+    },
+    'Plant absorbs sunlight...',
+  )
+  const growthCurrent = graph.node(
+    'token-attribute',
+    'growth-current',
+    -204.5835060301671,
+    233.71419080358885,
+    { inputs: {}, controls: { attribute: enumValue(ATTR.growth) } },
+  )
+  const growthMath = graph.node(
+    'maths',
+    'growth-math',
+    75.31940787335023,
+    212.49196451791173,
+    {
+      inputs: {
+        number1: { type: 'number', format: 'single' },
+        number2: numberValue(1),
+      },
+      controls: { mode: enumValue('add') },
+    },
+  )
+  const growthClamp = graph.node(
+    'clamp',
+    'growth-clamp',
+    383.67506989142447,
+    210.6287688544308,
+    {
+      inputs: {
+        number: { type: 'number', format: 'single' },
+        min: numberValue(1),
+        max: numberValue(4),
+      },
+      controls: {},
+    },
+  )
+  const growthChange = graph.node(
+    'change-token-attribute',
+    'growth-change',
+    682.3048424192186,
+    36.69197183213058,
+    {
+      inputs: { value: { type: 'number', format: 'single' } },
+      controls: {
+        attribute: enumValue(ATTR.growth),
+        mode: enumValue('set'),
+      },
+    },
+    '... and grows',
+  )
+
+  graph.connect(trigger, 'exec', sunlightChange, 'exec', 'exec')
+  graph.connect(sunlightChange, 'exec', growthChange, 'exec', 'exec')
+  graph.connect(sunlightCurrent, 'attribute', sunlightMath, 'number1', 'number')
+  graph.connect(sunlightMath, 'output', sunlightClamp, 'number', 'number')
+  graph.connect(sunlightClamp, 'output', sunlightChange, 'value', 'number')
+  graph.connect(growthCurrent, 'attribute', growthMath, 'number1', 'number')
+  graph.connect(growthMath, 'output', growthClamp, 'number', 'number')
+  graph.connect(growthClamp, 'output', growthChange, 'value', 'number')
+
+  return graph
+}
+
+function buildPruneGraph() {
+  const graph = new GraphBuilder('prune')
+  const trigger = graph.node(
+    'action-root',
+    'trigger',
+    -718.1015625,
+    -22.54296875,
+    {},
+    '',
+  )
+  const stressCurrent = graph.node(
+    'token-attribute',
+    'stress-current',
+    -399.94140625,
+    -211.9375,
+    { inputs: {}, controls: { attribute: enumValue(ATTR.stress) } },
+    '',
+  )
+  const stressMath = graph.node(
+    'maths',
+    'stress-math',
+    -156.62890625,
+    -241.75,
+    {
+      inputs: {
+        number1: { type: 'number', format: 'single' },
+        number2: numberValue(1),
+      },
+      controls: { mode: enumValue('sub') },
+    },
+  )
+  const stressClamp = graph.node(
+    'clamp',
+    'stress-clamp',
+    109.5703125,
+    -211.87890625,
+    {
+      inputs: {
+        number: { type: 'number', format: 'single' },
+        min: numberValue(0),
+        max: numberValue(3),
+      },
+      controls: {},
+    },
+  )
+  const stressChange = graph.node(
+    'change-token-attribute',
+    'stress-change',
+    380,
+    -135,
+    {
+      inputs: { value: { type: 'number', format: 'single' } },
+      controls: {
+        attribute: enumValue(ATTR.stress),
+        mode: enumValue('set'),
+      },
+    },
+    'Pruning lowers stress...',
+  )
+  const healthCurrent = graph.node(
+    'token-attribute',
+    'health-current',
+    -146.74394269577047,
+    245.78339015447028,
+    { inputs: {}, controls: { attribute: enumValue(ATTR.health) } },
+  )
+  const healthMath = graph.node(
+    'maths',
+    'health-math',
+    99.43190775563117,
+    206.08698036980203,
+    {
+      inputs: {
+        number1: { type: 'number', format: 'single' },
+        number2: numberValue(1),
+      },
+      controls: { mode: enumValue('sub') },
+    },
+  )
+  const healthClamp = graph.node(
+    'clamp',
+    'health-clamp',
+    376.6045720901256,
+    191.87043583889778,
+    {
+      inputs: {
+        number: { type: 'number', format: 'single' },
+        min: numberValue(1),
+        max: numberValue(4),
+      },
+      controls: {},
+    },
+  )
+  const healthChange = graph.node(
+    'change-token-attribute',
+    'health-change',
+    690.3046322909926,
+    36.34142321313006,
+    {
+      inputs: { value: { type: 'number', format: 'single' } },
+      controls: {
+        attribute: enumValue(ATTR.health),
+        mode: enumValue('set'),
+      },
+    },
+    '..., but resets growth a bit.',
+  )
+  const resultMessage = graph.node(
+    'text-input',
+    'result-log-message',
+    940,
+    230,
+    {
+      inputs: {},
+      controls: {
+        text: stringValue(
+          'Pruned the flower. Stress dropped and health improved.',
+        ),
+      },
+    },
+  )
+  const resultLog = graph.node('log', 'result-log', 1210, 105, {})
+
+  graph.connect(trigger, 'exec', stressChange, 'exec', 'exec')
+  graph.connect(stressChange, 'exec', healthChange, 'exec', 'exec')
+  graph.connect(healthChange, 'exec', resultLog, 'exec', 'exec')
+  graph.connect(stressCurrent, 'attribute', stressMath, 'number1', 'number')
+  graph.connect(stressMath, 'output', stressClamp, 'number', 'number')
+  graph.connect(stressClamp, 'output', stressChange, 'value', 'number')
+  graph.connect(healthCurrent, 'attribute', healthMath, 'number1', 'number')
+  graph.connect(healthMath, 'output', healthClamp, 'number', 'number')
+  graph.connect(healthClamp, 'output', healthChange, 'value', 'number')
+  graph.connect(resultMessage, 'output', resultLog, 'value', 'string')
 
   return graph
 }
 
 function buildPassDayGraph() {
   const graph = new GraphBuilder('pass-day')
-  const root = graph.node(
-    'action-root',
-    'trigger',
-    -820,
-    -60,
-    {},
-    'Pass Day is the collection rulebook: stressed flowers lose health, calm flowers grow but consume care resources.',
-  )
-  const stress = createAttributeInput(graph, 'stress', ATTR.stress, -620, -300)
-  const stressLimit = createNumberInput(graph, 'stress-limit', 3, -620, -80)
-  const compare = createCompare(graph, 'stress-check', 'ge', -330, -200)
-  const switchNode = graph.node(
-    'switch',
-    'stress-switch',
-    -40,
-    -120,
-    {},
-    'If stress is high, the day damages the flower. Otherwise the flower grows and consumes stored water and sunlight.',
-  )
+  const savedGraph = {
+    nodes: [
+      {
+        id: 'pass-day-calm-growth-change',
+        type: 'change-token-attribute',
+        x: 1092.3564327039066,
+        y: 152.86230820641356,
+        comment: 'A calm day advances growth.',
+        state: {
+          inputs: {
+            value: {
+              type: 'number',
+              format: 'single',
+            },
+          },
+          controls: {
+            attribute: {
+              type: 'enum',
+              format: 'single',
+              value: '00000000-0000-4000-8000-000000000201',
+            },
+            mode: {
+              type: 'enum',
+              format: 'single',
+              value: 'set',
+            },
+          },
+        },
+      },
+      {
+        id: 'pass-day-calm-growth-clamp',
+        type: 'clamp',
+        x: 803.4639971206806,
+        y: 366.70009241791,
+        state: {
+          inputs: {
+            number: {
+              type: 'number',
+              format: 'single',
+            },
+            min: {
+              value: '1',
+              type: 'number',
+              format: 'single',
+            },
+            max: {
+              value: '4',
+              type: 'number',
+              format: 'single',
+            },
+          },
+          controls: {},
+        },
+      },
+      {
+        id: 'pass-day-calm-growth-current',
+        type: 'token-attribute',
+        x: 280.06381416574123,
+        y: 409.0109707132783,
+        comment: '',
+        state: {
+          inputs: {},
+          controls: {
+            attribute: {
+              type: 'enum',
+              format: 'single',
+              value: '00000000-0000-4000-8000-000000000201',
+            },
+          },
+        },
+      },
+      {
+        id: 'pass-day-calm-growth-math',
+        type: 'maths',
+        x: 521.1257997225293,
+        y: 356.9416678993569,
+        state: {
+          inputs: {
+            number1: {
+              type: 'number',
+              format: 'single',
+            },
+            number2: {
+              value: '1',
+              type: 'number',
+              format: 'single',
+            },
+          },
+          controls: {
+            mode: {
+              type: 'enum',
+              format: 'single',
+              value: 'add',
+            },
+          },
+        },
+      },
+      {
+        id: 'pass-day-calm-hydration-change',
+        type: 'change-token-attribute',
+        x: 2005.3327040477698,
+        y: 292.6754612127999,
+        comment: 'Growth consumes stored water...',
+        state: {
+          inputs: {
+            value: {
+              type: 'number',
+              format: 'single',
+            },
+          },
+          controls: {
+            attribute: {
+              type: 'enum',
+              format: 'single',
+              value: '00000000-0000-4000-8000-000000000204',
+            },
+            mode: {
+              type: 'enum',
+              format: 'single',
+              value: 'set',
+            },
+          },
+        },
+      },
+      {
+        id: 'pass-day-calm-hydration-clamp',
+        type: 'clamp',
+        x: 1713.2087272915514,
+        y: 536.7502611388642,
+        state: {
+          inputs: {
+            number: {
+              type: 'number',
+              format: 'single',
+            },
+            min: {
+              value: '0',
+              type: 'number',
+              format: 'single',
+            },
+            max: {
+              value: '3',
+              type: 'number',
+              format: 'single',
+            },
+          },
+          controls: {},
+        },
+      },
+      {
+        id: 'pass-day-calm-hydration-current',
+        type: 'token-attribute',
+        x: 1215.5286950265888,
+        y: 591.4221262623768,
+        comment: '',
+        state: {
+          inputs: {},
+          controls: {
+            attribute: {
+              type: 'enum',
+              format: 'single',
+              value: '00000000-0000-4000-8000-000000000204',
+            },
+          },
+        },
+      },
+      {
+        id: 'pass-day-calm-hydration-math',
+        type: 'maths',
+        x: 1459.8814742743505,
+        y: 528.1176344619599,
+        state: {
+          inputs: {
+            number1: {
+              type: 'number',
+              format: 'single',
+            },
+            number2: {
+              value: '1',
+              type: 'number',
+              format: 'single',
+            },
+          },
+          controls: {
+            mode: {
+              type: 'enum',
+              format: 'single',
+              value: 'sub',
+            },
+          },
+        },
+      },
+      {
+        id: 'pass-day-calm-sunlight-change',
+        type: 'change-token-attribute',
+        x: 3029.753845942868,
+        y: 362.3199592710749,
+        comment: '...and sunlight.',
+        state: {
+          inputs: {
+            value: {
+              type: 'number',
+              format: 'single',
+            },
+          },
+          controls: {
+            attribute: {
+              type: 'enum',
+              format: 'single',
+              value: '00000000-0000-4000-8000-000000000205',
+            },
+            mode: {
+              type: 'enum',
+              format: 'single',
+              value: 'set',
+            },
+          },
+        },
+      },
+      {
+        id: 'pass-day-calm-sunlight-clamp',
+        type: 'clamp',
+        x: 2766.330877319697,
+        y: 611.5451703755327,
+        state: {
+          inputs: {
+            number: {
+              type: 'number',
+              format: 'single',
+            },
+            min: {
+              value: '0',
+              type: 'number',
+              format: 'single',
+            },
+            max: {
+              value: '3',
+              type: 'number',
+              format: 'single',
+            },
+          },
+          controls: {},
+        },
+      },
+      {
+        id: 'pass-day-calm-sunlight-current',
+        type: 'token-attribute',
+        x: 2273.190499509318,
+        y: 611.3081828741736,
+        comment: '',
+        state: {
+          inputs: {},
+          controls: {
+            attribute: {
+              type: 'enum',
+              format: 'single',
+              value: '00000000-0000-4000-8000-000000000205',
+            },
+          },
+        },
+      },
+      {
+        id: 'pass-day-calm-sunlight-math',
+        type: 'maths',
+        x: 2507.547834762198,
+        y: 594.0611290893896,
+        state: {
+          inputs: {
+            number1: {
+              type: 'number',
+              format: 'single',
+            },
+            number2: {
+              value: '1',
+              type: 'number',
+              format: 'single',
+            },
+          },
+          controls: {
+            mode: {
+              type: 'enum',
+              format: 'single',
+              value: 'sub',
+            },
+          },
+        },
+      },
+      {
+        id: 'pass-day-high-stress-cooldown-change',
+        type: 'change-token-attribute',
+        x: 2113.2725602660985,
+        y: -269.352777366881,
+        comment: 'A hard day also burns off a little stress.',
+        state: {
+          inputs: {
+            value: {
+              type: 'number',
+              format: 'single',
+            },
+          },
+          controls: {
+            attribute: {
+              type: 'enum',
+              format: 'single',
+              value: '00000000-0000-4000-8000-000000000206',
+            },
+            mode: {
+              type: 'enum',
+              format: 'single',
+              value: 'set',
+            },
+          },
+        },
+      },
+      {
+        id: 'pass-day-high-stress-cooldown-clamp',
+        type: 'clamp',
+        x: 1861.180496235393,
+        y: -345.9024680108005,
+        state: {
+          inputs: {
+            number: {
+              type: 'number',
+              format: 'single',
+            },
+            min: {
+              value: '0',
+              type: 'number',
+              format: 'single',
+            },
+            max: {
+              value: '3',
+              type: 'number',
+              format: 'single',
+            },
+          },
+          controls: {},
+        },
+      },
+      {
+        id: 'pass-day-high-stress-cooldown-current',
+        type: 'token-attribute',
+        x: 1356.8322767545103,
+        y: -373.0309829037711,
+        comment: '',
+        state: {
+          inputs: {},
+          controls: {
+            attribute: {
+              type: 'enum',
+              format: 'single',
+              value: '00000000-0000-4000-8000-000000000206',
+            },
+          },
+        },
+      },
+      {
+        id: 'pass-day-high-stress-cooldown-math',
+        type: 'maths',
+        x: 1607.9444009381637,
+        y: -397.06928682643655,
+        state: {
+          inputs: {
+            number1: {
+              type: 'number',
+              format: 'single',
+            },
+            number2: {
+              value: '1',
+              type: 'number',
+              format: 'single',
+            },
+          },
+          controls: {
+            mode: {
+              type: 'enum',
+              format: 'single',
+              value: 'sub',
+            },
+          },
+        },
+      },
+      {
+        id: 'pass-day-high-stress-health-change',
+        type: 'change-token-attribute',
+        x: 1060,
+        y: -285,
+        comment: 'High stress makes the flower wilt.',
+        state: {
+          inputs: {
+            value: {
+              type: 'number',
+              format: 'single',
+            },
+          },
+          controls: {
+            attribute: {
+              type: 'enum',
+              format: 'single',
+              value: '00000000-0000-4000-8000-000000000202',
+            },
+            mode: {
+              type: 'enum',
+              format: 'single',
+              value: 'set',
+            },
+          },
+        },
+      },
+      {
+        id: 'pass-day-high-stress-health-clamp',
+        type: 'clamp',
+        x: 777.6800360267237,
+        y: -394.1249018757579,
+        state: {
+          inputs: {
+            number: {
+              type: 'number',
+              format: 'single',
+            },
+            min: {
+              value: '1',
+              type: 'number',
+              format: 'single',
+            },
+            max: {
+              value: '4',
+              type: 'number',
+              format: 'single',
+            },
+          },
+          controls: {},
+        },
+      },
+      {
+        id: 'pass-day-high-stress-health-current',
+        type: 'token-attribute',
+        x: 268.9015513552232,
+        y: -398.69188107576633,
+        comment: '',
+        state: {
+          inputs: {},
+          controls: {
+            attribute: {
+              type: 'enum',
+              format: 'single',
+              value: '00000000-0000-4000-8000-000000000202',
+            },
+          },
+        },
+      },
+      {
+        id: 'pass-day-high-stress-health-math',
+        type: 'maths',
+        x: 511.11212418365307,
+        y: -411.5633643019152,
+        state: {
+          inputs: {
+            number1: {
+              type: 'number',
+              format: 'single',
+            },
+            number2: {
+              value: '1',
+              type: 'number',
+              format: 'single',
+            },
+          },
+          controls: {
+            mode: {
+              type: 'enum',
+              format: 'single',
+              value: 'sub',
+            },
+          },
+        },
+      },
+      {
+        id: 'pass-day-stress',
+        type: 'token-attribute',
+        x: -584.5106188350246,
+        y: 17.713087654750396,
+        state: {
+          inputs: {},
+          controls: {
+            attribute: {
+              type: 'enum',
+              format: 'single',
+              value: '00000000-0000-4000-8000-000000000206',
+            },
+          },
+        },
+      },
+      {
+        id: 'pass-day-stress-check',
+        type: 'compare',
+        x: -329.3539204308403,
+        y: -25.041498600499892,
+        state: {
+          inputs: {
+            value1: {
+              type: 'number',
+              format: 'single',
+            },
+            value2: {
+              value: '3',
+              type: 'number',
+              format: 'single',
+            },
+          },
+          controls: {
+            mode: {
+              type: 'enum',
+              format: 'single',
+              value: 'ge',
+            },
+          },
+        },
+      },
+      {
+        id: 'pass-day-stress-switch',
+        type: 'switch',
+        x: -40,
+        y: -120,
+        comment:
+          'If stress is high, the day damages the flower. Otherwise the flower grows and consumes stored water and sunlight.',
+        state: {
+          inputs: {
+            switch: {
+              type: 'boolean',
+              format: 'single',
+            },
+          },
+          controls: {},
+        },
+      },
+      {
+        id: 'pass-day-trigger',
+        type: 'action-root',
+        x: -830.8399318283964,
+        y: -249.0423255317234,
+        comment:
+          'Pass Day is the collection rulebook: stressed flowers lose health, calm flowers grow but consume care resources.',
+        state: {
+          inputs: {},
+          controls: {},
+        },
+      },
+    ],
+    connections: [
+      {
+        id: 'pass-day-connection-1',
+        source: 'pass-day-trigger',
+        target: 'pass-day-stress-switch',
+        sourceOutput: 'exec',
+        targetInput: 'exec',
+        type: 'exec',
+      },
+      {
+        id: 'pass-day-connection-11',
+        source: 'pass-day-high-stress-health-clamp',
+        target: 'pass-day-high-stress-health-change',
+        sourceOutput: 'output',
+        targetInput: 'value',
+        type: 'number',
+      },
+      {
+        id: 'pass-day-connection-12',
+        source: 'pass-day-high-stress-health-change',
+        target: 'pass-day-high-stress-cooldown-change',
+        sourceOutput: 'exec',
+        targetInput: 'exec',
+        type: 'exec',
+      },
+      {
+        id: 'pass-day-connection-13',
+        source: 'pass-day-high-stress-cooldown-current',
+        target: 'pass-day-high-stress-cooldown-math',
+        sourceOutput: 'attribute',
+        targetInput: 'number1',
+        type: 'number',
+      },
+      {
+        id: 'pass-day-connection-15',
+        source: 'pass-day-high-stress-cooldown-math',
+        target: 'pass-day-high-stress-cooldown-clamp',
+        sourceOutput: 'output',
+        targetInput: 'number',
+        type: 'number',
+      },
+      {
+        id: 'pass-day-connection-18',
+        source: 'pass-day-high-stress-cooldown-clamp',
+        target: 'pass-day-high-stress-cooldown-change',
+        sourceOutput: 'output',
+        targetInput: 'value',
+        type: 'number',
+      },
+      {
+        id: 'pass-day-connection-2',
+        source: 'pass-day-stress',
+        target: 'pass-day-stress-check',
+        sourceOutput: 'attribute',
+        targetInput: 'value1',
+        type: 'number',
+      },
+      {
+        id: 'pass-day-connection-21',
+        source: 'pass-day-stress-switch',
+        target: 'pass-day-calm-growth-change',
+        sourceOutput: 'false',
+        targetInput: 'exec',
+        type: 'exec',
+      },
+      {
+        id: 'pass-day-connection-22',
+        source: 'pass-day-calm-growth-current',
+        target: 'pass-day-calm-growth-math',
+        sourceOutput: 'attribute',
+        targetInput: 'number1',
+        type: 'number',
+      },
+      {
+        id: 'pass-day-connection-24',
+        source: 'pass-day-calm-growth-math',
+        target: 'pass-day-calm-growth-clamp',
+        sourceOutput: 'output',
+        targetInput: 'number',
+        type: 'number',
+      },
+      {
+        id: 'pass-day-connection-27',
+        source: 'pass-day-calm-growth-clamp',
+        target: 'pass-day-calm-growth-change',
+        sourceOutput: 'output',
+        targetInput: 'value',
+        type: 'number',
+      },
+      {
+        id: 'pass-day-connection-28',
+        source: 'pass-day-calm-growth-change',
+        target: 'pass-day-calm-hydration-change',
+        sourceOutput: 'exec',
+        targetInput: 'exec',
+        type: 'exec',
+      },
+      {
+        id: 'pass-day-connection-29',
+        source: 'pass-day-calm-hydration-current',
+        target: 'pass-day-calm-hydration-math',
+        sourceOutput: 'attribute',
+        targetInput: 'number1',
+        type: 'number',
+      },
+      {
+        id: 'pass-day-connection-31',
+        source: 'pass-day-calm-hydration-math',
+        target: 'pass-day-calm-hydration-clamp',
+        sourceOutput: 'output',
+        targetInput: 'number',
+        type: 'number',
+      },
+      {
+        id: 'pass-day-connection-34',
+        source: 'pass-day-calm-hydration-clamp',
+        target: 'pass-day-calm-hydration-change',
+        sourceOutput: 'output',
+        targetInput: 'value',
+        type: 'number',
+      },
+      {
+        id: 'pass-day-connection-35',
+        source: 'pass-day-calm-hydration-change',
+        target: 'pass-day-calm-sunlight-change',
+        sourceOutput: 'exec',
+        targetInput: 'exec',
+        type: 'exec',
+      },
+      {
+        id: 'pass-day-connection-36',
+        source: 'pass-day-calm-sunlight-current',
+        target: 'pass-day-calm-sunlight-math',
+        sourceOutput: 'attribute',
+        targetInput: 'number1',
+        type: 'number',
+      },
+      {
+        id: 'pass-day-connection-38',
+        source: 'pass-day-calm-sunlight-math',
+        target: 'pass-day-calm-sunlight-clamp',
+        sourceOutput: 'output',
+        targetInput: 'number',
+        type: 'number',
+      },
+      {
+        id: 'pass-day-connection-4',
+        source: 'pass-day-stress-check',
+        target: 'pass-day-stress-switch',
+        sourceOutput: 'output',
+        targetInput: 'switch',
+        type: 'boolean',
+      },
+      {
+        id: 'pass-day-connection-41',
+        source: 'pass-day-calm-sunlight-clamp',
+        target: 'pass-day-calm-sunlight-change',
+        sourceOutput: 'output',
+        targetInput: 'value',
+        type: 'number',
+      },
+      {
+        id: 'pass-day-connection-5',
+        source: 'pass-day-stress-switch',
+        target: 'pass-day-high-stress-health-change',
+        sourceOutput: 'true',
+        targetInput: 'exec',
+        type: 'exec',
+      },
+      {
+        id: 'pass-day-connection-6',
+        source: 'pass-day-high-stress-health-current',
+        target: 'pass-day-high-stress-health-math',
+        sourceOutput: 'attribute',
+        targetInput: 'number1',
+        type: 'number',
+      },
+      {
+        id: 'pass-day-connection-8',
+        source: 'pass-day-high-stress-health-math',
+        target: 'pass-day-high-stress-health-clamp',
+        sourceOutput: 'output',
+        targetInput: 'number',
+        type: 'number',
+      },
+    ],
+  } satisfies {
+    nodes: SavedNode[]
+    connections: SavedConnection[]
+  }
 
-  graph.connect(root, 'exec', switchNode, 'exec', 'exec')
-  graph.connect(stress, 'attribute', compare, 'value1', 'number')
-  graph.connect(stressLimit, 'output', compare, 'value2', 'number')
-  graph.connect(compare, 'output', switchNode, 'switch', 'boolean')
-
-  const hurtHealth = createClampedAttributeChange(graph, {
-    key: 'high-stress-health',
-    attribute: ATTR.health,
-    delta: -1,
-    min: 1,
-    max: 4,
-    x: 260,
-    y: -430,
-    execFrom: switchNode,
-    execOutput: 'true',
-    comment: 'High stress makes the flower wilt.',
-  })
-  const calmStress = createClampedAttributeChange(graph, {
-    key: 'high-stress-cooldown',
-    attribute: ATTR.stress,
-    delta: -1,
-    min: 0,
-    max: 3,
-    x: 1320,
-    y: -430,
-    execFrom: hurtHealth,
-    comment: 'A hard day also burns off a little stress.',
-  })
-  createLog(
-    graph,
-    'stress-log',
-    'The flower was too stressed and lost health.',
-    2380,
-    -210,
-    calmStress,
-  )
-
-  const grow = createClampedAttributeChange(graph, {
-    key: 'calm-growth',
-    attribute: ATTR.growth,
-    delta: 1,
-    min: 1,
-    max: 4,
-    x: 260,
-    y: 240,
-    execFrom: switchNode,
-    execOutput: 'false',
-    comment: 'A calm day advances growth.',
-  })
-  const hydration = createClampedAttributeChange(graph, {
-    key: 'calm-hydration',
-    attribute: ATTR.hydration,
-    delta: -1,
-    min: 0,
-    max: 3,
-    x: 1320,
-    y: 240,
-    execFrom: grow,
-    comment: 'Growth consumes stored water.',
-  })
-  const sunlight = createClampedAttributeChange(graph, {
-    key: 'calm-sunlight',
-    attribute: ATTR.sunlight,
-    delta: -1,
-    min: 0,
-    max: 3,
-    x: 2380,
-    y: 240,
-    execFrom: hydration,
-    comment: 'Growth also consumes stored sunlight.',
-  })
-  createLog(
-    graph,
-    'growth-log',
-    'The flower used its care reserves and grew.',
-    3440,
-    460,
-    sunlight,
-  )
+  graph.nodes = savedGraph.nodes
+  graph.connections = savedGraph.connections
 
   return graph
 }
@@ -847,8 +1963,8 @@ function getActions(): Action[] {
   return [
     action(
       ACTION.water,
-      'water-flower',
-      'Water Flower',
+      'water',
+      'Water',
       'Stores water and gently restores health.',
     ),
     action(
@@ -909,90 +2025,91 @@ function imageGraphRows(layerId: string, graph: GraphBuilder) {
 function buildActionGraphs() {
   const water = buildWaterFlowerGraph()
 
-  const sun = buildSimpleCareActionGraph(
-    'give-sun',
-    [
-      {
-        key: 'sunlight',
-        attribute: ATTR.sunlight,
-        delta: 1,
-        min: 0,
-        max: 3,
-        label: 'Sunlight is stored for the next growth tick.',
-      },
-      {
-        key: 'growth',
-        attribute: ATTR.growth,
-        delta: 1,
-        min: 1,
-        max: 4,
-        label: 'A little light can advance growth.',
-      },
-    ],
-    'The flower absorbed sun and grew a little.',
-  )
-
-  const fertilize = buildSimpleCareActionGraph(
-    'fertilize',
-    [
-      {
-        key: 'growth',
-        attribute: ATTR.growth,
-        delta: 1,
-        min: 1,
-        max: 4,
-        label: 'Fertilizer pushes growth quickly.',
-      },
-      {
-        key: 'bloom',
-        attribute: ATTR.bloom,
-        delta: 1,
-        min: 1,
-        max: 2,
-        label: 'Fertilizer can reveal the alternate bloom type.',
-      },
-      {
-        key: 'stress',
-        attribute: ATTR.stress,
-        delta: 1,
-        min: 0,
-        max: 3,
-        label: 'Fast growth adds stress.',
-      },
-    ],
-    'Fertilizer accelerated growth, but the flower is more stressed.',
-  )
-
-  const prune = buildSimpleCareActionGraph(
-    'prune',
-    [
-      {
-        key: 'stress',
-        attribute: ATTR.stress,
-        delta: -1,
-        min: 0,
-        max: 3,
-        label: 'Pruning lowers stress.',
-      },
-      {
-        key: 'health',
-        attribute: ATTR.health,
-        delta: 1,
-        min: 1,
-        max: 4,
-        label: 'A cleaner plant recovers health.',
-      },
-    ],
-    'Pruned the flower. Stress dropped and health improved.',
-  )
-
   return [
     [ACTION.water, water],
-    [ACTION.sun, sun],
-    [ACTION.fertilize, fertilize],
-    [ACTION.prune, prune],
+    [ACTION.sun, buildGiveSunGraph()],
+    [ACTION.fertilize, buildFertilizeGraph()],
+    [ACTION.prune, buildPruneGraph()],
     [ACTION.passDay, buildPassDayGraph()],
   ] as const
+}
+
+async function replaceActionGraph(actionId: string, graph: GraphBuilder) {
+  const [nodes, connections] = await Promise.all([
+    getAll<StoredActionNode>('action_nodes'),
+    getAll<StoredActionConnection>('action_connections'),
+  ])
+  await removeMany(
+    'action_nodes',
+    nodes.filter((node) => node.action === actionId).map((node) => node.id),
+  )
+  await removeMany(
+    'action_connections',
+    connections
+      .filter((connection) => connection.action === actionId)
+      .map((connection) => connection.id),
+  )
+
+  const graphRows = actionGraphRows(actionId, graph)
+  await bulkPut('action_nodes', graphRows.nodes)
+  await bulkPut('action_connections', graphRows.connections)
+}
+
+export async function migrateDemoActionGraphs(): Promise<void> {
+  const nodes = await getAll<StoredActionNode>('action_nodes')
+  const actions = await getAll<Action>('actions')
+  const waterAction = actions.find((action) => action.id === ACTION.water)
+  const waterNodes = nodes.filter((node) => node.action === ACTION.water)
+  const waterTrigger = waterNodes.find(
+    (node) => node.id === 'water-flower-trigger',
+  )
+  const hasOldWaterLayout = waterTrigger && waterTrigger.x !== -739.1982421875
+  const fertilizeNodes = nodes.filter(
+    (node) => node.action === ACTION.fertilize,
+  )
+  const hasOldBloomStep = fertilizeNodes.some(
+    (node) => node.id === 'fertilize-bloom-change',
+  )
+  const giveSunNodes = nodes.filter((node) => node.action === ACTION.sun)
+  const hasOldGiveSunLog = giveSunNodes.some(
+    (node) => node.id === 'give-sun-result-log',
+  )
+  const pruneNodes = nodes.filter((node) => node.action === ACTION.prune)
+  const hasOldPruneDeltaNodes = pruneNodes.some(
+    (node) =>
+      node.id === 'prune-stress-delta' || node.id === 'prune-health-delta',
+  )
+  const passDayNodes = nodes.filter((node) => node.action === ACTION.passDay)
+  const hasOldPassDayLog = passDayNodes.some(
+    (node) =>
+      node.id === 'pass-day-stress-log' || node.id === 'pass-day-growth-log',
+  )
+
+  if (
+    waterAction &&
+    (waterAction.slug === 'water-flower' || waterAction.name === 'Water Flower')
+  ) {
+    await patch<Action>('actions', ACTION.water, {
+      slug: 'water',
+      name: 'Water',
+      updated_at: now(),
+    })
+  }
+  if (hasOldWaterLayout) {
+    await replaceActionGraph(ACTION.water, buildWaterFlowerGraph())
+  }
+  if (hasOldBloomStep) {
+    await replaceActionGraph(ACTION.fertilize, buildFertilizeGraph())
+  }
+  if (hasOldGiveSunLog) {
+    await replaceActionGraph(ACTION.sun, buildGiveSunGraph())
+  }
+  if (hasOldPruneDeltaNodes) {
+    await replaceActionGraph(ACTION.prune, buildPruneGraph())
+  }
+  if (hasOldPassDayLog) {
+    await replaceActionGraph(ACTION.passDay, buildPassDayGraph())
+  }
 }
 
 export async function seedBloomLab(): Promise<void> {
@@ -1027,7 +2144,7 @@ export async function seedBloomLab(): Promise<void> {
     id: COLLECTION_ID,
     account: DEMO_ACCOUNT_ID,
     slug: 'bloom-lab',
-    name: 'Bloom Lab',
+    name: 'Flower Demo',
     description:
       'A living flower collection built from editable no-code logic.',
     symbol: 'BLOOM',

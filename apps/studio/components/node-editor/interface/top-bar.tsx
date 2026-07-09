@@ -34,10 +34,44 @@ export default function TopBar() {
       toast.error('No graph available to copy')
       return
     }
+    const nodeIds = new Set(graph.nodes.map((node) => node.id))
+    const danglingConnections = graph.connections.filter(
+      (connection) =>
+        !nodeIds.has(connection.source) || !nodeIds.has(connection.target),
+    )
+    const invalidSocketConnections = graph.connections.filter((connection) => {
+      const source = editor?.editor.getNode(connection.source)
+      const target = editor?.editor.getNode(connection.target)
+      if (!source || !target) return false
+      return (
+        !source.getOutput(connection.sourceOutput) ||
+        !target.getInput(connection.targetInput)
+      )
+    })
+
+    if (danglingConnections.length > 0) {
+      console.warn('Graph JSON has dangling connections', danglingConnections)
+      toast.error(
+        `Graph has ${danglingConnections.length} stale connection${danglingConnections.length === 1 ? '' : 's'}`,
+      )
+      return
+    }
+    if (invalidSocketConnections.length > 0) {
+      console.warn(
+        'Graph JSON has invalid socket connections',
+        invalidSocketConnections,
+      )
+      toast.error(
+        `Graph has ${invalidSocketConnections.length} invalid connection${invalidSocketConnections.length === 1 ? '' : 's'}`,
+      )
+      return
+    }
 
     try {
       await navigator.clipboard.writeText(JSON.stringify(graph, null, 2))
-      toast.success('Graph JSON copied')
+      toast.success(
+        `Graph JSON copied (${graph.nodes.length} nodes, ${graph.connections.length} edges)`,
+      )
     } catch {
       toast.error('Could not copy graph JSON')
     }

@@ -1,10 +1,10 @@
-import type { ConnectionBase, NodeBase } from 'rete'
-import type { Node } from './node'
+import type { Socket } from '@/lib/rete/classes/connectors/socket'
 import type { SocketType } from '@/types/database.types'
-import type { NodeEditor } from './editor'
 import type { SavedConnection } from '@repo/shared/types/graph-types'
 import type { OptionalDataType } from '@repo/shared/types/values'
-import type { Socket } from '@/lib/rete/classes/connectors/socket'
+import type { ConnectionBase, NodeBase } from 'rete'
+import type { NodeEditor } from './editor'
+import type { Node } from './node'
 
 export class Connection implements ConnectionBase {
   id: ConnectionBase['id']
@@ -70,7 +70,7 @@ export class Connection implements ConnectionBase {
     const source = this.editor.getNode(this.source)
     const target = this.editor.getNode(this.target)
     //TODO: Clean this up. Non-connected connections should not be possible
-    if (!target && !source && this.editor.hasConnection(this.id)) {
+    if ((!target || !source) && this.editor.hasConnection(this.id)) {
       this.editor.removeConnection(this.id)
     }
     const sourceOutput = source?.getOutput(this.sourceOutput)
