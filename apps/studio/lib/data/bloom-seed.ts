@@ -87,12 +87,20 @@ function numberValue(value: number) {
   return { type: 'number', format: 'single', value } as const
 }
 
+function emptyNumberValue() {
+  return { type: 'number', format: 'single', value: undefined } as const
+}
+
 function stringValue(value: string) {
   return { type: 'string', format: 'single', value } as const
 }
 
 function enumValue(value: string) {
   return { type: 'enum', format: 'single', value } as const
+}
+
+function emptyBooleanValue() {
+  return { type: 'boolean', format: 'single', value: undefined } as const
 }
 
 function imageValue(value: string) {
@@ -407,7 +415,7 @@ function buildWaterFlowerGraph() {
     -160.03515625,
     {
       inputs: {
-        number1: { type: 'number', format: 'single' },
+        number1: emptyNumberValue(),
         number2: numberValue(1),
       },
       controls: { mode: enumValue('add') },
@@ -420,7 +428,7 @@ function buildWaterFlowerGraph() {
     -102.22265625,
     {
       inputs: {
-        number: { type: 'number', format: 'single' },
+        number: emptyNumberValue(),
         min: numberValue(0),
         max: numberValue(3),
       },
@@ -433,7 +441,7 @@ function buildWaterFlowerGraph() {
     211.96484375,
     -45.66015625,
     {
-      inputs: { value: { type: 'number', format: 'single' } },
+      inputs: { value: emptyNumberValue() },
       controls: {
         attribute: enumValue(ATTR.hydration),
         mode: enumValue('set'),
@@ -455,7 +463,7 @@ function buildWaterFlowerGraph() {
     319.77734375,
     {
       inputs: {
-        number1: { type: 'number', format: 'single' },
+        number1: emptyNumberValue(),
         number2: numberValue(1),
       },
       controls: { mode: enumValue('add') },
@@ -468,7 +476,7 @@ function buildWaterFlowerGraph() {
     316.12890625,
     {
       inputs: {
-        number: { type: 'number', format: 'single' },
+        number: emptyNumberValue(),
         min: numberValue(1),
         max: numberValue(4),
       },
@@ -481,7 +489,7 @@ function buildWaterFlowerGraph() {
     537.6953125,
     108.546875,
     {
-      inputs: { value: { type: 'number', format: 'single' } },
+      inputs: { value: emptyNumberValue() },
       controls: {
         attribute: enumValue(ATTR.health),
         mode: enumValue('set'),
@@ -533,7 +541,7 @@ function buildFertilizeGraph() {
     -309.91275009333407,
     {
       inputs: {
-        number1: { type: 'number', format: 'single' },
+        number1: emptyNumberValue(),
         number2: numberValue(1),
       },
       controls: { mode: enumValue('add') },
@@ -546,7 +554,7 @@ function buildFertilizeGraph() {
     -182.65677451477413,
     {
       inputs: {
-        number: { type: 'number', format: 'single' },
+        number: emptyNumberValue(),
         min: numberValue(1),
         max: numberValue(4),
       },
@@ -559,7 +567,7 @@ function buildFertilizeGraph() {
     380,
     -135,
     {
-      inputs: { value: { type: 'number', format: 'single' } },
+      inputs: { value: emptyNumberValue() },
       controls: {
         attribute: enumValue(ATTR.growth),
         mode: enumValue('set'),
@@ -581,7 +589,7 @@ function buildFertilizeGraph() {
     220.5181552609135,
     {
       inputs: {
-        number1: { type: 'number', format: 'single' },
+        number1: emptyNumberValue(),
         number2: numberValue(1),
       },
       controls: { mode: enumValue('add') },
@@ -594,7 +602,7 @@ function buildFertilizeGraph() {
     223.74898828427325,
     {
       inputs: {
-        number: { type: 'number', format: 'single' },
+        number: emptyNumberValue(),
         min: numberValue(0),
         max: numberValue(3),
       },
@@ -607,7 +615,7 @@ function buildFertilizeGraph() {
     744.0181223748198,
     21.483195868223806,
     {
-      inputs: { value: { type: 'number', format: 'single' } },
+      inputs: { value: emptyNumberValue() },
       controls: {
         attribute: enumValue(ATTR.stress),
         mode: enumValue('set'),
@@ -653,7 +661,7 @@ function buildGiveSunGraph() {
     -240.12213729601456,
     {
       inputs: {
-        number1: { type: 'number', format: 'single' },
+        number1: emptyNumberValue(),
         number2: numberValue(1),
       },
       controls: { mode: enumValue('add') },
@@ -666,7 +674,7 @@ function buildGiveSunGraph() {
     -193.18283312203368,
     {
       inputs: {
-        number: { type: 'number', format: 'single' },
+        number: emptyNumberValue(),
         min: numberValue(0),
         max: numberValue(3),
       },
@@ -679,7 +687,7 @@ function buildGiveSunGraph() {
     380,
     -135,
     {
-      inputs: { value: { type: 'number', format: 'single' } },
+      inputs: { value: emptyNumberValue() },
       controls: {
         attribute: enumValue(ATTR.sunlight),
         mode: enumValue('set'),
@@ -701,7 +709,7 @@ function buildGiveSunGraph() {
     212.49196451791173,
     {
       inputs: {
-        number1: { type: 'number', format: 'single' },
+        number1: emptyNumberValue(),
         number2: numberValue(1),
       },
       controls: { mode: enumValue('add') },
@@ -714,7 +722,7 @@ function buildGiveSunGraph() {
     210.6287688544308,
     {
       inputs: {
-        number: { type: 'number', format: 'single' },
+        number: emptyNumberValue(),
         min: numberValue(1),
         max: numberValue(4),
       },
@@ -727,7 +735,7 @@ function buildGiveSunGraph() {
     682.3048424192186,
     36.69197183213058,
     {
-      inputs: { value: { type: 'number', format: 'single' } },
+      inputs: { value: emptyNumberValue() },
       controls: {
         attribute: enumValue(ATTR.growth),
         mode: enumValue('set'),
@@ -773,7 +781,7 @@ function buildPruneGraph() {
     -241.75,
     {
       inputs: {
-        number1: { type: 'number', format: 'single' },
+        number1: emptyNumberValue(),
         number2: numberValue(1),
       },
       controls: { mode: enumValue('sub') },
@@ -786,7 +794,7 @@ function buildPruneGraph() {
     -211.87890625,
     {
       inputs: {
-        number: { type: 'number', format: 'single' },
+        number: emptyNumberValue(),
         min: numberValue(0),
         max: numberValue(3),
       },
@@ -799,7 +807,7 @@ function buildPruneGraph() {
     380,
     -135,
     {
-      inputs: { value: { type: 'number', format: 'single' } },
+      inputs: { value: emptyNumberValue() },
       controls: {
         attribute: enumValue(ATTR.stress),
         mode: enumValue('set'),
@@ -821,7 +829,7 @@ function buildPruneGraph() {
     206.08698036980203,
     {
       inputs: {
-        number1: { type: 'number', format: 'single' },
+        number1: emptyNumberValue(),
         number2: numberValue(1),
       },
       controls: { mode: enumValue('sub') },
@@ -834,7 +842,7 @@ function buildPruneGraph() {
     191.87043583889778,
     {
       inputs: {
-        number: { type: 'number', format: 'single' },
+        number: emptyNumberValue(),
         min: numberValue(1),
         max: numberValue(4),
       },
@@ -847,7 +855,7 @@ function buildPruneGraph() {
     690.3046322909926,
     36.34142321313006,
     {
-      inputs: { value: { type: 'number', format: 'single' } },
+      inputs: { value: emptyNumberValue() },
       controls: {
         attribute: enumValue(ATTR.health),
         mode: enumValue('set'),
@@ -887,7 +895,10 @@ function buildPruneGraph() {
 
 function buildPassDayGraph() {
   const graph = new GraphBuilder('pass-day')
-  const savedGraph = {
+  const savedGraph: {
+    nodes: SavedNode[]
+    connections: SavedConnection[]
+  } = {
     nodes: [
       {
         id: 'pass-day-calm-growth-change',
@@ -897,10 +908,7 @@ function buildPassDayGraph() {
         comment: 'A calm day advances growth.',
         state: {
           inputs: {
-            value: {
-              type: 'number',
-              format: 'single',
-            },
+            value: emptyNumberValue(),
           },
           controls: {
             attribute: {
@@ -923,20 +931,9 @@ function buildPassDayGraph() {
         y: 366.70009241791,
         state: {
           inputs: {
-            number: {
-              type: 'number',
-              format: 'single',
-            },
-            min: {
-              value: '1',
-              type: 'number',
-              format: 'single',
-            },
-            max: {
-              value: '4',
-              type: 'number',
-              format: 'single',
-            },
+            number: emptyNumberValue(),
+            min: numberValue(1),
+            max: numberValue(4),
           },
           controls: {},
         },
@@ -965,15 +962,8 @@ function buildPassDayGraph() {
         y: 356.9416678993569,
         state: {
           inputs: {
-            number1: {
-              type: 'number',
-              format: 'single',
-            },
-            number2: {
-              value: '1',
-              type: 'number',
-              format: 'single',
-            },
+            number1: emptyNumberValue(),
+            number2: numberValue(1),
           },
           controls: {
             mode: {
@@ -992,10 +982,7 @@ function buildPassDayGraph() {
         comment: 'Growth consumes stored water...',
         state: {
           inputs: {
-            value: {
-              type: 'number',
-              format: 'single',
-            },
+            value: emptyNumberValue(),
           },
           controls: {
             attribute: {
@@ -1018,20 +1005,9 @@ function buildPassDayGraph() {
         y: 536.7502611388642,
         state: {
           inputs: {
-            number: {
-              type: 'number',
-              format: 'single',
-            },
-            min: {
-              value: '0',
-              type: 'number',
-              format: 'single',
-            },
-            max: {
-              value: '3',
-              type: 'number',
-              format: 'single',
-            },
+            number: emptyNumberValue(),
+            min: numberValue(0),
+            max: numberValue(3),
           },
           controls: {},
         },
@@ -1060,15 +1036,8 @@ function buildPassDayGraph() {
         y: 528.1176344619599,
         state: {
           inputs: {
-            number1: {
-              type: 'number',
-              format: 'single',
-            },
-            number2: {
-              value: '1',
-              type: 'number',
-              format: 'single',
-            },
+            number1: emptyNumberValue(),
+            number2: numberValue(1),
           },
           controls: {
             mode: {
@@ -1087,10 +1056,7 @@ function buildPassDayGraph() {
         comment: '...and sunlight.',
         state: {
           inputs: {
-            value: {
-              type: 'number',
-              format: 'single',
-            },
+            value: emptyNumberValue(),
           },
           controls: {
             attribute: {
@@ -1113,20 +1079,9 @@ function buildPassDayGraph() {
         y: 611.5451703755327,
         state: {
           inputs: {
-            number: {
-              type: 'number',
-              format: 'single',
-            },
-            min: {
-              value: '0',
-              type: 'number',
-              format: 'single',
-            },
-            max: {
-              value: '3',
-              type: 'number',
-              format: 'single',
-            },
+            number: emptyNumberValue(),
+            min: numberValue(0),
+            max: numberValue(3),
           },
           controls: {},
         },
@@ -1155,15 +1110,8 @@ function buildPassDayGraph() {
         y: 594.0611290893896,
         state: {
           inputs: {
-            number1: {
-              type: 'number',
-              format: 'single',
-            },
-            number2: {
-              value: '1',
-              type: 'number',
-              format: 'single',
-            },
+            number1: emptyNumberValue(),
+            number2: numberValue(1),
           },
           controls: {
             mode: {
@@ -1182,10 +1130,7 @@ function buildPassDayGraph() {
         comment: 'A hard day also burns off a little stress.',
         state: {
           inputs: {
-            value: {
-              type: 'number',
-              format: 'single',
-            },
+            value: emptyNumberValue(),
           },
           controls: {
             attribute: {
@@ -1208,20 +1153,9 @@ function buildPassDayGraph() {
         y: -345.9024680108005,
         state: {
           inputs: {
-            number: {
-              type: 'number',
-              format: 'single',
-            },
-            min: {
-              value: '0',
-              type: 'number',
-              format: 'single',
-            },
-            max: {
-              value: '3',
-              type: 'number',
-              format: 'single',
-            },
+            number: emptyNumberValue(),
+            min: numberValue(0),
+            max: numberValue(3),
           },
           controls: {},
         },
@@ -1250,15 +1184,8 @@ function buildPassDayGraph() {
         y: -397.06928682643655,
         state: {
           inputs: {
-            number1: {
-              type: 'number',
-              format: 'single',
-            },
-            number2: {
-              value: '1',
-              type: 'number',
-              format: 'single',
-            },
+            number1: emptyNumberValue(),
+            number2: numberValue(1),
           },
           controls: {
             mode: {
@@ -1277,10 +1204,7 @@ function buildPassDayGraph() {
         comment: 'High stress makes the flower wilt.',
         state: {
           inputs: {
-            value: {
-              type: 'number',
-              format: 'single',
-            },
+            value: emptyNumberValue(),
           },
           controls: {
             attribute: {
@@ -1303,20 +1227,9 @@ function buildPassDayGraph() {
         y: -394.1249018757579,
         state: {
           inputs: {
-            number: {
-              type: 'number',
-              format: 'single',
-            },
-            min: {
-              value: '1',
-              type: 'number',
-              format: 'single',
-            },
-            max: {
-              value: '4',
-              type: 'number',
-              format: 'single',
-            },
+            number: emptyNumberValue(),
+            min: numberValue(1),
+            max: numberValue(4),
           },
           controls: {},
         },
@@ -1345,15 +1258,8 @@ function buildPassDayGraph() {
         y: -411.5633643019152,
         state: {
           inputs: {
-            number1: {
-              type: 'number',
-              format: 'single',
-            },
-            number2: {
-              value: '1',
-              type: 'number',
-              format: 'single',
-            },
+            number1: emptyNumberValue(),
+            number2: numberValue(1),
           },
           controls: {
             mode: {
@@ -1387,15 +1293,8 @@ function buildPassDayGraph() {
         y: -25.041498600499892,
         state: {
           inputs: {
-            value1: {
-              type: 'number',
-              format: 'single',
-            },
-            value2: {
-              value: '3',
-              type: 'number',
-              format: 'single',
-            },
+            value1: emptyNumberValue(),
+            value2: numberValue(3),
           },
           controls: {
             mode: {
@@ -1415,10 +1314,7 @@ function buildPassDayGraph() {
           'If stress is high, the day damages the flower. Otherwise the flower grows and consumes stored water and sunlight.',
         state: {
           inputs: {
-            switch: {
-              type: 'boolean',
-              format: 'single',
-            },
+            switch: emptyBooleanValue(),
           },
           controls: {},
         },
@@ -1622,9 +1518,6 @@ function buildPassDayGraph() {
         type: 'number',
       },
     ],
-  } satisfies {
-    nodes: SavedNode[]
-    connections: SavedConnection[]
   }
 
   graph.nodes = savedGraph.nodes

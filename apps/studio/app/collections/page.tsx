@@ -1,8 +1,16 @@
 'use client'
 
-import { getAllExtendedCollections } from '@/lib/data/collections'
-import { useAsyncResource } from '@/lib/data/use-async-resource'
-import Main from '@/components/page/main'
+import { Button } from '@repo/ui/components/button'
+import { PiAddAddStroke } from '@repo/ui/icons/pika'
+import CollectionContextMenu from '@/app/collections/(components)/collection-context-menu'
+import EmptyCollectionsView from '@/app/collections/(components)/empty-collections-view'
+import { NewCollectionDialog } from '@/app/collections/(components)/new-collection-dialog'
+import { ShowcaseGuide } from '@/app/collections/(components)/showcase-guide'
+import {
+  ElementCardButton,
+  ElementCardLink,
+} from '@/components/elements/element-card'
+import SimpleGrid from '@/components/layouts/simple/simple-grid'
 import { Navbar } from '@/components/navigation/navbar/navbar'
 import {
   Header,
@@ -11,18 +19,11 @@ import {
   HeaderMain,
   HeaderTitle,
 } from '@/components/page/header'
-import EmptyCollectionsView from '@/app/collections/(components)/empty-collections-view'
-import { NewCollectionDialog } from '@/app/collections/(components)/new-collection-dialog'
-import { Button } from '@repo/ui/components/button'
-import { PiAddAddStroke } from '@repo/ui/icons/pika'
+import Main from '@/components/page/main'
 import { Page } from '@/components/page/page'
-import SimpleGrid from '@/components/layouts/simple/simple-grid'
-import {
-  ElementCardButton,
-  ElementCardLink,
-} from '@/components/elements/element-card'
 import { SupabaseImage } from '@/components/supabase/supabase-image'
-import CollectionContextMenu from '@/app/collections/(components)/collection-context-menu'
+import { getAllExtendedCollections } from '@/lib/data/collections'
+import { useAsyncResource } from '@/lib/data/use-async-resource'
 
 export default function HomePage() {
   const { data } = useAsyncResource(() => getAllExtendedCollections(), [])
@@ -56,35 +57,40 @@ export default function HomePage() {
               </EmptyCollectionsView>
             </div>
           ) : (
-            <SimpleGrid>
-              {collections.map((collection) => {
-                return (
-                  <CollectionContextMenu
-                    key={collection.slug}
-                    slug={collection.slug}
-                  >
-                    <ElementCardLink
-                      href={`/collections/${collection.slug}`}
-                      label={collection.name ?? 'Unnamed Collection'}
-                      subtitle={collection.description}
-                      image={
-                        <SupabaseImage
-                          src={`collection-images/${collection.id}/${collection.image}`}
-                          placeholder
-                          alt="Collection Image"
-                          width={100}
-                          height={100}
-                          className="h-full object-cover"
-                        />
-                      }
-                    />
-                  </CollectionContextMenu>
-                )
-              })}
-              <NewCollectionDialog>
-                <ElementCardButton label="New Collection" variant="new" />
-              </NewCollectionDialog>
-            </SimpleGrid>
+            <>
+              <SimpleGrid>
+                {collections.map((collection) => {
+                  return (
+                    <CollectionContextMenu
+                      key={collection.slug}
+                      slug={collection.slug}
+                    >
+                      <ElementCardLink
+                        href={`/collections/${collection.slug}`}
+                        label={collection.name ?? 'Unnamed Collection'}
+                        subtitle={collection.description}
+                        image={
+                          <SupabaseImage
+                            src={`collection-images/${collection.id}/${collection.image}`}
+                            placeholder
+                            alt="Collection Image"
+                            width={100}
+                            height={100}
+                            className="h-full object-cover"
+                          />
+                        }
+                      />
+                    </CollectionContextMenu>
+                  )
+                })}
+                <NewCollectionDialog>
+                  <ElementCardButton label="New Collection" variant="new" />
+                </NewCollectionDialog>
+              </SimpleGrid>
+              {collections.some(
+                (collection) => collection.slug === 'bloom-lab',
+              ) && <ShowcaseGuide />}
+            </>
           )}
         </Main>
       </Page>
