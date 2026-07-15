@@ -1,14 +1,13 @@
-import type { Dictionary } from '@/dictionaries/dictionaries'
 import { Button } from '@repo/ui/components/button'
 import { PiArrowRightStroke } from '@repo/ui/icons/pika'
 import Image from 'next/image'
-import { SignUpDialog } from '@/components/sign-up/sign-up-dialog'
+import Link from 'next/link'
+import type { Dictionary } from '@/dictionaries/dictionaries'
+import { getStudioUrl } from '@/lib/urls'
 
-export function Hero({
-  dictionary,
-}: {
-  dictionary: Dictionary['home']
-}) {
+export function Hero({ dictionary }: { dictionary: Dictionary['home'] }) {
+  const studioUrl = getStudioUrl()
+
   return (
     <div className="relative w-full overflow-visible pt-28 pb-12 md:pt-64 md:pb-64">
       <div className="flex w-full flex-col items-center space-y-6 pl-3 font-heading sm:space-y-4 md:space-y-6 md:pl-4">
@@ -21,12 +20,15 @@ export function Hero({
         <p className="-translate-y-1 w-full max-w-sm text-pretty pb-3 text-center text-lg text-muted-foreground xs:text-lg max-xs:px-[10vw] md:text-xl">
           {dictionary.description}
         </p>
-        <SignUpDialog dictionary={dictionary}>
-          <Button className="flex h-12 text-lg items-center gap-2 rounded-full !px-6 sm:!px-10">
+        <Button
+          asChild
+          className="!px-6 sm:!px-10 flex h-12 items-center gap-2 rounded-full text-lg"
+        >
+          <Link href={studioUrl}>
             {dictionary.ctaButton}
             <PiArrowRightStroke className="size-4" />
-          </Button>
-        </SignUpDialog>
+          </Link>
+        </Button>
       </div>
       {/* <div className="-translate-x-1/2 -translate-y-[calc(50%-5rem)] -z-10 absolute top-1/2 left-1/2 h-[60vw] w-[60vw] rounded-full border border-border" /> */}
       {/* <div className="-translate-x-1/2 -translate-y-[calc(50%-5rem)] -z-10 absolute top-1/2 left-1/2 h-[75vw] w-[75vw] rounded-full border border-border" /> */}

@@ -1,18 +1,17 @@
 import Logo from '@repo/ui/blocks/brand/logo'
 import { Button } from '@repo/ui/components/button'
-import  Link  from 'next/link'
+import Link from 'next/link'
 import { ThemeToggle } from '@/components/layout/navigation/theme-toggle'
 import type { Dictionary } from '@/dictionaries/dictionaries'
-import { SignUpDialog } from '@/components/sign-up/sign-up-dialog'
+import { getStudioUrl } from '@/lib/urls'
 
 export function Navigation({
   dictionary,
 }: {
-  dictionary: {
-    navbar: Dictionary['navbar']
-    home: Dictionary['home']
-  }
+  dictionary: Dictionary['navbar']
 }) {
+  const studioUrl = getStudioUrl()
+
   return (
     <div className="fixed z-[60] h-14 w-full max-w-[82rem] border border-muted bg-gradient-to-b from-sidebar/90 to-border/90 shadow-md outline outline-2 outline-border backdrop-blur-xs md:top-4 md:w-[calc(100%-3rem)] md:rounded-full 2xl:w-full">
       <div className="flex h-full items-center justify-between px-2 sm:px-3">
@@ -31,19 +30,9 @@ export function Navigation({
         </div>
         <div className="flex h-full items-center gap-2">
           <ThemeToggle />
-          <Link
-            href="https://studio.numos.xyz/login"
-            className="max-sm:!hidden"
-          >
-            <Button variant={'outline'} className="rounded-full">
-              {dictionary.navbar.login}
-            </Button>
-          </Link>
-          <SignUpDialog dictionary={dictionary.home}>
-            <Button  className="mr-1 rounded-full">
-              {dictionary.navbar.signup}
-            </Button>
-          </SignUpDialog>
+          <Button asChild className="mr-1 rounded-full">
+            <Link href={studioUrl}>{dictionary.cta}</Link>
+          </Button>
           {/* <Popover>
             <PopoverTrigger asChild>
               <Button

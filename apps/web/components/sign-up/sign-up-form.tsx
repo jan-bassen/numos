@@ -1,12 +1,7 @@
 'use client'
 
-import { Button } from '@repo/ui/components/button'
-import { Input } from '@repo/ui/components/input'
-import { Textarea } from '@repo/ui/components/textarea'
-import { PiCheckTickCircleBrokenStroke } from '@repo/ui/icons/pika'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Button } from '@repo/ui/components/button'
 import {
   Form,
   FormControl,
@@ -15,7 +10,12 @@ import {
   FormLabel,
   FormMessage,
 } from '@repo/ui/components/form'
+import { Input } from '@repo/ui/components/input'
 import { toast } from '@repo/ui/components/sonner'
+import { Textarea } from '@repo/ui/components/textarea'
+import { PiCheckTickCircleBrokenStroke } from '@repo/ui/icons/pika'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 import type { Dictionary } from '@/dictionaries/dictionaries'
 
 const formSchema = z.object({
@@ -26,11 +26,11 @@ const formSchema = z.object({
   twitter: z.string().optional(),
 })
 
-// Portfolio demo: this site has no backend, so the beta form just acknowledges
-// the submission instead of posting to a CRM.
+// Showcase mode: keep the form interactive, but never transmit or store its
+// contents.
 async function onSubmit(_values: z.infer<typeof formSchema>) {
-  toast.success('Thanks for your interest!', {
-    description: 'This is a portfolio demo, so nothing was sent — but it works.',
+  toast.info('Sign-ups are unavailable in showcase mode', {
+    description: 'Nothing was sent or saved.',
   })
 }
 
@@ -42,6 +42,13 @@ export default function SignUpForm({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     mode: 'onBlur',
+    defaultValues: {
+      firstname: '',
+      lastname: '',
+      email: '',
+      twitter: '',
+      message: '',
+    },
   })
 
   return (

@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation'
+import { getStudioUrl } from '@/lib/urls'
 
 export default function RedirectPage() {
-  redirect('https://studio.numos.xyz/')
+  redirect(getStudioUrl())
   return <div />
 }

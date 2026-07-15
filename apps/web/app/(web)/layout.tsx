@@ -1,15 +1,15 @@
 import '@repo/ui/styles.css'
 
-import type { Metadata } from 'next'
-import { Inter, Outfit, Poppins } from 'next/font/google'
 import { Toaster } from '@repo/ui/components/sonner'
 import { cn } from '@repo/ui/lib/utils'
-import localFont from 'next/font/local'
+import type { Metadata } from 'next'
 import type { CssVariable } from 'next/dist/compiled/@next/font'
-import Providers from './providers'
-import { Navigation } from '@/components/layout/navigation/navigation'
+import { Inter, Outfit, Poppins } from 'next/font/google'
+import localFont from 'next/font/local'
 import Footer from '@/components/layout/footer'
+import { Navigation } from '@/components/layout/navigation/navigation'
 import { getDictionary } from '@/dictionaries/dictionaries'
+import Providers from './providers'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 
@@ -75,7 +75,7 @@ export default async function RootLayout({
       <body className={cn(outfit.className, 'relative bg-background')}>
         <Providers>
           <div className="relative flex w-full flex-col items-center">
-            <Navigation dictionary={{ navbar: d.navbar, home: d.home }} />
+            <Navigation dictionary={d.navbar} />
             {children}
             <Footer dictionary={d.numos} />
           </div>

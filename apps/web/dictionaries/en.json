@@ -6,14 +6,13 @@
     "copyright": "All rights reserved."
   },
   "navbar": {
-    "login": "Login",
-    "signup": "Sign Up"
+    "cta": "Try App"
   },
 
   "home": {
     "title": "Bring Digital Assets to Life",
     "description": "Create dynamic NFTs in the easiest way possible and launch in days.",
-    "ctaButton": "Start Creating",
+    "ctaButton": "Try App",
     "example": {
       "title": "Try it out!",
       "description": "Get the plant to fully grown and healthy by using the actions on the left.",
